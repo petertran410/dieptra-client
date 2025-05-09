@@ -6,7 +6,8 @@
     "dev": "next dev -p 3210",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "clean": "if exist .next rmdir /s /q .next && if exist node_modules\\.cache rmdir /s /q node_modules\\.cache"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.4.2",

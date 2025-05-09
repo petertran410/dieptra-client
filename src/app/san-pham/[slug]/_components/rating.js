@@ -1,7 +1,7 @@
 'use client';
-import { useMutateRating, useQueryRatingList } from '@/services/product.service';
-import { IMG_ALT } from '@/utils/const';
-import { showToast } from '@/utils/helper';
+import { useMutateRating, useQueryRatingList } from '../../../../services/product.service';
+import { IMG_ALT } from '../../../../utils/const';
+import { showToast } from '../../../../utils/helper';
 import {
   AlertDialog,
   AlertDialogBody,

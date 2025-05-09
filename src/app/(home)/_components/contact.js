@@ -1,9 +1,9 @@
 'use client';
 
-import SectionBlock from '@/components/section-block';
-import { useMutateContact } from '@/services/contact.service';
-import { PX_ALL } from '@/utils/const';
-import { showToast } from '@/utils/helper';
+import SectionBlock from '../../../components/section-block/index';
+import { useMutateContact } from '../../../services/contact.service';
+import { PX_ALL } from '../../../utils/const';
+import { showToast } from '../../../utils/helper';
 import { Box, Button, Flex, Input, Text, Textarea } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 

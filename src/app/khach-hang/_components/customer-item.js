@@ -1,6 +1,6 @@
 'use client';
 
-import { IMG_ALT } from '@/utils/const';
+import { IMG_ALT } from '../../../utils/const';
 import {
   AspectRatio,
   Button,

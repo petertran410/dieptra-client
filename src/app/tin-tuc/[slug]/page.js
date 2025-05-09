@@ -1,8 +1,8 @@
-import Breadcrumb from '@/components/breadcrumb';
-import TableOfContents from '@/components/toc';
-import { API } from '@/utils/API';
-import { IMG_ALT, PX_ALL } from '@/utils/const';
-import { convertSlugURL, convertTimestamp, META_DESCRIPTION, META_KEYWORDS } from '@/utils/helper-server';
+import Breadcrumb from '../../../components/breadcrumb';
+import TableOfContents from '../../../components/toc';
+import { API } from '../../../utils/API';
+import { IMG_ALT, PX_ALL } from '../../../utils/const';
+import { convertSlugURL, convertTimestamp, META_DESCRIPTION, META_KEYWORDS } from '../../../utils/helper-server';
 import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
 import Head from 'next/head';
 import Link from 'next/link';

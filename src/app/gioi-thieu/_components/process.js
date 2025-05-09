@@ -1,8 +1,8 @@
 'use client';
 
-import CarouselMobile from '@/components/carousel/carousel-mobile';
-import SectionBlock from '@/components/section-block';
-import { IMG_ALT, PX_ALL } from '@/utils/const';
+import CarouselMobile from '../../../components/carousel/carousel-mobile';
+import SectionBlock from '../../../components/section-block';
+import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { AspectRatio, Box, Flex, Grid, Image, Text } from '@chakra-ui/react';
 
 const Process = () => {

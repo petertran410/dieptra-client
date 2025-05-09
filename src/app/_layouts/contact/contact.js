@@ -1,6 +1,6 @@
 'use client';
 
-import { IMG_ALT } from '@/utils/const';
+import { IMG_ALT } from '../../../utils/const';
 import { Box, Button, Flex, Image, Link } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 

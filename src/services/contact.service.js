@@ -1,4 +1,4 @@
-import { API } from '@/utils/API';
+import { API } from '../utils/API';
 import { useMutation } from '@tanstack/react-query';
 
 export const useMutateContact = () => {

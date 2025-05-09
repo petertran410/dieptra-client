@@ -1,10 +1,10 @@
 'use client';
 
-import { useQueryProductByIds } from '@/services/product.service';
-import { cartAtom } from '@/states/common';
-import { IMG_ALT } from '@/utils/const';
-import { showToast } from '@/utils/helper';
-import { formatCurrency } from '@/utils/helper-server';
+import { useQueryProductByIds } from '../../../services/product.service';
+import { cartAtom } from '../../../states/common';
+import { IMG_ALT } from '../../../utils/const';
+import { showToast } from '../../../utils/helper';
+import { formatCurrency } from '../../../utils/helper-server';
 import { Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';

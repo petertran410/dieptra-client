@@ -1,7 +1,7 @@
 'use client';
 
-import { useQueryCategoryList } from '@/services/category.service';
-import { useParamsURL } from '@/utils/hooks';
+import { useQueryCategoryList } from '../../../services/category.service';
+import { useParamsURL } from '../../../utils/hooks';
 import { Button, Flex, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 

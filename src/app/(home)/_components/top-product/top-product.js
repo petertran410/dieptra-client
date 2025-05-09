@@ -1,8 +1,8 @@
 'use client';
 
-import SectionBlock from '@/components/section-block';
-import { useQueryCategoryList } from '@/services/category.service';
-import { PX_ALL } from '@/utils/const';
+import SectionBlock from '../../../../components/section-block';
+import { useQueryCategoryList } from '../../../../services/category.service';
+import { PX_ALL } from '../../../../utils/const';
 import { Flex } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Suspense } from 'react';

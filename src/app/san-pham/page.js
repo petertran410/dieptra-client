@@ -1,5 +1,5 @@
-import { PX_ALL } from '@/utils/const';
-import { getMetadata } from '@/utils/helper-server';
+import { PX_ALL } from '../../utils/const';
+import { getMetadata } from '../../utils/helper-server';
 import { Flex } from '@chakra-ui/react';
 import Head from 'next/head';
 import { Suspense } from 'react';

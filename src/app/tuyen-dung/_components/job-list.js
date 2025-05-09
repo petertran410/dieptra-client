@@ -1,9 +1,9 @@
 'use client';
 
-import Pagination from '@/components/pagination';
-import { useQueryJobList } from '@/services/job.service';
-import { IMG_ALT } from '@/utils/const';
-import { convertSlugURL, formatCurrency } from '@/utils/helper-server';
+import Pagination from '../../../components/pagination';
+import { useQueryJobList } from '../../../services/job.service';
+import { IMG_ALT } from '../../../utils/const';
+import { convertSlugURL, formatCurrency } from '../../../utils/helper-server';
 import { Flex, Image, Text } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import Link from 'next/link';

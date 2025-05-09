@@ -1,8 +1,8 @@
 'use client';
 
-import { useQueryBlogCultureList } from '@/services/culture.service';
-import { IMG_ALT, PX_ALL } from '@/utils/const';
-import { convertSlugURL } from '@/utils/helper-server';
+import { useQueryBlogCultureList } from '../../../services/culture.service';
+import { IMG_ALT, PX_ALL } from '../../../utils/const';
+import { convertSlugURL } from '../../../utils/helper-server';
 import { AspectRatio, Box, Flex, Grid, GridItem, Image, Text } from '@chakra-ui/react';
 import { Be_Vietnam_Pro } from 'next/font/google';
 import Link from 'next/link';

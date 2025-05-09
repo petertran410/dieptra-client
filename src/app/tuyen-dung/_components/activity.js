@@ -1,9 +1,9 @@
 'use client';
 
-import Carousel from '@/components/carousel';
-import { useQueryBlogCultureList } from '@/services/culture.service';
-import { IMG_ALT, PX_ALL } from '@/utils/const';
-import { convertSlugURL } from '@/utils/helper-server';
+import Carousel from '../../../components/carousel';
+import { useQueryBlogCultureList } from '../../../services/culture.service';
+import { IMG_ALT, PX_ALL } from '../../../utils/const';
+import { convertSlugURL } from '../../../utils/helper-server';
 import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import Link from 'next/link';

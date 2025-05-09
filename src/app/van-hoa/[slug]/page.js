@@ -1,8 +1,8 @@
-import Breadcrumb from '@/components/breadcrumb';
-import TableOfContents from '@/components/toc';
-import { API } from '@/utils/API';
-import { IMG_ALT, PX_ALL } from '@/utils/const';
-import { META_DESCRIPTION } from '@/utils/helper-server';
+import Breadcrumb from '../../../components/breadcrumb';
+import TableOfContents from '../../../components/toc';
+import { API } from '../../../utils/API';
+import { IMG_ALT, PX_ALL } from '../../../utils/const';
+import { META_DESCRIPTION } from '../../../utils/helper-server';
 import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
 
 export async function generateMetadata({ params }) {

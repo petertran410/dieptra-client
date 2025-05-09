@@ -1,5 +1,5 @@
-import { API } from '@/utils/API';
-import { useGetParamsURL } from '@/utils/hooks';
+import { API } from '../utils/API';
+import { useGetParamsURL } from '../utils/hooks';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
 

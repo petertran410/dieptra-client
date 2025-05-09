@@ -1,12 +1,12 @@
 'use client';
 
-import { LoadingScreen } from '@/components/effect-screen';
-import Pagination from '@/components/pagination';
-import ProductItem from '@/components/product-item';
-import { useQueryCategoryListByParent } from '@/services/category.service';
-import { useQueryProductList } from '@/services/product.service';
-import { IMG_ALT } from '@/utils/const';
-import { useParamsURL } from '@/utils/hooks';
+import { LoadingScreen } from '../../../components/effect-screen';
+import Pagination from '../../../components/pagination';
+import ProductItem from '../../../components/product-item';
+import { useQueryCategoryListByParent } from '../../../services/category.service';
+import { useQueryProductList } from '../../../services/product.service';
+import { IMG_ALT } from '../../../utils/const';
+import { useParamsURL } from '../../../utils/hooks';
 import { Flex, Grid, GridItem, Image, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 

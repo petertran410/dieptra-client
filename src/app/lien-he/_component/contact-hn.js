@@ -1,8 +1,8 @@
 'use client';
 
-import Carousel from '@/components/carousel';
-import SectionBlock from '@/components/section-block';
-import { PX_ALL } from '@/utils/const';
+import Carousel from '../../../components/carousel';
+import SectionBlock from '../../../components/section-block';
+import { PX_ALL } from '../../../utils/const';
 import { Box, Flex } from '@chakra-ui/react';
 import ContactItem from './contact-item';
 
@@ -25,7 +25,7 @@ const ContactHN = () => {
       fullName: 'Mrs. Linh Thu Trang',
       image: '/images/contact-user-2.png',
       position: 'Nhân viên Kinh doanh',
-      phone: '+84 343 339 799',
+      phone: '+84 343 393 799',
       email: 'tranglt@hisweetievietnam.com.vn'
     },
     {

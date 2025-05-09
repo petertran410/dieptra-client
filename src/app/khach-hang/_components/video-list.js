@@ -1,9 +1,9 @@
 'use client';
 
-import Carousel from '@/components/carousel';
-import SectionBlock from '@/components/section-block';
-import { useQueryVideoList } from '@/services/video.service';
-import { PX_ALL } from '@/utils/const';
+import Carousel from '../../../components/carousel';
+import SectionBlock from '../../../components/section-block';
+import { useQueryVideoList } from '../../../services/video.service';
+import { PX_ALL } from '../../../utils/const';
 import { AspectRatio, Box, Flex } from '@chakra-ui/react';
 
 const VideoList = () => {

@@ -1,5 +1,5 @@
-import { API } from '@/utils/API';
-import { useGetParamsURL } from '@/utils/hooks';
+import { API } from '../utils/API';
+import { useGetParamsURL } from '../utils/hooks';
 import { useQuery } from '@tanstack/react-query';
 
 export const useQueryCategoryList = () => {

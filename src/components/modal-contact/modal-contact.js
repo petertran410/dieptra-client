@@ -1,8 +1,8 @@
 'use client';
 
-import { useMutateContact, useMutateOrder } from '@/services/contact.service';
-import { cartAtom } from '@/states/common';
-import { getInlineHTML, showToast } from '@/utils/helper';
+import { useMutateContact, useMutateOrder } from '../../services/contact.service';
+import { cartAtom } from '../../states/common';
+import { getInlineHTML, showToast } from '../../utils/helper';
 import {
   Box,
   Button,

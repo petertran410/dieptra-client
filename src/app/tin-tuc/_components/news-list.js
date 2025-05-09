@@ -1,9 +1,9 @@
 'use client';
 
-import Carousel from '@/components/carousel';
-import { useQueryNewsList } from '@/services/news.service';
-import { IMG_ALT } from '@/utils/const';
-import { convertSlugURL, convertTimestamp } from '@/utils/helper-server';
+import Carousel from '../../../components/carousel';
+import { useQueryNewsList } from '../../../services/news.service';
+import { IMG_ALT } from '../../../utils/const';
+import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
 import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 

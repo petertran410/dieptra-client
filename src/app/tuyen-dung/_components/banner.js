@@ -1,6 +1,6 @@
 'use client';
 
-import { IMG_ALT } from '@/utils/const';
+import { IMG_ALT } from '../../../utils/const';
 import { Box, Button, Image, Text } from '@chakra-ui/react';
 import { Be_Vietnam_Pro } from 'next/font/google';
 

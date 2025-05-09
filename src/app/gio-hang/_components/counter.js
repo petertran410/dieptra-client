@@ -1,7 +1,7 @@
 'use client';
 
-import { cartAtom } from '@/states/common';
-import { IMG_ALT } from '@/utils/const';
+import { cartAtom } from '../../../states/common';
+import { IMG_ALT } from '../../../utils/const';
 import { Flex, Image, Input } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';

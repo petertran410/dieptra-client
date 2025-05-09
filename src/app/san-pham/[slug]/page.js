@@ -1,8 +1,8 @@
-import HomeContact from '@/app/(home)/_components/contact';
-import Breadcrumb from '@/components/breadcrumb';
-import { API } from '@/utils/API';
-import { PX_ALL } from '@/utils/const';
-import { formatCurrency, META_DESCRIPTION } from '@/utils/helper-server';
+import HomeContact from '../../../app/(home)/_components/contact';
+import Breadcrumb from '../../../components/breadcrumb';
+import { API } from '../../../utils/API';
+import { PX_ALL } from '../../../utils/const';
+import { formatCurrency, META_DESCRIPTION } from '../../../utils/helper-server';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Head from 'next/head';
 import Script from 'next/script';

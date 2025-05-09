@@ -1,9 +1,9 @@
 'use client';
 
-import { useApplyJob } from '@/services/job.service';
-import { API } from '@/utils/API';
-import { IMG_ALT, PX_ALL } from '@/utils/const';
-import { showToast } from '@/utils/helper';
+import { useApplyJob } from '../../../../services/job.service';
+import { API } from '../../../../utils/API';
+import { IMG_ALT, PX_ALL } from '../../../../utils/const';
+import { showToast } from '../../../../utils/helper';
 import { Button, Flex, Image, Input, Text } from '@chakra-ui/react';
 import { useCallback, useState } from 'react';
 import { useDropzone } from 'react-dropzone';

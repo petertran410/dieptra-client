@@ -1,8 +1,8 @@
 'use client';
 
-import ProductItem from '@/components/product-item';
-import { useQueryProductListByCategory } from '@/services/product.service';
-import { getCategoryName } from '@/utils/helper-server';
+import ProductItem from '../../../../components/product-item/product-item';
+import { useQueryProductListByCategory } from '../../../../services/product.service';
+import { getCategoryName } from '../../../../utils/helper-server';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 
 const ProductList = ({ category }) => {

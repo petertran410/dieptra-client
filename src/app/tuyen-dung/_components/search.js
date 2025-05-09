@@ -1,7 +1,7 @@
 'use client';
 
-import { IMG_ALT } from '@/utils/const';
-import { useParamsURL } from '@/utils/hooks';
+import { IMG_ALT } from '../../../utils/const';
+import { useParamsURL } from '../../../utils/hooks';
 import { Button, Flex, Image, Input } from '@chakra-ui/react';
 import { useState } from 'react';
 

@@ -1,5 +1,5 @@
-import { cartAtom } from '@/states/common';
-import { IMG_ALT } from '@/utils/const';
+import { cartAtom } from '../../../../states/common';
+import { IMG_ALT } from '../../../../utils/const';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';

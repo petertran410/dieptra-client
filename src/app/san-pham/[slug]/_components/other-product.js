@@ -1,5 +1,5 @@
-import ProductItem from '@/components/product-item';
-import SectionBlock from '@/components/section-block';
+import ProductItem from '../../../../components/product-item';
+import SectionBlock from '../../../../components/section-block';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 
 const OtherProduct = ({ productList, productId }) => {

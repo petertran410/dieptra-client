@@ -1,5 +1,5 @@
-import SectionBlock from '@/components/section-block';
-import { IMG_ALT } from '@/utils/const';
+import SectionBlock from '../../../components/section-block';
+import { IMG_ALT } from '../../../utils/const';
 import { Flex, Image, Text } from '@chakra-ui/react';
 
 const Strength = () => {

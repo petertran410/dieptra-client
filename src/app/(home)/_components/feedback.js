@@ -1,7 +1,7 @@
-import Carousel from '@/components/carousel';
-import CarouselMobile from '@/components/carousel/carousel-mobile';
-import SectionBlock from '@/components/section-block';
-import { IMG_ALT } from '@/utils/const';
+import Carousel from '../../../components/carousel';
+import CarouselMobile from '../../../components/carousel/carousel-mobile';
+import SectionBlock from '../../../components/section-block';
+import { IMG_ALT } from '../../../utils/const';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 const Feedback = () => {

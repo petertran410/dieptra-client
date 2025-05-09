@@ -1,7 +1,7 @@
 'use client';
 
-import { IMG_ALT } from '@/utils/const';
-import { useSetParamsURL } from '@/utils/hooks';
+import { IMG_ALT } from '../../utils/const';
+import { useSetParamsURL } from '../../utils/hooks';
 import { Flex, Image, Text } from '@chakra-ui/react';
 
 const Pagination = (props) => {

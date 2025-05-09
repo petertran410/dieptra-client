@@ -1,5 +1,5 @@
-import { IMG_ALT, PX_ALL } from '@/utils/const';
-import { getMetadata } from '@/utils/helper-server';
+import { IMG_ALT, PX_ALL } from '../../utils/const';
+import { getMetadata } from '../../utils/helper-server';
 import { Box, Flex, Grid, GridItem, Image, Link, Text } from '@chakra-ui/react';
 import HomeContact from '../(home)/_components/contact';
 import ContactHCM from './_component/contact-hcm';

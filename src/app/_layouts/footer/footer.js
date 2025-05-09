@@ -1,4 +1,4 @@
-import { IMG_ALT, PX_ALL } from '@/utils/const';
+import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { Box, Link as ChakraLink, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Fragment } from 'react';

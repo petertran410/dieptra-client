@@ -1,8 +1,8 @@
 'use client';
 
-import { FILTER_OPTIONS } from '@/services/product.service';
-import { IMG_ALT } from '@/utils/const';
-import { useParamsURL } from '@/utils/hooks';
+import { FILTER_OPTIONS } from '../../../services/product.service';
+import { IMG_ALT } from '../../../utils/const';
+import { useParamsURL } from '../../../utils/hooks';
 import {
   Box,
   Button,

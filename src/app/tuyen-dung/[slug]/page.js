@@ -1,7 +1,7 @@
-import Breadcrumb from '@/components/breadcrumb';
-import { API } from '@/utils/API';
-import { IMG_ALT, PX_ALL } from '@/utils/const';
-import { formatCurrency, META_DESCRIPTION } from '@/utils/helper-server';
+import Breadcrumb from '../../../components/breadcrumb';
+import { API } from '../../../utils/API';
+import { IMG_ALT, PX_ALL } from '../../../utils/const';
+import { formatCurrency, META_DESCRIPTION } from '../../../utils/helper-server';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { isEmpty } from 'lodash';

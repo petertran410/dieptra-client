@@ -1,5 +1,5 @@
-import SectionBlock from '@/components/section-block';
-import { IMG_ALT, PX_ALL } from '@/utils/const';
+import SectionBlock from '../../../components/section-block';
+import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { Flex, Grid, GridItem, Image, Text } from '@chakra-ui/react';
 
 const Culture = () => {

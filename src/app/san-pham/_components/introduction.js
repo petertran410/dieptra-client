@@ -1,8 +1,8 @@
 'use client';
 
-import SectionBlock from '@/components/section-block';
-import { useQueryCategoryList } from '@/services/category.service';
-import { useGetParamsURL } from '@/utils/hooks';
+import SectionBlock from '../../../components/section-block';
+import { useQueryCategoryList } from '../../../services/category.service';
+import { useGetParamsURL } from '../../../utils/hooks';
 import { Flex, Text } from '@chakra-ui/react';
 
 const Introduction = () => {

@@ -1,4 +1,4 @@
-import { IMG_ALT, PX_ALL } from '@/utils/const';
+import { IMG_ALT, PX_ALL } from '../../../../utils/const';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { EB_Garamond } from 'next/font/google';
 import Link from 'next/link';

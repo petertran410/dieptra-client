@@ -1,6 +1,6 @@
-import SectionBlock from '@/components/section-block';
-import { PX_ALL } from '@/utils/const';
-import { getMetadata } from '@/utils/helper-server';
+import SectionBlock from '../../components/section-block';
+import { PX_ALL } from '../../utils/const';
+import { getMetadata } from '../../utils/helper-server';
 import { Box, Flex, Grid, GridItem } from '@chakra-ui/react';
 import { Suspense } from 'react';
 import HomeContact from '../(home)/_components/contact';

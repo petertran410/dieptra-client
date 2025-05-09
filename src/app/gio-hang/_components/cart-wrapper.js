@@ -1,12 +1,12 @@
 'use client';
 
-import OtherProduct from '@/app/san-pham/[slug]/_components/other-product';
-import ModalContact from '@/components/modal-contact';
-import SectionBlock from '@/components/section-block';
-import { useQueryProductByIds, useQueryProductListOther } from '@/services/product.service';
-import { cartAtom } from '@/states/common';
-import { PX_ALL } from '@/utils/const';
-import { showToast } from '@/utils/helper';
+import OtherProduct from '../../../app/san-pham/[slug]/_components/other-product';
+import ModalContact from '../../../components/modal-contact';
+import SectionBlock from '../../../components/section-block';
+import { useQueryProductByIds, useQueryProductListOther } from '../../../services/product.service';
+import { cartAtom } from '../../../states/common';
+import { PX_ALL } from '../../../utils/const';
+import { showToast } from '../../../utils/helper';
 import { Box, Button, Divider, Flex, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

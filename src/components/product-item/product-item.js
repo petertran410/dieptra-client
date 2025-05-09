@@ -1,9 +1,9 @@
 'use client';
 
-import { cartAtom } from '@/states/common';
-import { IMG_ALT } from '@/utils/const';
-import { showToast } from '@/utils/helper';
-import { convertSlugURL, formatCurrency } from '@/utils/helper-server';
+import { cartAtom } from '../../states/common';
+import { IMG_ALT } from '../../utils/const';
+import { showToast } from '../../utils/helper';
+import { convertSlugURL, formatCurrency } from '../../utils/helper-server';
 import { AspectRatio, Button, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';

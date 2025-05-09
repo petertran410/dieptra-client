@@ -1,4 +1,4 @@
-import { CK_TOKEN } from '@/utils/const';
+import { CK_TOKEN } from '../utils/const';
 import Cookies from 'js-cookie';
 import { atom, selector } from 'recoil';
 

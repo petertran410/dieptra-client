@@ -1,6 +1,6 @@
 'use client';
 
-import { chakraTheme } from '@/configs/chakra-theme';
+import { chakraTheme } from '../configs/chakra-theme';
 import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';

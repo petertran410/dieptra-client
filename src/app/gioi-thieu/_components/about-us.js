@@ -1,5 +1,5 @@
-import SectionBlock from '@/components/section-block';
-import { PX_ALL } from '@/utils/const';
+import SectionBlock from '../../../components/section-block';
+import { PX_ALL } from '../../../utils/const';
 import { Flex, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 

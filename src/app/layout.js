@@ -1,4 +1,4 @@
-import { getMetadata } from '@/utils/helper-server';
+import { getMetadata } from '../utils/helper-server';
 import { Box } from '@chakra-ui/react';
 import { Afacad } from 'next/font/google';
 import Head from 'next/head';
