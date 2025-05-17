@@ -17,9 +17,9 @@ const ProductItem = (props) => {
 
   const { title, id, price, imagesUrl, ofCategories, featuredThumbnail } = item || {};
 
-  let image = imagesUrl?.[0]?.replace('http://', 'https://');
+  let image = imagesUrl?.[0]?.replace('https://', 'http://');
   if (isFeatured && featuredThumbnail) {
-    image = featuredThumbnail?.replace('http://', 'https://');
+    image = featuredThumbnail?.replace('https://', 'http://');
   }
 
   const onAddCart = () => {

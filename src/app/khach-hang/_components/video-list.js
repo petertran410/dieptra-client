@@ -16,7 +16,7 @@ const VideoList = () => {
     992: { slidesPerView: 3 }
   };
 
-  const VIDEOS = videoList?.map((i) => i?.imagesUrl?.[0]?.replace('http://', 'https://')) || [];
+  const VIDEOS = videoList?.map((i) => i?.imagesUrl?.[0]?.replace('https://', 'http://')) || [];
 
   return (
     <Flex direction="column" mt={{ xs: '32px', lg: '48px' }} gap="24px" px={PX_ALL}>
