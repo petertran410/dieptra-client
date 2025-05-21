@@ -11,7 +11,7 @@ export const useQueryCategoryList = () => {
     queryKey,
     queryFn: () =>
       API.request({
-        url: '/api/category/get-all',
+        url: '/api/category/v2/get-all',
         params: { pageNumber, title: keyword }
       })
   });
@@ -24,7 +24,7 @@ export const useQueryCategoryListByParent = (parentId) => {
     queryKey,
     queryFn: () =>
       API.request({
-        url: '/api/category/get-all',
+        url: '/api/category/v2/get-all',
         params: { pageNumber: 0, parentId, pageSize: 100 }
       }),
     enabled: typeof parentId !== 'undefined' && !!`${parentId}`.length
