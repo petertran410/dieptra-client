@@ -1,3 +1,4 @@
+// src/utils/API.js - Updated API configuration for dieptra-client
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { CK_TOKEN } from './const';
@@ -6,6 +7,7 @@ export const API = {
   request: (config) => {
     const { baseUrl = process.env.NEXT_PUBLIC_API_DOMAIN, method = 'GET', url, params, headers } = config;
     const token = Cookies.get(CK_TOKEN);
+
     const requestConfig = {
       url: `${baseUrl}${url}`,
       method,
@@ -28,22 +30,21 @@ export const API = {
         const { status } = e?.response || {};
         if (status === 401) {
           Cookies.remove(CK_TOKEN);
-          window.location.reload();
-          return;
+          // Don't reload on client-side, just handle gracefully
+          console.warn('Authentication token expired');
         }
         return Promise.reject(e?.response?.data || e);
       });
   },
 
   upload: (config) => {
-    const { headers, file, url = '/api/file/upload', internalUrl } = config;
+    const { headers, file, url = '/api/file/upload', internalUrl, responseType = 'json' } = config;
 
     if (!file) {
       return Promise.resolve(null);
     }
 
     const formData = new FormData();
-
     formData.append('file', file);
 
     const baseUrlDefault = process.env.NEXT_PUBLIC_API_DOMAIN;
@@ -57,7 +58,8 @@ export const API = {
       },
       data: formData,
       timeout: 20000,
-      timeoutErrorMessage: 'Hệ thống không phản hồi. Vui lòng thử lại sau!'
+      timeoutErrorMessage: 'Hệ thống không phản hồi. Vui lòng thử lại sau!',
+      responseType: responseType
     };
 
     return axios(requestConfig)

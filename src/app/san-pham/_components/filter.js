@@ -1,3 +1,4 @@
+// src/app/san-pham/_components/filter.js - Updated filter component
 'use client';
 
 import { FILTER_OPTIONS } from '../../../services/product.service';
@@ -14,13 +15,16 @@ import {
   PopoverContent,
   PopoverTrigger,
   Text,
-  useDisclosure
+  useDisclosure,
+  Tag,
+  Alert,
+  AlertIcon
 } from '@chakra-ui/react';
 import { useEffect, useMemo, useState } from 'react';
 
 const Filter = () => {
   const [paramsURL, setParamsURL] = useParamsURL();
-  const { keyword, sort } = paramsURL;
+  const { keyword, sort, categoryId } = paramsURL;
   const [keywordText, setKeywordText] = useState(keyword);
   const { onOpen, onClose, isOpen } = useDisclosure();
 
@@ -37,9 +41,31 @@ const Filter = () => {
     }
   }, [keyword]);
 
+  // Get current category name for display
+  const getCurrentCategoryName = () => {
+    if (categoryId === '2205381') return 'Lermao';
+    if (categoryId === '2205374') return 'Trà Phượng Hoàng';
+    return 'Tất cả danh mục';
+  };
+
   return (
     <Box>
+      {/* Category Information Alert */}
+      <Alert status="info" mb="16px" borderRadius="8px">
+        <AlertIcon />
+        <Box>
+          <Text fontWeight="600" fontSize="14px">
+            Đang hiển thị sản phẩm từ: {getCurrentCategoryName()}
+          </Text>
+          <Text fontSize="12px" color="gray.600">
+            Bao gồm sản phẩm thuộc danh mục cha và tất cả danh mục con
+          </Text>
+        </Box>
+      </Alert>
+
+      {/* Filter Controls */}
       <Flex align="center" gap={{ xs: '8px', lg: '24px' }} mt="24px">
+        {/* Sort Dropdown */}
         <Flex flex={{ xs: 'none', lg: 1 / 4 }} w={{ xs: '32px', lg: 'full' }}>
           <Popover matchWidth={{ xs: false, lg: true }} onClose={onClose} isOpen={isOpen}>
             <PopoverTrigger>
@@ -55,7 +81,7 @@ const Filter = () => {
                   color="#52525B"
                   onClick={onOpen}
                 >
-                  {currentSort ? currentSort.label : 'Lọc'}
+                  {currentSort ? currentSort.label : 'Sắp xếp'}
                   <Image src="/images/chevron-down.png" w="16px" h="16px" alt={IMG_ALT} />
                 </Button>
                 <Button
@@ -91,7 +117,7 @@ const Filter = () => {
                         data-group
                         onClick={() => {
                           onClose();
-                          setParamsURL({ sort: value });
+                          setParamsURL({ sort: value, page: 1 }); // Reset to page 1 when sorting
                         }}
                       >
                         <Text
@@ -106,12 +132,37 @@ const Filter = () => {
                       </Flex>
                     );
                   })}
+
+                  {/* Clear Sort Option */}
+                  <Flex
+                    h="32px"
+                    align="center"
+                    justify="center"
+                    data-group
+                    borderTop="1px solid #E2E8F0"
+                    mt="4px"
+                    onClick={() => {
+                      onClose();
+                      setParamsURL({ sort: undefined, page: 1 });
+                    }}
+                  >
+                    <Text
+                      fontSize={16}
+                      fontWeight={500}
+                      color="#E53E3E"
+                      transitionDuration="200ms"
+                      _groupHover={{ color: '#C53030' }}
+                    >
+                      Xóa sắp xếp
+                    </Text>
+                  </Flex>
                 </Flex>
               </PopoverBody>
             </PopoverContent>
           </Popover>
         </Flex>
 
+        {/* Search Input */}
         <Flex flex={{ xs: 1, lg: 3 / 4 }} w="full" align="center" gap="16px" direction={{ xs: 'column', lg: 'row' }}>
           <Flex flex={1} pos="relative" w="full">
             <Input
@@ -125,8 +176,13 @@ const Filter = () => {
               pr="36px"
               placeholder="Nhập tên sản phẩm"
               _placeholder={{ color: '#A1A1AA' }}
-              value={keywordText}
+              value={keywordText || ''}
               onChange={(e) => setKeywordText(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  setParamsURL({ keyword: keywordText?.trim(), page: 1 });
+                }
+              }}
             />
             <Image
               src="/images/search.png"
@@ -152,18 +208,19 @@ const Filter = () => {
             transitionDuration="250ms"
             _hover={{ bgColor: '#5d97e3' }}
             _active={{ bgColor: '#5d97e3' }}
-            onClick={() => setParamsURL({ keyword: keywordText?.trim() })}
+            onClick={() => setParamsURL({ keyword: keywordText?.trim(), page: 1 })}
           >
             Tìm kiếm
           </Button>
         </Flex>
       </Flex>
 
+      {/* Mobile Search Button */}
       <Flex flex={1} w="full" mt="8px" display={{ xs: 'flex', lg: 'none' }}>
         <Button
           bgColor="main.1"
           color="#FFF"
-          w={{ xs: 'full', lg: '154px' }}
+          w="full"
           h="32px"
           gap="4px"
           fontSize={16}
@@ -172,11 +229,65 @@ const Filter = () => {
           transitionDuration="250ms"
           _hover={{ opacity: 0.7 }}
           _active={{ opacity: 0.7 }}
-          onClick={() => setParamsURL({ keyword: keywordText?.trim() })}
+          onClick={() => setParamsURL({ keyword: keywordText?.trim(), page: 1 })}
         >
           Tìm kiếm
         </Button>
       </Flex>
+
+      {/* Active Filters Display */}
+      {(keyword || sort) && (
+        <Flex gap="8px" mt="12px" wrap="wrap" align="center">
+          <Text fontSize="12px" color="gray.600">
+            Bộ lọc hiện tại:
+          </Text>
+
+          {keyword && (
+            <Tag size="sm" colorScheme="blue" variant="outline">
+              Từ khóa: "{keyword}"
+              <Button
+                size="xs"
+                variant="ghost"
+                ml="4px"
+                p="0"
+                minW="16px"
+                h="16px"
+                onClick={() => setParamsURL({ keyword: undefined, page: 1 })}
+              >
+                ×
+              </Button>
+            </Tag>
+          )}
+
+          {sort && currentSort && (
+            <Tag size="sm" colorScheme="green" variant="outline">
+              {currentSort.label}
+              <Button
+                size="xs"
+                variant="ghost"
+                ml="4px"
+                p="0"
+                minW="16px"
+                h="16px"
+                onClick={() => setParamsURL({ sort: undefined, page: 1 })}
+              >
+                ×
+              </Button>
+            </Tag>
+          )}
+
+          {(keyword || sort) && (
+            <Button
+              size="xs"
+              variant="ghost"
+              color="red.500"
+              onClick={() => setParamsURL({ keyword: undefined, sort: undefined, page: 1 })}
+            >
+              Xóa tất cả
+            </Button>
+          )}
+        </Flex>
+      )}
     </Box>
   );
 };
