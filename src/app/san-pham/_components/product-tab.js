@@ -9,23 +9,8 @@ const ProductTab = () => {
   const { data = [] } = useQueryCategoryList();
   const [paramsURL, setParamsURL] = useParamsURL();
   const { categoryId } = paramsURL || {};
-
-  // FIXED: Use hardcoded mapping for the specific categories we need
-  const TABS = [
-    {
-      label: 'Trà Phượng Hoàng',
-      value: '2205374', // Direct KiotViet category ID
-      parentCategoryId: 2205374
-    },
-    {
-      label: 'Lermao',
-      value: ['2205420', '2205421', '2205422', '2205423', '2205425'], // Direct KiotViet category ID
-      parentCategoryId: 2205381
-    }
-  ];
-
-  // FIXED: Default to Trà Phượng Hoàng instead of first from database
-  const defaultCategoryId = '2205374';
+  const defaultCategoryId = data?.[0]?.id;
+  const TABS = data?.map((item) => ({ label: item.name, value: item.id }))?.slice(0, 3);
   const [currentTab, setCurrentTab] = useState(categoryId || defaultCategoryId);
 
   useEffect(() => {
@@ -48,7 +33,7 @@ const ProductTab = () => {
     <Flex borderRadius={12} bgColor="#F4F4F5" p="3px">
       {TABS.map((item) => {
         const { label, value } = item;
-        const isActive = currentTab === value;
+        const isActive = currentTab === `${value}`;
 
         return (
           <Button
@@ -60,12 +45,7 @@ const ProductTab = () => {
             _active={{ bgColor: isActive ? 'main.1' : 'transparent' }}
             onClick={() => {
               setCurrentTab(value);
-              // FIXED: Clear subCategoryId when switching main tabs and set the correct categoryId
-              setParamsURL({
-                categoryId: value,
-                subCategoryId: undefined,
-                page: undefined // Reset to first page
-              });
+              setParamsURL({ categoryId: value, subCategoryId: undefined });
             }}
           >
             <Text fontSize={16} fontWeight={500} color={isActive ? '#FFF' : undefined}>

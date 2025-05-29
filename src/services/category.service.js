@@ -22,27 +22,11 @@ export const useQueryCategoryListByParent = (parentId) => {
 
   return useQuery({
     queryKey,
-    queryFn: () => {
-      // FIXED: Handle KiotViet parent categories properly
-      let actualParentId = parentId;
-
-      // If it's one of our main KiotViet categories, we need to find their children
-      if (parentId === '2205374' || parentId === '2205381') {
-        // For KiotViet categories, we'll fetch their subcategories
-        // But since we might not have these in our local database, let's return empty
-        // and let the ProductList handle it
-        console.log(`Fetching subcategories for KiotViet parent: ${parentId}`);
-      }
-
-      return API.request({
+    queryFn: () =>
+      API.request({
         url: '/api/category/v2/get-all',
-        params: {
-          pageNumber: 0,
-          parentId: actualParentId,
-          pageSize: 100
-        }
-      });
-    },
+        params: { pageNumber: 0, parentId, pageSize: 100 }
+      }),
     enabled: typeof parentId !== 'undefined' && !!`${parentId}`.length
   });
 };
