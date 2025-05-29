@@ -17,7 +17,7 @@ const ProductList = () => {
   // FIXED: Map categoryId to the correct parent category for subcategory lookup
   const getParentCategoryForSubcategories = (catId) => {
     if (catId === '2205374') return '2205374'; // Trà Phượng Hoàng
-    if (catId === '2205381') return '2205381'; // Lermao
+    if (catId === '2205381') return ['2205420', '2205421', '2205422', '2205423', '2205425']; // Lermao
     return catId; // For other categories, use as-is
   };
 
@@ -129,7 +129,7 @@ const ProductList = () => {
                   ? 'Trà Phượng Hoàng'
                   : categoryId === '2205381'
                   ? 'Lermao'
-                  : 'Tất cả sản phẩm'}
+                  : categoryId === '2205422'}
               </Text>
             </Flex>
           )}

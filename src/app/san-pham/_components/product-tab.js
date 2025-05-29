@@ -19,13 +19,8 @@ const ProductTab = () => {
     },
     {
       label: 'Lermao',
-      value: '2205381', // Direct KiotViet category ID
+      value: ['2205420', '2205421', '2205422', '2205423', '2205425'], // Direct KiotViet category ID
       parentCategoryId: 2205381
-    },
-    {
-      label: 'Sữa',
-      value: data.find((cat) => cat.name === 'Sữa')?.id || '3', // Fallback to database category
-      parentCategoryId: null // This will use database categories
     }
   ];
 
