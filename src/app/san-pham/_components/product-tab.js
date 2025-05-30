@@ -1,4 +1,4 @@
-// src/app/san-pham/_components/product-tab.js - FIXED VERSION
+// src/app/san-pham/_components/product-tab.js - FIXED to not select default category
 'use client';
 
 import { useQueryCategoryList } from '../../../services/category.service';
@@ -16,24 +16,17 @@ const ProductTab = () => {
     (cat) => cat.name === 'Lermao' || cat.name === 'Trà Phượng Hoàng' || cat.id === 2205381 || cat.id === 2205374
   );
 
-  const defaultCategoryId = targetCategories?.[0]?.id;
+  // CRITICAL FIX: Don't select default category - let user choose
   const TABS = targetCategories?.map((item) => ({
     label: item.name,
     value: item.id,
     id: item.id
   }));
 
-  const [currentTab, setCurrentTab] = useState(categoryId || defaultCategoryId);
+  const [currentTab, setCurrentTab] = useState(categoryId);
 
-  useEffect(() => {
-    const timeoutSetDefault = setTimeout(() => {
-      if (typeof categoryId === 'undefined' && defaultCategoryId) {
-        setParamsURL({ categoryId: defaultCategoryId });
-      }
-    }, 300);
-
-    return () => clearTimeout(timeoutSetDefault);
-  }, [categoryId, defaultCategoryId, setParamsURL]);
+  // REMOVED: Auto-selection of default category
+  // This allows the page to show ALL products by default
 
   useEffect(() => {
     if (typeof categoryId !== 'undefined') {
@@ -58,7 +51,7 @@ const ProductTab = () => {
             flex={1}
             bgColor={isActive ? 'main.1' : 'transparent'}
             borderRadius={8}
-            _hover={{ bgColor: isActive ? 'main.1' : 'transparent' }}
+            _hover={{ bgColor: isActive ? 'main.1' : 'rgba(30, 150, 188, 0.1)' }}
             _active={{ bgColor: isActive ? 'main.1' : 'transparent' }}
             onClick={() => {
               setCurrentTab(value);

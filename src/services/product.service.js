@@ -1,11 +1,11 @@
-// src/services/product.service.js - FIXED for proper category filtering
+// src/services/product.service.js - FIXED for default behavior and both categories
 import { API } from '../utils/API';
 import { useGetParamsURL } from '../utils/hooks';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 /**
- * Main hook to get products from specific category
- * CRITICAL FIX: Pass categoryId to filter by specific category
+ * Main hook to get products - works for both categories and default view
+ * CRITICAL FIX: Default shows ALL products, subcategory filtering works for both categories
  */
 export const useQueryProductList = () => {
   const params = useGetParamsURL();
@@ -29,15 +29,34 @@ export const useQueryProductList = () => {
         }
       }
 
+      // Build API parameters
+      const apiParams = {
+        pageNumber: pageNumber - 1,
+        pageSize: 12,
+        ...sortParams
+      };
+
+      // Add search keyword if provided
+      if (keyword) {
+        apiParams.title = keyword;
+      }
+
+      // Add category filter if provided (for main category selection)
+      if (categoryId) {
+        apiParams.categoryId = categoryId;
+      }
+
+      // Add subcategory filter if provided (works for both Lermao and Trà Phượng Hoàng)
+      if (subCategoryId) {
+        apiParams.subCategoryId = subCategoryId;
+      }
+
+      // CRITICAL FIX: If no filters, don't add categoryId - backend will show ALL products
+      console.log('API Params:', apiParams); // Debug log
+
       return API.request({
         url: '/api/product/by-categories',
-        params: {
-          pageNumber: pageNumber - 1,
-          pageSize: 12,
-          title: keyword,
-          categoryId: categoryId, // CRITICAL: Pass categoryId to filter by specific category
-          ...sortParams
-        }
+        params: apiParams
       });
     },
     staleTime: 5 * 60 * 1000,
