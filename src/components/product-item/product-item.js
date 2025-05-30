@@ -1,116 +1,35 @@
-// src/components/product-item.js - Updated to show category information like CMS
+// src/components/product-item.js - CLEANED UP VERSION like CMS
 'use client';
 
 import { convertSlugURL, formatCurrency } from '../../utils/helper-server';
 import { IMG_ALT } from '../../utils/const';
-import { AspectRatio, Box, Flex, Image, Text, Tag, Tooltip } from '@chakra-ui/react';
+import { AspectRatio, Box, Flex, Image, Text, Tag } from '@chakra-ui/react';
 import Link from 'next/link';
 
-const ProductItem = ({ item, showCategoryTags = false }) => {
-  const { id, title, price, imagesUrl, generalDescription, ofCategories, isFeatured, quantity } = item || {};
+const ProductItem = ({ item }) => {
+  const { id, title, price, imagesUrl, generalDescription, ofCategories } = item || {};
 
   // Create product URL slug
   const productSlug = `${convertSlugURL(title)}.${id}`;
 
-  // Render category tags similar to CMS
-  const renderCategoryTags = () => {
-    if (!showCategoryTags || !Array.isArray(ofCategories) || ofCategories.length === 0) {
-      return null;
+  // Get category name for display (simple version)
+  const getCategoryName = () => {
+    if (!Array.isArray(ofCategories) || ofCategories.length === 0) {
+      return 'SẢN PHẨM';
     }
-
-    // Define category colors based on parent context
-    const getCategoryColor = (category) => {
-      if (category.isParentCategory) {
-        return category.parentContext.includes('Lermao') ? 'blue' : 'purple';
-      }
-
-      // Subcategory colors
-      if (category.parentContext === 'Lermao') {
-        const subcategoryColors = {
-          Bột: 'blue',
-          Topping: 'green',
-          'Mứt Sốt': 'orange',
-          Siro: 'purple',
-          'hàng sản xuất': 'cyan'
-        };
-        return subcategoryColors[category.name] || 'blue';
-      } else if (category.parentContext === 'Trà Phượng Hoàng') {
-        const subcategoryColors = {
-          OEM: 'magenta',
-          SHANCHA: 'red'
-        };
-        return subcategoryColors[category.name] || 'magenta';
-      }
-
-      return 'gray';
-    };
-
-    return (
-      <Flex wrap="wrap" gap="4px" mt="8px">
-        {ofCategories.map((category, index) => {
-          const color = getCategoryColor(category);
-          const isParent = category.isParentCategory;
-
-          return (
-            <Tooltip
-              key={index}
-              label={isParent ? `Danh mục cha: ${category.parentContext}` : `Thuộc ${category.parentContext}`}
-            >
-              <Tag size="sm" colorScheme={color} variant={isParent ? 'solid' : 'outline'} cursor="help">
-                {category.displayName}
-                {isParent && (
-                  <Text as="span" fontSize="10px" ml="4px" opacity={0.8}>
-                    (Cha)
-                  </Text>
-                )}
-              </Tag>
-            </Tooltip>
-          );
-        })}
-      </Flex>
-    );
+    // Just return the first category name in uppercase
+    return ofCategories[0]?.name?.toUpperCase() || 'SẢN PHẨM';
   };
 
-  // Render price with status
-  const renderPrice = () => {
-    if (!price || price === 0) {
-      return (
-        <Tag colorScheme="orange" size="sm">
-          Liên hệ
-        </Tag>
-      );
+  // Get category color based on category name
+  const getCategoryColor = () => {
+    const categoryName = getCategoryName();
+    if (categoryName.includes('MỨT') || categoryName.includes('LERMAO')) {
+      return '#ff6b6b'; // Red for Mứt
+    } else if (categoryName.includes('TRÀ') || categoryName.includes('PHƯỢNG')) {
+      return '#4dabf7'; // Blue for Trà
     }
-
-    return (
-      <Text color="main.1" fontSize={{ xs: '16px', lg: '18px' }} fontWeight={600}>
-        {formatCurrency(price)}
-      </Text>
-    );
-  };
-
-  // Render stock status
-  const renderStockStatus = () => {
-    const stockQuantity = Number(quantity) || 0;
-
-    if (stockQuantity === 0) {
-      return (
-        <Tag colorScheme="red" size="sm">
-          Hết hàng
-        </Tag>
-      );
-    } else if (stockQuantity < 10) {
-      return (
-        <Tag colorScheme="orange" size="sm">
-          Sắp hết
-        </Tag>
-      );
-    } else {
-      return (
-        <Tag colorScheme="green" size="sm">
-          Còn hàng
-        </Tag>
-      );
-    }
+    return '#51cf66'; // Green default
   };
 
   return (
@@ -120,33 +39,32 @@ const ProductItem = ({ item, showCategoryTags = false }) => {
       overflow="hidden"
       cursor="pointer"
       transitionDuration="250ms"
-      border="2px solid transparent"
+      border="1px solid #f1f3f4"
       _hover={{
-        borderColor: 'main.1',
         transform: 'translateY(-2px)',
         boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
       }}
       position="relative"
     >
       <Link href={`/san-pham/${productSlug}`}>
-        {/* Featured Badge */}
-        {isFeatured && (
-          <Box
-            position="absolute"
-            top="8px"
-            right="8px"
-            bgColor="red.500"
-            color="white"
-            fontSize="10px"
-            fontWeight="bold"
-            px="6px"
-            py="2px"
-            borderRadius="4px"
-            zIndex={2}
-          >
-            Nổi bật
-          </Box>
-        )}
+        {/* Category Label */}
+        <Box
+          position="absolute"
+          top="12px"
+          left="12px"
+          bgColor={getCategoryColor()}
+          color="white"
+          fontSize="10px"
+          fontWeight="bold"
+          px="8px"
+          py="4px"
+          borderRadius="12px"
+          zIndex={2}
+          textTransform="uppercase"
+          letterSpacing="0.5px"
+        >
+          {getCategoryName()}
+        </Box>
 
         {/* Product Image */}
         <AspectRatio ratio={1 / 1} w="full">
@@ -158,8 +76,8 @@ const ProductItem = ({ item, showCategoryTags = false }) => {
                   : '/images/tra-phuong-hoang.png'
               }
               alt={title || IMG_ALT}
-              w="85%"
-              h="85%"
+              w="80%"
+              h="80%"
               objectFit="contain"
               loading="lazy"
               onError={(e) => {
@@ -170,14 +88,14 @@ const ProductItem = ({ item, showCategoryTags = false }) => {
         </AspectRatio>
 
         {/* Product Details */}
-        <Flex direction="column" p={{ xs: '12px', lg: '16px' }} gap="8px">
+        <Flex direction="column" p="16px" gap="8px">
           {/* Product Title */}
           <Text
-            fontSize={{ xs: '14px', lg: '16px' }}
+            fontSize="14px"
             fontWeight={600}
-            color="text.1"
+            color="#333"
             lineHeight="1.4"
-            minH={{ xs: '40px', lg: '44px' }}
+            minH="40px"
             display="-webkit-box"
             style={{
               WebkitLineClamp: 2,
@@ -193,6 +111,7 @@ const ProductItem = ({ item, showCategoryTags = false }) => {
             <Text
               fontSize="12px"
               color="gray.600"
+              lineHeight="1.3"
               display="-webkit-box"
               style={{
                 WebkitLineClamp: 2,
@@ -204,13 +123,34 @@ const ProductItem = ({ item, showCategoryTags = false }) => {
             </Text>
           )}
 
-          {/* Category Tags */}
-          {renderCategoryTags()}
+          {/* Price */}
+          <Flex justify="center" align="center" mt="8px">
+            {!price || price === 0 ? (
+              <Tag colorScheme="blue" size="sm" fontWeight="600">
+                Liên hệ
+              </Tag>
+            ) : (
+              <Text color="#1E96BC" fontSize="16px" fontWeight={700}>
+                {formatCurrency(price)}
+              </Text>
+            )}
+          </Flex>
 
-          {/* Price and Stock Status */}
-          <Flex justify="space-between" align="center" mt="8px">
-            {renderPrice()}
-            {renderStockStatus()}
+          {/* Buy Button */}
+          <Flex
+            mt="8px"
+            bgColor="#065FD4"
+            color="white"
+            py="8px"
+            borderRadius="8px"
+            justify="center"
+            align="center"
+            _hover={{ bgColor: '#0052CC' }}
+            transitionDuration="200ms"
+          >
+            <Text fontSize="14px" fontWeight="600">
+              Mua hàng
+            </Text>
           </Flex>
         </Flex>
       </Link>

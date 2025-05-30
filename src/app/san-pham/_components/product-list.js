@@ -1,4 +1,4 @@
-// src/app/san-pham/_components/product-list.js - Updated to show products from both parent and subcategories
+// src/app/san-pham/_components/product-list.js - CLEANED UP VERSION
 'use client';
 
 import { LoadingScreen } from '../../../components/effect-screen';
@@ -8,7 +8,7 @@ import { useQueryCategoryListByParent } from '../../../services/category.service
 import { useQueryProductList } from '../../../services/product.service';
 import { IMG_ALT } from '../../../utils/const';
 import { useParamsURL } from '../../../utils/hooks';
-import { Flex, Grid, GridItem, Image, Text, Box, Tag, Alert } from '@chakra-ui/react';
+import { Flex, Grid, GridItem, Image, Text } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
 const ProductList = () => {
@@ -18,11 +18,11 @@ const ProductList = () => {
   const defaultSubCategoryId = subCategoryList?.[0]?.id;
   const [currentCategoryId, setCurrentCategoryId] = useState(subCategoryId || defaultSubCategoryId);
   const { data: productListQuery, isLoading: loadingProduct } = useQueryProductList();
-  const { content: productList = [], totalElements, pageable, categoryInfo } = productListQuery || {};
+  const { content: productList = [], totalElements, pageable } = productListQuery || {};
   const { pageNumber } = pageable || {};
 
   useEffect(() => {
-    if (typeof subCategoryId === 'undefined') {
+    if (typeof subCategoryId === 'undefined' && defaultSubCategoryId) {
       setParamsURL({ subCategoryId: defaultSubCategoryId });
     }
   }, [defaultSubCategoryId, setParamsURL, subCategoryId]);
@@ -33,39 +33,9 @@ const ProductList = () => {
     }
   }, [subCategoryId]);
 
-  // Show category information
-  const renderCategoryInfo = () => {
-    if (!categoryInfo) return null;
-
-    return (
-      <Box mb="24px" p="16px" bgColor="#f8f9fa" borderRadius="8px">
-        <Text fontSize="16px" fontWeight="600" mb="8px" color="#1E96BC">
-          Thông tin danh mục sản phẩm
-        </Text>
-        <Flex direction="column" gap="4px" fontSize="14px" color="#6c757d">
-          <Text>
-            Hiển thị sản phẩm từ: <strong>Lermao</strong> và <strong>Trà Phượng Hoàng</strong>
-          </Text>
-          <Text>
-            Tổng danh mục được tìm kiếm: <strong>{categoryInfo.totalCategoriesSearched || 0}</strong>
-          </Text>
-          {categoryInfo.productsInParentCategories !== undefined && (
-            <Text>
-              Sản phẩm thuộc danh mục cha: <strong>{categoryInfo.productsInParentCategories}</strong>
-            </Text>
-          )}
-          {categoryInfo.productsInSubcategories !== undefined && (
-            <Text>
-              Sản phẩm thuộc danh mục con: <strong>{categoryInfo.productsInSubcategories}</strong>
-            </Text>
-          )}
-        </Flex>
-      </Box>
-    );
-  };
-
   return (
     <Flex mt="24px" mb="60px" gap="24px" direction={{ xs: 'column', lg: 'row' }}>
+      {/* Subcategory Sidebar */}
       <Flex
         flex={{ xs: 'none', lg: 1 / 4 }}
         w="full"
@@ -115,10 +85,8 @@ const ProductList = () => {
         />
       </Flex>
 
+      {/* Product Grid */}
       <Flex flex={3 / 4} direction="column" minH="500px">
-        {/* Category Information */}
-        {renderCategoryInfo()}
-
         {loadingProduct && (
           <Flex mt="80px" justify="center">
             <LoadingScreen />
@@ -140,7 +108,7 @@ const ProductList = () => {
               {productList?.map((item) => {
                 return (
                   <GridItem key={item.id}>
-                    <ProductItem item={item} showCategoryTags={true} />
+                    <ProductItem item={item} />
                   </GridItem>
                 );
               })}

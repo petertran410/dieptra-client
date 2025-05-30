@@ -1,23 +1,22 @@
-// src/services/product.service.js - Updated for dieptra-client
+// src/services/product.service.js - FIXED for proper category filtering
 import { API } from '../utils/API';
 import { useGetParamsURL } from '../utils/hooks';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 /**
- * Main hook to get products from Lermao and Trà Phượng Hoàng categories (including parent categories)
- * This shows products from both subcategories AND direct parent category assignments
+ * Main hook to get products from specific category
+ * CRITICAL FIX: Pass categoryId to filter by specific category
  */
 export const useQueryProductList = () => {
   const params = useGetParamsURL();
-  const { page: pageNumber = 1, keyword, sort, subCategoryId } = params;
-  const queryKey = ['GET_PRODUCT_LIST_CLIENT', pageNumber, keyword, subCategoryId, sort];
+  const { page: pageNumber = 1, keyword, sort, subCategoryId, categoryId } = params;
+  const queryKey = ['GET_PRODUCT_LIST_CLIENT', pageNumber, keyword, subCategoryId, sort, categoryId];
 
   return useQuery({
     queryKey,
     queryFn: () => {
       let sortParams = {};
       if (sort) {
-        // Handle sorting if needed
         if (sort === 'az') {
           sortParams.orderBy = 'title';
           sortParams.isDesc = false;
@@ -35,14 +34,14 @@ export const useQueryProductList = () => {
         params: {
           pageNumber: pageNumber - 1,
           pageSize: 12,
-          title: keyword, // Search by product title if keyword is provided
-          categoryId: subCategoryId, // Filter by specific subcategory if provided
+          title: keyword,
+          categoryId: categoryId, // CRITICAL: Pass categoryId to filter by specific category
           ...sortParams
         }
       });
     },
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000 // 10 minutes
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000
   });
 };
 
@@ -57,12 +56,11 @@ export const useQueryProductListByCategory = (params) => {
     queryKey,
     queryFn: () => {
       return API.request({
-        url: '/api/product/by-hierarchical-categories',
+        url: '/api/product/by-categories',
         params: {
           pageNumber: 0,
           pageSize: 20,
-          parentCategoryIds: categoryId ? categoryId.toString() : '2205381,2205374',
-          includeChildren: true
+          categoryId: categoryId ? categoryId.toString() : undefined
         }
       });
     },
@@ -86,7 +84,6 @@ export const useQueryProductListOther = () => {
         params: {
           pageNumber: 0,
           pageSize: 10
-          // Get products from both parent and subcategories
         }
       }).then((res) => res?.content);
     },
@@ -163,24 +160,6 @@ export const useQueryRatingList = (productId) => {
       });
     },
     enabled: productId === 0 || !!productId
-  });
-};
-
-/**
- * Hook to get category hierarchy information
- */
-export const useQueryCategoryHierarchyInfo = () => {
-  const queryKey = ['GET_CATEGORY_HIERARCHY_INFO'];
-
-  return useQuery({
-    queryKey,
-    queryFn: () =>
-      API.request({
-        url: '/api/product/categories/hierarchy-info',
-        params: {}
-      }),
-    staleTime: 10 * 60 * 1000, // 10 minutes - category structure doesn't change often
-    cacheTime: 30 * 60 * 1000 // 30 minutes
   });
 };
 
