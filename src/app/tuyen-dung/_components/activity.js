@@ -20,7 +20,7 @@ const ActivityItem = ({ isMobile, item }) => {
             fit="cover"
             w="full"
             h="full"
-            src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/image-recruitment-1.png'}
+            src={imagesUrl?.[0]?.replace('http://', 'https://') || '/images/image-recruitment-1.png'}
             alt={IMG_ALT}
           />
         </AspectRatio>
