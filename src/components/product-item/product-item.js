@@ -72,7 +72,7 @@ const ProductItem = ({ item }) => {
             <Image
               src={
                 Array.isArray(imagesUrl) && imagesUrl.length > 0
-                  ? imagesUrl[0]?.replace('http://', 'https://') || '/images/tra-phuong-hoang.png'
+                  ? imagesUrl[0]?.replace('https://', 'http://') || '/images/tra-phuong-hoang.png'
                   : '/images/tra-phuong-hoang.png'
               }
               alt={title || IMG_ALT}

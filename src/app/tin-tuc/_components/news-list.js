@@ -15,7 +15,7 @@ const NewsItem = ({ item }) => {
       <Link href={`/tin-tuc/${convertSlugURL(title)}.${id}`}>
         <AspectRatio ratio={16 / 9} w="full">
           <Image
-            src={imagesUrl?.[0]?.replace('http://', 'https://') || 'images/news.png'}
+            src={imagesUrl?.[0]?.replace('https://', 'http://') || 'images/news.png'}
             w="full"
             h="full"
             alt={IMG_ALT}

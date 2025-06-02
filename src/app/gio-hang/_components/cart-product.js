@@ -19,7 +19,7 @@ const CartProduct = () => {
     <Flex direction="column" gap="24px">
       {cartData?.map((item) => {
         const { title, id, price, imagesUrl, ofCategories } = item;
-        const image = imagesUrl?.[0]?.replace('http://', 'https://');
+        const image = imagesUrl?.[0]?.replace('https://', 'http://');
 
         return (
           <Flex align="center" key={id} justify="space-between" pos="relative">
