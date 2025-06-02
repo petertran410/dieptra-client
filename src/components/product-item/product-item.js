@@ -69,7 +69,7 @@ const ProductItem = ({ item }) => {
         {/* Product Image */}
         <AspectRatio ratio={1 / 1} w="full">
           <Flex align="center" justify="center" bgColor="#F8F9FA">
-            {/* <Image
+            <Image
               src={
                 Array.isArray(imagesUrl) && imagesUrl.length > 0
                   ? imagesUrl[0]?.replace('http://', 'https://') || '/images/tra-phuong-hoang.png'
@@ -83,7 +83,7 @@ const ProductItem = ({ item }) => {
               onError={(e) => {
                 e.target.src = '/images/tra-phuong-hoang.png';
               }}
-            /> */}
+            />
           </Flex>
         </AspectRatio>
 
