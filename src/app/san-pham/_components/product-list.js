@@ -113,7 +113,8 @@ const ProductList = () => {
           </Flex>
 
           <Image
-            display={{ xs: 'none', lg: 'block' }}
+            // display={{ xs: 'none', lg: 'block' }}
+            display={{ xs: 'none', lg: 'hidden', md: 'hidden' }}
             src="/images/bg-category-product.png"
             alt={IMG_ALT}
             w="full"
