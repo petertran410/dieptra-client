@@ -38,7 +38,8 @@ const CartWrapper = () => {
   // Calculate shipping cost
   const calculateShipping = () => {
     const subtotal = calculateTotal();
-    return subtotal > 500000 ? 0 : 30000; // Free shipping over 500k VND
+    // return subtotal > 500000 ? 0 : 30000;
+    return subtotal > 0 ? 0 : 0;
   };
 
   // Calculate grand total
@@ -63,6 +64,18 @@ const CartWrapper = () => {
       showToast({
         status: 'error',
         content: 'Một số sản phẩm trong giỏ hàng cần liên hệ để báo giá. Vui lòng liên hệ trực tiếp.',
+        icon: '/images/cart.png'
+      });
+      return;
+    }
+    const missingProducts = cart.filter(
+      (cartItem) => !cartData.find((product) => Number(product.id) === Number(cartItem.id))
+    );
+
+    if (missingProducts.length > 0) {
+      showToast({
+        status: 'error',
+        content: 'Một số sản phẩm trong giỏ hàng không còn tồn tại. Vui lòng kiểm tra lại.',
         icon: '/images/cart.png'
       });
       return;

@@ -75,9 +75,9 @@ const PaymentWrapper = () => {
   };
 
   const calculateShipping = () => {
-    // Simple shipping calculation - could be made more sophisticated
     const subtotal = calculateSubtotal();
-    return subtotal > 500000 ? 0 : 30000; // Free shipping over 500k VND
+    // return subtotal > 500000 ? 0 : 30000;
+    return subtotal > 0 ? 0 : 0;
   };
 
   const calculateTotal = () => {
@@ -140,17 +140,32 @@ const PaymentWrapper = () => {
     }
 
     try {
+      // Prepare cart items with correct structure
+      const cartItems = cart.map((item) => {
+        const product = cartData.find((p) => Number(p.id) === Number(item.id));
+        return {
+          productId: Number(item.id),
+          quantity: item.quantity,
+          price: product?.price || 0,
+          title: product?.title || ''
+        };
+      });
+
+      // Validate that all products have prices (except for COD)
+      if (paymentMethod !== 'cod') {
+        const invalidProducts = cartItems.filter((item) => !item.price || item.price === 0);
+        if (invalidProducts.length > 0) {
+          showToast({
+            status: 'error',
+            content: 'Một số sản phẩm cần liên hệ để báo giá. Vui lòng chọn thanh toán COD hoặc liên hệ trực tiếp.'
+          });
+          return;
+        }
+      }
+
       const paymentData = {
         customerInfo,
-        cartItems: cart.map((item) => {
-          const product = cartData.find((p) => Number(p.id) === Number(item.id));
-          return {
-            productId: item.id,
-            quantity: item.quantity,
-            price: product?.price || 0,
-            title: product?.title || ''
-          };
-        }),
+        cartItems,
         paymentMethod,
         amounts: {
           subtotal: calculateSubtotal(),
@@ -159,7 +174,11 @@ const PaymentWrapper = () => {
         }
       };
 
+      console.log('Sending payment data:', paymentData);
+
       const response = await createPayment(paymentData);
+
+      console.log('Payment response:', response);
 
       if (response.success) {
         setCurrentOrderId(response.orderId);
@@ -171,7 +190,12 @@ const PaymentWrapper = () => {
           content: 'Đơn hàng đã được tạo thành công!'
         });
 
-        onOpenPaymentModal();
+        // For COD orders, redirect to success page immediately
+        if (paymentMethod === 'cod') {
+          router.push(`/thanh-toan/success?orderId=${response.orderId}&status=success&method=cod`);
+        } else {
+          onOpenPaymentModal();
+        }
       } else {
         throw new Error(response.message || 'Không thể tạo đơn hàng');
       }
@@ -188,24 +212,27 @@ const PaymentWrapper = () => {
   useEffect(() => {
     if (paymentStatus?.status === 'SUCCESS' || paymentStatus?.status === 'PAID') {
       onClosePaymentModal();
-      onOpenSuccessModal();
 
-      // Clear cart after successful payment
-      setTimeout(() => {
-        setCart([]);
-        showToast({
-          status: 'success',
-          content: 'Thanh toán thành công! Cảm ơn bạn đã mua hàng.'
-        });
-      }, 1000);
+      // Clear cart and redirect to success page
+      setCart([]);
+      router.push(
+        `/thanh-toan/success?orderId=${currentOrderId}&transactionId=${paymentStatus.transactionId}&status=success`
+      );
+
+      showToast({
+        status: 'success',
+        content: 'Thanh toán thành công! Cảm ơn bạn đã mua hàng.'
+      });
     } else if (paymentStatus?.status === 'FAILED' || paymentStatus?.status === 'CANCELLED') {
       onClosePaymentModal();
+      router.push(`/thanh-toan/success?orderId=${currentOrderId}&status=failed`);
+
       showToast({
         status: 'error',
         content: 'Thanh toán thất bại. Vui lòng thử lại.'
       });
     }
-  }, [paymentStatus, setCart, onClosePaymentModal, onOpenSuccessModal]);
+  }, [paymentStatus, setCart, onClosePaymentModal, router, currentOrderId]);
 
   // Redirect if cart is empty
   useEffect(() => {
@@ -316,35 +343,35 @@ const PaymentWrapper = () => {
                 <Stack spacing="3">
                   <Radio value="sepay_bank" colorScheme="blue">
                     <HStack>
-                      <Image
-                        src="/images/sepay-logo.png"
-                        alt="SePay"
-                        h="6"
-                        fallback={<Box w="6" h="6" bg="blue.500" borderRadius="md" />}
-                      />
-                      <Text>Chuyển khoản ngân hàng (SePay)</Text>
+                      <Box w="6" h="6" bg="blue.500" borderRadius="md" />
+                      <VStack align="start" spacing="0">
+                        <Text>Chuyển khoản ngân hàng (SePay)</Text>
+                        <Text fontSize="xs" color="gray.600">
+                          Thanh toán qua QR Code hoặc chuyển khoản
+                        </Text>
+                      </VStack>
                     </HStack>
                   </Radio>
                   <Radio value="sepay_momo" colorScheme="pink">
                     <HStack>
-                      <Image
-                        src="/images/momo-logo.png"
-                        alt="MoMo"
-                        h="6"
-                        fallback={<Box w="6" h="6" bg="pink.500" borderRadius="md" />}
-                      />
-                      <Text>Ví MoMo (SePay)</Text>
+                      <Box w="6" h="6" bg="pink.500" borderRadius="md" />
+                      <VStack align="start" spacing="0">
+                        <Text>Ví MoMo (SePay)</Text>
+                        <Text fontSize="xs" color="gray.600">
+                          Thanh toán qua ví điện tử MoMo
+                        </Text>
+                      </VStack>
                     </HStack>
                   </Radio>
                   <Radio value="cod" colorScheme="green">
                     <HStack>
-                      <Image
-                        src="/images/cod-icon.png"
-                        alt="COD"
-                        h="6"
-                        fallback={<Box w="6" h="6" bg="green.500" borderRadius="md" />}
-                      />
-                      <Text>Thanh toán khi nhận hàng (COD)</Text>
+                      <Box w="6" h="6" bg="green.500" borderRadius="md" />
+                      <VStack align="start" spacing="0">
+                        <Text>Thanh toán khi nhận hàng (COD)</Text>
+                        <Text fontSize="xs" color="gray.600">
+                          Thanh toán bằng tiền mặt khi nhận hàng
+                        </Text>
+                      </VStack>
                     </HStack>
                   </Radio>
                 </Stack>
@@ -428,7 +455,7 @@ const PaymentWrapper = () => {
                 w="full"
                 mt="4"
               >
-                Thanh toán ngay
+                {paymentMethod === 'cod' ? 'Đặt hàng COD' : 'Thanh toán ngay'}
               </Button>
 
               <Button variant="outline" size="md" onClick={() => router.push('/gio-hang')} w="full">
@@ -507,34 +534,6 @@ const PaymentWrapper = () => {
                   toán thành công.
                 </AlertDescription>
               </Alert>
-            </VStack>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-
-      {/* Success Modal */}
-      <Modal isOpen={isSuccessModalOpen} onClose={onCloseSuccessModal} size="md">
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader textAlign="center">🎉 Thanh toán thành công!</ModalHeader>
-          <ModalBody pb="6" textAlign="center">
-            <VStack spacing="4">
-              <Text>Cảm ơn bạn đã mua hàng tại Diệp Trà!</Text>
-              <Text fontSize="sm" color="gray.600">
-                Mã đơn hàng: <strong>{currentOrderId}</strong>
-              </Text>
-              <Text fontSize="sm" color="gray.600">
-                Chúng tôi sẽ liên hệ với bạn để xác nhận và giao hàng trong thời gian sớm nhất.
-              </Text>
-              <Button
-                colorScheme="blue"
-                onClick={() => {
-                  onCloseSuccessModal();
-                  router.push('/');
-                }}
-              >
-                Về trang chủ
-              </Button>
             </VStack>
           </ModalBody>
         </ModalContent>
