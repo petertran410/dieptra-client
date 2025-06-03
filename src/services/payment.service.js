@@ -1,4 +1,4 @@
-// src/services/payment.service.js - Frontend Payment Service
+// src/services/payment.service.js - FIXED Frontend Payment Service
 import { API } from '../utils/API';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
@@ -26,7 +26,7 @@ export const useMutateCreatePayment = () => {
 };
 
 /**
- * Get payment status
+ * FIXED: Enhanced payment status polling with aggressive intervals
  */
 export const useQueryPaymentStatus = (orderId, enabled = false) => {
   const queryKey = ['GET_PAYMENT_STATUS', orderId];
@@ -34,34 +34,77 @@ export const useQueryPaymentStatus = (orderId, enabled = false) => {
   return useQuery({
     queryKey,
     queryFn: async () => {
-      console.log('Checking payment status for order:', orderId);
+      console.log(`🔍 Checking payment status for order: ${orderId}`);
 
       const response = await API.request({
         url: `/api/payment/status/${orderId}`,
         method: 'GET'
       });
 
-      console.log('Payment status response:', response);
+      console.log(`💳 Payment status response for ${orderId}:`, response);
       return response;
     },
     enabled: enabled && !!orderId,
+
+    // CRITICAL: Aggressive polling settings
     refetchInterval: (data) => {
-      // Stop polling if payment is complete
-      if (data?.status === 'SUCCESS' || data?.status === 'FAILED' || data?.status === 'CANCELLED') {
+      // Stop polling if payment is complete or failed
+      if (
+        data?.status === 'SUCCESS' ||
+        data?.status === 'PAID' ||
+        data?.status === 'FAILED' ||
+        data?.status === 'CANCELLED'
+      ) {
+        console.log(`🛑 Stopping polling for ${orderId} - Final status: ${data.status}`);
         return false;
       }
-      // Poll every 3 seconds for pending payments
-      return 3000;
+
+      // Poll every 2 seconds for pending payments (very aggressive)
+      console.log(`🔄 Continuing to poll ${orderId} - Current status: ${data?.status || 'UNKNOWN'}`);
+      return 2000; // 2 seconds
     },
-    refetchIntervalInBackground: false,
+
+    refetchIntervalInBackground: true, // Keep polling even if window is not focused
     staleTime: 0, // Always fetch fresh data
-    cacheTime: 0 // Don't cache payment status
+    cacheTime: 0, // Don't cache payment status
+    retry: 3, // Retry failed requests
+    retryDelay: 1000, // Wait 1 second between retries
+
+    onSuccess: (data) => {
+      console.log(`✅ Payment status poll success for ${orderId}:`, data);
+
+      // Log status changes
+      if (data?.status === 'SUCCESS' || data?.status === 'PAID') {
+        console.log(`🎉 PAYMENT SUCCESSFUL for order ${orderId}!`);
+      }
+    },
+
+    onError: (error) => {
+      console.error(`❌ Payment status poll error for ${orderId}:`, error);
+    }
   });
 };
 
 /**
- * Get available payment methods
+ * Manual payment status check (for debugging)
  */
+export const useManualPaymentCheck = () => {
+  return useMutation({
+    mutationFn: async (orderId) => {
+      console.log(`🔍 Manual payment check for: ${orderId}`);
+
+      const response = await API.request({
+        url: `/api/payment/status/${orderId}`,
+        method: 'GET'
+      });
+
+      console.log(`💳 Manual check result:`, response);
+      return response;
+    }
+  });
+};
+
+// Other existing hooks remain the same...
 export const useQueryPaymentMethods = () => {
   const queryKey = ['GET_PAYMENT_METHODS'];
 
@@ -75,14 +118,11 @@ export const useQueryPaymentMethods = () => {
 
       return response;
     },
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
-    cacheTime: 10 * 60 * 1000 // Keep in cache for 10 minutes
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000
   });
 };
 
-/**
- * Verify payment
- */
 export const useMutateVerifyPayment = () => {
   return useMutation({
     mutationFn: async ({ orderId, transactionId }) => {
@@ -100,9 +140,6 @@ export const useMutateVerifyPayment = () => {
   });
 };
 
-/**
- * Cancel payment
- */
 export const useMutateCancelPayment = () => {
   return useMutation({
     mutationFn: async (orderId) => {
@@ -116,9 +153,6 @@ export const useMutateCancelPayment = () => {
   });
 };
 
-/**
- * Generate QR code for payment
- */
 export const useMutateGenerateQR = () => {
   return useMutation({
     mutationFn: async ({ orderId, amount, bankCode }) => {
@@ -137,9 +171,6 @@ export const useMutateGenerateQR = () => {
   });
 };
 
-/**
- * Test payment connection
- */
 export const useQueryPaymentConnection = () => {
   const queryKey = ['GET_PAYMENT_CONNECTION'];
 
@@ -153,7 +184,7 @@ export const useQueryPaymentConnection = () => {
 
       return response;
     },
-    staleTime: 5 * 60 * 1000, // Cache for 5 minutes
-    retry: 1 // Only retry once for connection tests
+    staleTime: 5 * 60 * 1000,
+    retry: 1
   });
 };

@@ -1,7 +1,12 @@
+// src/app/thanh-toan/_components/payment-wrapper.js - ENHANCED with debugging
 'use client';
 
 import { useQueryProductByIds } from '../../../services/product.service';
-import { useMutateCreatePayment, useQueryPaymentStatus } from '../../../services/payment.service';
+import {
+  useMutateCreatePayment,
+  useQueryPaymentStatus,
+  useManualPaymentCheck
+} from '../../../services/payment.service';
 import { cartAtom } from '../../../states/common';
 import { PX_ALL, IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -33,10 +38,12 @@ import {
   useDisclosure,
   Radio,
   RadioGroup,
-  Stack
+  Stack,
+  Badge,
+  Code
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 
 const PaymentWrapper = () => {
@@ -57,13 +64,87 @@ const PaymentWrapper = () => {
   const [paymentUrl, setPaymentUrl] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState('');
 
+  // Debug states
+  const [debugInfo, setDebugInfo] = useState([]);
+  const [pollCount, setPollCount] = useState(0);
+  const pollCountRef = useRef(0);
+  const [lastStatusCheck, setLastStatusCheck] = useState(null);
+
   // API hooks
   const { mutateAsync: createPayment, isPending: creatingPayment } = useMutateCreatePayment();
-  const { data: paymentStatus, isLoading: checkingStatus } = useQueryPaymentStatus(currentOrderId, !!currentOrderId);
+  const { mutateAsync: manualCheck, isPending: checkingManually } = useManualPaymentCheck();
+
+  // CRITICAL: Enhanced polling with debug info
+  const {
+    data: paymentStatus,
+    isLoading: checkingStatus,
+    error: statusError
+  } = useQueryPaymentStatus(currentOrderId, !!currentOrderId);
 
   // Modal controls
   const { isOpen: isPaymentModalOpen, onOpen: onOpenPaymentModal, onClose: onClosePaymentModal } = useDisclosure();
-  const { isOpen: isSuccessModalOpen, onOpen: onOpenSuccessModal, onClose: onCloseSuccessModal } = useDisclosure();
+
+  // Debug function to add timestamped logs
+  const addDebugLog = (message, data = null) => {
+    const timestamp = new Date().toLocaleTimeString();
+    const logEntry = {
+      timestamp,
+      message,
+      data,
+      id: Date.now()
+    };
+
+    console.log(`🐛 [${timestamp}] ${message}`, data);
+    setDebugInfo((prev) => [...prev.slice(-10), logEntry]); // Keep last 10 logs
+  };
+
+  // Enhanced payment status monitoring
+  useEffect(() => {
+    if (paymentStatus) {
+      pollCountRef.current += 1;
+      setPollCount(pollCountRef.current);
+      setLastStatusCheck(new Date().toLocaleTimeString());
+
+      addDebugLog(`Poll #${pollCountRef.current} - Status Check`, {
+        orderId: currentOrderId,
+        status: paymentStatus.status,
+        amount: paymentStatus.amount,
+        success: paymentStatus.success
+      });
+
+      // Check for successful payment
+      if (paymentStatus.status === 'SUCCESS' || paymentStatus.status === 'PAID') {
+        addDebugLog('🎉 PAYMENT SUCCESSFUL!', paymentStatus);
+
+        onClosePaymentModal();
+        setCart([]);
+
+        const successUrl = `/thanh-toan/success?orderId=${currentOrderId}&transactionId=${paymentStatus.transactionId}&status=success`;
+        addDebugLog('Redirecting to success page', { url: successUrl });
+
+        router.push(successUrl);
+
+        showToast({
+          status: 'success',
+          content: 'Thanh toán thành công! Cảm ơn bạn đã mua hàng.'
+        });
+      } else if (paymentStatus.status === 'FAILED' || paymentStatus.status === 'CANCELLED') {
+        addDebugLog('❌ PAYMENT FAILED', paymentStatus);
+
+        onClosePaymentModal();
+        router.push(`/thanh-toan/success?orderId=${currentOrderId}&status=failed`);
+
+        showToast({
+          status: 'error',
+          content: 'Thanh toán thất bại. Vui lòng thử lại.'
+        });
+      }
+    }
+
+    if (statusError) {
+      addDebugLog('❌ Status Check Error', statusError);
+    }
+  }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId]);
 
   // Calculate totals
   const calculateSubtotal = () => {
@@ -76,7 +157,6 @@ const PaymentWrapper = () => {
 
   const calculateShipping = () => {
     const subtotal = calculateSubtotal();
-    // return subtotal > 500000 ? 0 : 30000;
     return subtotal > 0 ? 0 : 0;
   };
 
@@ -113,14 +193,12 @@ const PaymentWrapper = () => {
       return false;
     }
 
-    // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       showToast({ status: 'error', content: 'Email không hợp lệ' });
       return false;
     }
 
-    // Validate phone format (Vietnamese phone numbers)
     const phoneRegex = /^[0-9]{10,11}$/;
     if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
       showToast({ status: 'error', content: 'Số điện thoại không hợp lệ' });
@@ -140,7 +218,8 @@ const PaymentWrapper = () => {
     }
 
     try {
-      // Prepare cart items with correct structure
+      addDebugLog('🚀 Starting payment creation...');
+
       const cartItems = cart.map((item) => {
         const product = cartData.find((p) => Number(p.id) === Number(item.id));
         return {
@@ -151,7 +230,6 @@ const PaymentWrapper = () => {
         };
       });
 
-      // Validate that all products have prices (except for COD)
       if (paymentMethod !== 'cod') {
         const invalidProducts = cartItems.filter((item) => !item.price || item.price === 0);
         if (invalidProducts.length > 0) {
@@ -174,32 +252,44 @@ const PaymentWrapper = () => {
         }
       };
 
-      console.log('Sending payment data:', paymentData);
+      addDebugLog('📤 Sending payment data', paymentData);
 
       const response = await createPayment(paymentData);
 
-      console.log('Payment response:', response);
+      addDebugLog('📥 Payment creation response', response);
 
       if (response.success) {
         setCurrentOrderId(response.orderId);
         setPaymentUrl(response.paymentUrl || '');
         setQrCodeUrl(response.qrCodeUrl || '');
 
+        // Reset debug counters
+        setPollCount(0);
+        pollCountRef.current = 0;
+        setDebugInfo([]);
+
+        addDebugLog('✅ Payment order created', {
+          orderId: response.orderId,
+          qrCodeUrl: response.qrCodeUrl,
+          paymentMethod
+        });
+
         showToast({
           status: 'success',
           content: 'Đơn hàng đã được tạo thành công!'
         });
 
-        // For COD orders, redirect to success page immediately
         if (paymentMethod === 'cod') {
           router.push(`/thanh-toan/success?orderId=${response.orderId}&status=success&method=cod`);
         } else {
           onOpenPaymentModal();
+          addDebugLog('🔄 Started payment status polling', { orderId: response.orderId });
         }
       } else {
         throw new Error(response.message || 'Không thể tạo đơn hàng');
       }
     } catch (error) {
+      addDebugLog('❌ Payment creation failed', { error: error.message });
       console.error('Payment creation error:', error);
       showToast({
         status: 'error',
@@ -208,31 +298,26 @@ const PaymentWrapper = () => {
     }
   };
 
-  // Handle successful payment
-  useEffect(() => {
-    if (paymentStatus?.status === 'SUCCESS' || paymentStatus?.status === 'PAID') {
-      onClosePaymentModal();
+  // Manual status check for debugging
+  const handleManualCheck = async () => {
+    if (!currentOrderId) return;
 
-      // Clear cart and redirect to success page
-      setCart([]);
-      router.push(
-        `/thanh-toan/success?orderId=${currentOrderId}&transactionId=${paymentStatus.transactionId}&status=success`
-      );
-
+    try {
+      addDebugLog('🔍 Manual status check triggered');
+      const result = await manualCheck(currentOrderId);
+      addDebugLog('📋 Manual check result', result);
       showToast({
-        status: 'success',
-        content: 'Thanh toán thành công! Cảm ơn bạn đã mua hàng.'
+        status: 'info',
+        content: `Status: ${result.status}`
       });
-    } else if (paymentStatus?.status === 'FAILED' || paymentStatus?.status === 'CANCELLED') {
-      onClosePaymentModal();
-      router.push(`/thanh-toan/success?orderId=${currentOrderId}&status=failed`);
-
+    } catch (error) {
+      addDebugLog('❌ Manual check failed', error);
       showToast({
         status: 'error',
-        content: 'Thanh toán thất bại. Vui lòng thử lại.'
+        content: 'Lỗi kiểm tra trạng thái'
       });
     }
-  }, [paymentStatus, setCart, onClosePaymentModal, router, currentOrderId]);
+  };
 
   // Redirect if cart is empty
   useEffect(() => {
@@ -466,8 +551,8 @@ const PaymentWrapper = () => {
         </Flex>
       </VStack>
 
-      {/* Payment Modal */}
-      <Modal isOpen={isPaymentModalOpen} onClose={onClosePaymentModal} size="lg" closeOnOverlayClick={false}>
+      {/* Enhanced Payment Modal with Debug Info */}
+      <Modal isOpen={isPaymentModalOpen} onClose={onClosePaymentModal} size="2xl" closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Thanh toán đơn hàng</ModalHeader>
@@ -519,13 +604,68 @@ const PaymentWrapper = () => {
                 </Box>
               )}
 
-              {/* Status Checking */}
-              <HStack spacing="2">
-                <Spinner size="sm" />
-                <Text fontSize="sm" color="gray.600">
-                  Đang kiểm tra trạng thái thanh toán...
-                </Text>
-              </HStack>
+              {/* Enhanced Status Checking with Debug Info */}
+              <Box w="full" bg="gray.50" p="4" borderRadius="md">
+                <HStack justify="space-between" mb="2">
+                  <Text fontSize="sm" fontWeight="medium">
+                    Trạng thái kiểm tra:
+                  </Text>
+                  <Badge colorScheme={paymentStatus?.status === 'SUCCESS' ? 'green' : 'orange'}>
+                    {paymentStatus?.status || 'PENDING'}
+                  </Badge>
+                </HStack>
+
+                <VStack spacing="2" align="stretch">
+                  <HStack justify="space-between">
+                    <Text fontSize="xs">Số lần kiểm tra:</Text>
+                    <Text fontSize="xs" fontWeight="bold">
+                      {pollCount}
+                    </Text>
+                  </HStack>
+
+                  <HStack justify="space-between">
+                    <Text fontSize="xs">Lần kiểm tra cuối:</Text>
+                    <Text fontSize="xs">{lastStatusCheck || 'Chưa có'}</Text>
+                  </HStack>
+
+                  <HStack justify="space-between">
+                    <Text fontSize="xs">Mã đơn hàng:</Text>
+                    <Code fontSize="xs">{currentOrderId}</Code>
+                  </HStack>
+                </VStack>
+
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleManualCheck}
+                  isLoading={checkingManually}
+                  mt="3"
+                  w="full"
+                >
+                  Kiểm tra thủ công
+                </Button>
+              </Box>
+
+              {/* Debug Logs */}
+              {debugInfo.length > 0 && (
+                <Box w="full" bg="gray.100" p="4" borderRadius="md" maxH="200px" overflowY="auto">
+                  <Text fontSize="sm" fontWeight="bold" mb="2">
+                    Debug Logs:
+                  </Text>
+                  {debugInfo.map((log) => (
+                    <Box key={log.id} fontSize="xs" mb="1">
+                      <Text color="gray.600">
+                        [{log.timestamp}] {log.message}
+                      </Text>
+                      {log.data && (
+                        <Code fontSize="xs" display="block" whiteSpace="pre-wrap">
+                          {JSON.stringify(log.data, null, 2)}
+                        </Code>
+                      )}
+                    </Box>
+                  ))}
+                </Box>
+              )}
 
               <Alert status="warning">
                 <AlertIcon />
