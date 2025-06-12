@@ -1,5 +1,5 @@
-import Breadcrumb from '@/components/breadcrumb';
-import { IMG_ALT, PX_ALL } from '@/utils/const';
+import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
+import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
 import Banner from '../_components/banner';
 

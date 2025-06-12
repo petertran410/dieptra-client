@@ -22,7 +22,7 @@ const Product = () => {
         <ProductTab />
         <Introduction />
         <Filter />
-        <ProductList />
+        {/* <ProductList /> */}
       </Flex>
     </Suspense>
   );

@@ -1,7 +1,10 @@
-import React from 'react';
+import { getMetadata } from '../../utils/helper-server';
+import PaymentWrapper from './_components/payment-wrapper';
 
-const page = () => {
-  return <div>page</div>;
+export const metadata = getMetadata({ title: 'Thanh toán | Diệp Trà' });
+
+const Payment = () => {
+  return <PaymentWrapper />;
 };
 
-export default page;
+export default Payment;

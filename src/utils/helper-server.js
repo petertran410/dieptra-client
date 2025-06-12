@@ -1,3 +1,4 @@
+// src/utils/helper-server.js
 import { Text } from '@chakra-ui/react';
 import { Montserrat } from 'next/font/google';
 
@@ -65,7 +66,7 @@ export const getCategoryName = (name) => {
 
 const META_TITLE = 'Diệp Trà  - Thương hiệu cung cấp nguyên liệu pha chế hàng đầu tại Việt Nam';
 export const META_DESCRIPTION =
-  'Là thương hiệu thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, được ra đời vào năm 2018 dưới tên Diệp Trà, với sứ mệnh tiên phong, đi đầu trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên phục vụ các mặt hàng nguyên liệu pha chế nhập khẩu từ Đài Loan (Trung Quốc) và Trung Quốc, tập trung vào chiến lược “Hợp tác chiến lược toàn diện và độc quyền” với các đối tác uy tín số 1 trên thế giới để mang đến những sản phẩm tốt nhất, xu hướng nhất với giá thành hợp lý đến thị trường Việt Nam.';
+  'Là thương hiệu thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, được ra đời vào năm 2018 dưới tên Diệp Trà, với sứ mệnh tiên phong, đi đầu trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên phục vụ các mặt hàng nguyên liệu pha chế nhập khẩu từ Đài Loan (Trung Quốc) và Trung Quốc, tập trung vào chiến lược "Hợp tác chiến lược toàn diện và độc quyền" với các đối tác uy tín số 1 trên thế giới để mang đến những sản phẩm tốt nhất, xu hướng nhất với giá thành hợp lý đến thị trường Việt Nam.';
 const META_IMAGE = '/images/preview.png';
 export const META_KEYWORDS = [
   'Diệp Trà',
@@ -83,7 +84,16 @@ export const META_KEYWORDS = [
   'giá thành hợp lý',
   'thương hiệu đồ uống'
 ];
-const META_URL = 'https://dieptra.com';
+
+// Get the proper base URL for metadata
+const getBaseUrl = () => {
+  // In production, use the environment variable
+  if (process.env.NEXT_PUBLIC_DOMAIN) {
+    return process.env.NEXT_PUBLIC_DOMAIN;
+  }
+};
+
+const META_URL = getBaseUrl();
 const META_SITENAME = 'Diệp Trà  - Thương hiệu cung cấp nguyên liệu pha chế hàng đầu tại Việt Nam';
 const META_TYPE = 'website';
 
@@ -97,26 +107,37 @@ export const getMetadata = (data) => {
     type = META_TYPE
   } = data || {};
 
+  const baseUrl = getBaseUrl();
+  const imageUrl = `${baseUrl}${META_IMAGE}`;
+
   return {
     title,
     description,
     keywords,
-    url,
-    type,
-    images: [META_IMAGE],
+    metadataBase: new URL(baseUrl), // This fixes the metadataBase warning
+    alternates: {
+      canonical: url
+    },
     openGraph: {
       title,
       description,
       url,
       siteName,
-      images: [META_IMAGE],
+      images: [
+        {
+          url: imageUrl,
+          width: 800,
+          height: 600,
+          alt: title
+        }
+      ],
       type
     },
     twitter: {
       card: 'summary_large_image',
       title,
       description,
-      images: [META_IMAGE]
+      images: [imageUrl]
     }
   };
 };

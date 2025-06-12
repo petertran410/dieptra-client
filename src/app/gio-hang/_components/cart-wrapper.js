@@ -24,7 +24,7 @@ const CartWrapper = () => {
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
-  // Tính tổng tiền giỏ hàng
+  // Calculate total price
   const calculateTotal = () => {
     if (!cartData || cartData.length === 0) return 0;
 
@@ -35,16 +35,60 @@ const CartWrapper = () => {
     }, 0);
   };
 
-  // Xử lý sự kiện thanh toán
+  // Calculate shipping cost
+  const calculateShipping = () => {
+    const subtotal = calculateTotal();
+    // return subtotal > 500000 ? 0 : 30000;
+    return subtotal > 0 ? 0 : 0;
+  };
+
+  // Calculate grand total
+  const calculateGrandTotal = () => {
+    return calculateTotal() + calculateShipping();
+  };
+
+  // Handle payment navigation
   const handlePayment = () => {
-    // Hiển thị thông báo đang xử lý thanh toán
+    if (cart.length === 0) {
+      showToast({
+        status: 'error',
+        content: 'Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi thanh toán.',
+        icon: '/images/cart.png'
+      });
+      return;
+    }
+
+    // Validate products still exist and have prices
+    const invalidProducts = cartData.filter((product) => !product.price || product.price === 0);
+    if (invalidProducts.length > 0) {
+      showToast({
+        status: 'error',
+        content: 'Một số sản phẩm trong giỏ hàng cần liên hệ để báo giá. Vui lòng liên hệ trực tiếp.',
+        icon: '/images/cart.png'
+      });
+      return;
+    }
+    const missingProducts = cart.filter(
+      (cartItem) => !cartData.find((product) => Number(product.id) === Number(cartItem.id))
+    );
+
+    if (missingProducts.length > 0) {
+      showToast({
+        status: 'error',
+        content: 'Một số sản phẩm trong giỏ hàng không còn tồn tại. Vui lòng kiểm tra lại.',
+        icon: '/images/cart.png'
+      });
+      return;
+    }
+
+    // Show loading toast
     showToast({
       status: 'info',
-      content: 'Đang xử lý thanh toán...',
+      content: 'Chuyển đến trang thanh toán...',
       icon: '/images/cart.png'
     });
 
-    // Chuyển hướng tới trang thanh toán (thay đổi '/thanh-toan' nếu cần)
+    // Navigate to payment page
     router.push('/thanh-toan');
   };
 
@@ -57,7 +101,11 @@ const CartWrapper = () => {
   }
 
   if (isLoading) {
-    return null;
+    return (
+      <Flex justify="center" align="center" minH="400px">
+        <Text>Đang tải giỏ hàng...</Text>
+      </Flex>
+    );
   }
 
   return (
@@ -112,7 +160,7 @@ const CartWrapper = () => {
 
       <CartProduct />
 
-      {/* Hiển thị tổng tiền và nút thanh toán */}
+      {/* Enhanced Order Summary and Payment Section */}
       {!!cart.length && (
         <Flex
           justify="right"
@@ -120,38 +168,69 @@ const CartWrapper = () => {
           mt="24px"
           mb="100px"
           direction={{ xs: 'column', lg: 'row' }}
-          gap={{ xs: '16px', lg: '0' }}
+          gap={{ xs: '16px', lg: '24px' }}
         >
-          {/* Tổng tiền bên trái */}
-          <Flex direction="column" align={{ xs: 'center', lg: 'flex-end' }} gap="8px" mr="50px">
-            <Text fontSize={16} fontWeight={500}>
-              Tổng giá tiền:
+          {/* Order Summary */}
+          <Box bg="gray.50" p="6" borderRadius="lg" w={{ xs: 'full', lg: '350px' }} border="1px" borderColor="gray.200">
+            <Text fontSize="lg" fontWeight="semibold" mb="4">
+              Tóm tắt đơn hàng
             </Text>
-            <Text fontSize={24} fontWeight={700} color="#065FD4">
-              {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(calculateTotal())}
+
+            <Flex direction="column" gap="3">
+              <Flex justify="space-between">
+                <Text>Tạm tính ({cart.length} sản phẩm):</Text>
+                <Text fontWeight="medium">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(calculateTotal())}
+                </Text>
+              </Flex>
+
+              <Flex justify="space-between">
+                <Text>Phí vận chuyển:</Text>
+                <Text fontWeight="medium" color={calculateShipping() === 0 ? 'green.500' : 'inherit'}>
+                  {calculateShipping() === 0
+                    ? 'Miễn phí'
+                    : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
+                        calculateShipping()
+                      )}
+                </Text>
+              </Flex>
+
+              {calculateShipping() === 0 && (
+                <Text fontSize="xs" color="green.600" fontStyle="italic">
+                  🎉 Miễn phí vận chuyển cho đơn hàng trên 500.000đ
+                </Text>
+              )}
+
+              <Divider />
+
+              <Flex justify="space-between" fontSize="lg" fontWeight="bold">
+                <Text>Tổng cộng:</Text>
+                <Text color="blue.600">
+                  {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(calculateGrandTotal())}
+                </Text>
+              </Flex>
+            </Flex>
+          </Box>
+
+          {/* Payment Button */}
+          <Flex direction="column" gap="3" w={{ xs: 'full', lg: '200px' }}>
+            <Button
+              colorScheme="green"
+              size="lg"
+              onClick={handlePayment}
+              isDisabled={!cart.length}
+              h="60px"
+              fontSize="18px"
+              fontWeight="600"
+              leftIcon={<Image src="/images/cart.png" width={24} height={24} alt="Cart" />}
+            >
+              Thanh toán ngay
+            </Button>
+
+            <Text fontSize="xs" color="gray.600" textAlign="center">
+              Bảo mật thanh toán với SePay
             </Text>
           </Flex>
-
-          {/* Nút thanh toán bên phải */}
-          <Button
-            align="center"
-            justify="center"
-            bgColor="#27AE60"
-            w={{ xs: 'full', lg: '150px' }}
-            h={{ xs: '40px', lg: '50px' }}
-            fontSize={18}
-            borderRadius={8}
-            fontWeight={600}
-            _hover={{ bgColor: '#219653', color: '#FFF' }}
-            _active={{ bgColor: '#219653' }}
-            isDisabled={!cart.length}
-            onClick={handlePayment}
-          >
-            <Image src="/images/cart.png" width={24} height={24} alt="Cart" />
-            <Flex ml={2} fontSize={18}>
-              Thanh toán
-            </Flex>
-          </Button>
         </Flex>
       )}
 
