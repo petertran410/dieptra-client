@@ -1,6 +1,6 @@
 'use client';
 
-import { PX_ALL } from '@/utils/const';
+import { PX_ALL } from '../../../../utils/const';
 import {
   Accordion,
   AccordionButton,
