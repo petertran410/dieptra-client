@@ -563,11 +563,7 @@ const PaymentWrapper = () => {
                 <AlertIcon />
                 <Box>
                   <AlertTitle>Đang chờ thanh toán!</AlertTitle>
-                  <AlertDescription>
-                    Mã đơn hàng: <strong>{currentOrderId}</strong>
-                    <br />
-                    Vui lòng thực hiện thanh toán để hoàn tất đơn hàng.
-                  </AlertDescription>
+                  <AlertDescription>Vui lòng thực hiện thanh toán để hoàn tất đơn hàng.</AlertDescription>
                 </Box>
               </Alert>
 
