@@ -604,69 +604,6 @@ const PaymentWrapper = () => {
                 </Box>
               )}
 
-              {/* Enhanced Status Checking with Debug Info */}
-              <Box w="full" bg="gray.50" p="4" borderRadius="md">
-                <HStack justify="space-between" mb="2">
-                  <Text fontSize="sm" fontWeight="medium">
-                    Trạng thái kiểm tra:
-                  </Text>
-                  <Badge colorScheme={paymentStatus?.status === 'SUCCESS' ? 'green' : 'orange'}>
-                    {paymentStatus?.status || 'PENDING'}
-                  </Badge>
-                </HStack>
-
-                <VStack spacing="2" align="stretch">
-                  <HStack justify="space-between">
-                    <Text fontSize="xs">Số lần kiểm tra:</Text>
-                    <Text fontSize="xs" fontWeight="bold">
-                      {pollCount}
-                    </Text>
-                  </HStack>
-
-                  <HStack justify="space-between">
-                    <Text fontSize="xs">Lần kiểm tra cuối:</Text>
-                    <Text fontSize="xs">{lastStatusCheck || 'Chưa có'}</Text>
-                  </HStack>
-
-                  <HStack justify="space-between">
-                    <Text fontSize="xs">Mã đơn hàng:</Text>
-                    <Code fontSize="xs">{currentOrderId}</Code>
-                  </HStack>
-                </VStack>
-
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={handleManualCheck}
-                  isLoading={checkingManually}
-                  mt="3"
-                  w="full"
-                >
-                  Kiểm tra thủ công
-                </Button>
-              </Box>
-
-              {/* Debug Logs */}
-              {debugInfo.length > 0 && (
-                <Box w="full" bg="gray.100" p="4" borderRadius="md" maxH="200px" overflowY="auto">
-                  <Text fontSize="sm" fontWeight="bold" mb="2">
-                    Debug Logs:
-                  </Text>
-                  {debugInfo.map((log) => (
-                    <Box key={log.id} fontSize="xs" mb="1">
-                      <Text color="gray.600">
-                        [{log.timestamp}] {log.message}
-                      </Text>
-                      {log.data && (
-                        <Code fontSize="xs" display="block" whiteSpace="pre-wrap">
-                          {JSON.stringify(log.data, null, 2)}
-                        </Code>
-                      )}
-                    </Box>
-                  ))}
-                </Box>
-              )}
-
               <Alert status="warning">
                 <AlertIcon />
                 <AlertDescription fontSize="sm">

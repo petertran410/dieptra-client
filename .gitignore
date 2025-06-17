@@ -8,7 +8,7 @@
 
 Dockerfile
 docker-compose.yml
-deploy-fe-synology.sh
+/deploy-fe-synology.sh
 
 # testing
 /coverage
