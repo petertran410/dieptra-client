@@ -19,7 +19,7 @@ const Pagination = (props) => {
           setParamsURL({ page: currentPage + 1 });
         }}
       >
-        <Image src="/images/chevron-left-circle.png" alt={IMG_ALT} w="40px" h="40px" />
+        <Image src="/images/chevron-left-circle.webp" alt={IMG_ALT} w="40px" h="40px" />
       </button>
 
       {Array.from(Array(totalPages).keys()).map((item) => {
@@ -67,7 +67,7 @@ const Pagination = (props) => {
           setParamsURL({ page: currentPage - 1 });
         }}
       >
-        <Image src="/images/chevron-right-circle.png" alt={IMG_ALT} w="40px" h="40px" />
+        <Image src="/images/chevron-right-circle.webp" alt={IMG_ALT} w="40px" h="40px" />
       </button>
     </Flex>
   );

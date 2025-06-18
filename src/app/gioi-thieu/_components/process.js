@@ -112,7 +112,7 @@ Triển khai các mã hàng lạnh đầu tiên`
                   pos="absolute"
                 />
                 <Image
-                  src="/images/ripple-down.png"
+                  src="/images/ripple-down.webp"
                   w="24px"
                   h="32px"
                   alt={IMG_ALT}
@@ -133,7 +133,7 @@ Triển khai các mã hàng lạnh đầu tiên`
                 w="full"
                 bgColor="#FFF"
                 borderRadius={16}
-                bgImage="url(/images/bg-process-intro.png)"
+                bgImage="url(/images/bg-process-intro.webp)"
                 bgRepeat="no-repeat"
                 bgSize="cover"
               >
@@ -159,7 +159,7 @@ Triển khai các mã hàng lạnh đầu tiên`
                 pos="absolute"
               />
               <Image
-                src="/images/ripple-up.png"
+                src="/images/ripple-up.webp"
                 w="24px"
                 h="32px"
                 alt={IMG_ALT}
@@ -200,7 +200,7 @@ Triển khai các mã hàng lạnh đầu tiên`
                 w="full"
                 bgColor="#FFF"
                 borderRadius={16}
-                bgImage="url(/images/bg-process-intro.png)"
+                bgImage="url(/images/bg-process-intro.webp)"
                 bgRepeat="no-repeat"
                 bgSize="cover"
               >
@@ -235,7 +235,7 @@ Triển khai các mã hàng lạnh đầu tiên`
                 w="full"
                 bgColor="#FFF"
                 borderRadius={16}
-                bgImage="url(/images/bg-process-intro.png)"
+                bgImage="url(/images/bg-process-intro.webp)"
                 bgRepeat="no-repeat"
                 bgPosition="center"
                 bgSize="cover"
@@ -261,7 +261,7 @@ Triển khai các mã hàng lạnh đầu tiên`
             w="full"
             bgColor="#FFF"
             borderRadius={16}
-            bgImage="url(/images/bg-process-intro.png)"
+            bgImage="url(/images/bg-process-intro.webp)"
             bgRepeat="no-repeat"
             bgPosition="center"
             bgSize="cover"
@@ -277,7 +277,7 @@ Triển khai các mã hàng lạnh đầu tiên`
 
           <Box w="100%" left={0} h="2px" bgColor="main.1" bottom={0} pos="absolute" />
           <Image
-            src="/images/ripple-up.png"
+            src="/images/ripple-up.webp"
             w="24px"
             h="32px"
             alt={IMG_ALT}
@@ -290,7 +290,7 @@ Triển khai các mã hàng lạnh đầu tiên`
         </Box>
         <Flex align="center" gap="24px" mt="14px">
           <Image
-            src="/images/chevron-left-circle.png"
+            src="/images/chevron-left-circle.webp"
             alt={IMG_ALT}
             w="40px"
             h="40px"
@@ -307,7 +307,7 @@ Triển khai các mã hàng lạnh đầu tiên`
             </Text>
           </Flex>
           <Image
-            src="/images/chevron-right-circle.png"
+            src="/images/chevron-right-circle.webp"
             alt={IMG_ALT}
             w="40px"
             h="40px"

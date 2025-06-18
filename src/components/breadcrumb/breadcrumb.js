@@ -24,7 +24,7 @@ const Breadcrumb = (props) => {
                 {title}
               </Text>
             </Link>
-            {index !== data.length - 1 && <Image src="/images/chevron-right.png" alt={IMG_ALT} w="16px" h="16px" />}
+            {index !== data.length - 1 && <Image src="/images/chevron-right.webp" alt={IMG_ALT} w="16px" h="16px" />}
           </Fragment>
         );
       })}

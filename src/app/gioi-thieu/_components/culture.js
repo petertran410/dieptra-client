@@ -11,7 +11,7 @@ const Culture = () => {
       mt="64px"
       py={{ xs: '16px', lg: '56px' }}
       px={PX_ALL}
-      bgImage="url(/images/bg-culture-intro.png)"
+      bgImage="url(/images/bg-culture-intro.webp)"
       bgRepeat="no-repeat"
       bgSize="cover"
     >
@@ -22,7 +22,7 @@ const Culture = () => {
 
       <Grid templateColumns={{ xs: 'repeat(1, 1fr)', lg: 'repeat(3, 1fr)' }} gap="24px">
         <GridItem h={{ xs: '200px', lg: 'auto' }}>
-          <Image src="/images/image-culture-intro.png" w="full" h="full" fit="cover" borderRadius={16} alt={IMG_ALT} />
+          <Image src="/images/image-culture-intro.webp" w="full" h="full" fit="cover" borderRadius={16} alt={IMG_ALT} />
         </GridItem>
         <GridItem flex={1} direction="column" gap="24px" h="full">
           <Flex direction="column" h="full" gap="24px">
@@ -35,7 +35,7 @@ const Culture = () => {
               p="16px"
               backdropFilter="blur(4px)"
             >
-              <Image src="/images/intro-eye.png" w="40px" h="40px" alt={IMG_ALT} />
+              <Image src="/images/intro-eye.webp" w="40px" h="40px" alt={IMG_ALT} />
               <Text fontSize={18} fontWeight={500} color="#1E96BC">
                 Tầm nhìn
               </Text>
@@ -54,7 +54,7 @@ const Culture = () => {
               p="16px"
               backdropFilter="blur(4px)"
             >
-              <Image src="/images/intro-star.png" w="40px" h="40px" alt={IMG_ALT} />
+              <Image src="/images/intro-star.webp" w="40px" h="40px" alt={IMG_ALT} />
               <Text fontSize={18} fontWeight={500} color="#1E96BC">
                 Sứ mệnh
               </Text>
@@ -68,7 +68,7 @@ const Culture = () => {
         </GridItem>
         <GridItem flex={1} direction="column" borderRadius={16} bgColor="#FFFFFF66" p="16px" backdropFilter="blur(4px)">
           <Flex h="full" direction="column" gap="8px">
-            <Image src="/images/intro-key.png" w="40px" h="40px" alt={IMG_ALT} />
+            <Image src="/images/intro-key.webp" w="40px" h="40px" alt={IMG_ALT} />
             <Text fontSize={18} fontWeight={500} color="#1E96BC">
               Giá trị cốt lõi
             </Text>

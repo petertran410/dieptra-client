@@ -72,8 +72,8 @@ const ProductItem = ({ item }) => {
             <Image
               src={
                 Array.isArray(imagesUrl) && imagesUrl.length > 0
-                  ? imagesUrl[0]?.replace('https://', 'http://') || '/images/tra-phuong-hoang.png'
-                  : '/images/tra-phuong-hoang.png'
+                  ? imagesUrl[0]?.replace('https://', 'http://') || '/images/tra-phuong-hoang.webp'
+                  : '/images/tra-phuong-hoang.webp'
               }
               alt={title || IMG_ALT}
               w="80%"
@@ -81,7 +81,7 @@ const ProductItem = ({ item }) => {
               objectFit="contain"
               loading="lazy"
               onError={(e) => {
-                e.target.src = '/images/tra-phuong-hoang.png';
+                e.target.src = '/images/tra-phuong-hoang.webp';
               }}
             />
           </Flex>

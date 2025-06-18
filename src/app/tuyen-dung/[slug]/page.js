@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
   const data = await response.json();
 
   const { title: titleData, imagesUrl } = data || {};
-  const imageUrl = imagesUrl?.[0]?.replace('https://', 'http://') || '/images/preview.png';
+  const imageUrl = imagesUrl?.[0]?.replace('https://', 'http://') || '/images/preview.webp';
   const title = `${titleData} | Diệp Trà`;
   const description = META_DESCRIPTION;
 
@@ -97,21 +97,21 @@ const RecruitmentDetail = async ({ params }) => {
         >
           <Flex flex={1 / 2} direction="column" gap="12px">
             <Flex align="flex-start" gap="4px">
-              <Image mt="4px" src="/images/calendar.png" w="16px" h="16px" alt={IMG_ALT} />
+              <Image mt="4px" src="/images/calendar.webp" w="16px" h="16px" alt={IMG_ALT} />
               <Text fontSize={16}>Mức lương: {salary}</Text>
             </Flex>
             <Flex align="flex-start" gap="4px">
-              <Image mt="4px" src="/images/calendar.png" w="16px" h="16px" alt={IMG_ALT} />
+              <Image mt="4px" src="/images/calendar.webp" w="16px" h="16px" alt={IMG_ALT} />
               <Text fontSize={16}>Thời hạn ứng tuyển: {dayjs(applicationDeadline).format('DD/MM/YYYY')}</Text>
             </Flex>
           </Flex>
           <Flex flex={1 / 2} direction="column" gap="12px">
             <Flex align="flex-start" gap="4px">
-              <Image mt="4px" src="/images/user.png" w="16px" h="16px" alt={IMG_ALT} />
+              <Image mt="4px" src="/images/user.webp" w="16px" h="16px" alt={IMG_ALT} />
               <Text fontSize={16}>Số lượng: {vacancies} người</Text>
             </Flex>
             <Flex align="flex-start" gap="4px">
-              <Image mt="4px" src="/images/clock.png" w="16px" h="16px" alt={IMG_ALT} />
+              <Image mt="4px" src="/images/clock.webp" w="16px" h="16px" alt={IMG_ALT} />
               <Text fontSize={16}>
                 Thời gian làm việc:{' '}
                 {!isEmpty(workingHours) ? workingHours?.map((i) => `${i.start} - ${i.end}`)?.join(', ') : 'Thoả thuận'}{' '}

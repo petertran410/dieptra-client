@@ -60,9 +60,9 @@ const Strength = () => {
             direction={{ xs: 'column', lg: 'row' }}
           >
             <Flex display={{ xs: 'block', lg: 'none' }} direction="column" align="center" justify="center">
-              <Image src="/images/strength-leaves.png" alt={IMG_ALT} w="50px" h="25px" mx="auto" />
+              <Image src="/images/strength-leaves.webp" alt={IMG_ALT} w="50px" h="25px" mx="auto" />
               <Image
-                src={`/images/strength-${index + 1}.png`}
+                src={`/images/strength-${index + 1}.webp`}
                 alt={IMG_ALT}
                 w="106px"
                 h="106px"
@@ -88,7 +88,7 @@ const Strength = () => {
 
             <Image
               display={{ xs: 'none', lg: 'block' }}
-              src={`/images/strength-${index + 1}.png`}
+              src={`/images/strength-${index + 1}.webp`}
               alt={IMG_ALT}
               w="106px"
               h="106px"
@@ -97,7 +97,7 @@ const Strength = () => {
 
             <Image
               display={{ xs: 'none', lg: 'block' }}
-              src="/images/strength-leaves.png"
+              src="/images/strength-leaves.webp"
               alt={IMG_ALT}
               w="106px"
               h="54px"

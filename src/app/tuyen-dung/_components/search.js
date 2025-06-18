@@ -33,7 +33,7 @@ const Search = () => {
           }}
         />
         <Image
-          src="/images/search.png"
+          src="/images/search.webp"
           alt={IMG_ALT}
           w="16px"
           h="16px"

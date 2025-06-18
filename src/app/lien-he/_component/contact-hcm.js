@@ -9,7 +9,7 @@ const ContactHCM = () => {
   const CONTACT_LIST = [
     {
       fullName: 'Mr. Tô Quang Duy',
-      image: '/images/contact-user-6.png',
+      image: '/images/contact-user-6.webp',
       position: 'Trưởng phòng Kinh doanh 02',
       phone: '+84 344 879 999',
       email: 'duytq@hisweetievietnam.com.vn'

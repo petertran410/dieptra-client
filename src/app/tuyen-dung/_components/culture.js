@@ -37,7 +37,7 @@ const Culture = () => {
                     <Image
                       w="full"
                       h="full"
-                      src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/image-recruitment-1.png'}
+                      src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/image-recruitment-1.webp'}
                       fit="cover"
                       alt={IMG_ALT}
                     />

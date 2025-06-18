@@ -480,7 +480,7 @@ const PaymentWrapper = () => {
                 return (
                   <HStack key={product.id} spacing="3" align="start">
                     <Image
-                      src={product.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/tra-phuong-hoang.png'}
+                      src={product.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/tra-phuong-hoang.webp'}
                       alt={product.title}
                       boxSize="60px"
                       objectFit="cover"

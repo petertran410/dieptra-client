@@ -16,35 +16,35 @@ const ContactHN = () => {
   const CONTACT_LIST = [
     {
       fullName: 'Mrs. Phí Phương Thanh',
-      image: '/images/contact-user-1.png',
+      image: '/images/contact-user-1.webp',
       position: 'Trưởng phòng Kinh doanh 01',
       phone: '+84 788 339 379',
       email: 'thanhptp@hisweetievietnam.com.vn'
     },
     {
       fullName: 'Mrs. Linh Thu Trang',
-      image: '/images/contact-user-2.png',
+      image: '/images/contact-user-2.webp',
       position: 'Nhân viên Kinh doanh',
       phone: '+84 343 393 799',
       email: 'tranglt@hisweetievietnam.com.vn'
     },
     {
       fullName: 'Mrs. Mai Vân Anh',
-      image: '/images/contact-user-3.png',
+      image: '/images/contact-user-3.webp',
       position: 'Nhân viên Kinh doanh',
       phone: '+84 973 123 230',
       email: 'anhmtv@hisweetievietnam.com.vn'
     },
     {
       fullName: 'Mr. Lê Xuân Tùng',
-      image: '/images/contact-user-4.png',
+      image: '/images/contact-user-4.webp',
       position: 'Nhân viên Kinh doanh',
       phone: '+84 788 339 379',
       email: 'tunglx@hisweetievietnam.com.vn'
     },
     {
       fullName: 'Mrs. Tạ Thị Trang',
-      image: '/images/contact-user-5.png',
+      image: '/images/contact-user-5.webp',
       position: 'Sale Admin',
       phone: '+84 788 339 379',
       email: 'trangtt@hisweetievietnam.com.vn'

@@ -15,7 +15,7 @@ const NewsItem = ({ item }) => {
       <Link href={`/tin-tuc/${convertSlugURL(title)}.${id}`}>
         <AspectRatio ratio={16 / 9} w="full">
           <Image
-            src={imagesUrl?.[0]?.replace('https://', 'http://') || 'images/news.png'}
+            src={imagesUrl?.[0]?.replace('https://', 'http://') || 'images/news.webp'}
             w="full"
             h="full"
             alt={IMG_ALT}
@@ -31,7 +31,7 @@ const NewsItem = ({ item }) => {
             </Text>
           </Link>
           <Flex mt="4px" align="center" gap="4px">
-            <Image src="/images/clock-outline.png" w="16px" h="16px" alt={IMG_ALT} />
+            <Image src="/images/clock-outline.webp" w="16px" h="16px" alt={IMG_ALT} />
             <Text color="#A1A1AA">{convertTimestamp(createdDate)}</Text>
           </Flex>
         </Box>

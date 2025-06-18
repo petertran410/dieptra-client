@@ -17,7 +17,7 @@ const Banner = () => {
         fit="cover"
         w="full"
         h={{ xs: '300px', md: '400px', lg: '800px' }}
-        src="/images/banner-recruitment.png"
+        src="/images/banner-recruitment.webp"
         alt={IMG_ALT}
       />
 

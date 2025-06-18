@@ -9,7 +9,7 @@ const Benefit = () => {
       </Text>
       <Flex mt={{ xs: '16px', lg: '24px' }} direction={{ xs: 'column', lg: 'row' }} gap={{ xs: '16px', lg: 0 }}>
         <Flex w={{ xs: 'full', lg: '50%' }} h={{ xs: '200px', lg: 'auto' }}>
-          <Image fit="cover" w="full" h="full" src="/images/image-recruitment-1.png" alt={IMG_ALT} />
+          <Image fit="cover" w="full" h="full" src="/images/image-recruitment-1.webp" alt={IMG_ALT} />
         </Flex>
         <Flex
           w={{ xs: 'full', lg: '50%' }}
@@ -66,7 +66,7 @@ const Benefit = () => {
           </Text>
         </Flex>
         <Flex w={{ xs: 'full', lg: '50%' }} h={{ xs: '200px', lg: 'auto' }}>
-          <Image fit="cover" w="full" h="full" src="/images/image-recruitment-1.png" alt={IMG_ALT} />
+          <Image fit="cover" w="full" h="full" src="/images/image-recruitment-1.webp" alt={IMG_ALT} />
         </Flex>
       </Flex>
     </Box>

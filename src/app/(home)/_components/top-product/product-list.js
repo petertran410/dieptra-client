@@ -18,11 +18,11 @@ const ProductList = ({ category }) => {
         border="2px solid #FFF"
         bgImage={{
           xs: name?.toLowerCase()?.includes('lermao')
-            ? 'url(/images/top-product-lermao-mobile.png)'
-            : 'url(/images/top-product-dieptra-mobile.png)',
+            ? 'url(/images/top-product-lermao-mobile.webp)'
+            : 'url(/images/top-product-dieptra-mobile.webp)',
           lg: name?.toLowerCase()?.includes('lermao')
-            ? 'url(/images/top-product-lermao.png)'
-            : 'url(/images/top-product-dieptra.png)'
+            ? 'url(/images/top-product-lermao.webp)'
+            : 'url(/images/top-product-dieptra.webp)'
         }}
         bgSize="cover"
         bgRepeat="no-repeat"

@@ -88,7 +88,7 @@ const Header = () => {
         w="full"
         boxShadow={isScrolled ? 'xs' : 'none'}
       >
-        <Image src={'/images/logo-black.png'} alt={IMG_ALT} w="120px" h="auto" />
+        <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
         <Flex align="center" flex={1} h="full" justify="center">
           {MENU_LIST.map((item) => {
             const { title, href } = item;
@@ -146,11 +146,11 @@ const Header = () => {
         w="full"
       >
         <button onClick={onOpen}>
-          <Image src={'/images/menu-mobile.png'} alt={IMG_ALT} w="24px" h="auto" fit="cover" />
+          <Image src={'/images/menu-mobile.webp'} alt={IMG_ALT} w="24px" h="auto" fit="cover" />
         </button>
 
         <Link href="/">
-          <Image src={'/images/logo-black.png'} alt={IMG_ALT} h="24px" w="auto" fit="cover" />
+          <Image src={'/images/logo-black.webp'} alt={IMG_ALT} h="24px" w="auto" fit="cover" />
         </Link>
 
         <CartHeaderMobile isScrolled={isScrolled} isTransparent={isTransparent} />
@@ -162,9 +162,9 @@ const Header = () => {
           <DrawerHeader p="0px">
             <Flex align="center" gap="8px">
               <button type="button" onClick={onClose}>
-                <Image src="/images/close-main.png" alt={IMG_ALT} w="24px" h="auto" fit="cover" />
+                <Image src="/images/close-main.webp" alt={IMG_ALT} w="24px" h="auto" fit="cover" />
               </button>
-              <Image src="/images/logo.png" alt={IMG_ALT} w="auto" h="24px" fit="cover" />
+              <Image src="/images/logo.webp" alt={IMG_ALT} w="auto" h="24px" fit="cover" />
             </Flex>
           </DrawerHeader>
 

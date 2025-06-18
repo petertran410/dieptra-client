@@ -26,7 +26,7 @@ const Culture = () => {
             {`Văn hóa việc làm Diệp Trà: "Cùng Chia Sẻ, Cùng Phát Triển"`}
           </Text>
           <AspectRatio ratio={16 / 9} w="full" mt="20px">
-            <Image src="/images/culture-banner.jpg" w="full" h="full" alt={IMG_ALT} />
+            <Image src="/images/culture-banner.webp" w="full" h="full" alt={IMG_ALT} />
           </AspectRatio>
 
           <Box mt={{ xs: '24px', lg: '48px' }}>
@@ -40,7 +40,7 @@ const Culture = () => {
             </Text>
 
             {/* <AspectRatio ratio={16 / 9} w="full" mt="20px">
-              <Image src="/images/culture-banner.jpg" w="full" h="full" alt={IMG_ALT} />
+              <Image src="/images/culture-banner.webp" w="full" h="full" alt={IMG_ALT} />
             </AspectRatio> */}
           </Box>
 
@@ -53,7 +53,7 @@ const Culture = () => {
               2.1. Tập trung vào sự phát triển cá nhân và đội nhóm
             </Text>
             {/* <AspectRatio ratio={16 / 9} w="full" mt="20px">
-              <Image src="/images/culture-banner.jpg" w="full" h="full" alt={IMG_ALT} />
+              <Image src="/images/culture-banner.webp" w="full" h="full" alt={IMG_ALT} />
             </AspectRatio> */}
 
             <Text fontWeight={400} fontSize={16} lineHeight="19px" mt="12px">
@@ -98,7 +98,7 @@ const Culture = () => {
               2.2. Tôn trọng sự khác biệt và đoàn kết
             </Text>
             <AspectRatio ratio={16 / 9} w="full" mt="20px">
-              <Image src="/images/culture-2-2.jpg" w="full" h="full" alt={IMG_ALT} />
+              <Image src="/images/culture-2-2.webp" w="full" h="full" alt={IMG_ALT} />
             </AspectRatio>
 
             <Text fontWeight={400} fontSize={16} lineHeight="19px" mt="12px">
@@ -128,7 +128,7 @@ const Culture = () => {
               2.3. Học hỏi không ngừng
             </Text>
             {/* <AspectRatio ratio={16 / 9} w="full" mt="20px">
-              <Image src="/images/culture-banner.jpg" w="full" h="full" alt={IMG_ALT} />
+              <Image src="/images/culture-banner.webp" w="full" h="full" alt={IMG_ALT} />
             </AspectRatio> */}
 
             <Text fontWeight={400} fontSize={16} lineHeight="19px" mt="12px">
@@ -174,7 +174,7 @@ const Culture = () => {
               2.4. Tôn vinh sự sáng tạo
             </Text>
             <AspectRatio ratio={16 / 9} w="full" mt="20px">
-              <Image src="/images/culture-2-4.jpg" w="full" h="full" alt={IMG_ALT} />
+              <Image src="/images/culture-2-4.webp" w="full" h="full" alt={IMG_ALT} />
             </AspectRatio>
 
             <Text fontWeight={400} fontSize={16} mt="12px">
@@ -216,7 +216,7 @@ const Culture = () => {
               2.5. Chia sẻ giá trị và trách nhiệm xã hội
             </Text>
             {/* <AspectRatio ratio={16 / 9} w="full" mt="20px">
-              <Image src="/images/culture-2-5.jpg" w="full" h="full" alt={IMG_ALT} />
+              <Image src="/images/culture-2-5.webp" w="full" h="full" alt={IMG_ALT} />
             </AspectRatio> */}
             <Text fontWeight={400} fontSize={16} mt="12px">
               Xây dựng các chương trình kết nối với khách hàng, cộng đồng, góp phần nâng cao chất lượng ngành đồ uống.
@@ -268,7 +268,7 @@ const Culture = () => {
               và cống hiến cho sự phát triển của Diệp Trà.
             </Text>
             <AspectRatio ratio={16 / 9} w="full" mt="20px">
-              <Image src="/images/image-recruitment-1.png" w="full" h="full" alt={IMG_ALT} />
+              <Image src="/images/image-recruitment-1.webp" w="full" h="full" alt={IMG_ALT} />
             </AspectRatio>
 
             <Text mt="20px" fontWeight={600} fontSize={18} lineHeight="19px">
@@ -285,7 +285,7 @@ const Culture = () => {
               bước đệm quan trọng trong quá trình phát triển nghề nghiệp của từng cá nhân.
             </Text>
             {/* <AspectRatio ratio={16 / 9} w="full" mt="20px">
-              <Image src="/images/image-recruitment-1.png" w="full" h="full" alt={IMG_ALT} />
+              <Image src="/images/image-recruitment-1.webp" w="full" h="full" alt={IMG_ALT} />
             </AspectRatio> */}
           </Box>
         </Flex>

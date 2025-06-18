@@ -33,7 +33,7 @@ const CartProduct = () => {
                   justify="center"
                   borderRadius={16}
                 >
-                  <Image h="90%" w="auto" fit="cover" alt={IMG_ALT} src={image || '/images/tra-phuong-hoang.png'} />
+                  <Image h="90%" w="auto" fit="cover" alt={IMG_ALT} src={image || '/images/tra-phuong-hoang.webp'} />
                 </Flex>
               </Link>
               <Flex direction="column" flex={1}>
@@ -77,12 +77,12 @@ const CartProduct = () => {
                   showToast({
                     status: 'success',
                     content: 'Đã xoá 01 sản phẩm khỏi giỏ hàng',
-                    icon: '/images/trash-green.png'
+                    icon: '/images/trash-green.webp'
                   });
                 }}
               >
                 <Image
-                  src="/images/trash.png"
+                  src="/images/trash.webp"
                   w="32px"
                   h="32px"
                   alt={IMG_ALT}
@@ -100,12 +100,12 @@ const CartProduct = () => {
                   showToast({
                     status: 'success',
                     content: 'Đã xoá 01 sản phẩm khỏi giỏ hàng',
-                    icon: '/images/trash-green.png'
+                    icon: '/images/trash-green.webp'
                   });
                 }}
               >
                 <Image
-                  src="/images/trash.png"
+                  src="/images/trash.webp"
                   w="32px"
                   h="32px"
                   alt={IMG_ALT}

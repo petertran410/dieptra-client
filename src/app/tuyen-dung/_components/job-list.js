@@ -50,11 +50,11 @@ const JobList = () => {
                   </Flex>
                   <Flex align="center" gap="24px">
                     <Flex align="center" gap="4px">
-                      <Image src="/images/clock.png" w="16px" h="16px" alt={IMG_ALT} />
+                      <Image src="/images/clock.webp" w="16px" h="16px" alt={IMG_ALT} />
                       <Text fontSize={16}>{WORK_TYPE.find((i) => i.value === employmentType)?.label}</Text>
                     </Flex>
                     <Flex align="center" gap="4px">
-                      <Image src="/images/user.png" w="16px" h="16px" alt={IMG_ALT} />
+                      <Image src="/images/user.webp" w="16px" h="16px" alt={IMG_ALT} />
                       <Text fontSize={16}>{vacancies} người</Text>
                     </Flex>
                   </Flex>

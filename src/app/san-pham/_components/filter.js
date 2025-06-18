@@ -57,7 +57,7 @@ const Filter = () => {
                 onClick={onOpen}
               >
                 {currentSort ? currentSort.label : 'Sắp xếp'}
-                <Image src="/images/chevron-down.png" w="16px" h="16px" alt={IMG_ALT} />
+                <Image src="/images/chevron-down.webp" w="16px" h="16px" alt={IMG_ALT} />
               </Button>
               <Button
                 display={{ xs: 'flex', lg: 'none' }}
@@ -74,7 +74,7 @@ const Filter = () => {
                 borderRadius={8}
                 onClick={onOpen}
               >
-                <Image src="/images/filter.png" w="16px" h="16px" alt={IMG_ALT} />
+                <Image src="/images/filter.webp" w="16px" h="16px" alt={IMG_ALT} />
               </Button>
             </Box>
           </PopoverTrigger>
@@ -160,7 +160,7 @@ const Filter = () => {
             }}
           />
           <Image
-            src="/images/search.png"
+            src="/images/search.webp"
             alt={IMG_ALT}
             w="16px"
             h="16px"

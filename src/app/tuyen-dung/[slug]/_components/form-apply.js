@@ -202,7 +202,7 @@ const FormApply = ({ jobId }) => {
             >
               {!!fileCV?.length && (
                 <Image
-                  src="/images/close-circle.png"
+                  src="/images/close-circle.webp"
                   alt={IMG_ALT}
                   w="24px"
                   h="24px"
@@ -221,7 +221,7 @@ const FormApply = ({ jobId }) => {
               ) : (
                 <label style={{ display: 'block', width: '100%' }}>
                   <Flex {...getRootProps()} align="center" justify="center" gap="16px" cursor="default">
-                    <Image src="/images/arrow-up-circle.png" alt={IMG_ALT} w="32px" h="32px" />
+                    <Image src="/images/arrow-up-circle.webp" alt={IMG_ALT} w="32px" h="32px" />
                     <Text fontSize={16}>Kéo thả tệp tại đây hoặc</Text>
                     <Flex
                       align="center"
@@ -288,7 +288,7 @@ const FormApply = ({ jobId }) => {
       </form>
 
       <Image
-        src="/images/bg-apply.png"
+        src="/images/bg-apply.webp"
         alt={IMG_ALT}
         zIndex={0}
         pos="absolute"

@@ -50,7 +50,7 @@ const Footer = () => {
 
   return (
     <Flex
-      bgImage={{ xs: `url(/images/bg-footer-mobile.png)`, lg: `url(/images/bg-footer.png)` }}
+      bgImage={{ xs: `url(/images/bg-footer-mobile.webp)`, lg: `url(/images/bg-footer.webp)` }}
       bgSize="cover"
       bgRepeat="no-repeat"
       px={PX_ALL}
@@ -62,10 +62,10 @@ const Footer = () => {
         <Flex align="center" display={{ xs: 'flex', lg: 'none' }}>
           <Text fontSize={16}>Fanpage:</Text>
           <Link href="/" target="_blank">
-            <Image src="/images/facebook-black.png" w="24px" h="24px" alt={IMG_ALT} />
+            <Image src="/images/facebook-black.webp" w="24px" h="24px" alt={IMG_ALT} />
           </Link>
           <Link href="/" target="_blank">
-            <Image src="/images/zalo-black.png" w="24px" h="24px" alt={IMG_ALT} />
+            <Image src="/images/zalo-black.webp" w="24px" h="24px" alt={IMG_ALT} />
           </Link>
         </Flex>
 
@@ -76,7 +76,7 @@ const Footer = () => {
 
           <Flex direction="column" mt="8px" gap="8px">
             <Flex align="flex-start" gap="8px">
-              <Image src="/images/location.png" alt={IMG_ALT} w="24px" h="24px" />
+              <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
                   Cửa hàng tại HCM: Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh
@@ -89,14 +89,14 @@ const Footer = () => {
             </Flex>
 
             <Flex align="flex-start" gap="8px">
-              <Image src="/images/email.png" alt={IMG_ALT} w="24px" h="24px" />
+              <Image src="/images/email.webp" alt={IMG_ALT} w="24px" h="24px" />
               <ChakraLink href="mailto:hisweetievietnam@gmail.com" fontWeight={400} _hover={{ textDecor: 'none' }}>
                 hisweetievietnam@gmail.com
               </ChakraLink>
             </Flex>
 
             <Flex align="flex-start" gap="8px">
-              <Image src="/images/phone.png" alt={IMG_ALT} w="24px" h="24px" />
+              <Image src="/images/phone.webp" alt={IMG_ALT} w="24px" h="24px" />
               <ChakraLink href="tel:+84931566676" fontWeight={400} _hover={{ textDecor: 'none' }}>
                 +84 931 566 676
               </ChakraLink>
@@ -154,10 +154,10 @@ const Footer = () => {
           <Flex align="center" display={{ xs: 'none', lg: 'flex' }}>
             <Text fontSize={16}>Fanpage:</Text>
             <Link href="/" target="_blank">
-              <Image src="/images/facebook-black.png" w="24px" h="24px" alt={IMG_ALT} />
+              <Image src="/images/facebook-black.webp" w="24px" h="24px" alt={IMG_ALT} />
             </Link>
             <Link href="/" target="_blank">
-              <Image src="/images/zalo-black.png" w="24px" h="24px" alt={IMG_ALT} />
+              <Image src="/images/zalo-black.webp" w="24px" h="24px" alt={IMG_ALT} />
             </Link>
           </Flex>
 

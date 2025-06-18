@@ -310,7 +310,7 @@ const GuideList = () => {
                   setDefaultIndex(index);
                 }}
               >
-                <Image src="/images/plus.png" alt={IMG_ALT} w="24px" h="24px" />
+                <Image src="/images/plus.webp" alt={IMG_ALT} w="24px" h="24px" />
               </button>
             </Flex>
           );
@@ -349,7 +349,7 @@ const GuideList = () => {
                                     {item.title}
                                   </Box>
                                   <Image
-                                    src={isExpanded ? '/images/close-black.png' : '/images/plus.png'}
+                                    src={isExpanded ? '/images/close-black.webp' : '/images/plus.webp'}
                                     alt={IMG_ALT}
                                     w="24px"
                                     h="24px"

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }) {
   const data = await response.json();
 
   const { title: titleData, imagesUrl } = data || {};
-  const imageUrl = imagesUrl?.[0]?.replace('https://', 'http://') || '/images/preview.png';
+  const imageUrl = imagesUrl?.[0]?.replace('https://', 'http://') || '/images/preview.webp';
   const title = `${titleData} | Diệp Trà`;
   const description = META_DESCRIPTION;
 
@@ -142,7 +142,7 @@ const NewsDetail = async ({ params }) => {
 
           <AspectRatio ratio={16 / 9} w="full" mt="20px">
             <Image
-              src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.png'}
+              src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
               w="full"
               h="full"
               alt={IMG_ALT}
@@ -172,7 +172,7 @@ const NewsDetail = async ({ params }) => {
                     <Flex align="flex-start" gap="16px" key={item?.id}>
                       <Link href={`/tin-tuc/${convertSlugURL(item?.title)}.${item?.id}`}>
                         <Image
-                          src={item?.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.png'}
+                          src={item?.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
                           alt={IMG_ALT}
                           w={{ xs: '120px', lg: '154px' }}
                           h={{ xs: '120px', lg: '154px' }}

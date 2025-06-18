@@ -53,7 +53,7 @@ const CartWrapper = () => {
       showToast({
         status: 'error',
         content: 'Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi thanh toán.',
-        icon: '/images/cart.png'
+        icon: '/images/cart.webp'
       });
       return;
     }
@@ -64,7 +64,7 @@ const CartWrapper = () => {
       showToast({
         status: 'error',
         content: 'Một số sản phẩm trong giỏ hàng cần liên hệ để báo giá. Vui lòng liên hệ trực tiếp.',
-        icon: '/images/cart.png'
+        icon: '/images/cart.webp'
       });
       return;
     }
@@ -76,7 +76,7 @@ const CartWrapper = () => {
       showToast({
         status: 'error',
         content: 'Một số sản phẩm trong giỏ hàng không còn tồn tại. Vui lòng kiểm tra lại.',
-        icon: '/images/cart.png'
+        icon: '/images/cart.webp'
       });
       return;
     }
@@ -85,7 +85,7 @@ const CartWrapper = () => {
     showToast({
       status: 'info',
       content: 'Chuyển đến trang thanh toán...',
-      icon: '/images/cart.png'
+      icon: '/images/cart.webp'
     });
 
     // Navigate to payment page
@@ -145,7 +145,7 @@ const CartWrapper = () => {
               showToast({
                 status: 'success',
                 content: 'Đã xoá tất cả sản phẩm khỏi giỏ hàng',
-                icon: '/images/trash-green.png'
+                icon: '/images/trash-green.webp'
               });
             }}
           >
@@ -222,7 +222,7 @@ const CartWrapper = () => {
               h="60px"
               fontSize="18px"
               fontWeight="600"
-              leftIcon={<Image src="/images/cart.png" width={24} height={24} alt="Cart" />}
+              leftIcon={<Image src="/images/cart.webp" width={24} height={24} alt="Cart" />}
             >
               Thanh toán ngay
             </Button>

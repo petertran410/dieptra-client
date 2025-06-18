@@ -76,7 +76,7 @@ const HomeIntro = () => {
           h={{ xs: '200px', lg: '400px', '2xl': '450px' }}
         >
           <Image
-            src="/images/tra-phuong-hoang.png"
+            src="/images/tra-phuong-hoang.webp"
             alt={IMG_ALT}
             w="auto"
             h={{ xs: '170px', lg: '500px' }}
@@ -89,7 +89,7 @@ const HomeIntro = () => {
           />
 
           <Image
-            src="/images/leaf-home-1.png"
+            src="/images/leaf-home-1.webp"
             alt={IMG_ALT}
             w={{ xs: '50px', lg: '130px' }}
             h="auto"
@@ -101,7 +101,7 @@ const HomeIntro = () => {
           />
 
           <Image
-            src="/images/leaf-home-2.png"
+            src="/images/leaf-home-2.webp"
             alt={IMG_ALT}
             w={{ xs: '35px', lg: '85px' }}
             h="auto"
@@ -113,7 +113,7 @@ const HomeIntro = () => {
           />
 
           <Image
-            src="/images/leaf-home-3.png"
+            src="/images/leaf-home-3.webp"
             alt={IMG_ALT}
             w={{ xs: '30px', lg: '100px' }}
             h="auto"
@@ -127,7 +127,7 @@ const HomeIntro = () => {
       </Flex>
 
       <Image
-        src="/images/bg-intro-home.png"
+        src="/images/bg-intro-home.webp"
         alt={IMG_ALT}
         w="full"
         h="auto"
@@ -169,7 +169,7 @@ const HomeIntro = () => {
         <Box h="100px" w="1px" bgColor="#1F445A" />
         <Link href="/" target="_blank">
           <Image
-            src="/images/facebook-black.png"
+            src="/images/facebook-black.webp"
             alt={IMG_ALT}
             w="24px"
             h="24px"
@@ -180,7 +180,7 @@ const HomeIntro = () => {
         </Link>
         <Link href="/" target="_blank">
           <Image
-            src="/images/messenger-black.png"
+            src="/images/messenger-black.webp"
             alt={IMG_ALT}
             w="24px"
             h="24px"
@@ -191,7 +191,7 @@ const HomeIntro = () => {
         </Link>
         <Link href="/" target="_blank">
           <Image
-            src="/images/zalo-black.png"
+            src="/images/zalo-black.webp"
             alt={IMG_ALT}
             w="24px"
             h="24px"

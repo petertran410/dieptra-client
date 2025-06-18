@@ -8,7 +8,7 @@ const Statistic = ({ mt = { xs: '36px', lg: '96px' } }) => {
     <Flex
       h={{ xs: '78px', lg: '300px' }}
       w="full"
-      bgImage="url(/images/bg-statistic-intro.png)"
+      bgImage="url(/images/bg-statistic-intro.webp)"
       bgSize="cover"
       bgRepeat="no-repeat"
       justify="center"

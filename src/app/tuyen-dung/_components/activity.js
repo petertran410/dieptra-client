@@ -20,7 +20,7 @@ const ActivityItem = ({ isMobile, item }) => {
             fit="cover"
             w="full"
             h="full"
-            src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/image-recruitment-1.png'}
+            src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/image-recruitment-1.webp'}
             alt={IMG_ALT}
           />
         </AspectRatio>
@@ -33,7 +33,7 @@ const ActivityItem = ({ isMobile, item }) => {
             <Box fontSize={16} lineHeight="19px" noOfLines={5} dangerouslySetInnerHTML={{ __html: description }}></Box>
           ) : (
             <Flex align="center" gap="4px">
-              <Image w="16px" h="16px" alt={IMG_ALT} src="/images/clock-outline.png" />
+              <Image w="16px" h="16px" alt={IMG_ALT} src="/images/clock-outline.webp" />
               <Text color="#A1A1AA">{dayjs(createdDate).format('HH:mm DD/MM/YYYY')}</Text>
             </Flex>
           )}

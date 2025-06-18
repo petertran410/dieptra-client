@@ -33,7 +33,7 @@ const Counter = ({ productId }) => {
           setCountCart(count - 1);
         }}
       >
-        <Image src="/images/minus.png" w="24px" h="24px" alt={IMG_ALT} />
+        <Image src="/images/minus.webp" w="24px" h="24px" alt={IMG_ALT} />
       </button>
 
       <Input
@@ -56,7 +56,7 @@ const Counter = ({ productId }) => {
           setCountCart(count + 1);
         }}
       >
-        <Image src="/images/add.png" w="24px" h="24px" alt={IMG_ALT} />
+        <Image src="/images/add.webp" w="24px" h="24px" alt={IMG_ALT} />
       </button>
     </Flex>
   );

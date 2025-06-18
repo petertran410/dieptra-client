@@ -21,7 +21,7 @@ const CartHeader = ({ isScrolled, isTransparent }) => {
     <Flex align="center" gap="24px">
       <Link href="/gio-hang" title="Giỏ hàng">
         <Box pos="relative" transitionDuration="250ms" _hover={{ opacity: 0.8 }}>
-          <Image src={'/images/cart-black.png'} w="24px" h="24px" alt={IMG_ALT} />
+          <Image src={'/images/cart-black.webp'} w="24px" h="24px" alt={IMG_ALT} />
           {!!cart?.length && (
             <Flex
               align="center"

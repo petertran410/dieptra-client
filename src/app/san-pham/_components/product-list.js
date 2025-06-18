@@ -115,7 +115,7 @@ const ProductList = () => {
           <Image
             // display={{ xs: 'none', lg: 'block' }}
             display={{ xs: 'none', lg: 'hidden', md: 'hidden' }}
-            src="/images/bg-category-product.png"
+            src="/images/bg-category-product.webp"
             alt={IMG_ALT}
             w="full"
             h="auto"

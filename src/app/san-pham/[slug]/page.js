@@ -20,7 +20,7 @@ export async function generateMetadata({ params }) {
   const data = await response.json();
 
   const { title: titleData, imagesUrl } = data || {};
-  const imageUrl = imagesUrl?.[0]?.replace('https://', 'http://') || '/images/preview.png';
+  const imageUrl = imagesUrl?.[0]?.replace('https://', 'http://') || '/images/preview.webp';
   const title = `${titleData} | Diệp Trà`;
   const description = META_DESCRIPTION;
 
@@ -76,7 +76,7 @@ const ProductDetail = async ({ params }) => {
       name: 'dieptra.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://dieptra.com/images/logo.png'
+        url: 'https://dieptra.com/images/logo.webp'
       }
     },
     datePublished: '2025-01-03',

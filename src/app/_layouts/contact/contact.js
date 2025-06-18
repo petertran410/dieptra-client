@@ -57,13 +57,13 @@ const Contact = () => {
               opacity: 0.8
             }}
           >
-            <Image src="/images/arrow-up-black.png" alt={IMG_ALT} w="24px" h="24px" />
+            <Image src="/images/arrow-up-black.webp" alt={IMG_ALT} w="24px" h="24px" />
           </Button>
         )}
 
         <Link href="https://zalo.me" target="_blank" _hover={{ textDecor: 'none' }}>
           <Image
-            src="/images/zalo-contact.png"
+            src="/images/zalo-contact.webp"
             alt={IMG_ALT}
             w="40px"
             h="40px"
@@ -73,7 +73,7 @@ const Contact = () => {
         </Link>
         <Link href="https://facebook.com" target="_blank" _hover={{ textDecor: 'none' }}>
           <Image
-            src="/images/facebook-contact.png"
+            src="/images/facebook-contact.webp"
             alt={IMG_ALT}
             w="40px"
             h="40px"
@@ -83,7 +83,7 @@ const Contact = () => {
         </Link>
         <Link href="tel:+84931566676" _hover={{ textDecor: 'none' }} display={{ xs: 'block', lg: 'none' }}>
           <Image
-            src="/images/phone-contact.png"
+            src="/images/phone-contact.webp"
             alt={IMG_ALT}
             w="40px"
             h="40px"

@@ -71,7 +71,7 @@ const ModalContact = (props) => {
           showToast({
             status: 'success',
             content: 'Thông tin của bạn đã được gửi đi',
-            icon: '/images/send-contact.png'
+            icon: '/images/send-contact.webp'
           });
           setCart([]);
           onClose();
@@ -101,7 +101,7 @@ const ModalContact = (props) => {
         showToast({
           status: 'success',
           content: 'Thông tin của bạn đã được gửi đi',
-          icon: '/images/send-contact.png'
+          icon: '/images/send-contact.webp'
         });
         onClose();
         onCloseModal();

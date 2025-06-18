@@ -16,7 +16,7 @@ const Contact = () => {
       pos="relative"
     >
       <Image
-        src="/images/cloud-contact.png"
+        src="/images/cloud-contact.webp"
         alt={IMG_ALT}
         w="85%"
         h="auto"

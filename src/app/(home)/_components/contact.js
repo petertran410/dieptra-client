@@ -30,7 +30,7 @@ const HomeContact = (props) => {
         showToast({
           status: 'success',
           content: 'Thông tin của bạn đã được gửi đi',
-          icon: '/images/send-contact.png'
+          icon: '/images/send-contact.webp'
         });
       })
       .catch((e) => {
@@ -49,7 +49,7 @@ const HomeContact = (props) => {
       py={{ xs: '24px', '2xl': '120px' }}
       pos="relative"
       zIndex={10}
-      bgImage={{ xs: 'url(/images/bg-contact-home-mobile.png)', lg: 'url(/images/bg-contact-home.png)' }}
+      bgImage={{ xs: 'url(/images/bg-contact-home-mobile.webp)', lg: 'url(/images/bg-contact-home.webp)' }}
       bgSize={{ xs: 'contain', '2xl': 'cover' }}
       bgRepeat="no-repeat"
       bgColor="transparent"

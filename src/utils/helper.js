@@ -21,14 +21,14 @@ export const showToast = (config) => {
           minW={{ xs: '300px', lg: '400px' }}
         >
           <Flex align="center" gap="8px">
-            <Image src={icon || '/images/danger.png'} alt={IMG_ALT} w="24px" h="24px" />
+            <Image src={icon || '/images/danger.webp'} alt={IMG_ALT} w="24px" h="24px" />
             <Text fontWeight={500} fontSize={18} color="red">
               {content}
             </Text>
           </Flex>
 
           <button type="button" onClick={onClose}>
-            <Image src="/images/close-red.png" alt={IMG_ALT} w="24px" h="24px" />
+            <Image src="/images/close-red.webp" alt={IMG_ALT} w="24px" h="24px" />
           </button>
         </Flex>
       );
@@ -47,14 +47,14 @@ export const showToast = (config) => {
         minW={{ xs: '300px', lg: '400px' }}
       >
         <Flex align="center" gap="8px">
-          <Image src={icon || '/images/tick-circle.png'} alt={IMG_ALT} w="24px" h="24px" />
+          <Image src={icon || '/images/tick-circle.webp'} alt={IMG_ALT} w="24px" h="24px" />
           <Text fontWeight={500} fontSize={18} color="#059669">
             {content}
           </Text>
         </Flex>
 
         <button type="button" onClick={onClose}>
-          <Image src="/images/close.png" alt={IMG_ALT} w="24px" h="24px" />
+          <Image src="/images/close.webp" alt={IMG_ALT} w="24px" h="24px" />
         </button>
       </Flex>
     );

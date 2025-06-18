@@ -17,7 +17,7 @@ const ProductImage = ({ imagesUrl }) => {
         bgColor="#f4f4f5"
         borderRadius={16}
       >
-        <Image src={activeImage || '/images/tra-phuong-hoang.png'} h="90%" w="auto" fit="cover" alt={IMG_ALT} />
+        <Image src={activeImage || '/images/tra-phuong-hoang.webp'} h="90%" w="auto" fit="cover" alt={IMG_ALT} />
       </Flex>
       <Grid templateColumns={'repeat(4, 1fr)'} gap="20px">
         {imagesUrl?.map((item, index) => {
@@ -32,7 +32,7 @@ const ProductImage = ({ imagesUrl }) => {
               <AspectRatio ratio={1 / 1} w="full">
                 <Flex align="center" justify="center">
                   <Image
-                    src={item?.replace('https://', 'http://') || `/images/tra-phuong-hoang.png`}
+                    src={item?.replace('https://', 'http://') || `/images/tra-phuong-hoang.webp`}
                     h="80%"
                     w="full"
                     fit="contain"

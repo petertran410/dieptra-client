@@ -86,7 +86,7 @@ const RatingForm = ({ productId, setHasContent }) => {
         {Array.from(Array(star).keys()).map((i) => (
           <Image
             key={i}
-            src="/images/star.png"
+            src="/images/star.webp"
             cursor="pointer"
             w="32px"
             h="32px"
@@ -97,7 +97,7 @@ const RatingForm = ({ productId, setHasContent }) => {
         {Array.from(Array(5 - star).keys()).map((i) => (
           <Image
             key={i}
-            src="/images/star-inactive.png"
+            src="/images/star-inactive.webp"
             cursor="pointer"
             w="32px"
             h="32px"
@@ -266,7 +266,7 @@ const Rating = ({ productId, rate }) => {
             <Text fontWeight={500} fontSize={16}>
               {rate}
             </Text>
-            <Image src="/images/star.png" alt={IMG_ALT} w="16px" h="16px" mt="-2px" />
+            <Image src="/images/star.webp" alt={IMG_ALT} w="16px" h="16px" mt="-2px" />
           </Flex>
         )}
         <Box mt="-3px" cursor="pointer" onClick={onOpen} _hover={{ opacity: 0.8 }} transitionDuration="250ms">
@@ -301,7 +301,7 @@ const Rating = ({ productId, rate }) => {
                   </Text>
                   <Flex align="center" gap="4px">
                     {[1, 2, 3, 4, 5].map((i) => (
-                      <Image key={i} src="/images/star.png" w="16px" h="16px" alt={IMG_ALT} />
+                      <Image key={i} src="/images/star.webp" w="16px" h="16px" alt={IMG_ALT} />
                     ))}
                   </Flex>
                 </Flex>
@@ -316,7 +316,7 @@ const Rating = ({ productId, rate }) => {
                         </Text>
                         <Flex align="center" gap="4px">
                           {[1, 2, 3, 4, 5].map((i) => (
-                            <Image key={i} src="/images/star.png" w="16px" h="16px" alt={IMG_ALT} />
+                            <Image key={i} src="/images/star.webp" w="16px" h="16px" alt={IMG_ALT} />
                           ))}
                         </Flex>
                         <Text fontSize={16}>Giao hàng nhanh, sản phẩm đóng gói cẩn thận, chất lượng tốt</Text>

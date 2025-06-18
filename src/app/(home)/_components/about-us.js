@@ -51,7 +51,7 @@ const AboutUs = () => {
         </Link>
       </Flex>
       <Flex flex={1}>
-        <Image src="/images/image-about-home.png" w="full" h="235px" fit="cover" alt={IMG_ALT} borderRadius={16} />
+        <Image src="/images/image-about-home.webp" w="full" h="235px" fit="cover" alt={IMG_ALT} borderRadius={16} />
       </Flex>
     </Flex>
   );
