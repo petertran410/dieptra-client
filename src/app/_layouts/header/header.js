@@ -42,10 +42,10 @@ const Header = () => {
       title: 'Tin tức',
       href: '/tin-tuc'
     },
-    {
-      title: 'Khách hàng',
-      href: '/khach-hang'
-    },
+    // {
+    //   title: 'Khách hàng',
+    //   href: '/khach-hang'
+    // },
     {
       title: 'Tuyển dụng',
       href: '/tuyen-dung'
