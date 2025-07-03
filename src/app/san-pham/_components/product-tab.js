@@ -10,7 +10,7 @@ const ProductTab = () => {
   const [paramsURL, setParamsURL] = useParamsURL();
   const { categoryId } = paramsURL || {};
   const defaultCategoryId = data?.[0]?.id;
-  const TABS = data?.map((item) => ({ label: item.name, value: item.id }))?.slice(0, 3);
+  const TABS = data?.content?.map((item) => ({ label: item.name, value: item.id }))?.slice(0, 3) || [];
   const [currentTab, setCurrentTab] = useState(categoryId || defaultCategoryId);
 
   useEffect(() => {
