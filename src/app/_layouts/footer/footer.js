@@ -23,7 +23,7 @@ const Footer = () => {
         },
         {
           title: 'Chính Sách Bảo Mật',
-          href: 'chinh-sach-bao-mat'
+          href: '/chinh-sach-bao-mat'
         },
         {
           title: 'Chính Sách Mua Hàng',
