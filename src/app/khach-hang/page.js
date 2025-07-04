@@ -4,7 +4,7 @@ import { getMetadata } from '../../utils/helper-server';
 import { Box, Flex, Grid, GridItem } from '@chakra-ui/react';
 import { Suspense } from 'react';
 import HomeContact from '../(home)/_components/contact';
-import Statistic from '../gioi-thieu/_components/statistic';
+import Statistic from '../gioi-thieu-diep-tra/_components/statistic';
 import CustomerItem from './_components/customer-item';
 import VideoList from './_components/video-list';
 

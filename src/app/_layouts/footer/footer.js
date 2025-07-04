@@ -6,45 +6,101 @@ import { Fragment } from 'react';
 const Footer = () => {
   const MENU_LINKS_1 = [
     {
-      title: 'Trang chủ',
-      href: '/'
-    },
-    {
-      title: 'Giới thiệu',
-      href: '/gioi-thieu'
-    },
-    {
-      title: 'Sản phẩm',
-      href: '/san-pham',
+      title: 'Chính Sách Diệp Trà',
+      href: '/chinh-sach-diep-tra',
       children: [
         {
-          title: 'Bột vị',
-          href: '/san-pham?categoryId=1'
+          title: 'Giới Thiệu Diệp Trà',
+          href: '/gioi-thieu-diep-tra'
         },
         {
-          title: 'Topping',
-          href: '/san-pham?categoryId=2'
+          title: 'Liên Hệ',
+          href: '/lien-he'
         },
         {
-          title: 'Mứt hoa quả',
-          href: '/san-pham?categoryId=3'
+          title: 'Sản Phẩm',
+          href: '/san-pham'
+        },
+        {
+          title: 'Chính Sách Bảo Mật',
+          href: 'chinh-sach-bao-mat'
+        },
+        {
+          title: 'Chính Sách Mua Hàng',
+          href: '/chinh-sach-mua-hang'
+        },
+        {
+          title: 'Chính Sách Thanh Toán',
+          href: '/chinh-sach-thanh-toan'
+        },
+        {
+          title: 'Chính Sách Giao Hàng',
+          href: '/chinh-sach-giao-hang'
+        },
+        {
+          title: 'Chính Sách Bảo Hành',
+          href: '/chinh-sach-bao-hanh'
+        },
+        {
+          title: 'Chính Sách Đổi/Trả Hàng',
+          href: '/chinh-sach-doi-hang-tra-hang'
+        },
+        {
+          title: 'Chính Sách Giao Hàng',
+          href: '/chinh-sach-giao-hang'
+        },
+        {
+          title: 'Điều Khoản Sử Dụng',
+          href: '/dieu-khoan-su-dung'
         }
       ]
     }
+    // {
+    //   title: 'Giới thiệu',
+    //   href: '/gioi-thieu'
+    // },
+    // {
+    //   title: 'Sản Phẩm',
+    //   href: '/san-pham',
+    //   children: [
+    //     {
+    //       title: 'Bột vị',
+    //       href: '/san-pham?categoryId=1'
+    //     },
+    //     {
+    //       title: 'Topping',
+    //       href: '/san-pham?categoryId=2'
+    //     },
+    //     {
+    //       title: 'Mứt hoa quả',
+    //       href: '/san-pham?categoryId=3'
+    //     }
+    //   ]
+    // }
   ];
 
   const MENU_LINKS_2 = [
+    // {
+    //   title: 'Tin tức',
+    //   href: '/tin-tuc'
+    // },
+    // {
+    //   title: 'Đối tác',
+    //   href: '/khach-hang'
+    // },
+    // {
+    //   title: 'Tuyển dụng',
+    //   href: '/tuyen-dung'
+    // }
+  ];
+
+  const MENU_LINK_3 = [
     {
-      title: 'Tin tức',
-      href: '/tin-tuc'
+      title: 'Chính Sách Diệp Trà',
+      href: '/chinh-sach-diep-tra'
     },
     {
-      title: 'Đối tác',
-      href: '/khach-hang'
-    },
-    {
-      title: 'Tuyển dụng',
-      href: '/tuyen-dung'
+      title: ''
     }
   ];
 
@@ -106,7 +162,12 @@ const Footer = () => {
 
         <Flex flex={{ xs: 'none', lg: 1 / 3 }} w={{ xs: 'full', lg: 'auto' }} justify="space-between">
           <Flex direction="column" flex={1} align={{ xs: 'flex-start', lg: 'center' }}>
-            <Flex direction="column" align={{ xs: 'flex-start', lg: 'center' }} gap="6px" px={{ xs: '12px', lg: 0 }}>
+            <Flex
+              direction="column"
+              align={{ xs: 'flex-start', lg: 'center' }}
+              gap="6px"
+              px={{ xs: '12px', lg: 'center' }}
+            >
               {MENU_LINKS_1.map((item) => {
                 const { title, href, children } = item;
                 return (
@@ -118,7 +179,7 @@ const Footer = () => {
                     </Link>
 
                     {!!children && (
-                      <Flex display={{ xs: 'none', lg: 'flex' }} direction="column" pl={{ xs: '20px', lg: '56px' }}>
+                      <Flex display={{ xs: 'none', lg: 'flex' }} direction="column" pl={{ xs: '20px', lg: 'center' }}>
                         {children.map((child) => {
                           return (
                             <Link href={child.href} key={child.title}>

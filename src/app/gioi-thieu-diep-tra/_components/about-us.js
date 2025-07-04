@@ -16,8 +16,8 @@ const AboutUs = () => {
     >
       <SectionBlock title="Về chúng tôi" isNormal />
       <Text fontSize={16}>
-        <Text fontSize={16} as="span" fontWeight={500}>
-          Diệp Trà - Giải Pháp Pha Chế Toàn Diện Từ Nhà Nhập Khẩu Hàng Đầu Việt Nam
+        <Text fontSize={25} as="span" fontWeight={500}>
+          Giới Thiệu Diệp Trà
         </Text>
         <br />
         <br />

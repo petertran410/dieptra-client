@@ -1,7 +1,7 @@
 'use client';
 
 import CarouselMobile from '../../../components/carousel/carousel-mobile';
-import SectionBlock from '../../../components/section-block';
+import SectionBlockH2 from '../../../components/section-block/section-block-h2';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { AspectRatio, Box, Flex, Grid, Image, Text } from '@chakra-ui/react';
 
@@ -86,7 +86,7 @@ Triển khai các mã hàng lạnh đầu tiên`
 
   return (
     <Flex direction="column" align="center" mt={{ xs: '16px', lg: '48px' }} gap="24px" px={PX_ALL}>
-      <SectionBlock title="Quá trình phát triển" isNormal isActiveMobile />
+      <SectionBlockH2 title="Quá trình phát triển" isNormal isActiveMobile />
       <Grid
         templateColumns={'repeat(5, 1fr)'}
         gap={{ xs: '0px', lg: '24px' }}

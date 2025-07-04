@@ -32,7 +32,7 @@ const Header = () => {
     },
     {
       title: 'Giới thiệu',
-      href: '/gioi-thieu'
+      href: '/gioi-thieu-diep-tra'
     },
     {
       title: 'Sản phẩm',
@@ -49,11 +49,11 @@ const Header = () => {
     {
       title: 'Tuyển dụng',
       href: '/tuyen-dung'
-    },
-    {
-      title: 'Liên hệ',
-      href: '/lien-he'
     }
+    // {
+    //   title: 'Liên hệ',
+    //   href: '/lien-he'
+    // }
   ];
 
   useEffect(() => {
