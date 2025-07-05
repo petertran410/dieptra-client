@@ -23,60 +23,34 @@ const Footer = () => {
         },
         {
           title: 'Chính Sách Bảo Mật',
-          href: '/chinh-sach-bao-mat'
+          href: '/chinh-sach-diep-tra/chinh-sach-bao-mat'
         },
         {
           title: 'Chính Sách Mua Hàng',
-          href: '/chinh-sach-mua-hang'
+          href: '/chinh-sach-diep-tra/chinh-sach-mua-hang'
         },
         {
           title: 'Chính Sách Thanh Toán',
-          href: '/chinh-sach-thanh-toan'
+          href: '/chinh-sach-diep-tra/chinh-sach-thanh-toan'
         },
         {
           title: 'Chính Sách Giao Hàng',
-          href: '/chinh-sach-giao-hang'
+          href: '/chinh-sach-diep-tra/chinh-sach-giao-hang'
         },
         {
           title: 'Chính Sách Bảo Hành',
-          href: '/chinh-sach-bao-hanh'
+          href: '/chinh-sach-diep-tra/chinh-sach-bao-hanh'
         },
         {
           title: 'Chính Sách Đổi/Trả Hàng',
-          href: '/chinh-sach-doi-hang-tra-hang'
-        },
-        {
-          title: 'Chính Sách Giao Hàng',
-          href: '/chinh-sach-giao-hang'
+          href: '/chinh-sach-diep-tra/chinh-sach-doi-hang-tra-hang'
         },
         {
           title: 'Điều Khoản Sử Dụng',
-          href: '/dieu-khoan-su-dung'
+          href: '/chinh-sach-diep-tra/dieu-khoan-su-dung'
         }
       ]
     }
-    // {
-    //   title: 'Giới thiệu',
-    //   href: '/gioi-thieu'
-    // },
-    // {
-    //   title: 'Sản Phẩm',
-    //   href: '/san-pham',
-    //   children: [
-    //     {
-    //       title: 'Bột vị',
-    //       href: '/san-pham?categoryId=1'
-    //     },
-    //     {
-    //       title: 'Topping',
-    //       href: '/san-pham?categoryId=2'
-    //     },
-    //     {
-    //       title: 'Mứt hoa quả',
-    //       href: '/san-pham?categoryId=3'
-    //     }
-    //   ]
-    // }
   ];
 
   const MENU_LINKS_2 = [
