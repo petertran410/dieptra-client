@@ -45,7 +45,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
         lineHeight="1.3"
         textAlign={{ xs: 'center', lg: 'left' }}
       >
-        {meta_title || title}
+        {title}
       </Heading>
 
       {/* Content */}

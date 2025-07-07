@@ -9,7 +9,7 @@ export async function generateMetadata({ params }) {
 
   try {
     const pageData = await API.request({
-      url: `/api/pages/client/by-slug/${slug}`
+      url: `/api/pages/by-slug/${slug}`
     });
 
     return getMetadata({
