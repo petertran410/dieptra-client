@@ -1,4 +1,5 @@
 import SectionBlock from '../../../components/section-block';
+import SectionBlockH2 from '../../../components/section-block/section-block-h2';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { Flex, Grid, GridItem, Image, Text } from '@chakra-ui/react';
 
@@ -15,9 +16,10 @@ const Culture = () => {
       bgRepeat="no-repeat"
       bgSize="cover"
     >
-      <SectionBlock title="Văn hoá diệp trà" isNormal />
+      <SectionBlockH2 title="Văn hoá diệp trà" isNormal />
       <Text textAlign="center" fontSize={16}>
-        Chúng tôi xây dựng một thương hiệu mang bản sắc riêng
+        Diệp Trà là thương hiệu nhập khẩu & phân phối nguyên liệu pha chế cao cấp, hướng đến xây dựng hệ sinh thái đồ
+        uống chất lượng và bền vững tại Việt Nam.
       </Text>
 
       <Grid templateColumns={{ xs: 'repeat(1, 1fr)', lg: 'repeat(3, 1fr)' }} gap="24px">
@@ -40,8 +42,19 @@ const Culture = () => {
                 Tầm nhìn
               </Text>
               <Text fontSize={16} lineHeight="20px" textAlign="justify">
-                Năm 2030, Diệp Trà trở thành 1 trong 10 Nhà Nhập Khẩu Nguyên Liệu Pha chế Toàn Diện và có nhiều Khách
-                hàng thành công nhất trong ngành Đồ uống tại Việt Nam.
+                <li>
+                  <b>
+                    Đến năm 2030, Diệp Trà đặt mục tiêu trở thành một trong 10 nhà nhập khẩu và phân phối nguyên liệu
+                    pha chế toàn diện hàng đầu tại Việt Nam,
+                  </b>{' '}
+                  không chỉ về quy mô mà còn về chất lượng sản phẩm, độ uy tín thương hiệu và năng lực phục vụ khách
+                  hàng
+                </li>
+                <li>
+                  Diệp Trà hướng tới xây dựng <b>hệ sinh thái nguyên liệu pha chế chuẩn quốc tế</b>, với danh mục sản
+                  phẩm đa dạng, có nguồn gốc rõ ràng, đáp ứng mọi nhu cầu từ quán nhỏ khởi nghiệp đến chuỗi thương hiệu
+                  lớn.
+                </li>
               </Text>
             </Flex>
 
@@ -59,9 +72,19 @@ const Culture = () => {
                 Sứ mệnh
               </Text>
               <Text fontSize={16} lineHeight="20px" textAlign="justify">
-                Với vị thế là nhà nhập khẩu hàng đầu tại Việt Nam, Diệp Trà liên tục nâng cao tiêu chuẩn chất lượng
-                nguyên liệu và cập nhật xu thế mới nhất từ thị trường Đồ uống Quốc tế, nhằm mang đến Giải Pháp Toàn
-                Diện, giúp chủ doanh nghiệp xây dựng mô hình kinh doanh phát triển vững mạnh.
+                <li>
+                  <b>Với vai trò là một trong những nhà nhập khẩu nguyên liệu pha chế hàng đầu tại Việt Nam</b>, Diệp
+                  Trà không ngừng nâng cao tiêu chuẩn chất lượng, lựa chọn những sản phẩm có nguồn gốc rõ ràng, hương vị
+                  đặc sắc và đảm bảo an toàn thực phẩm. Chúng tôi luôn chủ động kết nối với các đối tác quốc tế để cập
+                  nhật xu hướng đồ uống mới nhất, mang về thị trường trong nước những dòng nguyên liệu đón đầu trào lưu.
+                </li>
+                <li>
+                  Không chỉ cung cấp nguyên liệu, Diệp Trà còn hướng tới việc trở thành{' '}
+                  <b>đối tác chiến lược toàn diện cho các chủ quán, nhà sáng lập thương hiệu đồ uống</b>. Chúng tôi mang
+                  đến giải pháp trọn gói – từ tư vấn sản phẩm, định hướng menu, cho đến hỗ trợ kỹ thuật và hậu mãi –
+                  giúp khách hàng tối ưu chi phí, phát triển mô hình kinh doanh bền vững và cạnh tranh hiệu quả trên thị
+                  trường.
+                </li>
               </Text>
             </Flex>
           </Flex>
