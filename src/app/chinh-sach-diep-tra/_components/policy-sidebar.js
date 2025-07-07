@@ -4,39 +4,8 @@
 import { Box, VStack, Text, Button } from '@chakra-ui/react';
 import { useState } from 'react';
 
-const PolicySidebar = ({ mainPageData, sidebarPages, currentSlug, onPageChange }) => {
+const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
-
-  // Danh sách các trang đặc biệt (navigate ra ngoài)
-  const specialPages = [
-    { slug: 'gioi-thieu-diep-tra', title: 'Giới Thiệu Diệp Trà' },
-    { slug: 'lien-he', title: 'Liên Hệ' },
-    { slug: 'san-pham', title: 'Sản Phẩm' }
-  ];
-
-  // Tạo danh sách menu items
-  const menuItems = [
-    // Trang chính
-    ...(mainPageData
-      ? [
-          {
-            slug: mainPageData.slug,
-            title: mainPageData.title,
-            isMainPage: true
-          }
-        ]
-      : []),
-
-    // Các trang đặc biệt
-    ...specialPages,
-
-    // Các trang con (policy pages)
-    ...sidebarPages.map((page) => ({
-      slug: page.slug,
-      title: page.title,
-      isMainPage: false
-    }))
-  ];
 
   const handleItemClick = (slug) => {
     onPageChange(slug);
@@ -57,12 +26,12 @@ const PolicySidebar = ({ mainPageData, sidebarPages, currentSlug, onPageChange }
       position="sticky"
       top="120px"
     >
-      <Text fontSize={{ xs: '18px', lg: '20px' }} fontWeight="600" color="main.1" mb="20px" textAlign="center">
+      <Text fontSize={{ xs: '18px', lg: '20px' }} fontWeight="600" color="#003366" mb="20px" textAlign="center">
         Chính Sách Diệp Trà
       </Text>
 
       <VStack spacing="8px" align="stretch">
-        {menuItems.map((item, index) => {
+        {sidebarItems.map((item, index) => {
           const active = isActive(item.slug);
           const isHovered = hoveredItem === item.slug;
 
@@ -109,8 +78,8 @@ const PolicySidebar = ({ mainPageData, sidebarPages, currentSlug, onPageChange }
         <Text fontWeight="600" mb="8px">
           Cần hỗ trợ?
         </Text>
-        <Text mb="4px">📧 info@dieptra.com</Text>
-        <Text>📞 Hotline: 1900 xxxx</Text>
+        <Text mb="4px">📧 dieptra.sg@gmail.com</Text>
+        <Text>📞 Hotline: 0906 300 204</Text>
       </Box>
     </Box>
   );

@@ -1,9 +1,9 @@
 // src/app/chinh-sach-diep-tra/_components/policy-page-layout.js
 'use client';
 
-import { useQueryPageBySlug, useQueryChildPages } from '../../../services/pages.service';
-import { IMG_ALT, PX_ALL } from '../../../utils/const';
-import { Box, Flex, Text, Spinner, Alert, AlertIcon } from '@chakra-ui/react';
+import { getPolicyPageBySlug, getSidebarItems, getMainPage } from '../../../utils/policy-data';
+import { PX_ALL } from '../../../utils/const';
+import { Box, Flex, Text, Alert, AlertIcon } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import PolicySidebar from './policy-sidebar';
@@ -13,62 +13,43 @@ const PolicyPageLayout = ({ currentSlug }) => {
   const router = useRouter();
   const [mainPageData, setMainPageData] = useState(null);
   const [currentPageData, setCurrentPageData] = useState(null);
-  const [sidebarPages, setSidebarPages] = useState([]);
+  const [sidebarItems, setSidebarItems] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  const { data: currentPage, isLoading: loadingCurrentPage, error: currentPageError } = useQueryPageBySlug(currentSlug);
-
-  const { data: childPages, isLoading: loadingChildPages } = useQueryChildPages(
-    currentSlug === 'chinh-sach-diep-tra' ? null : null
-  );
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadPageData = async () => {
+    const loadPageData = () => {
       try {
         setIsLoading(true);
+        setError(null);
 
-        // Nếu đang ở trang chính
-        if (currentSlug === 'chinh-sach-diep-tra') {
-          setMainPageData(currentPage);
-          setCurrentPageData(currentPage);
+        // Lấy dữ liệu sidebar items
+        const sidebarData = getSidebarItems();
+        setSidebarItems(sidebarData);
 
-          // Lấy danh sách trang con cho sidebar
-          if (currentPage?.id) {
-            const children = await fetch(
-              `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/pages/client/children?parentId=${currentPage.id}`
-            ).then((res) => res.json());
-            setSidebarPages(children || []);
-          }
-        } else {
-          // Nếu đang ở trang con
-          setCurrentPageData(currentPage);
+        // Lấy dữ liệu trang chính
+        const mainPage = getMainPage();
+        setMainPageData(mainPage);
 
-          // Lấy thông tin trang cha và danh sách trang con cho sidebar
-          if (currentPage?.parent_id) {
-            const [parentData, siblingPages] = await Promise.all([
-              fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/pages/admin/${currentPage.parent_id}`).then((res) =>
-                res.json()
-              ),
-              fetch(
-                `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/pages/client/children?parentId=${currentPage.parent_id}`
-              ).then((res) => res.json())
-            ]);
+        // Lấy dữ liệu trang hiện tại
+        const currentPage = getPolicyPageBySlug(currentSlug);
 
-            setMainPageData(parentData);
-            setSidebarPages(siblingPages || []);
-          }
+        if (!currentPage) {
+          setError('Trang không tồn tại');
+          return;
         }
+
+        setCurrentPageData(currentPage);
       } catch (error) {
         console.error('Error loading page data:', error);
+        setError('Có lỗi xảy ra khi tải dữ liệu');
       } finally {
         setIsLoading(false);
       }
     };
 
-    if (currentPage) {
-      loadPageData();
-    }
-  }, [currentPage, currentSlug]);
+    loadPageData();
+  }, [currentSlug]);
 
   // Handle navigation
   const handlePageChange = (slug) => {
@@ -86,22 +67,23 @@ const PolicyPageLayout = ({ currentSlug }) => {
   };
 
   // Loading state
-  if (isLoading || loadingCurrentPage) {
+  if (isLoading) {
     return (
       <Flex direction="column" bgColor="#FFF" minH="100vh" align="center" justify="center">
-        <Spinner size="xl" color="main.1" />
-        <Text mt={4}>Đang tải...</Text>
+        <Text fontSize="18px" color="gray.600">
+          Đang tải...
+        </Text>
       </Flex>
     );
   }
 
   // Error state
-  if (currentPageError) {
+  if (error) {
     return (
       <Flex direction="column" bgColor="#FFF" px={PX_ALL} py="80px">
         <Alert status="error">
           <AlertIcon />
-          Trang bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.
+          {error}
         </Alert>
       </Flex>
     );
@@ -128,7 +110,7 @@ const PolicyPageLayout = ({ currentSlug }) => {
         <Box w={{ xs: 'full', lg: '300px' }} flexShrink={0}>
           <PolicySidebar
             mainPageData={mainPageData}
-            sidebarPages={sidebarPages}
+            sidebarItems={sidebarItems}
             currentSlug={currentSlug}
             onPageChange={handlePageChange}
           />
@@ -136,7 +118,7 @@ const PolicyPageLayout = ({ currentSlug }) => {
 
         {/* Content */}
         <Box flex={1} minW={0}>
-          <PolicyContent pageData={currentPageData} isLoading={isLoading} />
+          <PolicyContent pageData={currentPageData} isLoading={false} />
         </Box>
       </Flex>
     </Flex>
