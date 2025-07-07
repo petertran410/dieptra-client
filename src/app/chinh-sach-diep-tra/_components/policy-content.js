@@ -54,7 +54,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
         lineHeight="1.7"
         color="gray.700"
         sx={{
-          '& h3': {
+          '& h2': {
             fontSize: { xs: '18px', lg: '20px' },
             fontWeight: '600',
             color: '#003366',
@@ -62,7 +62,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
             marginBottom: '16px',
             lineHeight: '1.4'
           },
-          '& h4': {
+          '& h3': {
             fontSize: { xs: '16px', lg: '18px' },
             fontWeight: '600',
             color: 'gray.800',

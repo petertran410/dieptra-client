@@ -1,27 +1,26 @@
 // src/app/chinh-sach-diep-tra/[slug]/page.js
 import { API } from '../../../utils/API';
 import { getMetadata } from '../../../utils/helper-server';
+import { getPolicyPageBySlug } from '../../../utils/policy-data';
 import PolicyPageLayout from '../_components/policy-page-layout';
 
 // Generate metadata cho từng trang con
 export async function generateMetadata({ params }) {
   const { slug } = params;
 
-  try {
-    const pageData = await API.request({
-      url: `/api/pages/by-slug/${slug}`
-    });
+  const pageData = await getPolicyPageBySlug(slug);
 
-    return getMetadata({
-      title: pageData?.meta_title || pageData?.title,
-      description: pageData?.meta_description || `Tìm hiểu về ${pageData?.title} tại Diệp Trà.`
-    });
-  } catch (error) {
+  if (!pageData) {
     return getMetadata({
       title: 'Trang không tìm thấy',
       description: 'Trang bạn đang tìm kiếm không tồn tại.'
     });
   }
+
+  return getMetadata({
+    title: pageData.meta_title || pageData.title,
+    description: pageData.meta_description || `Tìm hiểu về ${pageData.title} tại Diệp Trà.`
+  });
 }
 
 const PolicySubPage = ({ params }) => {

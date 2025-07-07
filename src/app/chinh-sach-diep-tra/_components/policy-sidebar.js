@@ -2,13 +2,28 @@
 'use client';
 
 import { Box, VStack, Text, Button } from '@chakra-ui/react';
+import Link from 'next/link';
 import { useState } from 'react';
 
 const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
 
-  const handleItemClick = (slug) => {
-    onPageChange(slug);
+  const handleItemClick = (slug, isExternal) => {
+    if (isExternal || ['gioi-thieu-diep-tra', 'lien-he', 'san-pham'].includes(slug)) {
+      onPageChange(slug);
+    }
+  };
+
+  const getHref = (slug, isExternal) => {
+    if (isExternal || ['gioi-thieu-diep-tra', 'lien-he', 'san-pham'].includes(slug)) {
+      return null;
+    }
+
+    if (slug === 'chinh-sach-diep-tra') {
+      return '/chinh-sach-diep-tra';
+    }
+
+    return `/chinh-sach-diep-tra/${slug}`;
   };
 
   const isActive = (slug) => {
@@ -34,40 +49,57 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
         {sidebarItems.map((item, index) => {
           const active = isActive(item.slug);
           const isHovered = hoveredItem === item.slug;
+          const href = getHref(item.slug, item.isExternal);
 
+          const buttonProps = {
+            key: item.slug,
+            variant: 'ghost',
+            justifyContent: 'flex-start',
+            h: 'auto',
+            p: '12px 16px',
+            borderRadius: '8px',
+            fontWeight: active ? '600' : '400',
+            fontSize: { xs: '14px', lg: '15px' },
+            color: active ? 'white' : 'gray.700',
+            bg: active ? 'main.1' : isHovered ? 'gray.300' : 'transparent',
+            border: '1px solid',
+            borderColor: active ? 'main.1' : 'transparent',
+            transition: 'all 0.2s',
+            textAlign: 'left',
+            whiteSpace: 'normal',
+            wordWrap: 'break-word',
+            lineHeight: '1.4',
+            onMouseEnter: () => setHoveredItem(item.slug),
+            onMouseLeave: () => setHoveredItem(null),
+            _hover: {
+              bg: active ? 'main.1' : 'gray.300',
+              transform: 'translateX(2px)'
+            },
+            _active: {
+              transform: 'translateX(1px)'
+            }
+          };
+
+          const ButtonContent = (
+            <Text as="span" flex={1}>
+              {item.title}
+            </Text>
+          );
+
+          if (href) {
+            return (
+              <Link key={item.slug} href={href} prefetch={true} style={{ textDecoration: 'none' }}>
+                <Button {...buttonProps} w="full">
+                  {ButtonContent}
+                </Button>
+              </Link>
+            );
+          }
+
+          // Nếu không có href, sử dụng onClick
           return (
-            <Button
-              key={item.slug}
-              variant="ghost"
-              justifyContent="flex-start"
-              h="auto"
-              p="12px 16px"
-              borderRadius="8px"
-              fontWeight={active ? '600' : '400'}
-              fontSize={{ xs: '14px', lg: '15px' }}
-              color={active ? 'white' : 'gray.700'}
-              bg={active ? 'main.1' : isHovered ? 'gray.50' : 'transparent'}
-              border="1px solid"
-              borderColor={active ? 'main.1' : 'transparent'}
-              transition="all 0.2s"
-              textAlign="left"
-              whiteSpace="normal"
-              wordWrap="break-word"
-              lineHeight="1.4"
-              onClick={() => handleItemClick(item.slug)}
-              onMouseEnter={() => setHoveredItem(item.slug)}
-              onMouseLeave={() => setHoveredItem(null)}
-              _hover={{
-                bg: active ? 'main.1' : 'gray.50',
-                transform: 'translateX(2px)'
-              }}
-              _active={{
-                transform: 'translateX(1px)'
-              }}
-            >
-              <Text as="span" flex={1}>
-                {item.title}
-              </Text>
+            <Button {...buttonProps} onClick={() => handleItemClick(item.slug, item.isExternal)}>
+              {ButtonContent}
             </Button>
           );
         })}

@@ -60,9 +60,18 @@ const PolicyPageLayout = ({ currentSlug }) => {
     } else if (slug === 'san-pham') {
       router.push('/san-pham');
     } else if (slug === 'chinh-sach-diep-tra') {
-      router.push('/chinh-sach-diep-tra');
+      if (currentSlug !== 'chinh-sach-diep-tra') {
+        router.replace('/chinh-sach-diep-tra');
+      }
     } else {
-      router.push(`/chinh-sach-diep-tra/${slug}`);
+      const currentPath = window.location.pathname;
+      const targetPath = `/chinh-sach-diep-tra/${slug}`;
+
+      if (currentPath.startsWith('/chinh-sach-diep-tra') && currentPath !== targetPath) {
+        router.replace(targetPath);
+      } else {
+        router.push(targetPath);
+      }
     }
   };
 
