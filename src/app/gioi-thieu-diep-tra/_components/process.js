@@ -13,7 +13,8 @@ const Process = () => {
     {
       type: 'block',
       title: '2020',
-      description: 'Mở Chi nhánh tại Miền Nam'
+      description: 'Mở Chi nhánh tại Miền Nam',
+      image_url: '/images/2020-chi-nhanh-mien-nam.webp'
     },
     {
       type: 'empty'
@@ -22,7 +23,8 @@ const Process = () => {
       type: 'block',
       title: '2023',
       description: `Triển khai Thương hiệu Gấu LerMao
-Triển khai các mã hàng lạnh đầu tiên`
+Triển khai các mã hàng lạnh đầu tiên`,
+      image_url: '/images/2023-gau-lermao.webp'
     },
     {
       type: 'empty'
@@ -34,7 +36,8 @@ Triển khai các mã hàng lạnh đầu tiên`
       type: 'block',
       title: '2018',
       description: `THÀNH LẬP
-Tiêu chí hoạt động: Học hỏi, Áp dụng, Thích Nghi theo thực tiễn thị trường Việt Nam`
+Tiêu chí hoạt động: Học hỏi, Áp dụng, Thích Nghi theo thực tiễn thị trường Việt Nam`,
+      image_url: '/images/2018-DIEP-TRA.webp'
     },
     {
       type: 'empty'
@@ -42,7 +45,8 @@ Tiêu chí hoạt động: Học hỏi, Áp dụng, Thích Nghi theo thực ti�
     {
       type: 'block',
       title: '2022',
-      description: `Triển khai Thương hiệu TRÀ PHƯỢNG HOÀNG`
+      description: `Triển khai Thương hiệu TRÀ PHƯỢNG HOÀNG`,
+      image_url: '/images/2022-tra-phuong-hoang.webp'
     },
     {
       type: 'empty'
@@ -50,7 +54,8 @@ Tiêu chí hoạt động: Học hỏi, Áp dụng, Thích Nghi theo thực ti�
     {
       type: 'block',
       title: '2024',
-      description: `Xây dựng Hệ thống Kho lạnh ở cả 2 miền Nam - Bắc`
+      description: `Xây dựng Hệ thống Kho lạnh ở cả 2 miền Nam - Bắc`,
+      image_url: '/images/2024-kho-lanh-2-mien.webp'
     }
   ];
 
@@ -59,28 +64,33 @@ Tiêu chí hoạt động: Học hỏi, Áp dụng, Thích Nghi theo thực ti�
       type: 'block',
       title: '2018',
       description: `Thành lập Công ty TNHH Xuất Nhập Khẩu HI SWEETIE VIỆT NAM
-Tiêu chí hoạt động: Học hỏi, Áp dụng, Thích Nghi theo thực tiễn thị trường Việt Nam`
+Tiêu chí hoạt động: Học hỏi, Áp dụng, Thích Nghi theo thực tiễn thị trường Việt Nam`,
+      image_url: '/images/2018-DIEP-TRA.webp'
     },
     {
       type: 'block',
       title: '2020',
-      description: 'Mở Chi nhánh tại Miền Nam'
+      description: 'Mở Chi nhánh tại Miền Nam',
+      image_url: '/images/2020-chi-nhanh-mien-nam.webp'
     },
     {
       type: 'block',
       title: '2022',
-      description: `Triển khai Thương hiệu TRÀ PHƯỢNG HOÀNG`
+      description: `Triển khai Thương hiệu TRÀ PHƯỢNG HOÀNG`,
+      image_url: '/images/2022-tra-phuong-hoang.webp'
     },
     {
       type: 'block',
       title: '2023',
       description: `Triển khai Thương hiệu Gấu LerMao
-Triển khai các mã hàng lạnh đầu tiên`
+Triển khai các mã hàng lạnh đầu tiên`,
+      image_url: '/images/2023-gau-lermao.webp'
     },
     {
       type: 'block',
       title: '2024',
-      description: `Xây dựng Hệ thống Kho lạnh ở cả 2 miền Nam - Bắc`
+      description: `Xây dựng Hệ thống Kho lạnh ở cả 2 miền Nam - Bắc`,
+      image_url: '/images/2024-kho-lanh-2-mien.webp'
     }
   ];
 
