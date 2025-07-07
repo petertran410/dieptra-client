@@ -1,64 +1,13 @@
+// src/app/gioi-thieu-diep-tra/_components/process.js
 'use client';
 
 import CarouselMobile from '../../../components/carousel/carousel-mobile';
 import SectionBlockH2 from '../../../components/section-block/section-block-h2';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
-import { AspectRatio, Box, Flex, Grid, Image, Text } from '@chakra-ui/react';
+import { AspectRatio, Box, Flex, Grid, Image } from '@chakra-ui/react';
 
 const Process = () => {
-  const PROCESS_TOP = [
-    {
-      type: 'empty'
-    },
-    {
-      type: 'block',
-      title: '2020',
-      description: 'Mở Chi nhánh tại Miền Nam',
-      image_url: '/images/2020-chi-nhanh-mien-nam.webp'
-    },
-    {
-      type: 'empty'
-    },
-    {
-      type: 'block',
-      title: '2023',
-      description: `Triển khai Thương hiệu Gấu LerMao
-Triển khai các mã hàng lạnh đầu tiên`,
-      image_url: '/images/2023-gau-lermao.webp'
-    },
-    {
-      type: 'empty'
-    }
-  ];
-
-  const PROCESS_BOTTOM = [
-    {
-      type: 'block',
-      title: '2018',
-      description: `THÀNH LẬP
-Tiêu chí hoạt động: Học hỏi, Áp dụng, Thích Nghi theo thực tiễn thị trường Việt Nam`,
-      image_url: '/images/2018-DIEP-TRA.webp'
-    },
-    {
-      type: 'empty'
-    },
-    {
-      type: 'block',
-      title: '2022',
-      description: `Triển khai Thương hiệu TRÀ PHƯỢNG HOÀNG`,
-      image_url: '/images/2022-tra-phuong-hoang.webp'
-    },
-    {
-      type: 'empty'
-    },
-    {
-      type: 'block',
-      title: '2024',
-      description: `Xây dựng Hệ thống Kho lạnh ở cả 2 miền Nam - Bắc`,
-      image_url: '/images/2024-kho-lanh-2-mien.webp'
-    }
-  ];
-
+  // Dữ liệu gốc với title, description và image_url
   const PROCESS_ALL = [
     {
       type: 'block',
@@ -94,9 +43,34 @@ Triển khai các mã hàng lạnh đầu tiên`,
     }
   ];
 
+  // Function để lấy image_url dựa vào title
+  const getImageByTitle = (title) => {
+    const item = PROCESS_ALL.find((item) => item.title === title);
+    return item ? item.image_url : '/images/default-image.webp';
+  };
+
+  // Cấu trúc layout cho desktop - chỉ cần empty/block type
+  const PROCESS_TOP = [
+    { type: 'empty' },
+    { type: 'block', title: '2020' },
+    { type: 'empty' },
+    { type: 'block', title: '2023' },
+    { type: 'empty' }
+  ];
+
+  const PROCESS_BOTTOM = [
+    { type: 'block', title: '2018' },
+    { type: 'empty' },
+    { type: 'block', title: '2022' },
+    { type: 'empty' },
+    { type: 'block', title: '2024' }
+  ];
+
   return (
     <Flex direction="column" align="center" mt={{ xs: '16px', lg: '48px' }} gap="24px" px={PX_ALL}>
       <SectionBlockH2 title="Quá trình phát triển" isNormal isActiveMobile />
+
+      {/* Desktop Layout - Top Row */}
       <Grid
         templateColumns={'repeat(5, 1fr)'}
         gap={{ xs: '0px', lg: '24px' }}
@@ -104,11 +78,11 @@ Triển khai các mã hàng lạnh đầu tiên`,
         display={{ xs: 'none', md: 'grid' }}
       >
         {PROCESS_TOP.map((item, index) => {
-          const { title, description, type } = item;
+          const { title, type } = item;
           if (type === 'empty') {
             return (
               <Box key={index} pos="relative">
-                <AspectRatio ratio={1 / 1} w="full" bgColor="#FFF">
+                <AspectRatio ratio={1 / 1} w="full" bgColor="transparent">
                   <Flex />
                 </AspectRatio>
                 <Box w="full" h="44px" />
@@ -138,25 +112,8 @@ Triển khai các mã hàng lạnh đầu tiên`,
 
           return (
             <Box key={index} pos="relative">
-              <AspectRatio
-                ratio={{ xs: 5 / 6, lg: 1 / 1 }}
-                w="full"
-                bgColor="#FFF"
-                borderRadius={16}
-                bgImage="url(/images/bg-process-intro.webp)"
-                bgRepeat="no-repeat"
-                bgSize="cover"
-              >
-                <Box p={{ xs: '8px', lg: '12px' }}>
-                  <Flex direction="column" gap={{ xs: '0px', lg: '8px' }} justify="flex-start" h="full" w="full">
-                    <Text fontSize={18} textAlign="center" fontWeight={600} color="#065FD4">
-                      {title}
-                    </Text>
-                    <Text whiteSpace="pre-line" lineHeight={{ xs: '18px', lg: '21px' }}>
-                      {description}
-                    </Text>
-                  </Flex>
-                </Box>
+              <AspectRatio ratio={1 / 1} w="full" borderRadius={16} overflow="hidden">
+                <Image src={getImageByTitle(title)} alt={`Diệp Trà ${title}`} w="full" h="full" objectFit="cover" />
               </AspectRatio>
               <Box w="full" h="44px" />
 
@@ -169,7 +126,7 @@ Triển khai các mã hàng lạnh đầu tiên`,
                 pos="absolute"
               />
               <Image
-                src="/images/ripple-up.webp"
+                src="/images/ripple-down.webp"
                 w="24px"
                 h="32px"
                 alt={IMG_ALT}
@@ -184,6 +141,7 @@ Triển khai các mã hàng lạnh đầu tiên`,
         })}
       </Grid>
 
+      {/* Desktop Layout - Bottom Row */}
       <Grid
         templateColumns={'repeat(5, 1fr)'}
         gap={{ xs: '0px', lg: '24px' }}
@@ -192,11 +150,11 @@ Triển khai các mã hàng lạnh đầu tiên`,
         display={{ xs: 'none', md: 'grid' }}
       >
         {PROCESS_BOTTOM.map((item, index) => {
-          const { title, description, type } = item;
+          const { title, type } = item;
           if (type === 'empty') {
             return (
               <Box key={index} pos="relative">
-                <AspectRatio ratio={1 / 1} w="full" bgColor="#FFF">
+                <AspectRatio ratio={1 / 1} w="full" bgColor="transparent">
                   <Flex />
                 </AspectRatio>
               </Box>
@@ -205,131 +163,45 @@ Triển khai các mã hàng lạnh đầu tiên`,
 
           return (
             <Box key={index} pos="relative">
-              <AspectRatio
-                ratio={{ xs: 5 / 6, lg: 1 / 1 }}
-                w="full"
-                bgColor="#FFF"
-                borderRadius={16}
-                bgImage="url(/images/bg-process-intro.webp)"
-                bgRepeat="no-repeat"
-                bgSize="cover"
-              >
-                <Box>
-                  <Flex
-                    direction="column"
-                    gap={{ xs: '0px', lg: '8px' }}
-                    p={{ xs: '8px', lg: '12px' }}
-                    justify="flex-start"
-                    h="full"
-                  >
-                    <Text fontSize={18} textAlign="center" fontWeight={600} color="#065FD4">
-                      {title}
-                    </Text>
-                    <Text whiteSpace="pre-line" lineHeight={{ xs: '18px', lg: '21px' }}>
-                      {description}
-                    </Text>
-                  </Flex>
-                </Box>
+              <AspectRatio ratio={1 / 1} w="full" borderRadius={16} overflow="hidden">
+                <Image src={getImageByTitle(title)} alt={`Diệp Trà ${title}`} w="full" h="full" objectFit="cover" />
               </AspectRatio>
+              {/* <Box
+                w={index === 0 || index === PROCESS_BOTTOM.length - 1 ? '100%' : '150%'}
+                left={index === 0 || index === PROCESS_BOTTOM.length - 1 ? 0 : '-30px'}
+                h="2px"
+                bgColor="main.1"
+                bottom={0}
+                pos="absolute"
+              /> */}
+              {/* <Image
+                src="/images/ripple-up.webp"
+                w="24px"
+                h="32px"
+                alt={IMG_ALT}
+                pos="absolute"
+                left={0}
+                right={0}
+                mx="auto"
+                bottom="-12px"
+              /> */}
             </Box>
           );
         })}
       </Grid>
 
-      <Box display={{ xs: 'block', lg: 'none' }} className="intro-process">
+      {/* Mobile Layout - Carousel */}
+      <Box display={{ xs: 'block', lg: 'none' }} className="intro-process" w="full">
         <CarouselMobile spaceBetween={24} showPagination={false}>
           {PROCESS_ALL.map((item) => {
             return (
-              <Box
-                key={item.title}
-                w="full"
-                bgColor="#FFF"
-                borderRadius={16}
-                bgImage="url(/images/bg-process-intro.webp)"
-                bgRepeat="no-repeat"
-                bgPosition="center"
-                bgSize="cover"
-                h="200px"
-              >
-                <Flex direction="column" gap="8px" p="12px" justify="flex-start" align="center" h="full">
-                  <Text fontSize={18} fontWeight={600} textAlign="center" color="#065FD4">
-                    {item.title}
-                  </Text>
-                  <Text fontSize={16} whiteSpace="pre-line">
-                    {item.description}
-                  </Text>
-                </Flex>
+              <Box key={item.title} w="full" borderRadius={16} overflow="hidden" h="200px">
+                <Image src={item.image_url} alt={`Diệp Trà ${item.title}`} w="full" h="full" objectFit="cover" />
               </Box>
             );
           })}
         </CarouselMobile>
       </Box>
-
-      {/* <Flex display={{ xs: 'flex', md: 'none' }} direction="column" w="full">
-        <Box pos="relative" w="full">
-          <Box
-            w="full"
-            bgColor="#FFF"
-            borderRadius={16}
-            bgImage="url(/images/bg-process-intro.webp)"
-            bgRepeat="no-repeat"
-            bgPosition="center"
-            bgSize="cover"
-            h="112px"
-          >
-            <Flex direction="column" gap="8px" p="12px" justify="center" align="center" h="full">
-              <Text fontSize={16} whiteSpace="pre-line">
-                {PROCESS_ALL[currentIndex].description}
-              </Text>
-            </Flex>
-          </Box>
-          <Box w="full" h="32px" />
-
-          <Box w="100%" left={0} h="2px" bgColor="main.1" bottom={0} pos="absolute" />
-          <Image
-            src="/images/ripple-up.webp"
-            w="24px"
-            h="32px"
-            alt={IMG_ALT}
-            pos="absolute"
-            left={0}
-            right={0}
-            mx="auto"
-            bottom="-12px"
-          />
-        </Box>
-        <Flex align="center" gap="24px" mt="14px">
-          <Image
-            src="/images/chevron-left-circle.webp"
-            alt={IMG_ALT}
-            w="40px"
-            h="40px"
-            onClick={() => {
-              if (currentIndex === 0) {
-                return;
-              }
-              setCurrentIndex((prev) => prev - 1);
-            }}
-          />
-          <Flex flex={1} justify="center">
-            <Text textAlign="center" fontSize={20} fontWeight={600}>
-              {PROCESS_ALL[currentIndex].title}
-            </Text>
-          </Flex>
-          <Image
-            src="/images/chevron-right-circle.webp"
-            alt={IMG_ALT}
-            w="40px"
-            h="40px"
-            onClick={() => {
-              if (currentIndex === PROCESS_ALL.length - 1) {
-                return;
-              }
-              setCurrentIndex((prev) => prev + 1);
-            }}
-          />
-        </Flex>
-      </Flex> */}
     </Flex>
   );
 };
