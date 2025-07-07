@@ -61,7 +61,7 @@ const Contact = () => {
           </Button>
         )}
 
-        <Link href="https://zalo.me" target="_blank" _hover={{ textDecor: 'none' }}>
+        <Link href="https://zalo.me/s/1428308065058357450/" target="_blank" _hover={{ textDecor: 'none' }}>
           <Image
             src="/images/zalo-contact.webp"
             alt={IMG_ALT}
@@ -71,7 +71,7 @@ const Contact = () => {
             _hover={{ transform: 'scale(1.1)' }}
           />
         </Link>
-        <Link href="https://facebook.com" target="_blank" _hover={{ textDecor: 'none' }}>
+        <Link href="https://www.facebook.com/lermao.sanhannhugau" target="_blank" _hover={{ textDecor: 'none' }}>
           <Image
             src="/images/facebook-contact.webp"
             alt={IMG_ALT}

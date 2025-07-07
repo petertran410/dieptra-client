@@ -86,9 +86,17 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
             </Text>
           );
 
+          // Nếu có href, sử dụng Link với prefetch
           if (href) {
             return (
-              <Link key={item.slug} href={href} prefetch={true} style={{ textDecoration: 'none' }}>
+              <Link
+                key={`link-${item.slug}`}
+                href={href}
+                prefetch={true}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ textDecoration: 'none' }}
+              >
                 <Button {...buttonProps} w="full">
                   {ButtonContent}
                 </Button>
@@ -98,7 +106,11 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
 
           // Nếu không có href, sử dụng onClick
           return (
-            <Button {...buttonProps} onClick={() => handleItemClick(item.slug, item.isExternal)}>
+            <Button
+              key={`button-${item.slug}`}
+              {...buttonProps}
+              onClick={() => handleItemClick(item.slug, item.isExternal)}
+            >
               {ButtonContent}
             </Button>
           );
@@ -110,8 +122,8 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
         <Text fontWeight="600" mb="8px">
           Cần hỗ trợ?
         </Text>
-        <Text mb="4px">📧 dieptra.sg@gmail.com</Text>
-        <Text>📞 Hotline: 0906 300 204</Text>
+        <Text mb="4px">📧 info@dieptra.com</Text>
+        <Text>📞 Hotline: 1900 xxxx</Text>
       </Box>
     </Box>
   );

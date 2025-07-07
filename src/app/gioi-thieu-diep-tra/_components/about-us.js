@@ -24,7 +24,7 @@ const AboutUs = () => {
         Là thương hiệu thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, được ra đời vào năm 2018 dưới tên Diệp Trà
         với tầm nhìn tiên phong, đi đầu trong ngành Đồ uống tại Việt Nam. Chúng tôi chuyên cung cấp nguyên liệu pha chế
         nhập khẩu từ Đài Loan (Trung Quốc) và Trung Quốc, tập trung vào chiến lược phát triển{' '}
-        <Text as="span" fontSize={16} fontWeight={500} color="#1E96BC">
+        <Text as="span" fontSize={21} fontWeight={500} color="#1E96BC">
           “Hợp tác chiến lược Toàn Diện và Độc Quyền”
         </Text>{' '}
         với các đối tác uy tín số 1 trên thế giới để mang đến một{' '}

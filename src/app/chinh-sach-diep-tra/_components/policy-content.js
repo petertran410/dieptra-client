@@ -50,7 +50,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
 
       {/* Content */}
       <Box
-        fontSize={{ xs: '15px', lg: '16px' }}
+        fontSize={{ xs: '16px', lg: '18px' }}
         lineHeight="1.7"
         color="gray.700"
         sx={{
@@ -72,19 +72,23 @@ const PolicyContent = ({ pageData, isLoading }) => {
           },
           '& p': {
             marginBottom: '16px',
-            textAlign: 'justify'
+            textAlign: 'justify',
+            fontSize: { xs: '16px', lg: '17px' }
           },
           '& ul': {
             marginBottom: '16px',
-            paddingLeft: '20px'
+            paddingLeft: '20px',
+            fontSize: { xs: '16px', lg: '17px' }
           },
           '& ol': {
             marginBottom: '16px',
-            paddingLeft: '20px'
+            paddingLeft: '20px',
+            fontSize: { xs: '16px', lg: '17px' }
           },
           '& li': {
             marginBottom: '8px',
-            lineHeight: '1.6'
+            lineHeight: '1.6',
+            fontSize: { xs: '16px', lg: '17px' }
           },
           '& table': {
             width: '100%',
@@ -107,11 +111,13 @@ const PolicyContent = ({ pageData, isLoading }) => {
           },
           '& strong': {
             fontWeight: '600',
-            color: 'gray.800'
+            color: 'gray.800',
+            fontSize: { xs: '16px', lg: '17px' }
           },
           '& em': {
             fontStyle: 'italic',
-            color: 'gray.600'
+            color: 'gray.600',
+            fontSize: { xs: '16px', lg: '17px' }
           },
           '& a': {
             color: '#003366',
@@ -119,7 +125,8 @@ const PolicyContent = ({ pageData, isLoading }) => {
             fontWeight: '500',
             _hover: {
               color: '#001a33'
-            }
+            },
+            fontSize: { xs: '16px', lg: '17px' }
           }
         }}
       >
