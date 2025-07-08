@@ -14,7 +14,7 @@ const IntroPage = () => {
   return (
     <Flex direction="column" bgColor="#FFF">
       <Box px={PX_ALL} bgColor="#eefbfd" pt={{ xs: '70px', lg: '162px' }}>
-        <Image src="/images/asset-1@4x.webp" w="full" h="full" fit="fit" alt={IMG_ALT} borderRadius={16} />
+        <Image src="/images/gioi-thieu-diep-tra.webp" w="full" h="full" fit="fit" alt={IMG_ALT} borderRadius={16} />
       </Box>
       <AboutUs />
       <Process />
