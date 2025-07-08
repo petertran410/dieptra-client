@@ -122,8 +122,8 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
         <Text fontWeight="600" mb="8px">
           Cần hỗ trợ?
         </Text>
-        <Text mb="4px">📧 info@dieptra.com</Text>
-        <Text>📞 Hotline: 1900 xxxx</Text>
+        <Text mb="4px">📧 dieptra.sg@gmail.com</Text>
+        <Text>📞 Hotline: 0906 300 204</Text>
       </Box>
     </Box>
   );

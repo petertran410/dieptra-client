@@ -25,7 +25,7 @@ export default function sitemap() {
       priority: 0.8
     },
     {
-      url: `${domain}/tin-tuc`,
+      url: `${domain}/bai-viet`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8

@@ -5,6 +5,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,6 +23,7 @@ export function Providers({ children }) {
         <ChakraProvider theme={chakraTheme}>
           {children}
           <Analytics />
+          <SpeedInsights />
         </ChakraProvider>
       </RecoilRoot>
     </QueryClientProvider>

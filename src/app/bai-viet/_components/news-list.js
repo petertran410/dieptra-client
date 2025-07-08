@@ -1,18 +1,18 @@
 'use client';
 
 import Carousel from '../../../components/carousel';
-import { useQueryNewsList } from '../../../services/news.service';
+import { useQueryArticlesList } from '../../../services/news.service';
 import { IMG_ALT } from '../../../utils/const';
 import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
 import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 
-const NewsItem = ({ item }) => {
+const ArticlesItem = ({ item }) => {
   const { id, title, imagesUrl, createdDate } = item || {};
 
   return (
     <Flex direction="column" gap="16px">
-      <Link href={`/tin-tuc/${convertSlugURL(title)}.${id}`}>
+      <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
         <AspectRatio ratio={16 / 9} w="full">
           <Image
             src={imagesUrl?.[0]?.replace('https://', 'http://') || 'images/news.webp'}
@@ -25,7 +25,7 @@ const NewsItem = ({ item }) => {
       </Link>
       <Flex direction="column" justify="space-between" gap="16px">
         <Box>
-          <Link href={`/tin-tuc/${convertSlugURL(title)}.${id}`}>
+          <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
             <Text fontSize={18} fontWeight={500} lineHeight="22px" noOfLines={3} h="66px">
               {title}
             </Text>
@@ -35,7 +35,7 @@ const NewsItem = ({ item }) => {
             <Text color="#A1A1AA">{convertTimestamp(createdDate)}</Text>
           </Flex>
         </Box>
-        <Link href={`/tin-tuc/${convertSlugURL(title)}.${id}`}>
+        <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
           <Flex
             align="center"
             justify="center"
@@ -59,9 +59,9 @@ const NewsItem = ({ item }) => {
   );
 };
 
-const NewsList = () => {
-  const { data: newsListQuery } = useQueryNewsList();
-  const { content: newsList = [] } = newsListQuery || {};
+const ArticlesList = () => {
+  const { data: articlesListQuery } = useQueryArticlesList();
+  const { content: articlesList = [] } = articlesListQuery || {};
 
   const breakpoints = {
     1: { slidesPerView: 1 },
@@ -73,18 +73,18 @@ const NewsList = () => {
     <>
       <Box display={{ xs: 'none', lg: 'block' }}>
         <Carousel breakpoints={breakpoints} spaceBetween={24} autoplay={false}>
-          {newsList?.map((item) => {
-            return <NewsItem key={item.id} item={item} />;
+          {articlesList?.map((item) => {
+            return <ArticlesItem key={item.id} item={item} />;
           })}
         </Carousel>
       </Box>
       <Flex direction="column" gap="36px" display={{ xs: 'flex', lg: 'none' }}>
-        {newsList?.map((item) => {
-          return <NewsItem key={item.id} item={item} />;
+        {articlesList?.map((item) => {
+          return <ArticlesItem key={item.id} item={item} />;
         })}
       </Flex>
     </>
   );
 };
 
-export default NewsList;
+export default ArticlesList;

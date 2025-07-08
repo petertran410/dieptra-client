@@ -85,10 +85,10 @@ const NewsDetail = async ({ params }) => {
     name: title,
     alternativeHeadline: title,
     headline: title,
-    url: `${process.env.NEXT_PUBLIC_API_DOMAIN}/tin-tuc/${slug}`,
+    url: `${process.env.NEXT_PUBLIC_API_DOMAIN}/bai-viet/${slug}`,
     description: description || '',
     disambiguatingDescription: title,
-    mainEntityOfPage: `${process.env.NEXT_PUBLIC_API_DOMAIN}/tin-tuc/${slug}`,
+    mainEntityOfPage: `${process.env.NEXT_PUBLIC_API_DOMAIN}/bai-viet/${slug}`,
     image: imagesUrl || [],
     thumbnailUrl: imagesUrl?.[0]?.replace('https://', 'http://') || '',
     articleBody: description || '',
@@ -99,10 +99,10 @@ const NewsDetail = async ({ params }) => {
   return (
     <>
       <Head>
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/tin-tuc/${slug}`} />
+        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/${slug}`} />
       </Head>
       <Script
-        id="json-ld-tin-tuc"
+        id="json-ld-bai-viet"
         type="application/ld+json"
         strategy="afterInteractive"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
@@ -117,8 +117,8 @@ const NewsDetail = async ({ params }) => {
         <Flex flex={2 / 3} direction="column">
           <Breadcrumb
             data={[
-              { title: 'Tin tức', href: '/tin-tuc' },
-              { title: 'Bài viết', href: `/tin-tuc/${slug}`, isActive: true }
+              { title: 'Tin tức', href: '/bai-viet' },
+              { title: 'Bài viết', href: `/bai-viet/${slug}`, isActive: true }
             ]}
           />
           <Text as="h1" fontSize={24} fontWeight={600} mt="20px" lineHeight="30px">
@@ -170,7 +170,7 @@ const NewsDetail = async ({ params }) => {
                 ?.map((item) => {
                   return (
                     <Flex align="flex-start" gap="16px" key={item?.id}>
-                      <Link href={`/tin-tuc/${convertSlugURL(item?.title)}.${item?.id}`}>
+                      <Link href={`/bai-viet/${convertSlugURL(item?.title)}.${item?.id}`}>
                         <Image
                           src={item?.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
                           alt={IMG_ALT}
@@ -183,7 +183,7 @@ const NewsDetail = async ({ params }) => {
 
                       <Flex flex={1} direction="column" justify="space-between" h={{ xs: '120px', lg: '154px' }}>
                         <Flex direction="column">
-                          <Link href={`/tin-tuc/${convertSlugURL(item?.title)}.${item?.id}`}>
+                          <Link href={`/bai-viet/${convertSlugURL(item?.title)}.${item?.id}`}>
                             <Text noOfLines={4} fontSize={16} fontWeight={500} lineHeight="20px">
                               {item?.title}
                             </Text>
@@ -193,7 +193,7 @@ const NewsDetail = async ({ params }) => {
                           </Text>
                         </Flex>
                         <Flex justify="flex-end">
-                          <Link href={`/tin-tuc/${convertSlugURL(item?.title)}.${item?.id}`}>
+                          <Link href={`/bai-viet/${convertSlugURL(item?.title)}.${item?.id}`}>
                             <Flex
                               align="center"
                               justify="center"

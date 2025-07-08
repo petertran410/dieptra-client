@@ -64,7 +64,7 @@ const CultureDetail = async ({ params }) => {
           <Breadcrumb
             data={[
               { title: 'Tuyển dụng', href: '/tuyen-dung' },
-              { title: 'Bài viết', href: `/tin-tuc/${slug}`, isActive: true }
+              { title: 'Bài viết', href: `/bai-viet/${slug}`, isActive: true }
             ]}
           />
 

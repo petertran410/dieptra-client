@@ -39,8 +39,8 @@ const Header = () => {
       href: '/san-pham'
     },
     {
-      title: 'Tin tức',
-      href: '/tin-tuc'
+      title: 'Bài Viết',
+      href: '/bai-viet'
     },
     // {
     //   title: 'Khách hàng',
