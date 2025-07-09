@@ -13,7 +13,7 @@ export default function sitemap() {
       priority: 1
     },
     {
-      url: `${domain}/gioi-thieu`,
+      url: `${domain}/gioi-thieu-diep-tra`,
       lastModified: new Date(),
       changeFrequency: 'monthly',
       priority: 0.8
@@ -37,7 +37,7 @@ export default function sitemap() {
       priority: 0.8
     },
     {
-      url: `${domain}/van-hoa`,
+      url: `${domain}/chinh-sach-diep-tra`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8

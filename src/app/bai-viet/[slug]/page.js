@@ -117,8 +117,8 @@ const NewsDetail = async ({ params }) => {
         <Flex flex={2 / 3} direction="column">
           <Breadcrumb
             data={[
-              { title: 'Tin tức', href: '/bai-viet' },
-              { title: 'Bài viết', href: `/bai-viet/${slug}`, isActive: true }
+              { title: 'Bài Viết', href: '/bai-viet' },
+              { title: 'Tin Tức', href: `/bai-viet/${slug}`, isActive: true }
             ]}
           />
           <Text as="h1" fontSize={24} fontWeight={600} mt="20px" lineHeight="30px">
