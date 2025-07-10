@@ -10,33 +10,25 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-// Component hiển thị một bài viết - FIXED image parsing
+// Component hiển thị một bài viết - FIXED date field mapping
 const ArticleCard = ({ article, categorySlug }) => {
-  const { id, title, description, imagesUrl, createdDate } = article;
+  const { id, title, description, imagesUrl, createdDate, created_date } = article;
 
-  // FIXED: Handle images properly
-  const getImageSrc = () => {
-    if (Array.isArray(imagesUrl) && imagesUrl.length > 0) {
-      return imagesUrl[0]?.replace('https://', 'http://') || '/images/news.webp';
-    }
-    return '/images/news.webp';
-  };
+  // FIXED: Handle both camelCase and snake_case field names from backend
+  const dateToDisplay = createdDate || created_date;
 
   return (
     <Flex direction="column" gap="16px" h="100%">
       <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
         <AspectRatio ratio={16 / 9} w="full">
           <Image
-            src={getImageSrc()}
+            src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
             w="full"
             h="full"
             alt={IMG_ALT}
             borderRadius={12}
             transition="transform 0.3s ease"
             _hover={{ transform: 'scale(1.05)' }}
-            onError={(e) => {
-              e.target.src = '/images/news.webp';
-            }}
           />
         </AspectRatio>
       </Link>
@@ -66,7 +58,7 @@ const ArticleCard = ({ article, categorySlug }) => {
           <Flex mt="12px" align="center" gap="4px">
             <Image src="/images/clock-outline.webp" w="14px" h="14px" alt={IMG_ALT} />
             <Text color="#A1A1AA" fontSize={14}>
-              {convertTimestamp(createdDate)}
+              {convertTimestamp(dateToDisplay)}
             </Text>
           </Flex>
         </Box>
@@ -94,7 +86,7 @@ const ArticleCard = ({ article, categorySlug }) => {
   );
 };
 
-// Component hiển thị một section - FIXED loading và error handling
+// Component hiển thị một section - FIXED
 const ArticleSection = ({ section, articles, isLoading, error }) => {
   const { label, slug, href } = section;
 
@@ -185,9 +177,9 @@ const ArticleSection = ({ section, articles, isLoading, error }) => {
   );
 };
 
-// Main component - FIXED API call và error handling
+// Main component - FIXED: Dùng API /api/news/client/get-all thay vì article-sections
 const ArticleMainWrapper = () => {
-  const [sectionsData, setSectionsData] = useState([]);
+  const [sectionsData, setSectionsData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -197,83 +189,60 @@ const ArticleMainWrapper = () => {
   ];
 
   useEffect(() => {
-    const fetchArticleSections = async () => {
+    const fetchAllSections = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        console.log('Fetching article sections...'); // Debug log
+        console.log('Fetching all sections using working API...');
 
-        const response = await API.request({
-          url: '/api/news/client/article-sections'
+        // Fetch từng section riêng biệt bằng API đã hoạt động
+        const sectionPromises = ARTICLE_SECTIONS.map(async (section) => {
+          try {
+            const response = await API.request({
+              url: '/api/news/client/get-all',
+              params: {
+                type: section.type,
+                pageSize: 3,
+                pageNumber: 0
+              }
+            });
+
+            console.log(`Section ${section.type} response:`, response);
+
+            return {
+              type: section.type,
+              articles: response?.content || []
+            };
+          } catch (sectionError) {
+            console.error(`Error fetching section ${section.type}:`, sectionError);
+            return {
+              type: section.type,
+              articles: []
+            };
+          }
         });
 
-        console.log('Article sections response:', response); // Debug log
+        const allSections = await Promise.all(sectionPromises);
 
-        if (response && Array.isArray(response)) {
-          setSectionsData(response);
-        } else {
-          console.error('Invalid response format:', response);
-          setError('Định dạng dữ liệu không hợp lệ');
-        }
+        // Convert array thành object với type làm key
+        const sectionsObject = allSections.reduce((acc, section) => {
+          acc[section.type] = section.articles;
+          return acc;
+        }, {});
+
+        console.log('All sections data:', sectionsObject);
+        setSectionsData(sectionsObject);
       } catch (error) {
-        console.error('Error fetching article sections:', error);
-        setError(error?.message || 'Không thể tải dữ liệu');
+        console.error('Error fetching sections:', error);
+        setError('Không thể tải dữ liệu bài viết');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchArticleSections();
+    fetchAllSections();
   }, []);
-
-  // FIXED: Fallback khi API lỗi - fetch từng section riêng lẻ
-  useEffect(() => {
-    if (error && !loading) {
-      console.log('API article-sections failed, trying individual requests...');
-
-      const fetchIndividualSections = async () => {
-        try {
-          setLoading(true);
-          const sections = [];
-
-          for (const section of ARTICLE_SECTIONS) {
-            try {
-              const response = await API.request({
-                url: '/api/news/client/get-all',
-                params: {
-                  type: section.type,
-                  pageSize: 3,
-                  pageNumber: 0
-                }
-              });
-
-              const { content = [] } = response || {};
-              sections.push({
-                type: section.type,
-                articles: content
-              });
-            } catch (sectionError) {
-              console.error(`Error fetching ${section.type}:`, sectionError);
-              sections.push({
-                type: section.type,
-                articles: []
-              });
-            }
-          }
-
-          setSectionsData(sections);
-          setError(null);
-        } catch (fallbackError) {
-          console.error('Fallback fetch failed:', fallbackError);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchIndividualSections();
-    }
-  }, [error, loading]);
 
   return (
     <>
@@ -298,20 +267,34 @@ const ArticleMainWrapper = () => {
           </Text>
         </VStack>
 
-        {/* Article Sections */}
-        {ARTICLE_SECTIONS.map((section) => {
-          const sectionData = sectionsData.find((data) => data.type === section.type);
+        {/* Global Error Message */}
+        {error && (
+          <Box mb="40px" p="20px" bg="red.50" borderRadius="8px" border="1px solid #fee">
+            <Text color="red.600" textAlign="center">
+              {error}
+            </Text>
+          </Box>
+        )}
 
-          return (
-            <ArticleSection
-              key={section.type}
-              section={section}
-              articles={sectionData?.articles || []}
-              isLoading={loading}
-              error={error && !sectionData ? error : null}
-            />
-          );
-        })}
+        {/* Global Loading */}
+        {loading && (
+          <Flex justify="center" py="60px">
+            <VStack spacing="16px">
+              <Spinner size="lg" color="#065FD4" />
+              <Text color="gray.600">Đang tải bài viết...</Text>
+            </VStack>
+          </Flex>
+        )}
+
+        {/* Article Sections */}
+        {!loading &&
+          ARTICLE_SECTIONS.map((section) => {
+            const articles = sectionsData[section.type] || [];
+
+            return (
+              <ArticleSection key={section.type} section={section} articles={articles} isLoading={false} error={null} />
+            );
+          })}
       </Flex>
     </>
   );

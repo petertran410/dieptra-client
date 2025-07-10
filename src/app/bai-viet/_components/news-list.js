@@ -11,12 +11,15 @@ import Link from 'next/link';
 // Helper để tìm category slug từ type
 const getCategorySlugByType = (type) => {
   const section = ARTICLE_SECTIONS.find((s) => s.type === type);
-  return section?.slug || 'tin-tuc'; // fallback
+  return section?.slug || 'tin-tuc';
 };
 
 const ArticlesItem = ({ item }) => {
-  const { id, title, imagesUrl, createdDate, type } = item || {};
+  const { id, title, imagesUrl, createdDate, created_date, type } = item || {};
   const categorySlug = getCategorySlugByType(type);
+
+  // FIXED: Handle both field name formats
+  const dateToDisplay = createdDate || created_date;
 
   return (
     <Flex direction="column" gap="16px">
@@ -40,7 +43,7 @@ const ArticlesItem = ({ item }) => {
           </Link>
           <Flex mt="4px" align="center" gap="4px">
             <Image src="/images/clock-outline.webp" w="16px" h="16px" alt={IMG_ALT} />
-            <Text color="#A1A1AA">{convertTimestamp(createdDate)}</Text>
+            <Text color="#A1A1AA">{convertTimestamp(dateToDisplay)}</Text>
           </Flex>
         </Box>
         <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>

@@ -31,15 +31,43 @@ export const convertSlugURL = (text) => {
 export const formatCurrency = (price = 0) =>
   new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(price));
 
-export const convertTimestamp = (isoString) => {
-  const date = new Date(isoString);
-  const day = String(date.getDate()).padStart(2, '0');
-  const month = String(date.getMonth() + 1).padStart(2, '0'); // Tháng bắt đầu từ 0 nên cần +1
-  const year = date.getFullYear();
-  const hours = String(date.getHours()).padStart(2, '0');
-  const minutes = String(date.getMinutes()).padStart(2, '0');
+export const convertTimestamp = (timestamp) => {
+  if (!timestamp) return '';
 
-  return `${hours}:${minutes} ${day}/${month}/${year}`;
+  try {
+    let date;
+
+    // Handle different timestamp formats
+    if (typeof timestamp === 'string') {
+      // Handle ISO string format
+      date = new Date(timestamp);
+    } else if (typeof timestamp === 'number') {
+      // Handle Unix timestamp (seconds or milliseconds)
+      date = timestamp > 1000000000000 ? new Date(timestamp) : new Date(timestamp * 1000);
+    } else if (timestamp instanceof Date) {
+      // Handle Date object
+      date = timestamp;
+    } else {
+      console.warn('Unknown timestamp format:', timestamp);
+      return '';
+    }
+
+    // Validate date
+    if (isNaN(date.getTime())) {
+      console.warn('Invalid date:', timestamp);
+      return '';
+    }
+
+    // Format: DD/MM/YYYY
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  } catch (error) {
+    console.error('Error converting timestamp:', error, 'Input:', timestamp);
+    return '';
+  }
 };
 
 export const getCategoryName = (name) => {
