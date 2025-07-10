@@ -1,17 +1,14 @@
-// src/app/bai-viet/tin-tuc/page.js - TRANG 6
+'use client';
+
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
-import { getMetadata } from '../../../utils/helper-server';
 import Head from 'next/head';
-
-export const metadata = getMetadata({
-  title: 'Tin Tức | Diệp Trà'
-});
 
 const TinTuc = () => {
   return (
     <>
       <Head>
+        <title>Tin Tức | Diệp Trà</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/tin-tuc`} />
         <meta name="robots" content="index, follow" />
       </Head>

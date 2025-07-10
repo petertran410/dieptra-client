@@ -1,17 +1,14 @@
-// src/app/bai-viet/review-danh-gia-san-pham/page.js - TRANG 4
+'use client';
+
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
-import { getMetadata } from '../../../utils/helper-server';
 import Head from 'next/head';
-
-export const metadata = getMetadata({
-  title: 'Review - Đánh Giá Sản Phẩm | Diệp Trà'
-});
 
 const ReviewDanhGiaSanPham = () => {
   return (
     <>
       <Head>
+        <title>Review - Đánh Giá Sản Phẩm | Diệp Trà</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/review-danh-gia-san-pham`} />
         <meta name="robots" content="index, follow" />
       </Head>

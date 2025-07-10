@@ -3,7 +3,6 @@ import { META_DESCRIPTION, META_KEYWORDS } from '../../../../utils/helper-server
 import { notFound } from 'next/navigation';
 import ArticleDetailClient from './article-detail-client';
 
-// METADATA GENERATION - Server component
 export async function generateMetadata({ params }) {
   const { category, slug } = params;
 

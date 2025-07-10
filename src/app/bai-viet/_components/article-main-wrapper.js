@@ -8,14 +8,13 @@ import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
 import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, Spinner, VStack } from '@chakra-ui/react';
 import Head from 'next/head';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 
-// Component hiển thị một bài viết - FIXED date field mapping
 const ArticleCard = ({ article, categorySlug }) => {
-  const { id, title, description, imagesUrl, createdDate, created_date } = article;
+  const { id, title, description, imagesUrl, createdDate } = article;
 
-  // FIXED: Handle both camelCase and snake_case field names from backend
-  const dateToDisplay = createdDate || created_date;
+  // 🚨 DEBUG: Log data để kiểm tra
+  console.log('ArticleCard data:', { id, title, createdDate, fullArticle: article });
 
   return (
     <Flex direction="column" gap="16px" h="100%">
@@ -55,10 +54,11 @@ const ArticleCard = ({ article, categorySlug }) => {
             </Text>
           )}
 
+          {/* 🚨 ENHANCED: Date display với fallback handling */}
           <Flex mt="12px" align="center" gap="4px">
             <Image src="/images/clock-outline.webp" w="14px" h="14px" alt={IMG_ALT} />
             <Text color="#A1A1AA" fontSize={14}>
-              {convertTimestamp(dateToDisplay)}
+              {createdDate ? convertTimestamp(createdDate) : 'Chưa có ngày'}
             </Text>
           </Flex>
         </Box>
@@ -86,8 +86,8 @@ const ArticleCard = ({ article, categorySlug }) => {
   );
 };
 
-// Component hiển thị một section - FIXED
-const ArticleSection = ({ section, articles, isLoading, error }) => {
+// Component hiển thị một section với Suspense
+const ArticleSection = ({ section, articles, isLoading }) => {
   const { label, slug, href } = section;
 
   if (isLoading) {
@@ -101,21 +101,6 @@ const ArticleSection = ({ section, articles, isLoading, error }) => {
         <Flex justify="center" py="40px">
           <Spinner size="lg" color="#065FD4" />
         </Flex>
-      </Box>
-    );
-  }
-
-  if (error) {
-    return (
-      <Box mb="50px">
-        <Flex justify="space-between" align="center" mb="24px">
-          <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
-            {label}
-          </Heading>
-        </Flex>
-        <Text color="red.500" textAlign="center" py="20px">
-          Lỗi tải dữ liệu: {error}
-        </Text>
       </Box>
     );
   }
@@ -177,76 +162,96 @@ const ArticleSection = ({ section, articles, isLoading, error }) => {
   );
 };
 
-// Main component - FIXED: Dùng API /api/news/client/get-all thay vì article-sections
-const ArticleMainWrapper = () => {
-  const [sectionsData, setSectionsData] = useState({});
+// 🚨 ENHANCED: Sections Content Component với better data handling
+const SectionsContent = () => {
+  const [sectionsData, setSectionsData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  const breadcrumbData = [
-    { title: 'Trang chủ', href: '/' },
-    { title: 'Bài Viết', href: '/bai-viet', isActive: true }
-  ];
 
   useEffect(() => {
-    const fetchAllSections = async () => {
+    const fetchArticleSections = async () => {
       try {
         setLoading(true);
-        setError(null);
+        console.log('🔄 Fetching article sections...'); // Debug log
 
-        console.log('Fetching all sections using working API...');
+        const response = await API.request({ url: '/api/news/client/article-sections' });
 
-        // Fetch từng section riêng biệt bằng API đã hoạt động
-        const sectionPromises = ARTICLE_SECTIONS.map(async (section) => {
-          try {
-            const response = await API.request({
-              url: '/api/news/client/get-all',
-              params: {
-                type: section.type,
-                pageSize: 3,
-                pageNumber: 0
-              }
+        console.log('📥 API Response:', response); // Debug log
+
+        if (response && Array.isArray(response)) {
+          // 🚨 ENHANCED: Transform và validate data
+          const validatedSections = response.map((section) => {
+            const { type, articles = [] } = section;
+
+            // Validate và transform articles
+            const validatedArticles = articles.map((article) => {
+              const createdDate =
+                article.createdDate || article.created_date || article.createdAt || new Date().toISOString();
+
+              return {
+                ...article,
+                id: Number(article.id), // Ensure numeric ID
+                createdDate, // Standardized field name
+                imagesUrl: Array.isArray(article.imagesUrl)
+                  ? article.imagesUrl
+                  : article.images_url
+                  ? JSON.parse(article.images_url)
+                  : []
+              };
             });
 
-            console.log(`Section ${section.type} response:`, response);
+            console.log(`📋 Section ${type}:`, validatedArticles); // Debug log
 
             return {
-              type: section.type,
-              articles: response?.content || []
+              type,
+              articles: validatedArticles
             };
-          } catch (sectionError) {
-            console.error(`Error fetching section ${section.type}:`, sectionError);
-            return {
-              type: section.type,
-              articles: []
-            };
-          }
-        });
+          });
 
-        const allSections = await Promise.all(sectionPromises);
-
-        // Convert array thành object với type làm key
-        const sectionsObject = allSections.reduce((acc, section) => {
-          acc[section.type] = section.articles;
-          return acc;
-        }, {});
-
-        console.log('All sections data:', sectionsObject);
-        setSectionsData(sectionsObject);
+          setSectionsData(validatedSections);
+        } else {
+          console.warn('⚠️ Invalid API response format:', response);
+          setSectionsData([]);
+        }
       } catch (error) {
-        console.error('Error fetching sections:', error);
-        setError('Không thể tải dữ liệu bài viết');
+        console.error('❌ Error fetching article sections:', error);
+        setSectionsData([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAllSections();
+    fetchArticleSections();
   }, []);
 
   return (
     <>
+      {ARTICLE_SECTIONS.map((section) => {
+        const sectionData = sectionsData.find((data) => data.type === section.type);
+
+        return (
+          <ArticleSection
+            key={section.type}
+            section={section}
+            articles={sectionData?.articles || []}
+            isLoading={loading}
+          />
+        );
+      })}
+    </>
+  );
+};
+
+// Main component với Suspense wrapper
+const ArticleMainWrapper = () => {
+  const breadcrumbData = [
+    { title: 'Trang chủ', href: '/' },
+    { title: 'Bài Viết', href: '/bai-viet', isActive: true }
+  ];
+
+  return (
+    <>
       <Head>
+        <title>Bài Viết | Diệp Trà</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet`} />
         <meta name="robots" content="index, follow" />
       </Head>
@@ -260,41 +265,23 @@ const ArticleMainWrapper = () => {
           <Heading as="h1" fontSize={{ xs: '28px', lg: '36px' }} fontWeight={700} color="#003366">
             Bài Viết
           </Heading>
-          <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6" maxW="800px">
+          <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6" maxW="full">
             Khám phá kho kiến thức phong phú về pha chế, nguyên liệu, xu hướng và những câu chuyện thú vị trong thế giới
             đồ uống. Từ những bí quyết pha chế đến các review sản phẩm chi tiết, tất cả đều được cập nhật liên tục tại
             Diệp Trà.
           </Text>
         </VStack>
 
-        {/* Global Error Message */}
-        {error && (
-          <Box mb="40px" p="20px" bg="red.50" borderRadius="8px" border="1px solid #fee">
-            <Text color="red.600" textAlign="center">
-              {error}
-            </Text>
-          </Box>
-        )}
-
-        {/* Global Loading */}
-        {loading && (
-          <Flex justify="center" py="60px">
-            <VStack spacing="16px">
+        {/* Sections với Suspense boundary */}
+        <Suspense
+          fallback={
+            <Flex justify="center" py="60px">
               <Spinner size="lg" color="#065FD4" />
-              <Text color="gray.600">Đang tải bài viết...</Text>
-            </VStack>
-          </Flex>
-        )}
-
-        {/* Article Sections */}
-        {!loading &&
-          ARTICLE_SECTIONS.map((section) => {
-            const articles = sectionsData[section.type] || [];
-
-            return (
-              <ArticleSection key={section.type} section={section} articles={articles} isLoading={false} error={null} />
-            );
-          })}
+            </Flex>
+          }
+        >
+          <SectionsContent />
+        </Suspense>
       </Flex>
     </>
   );

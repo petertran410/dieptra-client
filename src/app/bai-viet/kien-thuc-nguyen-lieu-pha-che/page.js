@@ -1,17 +1,14 @@
-// src/app/bai-viet/kien-thuc-nguyen-lieu-pha-che/page.js - TRANG 1
+'use client';
+
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
-import { getMetadata } from '../../../utils/helper-server';
 import Head from 'next/head';
-
-export const metadata = getMetadata({
-  title: 'Kiến Thức Nguyên Liệu Pha Chế | Diệp Trà'
-});
 
 const KienThucNguyenLieuPhaChe = () => {
   return (
     <>
       <Head>
+        <title>Kiến Thức Nguyên Liệu Pha Chế | Diệp Trà</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/kien-thuc-nguyen-lieu-pha-che`} />
         <meta name="robots" content="index, follow" />
       </Head>

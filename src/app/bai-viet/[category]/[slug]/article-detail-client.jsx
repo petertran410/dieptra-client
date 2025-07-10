@@ -273,7 +273,6 @@ const ArticleDetailClient = ({ params, categoryData }) => {
           return;
         }
 
-        // Verify article belongs to correct category
         if (newsDetail.type !== categoryData.type) {
           setError('Article type mismatch');
           return;

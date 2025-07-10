@@ -1,13 +1,12 @@
 'use client';
 
 import Breadcrumb from '../../../components/breadcrumb';
-import { useQueryArticlesByType } from '../../../services/article.service';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
-import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, VStack, Spinner } from '@chakra-ui/react';
-import Head from 'next/head';
+import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, Spinner, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
-import { useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
+import { API } from '../../../utils/API';
 
 const ArticleItem = ({ item, categorySlug }) => {
   const { id, title, imagesUrl, createdDate, description } = item || {};
@@ -81,18 +80,17 @@ const ArticleItem = ({ item, categorySlug }) => {
   );
 };
 
-// Pagination component
+// 🚨 NEW: Pagination Component với Suspense-safe implementation
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
   const getPageNumbers = () => {
     const pages = [];
-    const showPages = 5; // Hiển thị tối đa 5 trang
+    const showPages = 5;
 
     let startPage = Math.max(1, currentPage - Math.floor(showPages / 2));
     let endPage = Math.min(totalPages, startPage + showPages - 1);
 
-    // Điều chỉnh startPage nếu endPage đã đạt giới hạn
     if (endPage - startPage < showPages - 1) {
       startPage = Math.max(1, endPage - showPages + 1);
     }
@@ -106,7 +104,6 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
   return (
     <Flex justify="center" mt="40px" gap="8px">
-      {/* Previous Button */}
       <Button
         size="sm"
         variant="outline"
@@ -118,21 +115,21 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         Trước
       </Button>
 
-      {/* Page Numbers */}
       {getPageNumbers().map((page) => (
         <Button
           key={page}
           size="sm"
           variant={page === currentPage ? 'solid' : 'outline'}
-          colorScheme={page === currentPage ? 'blue' : 'gray'}
+          bgColor={page === currentPage ? '#065FD4' : 'transparent'}
+          color={page === currentPage ? 'white' : '#065FD4'}
+          borderColor="#065FD4"
           onClick={() => onPageChange(page)}
-          _hover={page !== currentPage ? { borderColor: '#065FD4', color: '#065FD4' } : {}}
+          _hover={page !== currentPage ? { bgColor: '#065FD4', color: 'white' } : {}}
         >
           {page}
         </Button>
       ))}
 
-      {/* Next Button */}
       <Button
         size="sm"
         variant="outline"
@@ -147,92 +144,118 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-// Main component
+const ArticlesContent = ({ articleType, categorySlug }) => {
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
+
+  const fetchArticles = async (page = 1) => {
+    try {
+      setLoading(true);
+      const response = await API.request({
+        url: '/api/news/client/get-all',
+        params: {
+          pageSize: 9,
+          pageNumber: page - 1,
+          type: articleType
+        }
+      });
+
+      const { content = [], totalElements = 0 } = response || {};
+      setArticles(content);
+      setTotalPages(Math.ceil(totalElements / 9));
+    } catch (error) {
+      console.error('Error fetching articles:', error);
+      setArticles([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (articleType) {
+      fetchArticles(currentPage);
+    }
+  }, [articleType, currentPage]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    // Scroll to top when page changes
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  if (loading) {
+    return (
+      <Flex justify="center" py="60px">
+        <Spinner size="lg" color="#065FD4" />
+      </Flex>
+    );
+  }
+
+  if (!articles.length) {
+    return (
+      <Flex justify="center" py="60px">
+        <Text fontSize={18} color="gray.500">
+          Chưa có bài viết nào trong mục này
+        </Text>
+      </Flex>
+    );
+  }
+
+  return (
+    <>
+      <Grid
+        templateColumns={{
+          xs: '1fr',
+          md: 'repeat(2, 1fr)',
+          lg: 'repeat(3, 1fr)'
+        }}
+        gap="24px"
+      >
+        {articles.map((article) => (
+          <ArticleItem key={article.id} item={article} categorySlug={categorySlug} />
+        ))}
+      </Grid>
+
+      {totalPages > 1 && (
+        <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+      )}
+    </>
+  );
+};
+
+// 🚨 MAIN COMPONENT với Suspense boundary
 const ArticleSubcategoryTemplate = ({ articleType, title, breadcrumbLabel, description, categorySlug }) => {
-  const { data: articlesQuery, isLoading } = useQueryArticlesByType(articleType);
-  const { content: articles = [], totalElements = 0, totalPages = 0, number: currentPage = 0 } = articlesQuery || {};
-
-  const [currentPageState, setCurrentPageState] = useState(currentPage + 1); // Convert to 1-based
-
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },
     { title: 'Bài Viết', href: '/bai-viet' },
     { title: breadcrumbLabel, href: '#', isActive: true }
   ];
 
-  const handlePageChange = (page) => {
-    setCurrentPageState(page);
-    // Update URL params if needed
-    const url = new URL(window.location);
-    url.searchParams.set('page', page.toString());
-    window.history.pushState({}, '', url);
-
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
-    <>
-      <Head>
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/${categorySlug}`} />
-        <meta name="robots" content="index, follow" />
-      </Head>
+    <Flex pt={{ xs: '70px', lg: '162px' }} px={PX_ALL} pb="50px" direction="column">
+      <Breadcrumb data={breadcrumbData} />
 
-      <Flex pt={{ xs: '70px', lg: '162px' }} px={PX_ALL} pb="50px" direction="column">
-        <Breadcrumb data={breadcrumbData} />
+      <VStack align="start" spacing="16px" mt="20px" mb="40px">
+        <Heading as="h1" fontSize={{ xs: '28px', lg: '36px' }} fontWeight={700} color="#003366">
+          {title}
+        </Heading>
+        <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6" maxW="full">
+          {description}
+        </Text>
+      </VStack>
 
-        <VStack align="start" spacing="16px" mt="20px" mb="40px">
-          <Heading as="h1" fontSize={{ xs: '28px', lg: '36px' }} fontWeight={700} color="#003366">
-            {title}
-          </Heading>
-          <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6" maxW="800px">
-            {description}
-          </Text>
-          {totalElements > 0 && (
-            <Text fontSize={14} color="gray.500">
-              Tổng cộng {totalElements} bài viết
-            </Text>
-          )}
-        </VStack>
-
-        {isLoading ? (
+      <Suspense
+        fallback={
           <Flex justify="center" py="60px">
             <Spinner size="lg" color="#065FD4" />
           </Flex>
-        ) : articles.length > 0 ? (
-          <>
-            <Grid
-              templateColumns={{
-                xs: '1fr',
-                md: 'repeat(2, 1fr)',
-                lg: 'repeat(3, 1fr)'
-              }}
-              gap="24px"
-            >
-              {articles.map((article) => (
-                <ArticleItem key={article.id} item={article} categorySlug={categorySlug} />
-              ))}
-            </Grid>
-
-            {/* Pagination */}
-            <Pagination currentPage={currentPageState} totalPages={totalPages} onPageChange={handlePageChange} />
-          </>
-        ) : (
-          <Flex justify="center" py="60px">
-            <VStack spacing="16px">
-              <Text fontSize={18} color="gray.500">
-                Chưa có bài viết nào trong mục này
-              </Text>
-              <Link href="/bai-viet">
-                <Button colorScheme="blue" variant="outline">
-                  Xem tất cả bài viết
-                </Button>
-              </Link>
-            </VStack>
-          </Flex>
-        )}
-      </Flex>
-    </>
+        }
+      >
+        <ArticlesContent articleType={articleType} categorySlug={categorySlug} />
+      </Suspense>
+    </Flex>
   );
 };
 
