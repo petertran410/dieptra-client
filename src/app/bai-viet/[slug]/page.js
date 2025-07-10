@@ -1,54 +1,45 @@
-// src/app/bai-viet/[slug]/page.js - UPDATED với breadcrumb đúng
+'use client';
+
 import Breadcrumb from '../../../components/breadcrumb';
 import TableOfContents from '../../../components/toc';
 import { API } from '../../../utils/API';
 import { ARTICLE_SECTIONS } from '../../../utils/article-types';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { convertSlugURL, convertTimestamp, META_DESCRIPTION, META_KEYWORDS } from '../../../utils/helper-server';
-import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
+import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text } from '@chakra-ui/react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Script from 'next/script';
+import { useEffect, useState } from 'react';
 
-export async function generateMetadata({ params }) {
+// Component chính NewsDetail
+const NewsDetail = ({ params }) => {
   const { slug } = params;
   const id = slug.split('.').pop();
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/${id}`);
-  const data = await response.json();
+  const [newsDetail, setNewsDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-  const { title: titleData, imagesUrl } = data || {};
-  const imageUrl = imagesUrl?.[0]?.replace('https://', 'http://') || '/images/preview.webp';
-  const title = `${titleData} | Diệp Trà`;
-  const description = META_DESCRIPTION;
+  useEffect(() => {
+    const fetchNewsDetail = async () => {
+      try {
+        const data = await API.request({ url: `/api/news/client/${id}` });
+        setNewsDetail(data);
+      } catch (error) {
+        console.error('Error fetching news detail:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  return {
-    title,
-    description: description || '',
-    openGraph: {
-      title,
-      description: description || '',
-      images: [
-        {
-          url: imageUrl,
-          width: 800,
-          height: 600,
-          alt: title
-        }
-      ]
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: title,
-      description: description || '',
-      images: [imageUrl]
+    if (id) {
+      fetchNewsDetail();
     }
-  };
-}
+  }, [id]);
 
 // Helper function để tạo breadcrumb data dựa trên type của bài viết
 const getBreadcrumbData = (articleType, articleTitle) => {
-  const section = ARTICLE_SECTIONS.find((s) => s.type === articleType);
-
+  const section = ARTICLE_SECTIONS.find(s => s.type === articleType);
+  
   if (section) {
     return [
       { title: 'Trang chủ', href: '/' },
@@ -57,7 +48,7 @@ const getBreadcrumbData = (articleType, articleTitle) => {
       { title: articleTitle, href: '#', isActive: true }
     ];
   }
-
+  
   // Fallback cho những type không có trong ARTICLE_SECTIONS
   return [
     { title: 'Trang chủ', href: '/' },
@@ -66,18 +57,262 @@ const getBreadcrumbData = (articleType, articleTitle) => {
   ];
 };
 
-const NewsDetail = async ({ params }) => {
+// Component cho sidebar latest articles (2 bài mới nhất cùng type)
+const LatestArticlesSidebar = ({ articleType, currentArticleId }) => {
+  const [latestArticles, setLatestArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLatestArticles = async () => {
+      try {
+        const response = await API.request({
+          url: '/api/news/client/get-all',
+          params: { 
+            pageSize: 3, 
+            pageNumber: 0,
+            type: articleType 
+          }
+        });
+        
+        const { content = [] } = response || {};
+        // Filter out current article
+        const filtered = content.filter(article => article.id !== currentArticleId);
+        setLatestArticles(filtered.slice(0, 2));
+      } catch (error) {
+        console.error('Error fetching latest articles:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (articleType) {
+      fetchLatestArticles();
+    }
+  }, [articleType, currentArticleId]);
+
+  if (loading) {
+    return (
+      <Box p="16px" bg="gray.50" borderRadius="8px">
+        <Text fontSize={16} fontWeight={500} mb="16px">Đang tải...</Text>
+      </Box>
+    );
+  }
+
+  if (!latestArticles.length) {
+    return (
+      <Box p="16px" bg="gray.50" borderRadius="8px">
+        <Text fontSize={16} fontWeight={500} mb="16px">Bài viết mới nhất</Text>
+        <Text fontSize={14} color="gray.500">Chưa có bài viết mới</Text>
+      </Box>
+    );
+  }
+
+  return (
+    <Box>
+      <Text fontSize={16} fontWeight={500} mb="16px">
+        Bài viết mới nhất
+      </Text>
+      <Flex direction="column" gap="16px">
+        {latestArticles.map((article) => (
+          <Flex align="flex-start" gap="12px" key={article.id}>
+            <Link href={`/bai-viet/${convertSlugURL(article.title)}.${article.id}`}>
+              <Image
+                src={article.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
+                alt={IMG_ALT}
+                w="80px"
+                h="60px"
+                objectFit="cover"
+                borderRadius={8}
+                transition="transform 0.2s"
+                _hover={{ transform: 'scale(1.05)' }}
+              />
+            </Link>
+            
+            <Flex direction="column" flex={1}>
+              <Link href={`/bai-viet/${convertSlugURL(article.title)}.${article.id}`}>
+                <Text 
+                  fontSize={14} 
+                  fontWeight={500} 
+                  lineHeight="18px" 
+                  noOfLines={2}
+                  _hover={{ color: '#065FD4' }}
+                  transition="color 0.2s"
+                >
+                  {article.title}
+                </Text>
+              </Link>
+              <Text mt="4px" fontSize={12} color="#A1A1AA">
+                {convertTimestamp(article.createdDate)}
+              </Text>
+            </Flex>
+          </Flex>
+        ))}
+      </Flex>
+    </Box>
+  );
+};
+
+// Component cho related articles ở cuối trang
+const RelatedArticlesSection = ({ articleType, currentArticleId }) => {
+  const [relatedArticles, setRelatedArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRelatedArticles = async () => {
+      try {
+        const response = await API.request({
+          url: '/api/news/client/get-all',
+          params: { 
+            pageSize: 7, 
+            pageNumber: 0,
+            type: articleType 
+          }
+        });
+        
+        const { content = [] } = response || {};
+        // Filter out current article
+        const filtered = content.filter(article => article.id !== currentArticleId);
+        setRelatedArticles(filtered.slice(0, 6));
+      } catch (error) {
+        console.error('Error fetching related articles:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (articleType) {
+      fetchRelatedArticles();
+    }
+  }, [articleType, currentArticleId]);
+
+  if (loading) {
+    return (
+      <Box mt="48px" textAlign="center">
+        <Text>Đang tải bài viết liên quan...</Text>
+      </Box>
+    );
+  }
+
+  if (!relatedArticles.length) {
+    return null;
+  }
+
+  return (
+    <Box mt="48px">
+      <Heading as="h2" fontSize={24} fontWeight={600} mb="24px" color="#003366">
+        Bài viết liên quan
+      </Heading>
+      
+      <Grid
+        templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
+        gap="24px"
+      >
+        {relatedArticles.map((article) => (
+          <Flex direction="column" gap="12px" key={article.id}>
+            <Link href={`/bai-viet/${convertSlugURL(article.title)}.${article.id}`}>
+              <AspectRatio ratio={16 / 9} w="full">
+                <Image
+                  src={article.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
+                  w="full"
+                  h="full"
+                  alt={IMG_ALT}
+                  borderRadius={12}
+                  transition="transform 0.3s ease"
+                  _hover={{ transform: 'scale(1.05)' }}
+                />
+              </AspectRatio>
+            </Link>
+            
+            <Flex direction="column" gap="8px">
+              <Link href={`/bai-viet/${convertSlugURL(article.title)}.${article.id}`}>
+                <Text 
+                  fontSize={16} 
+                  fontWeight={500} 
+                  lineHeight="22px" 
+                  noOfLines={2}
+                  _hover={{ color: '#065FD4' }}
+                  transition="color 0.2s"
+                >
+                  {article.title}
+                </Text>
+              </Link>
+              
+              <Text fontSize={14} color="#A1A1AA">
+                {convertTimestamp(article.createdDate)}
+              </Text>
+              
+              <Link href={`/bai-viet/${convertSlugURL(article.title)}.${article.id}`}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  borderColor="#065FD4"
+                  color="#065FD4"
+                  fontSize={14}
+                  _hover={{ bgColor: '#065FD4', color: 'white' }}
+                  w="fit-content"
+                >
+                  Đọc tiếp
+                </Button>
+              </Link>
+            </Flex>
+          </Flex>
+        ))}
+      </Grid>
+    </Box>
+  );
+};
+
+const NewsDetail = ({ params }) => {
   const { slug } = params;
   const id = slug.split('.').pop();
-  const newsDetail = await API.request({ url: `/api/news/client/${id}` });
-  const newsListQuery = await API.request({
-    url: '/api/news/client/get-all',
-    params: { pageSize: 6, type: newsDetail?.type || 'NEWS' }
-  });
-  const { content: newsList = [] } = newsListQuery || {};
+  const [newsDetail, setNewsDetail] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchNewsDetail = async () => {
+      try {
+        const data = await API.request({ url: `/api/news/client/${id}` });
+        setNewsDetail(data);
+      } catch (error) {
+        console.error('Error fetching news detail:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (id) {
+      fetchNewsDetail();
+    }
+  }, [id]);
+
+  if (loading) {
+    return (
+      <Flex
+        pt={{ xs: '70px', lg: '162px' }}
+        px={PX_ALL}
+        pb="50px"
+        justify="center"
+        align="center"
+        minH="400px"
+      >
+        <Text fontSize={18}>Đang tải...</Text>
+      </Flex>
+    );
+  }
 
   if (!newsDetail) {
-    return null;
+    return (
+      <Flex
+        pt={{ xs: '70px', lg: '162px' }}
+        px={PX_ALL}
+        pb="50px"
+        justify="center"
+        align="center"
+        minH="400px"
+      >
+        <Text fontSize={18} color="red.500">Không tìm thấy bài viết</Text>
+      </Flex>
+    );
   }
 
   const { title, htmlContent, createdDate, imagesUrl, description, type } = newsDetail;
@@ -128,6 +363,8 @@ const NewsDetail = async ({ params }) => {
   return (
     <>
       <Head>
+        <title>{title} | Diệp Trà</title>
+        <meta name="description" content={description || META_DESCRIPTION} />
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/${slug}`} />
       </Head>
       <Script
@@ -139,14 +376,14 @@ const NewsDetail = async ({ params }) => {
       <Flex
         pt={{ xs: '70px', lg: '162px' }}
         px={PX_ALL}
-        gap={{ xs: '50px', lg: '24px' }}
+        gap={{ xs: '32px', lg: '24px' }}
         pb="50px"
         direction={{ xs: 'column', lg: 'row' }}
       >
+        {/* MAIN CONTENT */}
         <Flex flex={2 / 3} direction="column">
-          {/* UPDATED BREADCRUMB */}
           <Breadcrumb data={breadcrumbData} />
-
+          
           <Text as="h1" fontSize={24} fontWeight={600} mt="20px" lineHeight="30px">
             {title}
           </Text>
@@ -157,7 +394,7 @@ const NewsDetail = async ({ params }) => {
             {description}
           </Text>
 
-          {!htmlContent?.startsWith('<toc></toc>') && (
+          {htmlContent && !htmlContent.startsWith('<toc></toc>') && (
             <Box my="24px" className="html-content" borderRadius={8} border="1px solid #CCC" px="16px" py="12px">
               <Text fontWeight={700} fontSize={18}>
                 Mục lục
@@ -184,68 +421,20 @@ const NewsDetail = async ({ params }) => {
               __html: htmlContent
             }}
           />
-        </Flex>
-        <Flex flex={1 / 3} gap="16px" direction="column">
-          {Array.isArray(newsList) && !!newsList.length && (
-            <>
-              <Text fontSize={16} fontWeight={500}>
-                Bài viết liên quan
-              </Text>
-              {newsList
-                ?.filter((i) => i.id !== Number(id))
-                ?.map((item) => {
-                  return (
-                    <Flex align="flex-start" gap="16px" key={item?.id}>
-                      <Link href={`/bai-viet/${convertSlugURL(item?.title)}.${item?.id}`}>
-                        <Image
-                          src={item?.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
-                          alt={IMG_ALT}
-                          w={{ xs: '120px', lg: '154px' }}
-                          h={{ xs: '120px', lg: '154px' }}
-                          fit="cover"
-                          borderRadius={16}
-                        />
-                      </Link>
 
-                      <Flex flex={1} direction="column" justify="space-between" h={{ xs: '120px', lg: '154px' }}>
-                        <Flex direction="column">
-                          <Link href={`/bai-viet/${convertSlugURL(item?.title)}.${item?.id}`}>
-                            <Text noOfLines={4} fontSize={16} fontWeight={500} lineHeight="20px">
-                              {item?.title}
-                            </Text>
-                          </Link>
-                          <Text mt="4px" color="#A1A1AA">
-                            {convertTimestamp(item?.createdDate)}
-                          </Text>
-                        </Flex>
-                        <Flex justify="flex-end">
-                          <Link href={`/bai-viet/${convertSlugURL(item?.title)}.${item?.id}`}>
-                            <Flex
-                              align="center"
-                              justify="center"
-                              bgColor="transparent"
-                              border="1px solid"
-                              borderColor="#065FD4"
-                              color="#065FD4"
-                              w="86px"
-                              h="32px"
-                              gap="4px"
-                              fontSize={16}
-                              borderRadius={8}
-                              fontWeight={500}
-                              transitionDuration="250ms"
-                              _hover={{ bgColor: '#0f2c3d', borderColor: '#0f2c3d', color: '#FFF' }}
-                            >
-                              Đọc tiếp
-                            </Flex>
-                          </Link>
-                        </Flex>
-                      </Flex>
-                    </Flex>
-                  );
-                })}
-            </>
-          )}
+          {/* RELATED ARTICLES - DI CHUYỂN XUỐNG CUỐI */}
+          <RelatedArticlesSection 
+            articleType={type} 
+            currentArticleId={id}
+          />
+        </Flex>
+
+        {/* SIDEBAR - LATEST ARTICLES */}
+        <Flex flex={1 / 3} direction="column">
+          <LatestArticlesSidebar 
+            articleType={type} 
+            currentArticleId={id}
+          />
         </Flex>
       </Flex>
     </>

@@ -1,4 +1,4 @@
-// src/app/_layouts/header/header.js - UPDATED với dropdown
+// src/app/_layouts/header/header.js - FIXED dropdown hover & font size
 'use client';
 
 import { ARTICLE_SECTIONS } from '../../../utils/article-types';
@@ -48,8 +48,8 @@ const Header = () => {
     {
       title: 'Bài Viết',
       href: '/bai-viet',
-      hasDropdown: true,
-      dropdownItems: ARTICLE_SECTIONS
+      hasDropdown: true, // THÊM FLAG DROPDOWN
+      dropdownItems: ARTICLE_SECTIONS // THÊM DROPDOWN ITEMS
     },
     {
       title: 'Tuyển dụng',
@@ -104,28 +104,29 @@ const Header = () => {
             // RENDER DROPDOWN MENU CHO BÀI VIẾT
             if (hasDropdown && dropdownItems) {
               return (
-                <Menu key={title} trigger="hover">
-                  <MenuButton
-                    as={Flex}
-                    justify="center"
-                    px="16px"
-                    py="10px"
-                    w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
-                    borderBottom="2px solid"
-                    borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'black') : 'transparent'}
-                    color={!isTransparent || isScrolled ? 'black' : 'black'}
-                    fontSize="16px"
-                    fontWeight="500"
-                    cursor="pointer"
-                    transition="all 0.2s"
-                    _hover={{
-                      color: !isTransparent || isScrolled ? 'main.1' : 'black',
-                      borderColor: !isTransparent || isScrolled ? 'main.1' : 'white',
-                      transform: 'translateY(-2px)'
-                    }}
-                    onClick={() => (window.location.href = href)}
-                  >
-                    {title}
+                <Menu key={title} trigger="hover" placement="bottom-start">
+                  <MenuButton as={Box} cursor="pointer">
+                    <Flex
+                      align="center"
+                      justify="center"
+                      px="16px"
+                      py="10px"
+                      w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
+                      borderBottom="2px solid"
+                      borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'white') : 'transparent'}
+                      color={!isTransparent || isScrolled ? 'black' : 'white'}
+                      fontSize="16px" // TĂNG FONT SIZE LÊN 16PX
+                      fontWeight="500"
+                      transitionDuration="250ms"
+                      _hover={{
+                        color: !isTransparent || isScrolled ? 'main.1' : 'white',
+                        borderColor: !isTransparent || isScrolled ? 'main.1' : 'white',
+                        transform: 'translateY(-2px)'
+                      }}
+                      onClick={() => (window.location.href = href)} // CLICK VÀO CHUYỂN TRANG
+                    >
+                      {title}
+                    </Flex>
                   </MenuButton>
                   <MenuList
                     bg="white"
@@ -143,7 +144,7 @@ const Header = () => {
                         href={dropdownItem.href}
                         py="12px"
                         px="16px"
-                        fontSize="16px"
+                        fontSize="14px"
                         fontWeight="400"
                         color="gray.700"
                         _hover={{
@@ -171,13 +172,13 @@ const Header = () => {
                   py="10px"
                   w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
                   borderBottom="2px solid"
-                  borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'black') : 'transparent'}
-                  color={!isTransparent || isScrolled ? 'black' : 'black'}
+                  borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'white') : 'transparent'}
+                  color={!isTransparent || isScrolled ? 'black' : 'white'}
                   fontSize="16px"
                   fontWeight="500"
                   transitionDuration="250ms"
                   _hover={{
-                    color: !isTransparent || isScrolled ? 'main.1' : 'black',
+                    color: !isTransparent || isScrolled ? 'main.1' : 'white',
                     borderColor: !isTransparent || isScrolled ? 'main.1' : 'white',
                     transform: 'translateY(-2px)'
                   }}
@@ -207,7 +208,16 @@ const Header = () => {
         zIndex={1000}
         boxShadow="xs"
       >
-        <Image src={'/images/hamburger-menu.webp'} alt={IMG_ALT} w="24px" h="24px" onClick={onOpen} cursor="pointer" />
+        {/* MENU BUTTON */}
+        <Flex align="center" justify="center" w="24px" h="24px" cursor="pointer" onClick={onOpen}>
+          {/* HAMBURGER ICON với SVG thay vì image */}
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+          </svg>
+        </Flex>
+
         <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="80px" h="auto" />
         <CartHeaderMobile />
       </Flex>

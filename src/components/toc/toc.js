@@ -21,18 +21,6 @@ const TableOfContents = ({ html }) => {
       const text = heading.textContent || heading.innerText || '';
       const id = `heading-${index}`;
 
-      // Add ID to heading trong DOM thật
-      setTimeout(() => {
-        const realHeading = document.querySelector(
-          `${heading.tagName.toLowerCase()}:nth-of-type(${
-            Array.from(doc.querySelectorAll(heading.tagName)).indexOf(heading) + 1
-          })`
-        );
-        if (realHeading && !realHeading.id) {
-          realHeading.id = id;
-        }
-      }, 100);
-
       return {
         id,
         text: text.trim(),
@@ -42,9 +30,23 @@ const TableOfContents = ({ html }) => {
     });
 
     setTocItems(items);
+
+    // Add IDs to headings trong DOM thật
+    setTimeout(() => {
+      const realHeadings = document.querySelectorAll(
+        '.html-content h1, .html-content h2, .html-content h3, .html-content h4, .html-content h5, .html-content h6'
+      );
+      items.forEach((item, index) => {
+        if (realHeadings[index] && !realHeadings[index].id) {
+          realHeadings[index].id = item.id;
+        }
+      });
+    }, 500);
   }, [html]);
 
   useEffect(() => {
+    if (tocItems.length === 0) return;
+
     const observerOptions = {
       rootMargin: '-20% 0px -35% 0px',
       threshold: 0
@@ -59,12 +61,14 @@ const TableOfContents = ({ html }) => {
     }, observerOptions);
 
     // Observe all headings
-    tocItems.forEach((item) => {
-      const element = document.getElementById(item.id);
-      if (element) {
-        observer.observe(element);
-      }
-    });
+    setTimeout(() => {
+      tocItems.forEach((item) => {
+        const element = document.getElementById(item.id);
+        if (element) {
+          observer.observe(element);
+        }
+      });
+    }, 1000);
 
     return () => observer.disconnect();
   }, [tocItems]);

@@ -1,4 +1,3 @@
-// src/app/bai-viet/_components/article-sections.js - MỚI
 'use client';
 
 import { useQueryArticleSections } from '../../../services/article.service';
