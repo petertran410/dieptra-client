@@ -1,7 +1,5 @@
-// src/app/_layouts/header/header.js - FIXED dropdown hover & font size
 'use client';
 
-import { ARTICLE_SECTIONS } from '../../../utils/article-types';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import {
   Box,
@@ -13,12 +11,7 @@ import {
   Flex,
   Image,
   Text,
-  useDisclosure,
-  VStack,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem
+  useDisclosure
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
@@ -47,14 +40,20 @@ const Header = () => {
     },
     {
       title: 'Bài Viết',
-      href: '/bai-viet',
-      hasDropdown: true, // THÊM FLAG DROPDOWN
-      dropdownItems: ARTICLE_SECTIONS // THÊM DROPDOWN ITEMS
+      href: '/bai-viet'
     },
+    // {
+    //   title: 'Khách hàng',
+    //   href: '/khach-hang'
+    // },
     {
       title: 'Tuyển dụng',
       href: '/tuyen-dung'
     }
+    // {
+    //   title: 'Liên hệ',
+    //   href: '/lien-he'
+    // }
   ];
 
   useEffect(() => {
@@ -72,7 +71,6 @@ const Header = () => {
 
   return (
     <Box>
-      {/* DESKTOP HEADER */}
       <Flex
         display={{ xs: 'none', lg: 'flex' }}
         zIndex={1000}
@@ -93,7 +91,7 @@ const Header = () => {
         <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
         <Flex align="center" flex={1} h="full" justify="center">
           {MENU_LIST.map((item) => {
-            const { title, href, hasDropdown, dropdownItems } = item;
+            const { title, href } = item;
             let isActive = false;
             if (pathname === '/') {
               isActive = pathname === href;
@@ -101,69 +99,6 @@ const Header = () => {
               isActive = pathname.includes(href);
             }
 
-            // RENDER DROPDOWN MENU CHO BÀI VIẾT
-            if (hasDropdown && dropdownItems) {
-              return (
-                <Menu key={title} trigger="hover" placement="bottom-start">
-                  <MenuButton as={Box} cursor="pointer">
-                    <Flex
-                      align="center"
-                      justify="center"
-                      px="16px"
-                      py="10px"
-                      w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
-                      borderBottom="2px solid"
-                      borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'white') : 'transparent'}
-                      color={!isTransparent || isScrolled ? 'black' : 'white'}
-                      fontSize="16px" // TĂNG FONT SIZE LÊN 16PX
-                      fontWeight="500"
-                      transitionDuration="250ms"
-                      _hover={{
-                        color: !isTransparent || isScrolled ? 'main.1' : 'white',
-                        borderColor: !isTransparent || isScrolled ? 'main.1' : 'white',
-                        transform: 'translateY(-2px)'
-                      }}
-                      onClick={() => (window.location.href = href)} // CLICK VÀO CHUYỂN TRANG
-                    >
-                      {title}
-                    </Flex>
-                  </MenuButton>
-                  <MenuList
-                    bg="white"
-                    border="1px solid #e2e8f0"
-                    borderRadius="8px"
-                    boxShadow="lg"
-                    py="8px"
-                    minW="280px"
-                    zIndex={1001}
-                  >
-                    {dropdownItems.map((dropdownItem) => (
-                      <MenuItem
-                        key={dropdownItem.slug}
-                        as={Link}
-                        href={dropdownItem.href}
-                        py="12px"
-                        px="16px"
-                        fontSize="14px"
-                        fontWeight="400"
-                        color="gray.700"
-                        _hover={{
-                          bg: 'gray.50',
-                          color: 'main.1'
-                        }}
-                        _focus={{
-                          bg: 'gray.50'
-                        }}
-                      >
-                        {dropdownItem.label}
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                </Menu>
-              );
-            }
-
-            // RENDER MENU ITEM THÔNG THƯỜNG
             return (
               <Link href={href} key={title}>
                 <Flex
@@ -172,109 +107,90 @@ const Header = () => {
                   py="10px"
                   w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
                   borderBottom="2px solid"
-                  borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'white') : 'transparent'}
-                  color={!isTransparent || isScrolled ? 'black' : 'white'}
-                  fontSize="16px"
-                  fontWeight="500"
-                  transitionDuration="250ms"
-                  _hover={{
-                    color: !isTransparent || isScrolled ? 'main.1' : 'white',
-                    borderColor: !isTransparent || isScrolled ? 'main.1' : 'white',
-                    transform: 'translateY(-2px)'
-                  }}
+                  borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : '#0F2C3D') : 'transparent'}
+                  data-group
                 >
-                  {title}
+                  <Text
+                    fontWeight={500}
+                    fontSize={16}
+                    textAlign="center"
+                    color={isActive ? (!isTransparent || isScrolled ? 'main.1' : '#0F2C3D') : '#0F2C3D'}
+                    _groupHover={{ color: '#0F2C3D' }}
+                    transitionDuration="250ms"
+                  >
+                    {title}
+                  </Text>
                 </Flex>
               </Link>
             );
           })}
         </Flex>
-        <CartHeader />
+
+        <CartHeader isScrolled={isScrolled} isTransparent={isTransparent} />
       </Flex>
 
-      {/* MOBILE HEADER */}
       <Flex
         display={{ xs: 'flex', lg: 'none' }}
+        zIndex={1000}
         as="header"
         align="center"
-        h="70px"
+        h="48px"
         px={PX_ALL}
+        gap="20px"
         justify="space-between"
-        bgColor="#FFF"
+        bgColor={!isTransparent || isScrolled ? '#FFF' : 'transparent'}
+        boxShadow={isScrolled ? 'xs' : 'none'}
         pos="fixed"
         top={0}
         left={0}
         w="full"
-        zIndex={1000}
-        boxShadow="xs"
       >
-        {/* MENU BUTTON */}
-        <Flex align="center" justify="center" w="24px" h="24px" cursor="pointer" onClick={onOpen}>
-          {/* HAMBURGER ICON với SVG thay vì image */}
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <line x1="3" y1="6" x2="21" y2="6"></line>
-            <line x1="3" y1="12" x2="21" y2="12"></line>
-            <line x1="3" y1="18" x2="21" y2="18"></line>
-          </svg>
-        </Flex>
+        <button onClick={onOpen}>
+          <Image src={'/images/menu-mobile.webp'} alt={IMG_ALT} w="24px" h="auto" fit="cover" />
+        </button>
 
-        <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="80px" h="auto" />
-        <CartHeaderMobile />
+        <Link href="/">
+          <Image src={'/images/logo-black.webp'} alt={IMG_ALT} h="24px" w="auto" fit="cover" />
+        </Link>
+
+        <CartHeaderMobile isScrolled={isScrolled} isTransparent={isTransparent} />
       </Flex>
 
-      {/* MOBILE DRAWER */}
-      <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
+      <Drawer isOpen={isOpen} placement="left" onClose={onClose} autoFocus={false}>
         <DrawerOverlay />
-        <DrawerContent maxW="280px">
-          <DrawerHeader borderBottomWidth="1px" p="20px">
-            <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="100px" h="auto" />
+        <DrawerContent bgColor="#0f2c3d" p="16px">
+          <DrawerHeader p="0px">
+            <Flex align="center" gap="8px">
+              <button type="button" onClick={onClose}>
+                <Image src="/images/close-main.webp" alt={IMG_ALT} w="24px" h="auto" fit="cover" />
+              </button>
+              <Image src="/images/logo.webp" alt={IMG_ALT} w="auto" h="24px" fit="cover" />
+            </Flex>
           </DrawerHeader>
-          <DrawerBody p="0">
-            <VStack spacing="0" align="stretch">
+
+          <DrawerBody p="0px" mt="8px">
+            <Flex direction="column">
               {MENU_LIST.map((item) => {
-                const { title, href, hasDropdown, dropdownItems } = item;
+                const { title, href } = item;
+                const isActive = pathname === href;
 
                 return (
-                  <VStack key={title} spacing="0" align="stretch">
-                    {/* MAIN MENU ITEM */}
-                    <Link href={href} onClick={onClose}>
-                      <Box
-                        p="16px 20px"
-                        borderBottom="1px solid #f1f1f1"
-                        fontSize="16px"
-                        fontWeight="500"
-                        color="black"
-                        _hover={{ bg: 'gray.50', color: 'main.1' }}
-                        transition="all 0.2s"
+                  <Link href={href} key={title} onClick={onClose}>
+                    <Box px="16px" py="11px" data-group>
+                      <Text
+                        fontWeight={500}
+                        fontSize={16}
+                        color={isActive ? 'main.1' : '#FFF'}
+                        _groupHover={{ color: 'main.1' }}
+                        transitionDuration="250ms"
                       >
                         {title}
-                      </Box>
-                    </Link>
-
-                    {/* DROPDOWN ITEMS FOR MOBILE */}
-                    {hasDropdown && dropdownItems && (
-                      <VStack spacing="0" align="stretch" bg="gray.50">
-                        {dropdownItems.map((dropdownItem) => (
-                          <Link key={dropdownItem.slug} href={dropdownItem.href} onClick={onClose}>
-                            <Box
-                              p="12px 20px 12px 40px"
-                              borderBottom="1px solid #e2e8f0"
-                              fontSize="14px"
-                              fontWeight="400"
-                              color="gray.600"
-                              _hover={{ bg: 'gray.100', color: 'main.1' }}
-                              transition="all 0.2s"
-                            >
-                              {dropdownItem.label}
-                            </Box>
-                          </Link>
-                        ))}
-                      </VStack>
-                    )}
-                  </VStack>
+                      </Text>
+                    </Box>
+                  </Link>
                 );
               })}
-            </VStack>
+            </Flex>
           </DrawerBody>
         </DrawerContent>
       </Drawer>

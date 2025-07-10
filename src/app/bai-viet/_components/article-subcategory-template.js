@@ -4,22 +4,24 @@ import Breadcrumb from '../../../components/breadcrumb';
 import { useQueryArticlesByType } from '../../../services/article.service';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
-import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text } from '@chakra-ui/react';
+import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, VStack, Spinner } from '@chakra-ui/react';
+import Head from 'next/head';
 import Link from 'next/link';
+import { useState } from 'react';
 
-const ArticleItem = ({ item }) => {
+const ArticleItem = ({ item, categorySlug }) => {
   const { id, title, imagesUrl, createdDate, description } = item || {};
 
   return (
     <Flex direction="column" gap="16px" h="100%">
-      <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
+      <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
         <AspectRatio ratio={16 / 9} w="full">
           <Image
             src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
             w="full"
             h="full"
             alt={IMG_ALT}
-            borderRadius={16}
+            borderRadius={12}
             transition="transform 0.3s ease"
             _hover={{ transform: 'scale(1.05)' }}
           />
@@ -28,7 +30,7 @@ const ArticleItem = ({ item }) => {
 
       <Flex direction="column" justify="space-between" gap="12px" flex={1}>
         <Box>
-          <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
+          <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
             <Text
               fontSize={18}
               fontWeight={500}
@@ -56,7 +58,7 @@ const ArticleItem = ({ item }) => {
           </Flex>
         </Box>
 
-        <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
+        <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
           <Button
             size="sm"
             bgColor="#065FD4"
@@ -79,6 +81,7 @@ const ArticleItem = ({ item }) => {
   );
 };
 
+// Pagination component
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
@@ -121,14 +124,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           key={page}
           size="sm"
           variant={page === currentPage ? 'solid' : 'outline'}
-          bgColor={page === currentPage ? '#065FD4' : 'transparent'}
-          color={page === currentPage ? 'white' : 'gray.700'}
-          borderColor="#e2e8f0"
+          colorScheme={page === currentPage ? 'blue' : 'gray'}
           onClick={() => onPageChange(page)}
-          _hover={{
-            borderColor: '#065FD4',
-            color: page === currentPage ? 'white' : '#065FD4'
-          }}
+          _hover={page !== currentPage ? { borderColor: '#065FD4', color: '#065FD4' } : {}}
         >
           {page}
         </Button>
@@ -149,96 +147,92 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-const ArticleSubcategoryTemplate = ({ articleType, title, breadcrumbLabel, description }) => {
-  const { data: articlesData, isLoading, error } = useQueryArticlesByType(articleType);
-  const { content: articles = [], totalElements = 0, pageable = {} } = articlesData || {};
-  const { pageNumber = 0, pageSize = 12 } = pageable;
+// Main component
+const ArticleSubcategoryTemplate = ({ articleType, title, breadcrumbLabel, description, categorySlug }) => {
+  const { data: articlesQuery, isLoading } = useQueryArticlesByType(articleType);
+  const { content: articles = [], totalElements = 0, totalPages = 0, number: currentPage = 0 } = articlesQuery || {};
 
-  const currentPage = pageNumber + 1;
-  const totalPages = Math.ceil(totalElements / pageSize);
+  const [currentPageState, setCurrentPageState] = useState(currentPage + 1); // Convert to 1-based
+
+  const breadcrumbData = [
+    { title: 'Trang chủ', href: '/' },
+    { title: 'Bài Viết', href: '/bai-viet' },
+    { title: breadcrumbLabel, href: '#', isActive: true }
+  ];
 
   const handlePageChange = (page) => {
+    setCurrentPageState(page);
+    // Update URL params if needed
     const url = new URL(window.location);
     url.searchParams.set('page', page.toString());
     window.history.pushState({}, '', url);
-    window.location.reload();
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  if (isLoading) {
-    return (
-      <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} gap="24px">
-        <Box textAlign="center" py="40px">
-          <Text fontSize={16} color="gray.500">
-            Đang tải nội dung...
-          </Text>
-        </Box>
-      </Flex>
-    );
-  }
-
-  if (error) {
-    return (
-      <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} gap="24px">
-        <Box textAlign="center" py="40px">
-          <Text fontSize={16} color="red.500">
-            Có lỗi xảy ra khi tải nội dung. Vui lòng thử lại sau.
-          </Text>
-        </Box>
-      </Flex>
-    );
-  }
-
   return (
-    <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} gap="32px">
-      {/* Breadcrumb */}
-      <Breadcrumb
-        data={[
-          { title: 'Trang chủ', href: '/' },
-          { title: 'Bài Viết', href: '/bai-viet' },
-          { title: breadcrumbLabel, href: '#', isActive: true }
-        ]}
-      />
+    <>
+      <Head>
+        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/${categorySlug}`} />
+        <meta name="robots" content="index, follow" />
+      </Head>
 
-      {/* Page Header */}
-      <Box>
-        <Heading as="h1" fontSize={{ xs: '24px', lg: '32px' }} fontWeight="600" color="#003366" mb="16px">
-          {title}
-        </Heading>
+      <Flex pt={{ xs: '70px', lg: '162px' }} px={PX_ALL} pb="50px" direction="column">
+        <Breadcrumb data={breadcrumbData} />
 
-        {description && (
-          <Text fontSize={16} color="gray.600" lineHeight="24px" maxW="800px">
+        <VStack align="start" spacing="16px" mt="20px" mb="40px">
+          <Heading as="h1" fontSize={{ xs: '28px', lg: '36px' }} fontWeight={700} color="#003366">
+            {title}
+          </Heading>
+          <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6" maxW="800px">
             {description}
           </Text>
+          {totalElements > 0 && (
+            <Text fontSize={14} color="gray.500">
+              Tổng cộng {totalElements} bài viết
+            </Text>
+          )}
+        </VStack>
+
+        {isLoading ? (
+          <Flex justify="center" py="60px">
+            <Spinner size="lg" color="#065FD4" />
+          </Flex>
+        ) : articles.length > 0 ? (
+          <>
+            <Grid
+              templateColumns={{
+                xs: '1fr',
+                md: 'repeat(2, 1fr)',
+                lg: 'repeat(3, 1fr)'
+              }}
+              gap="24px"
+            >
+              {articles.map((article) => (
+                <ArticleItem key={article.id} item={article} categorySlug={categorySlug} />
+              ))}
+            </Grid>
+
+            {/* Pagination */}
+            <Pagination currentPage={currentPageState} totalPages={totalPages} onPageChange={handlePageChange} />
+          </>
+        ) : (
+          <Flex justify="center" py="60px">
+            <VStack spacing="16px">
+              <Text fontSize={18} color="gray.500">
+                Chưa có bài viết nào trong mục này
+              </Text>
+              <Link href="/bai-viet">
+                <Button colorScheme="blue" variant="outline">
+                  Xem tất cả bài viết
+                </Button>
+              </Link>
+            </VStack>
+          </Flex>
         )}
-
-        <Text mt="12px" fontSize={14} color="gray.500">
-          Tổng cộng: {totalElements} bài viết
-        </Text>
-      </Box>
-
-      {/* Articles Grid */}
-      {articles && articles.length > 0 ? (
-        <>
-          <Grid templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap="32px">
-            {articles.map((article) => (
-              <ArticleItem key={article.id} item={article} />
-            ))}
-          </Grid>
-
-          {/* Pagination */}
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
-        </>
-      ) : (
-        <Box textAlign="center" py="60px">
-          <Text fontSize={18} color="gray.500" mb="8px">
-            Chưa có bài viết nào trong danh mục này
-          </Text>
-          <Text fontSize={14} color="gray.400">
-            Vui lòng quay lại sau để xem nội dung mới
-          </Text>
-        </Box>
-      )}
-    </Flex>
+      </Flex>
+    </>
   );
 };
 

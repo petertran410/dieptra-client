@@ -1,4 +1,3 @@
-// src/services/news.service.js - UPDATED để tương thích với hệ thống mới
 import { API } from '../utils/API';
 import { useGetParamsURL } from '../utils/hooks';
 import { useQuery } from '@tanstack/react-query';
@@ -17,9 +16,31 @@ export const useQueryArticlesList = () => {
           pageNumber: pageNumber - 1,
           keyword,
           type: 'NEWS',
-          pageSize: 9 // Increase for better display
+          pageSize: 9
         }
       })
+  });
+};
+
+// THÊM MỚI: Service cho các trang con theo type
+export const useQueryArticlesByType = (articleType) => {
+  const params = useGetParamsURL();
+  const { page: pageNumber = 1, keyword } = params;
+  const queryKey = ['GET_ARTICLES_BY_TYPE', articleType, pageNumber, keyword];
+
+  return useQuery({
+    queryKey,
+    queryFn: () =>
+      API.request({
+        url: '/api/news/client/get-all',
+        params: {
+          pageNumber: pageNumber - 1,
+          keyword,
+          type: articleType,
+          pageSize: 12
+        }
+      }),
+    enabled: !!articleType
   });
 };
 
@@ -59,6 +80,22 @@ export const useQueryBlogCultureList = () => {
           isDesc: false
         }
       })
+  });
+};
+
+// THÊM MỚI: Service tìm ID từ slug và type
+export const useQueryFindIdBySlug = (slug, type) => {
+  const queryKey = ['FIND_ID_BY_SLUG', slug, type];
+
+  return useQuery({
+    queryKey,
+    queryFn: () =>
+      API.request({
+        url: '/api/news/client/find-id-by-slug',
+        params: { slug, type }
+      }),
+    enabled: !!(slug && type),
+    staleTime: 5 * 60 * 1000 // 5 minutes cache
   });
 };
 
@@ -111,22 +148,20 @@ export const useQueryNewsDetail = (id) => {
       API.request({
         url: `/api/news/client/${id}`
       }),
-    enabled: !!id,
-    staleTime: 10 * 60 * 1000 // 10 minutes
+    enabled: !!id
   });
 };
 
-// THÊM MỚI: Service để increment view count
-export const useIncrementViewCount = () => {
-  return useMutation({
-    mutationFn: (articleId) =>
+// THÊM MỚI: Service cho main article page (6 sections)
+export const useQueryArticleSections = () => {
+  const queryKey = ['GET_ARTICLE_SECTIONS'];
+
+  return useQuery({
+    queryKey,
+    queryFn: () =>
       API.request({
-        url: `/api/news/client/increment-view/${articleId}`,
-        method: 'POST'
+        url: '/api/news/client/article-sections'
       }),
-    onError: (error) => {
-      console.warn('Failed to increment view count:', error);
-      // Không hiển thị error cho user vì không quan trọng
-    }
+    staleTime: 10 * 60 * 1000 // 10 minutes cache
   });
 };

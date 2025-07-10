@@ -1,24 +1,10 @@
-// src/services/article.service.js - MỚI
 import { API } from '../utils/API';
 import { useGetParamsURL } from '../utils/hooks';
 import { useQuery } from '@tanstack/react-query';
 
-// Service cho trang "Bài Viết" chính - lấy 6 sections
-export const useQueryArticleSections = () => {
-  const queryKey = ['GET_ARTICLE_SECTIONS'];
-
-  return useQuery({
-    queryKey,
-    queryFn: () =>
-      API.request({
-        url: '/api/news/client/article-sections'
-      }),
-    staleTime: 5 * 60 * 1000, // 5 minutes
-    cacheTime: 10 * 60 * 1000 // 10 minutes
-  });
-};
-
-// Service cho các trang con - lấy theo type cụ thể
+/**
+ * Service lấy articles theo type cho các trang con
+ */
 export const useQueryArticlesByType = (articleType) => {
   const params = useGetParamsURL();
   const { page: pageNumber = 1, keyword } = params;
@@ -31,34 +17,54 @@ export const useQueryArticlesByType = (articleType) => {
         url: '/api/news/client/get-all',
         params: {
           pageNumber: pageNumber - 1,
-          pageSize: 12, // 12 bài mỗi trang cho trang con
           keyword,
-          type: articleType
+          type: articleType,
+          pageSize: 12 // 12 articles per page cho grid layout
         }
       }),
-    enabled: !!articleType // Chỉ call API khi có articleType
+    enabled: !!articleType
   });
 };
 
-// Service cho bài viết cũ (giữ nguyên cho backward compatibility)
-export const useQueryArticlesList = () => {
-  const params = useGetParamsURL();
-  const { page: pageNumber = 1, keyword } = params;
-  const queryKey = ['GET_NEWS_LIST_CLIENT', pageNumber, keyword];
+/**
+ * Service lấy detail article bằng slug và type
+ */
+export const useQueryArticleDetailBySlug = (slug, type) => {
+  const queryKey = ['GET_ARTICLE_DETAIL_BY_SLUG', slug, type];
 
   return useQuery({
     queryKey,
-    queryFn: () =>
-      API.request({
-        url: '/api/news/client/get-all',
-        params: { pageNumber: pageNumber - 1, keyword, type: 'NEWS' }
-      })
+    queryFn: async () => {
+      // Step 1: Tìm ID từ slug và type
+      const idResponse = await API.request({
+        url: '/api/news/client/find-id-by-slug',
+        params: { slug, type }
+      });
+
+      if (!idResponse?.id) {
+        throw new Error('Article not found');
+      }
+
+      // Step 2: Lấy detail bằng ID
+      const detailResponse = await API.request({
+        url: `/api/news/client/${idResponse.id}`
+      });
+
+      return {
+        ...detailResponse,
+        articleId: idResponse.id // Thêm ID để dùng cho related articles
+      };
+    },
+    enabled: !!(slug && type),
+    staleTime: 5 * 60 * 1000 // 5 minutes cache
   });
 };
 
-// Service để lấy bài viết liên quan
-export const useQueryRelatedArticles = (articleId, limit = 4) => {
-  const queryKey = ['GET_RELATED_ARTICLES', articleId, limit];
+/**
+ * Service lấy related articles
+ */
+export const useQueryRelatedArticles = (articleId, type, limit = 4) => {
+  const queryKey = ['GET_RELATED_ARTICLES', articleId, type, limit];
 
   return useQuery({
     queryKey,
@@ -67,6 +73,37 @@ export const useQueryRelatedArticles = (articleId, limit = 4) => {
         url: `/api/news/client/related/${articleId}`,
         params: { limit }
       }),
-    enabled: !!articleId
+    enabled: !!articleId,
+    staleTime: 5 * 60 * 1000
+  });
+};
+
+/**
+ * Service lấy latest articles cùng type
+ */
+export const useQueryLatestArticlesByType = (type, excludeId, limit = 3) => {
+  const queryKey = ['GET_LATEST_ARTICLES_BY_TYPE', type, excludeId, limit];
+
+  return useQuery({
+    queryKey,
+    queryFn: async () => {
+      const response = await API.request({
+        url: '/api/news/client/get-all',
+        params: {
+          pageNumber: 0,
+          pageSize: limit + 1, // +1 để có thể filter current article
+          type
+        }
+      });
+
+      const { content = [] } = response || {};
+
+      // Filter out current article nếu có
+      const filtered = excludeId ? content.filter((article) => article.id !== excludeId) : content;
+
+      return filtered.slice(0, limit);
+    },
+    enabled: !!type,
+    staleTime: 5 * 60 * 1000
   });
 };
