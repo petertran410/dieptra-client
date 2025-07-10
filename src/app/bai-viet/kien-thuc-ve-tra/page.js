@@ -20,6 +20,7 @@ const KienThucVeTra = () => {
         title="Kiến Thức Về Trà"
         breadcrumbLabel="Kiến Thức Về Trà"
         description="Tìm hiểu sâu về thế giới trà từ các loại trà truyền thống đến các blend hiện đại. Học cách pha trà đúng cách để có được hương vị hoàn hảo."
+        categorySlug="kien-thuc-ve-tra"
       />
     </>
   );

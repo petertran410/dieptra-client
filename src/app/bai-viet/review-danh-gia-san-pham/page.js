@@ -20,6 +20,7 @@ const ReviewDanhGiaSanPham = () => {
         title="Review - Đánh Giá Sản Phẩm"
         breadcrumbLabel="Review - Đánh Giá Sản Phẩm"
         description="Đánh giá chi tiết các sản phẩm nguyên liệu pha chế, máy móc thiết bị và các thương hiệu uy tín trong ngành F&B."
+        categorySlug="review-danh-gia-san-pham"
       />
     </>
   );

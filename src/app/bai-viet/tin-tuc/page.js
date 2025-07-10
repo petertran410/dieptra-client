@@ -20,6 +20,7 @@ const TinTuc = () => {
         title="Tin Tức"
         breadcrumbLabel="Tin Tức"
         description="Cập nhật những tin tức mới nhất về ngành F&B, hoạt động của Diệp Trà và các sự kiện quan trọng trong cộng đồng pha chế."
+        categorySlug="tin-tuc"
       />
     </>
   );

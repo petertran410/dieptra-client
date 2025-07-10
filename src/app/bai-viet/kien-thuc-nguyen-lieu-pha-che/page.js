@@ -19,7 +19,8 @@ const KienThucNguyenLieuPhaChe = () => {
         articleType={ARTICLE_TYPES.KIEN_THUC_NGUYEN_LIEU}
         title="Kiến Thức Nguyên Liệu Pha Chế"
         breadcrumbLabel="Kiến Thức Nguyên Liệu Pha Chế"
-        description="Kiến thức nguyên liệu pha chế là chuyên mục dành riêng cho những ai yêu thích và hoạt động trong lĩnh vực đồ uống, từ chủ quán café – trà sữa đến các bartender chuyên nghiệp. Tại đây, Diệp Trà sẽ cập nhật thông tin chi tiết và hữu ích về các loại nguyên liệu phổ biến như syrup, topping, mứt trái cây, bột nền, trà nguyên chất..."
+        description="Khám phá những kiến thức bổ ích về nguyên liệu pha chế đồ uống. Từ cách chọn lựa, bảo quản đến ứng dụng trong các công thức pha chế độc đáo."
+        categorySlug="kien-thuc-nguyen-lieu-pha-che"
       />
     </>
   );

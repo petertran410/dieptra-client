@@ -106,31 +106,26 @@ const Header = () => {
               return (
                 <Menu key={title} trigger="hover">
                   <MenuButton
-                    as={Box}
+                    as={Flex}
+                    justify="center"
+                    px="16px"
+                    py="10px"
+                    w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
+                    borderBottom="2px solid"
+                    borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'black') : 'transparent'}
+                    color={!isTransparent || isScrolled ? 'black' : 'black'}
+                    fontSize="16px"
+                    fontWeight="500"
                     cursor="pointer"
-                    _hover={{ transform: 'translateY(-2px)' }}
                     transition="all 0.2s"
+                    _hover={{
+                      color: !isTransparent || isScrolled ? 'main.1' : 'black',
+                      borderColor: !isTransparent || isScrolled ? 'main.1' : 'white',
+                      transform: 'translateY(-2px)'
+                    }}
+                    onClick={() => (window.location.href = href)}
                   >
-                    <Link href={href}>
-                      <Flex
-                        justify="center"
-                        px="16px"
-                        py="10px"
-                        w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
-                        borderBottom="2px solid"
-                        borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'white') : 'transparent'}
-                        color={!isTransparent || isScrolled ? 'black' : 'black'}
-                        fontSize="16px"
-                        fontWeight="500"
-                        transitionDuration="250ms"
-                        _hover={{
-                          color: !isTransparent || isScrolled ? 'main.1' : 'white',
-                          borderColor: !isTransparent || isScrolled ? 'main.1' : 'white'
-                        }}
-                      >
-                        {title}
-                      </Flex>
-                    </Link>
+                    {title}
                   </MenuButton>
                   <MenuList
                     bg="white"
@@ -148,7 +143,7 @@ const Header = () => {
                         href={dropdownItem.href}
                         py="12px"
                         px="16px"
-                        fontSize="14px"
+                        fontSize="16px"
                         fontWeight="400"
                         color="gray.700"
                         _hover={{
@@ -176,14 +171,14 @@ const Header = () => {
                   py="10px"
                   w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
                   borderBottom="2px solid"
-                  borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'main.1') : 'transparent'}
+                  borderColor={isActive ? (!isTransparent || isScrolled ? 'main.1' : 'black') : 'transparent'}
                   color={!isTransparent || isScrolled ? 'black' : 'black'}
                   fontSize="16px"
                   fontWeight="500"
                   transitionDuration="250ms"
                   _hover={{
                     color: !isTransparent || isScrolled ? 'main.1' : 'black',
-                    borderColor: !isTransparent || isScrolled ? 'main.1' : 'black',
+                    borderColor: !isTransparent || isScrolled ? 'main.1' : 'white',
                     transform: 'translateY(-2px)'
                   }}
                 >

@@ -8,12 +8,12 @@ import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
 import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 
-const ArticleItem = ({ item }) => {
+const ArticleItem = ({ item, categorySlug }) => {
   const { id, title, imagesUrl, createdDate, description } = item || {};
 
   return (
     <Flex direction="column" gap="16px" h="100%">
-      <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
+      <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}-${id}`}>
         <AspectRatio ratio={16 / 9} w="full">
           <Image
             src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
@@ -29,7 +29,7 @@ const ArticleItem = ({ item }) => {
 
       <Flex direction="column" justify="space-between" gap="12px" flex={1}>
         <Box>
-          <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
+          <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}-${id}`}>
             <Text
               fontSize={18}
               fontWeight={500}
@@ -57,7 +57,7 @@ const ArticleItem = ({ item }) => {
           </Flex>
         </Box>
 
-        <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
+        <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}-${id}`}>
           <Button
             size="sm"
             bgColor="#065FD4"
@@ -150,7 +150,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   );
 };
 
-const ArticleSubcategoryTemplate = ({ articleType, title, breadcrumbLabel, description }) => {
+const ArticleSubcategoryTemplate = ({ articleType, title, breadcrumbLabel, description, categorySlug }) => {
   const { data: articlesData, isLoading, error } = useQueryArticlesByType(articleType);
   const { content: articles = [], totalElements = 0, pageable = {} } = articlesData || {};
   const { pageNumber = 0, pageSize = 12 } = pageable;
@@ -207,7 +207,7 @@ const ArticleSubcategoryTemplate = ({ articleType, title, breadcrumbLabel, descr
         </Heading>
 
         {description && (
-          <Text fontSize={18} color="gray.600" lineHeight="24px" maxW="full">
+          <Text fontSize={16} color="gray.600" lineHeight="24px" maxW="800px">
             {description}
           </Text>
         )}
@@ -222,7 +222,7 @@ const ArticleSubcategoryTemplate = ({ articleType, title, breadcrumbLabel, descr
         <>
           <Grid templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap="32px">
             {articles.map((article) => (
-              <ArticleItem key={article.id} item={article} />
+              <ArticleItem key={article.id} item={article} categorySlug={categorySlug} />
             ))}
           </Grid>
 

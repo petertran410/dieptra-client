@@ -1,72 +1,173 @@
+// src/components/toc.js - ENHANCED với clickable & smooth scroll
 'use client';
 
-import parse from 'html-react-parser';
-import React from 'react';
+import { useEffect, useState } from 'react';
+import { Box, Text, VStack } from '@chakra-ui/react';
 
 const TableOfContents = ({ html }) => {
-  // Parse HTML string thành React elements
-  const elements = parse(html);
+  const [tocItems, setTocItems] = useState([]);
+  const [activeId, setActiveId] = useState('');
 
-  // Hàm đệ quy để xử lý các thẻ heading
-  const extractHeadings = (nodes) => {
-    const headings = [];
+  useEffect(() => {
+    if (!html) return;
 
-    const traverse = (elements, level = 0) => {
-      React.Children.forEach(elements, (element) => {
-        if (!element || !element.type) return;
+    // Parse HTML và extract headings
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
 
-        const tag = element.type;
-        if (/^h[1-6]$/.test(tag)) {
-          const id = element.props.id;
-          const text = element.props.children;
-          const depth = parseInt(tag.replace('h', ''), 10);
+    const items = Array.from(headings).map((heading, index) => {
+      const level = parseInt(heading.tagName.charAt(1));
+      const text = heading.textContent || heading.innerText || '';
+      const id = `heading-${index}`;
 
-          headings.push({ id, text, depth });
+      // Add ID to heading trong DOM thật
+      setTimeout(() => {
+        const realHeading = document.querySelector(
+          `${heading.tagName.toLowerCase()}:nth-of-type(${
+            Array.from(doc.querySelectorAll(heading.tagName)).indexOf(heading) + 1
+          })`
+        );
+        if (realHeading && !realHeading.id) {
+          realHeading.id = id;
         }
-        // Tiếp tục duyệt các phần tử con nếu có
-        if (element.props && element.props.children) {
-          traverse(element.props.children, level + 1);
-        }
-      });
+      }, 100);
+
+      return {
+        id,
+        text: text.trim(),
+        level,
+        element: heading
+      };
+    });
+
+    setTocItems(items);
+  }, [html]);
+
+  useEffect(() => {
+    const observerOptions = {
+      rootMargin: '-20% 0px -35% 0px',
+      threshold: 0
     };
 
-    traverse(nodes);
-    return headings;
-  };
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveId(entry.target.id);
+        }
+      });
+    }, observerOptions);
 
-  const headings = extractHeadings(elements);
+    // Observe all headings
+    tocItems.forEach((item) => {
+      const element = document.getElementById(item.id);
+      if (element) {
+        observer.observe(element);
+      }
+    });
 
-  const handleScroll = (id) => {
+    return () => observer.disconnect();
+  }, [tocItems]);
+
+  const handleClick = (id) => {
     const element = document.getElementById(id);
     if (element) {
-      const offsetTop = element.offsetTop - 120;
-      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+      // Smooth scroll animation
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+        inline: 'nearest'
+      });
+
+      // Update URL hash without triggering scroll
+      const url = new URL(window.location);
+      url.hash = id;
+      window.history.replaceState({}, '', url);
     }
   };
 
-  // Render danh sách mục lục
-  const renderToc = (headings) => {
-    return (
-      <ul>
-        {headings.map((heading, index) => (
-          <li key={index} style={{ paddingLeft: `${(heading.depth - 1) * 20}px` }}>
-            <a
-              href={`#${heading.id}`}
-              onClick={(e) => {
-                e.preventDefault();
-                handleScroll(heading.id);
-              }}
-              style={{ fontWeight: 500, fontSize: 16 }}
-            >
-              {heading.text}
-            </a>
-          </li>
-        ))}
-      </ul>
-    );
+  const getIndent = (level) => {
+    return (level - 1) * 16; // 16px per level
   };
 
-  return <nav>{renderToc(headings)}</nav>;
+  const getLevelColor = (level, isActive) => {
+    if (isActive) return '#065FD4';
+
+    const colors = {
+      1: '#2D3748', // Dark gray for H1
+      2: '#4A5568', // Medium gray for H2
+      3: '#718096', // Light gray for H3
+      4: '#A0AEC0', // Lighter gray for H4+
+      5: '#A0AEC0',
+      6: '#A0AEC0'
+    };
+    return colors[level] || colors[4];
+  };
+
+  const getFontWeight = (level, isActive) => {
+    if (isActive) return '600';
+    return level <= 2 ? '500' : '400';
+  };
+
+  if (!tocItems.length) {
+    return (
+      <Text fontSize={14} color="gray.500" fontStyle="italic">
+        Không có mục lục
+      </Text>
+    );
+  }
+
+  return (
+    <VStack align="stretch" spacing={2} mt={3}>
+      {tocItems.map((item) => {
+        const isActive = activeId === item.id;
+
+        return (
+          <Box
+            key={item.id}
+            pl={`${getIndent(item.level)}px`}
+            cursor="pointer"
+            transition="all 0.2s ease"
+            _hover={{
+              color: '#065FD4',
+              transform: 'translateX(4px)'
+            }}
+            onClick={() => handleClick(item.id)}
+          >
+            <Text
+              fontSize={item.level <= 2 ? 14 : 13}
+              color={getLevelColor(item.level, isActive)}
+              fontWeight={getFontWeight(item.level, isActive)}
+              lineHeight="1.4"
+              transition="all 0.2s ease"
+              _hover={{
+                textDecoration: 'underline'
+              }}
+              sx={{
+                // Highlight active item
+                ...(isActive && {
+                  position: 'relative',
+                  _before: {
+                    content: '""',
+                    position: 'absolute',
+                    left: '-8px',
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    width: '3px',
+                    height: '16px',
+                    backgroundColor: '#065FD4',
+                    borderRadius: '2px'
+                  }
+                })
+              }}
+            >
+              {item.text}
+            </Text>
+          </Box>
+        );
+      })}
+    </VStack>
+  );
 };
 
 export default TableOfContents;

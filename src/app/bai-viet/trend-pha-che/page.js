@@ -20,6 +20,7 @@ const TrendPhaChe = () => {
         title="Trend Pha Chế"
         breadcrumbLabel="Trend Pha Chế"
         description="Cập nhật những xu hướng mới nhất trong ngành pha chế đồ uống. Từ các công thức hot trend đến kỹ thuật pha chế sáng tạo đang được yêu thích."
+        categorySlug="trend-pha-che"
       />
     </>
   );

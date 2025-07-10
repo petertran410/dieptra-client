@@ -20,6 +20,7 @@ const CongThucPhaChe = () => {
         title="Công Thức Pha Chế"
         breadcrumbLabel="Công Thức Pha Chế"
         description="Khám phá kho tàng công thức pha chế đa dạng từ các món đồ uống cổ điển đến những sáng tạo mới lạ. Hướng dẫn chi tiết từng bước thực hiện."
+        categorySlug="cong-thuc-pha-che"
       />
     </>
   );
