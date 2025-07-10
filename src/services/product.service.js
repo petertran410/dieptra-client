@@ -1,12 +1,7 @@
-// src/services/product.service.js - FIXED for default behavior and both categories
 import { API } from '../utils/API';
 import { useGetParamsURL } from '../utils/hooks';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-/**
- * Main hook to get products - works for both categories and default view
- * CRITICAL FIX: Default shows ALL products, subcategory filtering works for both categories
- */
 export const useQueryProductList = () => {
   const params = useGetParamsURL();
   const { page: pageNumber = 1, keyword, sort, subCategoryId, categoryId } = params;
@@ -33,26 +28,23 @@ export const useQueryProductList = () => {
       const apiParams = {
         pageNumber: pageNumber - 1,
         pageSize: 12,
+        includeHidden: false,
         ...sortParams
       };
 
-      // Add search keyword if provided
       if (keyword) {
         apiParams.title = keyword;
       }
 
-      // Add category filter if provided (for main category selection)
       if (categoryId) {
         apiParams.categoryId = categoryId;
       }
 
-      // Add subcategory filter if provided (works for both Lermao and Trà Phượng Hoàng)
       if (subCategoryId) {
         apiParams.subCategoryId = subCategoryId;
       }
 
-      // CRITICAL FIX: If no filters, don't add categoryId - backend will show ALL products
-      console.log('API Params:', apiParams); // Debug log
+      console.log('Frontend API Params (visible only):', apiParams); // Debug log
 
       return API.request({
         url: '/api/product/by-categories',
@@ -64,9 +56,6 @@ export const useQueryProductList = () => {
   });
 };
 
-/**
- * Hook to get products by specific category (for category pages)
- */
 export const useQueryProductListByCategory = (params) => {
   const { categoryId, isFeatured } = params;
   const queryKey = ['GET_PRODUCT_LIST_CLIENT_BY_CATEGORY', categoryId, isFeatured];
@@ -79,19 +68,16 @@ export const useQueryProductListByCategory = (params) => {
         params: {
           pageNumber: 0,
           pageSize: 20,
-          categoryId: categoryId ? categoryId.toString() : undefined
+          categoryId: categoryId ? categoryId.toString() : undefined,
+          includeHidden: false
         }
       });
     },
-    enabled: !!categoryId || categoryId === 0,
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000
+    enabled: !!categoryId,
+    staleTime: 5 * 60 * 1000
   });
 };
 
-/**
- * Hook to get featured products for homepage
- */
 export const useQueryProductListOther = () => {
   const queryKey = ['GET_PRODUCT_LIST_CLIENT_OTHER'];
 
@@ -111,9 +97,6 @@ export const useQueryProductListOther = () => {
   });
 };
 
-/**
- * Hook to get products by specific IDs (for cart, etc.)
- */
 export const useQueryProductByIds = (productIds = []) => {
   const queryKey = ['GET_PRODUCT_LIST_BY_IDS_CLIENT', ...productIds];
 
@@ -130,27 +113,17 @@ export const useQueryProductByIds = (productIds = []) => {
   });
 };
 
-/**
- * Hook to get product details by ID
- */
 export const useQueryProductDetail = (id) => {
   const queryKey = ['GET_PRODUCT_DETAIL_CLIENT', id];
 
   return useQuery({
     queryKey,
-    queryFn: () =>
-      API.request({
-        url: `/api/product/get-by-id/${id}`
-      }),
+    queryFn: () => API.request({ url: `/api/product/get-by-id/${id}` }),
     enabled: !!id,
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000
+    staleTime: 5 * 60 * 1000
   });
 };
 
-/**
- * Hook for rating/review functionality
- */
 export const useMutateRating = () => {
   return useMutation({
     mutationFn: (params) =>
@@ -182,9 +155,6 @@ export const useQueryRatingList = (productId) => {
   });
 };
 
-/**
- * Filter options for product sorting
- */
 export const FILTER_OPTIONS = [
   {
     label: 'Sắp xếp A-Z',
@@ -202,3 +172,140 @@ export const FILTER_OPTIONS = [
     objectParams: { orderBy: 'price', isDesc: true }
   }
 ];
+
+export const useQueryFeaturedProducts = (limit = 8) => {
+  const queryKey = ['GET_FEATURED_PRODUCTS', limit];
+
+  return useQuery({
+    queryKey,
+    queryFn: () => {
+      return API.request({
+        url: '/api/product/by-categories',
+        params: {
+          pageNumber: 0,
+          pageSize: limit,
+          includeHidden: false,
+          orderBy: 'id',
+          isDesc: true
+        }
+      });
+    },
+    staleTime: 10 * 60 * 1000
+  });
+};
+
+export const useQuerySearchProducts = () => {
+  const params = useGetParamsURL();
+  const { page: pageNumber = 1, keyword, sort, categoryId } = params;
+  const queryKey = ['GET_SEARCH_PRODUCTS', pageNumber, keyword, sort, categoryId];
+
+  return useQuery({
+    queryKey,
+    queryFn: () => {
+      let sortParams = {};
+      if (sort) {
+        if (sort === 'az') {
+          sortParams.orderBy = 'title';
+          sortParams.isDesc = false;
+        } else if (sort === 'increase') {
+          sortParams.orderBy = 'price';
+          sortParams.isDesc = false;
+        } else if (sort === 'decrease') {
+          sortParams.orderBy = 'price';
+          sortParams.isDesc = true;
+        }
+      }
+
+      const apiParams = {
+        pageNumber: pageNumber - 1,
+        pageSize: 12,
+        title: keyword,
+        includeHidden: false,
+        ...sortParams
+      };
+
+      if (categoryId) {
+        apiParams.categoryId = categoryId;
+      }
+
+      return API.request({
+        url: '/api/product/search',
+        params: apiParams
+      });
+    },
+    enabled: !!params.keyword,
+    staleTime: 3 * 60 * 1000
+  });
+};
+
+export const useQueryProductsByType = (type, options = {}) => {
+  const { pageSize = 12, enabled = true } = options;
+  const queryKey = ['GET_PRODUCTS_BY_TYPE', type, pageSize];
+
+  return useQuery({
+    queryKey,
+    queryFn: () => {
+      return API.request({
+        url: '/api/product/search',
+        params: {
+          pageNumber: 0,
+          pageSize,
+          type,
+          includeHidden: false
+        }
+      });
+    },
+    enabled: enabled && !!type,
+    staleTime: 5 * 60 * 1000
+  });
+};
+
+export const useQueryRelatedProducts = (categoryId, currentProductId, limit = 4) => {
+  const queryKey = ['GET_RELATED_PRODUCTS', categoryId, currentProductId, limit];
+
+  return useQuery({
+    queryKey,
+    queryFn: () => {
+      return API.request({
+        url: '/api/product/by-categories',
+        params: {
+          pageNumber: 0,
+          pageSize: limit + 1,
+          categoryId,
+          includeHidden: false,
+          orderBy: 'id',
+          isDesc: true
+        }
+      });
+    },
+    enabled: !!categoryId && !!currentProductId,
+    select: (data) => {
+      const filteredProducts = data.content.filter((product) => product.id !== currentProductId);
+      return {
+        ...data,
+        content: filteredProducts.slice(0, limit)
+      };
+    },
+    staleTime: 5 * 60 * 1000
+  });
+};
+
+export const useQueryVisibleProductsCount = () => {
+  const queryKey = ['GET_VISIBLE_PRODUCTS_COUNT'];
+
+  return useQuery({
+    queryKey,
+    queryFn: () => {
+      return API.request({
+        url: '/api/product/search',
+        params: {
+          pageNumber: 0,
+          pageSize: 1,
+          includeHidden: false
+        }
+      });
+    },
+    select: (data) => data.totalElements || 0,
+    staleTime: 10 * 60 * 1000
+  });
+};
