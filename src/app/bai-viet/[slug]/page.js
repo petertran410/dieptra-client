@@ -1,6 +1,8 @@
+// src/app/bai-viet/[slug]/page.js - UPDATED với breadcrumb đúng
 import Breadcrumb from '../../../components/breadcrumb';
 import TableOfContents from '../../../components/toc';
 import { API } from '../../../utils/API';
+import { ARTICLE_SECTIONS } from '../../../utils/article-types';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { convertSlugURL, convertTimestamp, META_DESCRIPTION, META_KEYWORDS } from '../../../utils/helper-server';
 import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
@@ -43,18 +45,45 @@ export async function generateMetadata({ params }) {
   };
 }
 
+// Helper function để tạo breadcrumb data dựa trên type của bài viết
+const getBreadcrumbData = (articleType, articleTitle) => {
+  const section = ARTICLE_SECTIONS.find((s) => s.type === articleType);
+
+  if (section) {
+    return [
+      { title: 'Trang chủ', href: '/' },
+      { title: 'Bài Viết', href: '/bai-viet' },
+      { title: section.label, href: section.href },
+      { title: articleTitle, href: '#', isActive: true }
+    ];
+  }
+
+  // Fallback cho những type không có trong ARTICLE_SECTIONS
+  return [
+    { title: 'Trang chủ', href: '/' },
+    { title: 'Bài Viết', href: '/bai-viet' },
+    { title: articleTitle, href: '#', isActive: true }
+  ];
+};
+
 const NewsDetail = async ({ params }) => {
   const { slug } = params;
   const id = slug.split('.').pop();
   const newsDetail = await API.request({ url: `/api/news/client/${id}` });
-  const newsListQuery = await API.request({ url: '/api/news/get-all', params: { pageSize: 6, type: 'NEWS' } });
+  const newsListQuery = await API.request({
+    url: '/api/news/client/get-all',
+    params: { pageSize: 6, type: newsDetail?.type || 'NEWS' }
+  });
   const { content: newsList = [] } = newsListQuery || {};
 
   if (!newsDetail) {
     return null;
   }
 
-  const { title, htmlContent, createdDate, imagesUrl, description } = newsDetail;
+  const { title, htmlContent, createdDate, imagesUrl, description, type } = newsDetail;
+
+  // Tạo breadcrumb data dựa trên type của bài viết
+  const breadcrumbData = getBreadcrumbData(type, title);
 
   const schemaData = {
     '@context': 'https://schema.org',
@@ -115,12 +144,9 @@ const NewsDetail = async ({ params }) => {
         direction={{ xs: 'column', lg: 'row' }}
       >
         <Flex flex={2 / 3} direction="column">
-          <Breadcrumb
-            data={[
-              { title: 'Bài Viết', href: '/bai-viet' },
-              { title: 'Tin Tức', href: `/bai-viet/${slug}`, isActive: true }
-            ]}
-          />
+          {/* UPDATED BREADCRUMB */}
+          <Breadcrumb data={breadcrumbData} />
+
           <Text as="h1" fontSize={24} fontWeight={600} mt="20px" lineHeight="30px">
             {title}
           </Text>
@@ -131,7 +157,7 @@ const NewsDetail = async ({ params }) => {
             {description}
           </Text>
 
-          {!!htmlContent?.startsWith('<toc></toc>') && (
+          {!htmlContent?.startsWith('<toc></toc>') && (
             <Box my="24px" className="html-content" borderRadius={8} border="1px solid #CCC" px="16px" py="12px">
               <Text fontWeight={700} fontSize={18}>
                 Mục lục
