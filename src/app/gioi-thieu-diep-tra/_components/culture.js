@@ -99,11 +99,13 @@ const Culture = () => {
               Diệp Trà đặt khách hàng làm trọng tâm, luôn lắng nghe và đáp ứng để mang lại giá trị cao nhất qua từng sản
               phẩm và dịch vụ.
               <br />
+              <br />
               <Text as="span" fontSize={16} fontWeight={500}>
                 2. Hợp tác cùng phát triển
               </Text>
               <br />
               {`"Thành công của khách hàng là tương lai của chúng tôi." Diệp Trà đồng hành và không ngừng tạo dựng niềm tin qua sự phát triển bền vững.`}
+              <br />
               <br />
               <Text as="span" fontSize={16} fontWeight={500}>
                 3. Học hỏi, sáng tạo và đổi mới
@@ -112,12 +114,14 @@ const Culture = () => {
               Luôn đổi mới, luôn cải tiến – Diệp Trà mang đến những giải pháp toàn diện, đón đầu xu hướng, vì lợi ích
               tối đa của khách hàng.
               <br />
+              <br />
               <Text as="span" fontSize={16} fontWeight={500}>
                 4. Đoàn kết và tôn trọng con người
               </Text>
               <br />
               Chúng tôi xây dựng một môi trường đoàn kết, nơi mọi cá nhân được tôn trọng, cùng gắn bó và phát triển vì
               mục tiêu chung.
+              <br />
               <br />
               <Text as="span" fontSize={16} fontWeight={500}>
                 5. Kỷ luật và cam kết

@@ -12,11 +12,8 @@ const AboutUs = () => {
       direction={{ xs: 'column', lg: 'row' }}
     >
       <Flex flex={1} direction="column" gap="16px">
-        <Text as="h1" fontSize={24} fontWeight={600}>
-          Về{' '}
-          <Text as="span" fontSize={24} fontWeight={600} color="#1E96BC">
-            Diệp Trà
-          </Text>
+        <Text as="h2" fontSize={24} fontWeight={600} color="#1E96BC">
+          Về Diệp Trà
         </Text>
         <Text fontSize={16}>
           Là thương hiệu thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, được ra đời vào năm 2018 dưới tên Diệp
@@ -29,7 +26,7 @@ const AboutUs = () => {
           lý đến thị trường Việt Nam.
         </Text>
 
-        <Link href="/gioi-thieu">
+        <Link href="/gioi-thieu-diep-tra" target="_blank">
           <Flex
             align="center"
             justify="center"

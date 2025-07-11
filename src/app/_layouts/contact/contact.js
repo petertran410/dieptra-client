@@ -26,7 +26,7 @@ const Contact = () => {
         direction="column"
         border="1px solid #E4E4E7"
         borderRadius="full"
-        h={{ xs: '180px', lg: '120px' }}
+        h={{ xs: '180px', lg: '180px' }}
         w="64px"
         align="center"
         justify="center"
@@ -71,7 +71,7 @@ const Contact = () => {
             _hover={{ transform: 'scale(1.1)' }}
           />
         </Link>
-        <Link href="https://www.facebook.com/lermao.sanhannhugau" target="_blank" _hover={{ textDecor: 'none' }}>
+        <Link href="https://www.facebook.com/dieptra.0788339379" target="_blank" _hover={{ textDecor: 'none' }}>
           <Image
             src="/images/facebook-contact.webp"
             alt={IMG_ALT}
@@ -81,7 +81,7 @@ const Contact = () => {
             _hover={{ transform: 'scale(1.1)' }}
           />
         </Link>
-        <Link href="tel:+84931566676" _hover={{ textDecor: 'none' }} display={{ xs: 'block', lg: 'none' }}>
+        <Link href="tel:+84788339379" _hover={{ textDecor: 'none' }} display={{ xs: 'block', lg: 'block' }}>
           <Image
             src="/images/phone-contact.webp"
             alt={IMG_ALT}

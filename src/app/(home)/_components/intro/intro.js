@@ -27,7 +27,7 @@ const HomeIntro = () => {
           fontSize={{ xs: 28, lg: 30, lg: 60, xl: 84 }}
           color="#20516A"
         >
-          Giải Pháp Pha Chế Toàn Diện Số 1 Việt Nam
+          Nhà Cung Cấp Nguyên Liệu Pha Chế Số 1 Việt Nam
         </Text>
 
         <Text display={{ xs: 'none', lg: 'block' }} mt="24px" fontSize={18} lineHeight="22px" textAlign="justify">
@@ -167,7 +167,7 @@ const HomeIntro = () => {
           Công ty TNHH Xuất nhập khẩu HI SWEETIE Việt Nam
         </Text>
         <Box h="100px" w="1px" bgColor="#1F445A" />
-        <Link href="/" target="_blank">
+        {/* <Link href="/" target="_blank">
           <Image
             src="/images/facebook-black.webp"
             alt={IMG_ALT}
@@ -199,7 +199,7 @@ const HomeIntro = () => {
             transitionDuration="250ms"
             _hover={{ transform: 'scale(1.1)' }}
           />
-        </Link>
+        </Link> */}
       </Flex>
     </Flex>
   );

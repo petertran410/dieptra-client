@@ -75,7 +75,7 @@ Triển khai các mã hàng lạnh đầu tiên`,
         templateColumns={'repeat(5, 1fr)'}
         gap={{ xs: '0px', lg: '24px' }}
         w="full"
-        display={{ xs: 'none', md: 'grid' }}
+        display={{ xs: 'none', lg: 'grid', md: 'none' }}
       >
         {PROCESS_TOP.map((item, index) => {
           const { title, type } = item;
@@ -147,7 +147,7 @@ Triển khai các mã hàng lạnh đầu tiên`,
         gap={{ xs: '0px', lg: '24px' }}
         w="full"
         mt="20px"
-        display={{ xs: 'none', md: 'grid' }}
+        display={{ xs: 'none', lg: 'grid', md: 'none' }}
       >
         {PROCESS_BOTTOM.map((item, index) => {
           const { title, type } = item;
@@ -166,25 +166,6 @@ Triển khai các mã hàng lạnh đầu tiên`,
               <AspectRatio ratio={1 / 1} w="full" borderRadius={16} overflow="hidden">
                 <Image src={getImageByTitle(title)} alt={`Diệp Trà ${title}`} w="full" h="full" objectFit="cover" />
               </AspectRatio>
-              {/* <Box
-                w={index === 0 || index === PROCESS_BOTTOM.length - 1 ? '100%' : '150%'}
-                left={index === 0 || index === PROCESS_BOTTOM.length - 1 ? 0 : '-30px'}
-                h="2px"
-                bgColor="main.1"
-                bottom={0}
-                pos="absolute"
-              /> */}
-              {/* <Image
-                src="/images/ripple-up.webp"
-                w="24px"
-                h="32px"
-                alt={IMG_ALT}
-                pos="absolute"
-                left={0}
-                right={0}
-                mx="auto"
-                bottom="-12px"
-              /> */}
             </Box>
           );
         })}

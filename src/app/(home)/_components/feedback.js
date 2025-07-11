@@ -1,6 +1,6 @@
 import Carousel from '../../../components/carousel';
 import CarouselMobile from '../../../components/carousel/carousel-mobile';
-import SectionBlock from '../../../components/section-block';
+import SectionBlockH2 from '../../../components/section-block/section-block-h2';
 import { IMG_ALT } from '../../../utils/const';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
@@ -50,7 +50,7 @@ const Feedback = () => {
       w="full"
       py={{ xs: '36px', lg: '75px' }}
     >
-      <SectionBlock title="Khách hàng nói gì về chúng tôi" />
+      <SectionBlockH2 title="Khách hàng nói gì về Diệp Trà" />
 
       <Box
         w={{

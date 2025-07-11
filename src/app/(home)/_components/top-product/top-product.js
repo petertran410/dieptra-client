@@ -1,12 +1,12 @@
 'use client';
 
-import SectionBlock from '../../../../components/section-block';
 import { useQueryCategoryList } from '../../../../services/category.service';
 import { PX_ALL } from '../../../../utils/const';
 import { Flex } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import ProductList from './product-list';
+import SectionBlockH2 from '../../../../components/section-block/section-block-h2';
 
 const TopProduct = () => {
   const { data: categoryList = [] } = useQueryCategoryList();
@@ -20,7 +20,7 @@ const TopProduct = () => {
       px={PX_ALL}
       gap={{ xs: '24px', lg: '48px' }}
     >
-      <SectionBlock title="Sản phẩm nổi bật" isNormal />
+      <SectionBlockH2 title="Sản phẩm nổi bật" isNormal />
 
       {categoryList?.slice(0, 2)?.map((item) => {
         const { id } = item;

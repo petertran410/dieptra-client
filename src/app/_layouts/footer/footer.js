@@ -109,28 +109,59 @@ const Footer = () => {
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  Cửa hàng tại HCM: Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh
+                  Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.
                 </Text>
-                <Text fontWeight={400} mt="8px" lineHeight="21px">
-                  Cửa hàng tại HN: B-TT10-4 thuộc dự án Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông,
-                  Thành phố Hà Nội, Việt Nam
+              </Box>
+            </Flex>
+
+            <Flex align="flex-start" gap="8px">
+              <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
+              <Box>
+                <Text fontWeight={400} lineHeight="21px">
+                  Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.
+                </Text>
+              </Box>
+            </Flex>
+
+            <Flex align="flex-start" gap="8px">
+              <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
+              <Box>
+                <Text fontWeight={400} lineHeight="21px">
+                  Cửa hàng tại HCM: Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh
                 </Text>
               </Box>
             </Flex>
 
             <Flex align="flex-start" gap="8px">
               <Image src="/images/email.webp" alt={IMG_ALT} w="24px" h="24px" />
-              <ChakraLink href="mailto:hisweetievietnam@gmail.com" fontWeight={400} _hover={{ textDecor: 'none' }}>
-                hisweetievietnam@gmail.com
+              <Flex>
+                <Text mr={1}>Website:</Text>
+                <ChakraLink href="mailto:dieptra.com" fontWeight={400} _hover={{ textDecor: 'none' }}>
+                  dieptra.com
+                </ChakraLink>
+              </Flex>
+            </Flex>
+
+            <Flex align="flex-start" gap="8px">
+              <Image src="/images/email.webp" alt={IMG_ALT} w="24px" h="24px" />
+              <ChakraLink href="mailto:sales@hisweetievietnam.com.vn" fontWeight={400} _hover={{ textDecor: 'none' }}>
+                sales@hisweetievietnam.com.vn
               </ChakraLink>
             </Flex>
 
             <Flex align="flex-start" gap="8px">
               <Image src="/images/phone.webp" alt={IMG_ALT} w="24px" h="24px" />
-              <ChakraLink href="tel:+84931566676" fontWeight={400} _hover={{ textDecor: 'none' }}>
-                +84 931 566 676
+              <ChakraLink href="tel:+84788339379" fontWeight={400} _hover={{ textDecor: 'none' }}>
+                +84 78 833 9379
               </ChakraLink>
             </Flex>
+
+            <Text fontSize={16} fontWeight={500}>
+              Giờ làm việc:{' '}
+              <Text fontSize={16} fontWeight={500}>
+                T2 - T7: 8h30 - 17h30
+              </Text>
+            </Text>
           </Flex>
         </Flex>
 
@@ -188,10 +219,10 @@ const Footer = () => {
         <Flex flex={{ xs: 'none', lg: 1 / 3 }} direction="column" gap="24px" w="full">
           <Flex align="center" display={{ xs: 'none', lg: 'flex' }}>
             <Text fontSize={16}>Fanpage:</Text>
-            <Link href="/" target="_blank">
+            <Link href="https://www.facebook.com/dieptra.0788339379" target="_blank">
               <Image src="/images/facebook-black.webp" w="24px" h="24px" alt={IMG_ALT} />
             </Link>
-            <Link href="/" target="_blank">
+            <Link href="https://zalo.me/s/1428308065058357450/" target="_blank">
               <Image src="/images/zalo-black.webp" w="24px" h="24px" alt={IMG_ALT} />
             </Link>
           </Flex>

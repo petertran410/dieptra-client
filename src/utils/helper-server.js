@@ -92,7 +92,7 @@ export const getCategoryName = (name) => {
   );
 };
 
-const META_TITLE = 'Diệp Trà  - Thương hiệu cung cấp nguyên liệu pha chế hàng đầu tại Việt Nam';
+const META_TITLE = 'Diệp Trà - Chuyên Cung Cấp Nguyên Liệu Pha Chế Hàng Đầu VN';
 export const META_DESCRIPTION =
   'Là thương hiệu thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, được ra đời vào năm 2018 dưới tên Diệp Trà, với sứ mệnh tiên phong, đi đầu trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên phục vụ các mặt hàng nguyên liệu pha chế nhập khẩu từ Đài Loan (Trung Quốc) và Trung Quốc, tập trung vào chiến lược "Hợp tác chiến lược toàn diện và độc quyền" với các đối tác uy tín số 1 trên thế giới để mang đến những sản phẩm tốt nhất, xu hướng nhất với giá thành hợp lý đến thị trường Việt Nam.';
 const META_IMAGE = '/images/preview.webp';
@@ -122,7 +122,7 @@ const getBaseUrl = () => {
 };
 
 const META_URL = getBaseUrl();
-const META_SITENAME = 'Diệp Trà  - Thương hiệu cung cấp nguyên liệu pha chế hàng đầu tại Việt Nam';
+const META_SITENAME = 'Diệp Trà - Chuyên Cung Cấp Nguyên Liệu Pha Chế Hàng Đầu VN';
 const META_TYPE = 'website';
 
 export const getMetadata = (data) => {
