@@ -24,10 +24,11 @@ const HomeIntro = () => {
           className={fontGaramond.className}
           fontWeight={500}
           lineHeight={{ xs: '33px', lg: '60px', xl: '100px' }}
-          fontSize={{ xs: 28, lg: 30, lg: 60, xl: 84 }}
+          fontSize={{ xs: 28, lg: 28, xl: 55 }}
           color="#20516A"
         >
-          Nhà Cung Cấp Nguyên Liệu Pha Chế Số 1 Việt Nam
+          Diệp Trà
+          <br /> Nhà Cung Cấp Nguyên Liệu Pha Chế Số 1 Việt Nam
         </Text>
 
         <Text display={{ xs: 'none', lg: 'block' }} mt="24px" fontSize={18} lineHeight="22px" textAlign="justify">

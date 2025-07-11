@@ -8,7 +8,7 @@ import { getMetadata } from '../../utils/helper-server';
 export const metadata = getMetadata({
   title: 'Diệp Trà - Chuyên Cung Cấp Nguyên Liệu Pha Chế Hàng Đầu VN',
   description:
-    'Diệp Trà là thương hiệu chuyên cung cấp nguyên liệu pha chế hàng đầu tại Việt Nam. Sản phẩm đa dạng, chất lượng cao, giá tốt, được nhiều đối tác tin dùng.'
+    'Diệp Trà là thương hiệu chuyên cung cấp nguyên liệu pha chế hàng đầu tại Việt Nam. Sản phẩm đa dạng, chất lượng cao, giá tốt, được nhiều đối tác tin dùng. Có hơn 30.000 đối tác toàn quốc'
 });
 
 export const revalidate = 60;
