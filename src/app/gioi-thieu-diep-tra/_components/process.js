@@ -177,7 +177,7 @@ Triển khai các mã hàng lạnh đầu tiên`,
           {PROCESS_ALL.map((item) => {
             return (
               <Box key={item.title} w="full" borderRadius={16} overflow="hidden" h="200px">
-                <Image src={item.image_url} alt={`Diệp Trà ${item.title}`} w="full" h="full" objectFit="cover" />
+                <Image src={item.image_url} alt={`Diệp Trà ${item.title}`} w="full" h="full" objectFit="fit" />
               </Box>
             );
           })}
