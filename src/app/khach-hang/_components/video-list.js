@@ -1,7 +1,7 @@
 'use client';
 
 import Carousel from '../../../components/carousel';
-import SectionBlock from '../../../components/section-block';
+import SectionBlockH2 from '../../../components/section-block/section-block-h2';
 import { useQueryVideoList } from '../../../services/video.service';
 import { PX_ALL } from '../../../utils/const';
 import { AspectRatio, Box, Flex } from '@chakra-ui/react';
@@ -16,11 +16,11 @@ const VideoList = () => {
     992: { slidesPerView: 3 }
   };
 
-  const VIDEOS = videoList?.map((i) => i?.imagesUrl?.[0]?.replace('https://', 'http://')) || [];
+  const VIDEOS = videoList?.map((i) => i?.imagesUrl?.[0]?.replace('http://', 'https://')) || [];
 
   return (
     <Flex direction="column" mt={{ xs: '32px', lg: '48px' }} gap="24px" px={PX_ALL}>
-      <SectionBlock title="Khách hàng nói gì về workshops" />
+      <SectionBlockH2 title="Khách hàng nói gì về workshops" />
       <Box display={{ xs: 'none', lg: 'block' }} w="105%" ml="-2.5%">
         <Carousel spaceBetween={24} breakpoints={breakpoints} autoplay={false}>
           {VIDEOS?.map((item, index) => {

@@ -1,13 +1,13 @@
 'use client';
 
-import { PX_ALL } from '../../utils/const';
-import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, Spinner, VStack } from '@chakra-ui/react';
+import { Flex, Image } from '@chakra-ui/react';
 import Link from 'next/link';
-import SectionBlockH2 from '../../components/section-block/section-block-h2';
+import SectionBlockH2 from '../../../components/section-block/section-block-h2';
+import { PX_ALL } from '../../../utils/const';
 
 const FeaturedArticle = () => {
   return (
-    <Flex pt={{ xs: '70px', lg: '0' }} px="100px" pb="100px" direction="column" gap={4}>
+    <Flex pt={{ xs: '70px', lg: '0' }} px={PX_ALL} pb="100px" direction="column" gap={4}>
       <SectionBlockH2 title="Bài Viết" />
       <Flex pt={{ xs: '70px', lg: '10px' }} direction="row" gap={4}>
         <Link href={`/bai-viet/kien-thuc-nguyen-lieu-pha-che`}>
