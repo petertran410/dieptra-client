@@ -12,8 +12,8 @@ const HomeIntro = () => {
       px={PX_ALL}
       gap={{ xs: '36px', lg: '80px' }}
       align="center"
-      pt={{ xs: '50px', lg: '300px' }}
-      pb={{ xs: '40px', lg: '350px' }}
+      pt={{ xs: '50px', lg: '200px' }}
+      pb={{ xs: '40px', lg: '100px' }}
       pos="relative"
       justify="space-between"
       bgGradient="linear(to-b, #a3dcf3 0%, #FFF 50%, #FFF 100%)"

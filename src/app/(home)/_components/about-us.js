@@ -5,17 +5,17 @@ import Link from 'next/link';
 const AboutUs = () => {
   return (
     <Flex
-      mt={{ xs: '30px', lg: '148px' }}
-      mb={{ xs: '40px', lg: '130px' }}
+      mt={{ xs: '30px', lg: '50px' }}
+      mb={{ xs: '40px', lg: '50px' }}
       px={PX_ALL}
       gap="24px"
       direction={{ xs: 'column', lg: 'row' }}
     >
-      <Flex flex={1} direction="column" gap="16px">
+      <Flex flex={1.1} direction="column" gap="16px">
         <Text as="h2" fontSize={24} fontWeight={600} color="#1E96BC">
           Về Diệp Trà
         </Text>
-        <Text fontSize={16}>
+        <Text fontSize={16} textAlign="justify">
           Là thương hiệu thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, được ra đời vào năm 2018 dưới tên Diệp
           Trà, cùng sứ mệnh tiên phong, đi đầu trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên phục vụ các mặt hàng
           nguyên liệu pha chế nhập khẩu từ Đài Loan (Trung Quốc) và Trung Quốc, tập trung vào chiến lược{' '}
@@ -47,8 +47,8 @@ const AboutUs = () => {
           </Flex>
         </Link>
       </Flex>
-      <Flex flex={1}>
-        <Image src="/images/image-about-home.webp" w="full" h="235px" fit="cover" alt={IMG_ALT} borderRadius={16} />
+      <Flex flex={1.1}>
+        <Image src="/images/image-about-home.webp" w="full" h="full" fit="cover" alt={IMG_ALT} borderRadius={16} />
       </Flex>
     </Flex>
   );

@@ -3,10 +3,10 @@ import { Inter } from 'next/font/google';
 
 const fontInter = Inter({ subsets: ['latin', 'vietnamese'] });
 
-const Statistic = ({ mt = { xs: '36px', lg: '96px' } }) => {
+const Statistic = ({ mt = { xs: '20px', lg: '20px' } }) => {
   return (
     <Flex
-      h={{ xs: '78px', lg: '300px' }}
+      h={{ xs: '78px', lg: '250px' }}
       w="full"
       bgImage="url(/images/bg-statistic-intro.webp)"
       bgSize="cover"
@@ -15,7 +15,7 @@ const Statistic = ({ mt = { xs: '36px', lg: '96px' } }) => {
       align="center"
       gap={{ xs: '50px', lg: '128px' }}
       mt={mt}
-      mb={{ xs: '16px', lg: 0 }}
+      mb={{ xs: '0px', lg: 0 }}
     >
       <Flex direction="column" gap={{ xs: '12px', lg: '16px' }} align="center">
         <Text color="#065FD4" fontSize={{ xs: 32, lg: 100 }} fontWeight={900} className={fontInter.className}>

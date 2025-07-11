@@ -37,7 +37,7 @@ const Feedback = () => {
       customer: 'Anh Đông',
       position: 'Đại diện BID Cần Thơ',
       content:
-        'Khách hàng đều phản hồi rất tích cực về sản phẩm Lermao và trà Phượng Hoàng. Khi khách hàng hài lòng, BID cũng cảm thấy hoàn toàn tin tưởng vào chất lượng sản phẩm. Cảm ơn Diệp Trà đã mang đến những hương vị thơm ngon, chất lượng cho người tiêu dùng Việt Nam. Hy vọng trong năm 2025, Diệp Trà sẽ tiếp tục ra mắt nhiều sản phẩm mứt và trà mới, góp phần làm phong phú thêm thị trường.',
+        'Khách hàng đều phản hồi rất tích cực về sản phẩm Lermao và trà Phượng Hoàng. Khi khách hàng hài lòng, BID cũng cảm thấy hoàn toàn tin tưởng vào chất lượng sản phẩm. Cảm ơn Diệp Trà đã mang đến những hương vị thơm ngon, chất lượng cho người tiêu dùng Việt Nam.',
       image: '/images/feedback-4.webp'
     }
   ];
@@ -96,8 +96,8 @@ const Feedback = () => {
                         mx="auto"
                         fit="cover"
                         top="-32px"
-                        w="70px"
-                        h="70px"
+                        w="115px"
+                        h="115px"
                         borderRadius="full"
                         alt={IMG_ALT}
                         border="6px solid #FFF"

@@ -4,6 +4,9 @@ import Feedback from './_components/feedback';
 import HomeIntro from './_components/intro/intro';
 import TopProduct from './_components/top-product/top-product';
 import { getMetadata } from '../../utils/helper-server';
+import Statistic from '../gioi-thieu-diep-tra/_components/statistic';
+import VideoList from '../khach-hang/_components/video-list';
+import FeaturedArticle from '../(home)/feature-article';
 
 export const metadata = getMetadata({
   title: 'Diệp Trà - Chuyên Cung Cấp Nguyên Liệu Pha Chế Hàng Đầu VN',
@@ -19,7 +22,10 @@ export default function Home() {
       <HomeIntro />
       <AboutUs />
       <TopProduct />
+      <VideoList />
+      <Statistic />
       <Feedback />
+      <FeaturedArticle />
       <HomeContact />
     </div>
   );
