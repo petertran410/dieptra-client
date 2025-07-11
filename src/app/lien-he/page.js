@@ -5,7 +5,10 @@ import HomeContact from '../(home)/_components/contact';
 import ContactHCM from './_component/contact-hcm';
 import ContactHN from './_component/contact-hn';
 
-export const metadata = getMetadata({ title: 'Liên hệ | Diệp Trà' });
+export const metadata = getMetadata({
+  title: 'Liên hệ | Diệp Trà',
+  description: 'Liên hệ ngay chúng tôi để được tư vấn tốt nhất'
+});
 
 const Contact = () => {
   return (
