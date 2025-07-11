@@ -8,7 +8,11 @@ import Process from './_components/process';
 import Statistic from './_components/statistic';
 import Strength from './_components/strength';
 
-export const metadata = getMetadata({ title: 'Giới thiệu | Diệp Trà' });
+export const metadata = getMetadata({
+  title: 'Giới thiệu | Diệp Trà',
+  description:
+    'Diệp Trà là thương hiệu nhập khẩu & phân phối nguyên liệu pha chế cao cấp, hướng đến xây dựng hệ sinh thái đồ uống chất lượng và bền vững tại Việt Nam.'
+});
 
 const IntroPage = () => {
   return (

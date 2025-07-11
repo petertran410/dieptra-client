@@ -1,4 +1,4 @@
-import SectionBlock from '../../../components/section-block';
+import SectionBlockH2 from '../../../components/section-block/section-block-h2';
 import { IMG_ALT } from '../../../utils/const';
 import { Flex, Image, Text } from '@chakra-ui/react';
 
@@ -39,7 +39,7 @@ const Strength = () => {
       mt="64px"
       px={{ xs: '20px', md: '30px', lg: '160px', xl: '340px', '2xl': '460px' }}
     >
-      <SectionBlock title="Các thế mạnh về sản phẩm" />
+      <SectionBlockH2 title="Các thế mạnh về sản phẩm" />
 
       {STRENGTH_LIST.map((item, index) => {
         const { title, description } = item;
