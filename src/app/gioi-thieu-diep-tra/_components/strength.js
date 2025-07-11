@@ -27,7 +27,7 @@ const Strength = () => {
     {
       title: 'Luôn Đổi Mới và Bắt Kịp Xu Hướng',
       description:
-        'Chúng tôi luôn tư duy cải tiến – biến việc “học hỏi, sáng tạo và đổi mới” trở thành văn hóa của doanh nghiệp. Từ đó, tập trung tối ưu, cải thiện, nâng tầm mọi sản phẩm thức uống, giúp khách hành cạnh tranh trong thị trường đồ uống đầy tiềm năng và không ngừng phát triển.'
+        'Chúng tôi luôn tư duy cải tiến – biến việc “học hỏi, sáng tạo và đổi mới” trở thành văn hóa của doanh nghiệp. Từ đó, tập trung tối ưu, cải thiện, nâng tầm mọi sản phẩm thức uống, giúp khách hàng cạnh tranh trong thị trường đồ uống đầy tiềm năng và không ngừng phát triển.'
     }
   ];
 

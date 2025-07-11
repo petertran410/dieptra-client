@@ -48,7 +48,7 @@ const Culture = () => {
                     pha chế toàn diện hàng đầu tại Việt Nam,
                   </b>{' '}
                   không chỉ về quy mô mà còn về chất lượng sản phẩm, độ uy tín thương hiệu và năng lực phục vụ khách
-                  hàng
+                  hàng.
                 </li>
                 <li>
                   Diệp Trà hướng tới xây dựng <b>hệ sinh thái nguyên liệu pha chế chuẩn quốc tế</b>, với danh mục sản

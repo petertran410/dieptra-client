@@ -53,7 +53,8 @@ const ContactHN = () => {
 
   return (
     <Flex direction="column" align="center" px={PX_ALL} pos="relative" zIndex={5}>
-      <SectionBlock title="phòng kinh doanh hà nội" />
+      <SectionBlock title="liên hệ phòng kinh doanh hà nội" />
+      <p style={{ fontSize: '24px', marginTop: '15px' }}>Liên hệ ngay chúng tôi để được tư vấn tốt nhất</p>
 
       <Box mt="24px" display={{ xs: 'none', lg: 'block' }} w="105%">
         <Carousel spaceBetween={24} breakpoints={breakpoints} autoplay={false}>

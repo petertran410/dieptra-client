@@ -1,6 +1,5 @@
 'use client';
-
-import SectionBlock from '../../../components/section-block/index';
+import SectionBlockH3 from '../../../components/section-block/section-block-h3';
 import { useMutateContact } from '../../../services/contact.service';
 import { PX_ALL } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -54,7 +53,7 @@ const HomeContact = (props) => {
       bgRepeat="no-repeat"
       bgColor="transparent"
     >
-      <SectionBlock title="Liên hệ tư vấn" />
+      <SectionBlockH3 title="Liên hệ tư vấn" />
 
       <Box mt="16px" borderRadius={16} py="24px">
         <form style={{ display: 'block' }} onSubmit={handleSubmit(onSubmit)}>
