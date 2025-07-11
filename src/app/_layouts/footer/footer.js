@@ -136,7 +136,7 @@ const Footer = () => {
               <Image src="/images/email.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Flex>
                 <Text mr={1}>Website:</Text>
-                <ChakraLink href="mailto:dieptra.com" fontWeight={400} _hover={{ textDecor: 'none' }}>
+                <ChakraLink href="https://dieptra.com" fontWeight={400} target="_blank" _hover={{ textDecor: 'none' }}>
                   dieptra.com
                 </ChakraLink>
               </Flex>
