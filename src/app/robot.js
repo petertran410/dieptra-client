@@ -6,7 +6,22 @@ export default function robots() {
   const domain = `${protocol}://${host}`;
 
   return {
-    rules: [{ userAgent: '*', allow: '/' }],
+    rules: [
+      {
+        userAgent: '*',
+        allow: '/',
+        disAllow: [
+          '/gio-hang/',
+          '/thanh-toan/',
+          '/tim-kiem',
+          '/search?',
+          '/search?keywords=*.tv',
+          '/search?keywords=*.xyz',
+          '*utm_source',
+          '/search?category=*.com'
+        ]
+      }
+    ],
     sitemap: `${domain}/sitemap.xml`
   };
 }
