@@ -7,7 +7,8 @@ import ContactHN from './_component/contact-hn';
 
 export const metadata = getMetadata({
   title: 'Liên hệ | Diệp Trà',
-  description: 'Liên hệ ngay chúng tôi để được tư vấn tốt nhất'
+  description:
+    'Hãy liên hệ ngay với chúng tôi để nhận được giải pháp tối ưu, phù hợp nhất với nhu cầu của bạn. Với đội ngũ chuyên viên giàu kinh nghiệm, tận tâm và am hiểu sâu sắc thị trường, chúng tôi cam kết mang đến cho bạn sự hỗ trợ chuyên nghiệp, hiệu quả nhất.'
 });
 
 const Contact = () => {
@@ -120,6 +121,7 @@ const Contact = () => {
                     fontSize={16}
                     lineHeight="19px"
                     textDecor="underline"
+                    rel="nofollow"
                   >
                     Diệp Trà
                   </Link>
@@ -130,6 +132,7 @@ const Contact = () => {
                     fontSize={16}
                     lineHeight="19px"
                     textDecor="underline"
+                    rel="nofollow"
                   >
                     Lermao - Sành ăn như gấu
                   </Link>
@@ -140,6 +143,7 @@ const Contact = () => {
                     fontSize={16}
                     lineHeight="19px"
                     textDecor="underline"
+                    rel="nofollow"
                   >
                     Trà Phượng Hoàng - Hương vị hoàn hảo
                   </Link>

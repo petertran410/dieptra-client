@@ -13,9 +13,6 @@ import { useEffect, useState, Suspense } from 'react';
 const ArticleCard = ({ article, categorySlug }) => {
   const { id, title, description, imagesUrl, createdDate } = article;
 
-  // 🚨 DEBUG: Log data để kiểm tra
-  console.log('ArticleCard data:', { id, title, createdDate, fullArticle: article });
-
   return (
     <Flex direction="column" gap="16px" h="100%">
       <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
@@ -171,11 +168,8 @@ const SectionsContent = () => {
     const fetchArticleSections = async () => {
       try {
         setLoading(true);
-        console.log('🔄 Fetching article sections...'); // Debug log
 
         const response = await API.request({ url: '/api/news/client/article-sections' });
-
-        console.log('📥 API Response:', response); // Debug log
 
         if (response && Array.isArray(response)) {
           // 🚨 ENHANCED: Transform và validate data

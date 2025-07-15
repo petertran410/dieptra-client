@@ -1,8 +1,13 @@
-'use client';
-
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
 import Head from 'next/head';
+import { getMetadata } from '@/utils/helper-server';
+
+export const metadata = getMetadata({
+  title: 'Trend Pha Chế',
+  description:
+    'Cập nhật các Trend pha chế mới nhất: đồ uống viral, topping độc đáo, nguyên liệu theo mùa… Giúp chủ quán thu hút khách và bắt kịp xu hướng F&B đón đầu thị trường.'
+});
 
 const TrendPhaChe = () => {
   return (

@@ -1,8 +1,13 @@
-'use client';
-
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
 import Head from 'next/head';
+import { getMetadata } from '../../../utils/helper-server';
+
+export const metadata = getMetadata({
+  title: 'Kiến Thức Về Trà',
+  description:
+    'Tổng hợp Kiến thức về trà: các loại trà phổ biến, cách ủ và kết hợp trà trong pha chế đồ uống ngon và chuẩn vị. Hữu ích cho những người mới và chủ quán chuyên nghiệp.'
+});
 
 const KienThucVeTra = () => {
   return (

@@ -93,8 +93,8 @@ export default function sitemap() {
     {
       url: `${domain}/bai-viet/tin-tuc`,
       lastModified: new Date(),
-      changeFrequency: 'daily',
-      priority: 0.8
+      changeFrequency: 'monthly',
+      priority: 0.7
     }
   ];
 }

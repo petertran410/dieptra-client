@@ -12,7 +12,7 @@ const FeaturedArticle = () => {
       <Flex pt={{ xs: '70px', lg: '10px' }} direction="row" gap={4}>
         <Link href={`/bai-viet/kien-thuc-nguyen-lieu-pha-che`}>
           <Image
-            src={'/images/news.webp'}
+            src={'/images/thumbnail-kien-thuc-nguyen-lieu-pha-che.webp'}
             w="full"
             h="full"
             alt="Kiến thức pha chế"
@@ -23,7 +23,7 @@ const FeaturedArticle = () => {
         </Link>
         <Link href={`/bai-viet/kien-thuc-ve-tra`}>
           <Image
-            src={'/images/news.webp'}
+            src={'/images/thumbnail-kien-thuc-ve-tra.webp'}
             w="full"
             h="full"
             alt="Kiến thức pha chế"
@@ -34,7 +34,7 @@ const FeaturedArticle = () => {
         </Link>
         <Link href={`/bai-viet/review-danh-gia-san-pham`}>
           <Image
-            src={'/images/news.webp'}
+            src={'/images/thumbnail-danh-gia.webp'}
             w="full"
             h="full"
             alt="Kiến thức pha chế"
@@ -45,7 +45,7 @@ const FeaturedArticle = () => {
         </Link>
         <Link href={`/bai-viet/cong-thuc-pha-che`}>
           <Image
-            src={'/images/news.webp'}
+            src={'/images/thumbnail-cong-thuc-pha-che.webp'}
             w="full"
             h="full"
             alt="Kiến thức pha chế"

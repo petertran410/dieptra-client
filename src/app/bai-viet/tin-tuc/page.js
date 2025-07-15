@@ -1,8 +1,13 @@
-'use client';
-
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
 import Head from 'next/head';
+import { getMetadata } from '@/utils/helper-server';
+
+export const metadata = getMetadata({
+  title: 'Tin Tức Diệp Trà',
+  description:
+    'Cập nhật Tin tức mới nhất từ Diệp Trà: Sản phẩm mới, chương trình khuyến mãi, sự kiện ngành pha chế và hoạt động thương hiệu nổi bật. Thông tin workshop các khu vực.'
+});
 
 const TinTuc = () => {
   return (

@@ -14,11 +14,23 @@ export default function robots() {
           '/gio-hang/',
           '/thanh-toan/',
           '/tim-kiem',
+          '/search',
           '/search?',
-          '/search?keywords=*.tv',
-          '/search?keywords=*.xyz',
+          '/search?keywords=',
+          '/search?keywords=category',
+          '*?s=',
+          '*?q=',
+          '*ref=',
+          '*track=',
+          '*go=',
+          '*?replytocom',
+          '*?fbclid=',
+          '*?gclid=',
           '*utm_source',
-          '/search?category=*.com'
+          '*utm_medium',
+          '*utm_campaign',
+          '*utm_term',
+          '*utm_content'
         ]
       }
     ],

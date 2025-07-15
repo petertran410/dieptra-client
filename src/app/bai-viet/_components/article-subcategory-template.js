@@ -2,7 +2,7 @@
 
 import Breadcrumb from '../../../components/breadcrumb';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
-import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
+import { convertSlugURL, convertTimestamp, getMetadata } from '../../../utils/helper-server';
 import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, Spinner, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
