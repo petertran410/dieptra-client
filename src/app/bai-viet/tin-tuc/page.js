@@ -1,7 +1,7 @@
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
 import Head from 'next/head';
-import { getMetadata } from '@/utils/helper-server';
+import { getMetadata } from '../../../utils/helper-server';
 
 export const metadata = getMetadata({
   title: 'Tin Tức Diệp Trà',
