@@ -5,7 +5,6 @@ import HomeIntro from './_components/intro/intro';
 import TopProduct from './_components/top-product/top-product';
 import { getMetadata } from '../../utils/helper-server';
 import Statistic from '../gioi-thieu-diep-tra/_components/statistic';
-import VideoList from '../khach-hang/_components/video-list';
 import FeaturedArticle from './_components/feature-article';
 
 export const metadata = getMetadata({
