@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+Disallow: /gio-hang/
+Disallow: /thanh-toan/
+Disallow: /tim-kiem
+Disallow: /search
+Disallow: /search?
+Disallow: /search?keywords=
+Disallow: /search?keywords=category
+Disallow: *?s=
+Disallow: *?q=
+Disallow: *ref=
+Disallow: *track=
+Disallow: *go=
+Disallow: *?replytocom
+Disallow: *?fbclid=
+Disallow: *?gclid=
+Disallow: *utm_source
+Disallow: *utm_medium
+Disallow: *utm_campaign
+Disallow: *utm_term
+Disallow: *utm_content
+
+Sitemap: https://www.dieptra.com/sitemap.xml

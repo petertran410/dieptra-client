@@ -10,7 +10,7 @@ export default function robots() {
       {
         userAgent: '*',
         allow: '/',
-        disAllow: [
+        disallow: [
           '/gio-hang/',
           '/thanh-toan/',
           '/tim-kiem',
