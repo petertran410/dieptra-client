@@ -2,7 +2,7 @@
 
 import Breadcrumb from '../../../components/breadcrumb';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
-import { convertSlugURL, convertTimestamp, getMetadata } from '../../../utils/helper-server';
+import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
 import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, Spinner, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
@@ -35,7 +35,7 @@ const ArticleItem = ({ item, categorySlug }) => {
               fontWeight={500}
               lineHeight="24px"
               noOfLines={3}
-              h="72px"
+              h="60px"
               _hover={{ color: '#065FD4' }}
               transition="color 0.2s ease"
             >
@@ -44,7 +44,7 @@ const ArticleItem = ({ item, categorySlug }) => {
           </Link>
 
           {description && (
-            <Text mt="8px" fontSize={14} color="gray.600" lineHeight="20px" noOfLines={2}>
+            <Text mt={1} fontSize={16} color="gray.600" lineHeight="20px" noOfLines={2}>
               {description}
             </Text>
           )}

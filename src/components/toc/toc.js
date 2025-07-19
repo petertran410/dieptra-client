@@ -139,7 +139,7 @@ const TableOfContents = ({ html }) => {
             onClick={() => handleClick(item.id)}
           >
             <Text
-              fontSize={item.level <= 2 ? 14 : 13}
+              fontSize={item.level <= 2 ? 18 : 16}
               color={getLevelColor(item.level, isActive)}
               fontWeight={getFontWeight(item.level, isActive)}
               lineHeight="1.4"

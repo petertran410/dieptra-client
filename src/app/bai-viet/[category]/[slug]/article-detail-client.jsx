@@ -372,19 +372,19 @@ const ArticleDetailClient = ({ params, categoryData }) => {
         <Flex flex={2 / 3} direction="column">
           <Breadcrumb data={breadcrumbData} />
 
-          <Text as="h1" fontSize={24} fontWeight={600} mt="20px" lineHeight="30px">
+          <Text as="h1" fontSize={28} fontWeight={600} mt="20px" lineHeight="30px">
             {title}
           </Text>
-          <Text mt="20px" color="#A1A1AA">
+          <Text mt="12px" color="#A1A1AA" fontSize={16}>
             Ngày đăng: {convertTimestamp(createdDate)}
           </Text>
-          <Text mt="16px" fontWeight={500} fontSize={16}>
+          <Text mt="16px" fontWeight={500} fontSize={20}>
             {description}
           </Text>
 
           {htmlContent && !htmlContent.startsWith('<toc></toc>') && (
             <Box my="24px" className="html-content" borderRadius={8} border="1px solid #CCC" px="16px" py="12px">
-              <Text fontWeight={700} fontSize={18}>
+              <Text fontWeight={700} fontSize={20}>
                 Mục lục
               </Text>
               <TableOfContents html={htmlContent} />

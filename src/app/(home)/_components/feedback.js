@@ -67,7 +67,7 @@ const Feedback = () => {
             <Carousel breakpoints={breakpoints} spaceBetween={24}>
               {FEEDBACK_LIST.map((item) => {
                 return (
-                  <Flex direction="column" key={item.customer} pt="32px">
+                  <Flex direction="column" key={item.customer} pt="50px">
                     <Flex
                       direction="column"
                       align="center"
@@ -79,7 +79,7 @@ const Feedback = () => {
                       bgColor="#f4f4f5"
                       h="388px"
                     >
-                      <Text fontSize={18} fontWeight={500} textAlign="center">
+                      <Text fontSize={18} fontWeight={500} textAlign="center" mt={20}>
                         {item.customer}
                       </Text>
                       <Text color="#71717A" textAlign="center">
@@ -95,7 +95,7 @@ const Feedback = () => {
                         right={0}
                         mx="auto"
                         fit="cover"
-                        top="-32px"
+                        top="-42px"
                         w="115px"
                         h="115px"
                         borderRadius="full"
