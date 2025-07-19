@@ -12,7 +12,7 @@ export async function generateMetadata({ params }) {
   const data = await response.json();
 
   const { title: titleData, imagesUrl } = data || {};
-  const imageUrl = imagesUrl?.[0]?.replace('https://', 'http://') || '/images/preview.webp';
+  const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
   const title = `${titleData} | Diệp Trà`;
   const description = META_DESCRIPTION;
 
@@ -83,7 +83,7 @@ const CultureDetail = async ({ params }) => {
 
           <AspectRatio ratio={16 / 9} w="full" mt="20px">
             <Image
-              src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/culture-banner.webp'}
+              src={imagesUrl?.[0]?.replace('http://', 'https://') || '/images/culture-banner.webp'}
               w="full"
               h="full"
               alt={IMG_ALT}

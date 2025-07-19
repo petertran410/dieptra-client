@@ -26,7 +26,7 @@ const ArticlesItem = ({ item }) => {
       <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
         <AspectRatio ratio={16 / 9} w="full">
           <Image
-            src={imagesUrl?.[0]?.replace('https://', 'http://') || 'images/news.webp'}
+            src={imagesUrl?.[0]?.replace('http://', 'https://') || 'images/news.webp'}
             w="full"
             h="full"
             alt={IMG_ALT}

@@ -19,7 +19,7 @@ export const useQueryArticlesByType = (articleType) => {
           pageNumber: pageNumber - 1,
           keyword,
           type: articleType,
-          pageSize: 12 // 12 articles per page cho grid layout
+          pageSize: 12
         }
       }),
     enabled: !!articleType
@@ -35,7 +35,6 @@ export const useQueryArticleDetailBySlug = (slug, type) => {
   return useQuery({
     queryKey,
     queryFn: async () => {
-      // Step 1: Tìm ID từ slug và type
       const idResponse = await API.request({
         url: '/api/news/client/find-id-by-slug',
         params: { slug, type }
@@ -45,43 +44,24 @@ export const useQueryArticleDetailBySlug = (slug, type) => {
         throw new Error('Article not found');
       }
 
-      // Step 2: Lấy detail bằng ID
       const detailResponse = await API.request({
         url: `/api/news/client/${idResponse.id}`
       });
 
       return {
         ...detailResponse,
-        articleId: idResponse.id // Thêm ID để dùng cho related articles
+        articleId: idResponse.id
       };
     },
     enabled: !!(slug && type),
-    staleTime: 5 * 60 * 1000 // 5 minutes cache
-  });
-};
-
-/**
- * Service lấy related articles
- */
-export const useQueryRelatedArticles = (articleId, type, limit = 4) => {
-  const queryKey = ['GET_RELATED_ARTICLES', articleId, type, limit];
-
-  return useQuery({
-    queryKey,
-    queryFn: () =>
-      API.request({
-        url: `/api/news/client/related/${articleId}`,
-        params: { limit }
-      }),
-    enabled: !!articleId,
     staleTime: 5 * 60 * 1000
   });
 };
 
 /**
- * Service lấy latest articles cùng type
+ * Service lấy latest articles cùng type (thay thế related articles)
  */
-export const useQueryLatestArticlesByType = (type, excludeId, limit = 3) => {
+export const useQueryLatestArticlesByType = (type, excludeId, limit = 6) => {
   const queryKey = ['GET_LATEST_ARTICLES_BY_TYPE', type, excludeId, limit];
 
   return useQuery({

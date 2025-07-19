@@ -13,108 +13,106 @@ import { notFound } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 // Component cho related articles
-const RelatedArticlesSection = ({ articleType, currentArticleId, category }) => {
-  const [relatedArticles, setRelatedArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
+// const RelatedArticlesSection = ({ articleType, currentArticleId, category }) => {
+//   const [latestArticles, setLatestArticles] = useState([]);
+//   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchRelatedArticles = async () => {
-      try {
-        const response = await API.request({
-          url: `/api/news/client/related/${currentArticleId}`,
-          params: { limit: 4 }
-        });
+//   useEffect(() => {
+//     const fetchLatestArticles = async () => {
+//       try {
+//         const response = await API.request({
+//           url: '/api/news/client/get-all',
+//           params: {
+//             pageNumber: 0,
+//             pageSize: 7,
+//             type: articleType
+//           }
+//         });
 
-        if (response && Array.isArray(response)) {
-          setRelatedArticles(response);
-        }
-      } catch (error) {
-        console.error('Error fetching related articles:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+//         if (response?.content && Array.isArray(response.content)) {
+//           // Loại trừ bài viết hiện tại và chỉ lấy 6 bài
+//           const filtered = response.content.filter((article) => article.id !== currentArticleId).slice(0, 6);
+//           setLatestArticles(filtered);
+//         }
+//       } catch (error) {
+//         console.error('Error fetching latest articles:', error);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
 
-    if (currentArticleId) {
-      fetchRelatedArticles();
-    }
-  }, [currentArticleId]);
+//     if (articleType && currentArticleId) {
+//       fetchLatestArticles();
+//     }
+//   }, [articleType, currentArticleId]);
 
-  if (loading) {
-    return (
-      <Box mt="40px">
-        <Text fontSize={20} fontWeight={600} mb="20px">
-          Bài viết liên quan
-        </Text>
-        <Flex justify="center" py="20px">
-          <Spinner size="md" color="#065FD4" />
-        </Flex>
-      </Box>
-    );
-  }
+//   if (loading) {
+//     return (
+//       <Box mt="40px">
+//         <Text fontSize={20} fontWeight={600} mb="20px">
+//           Bài viết mới nhất
+//         </Text>
+//         <Flex justify="center" py="20px">
+//           <Spinner size="md" color="#065FD4" />
+//         </Flex>
+//       </Box>
+//     );
+//   }
 
-  if (!relatedArticles.length) {
-    return null;
-  }
+//   if (!latestArticles.length) {
+//     return null;
+//   }
+
+//   return (
+//     <Box mt="40px">
+//       <Text fontSize={20} fontWeight={600} mb="20px">
+//         Bài viết mới nhất
+//       </Text>
+//       <Grid templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap="24px">
+//         {latestArticles.map((article) => (
+//           <Flex direction="column" gap="12px" key={article.id}>
+//             <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
+//               <AspectRatio ratio={16 / 9}>
+//                 <Image
+//                   src={article.imagesUrl?.[0]?.replace('http://', 'https://') || '/images/news.webp'}
+//                   alt={article.title}
+//                   objectFit="cover"
+//                   borderRadius="8px"
+//                   _hover={{ transform: 'scale(1.05)', transition: 'transform 0.2s' }}
+//                 />
+//               </AspectRatio>
+//             </Link>
+//             <Box>
+//               <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
+//                 <Text fontSize="14px" fontWeight={600} lineHeight="20px" _hover={{ color: '#065FD4' }} noOfLines={2}>
+//                   {article.title}
+//                 </Text>
+//               </Link>
+//               <Text fontSize="12px" color="gray.500" mt="4px">
+//                 {convertTimestamp(article.createdDate)}
+//               </Text>
+//             </Box>
+//           </Flex>
+//         ))}
+//       </Grid>
+//     </Box>
+//   );
+// };
+
+const VideoEmbed = ({ embedUrl }) => {
+  if (!embedUrl) return null;
 
   return (
-    <Box mt="40px">
-      <Text fontSize={20} fontWeight={600} mb="20px">
-        Bài viết liên quan
-      </Text>
-      <Grid templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)' }} gap="24px">
-        {relatedArticles.map((article) => (
-          <Flex align="flex-start" gap="12px" key={article.id}>
-            <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
-              <AspectRatio ratio={16 / 9} w="120px">
-                <Image
-                  src={article.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
-                  w="full"
-                  h="full"
-                  alt={IMG_ALT}
-                  borderRadius={12}
-                  transition="transform 0.3s ease"
-                  _hover={{ transform: 'scale(1.05)' }}
-                />
-              </AspectRatio>
-            </Link>
-
-            <Flex direction="column" gap="8px">
-              <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
-                <Text
-                  fontSize={16}
-                  fontWeight={500}
-                  lineHeight="22px"
-                  noOfLines={2}
-                  _hover={{ color: '#065FD4' }}
-                  transition="color 0.2s"
-                >
-                  {article.title}
-                </Text>
-              </Link>
-
-              <Text fontSize={14} color="#A1A1AA">
-                {convertTimestamp(article.createdDate)}
-              </Text>
-
-              <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  borderColor="#065FD4"
-                  color="#065FD4"
-                  fontSize={14}
-                  _hover={{ bgColor: '#065FD4', color: 'white' }}
-                  w="fit-content"
-                >
-                  Đọc tiếp
-                </Button>
-              </Link>
-            </Flex>
-          </Flex>
-        ))}
-      </Grid>
-    </Box>
+    <AspectRatio ratio={16 / 9} w="full" mt="20px" mb="20px">
+      <iframe
+        src={embedUrl}
+        title="Video nhúng"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        style={{ borderRadius: '8px' }}
+      />
+    </AspectRatio>
   );
 };
 
@@ -129,7 +127,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
         const response = await API.request({
           url: '/api/news/client/get-all',
           params: {
-            pageSize: 3,
+            pageSize: 7, // SỬA: Lấy 7 thay vì 3
             pageNumber: 0,
             type: articleType
           }
@@ -138,7 +136,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
         const { content = [] } = response || {};
         // Filter out current article
         const filtered = content.filter((article) => article.id !== currentArticleId);
-        setLatestArticles(filtered.slice(0, 2));
+        setLatestArticles(filtered.slice(0, 6)); // SỬA: Lấy 6 thay vì 2
       } catch (error) {
         console.error('Error fetching latest articles:', error);
       } finally {
@@ -176,7 +174,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
 
   return (
     <Box>
-      <Text fontSize={16} fontWeight={500} mb="16px">
+      <Text fontSize={20} fontWeight={500} mb="16px">
         Bài viết mới nhất
       </Text>
       <Flex direction="column" gap="16px">
@@ -184,9 +182,9 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
           <Flex align="flex-start" gap="12px" key={article.id}>
             <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
               <Image
-                src={article.imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
-                w="80px"
-                h="60px"
+                src={article.imagesUrl?.[0]?.replace('http://', 'https://') || '/images/news.webp'}
+                w="140px"
+                h="100px"
                 objectFit="cover"
                 borderRadius="8px"
                 alt={IMG_ALT}
@@ -196,7 +194,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
             <Flex direction="column" gap="4px" flex={1}>
               <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
                 <Text
-                  fontSize={14}
+                  fontSize={17}
                   fontWeight={500}
                   lineHeight="18px"
                   noOfLines={2}
@@ -207,7 +205,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
                 </Text>
               </Link>
 
-              <Text fontSize={12} color="#A1A1AA">
+              <Text fontSize={15} color="#A1A1AA">
                 {convertTimestamp(article.createdDate)}
               </Text>
             </Flex>
@@ -303,7 +301,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
     return null;
   }
 
-  const { title, htmlContent, createdDate, imagesUrl, description, type } = newsDetail;
+  const { title, htmlContent, createdDate, imagesUrl, description, type, embedUrl } = newsDetail;
 
   // Tạo breadcrumb data
   const breadcrumbData = getBreadcrumbData(categoryData, title);
@@ -342,7 +340,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
     disambiguatingDescription: title,
     mainEntityOfPage: `${process.env.NEXT_PUBLIC_API_DOMAIN}/bai-viet/${category}/${slug}`,
     image: imagesUrl || [],
-    thumbnailUrl: imagesUrl?.[0]?.replace('https://', 'http://') || '',
+    thumbnailUrl: imagesUrl?.[0]?.replace('http://', 'https://') || '',
     articleBody: description || '',
     genre: title,
     creativeWorkStatus: 'Published'
@@ -393,12 +391,14 @@ const ArticleDetailClient = ({ params, categoryData }) => {
 
           <AspectRatio ratio={16 / 9} w="full" mt="20px">
             <Image
-              src={imagesUrl?.[0]?.replace('https://', 'http://') || '/images/news.webp'}
+              src={imagesUrl?.[0]?.replace('http://', 'https://') || '/images/news.webp'}
               w="full"
               h="full"
               alt={IMG_ALT}
             />
           </AspectRatio>
+
+          <VideoEmbed embedUrl={embedUrl} />
 
           <Box
             mt="20px"
@@ -411,7 +411,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
           />
 
           {/* RELATED ARTICLES */}
-          {articleId && <RelatedArticlesSection articleType={type} currentArticleId={articleId} category={category} />}
+          {/* {articleId && <RelatedArticlesSection articleType={type} currentArticleId={articleId} category={category} />} */}
         </Flex>
 
         {/* SIDEBAR */}

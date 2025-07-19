@@ -5,7 +5,7 @@ import { AspectRatio, Flex, Grid, GridItem, Image } from '@chakra-ui/react';
 import { useState } from 'react';
 
 const ProductImage = ({ imagesUrl }) => {
-  const [activeImage, setActiveImage] = useState(imagesUrl?.[0]?.replace('https://', 'http://'));
+  const [activeImage, setActiveImage] = useState(imagesUrl?.[0]?.replace('http://', 'https://'));
 
   return (
     <Flex direction="column" gap="16px">
@@ -27,12 +27,12 @@ const ProductImage = ({ imagesUrl }) => {
               borderRadius={16}
               bgColor="#f4f4f5"
               cursor="pointer"
-              onClick={() => setActiveImage(item?.replace('https://', 'http://'))}
+              onClick={() => setActiveImage(item?.replace('http://', 'https://'))}
             >
               <AspectRatio ratio={1 / 1} w="full">
                 <Flex align="center" justify="center">
                   <Image
-                    src={item?.replace('https://', 'http://') || `/images/tra-phuong-hoang.webp`}
+                    src={item?.replace('http://', 'https://') || `/images/tra-phuong-hoang.webp`}
                     h="80%"
                     w="full"
                     fit="contain"
