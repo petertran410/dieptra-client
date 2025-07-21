@@ -275,3 +275,79 @@ a {
 .html-content em {
   font-family: inherit !important;
 }
+
+.html-content {
+  white-space: pre-wrap !important; /* Preserve whitespace và line breaks */
+  word-wrap: break-word !important; /* Tránh text overflow */
+  overflow-wrap: break-word !important; /* Modern browsers */
+}
+
+.html-content-16px {
+  white-space: pre-wrap !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+/* 🎯 SUPPORT PARAGRAPH SPACING: Tăng cường khoảng cách paragraph */
+.html-content p {
+  margin-bottom: 16px !important;
+  line-height: 1.6 !important;
+}
+
+.html-content-16px p {
+  margin-bottom: 16px !important;
+  line-height: 1.6 !important;
+}
+
+/* 🎯 EMPTY PARAGRAPH SUPPORT: Cho phép empty paragraphs tạo space */
+.html-content p:empty {
+  min-height: 1em !important;
+  display: block !important;
+}
+
+.html-content-16px p:empty {
+  min-height: 1em !important;
+  display: block !important;
+}
+
+/* 🎯 BREAK TAG SUPPORT: Đảm bảo <br> tags hoạt động */
+.html-content br {
+  display: block !important;
+  margin: 8px 0 !important;
+  content: ' ' !important;
+}
+
+.html-content-16px br {
+  display: block !important;
+  margin: 8px 0 !important;
+  content: ' ' !important;
+}
+
+/* 🎯 DIV SPACING: Cho phép div tags tạo khoảng trống */
+.html-content div {
+  margin-bottom: 12px !important;
+}
+
+.html-content-16px div {
+  margin-bottom: 12px !important;
+}
+
+/* 🎯 PRESERVE MANUAL SPACING: Cho phép multiple consecutive breaks */
+.html-content br + br {
+  margin-top: 8px !important;
+}
+
+.html-content-16px br + br {
+  margin-top: 8px !important;
+}
+
+/* 🎯 PREVENT COLLAPSE: Ngăn browser collapse empty elements */
+.html-content *:empty:not(img):not(br):not(hr) {
+  min-height: 1em !important;
+  display: block !important;
+}
+
+.html-content-16px *:empty:not(img):not(br):not(hr) {
+  min-height: 1em !important;
+  display: block !important;
+}
