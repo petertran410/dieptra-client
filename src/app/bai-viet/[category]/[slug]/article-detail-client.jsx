@@ -183,9 +183,9 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
             <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
               <Image
                 src={article.imagesUrl?.[0]?.replace('http://', 'https://') || '/images/news.webp'}
-                w="140px"
+                w="150px"
                 h="100px"
-                objectFit="cover"
+                objectFit="fit"
                 borderRadius="8px"
                 alt={IMG_ALT}
               />

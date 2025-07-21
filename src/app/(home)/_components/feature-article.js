@@ -9,7 +9,7 @@ const FeaturedArticle = () => {
   return (
     <Flex pt={{ xs: '70px', lg: '0' }} px={PX_ALL} pb="100px" direction="column" gap={4}>
       <SectionBlockH2 title="Bài Viết" />
-      <Flex pt={{ xs: '70px', lg: '10px' }} direction="row" gap={4}>
+      <Flex pt={{ xs: '70px', lg: '10px' }} direction={{ xs: 'column', md: 'row' }} gap={{ xs: 6, md: 4 }}>
         <Link href={`/bai-viet/kien-thuc-nguyen-lieu-pha-che`}>
           <Image
             src={'/images/thumbnail-kien-thuc-nguyen-lieu-pha-che.webp'}

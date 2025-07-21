@@ -12,7 +12,7 @@ const HomeIntro = () => {
       px={PX_ALL}
       gap={{ xs: '36px', lg: '80px' }}
       align="center"
-      pt={{ xs: '50px', lg: '200px' }}
+      pt={{ xs: '100px', lg: '200px' }}
       pb={{ xs: '40px', lg: '100px' }}
       pos="relative"
       justify="space-between"

@@ -95,12 +95,12 @@ a {
 }
 
 .html-content ul {
-  list-style-type: none;
+  list-style-type: disc;
   padding-left: 28px;
 }
 
 .html-content ol {
-  list-style-type: disc;
+  list-style-type: decimal;
   padding-left: 28px;
 }
 
@@ -178,4 +178,100 @@ a {
   display: flex !important;
   gap: 10px !important;
   justify-content: center !important;
+}
+
+.html-content b,
+.html-content strong {
+  font-size: inherit !important;
+  font-weight: 700 !important;
+}
+
+.html-content i,
+.html-content em {
+  font-size: inherit !important;
+  font-style: italic !important;
+}
+
+/* Fix specificity cao hơn cho html-content-16px */
+.html-content-16px b,
+.html-content-16px strong {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  line-height: inherit !important;
+}
+
+.html-content-16px i,
+.html-content-16px em {
+  font-size: 16px !important;
+  font-style: italic !important;
+  line-height: inherit !important;
+}
+
+/* Fix cho nested elements trong paragraphs */
+.html-content-16px p b,
+.html-content-16px p strong,
+.html-content-16px div b,
+.html-content-16px div strong {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+}
+
+.html-content-16px p i,
+.html-content-16px p em,
+.html-content-16px div i,
+.html-content-16px div em {
+  font-size: 16px !important;
+  font-style: italic !important;
+}
+
+/* Fix cho combination styles (bold + italic) */
+.html-content-16px b i,
+.html-content-16px b em,
+.html-content-16px strong i,
+.html-content-16px strong em,
+.html-content-16px i b,
+.html-content-16px i strong,
+.html-content-16px em b,
+.html-content-16px em strong {
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  font-style: italic !important;
+}
+
+/* Override bất kỳ inline styles nào từ editor */
+.html-content [style*='font-size'] b,
+.html-content [style*='font-size'] strong,
+.html-content [style*='font-size'] i,
+.html-content [style*='font-size'] em {
+  font-size: inherit !important;
+}
+
+.html-content-16px [style*='font-size'] b,
+.html-content-16px [style*='font-size'] strong,
+.html-content-16px [style*='font-size'] i,
+.html-content-16px [style*='font-size'] em {
+  font-size: 16px !important;
+}
+
+/* Fix cho tất cả các size variants khác */
+.html-content-14px b,
+.html-content-14px strong,
+.html-content-14px i,
+.html-content-14px em {
+  font-size: 14px !important;
+}
+
+.html-content-18px b,
+.html-content-18px strong,
+.html-content-18px i,
+.html-content-18px em {
+  font-size: 18px !important;
+}
+
+/* Đảm bảo font-family consistency */
+.html-content b,
+.html-content strong,
+.html-content i,
+.html-content em {
+  font-family: inherit !important;
 }
