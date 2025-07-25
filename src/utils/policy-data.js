@@ -104,8 +104,8 @@ export const POLICY_PAGES = {
       
       <h3>2.3 Mua hàng qua các kênh khác</h3>
       <ul>
-        <li><strong>Qua điện thoại:</strong> Gọi tới số Mrs. Mai Phương: 0906 300 204 để được tư vấn và đặt hàng trực tiếp.</li>
-        <li><strong>Qua Fanpage/Zalo:</strong> Nhắn tin tới Mr. Vũ: 0392 682 088 để được tư vấn nhanh và đặt hàng.</li>
+        <li><strong>Qua điện thoại:</strong> Gọi tới số Ms Thanh: 078 833 9379 để được tư vấn và đặt hàng trực tiếp.</li>
+        <li><strong>Qua Fanpage/Zalo:</strong> Nhắn tin tới Ms Thanh <a style="text-decoration: none" href="https://zalo.me/0788339379" target="_blank" rel="noopener">078 833 9379</a> hoặc Ms. Vân Anh <a style="text-decoration: none" href="https://zalo.me/0973123230" target="_blank" rel="noopener">0973 123 230</a> để được tư vấn nhanh và đặt hàng.</li>
       </ul>
       
       <h2>3/ Xác nhận đơn hàng</h2>
@@ -181,9 +181,9 @@ export const POLICY_PAGES = {
       
       <h2>5/ Liên hệ hỗ trợ</h2>
       <p>Nếu quý khách gặp khó khăn trong quá trình thanh toán, vui lòng liên hệ:</p>
-      <p><strong>Hotline:</strong> 0906 300 204<br/>
-      <strong>Email:</strong> phuongnt@hisweetievietnam.com.vn<br/>
-      <strong>Fanpage/Zalo:</strong> Mrs. Mai Phương - Diệp Trà: 0906 300 204<br/>
+      <p><strong>Hotline:</strong> 078 833 9379<br/>
+      <strong>Email:</strong> sales@hisweetievietnam.com.vn<br/>
+      <strong>Fanpage/Zalo:</strong> Ms Thanh - Diệp Trà:  <a style="text-decoration: none" href="https://zalo.me/0788339379" target="_blank" rel="noopener">078 833 9379</a><br/>
       <strong>Thời gian hỗ trợ:</strong> 8h30 – 17h30 (thứ 2 đến thứ 7)</p>
       
       <p>Chính sách thanh toán có thể được cập nhật tùy theo từng thời điểm và chương trình khuyến mãi. Vui lòng theo dõi website để biết thông tin mới nhất.</p>
@@ -271,9 +271,10 @@ export const POLICY_PAGES = {
       
       <h2>8/ Liên hệ hỗ trợ</h2>
       <p>Nếu có bất kỳ vấn đề gì liên quan đến việc giao hàng, quý khách vui lòng liên hệ:</p>
-      <p><strong>Hotline:</strong> 0906 300 204<br/>
-      <strong>Email:</strong> phuongnt@hisweetievietnam.com.vn<br/>
-      <strong>Thời gian làm việc:</strong> 8h30 – 17h30 (Từ thứ 2 đến thứ 7)</p>
+      <p><strong>Hotline:</strong> 078 833 9379<br/>
+      <strong>Email:</strong> sales@hisweetievietnam.com.vn<br/>
+      <strong>Fanpage/Zalo:</strong> Ms Thanh - Diệp Trà:  <a style="text-decoration: none" href="https://zalo.me/0788339379" target="_blank" rel="noopener">078 833 9379</a><br/>
+      <strong>Thời gian hỗ trợ:</strong> 8h30 – 17h30 (thứ 2 đến thứ 7)</p>
       
       <p><strong>Lưu ý quan trọng:</strong> Chính sách giao hàng có thể được cập nhật để phù hợp với điều kiện thực tế và các chương trình khuyến mãi. Vui lòng tham khảo phiên bản mới nhất trên website.</p>
     `,
@@ -341,7 +342,8 @@ export const POLICY_PAGES = {
       <p><strong>- Trụ sở chính:</strong> B-TT10-4 Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông, Thành phố Hà Nội</p>
       <p><strong>- Cửa hàng:</strong> Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh</p>
       <ul>
-        <li><strong>Hotline bảo hành:</strong> 078 833 9379</li>
+        <li><strong>Hotline bảo hành:</strong>
+        Ms. Vân Anh 0973 123 230</li>
         <li><strong>Email hỗ trợ:</strong> sales@hisweetievietnam.com.vn</li>
         <li><strong>Giờ làm việc:</strong> 8h30 – 17h30 (T2 – T7)</li>
       </ul>
@@ -372,12 +374,7 @@ export const POLICY_PAGES = {
       
       <h2>1/ Điều kiện áp dụng đổi/trả hàng</h2>
       <p>Khách hàng có quyền yêu cầu đổi hoặc trả sản phẩm trong các trường hợp sau:</p>
-      <ul>
-        <li>Sản phẩm bị lỗi kỹ thuật do nhà sản xuất (bong tróc, sản phẩm có dấu hiệu ẩm/mốc…)</li>
-        <li>Giao nhầm mẫu, sai màu, sai size, thiếu sản phẩm.</li>
-        <li>Sản phẩm bị hư hỏng trong quá trình vận chuyển, có bằng chứng rõ ràng (video mở hàng).</li>
-        <li>Khách hàng muốn đổi sang sản phẩm khác (chỉ áp dụng trong thời gian quy định và hàng còn mới).</li>
-      </ul>
+      <p>Sản phẩm bị lỗi kỹ thuật do nhà sản xuất (bong tróc, sản phẩm có dấu hiệu ẩm/mốc…)</p>
       
       <h2>2/ Thời gian yêu cầu đổi/trả</h2>
       <p><strong>Đổi hàng:</strong> Trong vòng <strong>03 - 07 ngày</strong> kể từ ngày nhận hàng.</p>
@@ -430,7 +427,7 @@ export const POLICY_PAGES = {
       </ul>
       
       <h2>6/ Thông tin hỗ trợ</h2>
-      <p><strong>Hotline:</strong> 078 833 9379<br/>
+      <p><strong>Hotline:</strong> Ms. Vân Anh 0973 123 230<br/>
       <strong>Email:</strong> sales@hisweetievietnam.com.vn<br/>
       <strong>Thời gian hỗ trợ:</strong> 8h30 – 17h30 (T2 – T7)</p>
       

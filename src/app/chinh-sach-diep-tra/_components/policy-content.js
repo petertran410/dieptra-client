@@ -145,12 +145,12 @@ const PolicyContent = ({ pageData, isLoading }) => {
           Nếu bạn có thắc mắc về nội dung này, vui lòng liên hệ với chúng tôi qua email:
           <Text as="span" color="#003366" fontWeight="500">
             {' '}
-            dieptra.sg@gmail.com {''}
+            sales@hisweetievietnam.com.vn {''}
           </Text>
           hoặc hotline:
           <Text as="span" color="#003366" fontWeight="500">
             {' '}
-            0906 300 204
+            078 833 9379
           </Text>
         </Text>
       </Box>
