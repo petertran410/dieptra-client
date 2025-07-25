@@ -88,7 +88,7 @@ const SectionBlock = ({ section }) => {
         <Link href={`/bai-viet/${slug}`}>
           <Button
             variant="outline"
-            size="sm"
+            size="md"
             borderColor="#065FD4"
             color="#065FD4"
             fontSize={14}

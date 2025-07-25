@@ -110,7 +110,7 @@ const ArticleSection = ({ section, articles, isLoading }) => {
             {label}
           </Heading>
           <Link href={href}>
-            <Button variant="outline" borderColor="#065FD4" color="#065FD4" size="sm">
+            <Button variant="outline" borderColor="#065FD4" color="#065FD4" size="md">
               Xem tất cả
             </Button>
           </Link>
@@ -134,7 +134,7 @@ const ArticleSection = ({ section, articles, isLoading }) => {
             variant="outline"
             borderColor="#065FD4"
             color="#065FD4"
-            size="sm"
+            size="md"
             _hover={{ bgColor: '#065FD4', color: 'white' }}
           >
             Xem tất cả
