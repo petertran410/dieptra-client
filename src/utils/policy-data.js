@@ -525,7 +525,6 @@ export const POLICY_PAGES = {
         <li><strong>Hotline:</strong> 0931 566 676</li>
         <li><strong>Email:</strong> hisweetievietnam@gmail.com</li>
         <li><strong>Địa chỉ:</strong> B-TT10-4 Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông, Thành phố Hà Nội</li>
-        <li><strong>Website:</strong> <a href="https://www.dieptra.com/" target="_blank">https://www.dieptra.com/</a></li>
       </ul>
     `,
     parent_id: 'chinh-sach-diep-tra',
