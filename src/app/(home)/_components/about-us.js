@@ -48,7 +48,7 @@ const AboutUs = () => {
         </Link>
       </Flex>
       <Flex flex={1.1}>
-        <Image src="/images/image-about-home.webp" w="full" h="full" fit="cover" alt={IMG_ALT} borderRadius={16} />
+        <Image src="/images/about-dieptra.webp" w="full" h="full" fit="cover" alt={IMG_ALT} borderRadius={16} />
       </Flex>
     </Flex>
   );
