@@ -38,8 +38,8 @@ const GuideList = () => {
             Để mua hàng trên website, quý khách hàng vui lòng làm theo các bước sau:
             <Text fontWeight={500} fontSize={16}>
               • Bước 1: Truy cập vào website:{' '}
-              <Link href="https://dieptra.com" target="_blank" fontSize={16}>
-                https://dieptra.com
+              <Link href="https://www.dieptra.com/" target="_blank" fontSize={16}>
+                https://www.dieptra.com/
               </Link>
             </Text>
             <Text fontWeight={500} fontSize={16}>

@@ -80,13 +80,13 @@ const Contact = () => {
                     Website:
                   </Text>
                   <Link
-                    href="https://dieptra.com"
+                    href="https://www.dieptra.com/"
                     _hover={{ textDecor: 'none' }}
                     fontSize={16}
                     lineHeight="19px"
                     target="_blank"
                   >
-                    https://dieptra.com
+                    https://www.dieptra.com
                   </Link>
                 </Flex>
                 <Flex align="center" w="full" gap="4px">

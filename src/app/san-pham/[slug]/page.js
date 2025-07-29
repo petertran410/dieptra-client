@@ -76,7 +76,7 @@ const ProductDetail = async ({ params }) => {
       name: 'dieptra.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://dieptra.com/images/logo.webp'
+        url: 'https://www.dieptra.com//images/logo.webp'
       }
     },
     datePublished: '2025-01-03',

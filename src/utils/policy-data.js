@@ -8,7 +8,7 @@ export const POLICY_PAGES = {
     meta_description:
       'Tìm hiểu về các chính sách bảo mật, mua hàng, thanh toán, giao hàng và các quy định khác của Diệp Trà.',
     content: `
-      <p>Với định vị là thương hiệu cung cấp nguyên liệu pha chế cao cấp, <a href="https://dieptra.com" target="_blank" style="text-decoration:none;">Diệp Trà</a> cam kết xây dựng hệ thống chính sách minh bạch, chỉn chu và đồng bộ nhằm đảm bảo trải nghiệm mua sắm an tâm tuyệt đối cho khách hàng và đối tác.</p>
+      <p>Với định vị là thương hiệu cung cấp nguyên liệu pha chế cao cấp, <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a> cam kết xây dựng hệ thống chính sách minh bạch, chỉn chu và đồng bộ nhằm đảm bảo trải nghiệm mua sắm an tâm tuyệt đối cho khách hàng và đối tác.</p>
       
       <p>Tất cả sản phẩm do Diệp Trà phân phối đều được lựa chọn kỹ lưỡng từ những nhà sản xuất uy tín, có chứng nhận nguồn gốc, vệ sinh an toàn thực phẩm và phù hợp tiêu chuẩn ngành đồ uống chuyên nghiệp. Chính sách Diệp Trà: mua hàng, thanh toán, giao hàng, đổi trả và bảo hành được thiết kế rõ ràng, dễ tiếp cận và luôn đặt lợi ích người tiêu dùng lên hàng đầu.</p>
       
@@ -130,7 +130,7 @@ export const POLICY_PAGES = {
     meta_title: 'Chính Sách Thanh Toán - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách thanh toán tại Diệp Trà.',
     content: `
-      <p>Chính sách thanh toán được áp dụng cho tất cả các đơn hàng đặt qua website <a href="https://dieptra.com" target="_blank" style="text-decoration:none;">Diệp Trà</a>, Fanpage, Zalo hoặc mua trực tiếp tại cửa hàng của <em>Diệp Trà</em></p>
+      <p>Chính sách thanh toán được áp dụng cho tất cả các đơn hàng đặt qua website <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a>, Fanpage, Zalo hoặc mua trực tiếp tại cửa hàng của <em>Diệp Trà</em></p>
       
       <h2>1/ Hình thức thanh toán</h2>
       <p>Chúng tôi hỗ trợ các phương thức thanh toán linh hoạt, tiện lợi như sau:</p>
@@ -201,7 +201,7 @@ export const POLICY_PAGES = {
     meta_title: 'Chính Sách Giao Hàng - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách giao hàng tại Diệp Trà.',
     content: `
-      <p>Chính sách giao hàng này được áp dụng cho tất cả các đơn hàng đặt tại trang <strong><a href="https://dieptra.com" target="_blank" style="text-decoration:none;">Diệp Trà</a></strong>, qua Fanpage, Zalo hoặc trực tiếp tại cửa hàng. Mục tiêu của chúng tôi là giao hàng nhanh chóng, an toàn và đúng hẹn đến tay khách hàng trên toàn quốc.</p>
+      <p>Chính sách giao hàng này được áp dụng cho tất cả các đơn hàng đặt tại trang <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a></strong>, qua Fanpage, Zalo hoặc trực tiếp tại cửa hàng. Mục tiêu của chúng tôi là giao hàng nhanh chóng, an toàn và đúng hẹn đến tay khách hàng trên toàn quốc.</p>
       
       <h2>1/ Phạm vi giao hàng</h2>
       <p>Chúng tôi giao hàng <strong>toàn quốc</strong>, bao gồm:</p>
@@ -291,7 +291,7 @@ export const POLICY_PAGES = {
     meta_title: 'Chính Sách Bảo Hành - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách bảo hành tại Diệp Trà.',
     content: `
-      <p>Chúng tôi cam kết cung cấp sản phẩm chất lượng và dịch vụ bảo hành rõ ràng, minh bạch, nhằm đảm bảo quyền lợi tốt nhất cho khách hàng khi mua sắm tại <a href="https://dieptra.com" target="_blank" style="text-decoration:none;">Diệp Trà</a></p>
+      <p>Chúng tôi cam kết cung cấp sản phẩm chất lượng và dịch vụ bảo hành rõ ràng, minh bạch, nhằm đảm bảo quyền lợi tốt nhất cho khách hàng khi mua sắm tại <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a></p>
       
       <h2>1/ Phạm vi áp dụng bảo hành</h2>
       <p>Chính sách bảo hành áp dụng cho:</p>
@@ -370,7 +370,7 @@ export const POLICY_PAGES = {
     meta_title: 'Chính Sách Đổi/Trả Hàng - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách đổi/trả hàng tại Diệp Trà.',
     content: `
-      <p>Chúng tôi cam kết mang đến sản phẩm chất lượng và dịch vụ hậu mãi minh bạch, rõ ràng. Vì vậy, chính sách đổi/trả hàng của <strong><a href="https://dieptra.com" target="_blank" style="text-decoration:none;">Diệp Trà</a></strong> được xây dựng nhằm đảm bảo quyền lợi tối đa cho khách hàng.</p>
+      <p>Chúng tôi cam kết mang đến sản phẩm chất lượng và dịch vụ hậu mãi minh bạch, rõ ràng. Vì vậy, chính sách đổi/trả hàng của <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a></strong> được xây dựng nhằm đảm bảo quyền lợi tối đa cho khách hàng.</p>
       
       <h2>1/ Điều kiện áp dụng đổi/trả hàng</h2>
       <p>Khách hàng có quyền yêu cầu đổi hoặc trả sản phẩm trong các trường hợp sau:</p>
