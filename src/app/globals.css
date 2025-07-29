@@ -388,3 +388,45 @@ a {
 .html-content figure.image-with-caption:hover figcaption {
   color: #333;
 }
+
+/* Làm đậm viền giữa các cell và header-body separator */
+.html-content table td,
+.html-content-16px table td,
+.html-content table th,
+.html-content-16px table th {
+  border: 2px solid #d1d5db !important;
+  text-align: center !important;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* Làm đậm đường viền phân cách header với body */
+.html-content table thead th,
+.html-content-16px table thead th,
+.html-content table th {
+  border-bottom: 3px solid #9ca3af !important;
+}
+
+/* Giữ viền ngoài của table nhẹ */
+.html-content table,
+.html-content-16px table {
+  border: 1px solid #e2e8f0 !important;
+}
+
+@media (max-width: 768px) {
+  .html-content table,
+  .html-content-16px table,
+  .html-content table *,
+  .html-content-16px table * {
+    min-width: 100px !important;
+    width: 100px !important;
+  }
+
+  /* .html-content table,
+  .html-content-16px table {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow-x: auto !important;
+    display: block !important;
+  } */
+}
