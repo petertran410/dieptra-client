@@ -7,8 +7,6 @@ import { IMG_ALT } from '../../../utils/const';
 import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
 import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
-
-// Helper để tìm category slug từ type
 const getCategorySlugByType = (type) => {
   const section = ARTICLE_SECTIONS.find((s) => s.type === type);
   return section?.slug || 'tin-tuc';
@@ -18,15 +16,16 @@ const ArticlesItem = ({ item }) => {
   const { id, title, imagesUrl, createdDate, created_date, type } = item || {};
   const categorySlug = getCategorySlugByType(type);
 
-  // FIXED: Handle both field name formats
-  const dateToDisplay = createdDate || created_date;
+  const dateToDisplay = createdDate || created_date || new Date().toISOString();
+
+  console.log(dateToDisplay);
 
   return (
     <Flex direction="column" gap="16px">
       <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
         <AspectRatio ratio={16 / 9} w="full">
           <Image
-            src={imagesUrl?.[0]?.replace('http://', 'https://') || 'images/news.webp'}
+            src={imagesUrl?.[0]?.replace('http://', 'https://') || '/images/news.webp'}
             w="full"
             h="full"
             alt={IMG_ALT}
@@ -43,7 +42,7 @@ const ArticlesItem = ({ item }) => {
           </Link>
           <Flex mt="4px" align="center" gap="4px">
             <Image src="/images/clock-outline.webp" w="16px" h="16px" alt={IMG_ALT} />
-            <Text color="#A1A1AA">{convertTimestamp(dateToDisplay)}</Text>
+            <Text color="#A1A1AA">{dateToDisplay ? convertTimestamp(dateToDisplay) : 'Chưa cập nhật'}</Text>
           </Flex>
         </Box>
         <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>

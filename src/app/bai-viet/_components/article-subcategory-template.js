@@ -10,6 +10,7 @@ import { API } from '../../../utils/API';
 
 const ArticleItem = ({ item, categorySlug }) => {
   const { id, title, imagesUrl, createdDate, description } = item || {};
+  console.log(createdDate);
 
   return (
     <Flex direction="column" gap="16px" h="100%">
@@ -225,7 +226,6 @@ const ArticlesContent = ({ articleType, categorySlug }) => {
   );
 };
 
-// 🚨 MAIN COMPONENT với Suspense boundary
 const ArticleSubcategoryTemplate = ({ articleType, title, breadcrumbLabel, description, categorySlug }) => {
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },

@@ -51,12 +51,14 @@ const ArticleCard = ({ article, categorySlug }) => {
             </Text>
           )}
 
-          <Flex mt="12px" align="center" gap="4px">
-            <Image src="/images/clock-outline.webp" w="14px" h="14px" alt={IMG_ALT} />
-            <Text color="#A1A1AA" fontSize={14}>
-              {createdDate ? convertTimestamp(createdDate) : 'Chưa có ngày'}
-            </Text>
-          </Flex>
+          {createdDate && (
+            <Flex mt="12px" align="center" gap="4px">
+              <Image src="/images/clock-outline.webp" w="14px" h="14px" alt={IMG_ALT} />
+              <Text color="#A1A1AA" fontSize={14}>
+                {convertTimestamp(createdDate)}
+              </Text>
+            </Flex>
+          )}
         </Box>
 
         <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
@@ -167,20 +169,38 @@ const SectionsContent = () => {
 
         const response = await API.request({ url: '/api/news/client/article-sections' });
 
+        console.log('Raw API Response:', response);
+
         if (response && Array.isArray(response)) {
-          // 🚨 ENHANCED: Transform và validate data
           const validatedSections = response.map((section) => {
             const { type, articles = [] } = section;
 
-            // Validate và transform articles
             const validatedArticles = articles.map((article) => {
-              const createdDate =
-                article.createdDate || article.created_date || article.createdAt || new Date().toISOString();
+              const isValidTimestamp = (timestamp) => {
+                if (!timestamp) return false;
+                if (typeof timestamp === 'object' && !(timestamp instanceof Date)) return false;
+                if (typeof timestamp === 'string' && timestamp.trim() === '') return false;
+
+                try {
+                  const date = new Date(timestamp);
+                  return !isNaN(date.getTime());
+                } catch {
+                  return false;
+                }
+              };
+
+              const validCreatedDate = isValidTimestamp(article.createdDate)
+                ? article.createdDate
+                : isValidTimestamp(article.created_date)
+                ? article.created_date
+                : isValidTimestamp(article.createdAt)
+                ? article.createdAt
+                : null;
 
               return {
                 ...article,
-                id: Number(article.id), // Ensure numeric ID
-                createdDate, // Standardized field name
+                id: Number(article.id),
+                createdDate: validCreatedDate,
                 imagesUrl: Array.isArray(article.imagesUrl)
                   ? article.imagesUrl
                   : article.images_url
