@@ -3,6 +3,27 @@
 import { useEffect, useState } from 'react';
 import { Box, Text, VStack } from '@chakra-ui/react';
 
+const createSlugFromText = (text) => {
+  if (!text) return '';
+
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/^\d+[\.\)\/-]\s*/, '')
+    .replace(/^[\d\s\.\)\/-]+/, '')
+    .replace(/[áàảãạâấầẩẫậăắằẳẵặ]/g, 'a')
+    .replace(/[éèẻẽẹêếềểễệ]/g, 'e')
+    .replace(/[íìỉĩị]/g, 'i')
+    .replace(/[óòỏõọôốồổỗộơớờởỡợ]/g, 'o')
+    .replace(/[úùủũụưứừửữự]/g, 'u')
+    .replace(/[ýỳỷỹỵ]/g, 'y')
+    .replace(/đ/g, 'd')
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+};
+
 const TableOfContents = ({ html }) => {
   const [tocItems, setTocItems] = useState([]);
   const [activeId, setActiveId] = useState('');
@@ -14,13 +35,27 @@ const TableOfContents = ({ html }) => {
     const doc = parser.parseFromString(html, 'text/html');
     const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
 
-    const items = Array.from(headings).map((heading, index) => {
+    const usedIds = new Set();
+    const items = Array.from(headings).map((heading) => {
       const level = parseInt(heading.tagName.charAt(1));
       const text = heading.textContent || heading.innerText || '';
-      const id = `heading-${index}`;
+
+      let baseId = createSlugFromText(text);
+
+      if (!baseId) {
+        baseId = `section-${level}`;
+      }
+
+      let finalId = baseId;
+      let counter = 1;
+      while (usedIds.has(finalId)) {
+        finalId = `${baseId}-${counter}`;
+        counter++;
+      }
+      usedIds.add(finalId);
 
       return {
-        id,
+        id: finalId,
         text: text.trim(),
         level,
         element: heading
@@ -34,7 +69,7 @@ const TableOfContents = ({ html }) => {
         '.html-content h1, .html-content h2, .html-content h3, .html-content h4, .html-content h5, .html-content h6'
       );
       items.forEach((item, index) => {
-        if (realHeadings[index] && !realHeadings[index].id) {
+        if (realHeadings[index]) {
           realHeadings[index].id = item.id;
         }
       });
@@ -192,7 +227,7 @@ const TableOfContents = ({ html }) => {
           >
             <Text
               fontSize={item.level <= 2 ? 18 : 16}
-              color={getLevelColor(item.level, isActive)}
+              // color={getLevelColor(item.level, isActive)}
               fontWeight={getFontWeight(item.level, isActive)}
               lineHeight="1.4"
               transition="all 0.2s ease"
@@ -208,7 +243,7 @@ const TableOfContents = ({ html }) => {
                     left: '-8px',
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    backgroundColor: '#065FD4',
+                    // backgroundColor: '#065FD4',
                     borderRadius: '2px'
                   }
                 })

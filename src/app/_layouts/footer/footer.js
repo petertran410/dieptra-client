@@ -97,6 +97,9 @@ const Footer = () => {
           <Link href="/" target="_blank">
             <Image src="/images/zalo-black.webp" w="24px" h="24px" alt={IMG_ALT} />
           </Link>
+          <Link href="https://www.youtube.com/@Dieptra_Official" target="_blank">
+            <Image src="/images/Youtube.webp" w="24px" h="24px" alt={IMG_ALT} />
+          </Link>
         </Flex>
 
         <Flex flex={{ xs: 'none', lg: 1 / 3 }} direction="column">

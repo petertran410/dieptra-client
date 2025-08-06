@@ -381,7 +381,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
           </Text>
 
           {htmlContent && !htmlContent.startsWith('<toc></toc>') && (
-            <Box my="24px" className="html-content" borderRadius={8} border="1px solid #CCC" px="16px" py="12px">
+            <Box my="24px" borderRadius={8} border="1px solid #CCC" px="16px" py="12px">
               <Text fontWeight={700} fontSize={20}>
                 Mục lục
               </Text>
