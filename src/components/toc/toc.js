@@ -1,4 +1,3 @@
-// src/components/toc.js - ENHANCED với clickable & smooth scroll
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -11,7 +10,6 @@ const TableOfContents = ({ html }) => {
   useEffect(() => {
     if (!html) return;
 
-    // Parse HTML và extract headings
     const parser = new DOMParser();
     const doc = parser.parseFromString(html, 'text/html');
     const headings = doc.querySelectorAll('h1, h2, h3, h4, h5, h6');
@@ -31,7 +29,6 @@ const TableOfContents = ({ html }) => {
 
     setTocItems(items);
 
-    // Add IDs to headings trong DOM thật
     setTimeout(() => {
       const realHeadings = document.querySelectorAll(
         '.html-content h1, .html-content h2, .html-content h3, .html-content h4, .html-content h5, .html-content h6'
@@ -60,7 +57,6 @@ const TableOfContents = ({ html }) => {
       });
     }, observerOptions);
 
-    // Observe all headings
     setTimeout(() => {
       tocItems.forEach((item) => {
         const element = document.getElementById(item.id);
@@ -77,34 +73,28 @@ const TableOfContents = ({ html }) => {
     const element = document.getElementById(id);
     if (!element) return;
 
-    // 🎯 OPTIMIZED: Header height calculation
     const getHeaderOffset = () => {
       const header = document.querySelector('header') || document.querySelector('[data-header="true"]');
       if (header) {
         const rect = header.getBoundingClientRect();
-        return rect.height || 114; // Fallback to design spec
+        return rect.height || 114;
       }
-      // Responsive fallback based on viewport
       return window.innerWidth >= 1024 ? 114 : 70;
     };
 
-    // 🎯 CALCULATE: Target position với professional spacing
     const headerHeight = getHeaderOffset();
-    const additionalOffset = 24; // Professional reading spacing
+    const additionalOffset = 20;
     const totalOffset = headerHeight + additionalOffset;
 
-    // 🎯 GET: Element position với precise calculation
     const elementRect = element.getBoundingClientRect();
     const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
     const targetPosition = elementRect.top + currentScrollY - totalOffset;
 
-    // 🚀 PROFESSIONAL SMOOTH SCROLL: Cross-browser compatible
     const smoothScrollTo = (targetY, duration = 800) => {
       const startY = currentScrollY;
       const distance = targetY - startY;
       const startTime = performance.now();
 
-      // 🎯 EASING FUNCTION: Professional ease-in-out cubic
       const easeInOutCubic = (t) => {
         return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
       };
@@ -120,7 +110,6 @@ const TableOfContents = ({ html }) => {
         if (progress < 1) {
           requestAnimationFrame(animateScroll);
         } else {
-          // 🎯 COMPLETION CALLBACK: SEO & Accessibility
           handleScrollComplete(id, element);
         }
       };
@@ -128,28 +117,22 @@ const TableOfContents = ({ html }) => {
       requestAnimationFrame(animateScroll);
     };
 
-    // 🎯 SCROLL COMPLETION: Professional finish handling
     const handleScrollComplete = (id, element) => {
-      // Update URL hash for SEO
       const url = new URL(window.location);
       url.hash = id;
       window.history.replaceState({}, '', url);
 
-      // Accessibility: Focus management
       element.setAttribute('tabindex', '-1');
       element.focus({ preventScroll: true });
 
-      // Clean up focus after animation
       setTimeout(() => {
         element.removeAttribute('tabindex');
       }, 100);
     };
 
-    // 🚀 EXECUTE: Smooth scroll with fallback
     try {
       smoothScrollTo(Math.max(0, targetPosition));
     } catch (error) {
-      // 🛡️ FALLBACK: Direct scroll nếu animation fails
       console.warn('Custom smooth scroll failed, using fallback:', error);
       window.scrollTo({
         top: Math.max(0, targetPosition),
@@ -191,7 +174,7 @@ const TableOfContents = ({ html }) => {
   }
 
   return (
-    <VStack align="stretch" spacing={2} mt={3}>
+    <VStack align="stretch" spacing={0.1} mt={3}>
       {tocItems.map((item) => {
         const isActive = activeId === item.id;
 
@@ -217,7 +200,6 @@ const TableOfContents = ({ html }) => {
                 textDecoration: 'underline'
               }}
               sx={{
-                // Highlight active item
                 ...(isActive && {
                   position: 'relative',
                   _before: {
@@ -226,8 +208,6 @@ const TableOfContents = ({ html }) => {
                     left: '-8px',
                     top: '50%',
                     transform: 'translateY(-50%)',
-                    width: '3px',
-                    height: '16px',
                     backgroundColor: '#065FD4',
                     borderRadius: '2px'
                   }
