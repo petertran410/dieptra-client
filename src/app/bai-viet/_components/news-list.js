@@ -18,15 +18,6 @@ const ArticlesItem = ({ item }) => {
 
   const dateToDisplay = createdDate || created_date;
 
-  console.log('ArticlesItem data:', {
-    id,
-    createdDate,
-    created_date,
-    dateToDisplay
-  });
-
-  console.log(dateToDisplay);
-
   return (
     <Flex direction="column" gap="16px">
       <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>

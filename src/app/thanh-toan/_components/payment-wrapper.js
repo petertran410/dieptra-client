@@ -94,11 +94,9 @@ const PaymentWrapper = () => {
       id: Date.now()
     };
 
-    console.log(`🐛 [${timestamp}] ${message}`, data);
-    setDebugInfo((prev) => [...prev.slice(-10), logEntry]); // Keep last 10 logs
+    setDebugInfo((prev) => [...prev.slice(-10), logEntry]);
   };
 
-  // Enhanced payment status monitoring
   useEffect(() => {
     if (paymentStatus) {
       pollCountRef.current += 1;

@@ -207,8 +207,6 @@ const SectionsContent = () => {
               };
             });
 
-            console.log(`📋 Section ${type}:`, validatedArticles); // Debug log
-
             return {
               type,
               articles: validatedArticles

@@ -44,8 +44,6 @@ export const useQueryProductList = () => {
         apiParams.subCategoryId = subCategoryId;
       }
 
-      console.log('Frontend API Params (visible only):', apiParams); // Debug log
-
       return API.request({
         url: '/api/product/by-categories',
         params: apiParams

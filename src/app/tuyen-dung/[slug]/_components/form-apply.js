@@ -66,7 +66,6 @@ const FormApply = ({ jobId }) => {
             reset();
           })
           .catch((e) => {
-            console.log('ducnh e', e.message);
             showToast({
               status: 'error',
               content: 'Đã có lỗi xảy ra. Vui lòng thử lại sau'
@@ -74,7 +73,6 @@ const FormApply = ({ jobId }) => {
           });
       })
       .catch((e) => {
-        console.log('ducnh error cv', e.message);
         showToast({
           status: 'error',
           content: 'Đã có lỗi xảy ra. Vui lòng thử lại sau'
