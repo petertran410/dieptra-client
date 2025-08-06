@@ -35,7 +35,7 @@ const ArticleItem = ({ item, categorySlug }) => {
               fontWeight={500}
               lineHeight="24px"
               noOfLines={3}
-              h="60px"
+              // h="60px"
               _hover={{ color: '#065FD4' }}
               transition="color 0.2s ease"
             >

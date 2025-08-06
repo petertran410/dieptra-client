@@ -37,7 +37,7 @@ const ArticleCard = ({ article, categorySlug }) => {
               fontWeight={500}
               lineHeight="24px"
               noOfLines={2}
-              h="48px"
+              // h="48px"
               _hover={{ color: '#065FD4' }}
               transition="color 0.2s ease"
             >
