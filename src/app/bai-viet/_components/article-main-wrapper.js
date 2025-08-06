@@ -46,19 +46,19 @@ const ArticleCard = ({ article, categorySlug }) => {
           </Link>
 
           {description && (
-            <Text mt="8px" fontSize={14} color="gray.600" lineHeight="20px" noOfLines={2}>
+            <Text mt={1} fontSize={16} color="gray.600" lineHeight="20px" noOfLines={2}>
               {description}
             </Text>
           )}
 
-          {createdDate && (
+          {/* {createdDate && (
             <Flex mt="12px" align="center" gap="4px">
               <Image src="/images/clock-outline.webp" w="14px" h="14px" alt={IMG_ALT} />
               <Text color="#A1A1AA" fontSize={14}>
                 {convertTimestamp(createdDate)}
               </Text>
             </Flex>
-          )}
+          )} */}
         </Box>
 
         <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
