@@ -7,7 +7,7 @@ import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text } from '@cha
 import Link from 'next/link';
 
 const ArticleItem = ({ item }) => {
-  const { id, title, imagesUrl, createdDate } = item || {};
+  const { id, title, imagesUrl, createdDate } = item;
 
   return (
     <Flex direction="column" gap="16px">
@@ -43,7 +43,7 @@ const ArticleItem = ({ item }) => {
           <Flex mt="8px" align="center" gap="4px">
             <Image src="/images/clock-outline.webp" w="14px" h="14px" alt={IMG_ALT} />
             <Text color="#A1A1AA" fontSize={14}>
-              {convertTimestamp(createdDate)}
+              {createdDate ? convertTimestamp(createdDate) : 'Chưa có ngày'}
             </Text>
           </Flex>
         </Box>

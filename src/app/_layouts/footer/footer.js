@@ -230,6 +230,9 @@ const Footer = () => {
             <Link href="https://zalo.me/s/1428308065058357450/" target="_blank">
               <Image src="/images/zalo-black.webp" w="24px" h="24px" alt={IMG_ALT} />
             </Link>
+            <Link href="https://www.youtube.com/@Dieptra_Official" target="_blank">
+              <Image src="/images/Youtube.webp" w="24px" h="24px" alt={IMG_ALT} />
+            </Link>
           </Flex>
 
           <Box h="165px" borderRadius={16} overflow="hidden" w="full">

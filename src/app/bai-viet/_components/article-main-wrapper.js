@@ -51,7 +51,6 @@ const ArticleCard = ({ article, categorySlug }) => {
             </Text>
           )}
 
-          {/* 🚨 ENHANCED: Date display với fallback handling */}
           <Flex mt="12px" align="center" gap="4px">
             <Image src="/images/clock-outline.webp" w="14px" h="14px" alt={IMG_ALT} />
             <Text color="#A1A1AA" fontSize={14}>
@@ -124,7 +123,6 @@ const ArticleSection = ({ section, articles, isLoading }) => {
 
   return (
     <Box mb="50px">
-      {/* Section Header */}
       <Flex justify="space-between" align="center" mb="24px">
         <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
           {label}
@@ -142,7 +140,6 @@ const ArticleSection = ({ section, articles, isLoading }) => {
         </Link>
       </Flex>
 
-      {/* Articles Grid */}
       <Grid
         templateColumns={{
           xs: '1fr',
@@ -159,7 +156,6 @@ const ArticleSection = ({ section, articles, isLoading }) => {
   );
 };
 
-// 🚨 ENHANCED: Sections Content Component với better data handling
 const SectionsContent = () => {
   const [sectionsData, setSectionsData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -235,7 +231,6 @@ const SectionsContent = () => {
   );
 };
 
-// Main component với Suspense wrapper
 const ArticleMainWrapper = () => {
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },
@@ -251,10 +246,8 @@ const ArticleMainWrapper = () => {
       </Head>
 
       <Flex pt={{ xs: '70px', lg: '162px' }} px={PX_ALL} pb="50px" direction="column">
-        {/* Breadcrumb */}
         <Breadcrumb data={breadcrumbData} />
 
-        {/* Page Header */}
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
           <Heading as="h1" fontSize={{ xs: '28px', lg: '36px' }} fontWeight={700} color="#003366">
             Bài Viết
@@ -266,7 +259,6 @@ const ArticleMainWrapper = () => {
           </Text>
         </VStack>
 
-        {/* Sections với Suspense boundary */}
         <Suspense
           fallback={
             <Flex justify="center" py="60px">
