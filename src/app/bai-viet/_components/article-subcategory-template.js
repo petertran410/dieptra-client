@@ -10,7 +10,6 @@ import { API } from '../../../utils/API';
 
 const ArticleItem = ({ item, categorySlug }) => {
   const { id, title, imagesUrl, createdDate, description } = item || {};
-  console.log(createdDate);
 
   return (
     <Flex direction="column" gap="16px" h="100%">

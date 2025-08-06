@@ -16,7 +16,14 @@ const ArticlesItem = ({ item }) => {
   const { id, title, imagesUrl, createdDate, created_date, type } = item || {};
   const categorySlug = getCategorySlugByType(type);
 
-  const dateToDisplay = createdDate || created_date || new Date().toISOString();
+  const dateToDisplay = createdDate || created_date;
+
+  console.log('ArticlesItem data:', {
+    id,
+    createdDate,
+    created_date,
+    dateToDisplay
+  });
 
   console.log(dateToDisplay);
 
@@ -40,10 +47,12 @@ const ArticlesItem = ({ item }) => {
               {title}
             </Text>
           </Link>
-          <Flex mt="4px" align="center" gap="4px">
-            <Image src="/images/clock-outline.webp" w="16px" h="16px" alt={IMG_ALT} />
-            <Text color="#A1A1AA">{dateToDisplay ? convertTimestamp(dateToDisplay) : 'Chưa cập nhật'}</Text>
-          </Flex>
+          {dateToDisplay && (
+            <Flex mt="4px" align="center" gap="4px">
+              <Image src="/images/clock-outline.webp" w="16px" h="16px" alt={IMG_ALT} />
+              <Text color="#A1A1AA">{convertTimestamp(dateToDisplay)}</Text>
+            </Flex>
+          )}
         </Box>
         <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
           <Flex

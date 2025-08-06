@@ -169,8 +169,6 @@ const SectionsContent = () => {
 
         const response = await API.request({ url: '/api/news/client/article-sections' });
 
-        console.log('Raw API Response:', response);
-
         if (response && Array.isArray(response)) {
           const validatedSections = response.map((section) => {
             const { type, articles = [] } = section;
