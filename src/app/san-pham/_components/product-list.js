@@ -19,7 +19,6 @@ const ProductList = () => {
   const { content: productList = [], totalPages, pageable } = productListQuery || {};
   const { pageNumber } = pageable || {};
 
-  // Main category tabs
   const mainCategories = [
     { id: 'all', name: 'Nguyên Liệu Pha Chế', isActive: !categoryId },
     { id: '2297031', name: 'Trà Phượng Hoàng', isActive: categoryId === '2297031' },
@@ -37,7 +36,6 @@ const ProductList = () => {
 
   return (
     <Box w="full">
-      {/* Main Category Tabs */}
       <Flex
         justify="center"
         align="center"
@@ -170,7 +168,6 @@ const ProductList = () => {
           />
         </Box>
 
-        {/* Right Content - Products */}
         <Box flex={1}>
           {loadingProduct && (
             <Flex justify="center" py="60px">
@@ -180,18 +177,17 @@ const ProductList = () => {
 
           {!loadingProduct && Array.isArray(productList) && !!productList.length && (
             <>
-              {/* Products Grid */}
               <Grid
                 templateColumns={{
                   xs: 'repeat(2, 1fr)',
                   md: 'repeat(3, 1fr)',
                   lg: 'repeat(3, 1fr)',
-                  xl: 'repeat(4, 1fr)'
+                  xl: 'repeat(3, 1fr)'
                 }}
-                gap={{ xs: '12px', md: '16px', lg: '20px' }}
+                gap={{ xs: '16px', md: '20px', lg: '24px' }}
                 w="full"
                 mb="40px"
-                justifyItems="center"
+                maxW="none"
               >
                 {productList?.map((item) => {
                   const productData = {
@@ -204,14 +200,13 @@ const ProductList = () => {
                   };
 
                   return (
-                    <GridItem key={item.id} w="full" display="flex" justifyContent="center">
+                    <GridItem key={item.id}>
                       <ProductItem item={productData} />
                     </GridItem>
                   );
                 })}
               </Grid>
 
-              {/* Pagination */}
               <Flex justify="center" mt="36px">
                 <Pagination currentPage={pageNumber + 1} totalPages={totalPages} />
               </Flex>

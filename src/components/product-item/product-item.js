@@ -19,21 +19,21 @@ const ProductItem = ({ item }) => {
     return ofCategories[0]?.name?.toUpperCase() || 'SẢN PHẨM';
   };
 
-  // Get category color based on category name
   const getCategoryColor = () => {
     const categoryName = getCategoryName();
     if (categoryName.includes('TRÀ') || categoryName.includes('PHƯỢNG')) {
-      return '#4dabf7'; // Blue for Trà
+      return '#4dabf7';
     } else if (categoryName.includes('MỨT') || categoryName.includes('LERMAO')) {
-      return '#ff6b6b'; // Red for Mứt
+      return '#ff6b6b';
     }
-    return '#51cf66'; // Green default
+    return '#51cf66';
   };
 
   return (
     <Box
-      maxW="280px" // ← Add max width constraint
-      w="full"
+      w="100%" // ← Change from maxW="280px" to full width
+      maxW="320px" // ← Set a reasonable max width
+      mx="auto" // ← Center the item
       borderRadius={16}
       bgColor="#FFF"
       overflow="hidden"

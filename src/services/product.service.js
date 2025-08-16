@@ -87,6 +87,7 @@ export const useQueryAllCategories = () => {
   });
 };
 
+// UPDATE your existing useQueryProductList function to handle filtering properly
 export const useQueryProductList = () => {
   const params = useGetParamsURL();
   const { page: pageNumber = 1, keyword, sort, categoryId } = params;
@@ -95,6 +96,8 @@ export const useQueryProductList = () => {
   return useQuery({
     queryKey,
     queryFn: () => {
+      console.log('API Call Params:', { pageNumber, keyword, sort, categoryId }); // Debug log
+
       let sortParams = {};
       if (sort) {
         if (sort === 'az') {
@@ -111,7 +114,7 @@ export const useQueryProductList = () => {
 
       const apiParams = {
         pageNumber: pageNumber - 1,
-        pageSize: 15,
+        pageSize: 15, // 15 products per page (3x5)
         is_visible: 'true',
         ...sortParams
       };
@@ -120,17 +123,33 @@ export const useQueryProductList = () => {
         apiParams.title = keyword;
       }
 
-      if (categoryId) {
-        apiParams.kiotVietCategoryId = categoryId;
+      // Fix category filtering
+      if (categoryId && categoryId !== 'all') {
+        if (categoryId === '2297031') {
+          // Trà Phượng Hoàng specific category
+          apiParams.kiotVietCategoryId = '2297031';
+        } else if (categoryId === 'other') {
+          // Handle "Sản Phẩm Khác" - you might need different logic here
+          apiParams.kiotVietCategoryId = 'other';
+        } else if (categoryId === 'new') {
+          // Handle "Hàng Mới Về" - you might need different logic here
+          apiParams.orderBy = 'createdDate';
+          apiParams.isDesc = true;
+        } else {
+          // Regular category ID
+          apiParams.kiotVietCategoryId = categoryId;
+        }
       }
+
+      console.log('Final API Params:', apiParams); // Debug log
 
       return API.request({
         url: '/api/product/client/get-all',
         params: apiParams
       });
     },
-    staleTime: 5 * 60 * 1000,
-    cacheTime: 10 * 60 * 1000
+    staleTime: 2 * 60 * 1000, // Reduced cache time for testing
+    cacheTime: 5 * 60 * 1000
   });
 };
 
