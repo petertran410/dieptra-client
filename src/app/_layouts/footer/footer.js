@@ -238,9 +238,9 @@ const Footer = () => {
             </Link>
           </Flex>
 
-          <Box h="165px" borderRadius={16} overflow="hidden" w="full">
+          {/* <Box h="165px" borderRadius={16} overflow="hidden" w="full">
             <iframe
-              src="https://www.google.com/maps/d/u/0/embed?mid=13iQDJRjGYBAiV0V8u9L3Gw2_YF701TY&ehbc=2E312F"
+              src="https://www.google.com/maps/d/embed?mid=1MBzcEDTkujKoOV-M9aI8LIsm-2bNn7s&ehbc=2E312F"
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -248,7 +248,7 @@ const Footer = () => {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
-          </Box>
+          </Box> */}
         </Flex>
       </Flex>
 
