@@ -19,7 +19,6 @@ import {
   InputRightElement,
   Button
 } from '@chakra-ui/react';
-// ← Remove this line: import { SearchIcon } from '@chakra-ui/icons';
 import { useState, useEffect } from 'react';
 
 const ProductList = () => {
@@ -32,7 +31,6 @@ const ProductList = () => {
   const { content: productList = [], totalPages, pageable } = productListQuery || {};
   const { pageNumber } = pageable || {};
 
-  // Main category tabs data
   const mainCategories = [
     { id: 'all', name: 'Nguyên Liệu Pha Chế', isActive: !mainCategoryId },
     { id: '2297031', name: 'Trà Phượng Hoàng', isActive: mainCategoryId === '2297031' },

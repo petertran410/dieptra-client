@@ -1,7 +1,6 @@
 'use client';
 
 import { ARTICLE_SECTIONS } from '../../../utils/article-types';
-import { useQueryProductCategories } from '../../../services/product.service';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import {
   Box,
@@ -29,8 +28,7 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(null);
   const isTransparent = pathname === '/' || pathname === '/lien-he';
 
-  const { data: productCategories = [] } = useQueryProductCategories();
-
+  // ← Update MENU_LIST to simple menu without product dropdown
   const MENU_LIST = [
     {
       title: 'Trang chủ',
@@ -42,9 +40,8 @@ const Header = () => {
     },
     {
       title: 'Sản phẩm',
-      href: '/san-pham',
-      hasDropdown: true,
-      dropdownItems: [{ label: 'Tất cả sản phẩm', href: '/san-pham' }, ...productCategories]
+      href: '/san-pham'
+      // ← Remove dropdown for now
     },
     {
       title: 'Bài Viết',
@@ -73,6 +70,7 @@ const Header = () => {
 
   return (
     <Box>
+      {/* DESKTOP HEADER */}
       <Flex
         display={{ xs: 'none', lg: 'flex' }}
         zIndex={1000}
@@ -90,10 +88,12 @@ const Header = () => {
         w="full"
         boxShadow={isScrolled ? 'xs' : 'none'}
       >
+        {/* LOGO */}
         <a href="/">
           <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
         </a>
 
+        {/* NAVIGATION MENU */}
         <Flex align="center" flex={1} h="full" justify="center">
           {MENU_LIST.map((item, index) => {
             const { title, href, hasDropdown, dropdownItems } = item;
@@ -104,6 +104,7 @@ const Header = () => {
               isActive = pathname.includes(href);
             }
 
+            // Menu item with dropdown (only for "Bài Viết")
             if (hasDropdown && dropdownItems) {
               return (
                 <Box
@@ -112,6 +113,7 @@ const Header = () => {
                   onMouseEnter={() => setShowDropdown(index)}
                   onMouseLeave={() => setShowDropdown(null)}
                 >
+                  {/* Menu Button */}
                   <Link href={href}>
                     <Flex
                       justify="center"
@@ -138,6 +140,7 @@ const Header = () => {
                     </Flex>
                   </Link>
 
+                  {/* Dropdown Menu */}
                   {showDropdown === index && (
                     <Box
                       position="absolute"
@@ -178,6 +181,7 @@ const Header = () => {
               );
             }
 
+            // Regular menu item
             return (
               <Link href={href} key={title}>
                 <Flex
@@ -208,6 +212,7 @@ const Header = () => {
           })}
         </Flex>
 
+        {/* CART HEADER */}
         <CartHeader />
       </Flex>
 

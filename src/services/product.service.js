@@ -2,6 +2,47 @@ import { API } from '../utils/API';
 import { useGetParamsURL } from '../utils/hooks';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
+export const useQueryProductCategories = () => {
+  const queryKey = ['GET_PRODUCT_CATEGORIES_FOR_DROPDOWN'];
+
+  return useQuery({
+    queryKey,
+    queryFn: async () => {
+      const response = await API.request({
+        url: '/api/product/client/get-all',
+        params: {
+          pageSize: 500,
+          pageNumber: 0,
+          is_visible: 'true'
+        }
+      });
+
+      // Extract unique categories
+      const categories = [];
+      const seen = new Set();
+
+      response.content?.forEach((product) => {
+        if (product.kiotViet?.category) {
+          const category = product.kiotViet.category;
+          const key = `${category.kiotVietId}-${category.name}`;
+
+          if (!seen.has(key)) {
+            seen.add(key);
+            categories.push({
+              id: category.kiotVietId,
+              name: category.name,
+              href: `/san-pham?categoryId=${category.kiotVietId}`
+            });
+          }
+        }
+      });
+
+      return categories.sort((a, b) => a.name.localeCompare(b.name));
+    },
+    staleTime: 10 * 60 * 1000
+  });
+};
+
 export const useQueryAllCategories = () => {
   const queryKey = ['GET_ALL_CATEGORIES_FOR_SIDEBAR'];
 
