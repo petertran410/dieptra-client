@@ -19,7 +19,7 @@ const ProductList = () => {
   const { content: productList = [], totalPages, pageable } = productListQuery || {};
   const { pageNumber } = pageable || {};
 
-  // Main category tabs data
+  // Main category tabs
   const mainCategories = [
     { id: 'all', name: 'Nguyên Liệu Pha Chế', isActive: !categoryId },
     { id: '2297031', name: 'Trà Phượng Hoàng', isActive: categoryId === '2297031' },
@@ -27,7 +27,6 @@ const ProductList = () => {
     { id: 'new', name: 'Hàng Mới Về', isActive: categoryId === 'new' }
   ];
 
-  // Handle navigation
   const handleCategoryClick = (categoryIdValue) => {
     if (categoryIdValue === 'all') {
       router.push('/san-pham');
@@ -37,7 +36,7 @@ const ProductList = () => {
   };
 
   return (
-    <Box>
+    <Box w="full">
       {/* Main Category Tabs */}
       <Flex
         justify="center"
@@ -87,40 +86,38 @@ const ProductList = () => {
         })}
       </Flex>
 
-      {/* Main Layout with Sidebar and Products */}
+      {/* Main Layout */}
       <Flex gap="24px" direction={{ xs: 'column', lg: 'row' }}>
         {/* Left Sidebar */}
-        <Flex
-          w={{ xs: 'full', lg: '300px' }}
+        <Box
+          w={{ xs: 'full', lg: '280px' }}
+          flexShrink={0}
           bgColor="#eff9fd"
-          direction="column"
           borderRadius={8}
-          pos="relative"
+          position="relative"
           overflow="hidden"
-          minH="500px"
+          minH="400px"
         >
           {/* Category Title */}
-          <Box p="20px" borderBottom="1px solid #e0f4fd">
-            <Text fontSize="18px" fontWeight="bold" color="#333" mb="4px">
+          <Box p="16px" borderBottom="1px solid #e0f4fd">
+            <Text fontSize="16px" fontWeight="bold" color="#333" mb="4px">
               DANH MỤC SẢN PHẨM
             </Text>
-            <Text fontSize="16px" fontWeight="600" color="#1E96BC">
+            <Text fontSize="14px" fontWeight="600" color="#1E96BC">
               Nguyên Liệu Pha Chế
             </Text>
           </Box>
 
           {/* Category List */}
-          <Flex direction="column" flex={1}>
-            {/* All Products Option */}
+          <Box>
+            {/* All Products */}
             <Flex
-              px="20px"
-              py="12px"
+              px="16px"
+              py="10px"
               cursor="pointer"
-              justify="flex-start"
-              align="center"
               bgColor={!categoryId ? '#1E96BC' : 'transparent'}
               color={!categoryId ? '#fff' : '#1E96BC'}
-              fontSize="14px"
+              fontSize="13px"
               fontWeight={!categoryId ? '600' : '400'}
               borderBottom="1px solid #e0f4fd"
               _hover={{
@@ -129,23 +126,21 @@ const ProductList = () => {
               }}
               onClick={() => handleCategoryClick('all')}
             >
-              <Text>🍃 Tất cả sản phẩm</Text>
+              <Text>Tất cả sản phẩm</Text>
             </Flex>
 
-            {allCategories?.slice(0, 10)?.map((category) => {
+            {allCategories?.slice(0, 12)?.map((category) => {
               const isActive = categoryId === category.id.toString();
 
               return (
                 <Flex
                   key={category.id}
-                  px="20px"
-                  py="12px"
+                  px="16px"
+                  py="10px"
                   cursor="pointer"
-                  justify="flex-start"
-                  align="center"
                   bgColor={isActive ? '#1E96BC' : 'transparent'}
                   color={isActive ? '#fff' : '#1E96BC'}
-                  fontSize="14px"
+                  fontSize="13px"
                   fontWeight={isActive ? '600' : '400'}
                   borderBottom="1px solid #e0f4fd"
                   _hover={{
@@ -154,11 +149,11 @@ const ProductList = () => {
                   }}
                   onClick={() => handleCategoryClick(category.id)}
                 >
-                  <Text>• {category.name}</Text>
+                  <Text>{category.name}</Text>
                 </Flex>
               );
             })}
-          </Flex>
+          </Box>
 
           {/* Background Image */}
           <Image
@@ -171,32 +166,34 @@ const ProductList = () => {
             pos="absolute"
             bottom={0}
             left={0}
-            opacity={0.3}
+            opacity={0.2}
           />
-        </Flex>
+        </Box>
 
-        {/* Right Content - Products Grid */}
-        <Flex flex={1} direction="column">
+        {/* Right Content - Products */}
+        <Box flex={1}>
           {loadingProduct && (
-            <Flex mt="80px" justify="center">
+            <Flex justify="center" py="60px">
               <LoadingScreen />
             </Flex>
           )}
 
           {!loadingProduct && Array.isArray(productList) && !!productList.length && (
             <>
-              {/* Products Grid - 3 columns */}
+              {/* Products Grid */}
               <Grid
                 templateColumns={{
-                  xs: 'repeat(2, 1fr)', // Mobile: 2 columns
-                  md: 'repeat(3, 1fr)' // Desktop: 3 columns
+                  xs: 'repeat(2, 1fr)',
+                  md: 'repeat(3, 1fr)',
+                  lg: 'repeat(3, 1fr)',
+                  xl: 'repeat(4, 1fr)'
                 }}
-                gap={{ xs: '16px', lg: '24px' }}
+                gap={{ xs: '12px', md: '16px', lg: '20px' }}
                 w="full"
                 mb="40px"
+                justifyItems="center"
               >
                 {productList?.map((item) => {
-                  // Transform data to match ProductItem expectations
                   const productData = {
                     id: item.id,
                     title: item.kiotViet?.name || item.title || 'Sản phẩm',
@@ -207,7 +204,7 @@ const ProductList = () => {
                   };
 
                   return (
-                    <GridItem key={item.id}>
+                    <GridItem key={item.id} w="full" display="flex" justifyContent="center">
                       <ProductItem item={productData} />
                     </GridItem>
                   );
@@ -222,7 +219,7 @@ const ProductList = () => {
           )}
 
           {!loadingProduct && (!Array.isArray(productList) || !productList.length) && (
-            <Flex direction="column" align="center" mt="80px">
+            <Flex direction="column" align="center" py="60px">
               <Text textAlign="center" fontSize={18} color="#666" mb="20px">
                 Không có sản phẩm nào
               </Text>
@@ -231,7 +228,7 @@ const ProductList = () => {
               </Text>
             </Flex>
           )}
-        </Flex>
+        </Box>
       </Flex>
     </Box>
   );

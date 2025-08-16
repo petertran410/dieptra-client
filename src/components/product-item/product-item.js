@@ -1,4 +1,3 @@
-// src/components/product-item.js - CLEANED UP VERSION like CMS
 'use client';
 
 import { convertSlugURL, formatCurrency } from '../../utils/helper-server';
@@ -17,23 +16,24 @@ const ProductItem = ({ item }) => {
     if (!Array.isArray(ofCategories) || ofCategories.length === 0) {
       return 'SẢN PHẨM';
     }
-    // Just return the first category name in uppercase
     return ofCategories[0]?.name?.toUpperCase() || 'SẢN PHẨM';
   };
 
   // Get category color based on category name
   const getCategoryColor = () => {
     const categoryName = getCategoryName();
-    if (categoryName.includes('MỨT') || categoryName.includes('LERMAO')) {
-      return '#ff6b6b'; // Red for Mứt
-    } else if (categoryName.includes('TRÀ') || categoryName.includes('PHƯỢNG')) {
+    if (categoryName.includes('TRÀ') || categoryName.includes('PHƯỢNG')) {
       return '#4dabf7'; // Blue for Trà
+    } else if (categoryName.includes('MỨT') || categoryName.includes('LERMAO')) {
+      return '#ff6b6b'; // Red for Mứt
     }
     return '#51cf66'; // Green default
   };
 
   return (
     <Box
+      maxW="280px" // ← Add max width constraint
+      w="full"
       borderRadius={16}
       bgColor="#FFF"
       overflow="hidden"
@@ -50,15 +50,15 @@ const ProductItem = ({ item }) => {
         {/* Category Label */}
         <Box
           position="absolute"
-          top="12px"
-          left="12px"
+          top="8px"
+          left="8px"
           bgColor={getCategoryColor()}
           color="white"
-          fontSize="10px"
+          fontSize="9px"
           fontWeight="bold"
-          px="8px"
-          py="4px"
-          borderRadius="12px"
+          px="6px"
+          py="3px"
+          borderRadius="8px"
           zIndex={2}
           textTransform="uppercase"
           letterSpacing="0.5px"
@@ -66,9 +66,17 @@ const ProductItem = ({ item }) => {
           {getCategoryName()}
         </Box>
 
-        {/* Product Image */}
+        {/* Product Image - Fixed sizing */}
         <AspectRatio ratio={1 / 1} w="full">
-          <Flex align="center" justify="center" bgColor="#F8F9FA">
+          <Box
+            w="full"
+            h="full"
+            bgColor="#F8F9FA"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            overflow="hidden"
+          >
             <Image
               src={
                 Array.isArray(imagesUrl) && imagesUrl.length > 0
@@ -76,26 +84,26 @@ const ProductItem = ({ item }) => {
                   : '/images/tra-phuong-hoang.webp'
               }
               alt={title || IMG_ALT}
-              w="80%"
-              h="80%"
+              maxW="90%" // ← Constrain image size
+              maxH="90%" // ← Constrain image size
               objectFit="contain"
               loading="lazy"
               onError={(e) => {
                 e.target.src = '/images/tra-phuong-hoang.webp';
               }}
             />
-          </Flex>
+          </Box>
         </AspectRatio>
 
         {/* Product Details */}
-        <Flex direction="column" p="16px" gap="8px">
+        <Flex direction="column" p="12px" gap="6px">
           {/* Product Title */}
           <Text
-            fontSize="14px"
+            fontSize="13px"
             fontWeight={600}
             color="#333"
-            lineHeight="1.4"
-            minH="40px"
+            lineHeight="1.3"
+            minH="32px"
             display="-webkit-box"
             style={{
               WebkitLineClamp: 2,
@@ -109,7 +117,7 @@ const ProductItem = ({ item }) => {
           {/* General Description */}
           {generalDescription && (
             <Text
-              fontSize="12px"
+              fontSize="11px"
               color="gray.600"
               lineHeight="1.3"
               display="-webkit-box"
@@ -124,13 +132,13 @@ const ProductItem = ({ item }) => {
           )}
 
           {/* Price */}
-          <Flex justify="center" align="center" mt="8px">
+          <Flex justify="center" align="center" mt="6px">
             {!price || price === 0 ? (
               <Tag colorScheme="blue" size="sm" fontWeight="600">
                 Liên hệ
               </Tag>
             ) : (
-              <Text color="#1E96BC" fontSize="16px" fontWeight={700}>
+              <Text color="#1E96BC" fontSize="14px" fontWeight={700}>
                 {formatCurrency(price)}
               </Text>
             )}
@@ -138,17 +146,17 @@ const ProductItem = ({ item }) => {
 
           {/* Buy Button */}
           <Flex
-            mt="8px"
+            mt="6px"
             bgColor="#065FD4"
             color="white"
-            py="8px"
-            borderRadius="8px"
+            py="6px"
+            borderRadius="6px"
             justify="center"
             align="center"
             _hover={{ bgColor: '#0052CC' }}
             transitionDuration="200ms"
           >
-            <Text fontSize="14px" fontWeight="600">
+            <Text fontSize="12px" fontWeight="600">
               Mua hàng
             </Text>
           </Flex>
