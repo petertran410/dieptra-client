@@ -1,7 +1,7 @@
-// src/app/_layouts/header/header.js - FIX dropdown để thực sự HOVER
 'use client';
 
 import { ARTICLE_SECTIONS } from '../../../utils/article-types';
+import { useQueryProductCategories } from '../../../services/product.service';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import {
   Box,
@@ -26,8 +26,10 @@ const Header = () => {
   const pathname = usePathname();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(null);
   const isTransparent = pathname === '/' || pathname === '/lien-he';
+
+  const { data: productCategories = [] } = useQueryProductCategories();
 
   const MENU_LIST = [
     {
@@ -40,7 +42,9 @@ const Header = () => {
     },
     {
       title: 'Sản phẩm',
-      href: '/san-pham'
+      href: '/san-pham',
+      hasDropdown: true,
+      dropdownItems: [{ label: 'Tất cả sản phẩm', href: '/san-pham' }, ...productCategories]
     },
     {
       title: 'Bài Viết',
@@ -69,7 +73,6 @@ const Header = () => {
 
   return (
     <Box>
-      {/* DESKTOP HEADER */}
       <Flex
         display={{ xs: 'none', lg: 'flex' }}
         zIndex={1000}
@@ -87,14 +90,12 @@ const Header = () => {
         w="full"
         boxShadow={isScrolled ? 'xs' : 'none'}
       >
-        {/* LOGO */}
         <a href="/">
           <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
         </a>
 
-        {/* NAVIGATION MENU */}
         <Flex align="center" flex={1} h="full" justify="center">
-          {MENU_LIST.map((item) => {
+          {MENU_LIST.map((item, index) => {
             const { title, href, hasDropdown, dropdownItems } = item;
             let isActive = false;
             if (pathname === '/') {
@@ -103,16 +104,14 @@ const Header = () => {
               isActive = pathname.includes(href);
             }
 
-            // FIXED: Menu item với dropdown thực sự hover
             if (hasDropdown && dropdownItems) {
               return (
                 <Box
                   key={title}
                   position="relative"
-                  onMouseEnter={() => setShowDropdown(true)}
-                  onMouseLeave={() => setShowDropdown(false)}
+                  onMouseEnter={() => setShowDropdown(index)}
+                  onMouseLeave={() => setShowDropdown(null)}
                 >
-                  {/* Menu Button */}
                   <Link href={href}>
                     <Flex
                       justify="center"
@@ -128,14 +127,8 @@ const Header = () => {
                         fontWeight={600}
                         color={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : '#333'}
                         _hover={{
-                          color: isActive
-                            ? !isTransparent || isScrolled
-                              ? '#333'
-                              : '#333'
-                            : !isTransparent || isScrolled
-                            ? '#333'
-                            : '#333',
-                          borderColor: !isTransparent || isScrolled ? 'main.1' : 'main.1',
+                          color: '#333',
+                          borderColor: '#003366',
                           transform: 'translateY(-2px)'
                         }}
                         transition="color 0.2s ease"
@@ -145,8 +138,7 @@ const Header = () => {
                     </Flex>
                   </Link>
 
-                  {/* Dropdown Menu */}
-                  {showDropdown && (
+                  {showDropdown === index && (
                     <Box
                       position="absolute"
                       top="100%"
@@ -157,6 +149,8 @@ const Header = () => {
                       boxShadow="0 10px 25px rgba(0,0,0,0.15)"
                       py={2}
                       minW="280px"
+                      maxH="400px"
+                      overflowY="auto"
                       zIndex={1001}
                     >
                       {dropdownItems.map((dropdownItem, itemIndex) => (
@@ -164,7 +158,7 @@ const Header = () => {
                           <Box
                             px={4}
                             py={3}
-                            fontSize={18}
+                            fontSize={16}
                             fontWeight={400}
                             color="gray.700"
                             cursor="pointer"
@@ -172,12 +166,9 @@ const Header = () => {
                               bg: 'gray.200',
                               color: 'black'
                             }}
-                            _focus={{
-                              bg: 'gray.200'
-                            }}
                             transition="all 0.2s ease"
                           >
-                            {dropdownItem.label}
+                            {dropdownItem.label || dropdownItem.name}
                           </Box>
                         </Link>
                       ))}
@@ -187,7 +178,6 @@ const Header = () => {
               );
             }
 
-            // Menu item thông thường (giữ nguyên style cũ)
             return (
               <Link href={href} key={title}>
                 <Flex
@@ -197,39 +187,15 @@ const Header = () => {
                   w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
                   borderBottom="2px solid"
                   borderColor={isActive ? (!isTransparent || isScrolled ? '#003366' : '#333') : 'transparent'}
-                  _hover={{
-                    color: isActive
-                      ? !isTransparent || isScrolled
-                        ? '#333'
-                        : '#333'
-                      : !isTransparent || isScrolled
-                      ? '#333'
-                      : '#333',
-                    borderColor: !isTransparent || isScrolled ? 'main.1' : 'main.1',
-                    transform: 'translateY(-2px)'
-                  }}
+                  cursor="pointer"
                 >
                   <Text
                     fontSize={{ xs: '18px', lg: '18px' }}
                     fontWeight={600}
-                    color={
-                      isActive
-                        ? !isTransparent || isScrolled
-                          ? '#333'
-                          : '#333'
-                        : !isTransparent || isScrolled
-                        ? '#333'
-                        : '#333'
-                    }
+                    color={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : '#333'}
                     _hover={{
-                      color: isActive
-                        ? !isTransparent || isScrolled
-                          ? '#333'
-                          : '#333'
-                        : !isTransparent || isScrolled
-                        ? '#333'
-                        : '#333',
-                      borderColor: !isTransparent || isScrolled ? 'main.1' : 'main.1',
+                      color: '#333',
+                      borderColor: '#003366',
                       transform: 'translateY(-2px)'
                     }}
                     transition="color 0.2s ease"
@@ -242,11 +208,9 @@ const Header = () => {
           })}
         </Flex>
 
-        {/* CART HEADER */}
         <CartHeader />
       </Flex>
 
-      {/* MOBILE HEADER - giữ nguyên code cũ */}
       <Flex
         display={{ xs: 'flex', lg: 'none' }}
         zIndex={1000}

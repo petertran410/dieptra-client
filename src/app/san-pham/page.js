@@ -1,31 +1,21 @@
-import { PX_ALL } from '../../utils/const';
 import { getMetadata } from '../../utils/helper-server';
-import { Flex } from '@chakra-ui/react';
-import Head from 'next/head';
-import { Suspense } from 'react';
-import Filter from './_components/filter';
-import Introduction from './_components/introduction';
+import { PX_ALL } from '../../utils/const';
+import { Box, Flex } from '@chakra-ui/react';
 import ProductList from './_components/product-list';
-import ProductTab from './_components/product-tab';
 
-export const metadata = getMetadata({ title: 'Sản phẩm | Diệp Trà' });
+export const metadata = getMetadata({
+  title: 'Sản phẩm | Diệp Trà',
+  description: 'Khám phá đa dạng sản phẩm nguyên liệu pha chế chất lượng cao tại Diệp Trà'
+});
 
-const Product = () => {
+const ProductsPage = () => {
   return (
-    <Suspense>
-      <Head>
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} />
-      </Head>
-
-      <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }}>
-        <ProductTab />
-        <Introduction />
-        <Filter />
+    <Box bgColor="#FFF" minH="100vh">
+      <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} pb="50px">
         <ProductList />
       </Flex>
-    </Suspense>
+    </Box>
   );
 };
 
-export default Product;
+export default ProductsPage;
