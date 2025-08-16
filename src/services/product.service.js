@@ -24,11 +24,10 @@ export const useQueryProductList = () => {
         }
       }
 
-      // Build API parameters
       const apiParams = {
         pageNumber: pageNumber - 1,
         pageSize: 12,
-        includeHidden: false,
+        is_visible: true,
         ...sortParams
       };
 
@@ -45,7 +44,7 @@ export const useQueryProductList = () => {
       }
 
       return API.request({
-        url: '/api/product/by-categories',
+        url: '/api/product/client/get-all',
         params: apiParams
       });
     },
@@ -218,7 +217,7 @@ export const useQuerySearchProducts = () => {
         pageNumber: pageNumber - 1,
         pageSize: 12,
         title: keyword,
-        includeHidden: false,
+        is_visible: true,
         ...sortParams
       };
 
@@ -227,7 +226,7 @@ export const useQuerySearchProducts = () => {
       }
 
       return API.request({
-        url: '/api/product/search',
+        url: '/api/product/client/get-all',
         params: apiParams
       });
     },

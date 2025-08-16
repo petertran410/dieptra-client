@@ -150,7 +150,7 @@ export const POLICY_PAGES = {
       <p><strong>Chủ tài khoản:</strong> Công ty TNHH xuất nhập khẩu Hi Sweetie Việt Nam.<br/>
       <strong>Số tài khoản:</strong> 616233666<br/>
       <strong>Ngân hàng:</strong> Ngân hàng ACB<br/>
-      <strong>Chi nhánh:</strong> Văn Quán<br/>
+      <strong>Chi nhánh:</strong> Đông Đô<br/>
       <strong>Nội dung chuyển khoản:</strong> [Tên khách hàng] + [Số điện thoại] + [Mã đơn hàng nếu có]</p>
       
       <p>Sau khi chuyển khoản, quý khách vui lòng gửi <strong>ảnh xác nhận giao dịch</strong> qua Zalo/Fanpage hoặc Email để chúng tôi xử lý đơn hàng nhanh hơn.</p>
