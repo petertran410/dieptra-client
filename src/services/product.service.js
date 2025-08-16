@@ -49,34 +49,39 @@ export const useQueryAllCategories = () => {
   return useQuery({
     queryKey,
     queryFn: async () => {
-      const response = await API.request({
-        url: '/api/product/client/get-all',
-        params: {
-          pageSize: 1000,
-          pageNumber: 0,
-          is_visible: 'true'
-        }
-      });
-
-      const categories = [];
-      const seen = new Set();
-
-      response.content?.forEach((product) => {
-        if (product.kiotViet?.category) {
-          const category = product.kiotViet.category;
-          const key = `${category.kiotVietId}-${category.name}`;
-
-          if (!seen.has(key)) {
-            seen.add(key);
-            categories.push({
-              id: category.kiotVietId,
-              name: category.name
-            });
+      try {
+        const response = await API.request({
+          url: '/api/product/client/get-all',
+          params: {
+            pageSize: 200,
+            pageNumber: 0,
+            is_visible: 'true'
           }
-        }
-      });
+        });
 
-      return categories.sort((a, b) => a.name.localeCompare(b.name));
+        const categories = [];
+        const seen = new Set();
+
+        response.content?.forEach((product) => {
+          if (product.kiotViet?.category) {
+            const category = product.kiotViet.category;
+            const key = `${category.kiotVietId}-${category.name}`;
+
+            if (!seen.has(key)) {
+              seen.add(key);
+              categories.push({
+                id: category.kiotVietId,
+                name: category.name
+              });
+            }
+          }
+        });
+
+        return categories.sort((a, b) => a.name.localeCompare(b.name));
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        return [];
+      }
     },
     staleTime: 10 * 60 * 1000
   });
@@ -84,8 +89,8 @@ export const useQueryAllCategories = () => {
 
 export const useQueryProductList = () => {
   const params = useGetParamsURL();
-  const { page: pageNumber = 1, keyword, sort, categoryId, mainCategoryId } = params;
-  const queryKey = ['GET_PRODUCT_LIST_CLIENT', pageNumber, keyword, sort, categoryId, mainCategoryId];
+  const { page: pageNumber = 1, keyword, sort, categoryId } = params;
+  const queryKey = ['GET_PRODUCT_LIST_CLIENT', pageNumber, keyword, sort, categoryId];
 
   return useQuery({
     queryKey,
@@ -117,8 +122,6 @@ export const useQueryProductList = () => {
 
       if (categoryId) {
         apiParams.kiotVietCategoryId = categoryId;
-      } else if (mainCategoryId) {
-        apiParams.kiotVietCategoryId = mainCategoryId;
       }
 
       return API.request({
