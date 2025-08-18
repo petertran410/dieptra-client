@@ -17,7 +17,6 @@ export const useQueryProductCategories = () => {
         }
       });
 
-      // Extract unique categories
       const categories = [];
       const seen = new Set();
 

@@ -84,7 +84,6 @@ const ArticleCard = ({ article, categorySlug }) => {
   );
 };
 
-// Component hiển thị một section với Suspense
 const ArticleSection = ({ section, articles, isLoading }) => {
   const { label, slug, href } = section;
 

@@ -10,11 +10,12 @@ export const metadata = getMetadata({
 
 const ProductsPage = () => {
   return (
-    <Box bgColor="#FFF" minH="100vh">
-      <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} pb="50px">
-        <ProductList />
-      </Flex>
-    </Box>
+    // <Box bgColor="#FFF" minH="100vh">
+    //   <Flex direction="column" px={PX_ALL} pb="50px">
+
+    //   </Flex>
+    // </Box>
+    <ProductList />
   );
 };
 
