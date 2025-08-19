@@ -1,4 +1,3 @@
-// src/app/bai-viet/page.js - TRANG BÀI VIẾT CHÍNH
 import { getMetadata } from '../../utils/helper-server';
 import ArticleMainWrapper from './_components/article-main-wrapper';
 
