@@ -23,7 +23,6 @@ import { SearchIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { PX_ALL } from '../../../utils/const';
 import ProductCard from './product-card';
 import ProductPagination from './product-pagination';
-// import ProductFilters from './product-filters';
 import { getProductData } from '../../../utils/product-data';
 import Head from 'next/head';
 
@@ -106,7 +105,7 @@ const ProductList = () => {
         <meta name="robots" content="index, follow" />
       </Head>
       <Flex>
-        <Container maxW="1400px" px={PX_ALL}>
+        <Container maxW="1400px" px={PX_ALL} pt={{ base: '80px', lg: '100px' }}>
           <Breadcrumb data={breadcrumbData} />
 
           <VStack align="start" spacing="16px" mt="20px" mb="40px">
@@ -174,7 +173,6 @@ const ProductList = () => {
             </Text>
           </VStack>
 
-          {/* Product Grid */}
           {isLoading ? (
             <Grid templateColumns="repeat(auto-fit, minmax(280px, 1fr))" gap={6}>
               {[...Array(12)].map((_, index) => (
@@ -193,7 +191,6 @@ const ProductList = () => {
             </Grid>
           )}
 
-          {/* No Results */}
           {!isLoading && currentProducts.length === 0 && (
             <Box textAlign="center" py={12}>
               <Text fontSize="lg" color="gray.500" mb={4}>
@@ -211,7 +208,6 @@ const ProductList = () => {
             </Box>
           )}
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <ProductPagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
           )}

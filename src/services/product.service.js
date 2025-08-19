@@ -2,6 +2,20 @@ import { API } from '../utils/API';
 import { useGetParamsURL } from '../utils/hooks';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
+export const useQueryAllProducts = () => {
+  return useQuery({
+    queryKey: ['GET_ALL_PRODUCTS'],
+    queryFn: () =>
+      API.request({
+        url: '/api/product/client/get-all',
+        method: 'GET'
+      }),
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false
+  });
+};
+
 export const useQueryProductCategories = () => {
   const queryKey = ['GET_PRODUCT_CATEGORIES_FOR_DROPDOWN'];
 
@@ -86,7 +100,6 @@ export const useQueryAllCategories = () => {
   });
 };
 
-// UPDATE your existing useQueryProductList function to handle filtering properly
 export const useQueryProductList = () => {
   const params = useGetParamsURL();
   const { page: pageNumber = 1, keyword, sort, categoryId } = params;
@@ -95,7 +108,7 @@ export const useQueryProductList = () => {
   return useQuery({
     queryKey,
     queryFn: () => {
-      console.log('API Call Params:', { pageNumber, keyword, sort, categoryId }); // Debug log
+      console.log('API Call Params:', { pageNumber, keyword, sort, categoryId });
 
       let sortParams = {};
       if (sort) {
