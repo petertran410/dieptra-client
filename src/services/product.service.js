@@ -132,7 +132,6 @@ export const useQueryProductList = () => {
           break;
       }
 
-      // Setup API params
       const apiParams = {
         pageNumber,
         pageSize: 15,
@@ -140,7 +139,6 @@ export const useQueryProductList = () => {
         ...sortParams
       };
 
-      // Add search keyword
       if (keyword) {
         apiParams.title = keyword;
       }
@@ -175,7 +173,6 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
   return useQuery({
     queryKey,
     queryFn: async () => {
-      // 🔧 SORTING LOGIC (thay thế getSortParams)
       let sortParams = {};
       switch (sortBy) {
         case 'price-low':
@@ -201,15 +198,12 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
         pageSize: 15,
         is_visible: 'true',
         title: keyword,
-        ...sortParams // 🔧 Spread sorting params here
+        ...sortParams
       };
 
-      // 🎯 KEY FIX: Pass categoryIds as comma-separated string
       if (categoryIds && categoryIds.length > 0) {
         apiParams.categoryIds = categoryIds.join(',');
       }
-
-      console.log('📡 API params with categoryIds:', apiParams);
 
       return API.request({
         url: '/api/product/client/get-all',

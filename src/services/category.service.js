@@ -67,30 +67,43 @@ export const useQueryTopLevelCategories = () => {
 };
 
 export const useQueryCategoryPaths = (parentCategoryId) => {
-  const queryKey = ['GET_CATEGORY_PATHS', parentCategoryId];
+  const pid = parentCategoryId != null ? Number(parentCategoryId) : NaN;
 
   return useQuery({
-    queryKey,
+    queryKey: ['GET_CATEGORY_PATHS', pid],
+    enabled: Number.isFinite(pid),
+    staleTime: 10 * 60 * 1000,
+    cacheTime: 15 * 60 * 1000,
     queryFn: async () => {
-      if (!parentCategoryId) return [];
-
       const response = await API.request({
         url: '/api/category/for-cms',
         method: 'GET'
       });
 
-      const allCategories = response?.data || [];
-      console.log(allCategories);
+      const raw = response && response.data;
+      const allCategories = Array.isArray(raw?.data) ? raw.data : Array.isArray(raw) ? raw : [];
 
-      const parentCategory = allCategories.find((cat) => cat.id === parentCategoryId);
-      if (!parentCategory) return [];
+      const seen = new Set();
+      const results = [];
 
-      const relatedCategories = allCategories.filter((cat) => cat.path && cat.path.startsWith(parentCategory.path));
+      const dfs = (id) => {
+        if (seen.has(id)) return;
+        seen.add(id);
+        results.push(id);
 
-      return relatedCategories.map((cat) => cat.id);
-    },
-    enabled: !!parentCategoryId,
-    staleTime: 10 * 60 * 1000
+        for (const cat of allCategories) {
+          if (cat.parent_id != null && Number(cat.parent_id) === id) {
+            dfs(Number(cat.id));
+          }
+        }
+      };
+
+      dfs(pid);
+
+      console.log(dfs(pid));
+      console.log(results);
+      return results;
+    }
   });
 };
 
