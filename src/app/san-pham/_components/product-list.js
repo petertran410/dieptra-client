@@ -53,13 +53,7 @@ const ProductList = () => {
 
   const shouldUseCategoryFilter = effectiveCategoryId && categoryIds.length > 0;
 
-  const {
-    data: allProductsData,
-    isLoading: allProductsLoading,
-    error: allProductsError
-  } = useQueryProductList({
-    enabled: !shouldUseCategoryFilter
-  });
+  const { data: allProductsData, isLoading: allProductsLoading, error: allProductsError } = useQueryProductList();
 
   const {
     data: categoryProductsData,
@@ -78,6 +72,35 @@ const ProductList = () => {
   const products = productsData?.content || [];
   const totalElements = productsData?.totalElements || 0;
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
+
+  console.log('📊 Final products data:', {
+    shouldUseCategoryFilter,
+    productsCount: products.length,
+    totalElements,
+    isLoading,
+    error: error?.message
+  });
+
+  <Text color="gray.600" fontSize="sm">
+    {isLoading
+      ? 'Đang tải...'
+      : `Hiển thị 1-${Math.min(PRODUCTS_PER_PAGE, products.length)} của ${totalElements} kết quả`}
+    {selectedCategory !== 'all' && (
+      <Text as="span" ml={2} fontWeight="500" color="#003366">
+        • {topCategories.find((cat) => cat.id.toString() === selectedCategory)?.name}
+      </Text>
+    )}
+    {subCategoryId && subCategoryId !== selectedCategory && (
+      <Text as="span" ml={2} fontWeight="500" color="#007ACC">
+        • Danh mục con ({subCategoryId})
+      </Text>
+    )}
+    {process.env.NODE_ENV === 'development' && (
+      <Text as="span" ml={2} fontSize="xs" color="gray.400">
+        [Debug: filter={shouldUseCategoryFilter ? 'category' : 'all'}, ids={categoryIds.join(',')}]
+      </Text>
+    )}
+  </Text>;
 
   const updateURL = (newParams = {}) => {
     const params = new URLSearchParams(searchParams);

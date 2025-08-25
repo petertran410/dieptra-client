@@ -186,22 +186,28 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
             break;
           case 'name':
           default:
-            sortParams.orderBy = 'title';
+            sortParams.orderBy = 'kiotviet_name';
             sortParams.isDesc = false;
             break;
         }
 
+        const apiParams = {
+          pageNumber: Number(page) - 1,
+          pageSize: 15,
+          is_visible: 'true',
+          title: keyword,
+          ...sortParams
+        };
+
+        console.log('📡 Main API params:', apiParams);
+
         return API.request({
           url: '/api/product/client/get-all',
-          params: {
-            pageNumber: Number(page) - 1,
-            pageSize: 15,
-            is_visible: 'true',
-            title: keyword,
-            ...sortParams
-          }
+          params: apiParams
         });
       }
+
+      console.log('📡 Fetching from categories:', categoryIds);
 
       const promises = categoryIds.map((categoryId) =>
         API.request({
@@ -216,6 +222,7 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
       );
 
       const responses = await Promise.all(promises);
+      console.log('📦 Category responses:', responses);
 
       const allProducts = [];
       const seenIds = new Set();
@@ -230,33 +237,57 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
         });
       });
 
+      console.log('📊 Merged products count:', allProducts.length);
+
       let filteredProducts = allProducts;
       if (keyword) {
         filteredProducts = allProducts.filter((product) =>
           product.title?.toLowerCase().includes(keyword.toLowerCase())
         );
+        console.log('🔍 After keyword filter:', filteredProducts.length);
       }
 
       switch (sortBy) {
         case 'price-low':
-          filteredProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
+          filteredProducts.sort((a, b) => (a.kiotviet_price || 0) - (b.kiotviet_price || 0));
+          console.log('💰 Sorted price low to high');
           break;
         case 'price-high':
-          filteredProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
+          filteredProducts.sort((a, b) => (b.kiotviet_price || 0) - (a.kiotviet_price || 0));
+          console.log('💰 Sorted price high to low');
           break;
         case 'name':
         default:
-          filteredProducts.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+          filteredProducts.sort((a, b) => (a.kiotviet_name || '').localeCompare(b.kiotviet_name || ''));
+          console.log('🔤 Sorted by name A-Z');
           break;
       }
+
+      console.log(
+        '🏷️ First 5 products after sort:',
+        filteredProducts.slice(0, 5).map((p) => ({
+          title: p.title,
+          price: p.kiotviet_price
+        }))
+      );
 
       const pageNumber = Number(page) - 1;
       const pageSize = 15;
       const startIndex = pageNumber * pageSize;
       const endIndex = startIndex + pageSize;
 
+      const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
+      console.log('📄 Pagination:', {
+        pageNumber,
+        pageSize,
+        startIndex,
+        endIndex,
+        paginatedCount: paginatedProducts.length
+      });
+
       return {
-        content: filteredProducts.slice(startIndex, endIndex),
+        content: paginatedProducts,
         totalElements: filteredProducts.length,
         totalPages: Math.ceil(filteredProducts.length / pageSize),
         number: pageNumber,
