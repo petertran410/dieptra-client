@@ -1,3 +1,4 @@
+// ✅ SỬA LẠI TOÀN BỘ product-list.js
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -35,37 +36,27 @@ const ProductList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
+  // URL params
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const keyword = searchParams.get('keyword') || '';
   const categoryId = searchParams.get('categoryId');
   const sortBy = searchParams.get('sortBy') || 'newest';
 
+  // States
   const [searchTerm, setSearchTerm] = useState(keyword);
   const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
   const [currentSort, setCurrentSort] = useState(sortBy);
 
+  // ✅ Fetch top-level categories cho dropdown
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
-  // const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
-  //   selectedCategory !== 'all' ? parseInt(selectedCategory) : null
-  // );
+  // ✅ Fetch category paths nếu có category được chọn
+  const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
+    selectedCategory !== 'all' ? parseInt(selectedCategory) : null
+  );
 
-  const categoryIdNumber = selectedCategory !== 'all' ? parseInt(selectedCategory) : null;
-  const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(categoryIdNumber);
-  const shouldUseCategoryFilter = selectedCategory !== 'all';
-  const finalCategoryIds = categoryIds.length > 0 ? categoryIds : categoryIdNumber ? [categoryIdNumber] : [];
-
-  console.log('🔍 ProductList Debug:', {
-    categoryId: searchParams.get('categoryId'),
-    selectedCategory,
-    categoryIdNumber,
-    categoryIds,
-    finalCategoryIds,
-    shouldUseCategoryFilter,
-    pathsLoading
-  });
-
-  // const shouldUseCategoryFilter = selectedCategory !== 'all';
+  // ✅ Fetch products - dùng category paths nếu có category được chọn
+  const shouldUseCategoryFilter = selectedCategory !== 'all' && categoryIds.length > 0;
 
   const {
     data: allProductsData,
@@ -79,17 +70,11 @@ const ProductList = () => {
     data: categoryProductsData,
     isLoading: categoryProductsLoading,
     error: categoryProductsError
-  } = useQueryProductsByCategories(finalCategoryIds, {
+  } = useQueryProductsByCategories(categoryIds, {
     enabled: shouldUseCategoryFilter
   });
 
-  console.log('📊 Query Results:', {
-    allProductsData: allProductsData?.content?.length || 0,
-    categoryProductsData: categoryProductsData?.content?.length || 0,
-    isUsingCategoryFilter: shouldUseCategoryFilter,
-    finalDataSource: shouldUseCategoryFilter ? 'category' : 'all'
-  });
-
+  // ✅ Determine which data to use
   const isLoading =
     categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
 
@@ -100,6 +85,7 @@ const ProductList = () => {
   const totalElements = productsData?.totalElements || 0;
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
 
+  // ✅ Update URL when filters change
   const updateURL = (newParams = {}) => {
     const params = new URLSearchParams();
 
@@ -121,33 +107,38 @@ const ProductList = () => {
     router.push(newURL, { scroll: false });
   };
 
+  // ✅ Handle search
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
       updateURL({
         keyword: searchTerm,
-        page: 1
+        page: 1 // Reset to first page when searching
       });
     }
   };
 
+  // ✅ Handle category change
   const handleCategoryChange = (newCategoryId) => {
     setSelectedCategory(newCategoryId);
     updateURL({
       categoryId: newCategoryId === 'all' ? undefined : newCategoryId,
-      page: 1
+      page: 1 // Reset to first page when changing category
     });
   };
 
+  // ✅ Handle sort change
   const handleSortChange = (newSortBy) => {
     setCurrentSort(newSortBy);
     updateURL({
       sortBy: newSortBy,
-      page: 1
+      page: 1 // Reset to first page when changing sort
     });
   };
 
+  // ✅ Handle pagination
   const handlePageChange = (newPage) => {
     updateURL({ page: newPage });
+    // Scroll to top when changing page
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
