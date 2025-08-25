@@ -199,8 +199,6 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
           ...sortParams
         };
 
-        console.log('📡 Main API params:', apiParams);
-
         return API.request({
           url: '/api/product/client/get-all',
           params: apiParams
@@ -237,8 +235,6 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
         });
       });
 
-      console.log('📊 Merged products count:', allProducts.length);
-
       let filteredProducts = allProducts;
       if (keyword) {
         filteredProducts = allProducts.filter((product) =>
@@ -262,14 +258,6 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
           console.log('🔤 Sorted by name A-Z');
           break;
       }
-
-      console.log(
-        '🏷️ First 5 products after sort:',
-        filteredProducts.slice(0, 5).map((p) => ({
-          title: p.title,
-          price: p.kiotviet_price
-        }))
-      );
 
       const pageNumber = Number(page) - 1;
       const pageSize = 15;
@@ -381,17 +369,17 @@ export const FILTER_OPTIONS = [
   {
     label: 'Sắp xếp A-Z',
     value: 'az',
-    objectParams: { orderBy: 'title', isDesc: false }
+    objectParams: { orderBy: 'kiotviet_name', isDesc: false }
   },
   {
     label: 'Giá tăng dần',
     value: 'increase',
-    objectParams: { orderBy: 'price', isDesc: false }
+    objectParams: { orderBy: 'kiotviet_price', isDesc: false }
   },
   {
     label: 'Giá giảm dần',
     value: 'decrease',
-    objectParams: { orderBy: 'price', isDesc: true }
+    objectParams: { orderBy: 'kiotviet_price', isDesc: true }
   }
 ];
 
@@ -430,10 +418,10 @@ export const useQuerySearchProducts = () => {
           sortParams.orderBy = 'title';
           sortParams.isDesc = false;
         } else if (sort === 'increase') {
-          sortParams.orderBy = 'price';
+          sortParams.orderBy = 'kiotviet_price';
           sortParams.isDesc = false;
         } else if (sort === 'decrease') {
-          sortParams.orderBy = 'price';
+          sortParams.orderBy = 'kiotviet_price';
           sortParams.isDesc = true;
         }
       }
