@@ -55,6 +55,16 @@ const ProductList = () => {
   const shouldUseCategoryFilter = selectedCategory !== 'all';
   const finalCategoryIds = categoryIds.length > 0 ? categoryIds : categoryIdNumber ? [categoryIdNumber] : [];
 
+  console.log('🔍 ProductList Debug:', {
+    categoryId: searchParams.get('categoryId'),
+    selectedCategory,
+    categoryIdNumber,
+    categoryIds,
+    finalCategoryIds,
+    shouldUseCategoryFilter,
+    pathsLoading
+  });
+
   // const shouldUseCategoryFilter = selectedCategory !== 'all';
 
   const {
@@ -71,6 +81,13 @@ const ProductList = () => {
     error: categoryProductsError
   } = useQueryProductsByCategories(finalCategoryIds, {
     enabled: shouldUseCategoryFilter
+  });
+
+  console.log('📊 Query Results:', {
+    allProductsData: allProductsData?.content?.length || 0,
+    categoryProductsData: categoryProductsData?.content?.length || 0,
+    isUsingCategoryFilter: shouldUseCategoryFilter,
+    finalDataSource: shouldUseCategoryFilter ? 'category' : 'all'
   });
 
   const isLoading =
