@@ -170,53 +170,57 @@ export const useQueryProductList = () => {
   });
 };
 
-export const useQueryProductsByCategories = (categoryIds = []) => {
+export const useQueryProductsByCategories = (categoryIds = [], options = {}) => {
   const paramsURL = useGetParamsURL();
-  const { page = 1, keyword, sortBy = 'newest' } = paramsURL || {};
+  const { page = 1, keyword, sortBy = 'name' } = paramsURL || {};
 
   const queryKey = ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, page, keyword, sortBy];
 
   return useQuery({
     queryKey,
     queryFn: async () => {
-      console.log('🔍 Fetching products for categoryIds:', categoryIds);
-
-      if (!categoryIds || categoryIds.length === 0) {
-        return API.request({
-          url: '/api/product/client/get-all',
-          params: {
-            pageNumber: Number(page) - 1,
-            pageSize: 15,
-            is_visible: 'true',
-            title: keyword,
-            orderBy: sortBy === 'newest' ? 'created_date' : 'title',
-            isDesc: sortBy === 'newest'
-          }
-        });
+      // 🔧 SORTING LOGIC (thay thế getSortParams)
+      let sortParams = {};
+      switch (sortBy) {
+        case 'price-low':
+        case 'increase':
+          sortParams.orderBy = 'kiotviet_price';
+          sortParams.isDesc = false;
+          break;
+        case 'price-high':
+        case 'decrease':
+          sortParams.orderBy = 'kiotviet_price';
+          sortParams.isDesc = true;
+          break;
+        case 'name':
+        case 'az':
+        default:
+          sortParams.orderBy = 'title';
+          sortParams.isDesc = false;
+          break;
       }
 
-      try {
-        const response = await API.request({
-          url: '/api/product/by-categories',
-          params: {
-            pageNumber: Number(page) - 1,
-            pageSize: 15,
-            categoryIds: categoryIds.join(','),
-            includeHidden: false,
-            title: keyword, // ✅ FIX: Add search
-            orderBy: sortBy === 'newest' ? 'created_date' : 'title',
-            isDesc: sortBy === 'newest'
-          }
-        });
+      const apiParams = {
+        pageNumber: Number(page) - 1,
+        pageSize: 15,
+        is_visible: 'true',
+        title: keyword,
+        ...sortParams // 🔧 Spread sorting params here
+      };
 
-        console.log('📦 API Response:', response);
-        return response;
-      } catch (error) {
-        console.error('❌ API Error:', error);
-        throw error;
+      // 🎯 KEY FIX: Pass categoryIds as comma-separated string
+      if (categoryIds && categoryIds.length > 0) {
+        apiParams.categoryIds = categoryIds.join(',');
       }
+
+      console.log('📡 API params with categoryIds:', apiParams);
+
+      return API.request({
+        url: '/api/product/client/get-all',
+        params: apiParams
+      });
     },
-    enabled: Array.isArray(categoryIds),
+    enabled: Array.isArray(categoryIds) && options.enabled !== false,
     staleTime: 2 * 60 * 1000,
     cacheTime: 5 * 60 * 1000
   });
@@ -308,12 +312,12 @@ export const FILTER_OPTIONS = [
   {
     label: 'Giá tăng dần',
     value: 'increase',
-    objectParams: { orderBy: 'price', isDesc: false }
+    objectParams: { orderBy: 'kiotviet_price', isDesc: false }
   },
   {
     label: 'Giá giảm dần',
     value: 'decrease',
-    objectParams: { orderBy: 'price', isDesc: true }
+    objectParams: { orderBy: 'kiotviet_price', isDesc: true }
   }
 ];
 

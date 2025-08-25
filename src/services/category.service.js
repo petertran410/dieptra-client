@@ -72,7 +72,7 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
   return useQuery({
     queryKey,
     queryFn: async () => {
-      if (!parentCategoryId) return [];
+      if (!parentCategoryId || parentCategoryId === 'all') return [];
 
       const response = await API.request({
         url: '/api/category/for-cms',
@@ -81,14 +81,27 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
 
       const allCategories = response?.data || [];
 
-      const parentCategory = allCategories.find((cat) => cat.id === parentCategoryId);
-      if (!parentCategory) return [];
+      const categoryIds = [];
 
-      const relatedCategories = allCategories.filter((cat) => cat.path && cat.path.startsWith(parentCategory.path));
+      categoryIds.push(parentCategoryId);
 
-      return relatedCategories.map((cat) => cat.id);
+      const addChildrenRecursive = (parentId) => {
+        const children = allCategories.filter(
+          (cat) => cat.parent_id && cat.parent_id.toString() === parentId.toString()
+        );
+
+        children.forEach((child) => {
+          categoryIds.push(child.id);
+          addChildrenRecursive(child.id);
+        });
+      };
+
+      addChildrenRecursive(parentCategoryId);
+
+      console.log('📊 Category hierarchy for', parentCategoryId, ':', categoryIds);
+      return categoryIds;
     },
-    enabled: !!parentCategoryId,
+    enabled: !!parentCategoryId && parentCategoryId !== 'all',
     staleTime: 10 * 60 * 1000
   });
 };
