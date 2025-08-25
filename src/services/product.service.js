@@ -102,7 +102,7 @@ export const useQueryAllCategories = () => {
 
 export const useQueryProductList = () => {
   const paramsURL = useGetParamsURL();
-  const { page = 1, keyword, categoryId, sortBy = 'newest' } = paramsURL || {};
+  const { page = 1, keyword, categoryId, sortBy = 'name' } = paramsURL || {};
 
   const queryKey = ['GET_PRODUCT_LIST_CLIENT', page, keyword, categoryId, sortBy];
 
@@ -111,28 +111,22 @@ export const useQueryProductList = () => {
     queryFn: async () => {
       console.log('🔍 Fetching products with params:', { page, keyword, categoryId, sortBy });
 
-      // Setup pagination
-      const pageNumber = Number(page) - 1; // API expects 0-based pagination
+      const pageNumber = Number(page) - 1;
 
-      // Setup sorting
       let sortParams = {};
       switch (sortBy) {
         case 'price-low':
-          sortParams.orderBy = 'price';
+          sortParams.orderBy = 'kiotviet_price';
           sortParams.isDesc = false;
           break;
         case 'price-high':
-          sortParams.orderBy = 'price';
+          sortParams.orderBy = 'kiotviet_price';
           sortParams.isDesc = true;
           break;
         case 'name':
+        default:
           sortParams.orderBy = 'title';
           sortParams.isDesc = false;
-          break;
-        case 'newest':
-        default:
-          sortParams.orderBy = 'created_date';
-          sortParams.isDesc = true;
           break;
       }
 
@@ -170,9 +164,9 @@ export const useQueryProductList = () => {
   });
 };
 
-export const useQueryProductsByCategories = (categoryIds = []) => {
+export const useQueryProductsByCategories = (categoryIds = [], options = {}) => {
   const paramsURL = useGetParamsURL();
-  const { page = 1, keyword, sortBy = 'newest' } = paramsURL || {};
+  const { page = 1, keyword, sortBy = 'name' } = paramsURL || {};
 
   const queryKey = ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, page, keyword, sortBy];
 
@@ -180,6 +174,23 @@ export const useQueryProductsByCategories = (categoryIds = []) => {
     queryKey,
     queryFn: async () => {
       if (!categoryIds || categoryIds.length === 0) {
+        const sortParams = {};
+        switch (sortBy) {
+          case 'price-low':
+            sortParams.orderBy = 'kiotviet_price';
+            sortParams.isDesc = false;
+            break;
+          case 'price-high':
+            sortParams.orderBy = 'kiotviet_price';
+            sortParams.isDesc = true;
+            break;
+          case 'name':
+          default:
+            sortParams.orderBy = 'title';
+            sortParams.isDesc = false;
+            break;
+        }
+
         return API.request({
           url: '/api/product/client/get-all',
           params: {
@@ -187,8 +198,7 @@ export const useQueryProductsByCategories = (categoryIds = []) => {
             pageSize: 15,
             is_visible: 'true',
             title: keyword,
-            orderBy: sortBy === 'newest' ? 'created_date' : 'title',
-            isDesc: sortBy === 'newest'
+            ...sortParams
           }
         });
       }
@@ -235,11 +245,8 @@ export const useQueryProductsByCategories = (categoryIds = []) => {
           filteredProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
           break;
         case 'name':
-          filteredProducts.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
-          break;
-        case 'newest':
         default:
-          filteredProducts.sort((a, b) => b.id - a.id);
+          filteredProducts.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
           break;
       }
 
@@ -256,7 +263,7 @@ export const useQueryProductsByCategories = (categoryIds = []) => {
         size: pageSize
       };
     },
-    enabled: Array.isArray(categoryIds),
+    enabled: Array.isArray(categoryIds) && options.enabled !== false,
     staleTime: 2 * 60 * 1000,
     cacheTime: 5 * 60 * 1000
   });

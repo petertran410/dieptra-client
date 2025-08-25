@@ -26,6 +26,7 @@ import Head from 'next/head';
 import { PX_ALL } from '../../../utils/const';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import ProductItem from '../../../components/product-item/product-item';
+import CategorySidebar from './category-sidebar';
 import { useQueryProductList, useQueryProductsByCategories } from '../../../services/product.service';
 import { useQueryTopLevelCategories, useQueryCategoryPaths } from '../../../services/category.service';
 
@@ -38,7 +39,8 @@ const ProductList = () => {
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const keyword = searchParams.get('keyword') || '';
   const categoryId = searchParams.get('categoryId');
-  const sortBy = searchParams.get('sortBy') || 'newest';
+  const subCategoryId = searchParams.get('subCategoryId');
+  const sortBy = searchParams.get('sortBy') || 'name';
 
   const [searchTerm, setSearchTerm] = useState(keyword);
   const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
@@ -46,11 +48,10 @@ const ProductList = () => {
 
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
-  const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
-    selectedCategory !== 'all' ? parseInt(selectedCategory) : null
-  );
+  const effectiveCategoryId = subCategoryId || (selectedCategory !== 'all' ? selectedCategory : null);
+  const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(effectiveCategoryId);
 
-  const shouldUseCategoryFilter = selectedCategory !== 'all' && categoryIds.length > 0;
+  const shouldUseCategoryFilter = effectiveCategoryId && categoryIds.length > 0;
 
   const {
     data: allProductsData,
@@ -64,7 +65,7 @@ const ProductList = () => {
     data: categoryProductsData,
     isLoading: categoryProductsLoading,
     error: categoryProductsError
-  } = useQueryProductsByCategories(categoryIds, {
+  } = useQueryProductsByCategories(shouldUseCategoryFilter ? categoryIds : [], {
     enabled: shouldUseCategoryFilter
   });
 
@@ -79,12 +80,13 @@ const ProductList = () => {
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
 
   const updateURL = (newParams = {}) => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams);
 
     const finalParams = {
       page: currentPage,
       keyword: searchTerm,
       categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
+      subCategoryId: subCategoryId,
       sortBy: currentSort,
       ...newParams
     };
@@ -92,6 +94,8 @@ const ProductList = () => {
     Object.entries(finalParams).forEach(([key, value]) => {
       if (value && value !== 'all' && value !== '') {
         params.set(key, value.toString());
+      } else {
+        params.delete(key);
       }
     });
 
@@ -112,6 +116,7 @@ const ProductList = () => {
     setSelectedCategory(newCategoryId);
     updateURL({
       categoryId: newCategoryId === 'all' ? undefined : newCategoryId,
+      subCategoryId: undefined,
       page: 1
     });
   };
@@ -129,13 +134,19 @@ const ProductList = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const handleSubCategorySelect = (newSubCategoryId) => {
+    updateURL({
+      subCategoryId: newSubCategoryId === selectedCategory ? undefined : newSubCategoryId,
+      page: 1
+    });
+  };
+
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },
     { title: 'Sản Phẩm', href: '/san-pham', isActive: true }
   ];
 
   const sortOptions = [
-    { value: 'newest', label: 'Mới nhất' },
     { value: 'name', label: 'Tên A-Z' },
     { value: 'price-low', label: 'Giá thấp → cao' },
     { value: 'price-high', label: 'Giá cao → thấp' }
@@ -232,152 +243,164 @@ const ProductList = () => {
                 • {topCategories.find((cat) => cat.id.toString() === selectedCategory)?.name}
               </Text>
             )}
+            {subCategoryId && subCategoryId !== selectedCategory && (
+              <Text as="span" ml={2} fontWeight="500" color="#007ACC">
+                • Danh mục con được chọn
+              </Text>
+            )}
           </Text>
         </VStack>
 
-        {isLoading && (
-          <Center py={20}>
-            <VStack>
-              <Spinner size="xl" color="#003366" />
-              <Text color="gray.600">Đang tải sản phẩm...</Text>
-            </VStack>
-          </Center>
-        )}
+        <Flex gap={6} align="start">
+          <CategorySidebar selectedCategory={selectedCategory} onSubCategorySelect={handleSubCategorySelect} />
 
-        {error && (
-          <Center py={20}>
-            <VStack>
-              <Text color="red.500" fontSize="lg" fontWeight="500">
-                Có lỗi xảy ra khi tải sản phẩm
-              </Text>
-              <Text color="gray.600">{error.message || 'Vui lòng thử lại sau'}</Text>
-              <Button
-                onClick={() => window.location.reload()}
-                colorScheme="blue"
-                bg="#003366"
-                _hover={{ bg: '#002244' }}
-                mt={4}
-              >
-                Tải lại
-              </Button>
-            </VStack>
-          </Center>
-        )}
-
-        {!isLoading && !error && (
-          <>
-            {products.length > 0 ? (
-              <Grid
-                templateColumns={{
-                  base: 'repeat(1, 1fr)',
-                  sm: 'repeat(2, 1fr)',
-                  md: 'repeat(3, 1fr)',
-                  lg: 'repeat(4, 1fr)',
-                  xl: 'repeat(5, 1fr)'
-                }}
-                gap={6}
-                mb={10}
-              >
-                {products.map((product) => (
-                  <GridItem key={product.id}>
-                    <ProductItem item={product} />
-                  </GridItem>
-                ))}
-              </Grid>
-            ) : (
+          <Box flex={1}>
+            {isLoading && (
               <Center py={20}>
-                <VStack spacing={4}>
-                  <Text fontSize="xl" fontWeight="500" color="gray.600">
-                    Không tìm thấy sản phẩm nào
+                <VStack>
+                  <Spinner size="xl" color="#003366" />
+                  <Text color="gray.600">Đang tải sản phẩm...</Text>
+                </VStack>
+              </Center>
+            )}
+
+            {error && (
+              <Center py={20}>
+                <VStack>
+                  <Text color="red.500" fontSize="lg" fontWeight="500">
+                    Có lỗi xảy ra khi tải sản phẩm
                   </Text>
-                  <Text color="gray.500">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</Text>
+                  <Text color="gray.600">{error.message || 'Vui lòng thử lại sau'}</Text>
                   <Button
-                    onClick={() => {
-                      setSearchTerm('');
-                      setSelectedCategory('all');
-                      updateURL({
-                        keyword: undefined,
-                        categoryId: undefined,
-                        page: 1
-                      });
-                    }}
-                    variant="outline"
+                    onClick={() => window.location.reload()}
                     colorScheme="blue"
-                    borderColor="#003366"
-                    color="#003366"
-                    _hover={{ bg: '#003366', color: 'white' }}
+                    bg="#003366"
+                    _hover={{ bg: '#002244' }}
+                    mt={4}
                   >
-                    Xóa bộ lọc
+                    Tải lại
                   </Button>
                 </VStack>
               </Center>
             )}
 
-            {totalPages > 1 && (
-              <Flex justify="center" align="center" mt={10} mb={10}>
-                <HStack spacing={2}>
-                  <Button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage <= 1}
-                    variant="outline"
-                    size="sm"
-                    borderColor="#003366"
-                    color="#003366"
-                    _hover={{ bg: '#003366', color: 'white' }}
-                    _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+            {!isLoading && !error && (
+              <>
+                {products.length > 0 ? (
+                  <Grid
+                    templateColumns={{
+                      base: 'repeat(1, 1fr)',
+                      sm: 'repeat(2, 1fr)',
+                      md: 'repeat(3, 1fr)',
+                      lg: 'repeat(4, 1fr)',
+                      xl: 'repeat(5, 1fr)'
+                    }}
+                    gap={6}
+                    mb={10}
                   >
-                    ‹ Trước
-                  </Button>
-
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    let pageNum;
-                    if (totalPages <= 5) {
-                      pageNum = i + 1;
-                    } else if (currentPage <= 3) {
-                      pageNum = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      pageNum = totalPages - 4 + i;
-                    } else {
-                      pageNum = currentPage - 2 + i;
-                    }
-
-                    return (
+                    {products.map((product) => (
+                      <GridItem key={product.id}>
+                        <ProductItem item={product} />
+                      </GridItem>
+                    ))}
+                  </Grid>
+                ) : (
+                  <Center py={20}>
+                    <VStack spacing={4}>
+                      <Text fontSize="xl" fontWeight="500" color="gray.600">
+                        Không tìm thấy sản phẩm nào
+                      </Text>
+                      <Text color="gray.500">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</Text>
                       <Button
-                        key={pageNum}
-                        onClick={() => handlePageChange(pageNum)}
-                        variant={currentPage === pageNum ? 'solid' : 'outline'}
-                        size="sm"
-                        colorScheme="blue"
-                        bg={currentPage === pageNum ? '#003366' : 'white'}
-                        borderColor="#003366"
-                        color={currentPage === pageNum ? 'white' : '#003366'}
-                        _hover={{
-                          bg: currentPage === pageNum ? '#002244' : '#003366',
-                          color: 'white'
+                        onClick={() => {
+                          setSearchTerm('');
+                          setSelectedCategory('all');
+                          updateURL({
+                            keyword: undefined,
+                            categoryId: undefined,
+                            subCategoryId: undefined,
+                            page: 1
+                          });
                         }}
+                        variant="outline"
+                        colorScheme="blue"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
                       >
-                        {pageNum}
+                        Xóa bộ lọc
                       </Button>
-                    );
-                  })}
+                    </VStack>
+                  </Center>
+                )}
 
-                  <Button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage >= totalPages}
-                    variant="outline"
-                    size="sm"
-                    borderColor="#003366"
-                    color="#003366"
-                    _hover={{ bg: '#003366', color: 'white' }}
-                    _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
-                  >
-                    Sau ›
-                  </Button>
-                </HStack>
-              </Flex>
+                {totalPages > 1 && (
+                  <Flex justify="center" align="center" mt={10} mb={10}>
+                    <HStack spacing={2}>
+                      <Button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage <= 1}
+                        variant="outline"
+                        size="sm"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
+                        _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+                      >
+                        ‹ Trước
+                      </Button>
+
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        let pageNum;
+                        if (totalPages <= 5) {
+                          pageNum = i + 1;
+                        } else if (currentPage <= 3) {
+                          pageNum = i + 1;
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i;
+                        } else {
+                          pageNum = currentPage - 2 + i;
+                        }
+
+                        return (
+                          <Button
+                            key={pageNum}
+                            onClick={() => handlePageChange(pageNum)}
+                            variant={currentPage === pageNum ? 'solid' : 'outline'}
+                            size="sm"
+                            colorScheme="blue"
+                            bg={currentPage === pageNum ? '#003366' : 'white'}
+                            borderColor="#003366"
+                            color={currentPage === pageNum ? 'white' : '#003366'}
+                            _hover={{
+                              bg: currentPage === pageNum ? '#002244' : '#003366',
+                              color: 'white'
+                            }}
+                          >
+                            {pageNum}
+                          </Button>
+                        );
+                      })}
+
+                      <Button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage >= totalPages}
+                        variant="outline"
+                        size="sm"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
+                        _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+                      >
+                        Sau ›
+                      </Button>
+                    </HStack>
+                  </Flex>
+                )}
+              </>
             )}
-          </>
-        )}
+          </Box>
+        </Flex>
       </Container>
     </>
   );

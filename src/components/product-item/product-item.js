@@ -6,8 +6,7 @@ import { AspectRatio, Box, Flex, Image, Text, Tag } from '@chakra-ui/react';
 import Link from 'next/link';
 
 const ProductItem = ({ item }) => {
-  const { id, title, kiotviet_name, kiotviet_price, imagesUrl, generate_description, ofCategories, kiotviet_images } =
-    item || {};
+  const { id, title, kiotviet_name, kiotviet_price, ofCategories, kiotviet_images } = item || {};
 
   const productSlug = `${convertSlugURL(title)}.${id}`;
 
@@ -111,7 +110,7 @@ const ProductItem = ({ item }) => {
             {showName}
           </Text>
 
-          {generate_description && (
+          {/* {generate_description && (
             <Text
               fontSize="11px"
               color="gray.600"
@@ -125,7 +124,7 @@ const ProductItem = ({ item }) => {
             >
               {generate_description}
             </Text>
-          )}
+          )} */}
           <Flex justify="center" align="center" mt="6px">
             {!kiotviet_price || kiotviet_price === 0 ? (
               <Tag colorScheme="blue" size="sm" fontWeight="600">

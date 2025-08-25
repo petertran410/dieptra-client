@@ -58,7 +58,8 @@ export const useQueryTopLevelCategories = () => {
           id: cat.id,
           name: cat.name,
           displayName: cat.displayName || cat.name,
-          path: cat.path
+          path: cat.path,
+          productCount: cat.productCount || 0
         }));
     },
     staleTime: 10 * 60 * 1000,
@@ -72,7 +73,7 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
   return useQuery({
     queryKey,
     queryFn: async () => {
-      if (!parentCategoryId) return [];
+      if (!parentCategoryId || parentCategoryId === 'all') return [];
 
       const response = await API.request({
         url: '/api/category/for-cms',
@@ -81,14 +82,67 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
 
       const allCategories = response?.data || [];
 
-      const parentCategory = allCategories.find((cat) => cat.id === parentCategoryId);
+      const parentCategory = allCategories.find((cat) => cat.id.toString() === parentCategoryId.toString());
       if (!parentCategory) return [];
 
-      const relatedCategories = allCategories.filter((cat) => cat.path && cat.path.startsWith(parentCategory.path));
+      const relatedCategories = allCategories.filter(
+        (cat) => cat.path && parentCategory.path && cat.path.startsWith(parentCategory.path)
+      );
 
       return relatedCategories.map((cat) => cat.id);
     },
-    enabled: !!parentCategoryId,
+    enabled: !!parentCategoryId && parentCategoryId !== 'all',
     staleTime: 10 * 60 * 1000
+  });
+};
+
+export const useQueryCategoryHierarchy = (parentCategoryId) => {
+  const queryKey = ['GET_CATEGORY_HIERARCHY', parentCategoryId];
+
+  return useQuery({
+    queryKey,
+    queryFn: async () => {
+      if (!parentCategoryId || parentCategoryId === 'all') return [];
+
+      const response = await API.request({
+        url: '/api/category/for-cms',
+        method: 'GET'
+      });
+
+      const allCategories = response?.data || [];
+
+      const parentCategory = allCategories.find((cat) => cat.id.toString() === parentCategoryId.toString());
+      if (!parentCategory) return [];
+
+      const getChildrenRecursive = (parentId, level = 1) => {
+        const children = allCategories.filter(
+          (cat) => cat.parent_id && cat.parent_id.toString() === parentId.toString()
+        );
+
+        return children.map((child) => ({
+          id: child.id,
+          name: child.name,
+          level: level,
+          parent_id: child.parent_id,
+          productCount: child.productCount || 0,
+          hasChildren: allCategories.some((cat) => cat.parent_id === child.id),
+          children: getChildrenRecursive(child.id, level + 1)
+        }));
+      };
+
+      const hierarchy = {
+        id: parentCategory.id,
+        name: parentCategory.name,
+        level: 0,
+        parent_id: parentCategory.parent_id,
+        productCount: parentCategory.productCount || 0,
+        children: getChildrenRecursive(parentCategory.id)
+      };
+
+      return hierarchy;
+    },
+    enabled: !!parentCategoryId && parentCategoryId !== 'all',
+    staleTime: 10 * 60 * 1000,
+    cacheTime: 15 * 60 * 1000
   });
 };
