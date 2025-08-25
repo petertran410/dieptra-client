@@ -50,26 +50,18 @@ const ProductList = () => {
     selectedCategory !== 'all' ? parseInt(selectedCategory) : null
   );
 
-  const shouldUseCategoryFilter = selectedCategory !== 'all' && categoryIds.length > 0;
+  const shouldUseCategoryFilter = selectedCategory !== 'all';
 
-  const {
-    data: allProductsData,
-    isLoading: allProductsLoading,
-    error: allProductsError
-  } = useQueryProductList({
-    enabled: !shouldUseCategoryFilter
-  });
+  const { data: allProductsData, isLoading: allProductsLoading, error: allProductsError } = useQueryProductList();
 
   const {
     data: categoryProductsData,
     isLoading: categoryProductsLoading,
     error: categoryProductsError
-  } = useQueryProductsByCategories(categoryIds, {
-    enabled: shouldUseCategoryFilter
-  });
+  } = useQueryProductsByCategories(categoryIds);
 
   const isLoading =
-    categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
+    categoriesLoading || (shouldUseCategoryFilter ? pathsLoading || categoryProductsLoading : allProductsLoading);
 
   const error = allProductsError || categoryProductsError;
 

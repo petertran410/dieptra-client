@@ -179,6 +179,8 @@ export const useQueryProductsByCategories = (categoryIds = []) => {
   return useQuery({
     queryKey,
     queryFn: async () => {
+      console.log('🔍 Fetching products for categoryIds:', categoryIds);
+
       if (!categoryIds || categoryIds.length === 0) {
         return API.request({
           url: '/api/product/client/get-all',
@@ -193,68 +195,26 @@ export const useQueryProductsByCategories = (categoryIds = []) => {
         });
       }
 
-      const promises = categoryIds.map((categoryId) =>
-        API.request({
+      try {
+        const response = await API.request({
           url: '/api/product/by-categories',
           params: {
-            pageNumber: 0,
-            pageSize: 100,
-            categoryId: categoryId.toString(),
-            includeHidden: false
-          }
-        })
-      );
-
-      const responses = await Promise.all(promises);
-
-      const allProducts = [];
-      const seenIds = new Set();
-
-      responses.forEach((response) => {
-        const products = response?.content || [];
-        products.forEach((product) => {
-          if (!seenIds.has(product.id)) {
-            seenIds.add(product.id);
-            allProducts.push(product);
+            pageNumber: Number(page) - 1,
+            pageSize: 15,
+            categoryIds: categoryIds.join(','),
+            includeHidden: false,
+            title: keyword, // ✅ FIX: Add search
+            orderBy: sortBy === 'newest' ? 'created_date' : 'title',
+            isDesc: sortBy === 'newest'
           }
         });
-      });
 
-      let filteredProducts = allProducts;
-      if (keyword) {
-        filteredProducts = allProducts.filter((product) =>
-          product.title?.toLowerCase().includes(keyword.toLowerCase())
-        );
+        console.log('📦 API Response:', response);
+        return response;
+      } catch (error) {
+        console.error('❌ API Error:', error);
+        throw error;
       }
-
-      switch (sortBy) {
-        case 'price-low':
-          filteredProducts.sort((a, b) => (a.kiotviet_price || 0) - (b.price || 0));
-          break;
-        case 'price-high':
-          filteredProducts.sort((a, b) => (b.kiotviet_price || 0) - (a.price || 0));
-          break;
-        case 'name':
-          filteredProducts.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
-          break;
-        case 'newest':
-        default:
-          filteredProducts.sort((a, b) => b.id - a.id);
-          break;
-      }
-
-      const pageNumber = Number(page) - 1;
-      const pageSize = 15;
-      const startIndex = pageNumber * pageSize;
-      const endIndex = startIndex + pageSize;
-
-      return {
-        content: filteredProducts.slice(startIndex, endIndex),
-        totalElements: filteredProducts.length,
-        totalPages: Math.ceil(filteredProducts.length / pageSize),
-        number: pageNumber,
-        size: pageSize
-      };
     },
     enabled: Array.isArray(categoryIds),
     staleTime: 2 * 60 * 1000,
