@@ -109,8 +109,6 @@ export const useQueryProductList = () => {
   return useQuery({
     queryKey,
     queryFn: async () => {
-      console.log('🔍 Fetching products with params:', { page, keyword, categoryId, sortBy });
-
       const pageNumber = Number(page) - 1;
 
       let sortParams = {};
@@ -154,8 +152,6 @@ export const useQueryProductList = () => {
           apiParams.categoryId = categoryId;
         }
       }
-
-      console.log('📡 Final API params:', apiParams);
 
       const response = await API.request({
         url: '/api/product/client/get-all',

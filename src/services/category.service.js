@@ -80,6 +80,7 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
       });
 
       const allCategories = response?.data || [];
+      console.log(allCategories);
 
       const parentCategory = allCategories.find((cat) => cat.id === parentCategoryId);
       if (!parentCategory) return [];
