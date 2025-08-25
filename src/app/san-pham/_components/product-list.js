@@ -50,18 +50,27 @@ const ProductList = () => {
     selectedCategory !== 'all' ? parseInt(selectedCategory) : null
   );
 
-  const shouldUseCategoryFilter = selectedCategory !== 'all';
+  const shouldUseCategoryFilter = selectedCategory !== 'all' && categoryIds.length > 0;
 
-  const { data: allProductsData, isLoading: allProductsLoading, error: allProductsError } = useQueryProductList();
+  const {
+    data: allProductsData,
+    isLoading: allProductsLoading,
+    error: allProductsError
+  } = useQueryProductList({
+    enabled: !shouldUseCategoryFilter
+  });
 
   const {
     data: categoryProductsData,
     isLoading: categoryProductsLoading,
     error: categoryProductsError
-  } = useQueryProductsByCategories(categoryIds);
+  } = useQueryProductsByCategories(categoryIds, {
+    enabled: shouldUseCategoryFilter
+  });
 
+  // ✅ Determine which data to use
   const isLoading =
-    categoriesLoading || (shouldUseCategoryFilter ? pathsLoading || categoryProductsLoading : allProductsLoading);
+    categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
 
   const error = allProductsError || categoryProductsError;
 
