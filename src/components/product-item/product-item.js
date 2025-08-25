@@ -6,18 +6,19 @@ import { AspectRatio, Box, Flex, Image, Text, Tag } from '@chakra-ui/react';
 import Link from 'next/link';
 
 const ProductItem = ({ item }) => {
-  const { id, title, price, imagesUrl, generalDescription, ofCategories } = item || {};
+  const { id, title, kiotviet_name, kiotviet_price, imagesUrl, generate_description, ofCategories, kiotviet_images } =
+    item || {};
 
-  // Create product URL slug
   const productSlug = `${convertSlugURL(title)}.${id}`;
 
-  // Get category name for display (simple version)
   const getCategoryName = () => {
     if (!Array.isArray(ofCategories) || ofCategories.length === 0) {
       return 'SẢN PHẨM';
     }
     return ofCategories[0]?.name?.toUpperCase() || 'SẢN PHẨM';
   };
+
+  const showName = title ? title : kiotviet_name;
 
   const getCategoryColor = () => {
     const categoryName = getCategoryName();
@@ -31,9 +32,9 @@ const ProductItem = ({ item }) => {
 
   return (
     <Box
-      w="100%" // ← Change from maxW="280px" to full width
-      maxW="320px" // ← Set a reasonable max width
-      mx="auto" // ← Center the item
+      w="100%"
+      maxW="320px"
+      mx="auto"
       borderRadius={16}
       bgColor="#FFF"
       overflow="hidden"
@@ -47,7 +48,6 @@ const ProductItem = ({ item }) => {
       position="relative"
     >
       <Link href={`/san-pham/${productSlug}`}>
-        {/* Category Label */}
         <Box
           position="absolute"
           top="8px"
@@ -66,7 +66,6 @@ const ProductItem = ({ item }) => {
           {getCategoryName()}
         </Box>
 
-        {/* Product Image - Fixed sizing */}
         <AspectRatio ratio={1 / 1} w="full">
           <Box
             w="full"
@@ -79,13 +78,13 @@ const ProductItem = ({ item }) => {
           >
             <Image
               src={
-                Array.isArray(imagesUrl) && imagesUrl.length > 0
-                  ? imagesUrl[0]?.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
+                Array.isArray(kiotviet_images) && kiotviet_images.length > 0
+                  ? kiotviet_images[0]?.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
                   : '/images/tra-phuong-hoang.webp'
               }
               alt={title || IMG_ALT}
-              maxW="90%" // ← Constrain image size
-              maxH="90%" // ← Constrain image size
+              maxW="full"
+              maxH="full"
               objectFit="contain"
               loading="lazy"
               onError={(e) => {
@@ -95,9 +94,7 @@ const ProductItem = ({ item }) => {
           </Box>
         </AspectRatio>
 
-        {/* Product Details */}
         <Flex direction="column" p="12px" gap="6px">
-          {/* Product Title */}
           <Text
             fontSize="13px"
             fontWeight={600}
@@ -111,11 +108,10 @@ const ProductItem = ({ item }) => {
               overflow: 'hidden'
             }}
           >
-            {title}
+            {showName}
           </Text>
 
-          {/* General Description */}
-          {generalDescription && (
+          {generate_description && (
             <Text
               fontSize="11px"
               color="gray.600"
@@ -127,24 +123,20 @@ const ProductItem = ({ item }) => {
                 overflow: 'hidden'
               }}
             >
-              {generalDescription}
+              {generate_description}
             </Text>
           )}
-
-          {/* Price */}
           <Flex justify="center" align="center" mt="6px">
-            {!price || price === 0 ? (
+            {!kiotviet_price || kiotviet_price === 0 ? (
               <Tag colorScheme="blue" size="sm" fontWeight="600">
                 Liên hệ
               </Tag>
             ) : (
               <Text color="#1E96BC" fontSize="14px" fontWeight={700}>
-                {formatCurrency(price)}
+                {formatCurrency(kiotviet_price)}
               </Text>
             )}
           </Flex>
-
-          {/* Buy Button */}
           <Flex
             mt="6px"
             bgColor="#065FD4"

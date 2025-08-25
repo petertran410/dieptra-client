@@ -15,7 +15,6 @@ export const useQueryCategoryList = () => {
         params: { pageNumber, title: keyword }
       });
 
-      // FIXED: Return only the content array, not the full response object
       return response?.content || [];
     }
   });
@@ -32,9 +31,64 @@ export const useQueryCategoryListByParent = (parentId) => {
         params: { pageNumber: 0, parentId, pageSize: 100 }
       });
 
-      // FIXED: Return only the content array, not the full response object
       return response?.content || [];
     },
     enabled: typeof parentId !== 'undefined' && !!`${parentId}`.length
+  });
+};
+
+export const useQueryTopLevelCategories = () => {
+  const queryKey = ['GET_TOP_LEVEL_CATEGORIES_FOR_DROPDOWN'];
+
+  return useQuery({
+    queryKey,
+    queryFn: async () => {
+      const response = await API.request({
+        url: '/api/category/for-cms',
+        method: 'GET'
+      });
+
+      const allCategories = response?.data || [];
+
+      const topLevelCategories = allCategories.filter((cat) => !cat.parent_id);
+
+      return topLevelCategories
+        .sort((a, b) => (a.priority || 0) - (b.priority || 0) || a.name.localeCompare(b.name))
+        .map((cat) => ({
+          id: cat.id,
+          name: cat.name,
+          displayName: cat.displayName || cat.name,
+          path: cat.path
+        }));
+    },
+    staleTime: 10 * 60 * 1000,
+    cacheTime: 15 * 60 * 1000
+  });
+};
+
+export const useQueryCategoryPaths = (parentCategoryId) => {
+  const queryKey = ['GET_CATEGORY_PATHS', parentCategoryId];
+
+  return useQuery({
+    queryKey,
+    queryFn: async () => {
+      if (!parentCategoryId) return [];
+
+      const response = await API.request({
+        url: '/api/category/for-cms',
+        method: 'GET'
+      });
+
+      const allCategories = response?.data || [];
+
+      const parentCategory = allCategories.find((cat) => cat.id === parentCategoryId);
+      if (!parentCategory) return [];
+
+      const relatedCategories = allCategories.filter((cat) => cat.path && cat.path.startsWith(parentCategory.path));
+
+      return relatedCategories.map((cat) => cat.id);
+    },
+    enabled: !!parentCategoryId,
+    staleTime: 10 * 60 * 1000
   });
 };

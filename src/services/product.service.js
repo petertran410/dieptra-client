@@ -101,32 +101,44 @@ export const useQueryAllCategories = () => {
 };
 
 export const useQueryProductList = () => {
-  const params = useGetParamsURL();
-  const { page: pageNumber = 1, keyword, sort, categoryId } = params;
-  const queryKey = ['GET_PRODUCT_LIST_CLIENT', pageNumber, keyword, sort, categoryId];
+  const paramsURL = useGetParamsURL();
+  const { page = 1, keyword, categoryId, sortBy = 'newest' } = paramsURL || {};
+
+  const queryKey = ['GET_PRODUCT_LIST_CLIENT', page, keyword, categoryId, sortBy];
 
   return useQuery({
     queryKey,
-    queryFn: () => {
-      console.log('API Call Params:', { pageNumber, keyword, sort, categoryId });
+    queryFn: async () => {
+      console.log('🔍 Fetching products with params:', { page, keyword, categoryId, sortBy });
 
+      // Setup pagination
+      const pageNumber = Number(page) - 1; // API expects 0-based pagination
+
+      // Setup sorting
       let sortParams = {};
-      if (sort) {
-        if (sort === 'az') {
-          sortParams.orderBy = 'title';
-          sortParams.isDesc = false;
-        } else if (sort === 'increase') {
+      switch (sortBy) {
+        case 'price-low':
           sortParams.orderBy = 'price';
           sortParams.isDesc = false;
-        } else if (sort === 'decrease') {
+          break;
+        case 'price-high':
           sortParams.orderBy = 'price';
           sortParams.isDesc = true;
-        }
+          break;
+        case 'name':
+          sortParams.orderBy = 'title';
+          sortParams.isDesc = false;
+          break;
+        case 'newest':
+        default:
+          sortParams.orderBy = 'created_date';
+          sortParams.isDesc = true;
+          break;
       }
 
       const apiParams = {
-        pageNumber: pageNumber - 1,
-        pageSize: 15, // 15 products per page (3x5)
+        pageNumber,
+        pageSize: 15,
         is_visible: 'true',
         ...sortParams
       };
@@ -135,55 +147,118 @@ export const useQueryProductList = () => {
         apiParams.title = keyword;
       }
 
-      // Fix category filtering
       if (categoryId && categoryId !== 'all') {
-        if (categoryId === '2297031') {
-          // Trà Phượng Hoàng specific category
-          apiParams.kiotVietCategoryId = '2297031';
-        } else if (categoryId === 'other') {
-          // Handle "Sản Phẩm Khác" - you might need different logic here
-          apiParams.kiotVietCategoryId = 'other';
-        } else if (categoryId === 'new') {
-          // Handle "Hàng Mới Về" - you might need different logic here
-          apiParams.orderBy = 'createdDate';
-          apiParams.isDesc = true;
+        if (Array.isArray(categoryId)) {
+          apiParams.categoryIds = categoryId.join(',');
         } else {
-          // Regular category ID
-          apiParams.kiotVietCategoryId = categoryId;
+          apiParams.categoryId = categoryId;
         }
       }
 
-      console.log('Final API Params:', apiParams); // Debug log
+      console.log('📡 Final API params:', apiParams);
 
-      return API.request({
+      const response = await API.request({
         url: '/api/product/client/get-all',
         params: apiParams
       });
+
+      console.log('📦 API Response:', response);
+      return response;
     },
-    staleTime: 2 * 60 * 1000, // Reduced cache time for testing
+    staleTime: 2 * 60 * 1000,
     cacheTime: 5 * 60 * 1000
   });
 };
 
-export const useQueryProductListByCategory = (params) => {
-  const { categoryId, isFeatured } = params;
-  const queryKey = ['GET_PRODUCT_LIST_CLIENT_BY_CATEGORY', categoryId, isFeatured];
+export const useQueryProductsByCategories = (categoryIds = []) => {
+  const paramsURL = useGetParamsURL();
+  const { page = 1, keyword, sortBy = 'newest' } = paramsURL || {};
+
+  const queryKey = ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, page, keyword, sortBy];
 
   return useQuery({
     queryKey,
-    queryFn: () => {
-      return API.request({
-        url: '/api/product/by-categories',
-        params: {
-          pageNumber: 0,
-          pageSize: 20,
-          categoryId: categoryId ? categoryId.toString() : undefined,
-          includeHidden: false
-        }
+    queryFn: async () => {
+      if (!categoryIds || categoryIds.length === 0) {
+        return API.request({
+          url: '/api/product/client/get-all',
+          params: {
+            pageNumber: Number(page) - 1,
+            pageSize: 15,
+            is_visible: 'true',
+            title: keyword,
+            orderBy: sortBy === 'newest' ? 'created_date' : 'title',
+            isDesc: sortBy === 'newest'
+          }
+        });
+      }
+
+      const promises = categoryIds.map((categoryId) =>
+        API.request({
+          url: '/api/product/by-categories',
+          params: {
+            pageNumber: 0,
+            pageSize: 100,
+            categoryId: categoryId.toString(),
+            includeHidden: false
+          }
+        })
+      );
+
+      const responses = await Promise.all(promises);
+
+      const allProducts = [];
+      const seenIds = new Set();
+
+      responses.forEach((response) => {
+        const products = response?.content || [];
+        products.forEach((product) => {
+          if (!seenIds.has(product.id)) {
+            seenIds.add(product.id);
+            allProducts.push(product);
+          }
+        });
       });
+
+      let filteredProducts = allProducts;
+      if (keyword) {
+        filteredProducts = allProducts.filter((product) =>
+          product.title?.toLowerCase().includes(keyword.toLowerCase())
+        );
+      }
+
+      switch (sortBy) {
+        case 'price-low':
+          filteredProducts.sort((a, b) => (a.price || 0) - (b.price || 0));
+          break;
+        case 'price-high':
+          filteredProducts.sort((a, b) => (b.price || 0) - (a.price || 0));
+          break;
+        case 'name':
+          filteredProducts.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+          break;
+        case 'newest':
+        default:
+          filteredProducts.sort((a, b) => b.id - a.id);
+          break;
+      }
+
+      const pageNumber = Number(page) - 1;
+      const pageSize = 15;
+      const startIndex = pageNumber * pageSize;
+      const endIndex = startIndex + pageSize;
+
+      return {
+        content: filteredProducts.slice(startIndex, endIndex),
+        totalElements: filteredProducts.length,
+        totalPages: Math.ceil(filteredProducts.length / pageSize),
+        number: pageNumber,
+        size: pageSize
+      };
     },
-    enabled: !!categoryId,
-    staleTime: 5 * 60 * 1000
+    enabled: Array.isArray(categoryIds),
+    staleTime: 2 * 60 * 1000,
+    cacheTime: 5 * 60 * 1000
   });
 };
 
