@@ -73,36 +73,33 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
     queryKey: ['GET_CATEGORY_PATHS', pid],
     enabled: Number.isFinite(pid),
     staleTime: 10 * 60 * 1000,
-    cacheTime: 15 * 60 * 1000,
     queryFn: async () => {
       const response = await API.request({
         url: '/api/category/for-cms',
         method: 'GET'
       });
 
-      const raw = response && response.data;
-      const allCategories = Array.isArray(raw?.data) ? raw.data : Array.isArray(raw) ? raw : [];
+      const allCategories = response?.data || [];
 
-      const seen = new Set();
-      const results = [];
+      const collectCategoryTree = (parentId) => {
+        const result = [parentId];
 
-      const dfs = (id) => {
-        if (seen.has(id)) return;
-        seen.add(id);
-        results.push(id);
+        const findChildren = (currentId) => {
+          allCategories.forEach((cat) => {
+            if (cat.parent_id === currentId && !result.includes(cat.id)) {
+              result.push(cat.id);
+              findChildren(cat.id);
+            }
+          });
+        };
 
-        for (const cat of allCategories) {
-          if (cat.parent_id != null && Number(cat.parent_id) === id) {
-            dfs(Number(cat.id));
-          }
-        }
+        findChildren(parentId);
+        return result;
       };
 
-      dfs(pid);
-
-      console.log(dfs(pid));
-      console.log(results);
-      return results;
+      const categoryIds = collectCategoryTree(pid);
+      console.log('Category hierarchy IDs:', categoryIds);
+      return categoryIds;
     }
   });
 };

@@ -168,51 +168,32 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
   const paramsURL = useGetParamsURL();
   const { page = 1, keyword, sortBy = 'name' } = paramsURL || {};
 
-  const queryKey = ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, page, keyword, sortBy];
-
   return useQuery({
-    queryKey,
+    queryKey: ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, page, keyword, sortBy],
     queryFn: async () => {
-      let sortParams = {};
-      switch (sortBy) {
-        case 'price-low':
-        case 'increase':
-          sortParams.orderBy = 'kiotviet_price';
-          sortParams.isDesc = false;
-          break;
-        case 'price-high':
-        case 'decrease':
-          sortParams.orderBy = 'kiotviet_price';
-          sortParams.isDesc = true;
-          break;
-        case 'name':
-        case 'az':
-        default:
-          sortParams.orderBy = 'title';
-          sortParams.isDesc = false;
-          break;
-      }
-
-      const apiParams = {
-        pageNumber: Number(page) - 1,
-        pageSize: 15,
-        is_visible: 'true',
-        title: keyword,
-        ...sortParams
+      const sortConfig = {
+        'price-low': { orderBy: 'kiotviet_price', isDesc: false },
+        'price-high': { orderBy: 'kiotviet_price', isDesc: true },
+        newest: { orderBy: 'id', isDesc: true },
+        name: { orderBy: 'title', isDesc: false }
       };
 
-      if (categoryIds && categoryIds.length > 0) {
-        apiParams.categoryIds = categoryIds.join(',');
-      }
+      const sortParams = sortConfig[sortBy] || sortConfig['name'];
 
       return API.request({
         url: '/api/product/client/get-all',
-        params: apiParams
+        params: {
+          pageNumber: Number(page) - 1,
+          pageSize: 15,
+          categoryIds: categoryIds.join(','),
+          title: keyword,
+          is_visible: 'true',
+          ...sortParams
+        }
       });
     },
-    enabled: Array.isArray(categoryIds) && options.enabled !== false,
-    staleTime: 2 * 60 * 1000,
-    cacheTime: 5 * 60 * 1000
+    enabled: Array.isArray(categoryIds) && categoryIds.length > 0 && options.enabled !== false,
+    staleTime: 2 * 60 * 1000
   });
 };
 
