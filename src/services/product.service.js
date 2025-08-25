@@ -102,7 +102,7 @@ export const useQueryAllCategories = () => {
 
 export const useQueryProductList = () => {
   const paramsURL = useGetParamsURL();
-  const { page = 1, keyword, categoryId, sortBy = 'name' } = paramsURL || {};
+  const { page = 1, keyword, categoryId, sortBy = 'newest' } = paramsURL || {};
 
   const queryKey = ['GET_PRODUCT_LIST_CLIENT', page, keyword, categoryId, sortBy];
 
@@ -124,12 +124,17 @@ export const useQueryProductList = () => {
           sortParams.isDesc = true;
           break;
         case 'name':
-        default:
-          sortParams.orderBy = 'title';
+          sortParams.orderBy = 'title' ? 'title' : 'kiotviet_name';
           sortParams.isDesc = false;
+          break;
+        case 'newest':
+        default:
+          sortParams.orderBy = 'created_date';
+          sortParams.isDesc = true;
           break;
       }
 
+      // Setup API params
       const apiParams = {
         pageNumber,
         pageSize: 15,
@@ -137,6 +142,7 @@ export const useQueryProductList = () => {
         ...sortParams
       };
 
+      // Add search keyword
       if (keyword) {
         apiParams.title = keyword;
       }
@@ -164,9 +170,9 @@ export const useQueryProductList = () => {
   });
 };
 
-export const useQueryProductsByCategories = (categoryIds = [], options = {}) => {
+export const useQueryProductsByCategories = (categoryIds = []) => {
   const paramsURL = useGetParamsURL();
-  const { page = 1, keyword, sortBy = 'name' } = paramsURL || {};
+  const { page = 1, keyword, sortBy = 'newest' } = paramsURL || {};
 
   const queryKey = ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, page, keyword, sortBy];
 
@@ -174,38 +180,18 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
     queryKey,
     queryFn: async () => {
       if (!categoryIds || categoryIds.length === 0) {
-        const sortParams = {};
-        switch (sortBy) {
-          case 'price-low':
-            sortParams.orderBy = 'kiotviet_price';
-            sortParams.isDesc = false;
-            break;
-          case 'price-high':
-            sortParams.orderBy = 'kiotviet_price';
-            sortParams.isDesc = true;
-            break;
-          case 'name':
-          default:
-            sortParams.orderBy = 'kiotviet_name';
-            sortParams.isDesc = false;
-            break;
-        }
-
-        const apiParams = {
-          pageNumber: Number(page) - 1,
-          pageSize: 15,
-          is_visible: 'true',
-          title: keyword,
-          ...sortParams
-        };
-
         return API.request({
           url: '/api/product/client/get-all',
-          params: apiParams
+          params: {
+            pageNumber: Number(page) - 1,
+            pageSize: 15,
+            is_visible: 'true',
+            title: keyword,
+            orderBy: sortBy === 'newest' ? 'created_date' : 'title',
+            isDesc: sortBy === 'newest'
+          }
         });
       }
-
-      console.log('📡 Fetching from categories:', categoryIds);
 
       const promises = categoryIds.map((categoryId) =>
         API.request({
@@ -220,7 +206,6 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
       );
 
       const responses = await Promise.all(promises);
-      console.log('📦 Category responses:', responses);
 
       const allProducts = [];
       const seenIds = new Set();
@@ -240,22 +225,21 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
         filteredProducts = allProducts.filter((product) =>
           product.title?.toLowerCase().includes(keyword.toLowerCase())
         );
-        console.log('🔍 After keyword filter:', filteredProducts.length);
       }
 
       switch (sortBy) {
         case 'price-low':
-          filteredProducts.sort((a, b) => (a.kiotviet_price || 0) - (b.kiotviet_price || 0));
-          console.log('💰 Sorted price low to high');
+          filteredProducts.sort((a, b) => (a.kiotviet_price || 0) - (b.price || 0));
           break;
         case 'price-high':
-          filteredProducts.sort((a, b) => (b.kiotviet_price || 0) - (a.kiotviet_price || 0));
-          console.log('💰 Sorted price high to low');
+          filteredProducts.sort((a, b) => (b.kiotviet_price || 0) - (a.price || 0));
           break;
         case 'name':
+          filteredProducts.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
+          break;
+        case 'newest':
         default:
-          filteredProducts.sort((a, b) => (a.kiotviet_name || '').localeCompare(b.kiotviet_name || ''));
-          console.log('🔤 Sorted by name A-Z');
+          filteredProducts.sort((a, b) => b.id - a.id);
           break;
       }
 
@@ -264,25 +248,15 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
       const startIndex = pageNumber * pageSize;
       const endIndex = startIndex + pageSize;
 
-      const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
-
-      console.log('📄 Pagination:', {
-        pageNumber,
-        pageSize,
-        startIndex,
-        endIndex,
-        paginatedCount: paginatedProducts.length
-      });
-
       return {
-        content: paginatedProducts,
+        content: filteredProducts.slice(startIndex, endIndex),
         totalElements: filteredProducts.length,
         totalPages: Math.ceil(filteredProducts.length / pageSize),
         number: pageNumber,
         size: pageSize
       };
     },
-    enabled: Array.isArray(categoryIds) && options.enabled !== false,
+    enabled: Array.isArray(categoryIds),
     staleTime: 2 * 60 * 1000,
     cacheTime: 5 * 60 * 1000
   });
@@ -369,17 +343,17 @@ export const FILTER_OPTIONS = [
   {
     label: 'Sắp xếp A-Z',
     value: 'az',
-    objectParams: { orderBy: 'kiotviet_name', isDesc: false }
+    objectParams: { orderBy: 'title', isDesc: false }
   },
   {
     label: 'Giá tăng dần',
     value: 'increase',
-    objectParams: { orderBy: 'kiotviet_price', isDesc: false }
+    objectParams: { orderBy: 'price', isDesc: false }
   },
   {
     label: 'Giá giảm dần',
     value: 'decrease',
-    objectParams: { orderBy: 'kiotviet_price', isDesc: true }
+    objectParams: { orderBy: 'price', isDesc: true }
   }
 ];
 
@@ -418,10 +392,10 @@ export const useQuerySearchProducts = () => {
           sortParams.orderBy = 'title';
           sortParams.isDesc = false;
         } else if (sort === 'increase') {
-          sortParams.orderBy = 'kiotviet_price';
+          sortParams.orderBy = 'price';
           sortParams.isDesc = false;
         } else if (sort === 'decrease') {
-          sortParams.orderBy = 'kiotviet_price';
+          sortParams.orderBy = 'price';
           sortParams.isDesc = true;
         }
       }

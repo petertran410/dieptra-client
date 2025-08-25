@@ -58,8 +58,7 @@ export const useQueryTopLevelCategories = () => {
           id: cat.id,
           name: cat.name,
           displayName: cat.displayName || cat.name,
-          path: cat.path,
-          productCount: cat.productCount || 0
+          path: cat.path
         }));
     },
     staleTime: 10 * 60 * 1000,
@@ -73,7 +72,7 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
   return useQuery({
     queryKey,
     queryFn: async () => {
-      if (!parentCategoryId || parentCategoryId === 'all') return [];
+      if (!parentCategoryId) return [];
 
       const response = await API.request({
         url: '/api/category/for-cms',
@@ -82,16 +81,14 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
 
       const allCategories = response?.data || [];
 
-      const parentCategory = allCategories.find((cat) => cat.id.toString() === parentCategoryId.toString());
+      const parentCategory = allCategories.find((cat) => cat.id === parentCategoryId);
       if (!parentCategory) return [];
 
-      const relatedCategories = allCategories.filter(
-        (cat) => cat.path && parentCategory.path && cat.path.startsWith(parentCategory.path)
-      );
+      const relatedCategories = allCategories.filter((cat) => cat.path && cat.path.startsWith(parentCategory.path));
 
       return relatedCategories.map((cat) => cat.id);
     },
-    enabled: !!parentCategoryId && parentCategoryId !== 'all',
+    enabled: !!parentCategoryId,
     staleTime: 10 * 60 * 1000
   });
 };
