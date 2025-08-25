@@ -46,11 +46,16 @@ const ProductList = () => {
 
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
-  const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
-    selectedCategory !== 'all' ? parseInt(selectedCategory) : null
-  );
+  // const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
+  //   selectedCategory !== 'all' ? parseInt(selectedCategory) : null
+  // );
 
-  const shouldUseCategoryFilter = selectedCategory !== 'all' && categoryIds.length > 0;
+  const categoryIdNumber = selectedCategory !== 'all' ? parseInt(selectedCategory) : null;
+  const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(categoryIdNumber);
+  const shouldUseCategoryFilter = selectedCategory !== 'all';
+  const finalCategoryIds = categoryIds.length > 0 ? categoryIds : categoryIdNumber ? [categoryIdNumber] : [];
+
+  // const shouldUseCategoryFilter = selectedCategory !== 'all';
 
   const {
     data: allProductsData,
@@ -64,11 +69,10 @@ const ProductList = () => {
     data: categoryProductsData,
     isLoading: categoryProductsLoading,
     error: categoryProductsError
-  } = useQueryProductsByCategories(categoryIds, {
+  } = useQueryProductsByCategories(finalCategoryIds, {
     enabled: shouldUseCategoryFilter
   });
 
-  // ✅ Determine which data to use
   const isLoading =
     categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
 
