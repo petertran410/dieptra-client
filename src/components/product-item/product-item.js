@@ -8,7 +8,7 @@ import Link from 'next/link';
 const ProductItem = ({ item }) => {
   const { id, title, kiotviet_name, kiotviet_price, ofCategories, kiotviet_images } = item || {};
 
-  const productSlug = `${convertSlugURL(title)}.${id}`;
+  const productUrl = `/san-pham/${item.slug || 'product-not-found'}`;
 
   const getCategoryName = () => {
     if (!Array.isArray(ofCategories) || ofCategories.length === 0) {
@@ -46,7 +46,7 @@ const ProductItem = ({ item }) => {
       }}
       position="relative"
     >
-      <Link href={`/san-pham/${productSlug}`}>
+      <Link href={productUrl}>
         <Box
           position="absolute"
           top="8px"
