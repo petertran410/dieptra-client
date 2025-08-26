@@ -155,7 +155,7 @@ const Contact = () => {
         <GridItem>
           <Box h={{ xs: '165px', lg: 'full' }} borderRadius={16} overflow="hidden" w="full" boxShadow="lg">
             <iframe
-              src="https://www.google.com/maps/d/u/1/embed?mid=1cyGxR3l_Ish6RWow47UekKIe000hpdM&ehbc=2E312F"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.2849207322743!2d105.76739007934567!3d20.981213000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313453c729c85a77%3A0xa04589e6754e1c77!2zRGnhu4dwIFRyw6Ag4oCTIENodXnDqm4gQ3VuZyBD4bqlcCBOZ3V5w6puIExp4buHdSBQaGEgQ2jhur8!5e0!3m2!1sen!2s!4v1756185273251!5m2!1sen!2s"
               width="100%"
               height="100%"
               style={{ border: 0 }}

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import CategorySidebar from './category-sidebar';
 import {
   Box,
   Container,
@@ -38,19 +39,22 @@ const ProductList = () => {
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const keyword = searchParams.get('keyword') || '';
   const categoryId = searchParams.get('categoryId');
+  const subCategoryId = searchParams.get('subCategoryId');
   const sortBy = searchParams.get('sortBy') || 'newest';
 
   const [searchTerm, setSearchTerm] = useState(keyword);
   const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
   const [currentSort, setCurrentSort] = useState(sortBy);
 
+  const effectiveCategoryId = subCategoryId || categoryId;
+
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
   const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
-    selectedCategory !== 'all' ? parseInt(selectedCategory) : null
+    effectiveCategoryId && effectiveCategoryId !== 'all' ? parseInt(effectiveCategoryId) : null
   );
 
-  const shouldUseCategoryFilter = selectedCategory !== 'all' && categoryIds.length > 0;
+  const shouldUseCategoryFilter = effectiveCategoryId && effectiveCategoryId !== 'all' && categoryIds.length > 0;
 
   const {
     data: allProductsData,
@@ -85,6 +89,7 @@ const ProductList = () => {
       page: currentPage,
       keyword: searchTerm,
       categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
+      subCategoryId: subCategoryId,
       sortBy: currentSort,
       ...newParams
     };
@@ -112,6 +117,7 @@ const ProductList = () => {
     setSelectedCategory(newCategoryId);
     updateURL({
       categoryId: newCategoryId === 'all' ? undefined : newCategoryId,
+      subCategoryId: undefined,
       page: 1
     });
   };
@@ -153,10 +159,10 @@ const ProductList = () => {
         />
       </Head>
 
-      <Container maxW="1920px" px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
-        <Breadcrumb data={breadcrumbData} />
-
+      <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
+          <Breadcrumb data={breadcrumbData} />
+
           <Heading as="h1" fontSize={{ base: '28px', lg: '36px' }} fontWeight={700} color="#003366">
             Sản Phẩm
           </Heading>
@@ -235,149 +241,165 @@ const ProductList = () => {
           </Text>
         </VStack>
 
-        {isLoading && (
-          <Center py={20}>
-            <VStack>
-              <Spinner size="xl" color="#003366" />
-              <Text color="gray.600">Đang tải sản phẩm...</Text>
-            </VStack>
-          </Center>
-        )}
-
-        {error && (
-          <Center py={20}>
-            <VStack>
-              <Text color="red.500" fontSize="lg" fontWeight="500">
-                Có lỗi xảy ra khi tải sản phẩm
-              </Text>
-              <Text color="gray.600">{error.message || 'Vui lòng thử lại sau'}</Text>
-              <Button
-                onClick={() => window.location.reload()}
-                colorScheme="blue"
-                bg="#003366"
-                _hover={{ bg: '#002244' }}
-                mt={4}
-              >
-                Tải lại
-              </Button>
-            </VStack>
-          </Center>
-        )}
-
-        {!isLoading && !error && (
-          <>
-            {products.length > 0 ? (
-              <Grid
-                templateColumns={{
-                  base: 'repeat(1, 1fr)',
-                  sm: 'repeat(2, 1fr)',
-                  md: 'repeat(3, 1fr)',
-                  lg: 'repeat(4, 1fr)',
-                  xl: 'repeat(5, 1fr)'
+        <Flex gap={6} align="flex-start" direction={{ base: 'column', lg: 'row' }}>
+          {selectedCategory && selectedCategory !== 'all' && (
+            <Box display={{ base: 'none', lg: 'block' }} flexShrink={0}>
+              <CategorySidebar
+                selectedCategory={selectedCategory}
+                onSubCategorySelect={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
                 }}
-                gap={6}
-                mb={10}
-              >
-                {products.map((product) => (
-                  <GridItem key={product.id}>
-                    <ProductItem item={product} />
-                  </GridItem>
-                ))}
-              </Grid>
-            ) : (
+              />
+            </Box>
+          )}
+
+          <Box flex={1} w="full">
+            {isLoading && (
               <Center py={20}>
-                <VStack spacing={4}>
-                  <Text fontSize="xl" fontWeight="500" color="gray.600">
-                    Không tìm thấy sản phẩm nào
+                <VStack>
+                  <Spinner size="xl" color="#003366" />
+                  <Text color="gray.600">Đang tải sản phẩm...</Text>
+                </VStack>
+              </Center>
+            )}
+
+            {error && (
+              <Center py={20}>
+                <VStack>
+                  <Text color="red.500" fontSize="lg" fontWeight="500">
+                    Có lỗi xảy ra khi tải sản phẩm
                   </Text>
-                  <Text color="gray.500">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</Text>
+                  <Text color="gray.600">{error.message || 'Vui lòng thử lại sau'}</Text>
                   <Button
-                    onClick={() => {
-                      setSearchTerm('');
-                      setSelectedCategory('all');
-                      updateURL({
-                        keyword: undefined,
-                        categoryId: undefined,
-                        page: 1
-                      });
-                    }}
-                    variant="outline"
+                    onClick={() => window.location.reload()}
                     colorScheme="blue"
-                    borderColor="#003366"
-                    color="#003366"
-                    _hover={{ bg: '#003366', color: 'white' }}
+                    bg="#003366"
+                    _hover={{ bg: '#002244' }}
+                    mt={4}
                   >
-                    Xóa bộ lọc
+                    Tải lại
                   </Button>
                 </VStack>
               </Center>
             )}
 
-            {totalPages > 1 && (
-              <Flex justify="center" align="center" mt={10} mb={10}>
-                <HStack spacing={2}>
-                  <Button
-                    onClick={() => handlePageChange(currentPage - 1)}
-                    disabled={currentPage <= 1}
-                    variant="outline"
-                    size="sm"
-                    borderColor="#003366"
-                    color="#003366"
-                    _hover={{ bg: '#003366', color: 'white' }}
-                    _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+            {!isLoading && !error && (
+              <>
+                {products.length > 0 ? (
+                  <Grid
+                    templateColumns={{
+                      base: 'repeat(1, 1fr)',
+                      sm: 'repeat(2, 1fr)',
+                      md: 'repeat(3, 1fr)',
+                      lg: selectedCategory !== 'all' ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)',
+                      xl: selectedCategory !== 'all' ? 'repeat(4, 1fr)' : 'repeat(5, 1fr)'
+                    }}
+                    gap={6}
+                    mb={10}
                   >
-                    ‹ Trước
-                  </Button>
-
-                  {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                    let pageNum;
-                    if (totalPages <= 5) {
-                      pageNum = i + 1;
-                    } else if (currentPage <= 3) {
-                      pageNum = i + 1;
-                    } else if (currentPage >= totalPages - 2) {
-                      pageNum = totalPages - 4 + i;
-                    } else {
-                      pageNum = currentPage - 2 + i;
-                    }
-
-                    return (
+                    {products.map((product) => (
+                      <GridItem key={product.id}>
+                        <ProductItem item={product} />
+                      </GridItem>
+                    ))}
+                  </Grid>
+                ) : (
+                  <Center py={20}>
+                    <VStack spacing={4}>
+                      <Text fontSize="xl" fontWeight="500" color="gray.600">
+                        Không tìm thấy sản phẩm nào
+                      </Text>
+                      <Text color="gray.500">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</Text>
                       <Button
-                        key={pageNum}
-                        onClick={() => handlePageChange(pageNum)}
-                        variant={currentPage === pageNum ? 'solid' : 'outline'}
-                        size="sm"
-                        colorScheme="blue"
-                        bg={currentPage === pageNum ? '#003366' : 'white'}
-                        borderColor="#003366"
-                        color={currentPage === pageNum ? 'white' : '#003366'}
-                        _hover={{
-                          bg: currentPage === pageNum ? '#002244' : '#003366',
-                          color: 'white'
+                        onClick={() => {
+                          setSearchTerm('');
+                          setSelectedCategory('all');
+                          updateURL({
+                            keyword: undefined,
+                            categoryId: undefined,
+                            subCategoryId: undefined,
+                            page: 1
+                          });
                         }}
+                        variant="outline"
+                        colorScheme="blue"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
                       >
-                        {pageNum}
+                        Xóa bộ lọc
                       </Button>
-                    );
-                  })}
+                    </VStack>
+                  </Center>
+                )}
 
-                  <Button
-                    onClick={() => handlePageChange(currentPage + 1)}
-                    disabled={currentPage >= totalPages}
-                    variant="outline"
-                    size="sm"
-                    borderColor="#003366"
-                    color="#003366"
-                    _hover={{ bg: '#003366', color: 'white' }}
-                    _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
-                  >
-                    Sau ›
-                  </Button>
-                </HStack>
-              </Flex>
+                {totalPages > 1 && (
+                  <Flex justify="center" align="center" mt={10} mb={10}>
+                    <HStack spacing={2}>
+                      <Button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage <= 1}
+                        variant="outline"
+                        size="sm"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
+                        _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+                      >
+                        ‹ Trước
+                      </Button>
+
+                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+                        let pageNum;
+                        if (totalPages <= 5) {
+                          pageNum = i + 1;
+                        } else if (currentPage <= 3) {
+                          pageNum = i + 1;
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i;
+                        } else {
+                          pageNum = currentPage - 2 + i;
+                        }
+
+                        return (
+                          <Button
+                            key={pageNum}
+                            onClick={() => handlePageChange(pageNum)}
+                            variant={currentPage === pageNum ? 'solid' : 'outline'}
+                            size="sm"
+                            colorScheme="blue"
+                            bg={currentPage === pageNum ? '#003366' : 'white'}
+                            borderColor="#003366"
+                            color={currentPage === pageNum ? 'white' : '#003366'}
+                            _hover={{
+                              bg: currentPage === pageNum ? '#002244' : '#003366',
+                              color: 'white'
+                            }}
+                          >
+                            {pageNum}
+                          </Button>
+                        );
+                      })}
+
+                      <Button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage >= totalPages}
+                        variant="outline"
+                        size="sm"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
+                        _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+                      >
+                        Sau ›
+                      </Button>
+                    </HStack>
+                  </Flex>
+                )}
+              </>
             )}
-          </>
-        )}
+          </Box>
+        </Flex>
       </Container>
     </>
   );

@@ -7,7 +7,7 @@ const Breadcrumb = (props) => {
   const { data } = props;
 
   return (
-    <Flex align="center" gap="12px" pl={{ xs: 0, lg: '16px' }}>
+    <Flex align="center" gap="12px" pl={{ xs: 0 }}>
       {data.map((item, index) => {
         const { title, href, isActive } = item;
 

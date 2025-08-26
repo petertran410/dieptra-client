@@ -1,4 +1,3 @@
-// ✅ TẠO FILE MỚI: src/app/san-pham/_components/category-sidebar.js
 'use client';
 
 import { useState } from 'react';
@@ -56,7 +55,7 @@ const CategoryItem = ({
           )}
 
           <Text
-            fontSize="sm"
+            fontSize="xl"
             fontWeight={isSelected ? '600' : '400'}
             color={isSelected ? '#003366' : 'gray.700'}
             flex={1}
@@ -64,11 +63,11 @@ const CategoryItem = ({
             {category.name}
           </Text>
 
-          {category.productCount > 0 && (
+          {/* {category.productCount > 0 && (
             <Badge size="sm" colorScheme={isSelected ? 'blue' : 'gray'} variant="subtle">
               {category.productCount}
             </Badge>
-          )}
+          )} */}
         </HStack>
       </HStack>
 
@@ -82,7 +81,7 @@ const CategoryItem = ({
                 level={level + 1}
                 selectedSubCategory={selectedSubCategory}
                 onSubCategorySelect={onSubCategorySelect}
-                isExpanded={isExpanded} // Tự động expand children
+                isExpanded={isExpanded}
                 onToggleExpand={onToggleExpand}
               />
             ))}
@@ -100,7 +99,6 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
 
   const [expandedCategories, setExpandedCategories] = useState(new Set());
 
-  // Fetch category hierarchy
   const { data: categoryHierarchy, isLoading, error } = useQueryCategoryHierarchy(selectedCategory);
 
   const handleToggleExpand = (categoryId) => {
@@ -117,12 +115,11 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     const params = new URLSearchParams(searchParams);
 
     if (subCategoryId === selectedCategory) {
-      // If clicking on parent category, remove subcategory filter
       params.delete('subCategoryId');
     } else {
       params.set('subCategoryId', subCategoryId);
     }
-    params.set('page', '1'); // Reset to first page
+    params.set('page', '1');
 
     const newURL = `/san-pham?${params.toString()}`;
     router.push(newURL, { scroll: false });
@@ -133,7 +130,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   };
 
   if (!selectedCategory || selectedCategory === 'all') {
-    return null; // Don't show sidebar when "all categories" is selected
+    return null;
   }
 
   if (isLoading) {
@@ -161,36 +158,33 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
       w="280px"
       bg="white"
       border="1px solid #E2E8F0"
-      borderRadius="md"
+      borderRadius="xl"
       maxH="600px"
       overflowY="auto"
       position="sticky"
       top="20px"
     >
       <Box p={4} borderBottom="1px solid #E2E8F0">
-        <Text fontSize="md" fontWeight="600" color="#003366">
-          Danh mục con
+        <Text fontSize="xl" fontWeight="600" color="#003366">
+          Danh mục
         </Text>
-        <Text fontSize="sm" color="gray.600" mt={1}>
+        <Text fontSize="xl" color="gray.600" mt={1}>
           {categoryHierarchy.name}
         </Text>
       </Box>
 
       <VStack spacing={0} align="stretch">
-        {/* Parent category option */}
-        <CategoryItem
+        {/* <CategoryItem
           category={categoryHierarchy}
           level={0}
           selectedSubCategory={selectedSubCategory}
           onSubCategorySelect={handleSubCategorySelect}
           isExpanded={true}
           onToggleExpand={handleToggleExpand}
-        />
+        /> */}
 
-        {/* Separator */}
         {categoryHierarchy.children && categoryHierarchy.children.length > 0 && <Divider />}
 
-        {/* Child categories */}
         {categoryHierarchy.children &&
           categoryHierarchy.children.map((child) => (
             <CategoryItem
@@ -205,11 +199,10 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
           ))}
       </VStack>
 
-      {/* Clear filter button */}
       {selectedSubCategory && selectedSubCategory !== selectedCategory && (
         <Box p={4} borderTop="1px solid #E2E8F0">
           <Button
-            size="sm"
+            size="xl"
             variant="outline"
             w="full"
             onClick={() => handleSubCategorySelect(selectedCategory)}
