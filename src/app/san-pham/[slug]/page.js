@@ -33,23 +33,35 @@ export async function generateMetadata({ params }) {
 
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/product/get-by-id/${id}`);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
     const data = await response.json();
 
-    const { title: titleData, imagesUrl } = data || {};
-    const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
+    if (!data) {
+      throw new Error('No product data');
+    }
+
+    const { title: titleData, kiotviet_images } = data;
+
+    console.log(data);
+
+    const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
     const title = `${titleData} | Diệp Trà`;
-    const description = META_DESCRIPTION;
 
     return {
       title,
-      description,
+      description: META_DESCRIPTION,
       openGraph: {
         title,
-        description,
+        description: META_DESCRIPTION,
         images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
       }
     };
   } catch (error) {
+    console.error('Metadata generation failed:', error);
     return {
       title: 'Sản phẩm | Diệp Trà',
       description: META_DESCRIPTION
@@ -65,22 +77,33 @@ const ProductDetail = async ({ params }) => {
   let relatedProducts = [];
 
   try {
-    [productDetail, relatedProductsResponse] = await Promise.all([
-      API.request({ url: `/api/product/get-by-id/${id}` }),
-      API.request({
-        url: '/api/product/search',
-        params: { pageSize: 8, type: 'SAN_PHAM' }
-      })
-    ]);
+    productDetail = await API.request({
+      url: `/api/product/get-by-id/${id}`
+    });
 
-    relatedProducts = relatedProductsResponse?.content || [];
+    if (!productDetail) {
+      console.error('Product not found:', id);
+      notFound();
+    }
   } catch (error) {
     console.error('Failed to fetch product details:', error);
     notFound();
   }
 
-  if (!productDetail) {
-    notFound();
+  try {
+    const relatedProductsResponse = await API.request({
+      url: '/api/product/client/get-all',
+      params: {
+        pageSize: 8,
+        pageNumber: 0,
+        is_visible: 'true'
+      }
+    });
+
+    relatedProducts = relatedProductsResponse?.content || [];
+  } catch (error) {
+    console.error('Failed to fetch related products:', error);
+    relatedProducts = [];
   }
 
   const {
@@ -93,12 +116,11 @@ const ProductDetail = async ({ params }) => {
     category
   } = productDetail;
 
-  // Breadcrumb data
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },
     { title: 'Sản Phẩm', href: '/san-pham' },
     ...(category ? [{ title: category.name, href: `/san-pham?categoryId=${category.id}` }] : []),
-    { title: title, isActive: true }
+    { title: title, href: '#', isActive: true }
   ];
 
   return (
@@ -108,7 +130,7 @@ const ProductDetail = async ({ params }) => {
         <meta name="description" content={description || META_DESCRIPTION} />
       </Head>
 
-      <Container maxW="1200px" py={8} px={PX_ALL} pt={{ base: '80px', lg: '120px' }}>
+      <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '120px' }}>
         <VStack spacing={8} align="stretch">
           {/* Breadcrumb */}
           <Breadcrumb data={breadcrumbData} />
@@ -121,8 +143,15 @@ const ProductDetail = async ({ params }) => {
                 {/* Main Product Image */}
                 <AspectRatio ratio={1} w="full" maxW="500px">
                   <Box bg="gray.100" borderRadius="lg" overflow="hidden" border="1px solid #E2E8F0">
-                    {imagesUrl.length > 0 ? (
-                      <Image src={imagesUrl[0]} alt={title} w="full" h="full" objectFit="cover" />
+                    {imagesUrl && imagesUrl.length > 0 ? (
+                      <Image
+                        src={imagesUrl[0]}
+                        alt={title}
+                        w="full"
+                        h="full"
+                        objectFit="cover"
+                        fallbackSrc="/images/placeholder-product.webp"
+                      />
                     ) : (
                       <Flex align="center" justify="center" h="full" color="gray.500" fontSize="lg" fontWeight="500">
                         Ảnh đại diện [vuông]
@@ -142,13 +171,14 @@ const ProductDetail = async ({ params }) => {
                         cursor="pointer"
                         _hover={{ borderColor: '#003366' }}
                       >
-                        {imagesUrl[index] ? (
+                        {imagesUrl && imagesUrl[index] ? (
                           <Image
                             src={imagesUrl[index]}
                             alt={`${title} - Ảnh ${index + 1}`}
                             w="full"
                             h="full"
                             objectFit="cover"
+                            fallbackSrc="/images/placeholder-product.webp"
                           />
                         ) : (
                           <Flex align="center" justify="center" fontSize="xs" color="gray.500" fontWeight="500">
@@ -254,7 +284,7 @@ const ProductDetail = async ({ params }) => {
           </Box>
 
           {/* Related Products Section */}
-          <OtherProduct productList={relatedProducts} productId={id} />
+          {relatedProducts.length > 0 && <OtherProduct productList={relatedProducts} productId={id} />}
         </VStack>
       </Container>
     </>
