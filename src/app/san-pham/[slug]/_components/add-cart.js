@@ -1,3 +1,4 @@
+// src/app/san-pham/[slug]/_components/add-cart.js - ENHANCED
 'use client';
 
 import ModalContact from '../../../../components/modal-contact';
@@ -7,41 +8,55 @@ import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-const AddCart = (props) => {
-  const { price, productId, title } = props;
+const AddCart = ({ price, productId, title }) => {
   const [cart, setCart] = useRecoilState(cartAtom);
   const [showContact, setShowContact] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const onAddCart = () => {
-    const isExists = cart.find((i) => Number(i.id) === Number(productId));
-    if (!isExists) {
-      setCart([...cart, { id: Number(productId), quantity: 1 }]);
+  const onAddCart = async () => {
+    setIsLoading(true);
+
+    try {
+      const isExists = cart.find((item) => Number(item.id) === Number(productId));
+
+      if (!isExists) {
+        setCart([...cart, { id: Number(productId), quantity: 1 }]);
+      } else {
+        // Update quantity if already exists
+        setCart(
+          cart.map((item) => (Number(item.id) === Number(productId) ? { ...item, quantity: item.quantity + 1 } : item))
+        );
+      }
+
+      showToast({
+        status: 'success',
+        content: 'Đã thêm vào giỏ hàng'
+      });
+    } catch (error) {
+      showToast({
+        status: 'error',
+        content: 'Có lỗi xảy ra khi thêm vào giỏ hàng'
+      });
+    } finally {
+      setIsLoading(false);
     }
-    showToast({
-      status: 'success',
-      content: 'Đã thêm vào giỏ hàng'
-    });
   };
 
   return (
     <>
       <Button
-        align="center"
-        justify="center"
-        bgColor="#065FD4"
-        color="#FFF"
+        size="lg"
         w="full"
-        h="40px"
-        gap="4px"
-        fontSize={16}
-        borderRadius={8}
-        fontWeight={500}
-        transitionDuration="250ms"
-        _hover={{ bgColor: '#5d97e3' }}
-        _active={{ bgColor: '#5d97e3' }}
-        onClick={!!price ? onAddCart : () => setShowContact(true)}
+        bg="#065FD4"
+        color="white"
+        fontWeight="600"
+        _hover={{ bg: '#5d97e3' }}
+        _active={{ bg: '#5d97e3' }}
+        isLoading={isLoading}
+        loadingText="Đang thêm..."
+        onClick={price ? onAddCart : () => setShowContact(true)}
       >
-        {!!price ? 'Thêm vào giỏ hàng' : 'Liên hệ'}
+        {price ? 'Thêm vào giỏ hàng' : 'Liên hệ'}
       </Button>
 
       <ModalContact open={showContact} onCloseModal={() => setShowContact(false)} defaultNote={title} />

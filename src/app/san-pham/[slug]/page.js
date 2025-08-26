@@ -1,258 +1,262 @@
-import HomeContact from '../../../app/(home)/_components/contact';
-import Breadcrumb from '../../../components/breadcrumb';
-import { API } from '../../../utils/API';
-import { PX_ALL } from '../../../utils/const';
-import { formatCurrency, META_DESCRIPTION } from '../../../utils/helper-server';
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { notFound } from 'next/navigation';
+import {
+  Container,
+  Grid,
+  GridItem,
+  VStack,
+  HStack,
+  Box,
+  Text,
+  Button,
+  Heading,
+  Image,
+  AspectRatio,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
+  Flex,
+  Divider
+} from '@chakra-ui/react';
 import Head from 'next/head';
-import Script from 'next/script';
-import AddCart from './_components/add-cart';
-import GuideList from './_components/guide-list';
-import GuideListMobile from './_components/guide-list-mobile';
+import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
+import { API } from '../../../utils/API';
+import { formatCurrency, META_DESCRIPTION } from '../../../utils/helper-server';
+import { PX_ALL } from '../../../utils/const';
 import OtherProduct from './_components/other-product';
-import ProductImage from './_components/product-image';
-import Rating from './_components/rating';
+import AddCart from './_components/add-cart';
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
   const id = slug.split('.').pop();
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/product/get-by-id/${id}`);
-  const data = await response.json();
 
-  const { title: titleData, imagesUrl } = data || {};
-  const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
-  const title = `${titleData} | Diệp Trà`;
-  const description = META_DESCRIPTION;
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/product/get-by-id/${id}`);
+    const data = await response.json();
 
-  return {
-    title,
-    description,
-    openGraph: {
+    const { title: titleData, imagesUrl } = data || {};
+    const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
+    const title = `${titleData} | Diệp Trà`;
+    const description = META_DESCRIPTION;
+
+    return {
       title,
       description,
-      images: [
-        {
-          url: imageUrl,
-          width: 800,
-          height: 600,
-          alt: title
-        }
-      ]
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: title,
-      description: description,
-      images: [imageUrl]
-    }
-  };
+      openGraph: {
+        title,
+        description,
+        images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
+      }
+    };
+  } catch (error) {
+    return {
+      title: 'Sản phẩm | Diệp Trà',
+      description: META_DESCRIPTION
+    };
+  }
 }
 
 const ProductDetail = async ({ params }) => {
   const { slug } = params;
   const id = slug.split('.').pop();
-  const productDetail = await API.request({ url: `/api/product/get-by-id/${id}` });
-  const productList = await API.request({
-    url: '/api/product/search',
-    params: { pageSize: 10, type: 'SAN_PHAM' }
-  }).then((res) => res?.content);
 
-  if (!productDetail) {
-    return null;
+  let productDetail;
+  let relatedProducts = [];
+
+  try {
+    [productDetail, relatedProductsResponse] = await Promise.all([
+      API.request({ url: `/api/product/get-by-id/${id}` }),
+      API.request({
+        url: '/api/product/search',
+        params: { pageSize: 8, type: 'SAN_PHAM' }
+      })
+    ]);
+
+    relatedProducts = relatedProductsResponse?.content || [];
+  } catch (error) {
+    console.error('Failed to fetch product details:', error);
+    notFound();
   }
 
-  const { title, description = '', instruction = '', imagesUrl, price, rate } = productDetail;
+  if (!productDetail) {
+    notFound();
+  }
 
-  const schemaData = {
-    '@context': 'https://schema.org',
-    '@type': 'Product',
-    headline: title,
-    author: {
-      '@type': 'Person',
-      name: 'Diep Tra'
-    },
-    publisher: {
-      '@type': 'Organization',
-      name: 'dieptra.com',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://www.dieptra.com//images/logo.webp'
-      }
-    },
-    datePublished: '2025-01-03',
-    dateModified: '2025-01-03',
-    name: title,
-    image: imagesUrl || [],
-    description: description || '',
-    brand: {
-      '@type': 'Brand',
-      name: 'DiepTra'
-    },
-    sku: id,
-    offers: {
-      '@type': 'Offer',
-      url: `${process.env.NEXT_PUBLIC_DOMAIN}/san-pham/${slug}`,
-      priceCurrency: 'VND',
-      price: price || 0,
-      itemCondition: 'https://schema.org/NewCondition',
-      availability: 'https://schema.org/InStock',
-      seller: {
-        '@type': 'Organization',
-        name: 'Diep Tra',
-        url: process.env.NEXT_PUBLIC_DOMAIN
-      }
-    },
-    additionalType: [
-      'https://www.google.com/search?q=Di%E1%BB%87p+Tr%C3%A0',
-      'https://www.facebook.com/dieptra.0788339379',
-      'https://shopee.vn/nguyenlieu.royaltea'
-    ],
-    sameAs: [
-      'https://www.google.com/search?q=Di%E1%BB%87p+Tr%C3%A0',
-      'https://www.facebook.com/dieptra.0788339379',
-      'https://shopee.vn/nguyenlieu.royaltea'
-    ],
-    brand: {
-      '@context': 'http://schema.org',
-      '@type': 'Organization',
-      url: process.env.NEXT_PUBLIC_DOMAIN,
-      '@id': 'DiepTra',
-      name: 'DiepTra',
-      address:
-        'B-TT10-4 thuộc dự án Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông, Thành phố Hà Nội, Việt Nam',
-      telephone: '+84931566676'
-    },
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      bestRating: '5',
-      ratingCount: '50',
-      ratingValue: '5'
-    },
-    review: [
-      {
-        '@type': 'Review',
-        reviewRating: {
-          '@type': 'Rating',
-          ratingValue: '5'
-        },
-        author: {
-          '@type': 'Person',
-          name: 'Kim Dung'
-        },
-        reviewBody:
-          'Tôi vô cùng ấn tượng với sản phẩm Khoai Môn tươi Nghiền thuộc Dòng Sản phẩm Đông lạnh của Thương hiệu Gấu LerMao. Với vị ngọt, béo, ngậy, mình cảm thấy rất phù hợp với các món trà sữa, và tôi tin sẽ trở thành xu hướng mới trong mùa thu đông năm nay'
-      },
-      {
-        '@type': 'Review',
-        reviewRating: {
-          '@type': 'Rating',
-          ratingValue: '5'
-        },
-        author: {
-          '@type': 'Person',
-          name: 'Thùy Linh'
-        },
-        reviewBody:
-          'Sản phẩm của thương hiệu Gấu LerMao vô cùng đa dạng, với các khẩu vị vô cùng mới lạ, tươi ngon, đặc biệt hấp dẫn”. Hiện nay thị trường Việt Nam có rất nhiều sản phẩm, tuy nhiên để được đa dạng và chất lượng như sản phẩm của công ty HI SWEETIE VIỆT NAM hiếm bên nào có thể làm được'
-      }
-    ]
-  };
+  const {
+    title,
+    description = '',
+    instruction = '',
+    imagesUrl = [],
+    kiotviet_price: price,
+    rate,
+    category
+  } = productDetail;
+
+  // Breadcrumb data
+  const breadcrumbData = [
+    { title: 'Trang chủ', href: '/' },
+    { title: 'Sản Phẩm', href: '/san-pham' },
+    ...(category ? [{ title: category.name, href: `/san-pham?categoryId=${category.id}` }] : []),
+    { title: title, isActive: true }
+  ];
 
   return (
     <>
       <Head>
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham/${slug}`} />
-        <meta name="robots" content="index, follow" />
+        <title>{title} | Diệp Trà</title>
+        <meta name="description" content={description || META_DESCRIPTION} />
       </Head>
 
-      <Script
-        id="json-ld-san-pham"
-        type="application/ld+json"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaData) }}
-      />
+      <Container maxW="1200px" py={8} px={PX_ALL} pt={{ base: '80px', lg: '120px' }}>
+        <VStack spacing={8} align="stretch">
+          {/* Breadcrumb */}
+          <Breadcrumb data={breadcrumbData} />
 
-      <Flex direction="column" pt={{ xs: '70px', lg: '162px' }}>
-        <Box px={PX_ALL}>
-          <Breadcrumb
-            data={[
-              { title: 'Sản phẩm', href: '/san-pham' },
-              { title: 'Chi tiết sản phẩm', href: `/san-pham/${slug}`, isActive: true }
-            ]}
-          />
-        </Box>
+          {/* Main Product Section */}
+          <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap={12}>
+            {/* Left Column - Product Images */}
+            <GridItem>
+              <VStack spacing={4}>
+                {/* Main Product Image */}
+                <AspectRatio ratio={1} w="full" maxW="500px">
+                  <Box bg="gray.100" borderRadius="lg" overflow="hidden" border="1px solid #E2E8F0">
+                    {imagesUrl.length > 0 ? (
+                      <Image src={imagesUrl[0]} alt={title} w="full" h="full" objectFit="cover" />
+                    ) : (
+                      <Flex align="center" justify="center" h="full" color="gray.500" fontSize="lg" fontWeight="500">
+                        Ảnh đại diện [vuông]
+                      </Flex>
+                    )}
+                  </Box>
+                </AspectRatio>
 
-        <Flex gap="24px" mt="24px" mb="64px" px={PX_ALL} direction={{ xs: 'column', md: 'row' }}>
-          <ProductImage imagesUrl={imagesUrl} />
-          <Flex flex={1} gap="16px" direction="column" h={{ xs: 'auto', md: '438px', lg: '636px' }}>
-            <Box borderBottom="2px solid #F4F4F5" pb="16px">
-              <Flex
-                gap={{ xs: '4px', lg: '16px' }}
-                align="flex-start"
-                justify="space-between"
-                pr="24px"
-                direction={{ xs: 'column', lg: 'row' }}
-              >
-                <Text as="h1" fontSize={24} fontWeight={600}>
+                {/* Thumbnail Images */}
+                <HStack spacing={3} justify="center">
+                  {[0, 1, 2].map((index) => (
+                    <AspectRatio key={index} ratio={1} w="80px">
+                      <Box
+                        bg="gray.50"
+                        border="1px solid #E2E8F0"
+                        borderRadius="md"
+                        cursor="pointer"
+                        _hover={{ borderColor: '#003366' }}
+                      >
+                        {imagesUrl[index] ? (
+                          <Image
+                            src={imagesUrl[index]}
+                            alt={`${title} - Ảnh ${index + 1}`}
+                            w="full"
+                            h="full"
+                            objectFit="cover"
+                          />
+                        ) : (
+                          <Flex align="center" justify="center" fontSize="xs" color="gray.500" fontWeight="500">
+                            Ảnh {index + 1}
+                          </Flex>
+                        )}
+                      </Box>
+                    </AspectRatio>
+                  ))}
+                </HStack>
+              </VStack>
+            </GridItem>
+
+            {/* Right Column - Product Info */}
+            <GridItem>
+              <VStack spacing={6} align="stretch">
+                {/* Product Title */}
+                <Heading
+                  as="h1"
+                  fontSize={{ base: '24px', lg: '32px' }}
+                  fontWeight="700"
+                  color="#003366"
+                  lineHeight="1.3"
+                >
                   {title}
+                </Heading>
+
+                {/* Price */}
+                <Text fontSize="28px" fontWeight="700" color="#d63384">
+                  {price ? formatCurrency(price) : 'Liên hệ'}
                 </Text>
-                {!!price && (
-                  <Text color="#3AB3D6" fontSize={24}>
-                    {formatCurrency(price)}
+
+                {/* Quantity Controls */}
+                <HStack spacing={4} align="center">
+                  <NumberInput defaultValue={1} min={1} max={999} maxW="120px" size="lg">
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
+                  <Text color="gray.600" fontSize="sm">
+                    số lượng
                   </Text>
+                </HStack>
+
+                {/* Action Buttons */}
+                <VStack spacing={3} w="full">
+                  <AddCart price={price} productId={id} title={title} />
+                  <Button
+                    size="lg"
+                    w="full"
+                    variant="outline"
+                    borderColor="#003366"
+                    color="#003366"
+                    _hover={{ bg: '#003366', color: 'white' }}
+                    fontWeight="600"
+                  >
+                    Mua ngay
+                  </Button>
+                </VStack>
+
+                {/* Additional Product Info */}
+                {category && (
+                  <Box>
+                    <Text fontSize="sm" color="gray.600">
+                      <Text as="span" fontWeight="600">
+                        Danh mục:
+                      </Text>{' '}
+                      {category.name}
+                    </Text>
+                  </Box>
                 )}
-              </Flex>
-              <Rating productId={id} rate={rate} />
+              </VStack>
+            </GridItem>
+          </Grid>
+
+          {/* Product Information Section */}
+          <Box>
+            <Heading as="h2" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
+              Thông Tin Sản Phẩm
+            </Heading>
+
+            <Box border="2px solid #333" borderRadius="lg" p={8} bg="white" minH="300px">
+              {description ? (
+                <div dangerouslySetInnerHTML={{ __html: description }} />
+              ) : (
+                <Text color="gray.500" fontStyle="italic" textAlign="center">
+                  Thông tin sản phẩm đang được cập nhật...
+                </Text>
+              )}
+
+              {instruction && (
+                <>
+                  <Divider my={6} />
+                  <Heading as="h3" fontSize="lg" mb={4} color="#003366">
+                    Hướng dẫn sử dụng
+                  </Heading>
+                  <div dangerouslySetInnerHTML={{ __html: instruction }} />
+                </>
+              )}
             </Box>
-            <Flex
-              direction="column"
-              gap="12px"
-              mt="-4px"
-              flex={1}
-              overflowY="auto"
-              overflowX="hidden"
-              className="small-scrollbar"
-            >
-              <Text fontSize={16} fontWeight={500}>
-                Thành phần nguyên liệu:
-              </Text>
-              <Box
-                fontSize={16}
-                className="html-content"
-                dangerouslySetInnerHTML={{
-                  __html: description
-                }}
-              />
-              <Text fontSize={16} fontWeight={500}>
-                Hướng dẫn sử dụng:
-              </Text>
-              <Box
-                fontSize={16}
-                className="html-content"
-                dangerouslySetInnerHTML={{
-                  __html: instruction
-                }}
-              />
-              <GuideList />
-
-              <Box display={{ xs: 'block', lg: 'none' }}>
-                <GuideListMobile />
-              </Box>
-            </Flex>
-            <AddCart price={price} productId={id} title={title} />
-          </Flex>
-        </Flex>
-
-        {Array.isArray(productList) && !!productList.length && (
-          <Box px={PX_ALL}>
-            <OtherProduct productList={productList} productId={id} />
           </Box>
-        )}
 
-        <Box mt={{ xs: '24px', lg: '68px' }}>
-          <HomeContact />
-        </Box>
-      </Flex>
+          {/* Related Products Section */}
+          <OtherProduct productList={relatedProducts} productId={id} />
+        </VStack>
+      </Container>
     </>
   );
 };
