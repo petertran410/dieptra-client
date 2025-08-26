@@ -32,40 +32,24 @@ export async function generateMetadata({ params }) {
   const { slug } = params;
   const id = slug.split('.').pop();
 
+  let response;
+
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/product/get-by-id/${id}`);
+    response = await API.request({
+      url: `/api/product/get-by-id/${id}`
+    });
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (!data) {
-      throw new Error('No product data');
-    }
-
-    const { title: titleData, kiotviet_images, general_description: meta_description } = data;
+    const { title: titleData, kiotviet_images, general_description: meta_description } = response;
 
     const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
     const title = `${titleData} | Diệp Trà`;
 
-    console.log({
+    return {
       title,
       description: meta_description,
       openGraph: {
         title,
         description: meta_description,
-        images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
-      }
-    });
-
-    return {
-      title,
-      description: META_DESCRIPTION,
-      openGraph: {
-        title,
-        description: META_DESCRIPTION,
         images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
       }
     };
@@ -141,7 +125,7 @@ const ProductDetail = async ({ params }) => {
     if (kiotVietImages.length > 0) {
       return {
         mainImage: kiotVietImages[0],
-        thumbnails: kiotVietImages.slice(1, 5)
+        thumbnails: kiotVietImages.slice(1, 7)
       };
     }
 
@@ -151,7 +135,7 @@ const ProductDetail = async ({ params }) => {
     };
   };
 
-  const { mainImage, thumbnails } = getProductImages();
+  // const { mainImage, thumbnails } = getProductImages();
 
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },
