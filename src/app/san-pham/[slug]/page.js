@@ -26,6 +26,7 @@ import { formatCurrency, META_DESCRIPTION } from '../../../utils/helper-server';
 import { PX_ALL } from '../../../utils/const';
 import OtherProduct from './_components/other-product';
 import AddCart from './_components/add-cart';
+import ProductImageGallery from './_components/product-image-gallery';
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
@@ -106,15 +107,33 @@ const ProductDetail = async ({ params }) => {
     relatedProducts = [];
   }
 
-  const {
-    title,
-    description = '',
-    instruction = '',
-    imagesUrl = [],
-    kiotviet_price: price,
-    rate,
-    category
-  } = productDetail;
+  const { title, description = '', instruction = '', imagesUrl = [], price, rate, category, kiotViet } = productDetail;
+
+  const getProductImages = () => {
+    const primaryImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : [];
+    const kiotVietImages = kiotViet?.images || [];
+
+    if (primaryImages.length > 0) {
+      return {
+        mainImage: primaryImages[0],
+        thumbnails: [...primaryImages.slice(1), ...kiotVietImages].slice(0, 4)
+      };
+    }
+
+    if (kiotVietImages.length > 0) {
+      return {
+        mainImage: kiotVietImages[0],
+        thumbnails: kiotVietImages.slice(1, 5)
+      };
+    }
+
+    return {
+      mainImage: null,
+      thumbnails: []
+    };
+  };
+
+  const { mainImage, thumbnails } = getProductImages();
 
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },
@@ -132,25 +151,22 @@ const ProductDetail = async ({ params }) => {
 
       <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '120px' }}>
         <VStack spacing={8} align="stretch">
-          {/* Breadcrumb */}
           <Breadcrumb data={breadcrumbData} />
 
-          {/* Main Product Section */}
           <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap={12}>
-            {/* Left Column - Product Images */}
-            <GridItem>
+            {/* <GridItem>
               <VStack spacing={4}>
-                {/* Main Product Image */}
                 <AspectRatio ratio={1} w="full" maxW="500px">
-                  <Box bg="gray.100" borderRadius="lg" overflow="hidden" border="1px solid #E2E8F0">
-                    {imagesUrl && imagesUrl.length > 0 ? (
+                  <Box bg="gray.100" borderRadius="lg" overflow="hidden" border="1px solid #E2E8F0" position="relative">
+                    {mainImage ? (
                       <Image
-                        src={imagesUrl[0]}
+                        src={mainImage}
                         alt={title}
                         w="full"
                         h="full"
                         objectFit="cover"
                         fallbackSrc="/images/placeholder-product.webp"
+                        loading="eager"
                       />
                     ) : (
                       <Flex align="center" justify="center" h="full" color="gray.500" fontSize="lg" fontWeight="500">
@@ -160,42 +176,51 @@ const ProductDetail = async ({ params }) => {
                   </Box>
                 </AspectRatio>
 
-                {/* Thumbnail Images */}
-                <HStack spacing={3} justify="center">
-                  {[0, 1, 2].map((index) => (
-                    <AspectRatio key={index} ratio={1} w="80px">
-                      <Box
-                        bg="gray.50"
-                        border="1px solid #E2E8F0"
-                        borderRadius="md"
-                        cursor="pointer"
-                        _hover={{ borderColor: '#003366' }}
-                      >
-                        {imagesUrl && imagesUrl[index] ? (
+                {thumbnails.length > 0 && (
+                  <HStack spacing={3} justify="center" flexWrap="wrap">
+                    {thumbnails.map((imageUrl, index) => (
+                      <AspectRatio key={index} ratio={1} w="80px" flexShrink={0}>
+                        <Box
+                          bg="gray.50"
+                          border="1px solid #E2E8F0"
+                          borderRadius="md"
+                          cursor="pointer"
+                          overflow="hidden"
+                          _hover={{
+                            borderColor: '#003366',
+                            transform: 'scale(1.05)',
+                            transition: 'all 0.2s ease'
+                          }}
+                        >
                           <Image
-                            src={imagesUrl[index]}
-                            alt={`${title} - Ảnh ${index + 1}`}
+                            src={imageUrl}
+                            alt={`${title} - Ảnh ${index + 2}`}
                             w="full"
                             h="full"
                             objectFit="cover"
                             fallbackSrc="/images/placeholder-product.webp"
+                            loading="lazy"
                           />
-                        ) : (
-                          <Flex align="center" justify="center" fontSize="xs" color="gray.500" fontWeight="500">
-                            Ảnh {index + 1}
-                          </Flex>
-                        )}
-                      </Box>
-                    </AspectRatio>
-                  ))}
-                </HStack>
+                        </Box>
+                      </AspectRatio>
+                    ))}
+                  </HStack>
+                )}
+
+                {(imagesUrl.length > 0 || kiotViet?.images?.length > 0) && (
+                  <Text fontSize="sm" color="gray.600" textAlign="center">
+                    {thumbnails.length + 1} ảnh có sẵn
+                  </Text>
+                )}
               </VStack>
+            </GridItem> */}
+
+            <GridItem>
+              <ProductImageGallery title={title} imagesUrl={imagesUrl} kiotViet={kiotViet} />
             </GridItem>
 
-            {/* Right Column - Product Info */}
             <GridItem>
               <VStack spacing={6} align="stretch">
-                {/* Product Title */}
                 <Heading
                   as="h1"
                   fontSize={{ base: '24px', lg: '32px' }}
@@ -206,12 +231,10 @@ const ProductDetail = async ({ params }) => {
                   {title}
                 </Heading>
 
-                {/* Price */}
                 <Text fontSize="28px" fontWeight="700" color="#d63384">
                   {price ? formatCurrency(price) : 'Liên hệ'}
                 </Text>
 
-                {/* Quantity Controls */}
                 <HStack spacing={4} align="center">
                   <NumberInput defaultValue={1} min={1} max={999} maxW="120px" size="lg">
                     <NumberInputField />
@@ -225,7 +248,6 @@ const ProductDetail = async ({ params }) => {
                   </Text>
                 </HStack>
 
-                {/* Action Buttons */}
                 <VStack spacing={3} w="full">
                   <AddCart price={price} productId={id} title={title} />
                   <Button
@@ -241,8 +263,7 @@ const ProductDetail = async ({ params }) => {
                   </Button>
                 </VStack>
 
-                {/* Additional Product Info */}
-                {category && (
+                {/* {category && (
                   <Box>
                     <Text fontSize="sm" color="gray.600">
                       <Text as="span" fontWeight="600">
@@ -251,12 +272,11 @@ const ProductDetail = async ({ params }) => {
                       {category.name}
                     </Text>
                   </Box>
-                )}
+                )} */}
               </VStack>
             </GridItem>
           </Grid>
 
-          {/* Product Information Section */}
           <Box>
             <Heading as="h2" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
               Thông Tin Sản Phẩm
@@ -283,7 +303,6 @@ const ProductDetail = async ({ params }) => {
             </Box>
           </Box>
 
-          {/* Related Products Section */}
           {relatedProducts.length > 0 && <OtherProduct productList={relatedProducts} productId={id} />}
         </VStack>
       </Container>
