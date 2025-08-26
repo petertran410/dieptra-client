@@ -143,7 +143,7 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
               onClick={onOpen}
             >
               <Text fontSize="xs" color="gray.600" fontWeight="500">
-                +{allImages.length - 6}
+                +{allImages.length - 10}
               </Text>
             </Flex>
           )}

@@ -29,7 +29,6 @@ body {
   margin: 0;
   font-size: 14px;
   font-weight: 400;
-  /* color: #091e28; */
 }
 
 a {
@@ -207,7 +206,6 @@ a {
   line-height: inherit !important;
 }
 
-/* Fix cho nested elements trong paragraphs */
 .html-content-16px p b,
 .html-content-16px p strong,
 .html-content-16px div b,
@@ -224,7 +222,6 @@ a {
   font-style: italic !important;
 }
 
-/* Fix cho combination styles (bold + italic) */
 .html-content-16px b i,
 .html-content-16px b em,
 .html-content-16px strong i,
@@ -238,7 +235,6 @@ a {
   font-style: italic !important;
 }
 
-/* Override bất kỳ inline styles nào từ editor */
 .html-content [style*='font-size'] b,
 .html-content [style*='font-size'] strong,
 .html-content [style*='font-size'] i,
@@ -253,7 +249,6 @@ a {
   font-size: 16px !important;
 }
 
-/* Fix cho tất cả các size variants khác */
 .html-content-14px b,
 .html-content-14px strong,
 .html-content-14px i,
@@ -268,7 +263,6 @@ a {
   font-size: 18px !important;
 }
 
-/* Đảm bảo font-family consistency */
 .html-content b,
 .html-content strong,
 .html-content i,

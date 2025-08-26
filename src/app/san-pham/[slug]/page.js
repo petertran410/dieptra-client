@@ -45,12 +45,20 @@ export async function generateMetadata({ params }) {
       throw new Error('No product data');
     }
 
-    const { title: titleData, kiotviet_images } = data;
-
-    console.log(data);
+    const { title: titleData, kiotviet_images, general_description: meta_description } = data;
 
     const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
     const title = `${titleData} | Diệp Trà`;
+
+    console.log({
+      title,
+      description: meta_description,
+      openGraph: {
+        title,
+        description: meta_description,
+        images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
+      }
+    });
 
     return {
       title,
@@ -107,7 +115,17 @@ const ProductDetail = async ({ params }) => {
     relatedProducts = [];
   }
 
-  const { title, description = '', instruction = '', imagesUrl = [], price, rate, category, kiotViet } = productDetail;
+  const {
+    title,
+    description = '',
+    instruction = '',
+    imagesUrl = [],
+    price,
+    rate,
+    category,
+    kiotViet,
+    general_description
+  } = productDetail;
 
   const getProductImages = () => {
     const primaryImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : [];
@@ -146,7 +164,7 @@ const ProductDetail = async ({ params }) => {
     <>
       <Head>
         <title>{title} | Diệp Trà</title>
-        <meta name="description" content={description || META_DESCRIPTION} />
+        <meta name="description" content={general_description} />
       </Head>
 
       <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '120px' }}>
@@ -170,18 +188,24 @@ const ProductDetail = async ({ params }) => {
                   {title}
                 </Heading>
 
-                {description ? (
-                  <div dangerouslySetInnerHTML={{ __html: description }} />
-                ) : (
-                  <Text color="gray.500" fontStyle="italic" textAlign="center">
-                    Thông tin sản phẩm đang được cập nhật...
-                  </Text>
+                {description && (
+                  <Box>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: description }}
+                      style={{
+                        textAlign: 'justify',
+                        lineHeight: '1.6',
+                        color: '#4A5568'
+                      }}
+                    />
+                  </Box>
                 )}
 
                 <Text fontSize="28px" fontWeight="700" color="#d63384">
                   {price ? formatCurrency(price) : 'Liên hệ'}
                 </Text>
-                <Flex>
+
+                <Flex gap={4}>
                   <HStack spacing={4} align="center">
                     <NumberInput defaultValue={1} min={1} max={999} maxW="120px" size="lg">
                       <NumberInputField />
@@ -192,22 +216,20 @@ const ProductDetail = async ({ params }) => {
                     </NumberInput>
                   </HStack>
 
-                  <VStack spacing={3} w="full">
-                    <Flex>
-                      <AddCart price={price} productId={id} title={title} />
-                      <Button
-                        size="lg"
-                        w="full"
-                        variant="outline"
-                        borderColor="#003366"
-                        color="#003366"
-                        _hover={{ bg: '#003366', color: 'white' }}
-                        fontWeight="600"
-                      >
-                        Mua ngay
-                      </Button>
-                    </Flex>
-                  </VStack>
+                  <Flex justify="space-between" gap={4}>
+                    <AddCart price={price} productId={id} title={title} />
+                    <Button
+                      size="lg"
+                      w="full"
+                      variant="outline"
+                      borderColor="#003366"
+                      color="#003366"
+                      _hover={{ bg: '#003366', color: 'white' }}
+                      fontWeight="600"
+                    >
+                      Mua ngay
+                    </Button>
+                  </Flex>
                 </Flex>
               </VStack>
             </GridItem>
@@ -218,17 +240,17 @@ const ProductDetail = async ({ params }) => {
               Thông Tin Sản Phẩm
             </Heading>
 
-            <Box border="2px solid #333" borderRadius="lg" p={8} bg="white" minH="300px">
-              {instruction && (
-                <>
-                  <Divider my={6} />
-                  <Heading as="h3" fontSize="lg" mb={4} color="#003366">
-                    Hướng dẫn sử dụng
-                  </Heading>
-                  <div dangerouslySetInnerHTML={{ __html: instruction }} />
-                </>
-              )}
-            </Box>
+            {instruction && (
+              <Box>
+                <div
+                  dangerouslySetInnerHTML={{ __html: description }}
+                  style={{
+                    textAlign: 'justify',
+                    lineHeight: '1.6'
+                  }}
+                />
+              </Box>
+            )}
           </Box>
 
           {relatedProducts.length > 0 && <OtherProduct productList={relatedProducts} productId={id} />}
