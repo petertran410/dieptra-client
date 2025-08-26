@@ -23,7 +23,6 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  // Smart image processing
   const getAllImages = () => {
     const primaryImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : [];
     const kiotVietImages = kiotViet?.images || [];
@@ -63,7 +62,6 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
 
   return (
     <VStack spacing={4}>
-      {/* Main Image Display */}
       <AspectRatio ratio={1} w="full" maxW="500px">
         <Box
           bg="gray.100"
@@ -83,7 +81,6 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
             fallbackSrc="/images/placeholder-product.webp"
           />
 
-          {/* Navigation arrows for multiple images */}
           {allImages.length > 1 && (
             <>
               <IconButton
@@ -117,8 +114,7 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
                 }}
               />
 
-              {/* View full size icon */}
-              <IconButton
+              {/* <IconButton
                 aria-label="View full size"
                 icon={<ViewIcon />}
                 position="absolute"
@@ -127,44 +123,38 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
                 bg="whiteAlpha.800"
                 _hover={{ bg: 'whiteAlpha.900' }}
                 size="sm"
-              />
+              /> */}
             </>
           )}
         </Box>
       </AspectRatio>
 
-      {/* Thumbnail Navigation */}
       {allImages.length > 1 && (
         <HStack spacing={2} justify="center" flexWrap="wrap" maxW="500px">
-          {allImages.slice(0, 6).map(
-            (
-              imageUrl,
-              index // Show max 6 thumbnails
-            ) => (
-              <AspectRatio key={index} ratio={1} w="60px" flexShrink={0}>
-                <Box
-                  bg="gray.50"
-                  border={selectedImageIndex === index ? '2px solid #003366' : '1px solid #E2E8F0'}
-                  borderRadius="md"
-                  cursor="pointer"
-                  overflow="hidden"
-                  opacity={selectedImageIndex === index ? 1 : 0.7}
-                  _hover={{ opacity: 1, transform: 'scale(1.05)' }}
-                  transition="all 0.2s ease"
-                  onClick={() => handleThumbnailClick(index)}
-                >
-                  <Image
-                    src={imageUrl}
-                    alt={`${title} - Thumbnail ${index + 1}`}
-                    w="full"
-                    h="full"
-                    objectFit="cover"
-                    fallbackSrc="/images/placeholder-product.webp"
-                  />
-                </Box>
-              </AspectRatio>
-            )
-          )}
+          {allImages.slice(0, 6).map((imageUrl, index) => (
+            <AspectRatio key={index} ratio={1} w="60px" flexShrink={0}>
+              <Box
+                bg="gray.50"
+                border={selectedImageIndex === index ? '2px solid #003366' : '1px solid #E2E8F0'}
+                borderRadius="md"
+                cursor="pointer"
+                overflow="hidden"
+                opacity={selectedImageIndex === index ? 1 : 0.7}
+                _hover={{ opacity: 1, transform: 'scale(1.05)' }}
+                transition="all 0.2s ease"
+                onClick={() => handleThumbnailClick(index)}
+              >
+                <Image
+                  src={imageUrl}
+                  alt={`${title} - Thumbnail ${index + 1}`}
+                  w="full"
+                  h="full"
+                  objectFit="cover"
+                  fallbackSrc="/images/placeholder-product.webp"
+                />
+              </Box>
+            </AspectRatio>
+          ))}
 
           {allImages.length > 6 && (
             <Flex
@@ -186,13 +176,11 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
         </HStack>
       )}
 
-      {/* Image Counter */}
-      <Text fontSize="sm" color="gray.600" textAlign="center">
+      {/* <Text fontSize="sm" color="gray.600" textAlign="center">
         {selectedImageIndex + 1} / {allImages.length} ảnh
-      </Text>
+      </Text> */}
 
-      {/* Full Size Modal */}
-      <Modal isOpen={isOpen} onClose={onClose} size="4xl" isCentered>
+      {/* <Modal isOpen={isOpen} onClose={onClose} size="4xl" isCentered>
         <ModalOverlay />
         <ModalContent bg="transparent" boxShadow="none">
           <ModalCloseButton
@@ -212,7 +200,7 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
             borderRadius="lg"
           />
         </ModalContent>
-      </Modal>
+      </Modal> */}
     </VStack>
   );
 };
