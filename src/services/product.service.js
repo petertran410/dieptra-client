@@ -10,15 +10,9 @@ export const useQueryAllProducts = () => {
         url: '/api/product/client/get-all',
         method: 'GET'
       }),
-    select: (data) => ({
-      ...data,
-      content: data.content?.map((product) => ({
-        ...product,
-        href: `/san-pham/${product.slug}`,
-        slug: product.slug || `product-${product.id}`
-      }))
-    }),
-    staleTime: 5 * 60 * 1000
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000,
+    refetchOnWindowFocus: false
   });
 };
 
