@@ -1,22 +1,7 @@
-// src/app/san-pham/[slug]/_components/product-image-gallery.js
 'use client';
 
 import { useState } from 'react';
-import {
-  Box,
-  VStack,
-  HStack,
-  AspectRatio,
-  Image,
-  Flex,
-  Text,
-  IconButton,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-  useDisclosure
-} from '@chakra-ui/react';
+import { Box, VStack, HStack, AspectRatio, Image, Flex, Text, IconButton, useDisclosure } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon, ViewIcon } from '@chakra-ui/icons';
 
 const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
@@ -113,17 +98,6 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
                   handleNextImage();
                 }}
               />
-
-              {/* <IconButton
-                aria-label="View full size"
-                icon={<ViewIcon />}
-                position="absolute"
-                top="10px"
-                right="10px"
-                bg="whiteAlpha.800"
-                _hover={{ bg: 'whiteAlpha.900' }}
-                size="sm"
-              /> */}
             </>
           )}
         </Box>
@@ -175,32 +149,6 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
           )}
         </HStack>
       )}
-
-      {/* <Text fontSize="sm" color="gray.600" textAlign="center">
-        {selectedImageIndex + 1} / {allImages.length} ảnh
-      </Text> */}
-
-      {/* <Modal isOpen={isOpen} onClose={onClose} size="4xl" isCentered>
-        <ModalOverlay />
-        <ModalContent bg="transparent" boxShadow="none">
-          <ModalCloseButton
-            color="white"
-            bg="blackAlpha.600"
-            _hover={{ bg: 'blackAlpha.800' }}
-            size="lg"
-            top="20px"
-            right="20px"
-          />
-          <Image
-            src={currentImage}
-            alt={`${title} - Full size`}
-            maxH="90vh"
-            maxW="90vw"
-            objectFit="contain"
-            borderRadius="lg"
-          />
-        </ModalContent>
-      </Modal> */}
     </VStack>
   );
 };

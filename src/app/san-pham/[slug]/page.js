@@ -154,67 +154,6 @@ const ProductDetail = async ({ params }) => {
           <Breadcrumb data={breadcrumbData} />
 
           <Grid templateColumns={{ base: '1fr', lg: '1fr 1fr' }} gap={12}>
-            {/* <GridItem>
-              <VStack spacing={4}>
-                <AspectRatio ratio={1} w="full" maxW="500px">
-                  <Box bg="gray.100" borderRadius="lg" overflow="hidden" border="1px solid #E2E8F0" position="relative">
-                    {mainImage ? (
-                      <Image
-                        src={mainImage}
-                        alt={title}
-                        w="full"
-                        h="full"
-                        objectFit="cover"
-                        fallbackSrc="/images/placeholder-product.webp"
-                        loading="eager"
-                      />
-                    ) : (
-                      <Flex align="center" justify="center" h="full" color="gray.500" fontSize="lg" fontWeight="500">
-                        Ảnh đại diện [vuông]
-                      </Flex>
-                    )}
-                  </Box>
-                </AspectRatio>
-
-                {thumbnails.length > 0 && (
-                  <HStack spacing={3} justify="center" flexWrap="wrap">
-                    {thumbnails.map((imageUrl, index) => (
-                      <AspectRatio key={index} ratio={1} w="80px" flexShrink={0}>
-                        <Box
-                          bg="gray.50"
-                          border="1px solid #E2E8F0"
-                          borderRadius="md"
-                          cursor="pointer"
-                          overflow="hidden"
-                          _hover={{
-                            borderColor: '#003366',
-                            transform: 'scale(1.05)',
-                            transition: 'all 0.2s ease'
-                          }}
-                        >
-                          <Image
-                            src={imageUrl}
-                            alt={`${title} - Ảnh ${index + 2}`}
-                            w="full"
-                            h="full"
-                            objectFit="cover"
-                            fallbackSrc="/images/placeholder-product.webp"
-                            loading="lazy"
-                          />
-                        </Box>
-                      </AspectRatio>
-                    ))}
-                  </HStack>
-                )}
-
-                {(imagesUrl.length > 0 || kiotViet?.images?.length > 0) && (
-                  <Text fontSize="sm" color="gray.600" textAlign="center">
-                    {thumbnails.length + 1} ảnh có sẵn
-                  </Text>
-                )}
-              </VStack>
-            </GridItem> */}
-
             <GridItem>
               <ProductImageGallery title={title} imagesUrl={imagesUrl} kiotViet={kiotViet} />
             </GridItem>
@@ -231,48 +170,45 @@ const ProductDetail = async ({ params }) => {
                   {title}
                 </Heading>
 
+                {description ? (
+                  <div dangerouslySetInnerHTML={{ __html: description }} />
+                ) : (
+                  <Text color="gray.500" fontStyle="italic" textAlign="center">
+                    Thông tin sản phẩm đang được cập nhật...
+                  </Text>
+                )}
+
                 <Text fontSize="28px" fontWeight="700" color="#d63384">
                   {price ? formatCurrency(price) : 'Liên hệ'}
                 </Text>
+                <Flex>
+                  <HStack spacing={4} align="center">
+                    <NumberInput defaultValue={1} min={1} max={999} maxW="120px" size="lg">
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                  </HStack>
 
-                <HStack spacing={4} align="center">
-                  <NumberInput defaultValue={1} min={1} max={999} maxW="120px" size="lg">
-                    <NumberInputField />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                  <Text color="gray.600" fontSize="sm">
-                    số lượng
-                  </Text>
-                </HStack>
-
-                <VStack spacing={3} w="full">
-                  <AddCart price={price} productId={id} title={title} />
-                  <Button
-                    size="lg"
-                    w="full"
-                    variant="outline"
-                    borderColor="#003366"
-                    color="#003366"
-                    _hover={{ bg: '#003366', color: 'white' }}
-                    fontWeight="600"
-                  >
-                    Mua ngay
-                  </Button>
-                </VStack>
-
-                {/* {category && (
-                  <Box>
-                    <Text fontSize="sm" color="gray.600">
-                      <Text as="span" fontWeight="600">
-                        Danh mục:
-                      </Text>{' '}
-                      {category.name}
-                    </Text>
-                  </Box>
-                )} */}
+                  <VStack spacing={3} w="full">
+                    <Flex>
+                      <AddCart price={price} productId={id} title={title} />
+                      <Button
+                        size="lg"
+                        w="full"
+                        variant="outline"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
+                        fontWeight="600"
+                      >
+                        Mua ngay
+                      </Button>
+                    </Flex>
+                  </VStack>
+                </Flex>
               </VStack>
             </GridItem>
           </Grid>
@@ -283,14 +219,6 @@ const ProductDetail = async ({ params }) => {
             </Heading>
 
             <Box border="2px solid #333" borderRadius="lg" p={8} bg="white" minH="300px">
-              {description ? (
-                <div dangerouslySetInnerHTML={{ __html: description }} />
-              ) : (
-                <Text color="gray.500" fontStyle="italic" textAlign="center">
-                  Thông tin sản phẩm đang được cập nhật...
-                </Text>
-              )}
-
               {instruction && (
                 <>
                   <Divider my={6} />
