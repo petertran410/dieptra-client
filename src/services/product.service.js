@@ -113,7 +113,7 @@ export const useQueryProductList = (options = {}) => {
         ...(keyword && { keyword })
       });
 
-      const response = await fetch(`${API_BASE}/products?${params}`);
+      const response = await fetch(`/api/products?${params}`);
       if (!response.ok) throw new Error('Failed to fetch products');
       return response.json();
     },
@@ -139,7 +139,7 @@ export const useQueryProductsByCategories = (categoryIds, options = {}) => {
         ...(keyword && { keyword })
       });
 
-      const response = await fetch(`${API_BASE}/products/by-categories?${params}`);
+      const response = await fetch(`/api/products/by-categories?${params}`);
       if (!response.ok) throw new Error('Failed to fetch category products');
       return response.json();
     },
