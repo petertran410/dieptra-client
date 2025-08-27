@@ -32,6 +32,7 @@ import {
   useQueryCategoryPaths,
   useQueryCategoryHierarchy
 } from '../../../services/category.service';
+import Head from 'next/head';
 
 const PRODUCTS_PER_PAGE = 15;
 
@@ -178,7 +179,7 @@ const ProductList = () => {
 
     if (selectedCategory === 'all') {
       return {
-        title: 'Tất Cả Sản Phẩm',
+        title: 'Sản Phẩm',
         description: defaultDescription
       };
     }
@@ -211,7 +212,7 @@ const ProductList = () => {
 
     if (categoryHierarchy) {
       return {
-        title: categoryHierarchy.title_meta || categoryHierarchy.name || 'Danh Mục',
+        title: categoryHierarchy.title_meta || categoryHierarchy.name,
         description: categoryHierarchy.description || defaultDescription
       };
     }
@@ -219,13 +220,13 @@ const ProductList = () => {
     const category = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
     if (category) {
       return {
-        title: category.title_meta || category.name || 'Danh Mục',
+        title: category.title_meta || category.name,
         description: category.description || defaultDescription
       };
     }
 
     return {
-      title: 'Danh Mục',
+      title: 'Sản Phẩm',
       description: defaultDescription
     };
   };
@@ -291,10 +292,12 @@ const ProductList = () => {
 
   return (
     <>
-      <title>{metadata.title} | Diệp Trà</title>
-      <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} />
-      <meta name="robots" content="index, follow" />
-      <meta name="description" content={metadata.description} />
+      <Head>
+        <title>{metadata.title} | Diệp Trà</title>
+        {/* <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} /> */}
+        <meta name="robots" content="index, follow" />
+        <meta name="description" content={metadata.description} />
+      </Head>
 
       <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
