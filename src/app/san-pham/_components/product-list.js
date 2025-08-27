@@ -161,11 +161,17 @@ const ProductList = () => {
 
       <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
-          <Breadcrumb data={breadcrumbData} />
+          {/* {topCategories.map((category) => (
+            <Heading as="h1" fontSize={{ base: '28px', lg: '36px' }} fontWeight={700} color="#003366">
+              {category.name}
+            </Heading>
+          ))} */}
 
           <Heading as="h1" fontSize={{ base: '28px', lg: '36px' }} fontWeight={700} color="#003366">
-            Sản Phẩm
+            {selectedCategory}
           </Heading>
+
+          {/* selectedCategory */}
 
           <Flex
             direction={{ base: 'column', md: 'row' }}
