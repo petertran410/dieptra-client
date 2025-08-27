@@ -124,27 +124,51 @@ export const useQueryProductList = (options = {}) => {
 };
 
 export const useQueryProductsByCategories = (categoryIds, options = {}) => {
+  if (typeof options !== 'object' || options === null) {
+    console.warn('useQueryProductsByCategories: options must be an object');
+    options = {};
+  }
+
   const { enabled = true, sortBy = 'newest', page = 1, keyword = '', ...otherOptions } = options;
+
+  const isEnabledValid = typeof enabled === 'boolean' || typeof enabled === 'function';
+  const hasValidCategoryIds = Array.isArray(categoryIds) && categoryIds.length > 0;
+  const shouldExecuteQuery = isEnabledValid ? enabled : true;
+
+  const queryEnabled = Boolean(shouldExecuteQuery) && hasValidCategoryIds;
 
   return useQuery({
     queryKey: ['products', 'categories', categoryIds, { sortBy, page, keyword }],
     queryFn: async () => {
-      if (!categoryIds?.length) return { content: [], totalElements: 0 };
+      if (!hasValidCategoryIds) {
+        return { content: [], totalElements: 0 };
+      }
 
-      const params = new URLSearchParams({
-        categoryIds: categoryIds.join(','),
-        page: page.toString(),
-        pageSize: '15',
-        sortBy,
-        ...(keyword && { keyword })
-      });
+      try {
+        const params = new URLSearchParams({
+          categoryIds: categoryIds.join(','),
+          page: page.toString(),
+          pageSize: '15',
+          sortBy,
+          ...(keyword && { keyword })
+        });
 
-      const response = await fetch(`/api/products/by-categories?${params}`);
-      if (!response.ok) throw new Error('Failed to fetch category products');
-      return response.json();
+        const response = await fetch(`/api/products/by-categories?${params}`);
+
+        if (!response.ok) {
+          const errorText = await response.text();
+          throw new Error(`HTTP ${response.status}: ${errorText}`);
+        }
+
+        return response.json();
+      } catch (error) {
+        console.error('Failed to fetch category products:', error);
+        throw error;
+      }
     },
-    enabled: enabled && categoryIds?.length > 0,
+    enabled: queryEnabled,
     staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
     ...otherOptions
   });
 };

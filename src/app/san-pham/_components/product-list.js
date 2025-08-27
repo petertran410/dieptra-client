@@ -68,7 +68,8 @@ const ProductList = () => {
     effectiveCategoryId && effectiveCategoryId !== 'all' ? parseInt(effectiveCategoryId) : null
   );
 
-  const shouldUseCategoryFilter = effectiveCategoryId && effectiveCategoryId !== 'all' && categoryIds.length > 0;
+  const shouldUseCategoryFilter =
+    effectiveCategoryId && effectiveCategoryId !== 'all' && Array.isArray(categoryIds) && categoryIds.length > 0;
 
   const {
     data: allProductsData,
