@@ -35,6 +35,8 @@ import {
 import Head from 'next/head';
 
 const PRODUCTS_PER_PAGE = 15;
+const DEFAULT_SORT = 'newest';
+const SORT_STORAGE_KEY = 'dieptra_product_sort_preference';
 
 const ProductList = () => {
   const router = useRouter();
@@ -44,11 +46,17 @@ const ProductList = () => {
   const keyword = searchParams.get('keyword') || '';
   const categoryId = searchParams.get('categoryId');
   const subCategoryId = searchParams.get('subCategoryId');
-  const sortBy = searchParams.get('sortBy') || 'newest';
 
+  const [currentSort, setCurrentSort] = useState(DEFAULT_SORT);
   const [searchTerm, setSearchTerm] = useState(keyword);
   const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
-  const [currentSort, setCurrentSort] = useState(sortBy);
+
+  useEffect(() => {
+    const savedSort = localStorage.getItem(SORT_STORAGE_KEY);
+    if (savedSort) {
+      setCurrentSort(savedSort);
+    }
+  }, []);
 
   const effectiveCategoryId = subCategoryId || categoryId;
 
@@ -67,7 +75,10 @@ const ProductList = () => {
     isLoading: allProductsLoading,
     error: allProductsError
   } = useQueryProductList({
-    enabled: !shouldUseCategoryFilter
+    enabled: !shouldUseCategoryFilter,
+    sortBy: currentSort,
+    page: currentPage,
+    keyword: keyword
   });
 
   const {
@@ -75,7 +86,10 @@ const ProductList = () => {
     isLoading: categoryProductsLoading,
     error: categoryProductsError
   } = useQueryProductsByCategories(categoryIds, {
-    enabled: shouldUseCategoryFilter
+    enabled: shouldUseCategoryFilter,
+    sortBy: currentSort,
+    page: currentPage,
+    keyword: keyword
   });
 
   const isLoading =
@@ -128,12 +142,11 @@ const ProductList = () => {
       keyword: searchTerm,
       categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
       subCategoryId: subCategoryId,
-      sortBy: currentSort,
       ...newParams
     };
 
     Object.entries(finalParams).forEach(([key, value]) => {
-      if (value && value !== 'all' && value !== '') {
+      if (value && value !== 'all' && value !== '' && value !== 1) {
         params.set(key, value.toString());
       }
     });
@@ -162,14 +175,11 @@ const ProductList = () => {
 
   const handleSortChange = (newSortBy) => {
     setCurrentSort(newSortBy);
-    updateURL({
-      sortBy: newSortBy,
-      page: 1
-    });
+    localStorage.setItem(SORT_STORAGE_KEY, newSortBy);
   };
 
   const handlePageChange = (newPage) => {
-    updateURL({ page: newPage });
+    updateURL({ page: newPage > 1 ? newPage : undefined });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -294,7 +304,7 @@ const ProductList = () => {
     <>
       <Head>
         <title>{metadata.title} | Diệp Trà</title>
-        {/* <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} /> */}
+        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} />
         <meta name="robots" content="index, follow" />
         <meta name="description" content={metadata.description} />
       </Head>
@@ -302,6 +312,7 @@ const ProductList = () => {
       <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
           <Breadcrumb data={getBreadcrumbData()} />
+
           <Heading as="h1" fontSize={{ base: '28px', lg: '36px' }} fontWeight={700} color="#003366">
             {getCategoryDisplayName()}
           </Heading>
