@@ -2,6 +2,8 @@ import { API } from '../utils/API';
 import { useGetParamsURL } from '../utils/hooks';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
+const PRODUCTS_PER_PAGE = 15;
+
 export const useQueryAllProducts = () => {
   return useQuery({
     queryKey: ['GET_ALL_PRODUCTS'],
@@ -107,66 +109,49 @@ export const useQueryProductList = (options = {}) => {
     queryKey: ['products', 'all', { sortBy, page, keyword }],
     queryFn: async () => {
       const params = new URLSearchParams({
-        page: page.toString(),
+        pageNumber: (page - 1).toString(),
         pageSize: '15',
-        sortBy,
-        ...(keyword && { keyword })
+        orderBy: sortBy === 'newest' ? 'id' : sortBy,
+        isDesc: sortBy === 'newest' ? 'true' : 'false',
+        ...(keyword && { title: keyword })
       });
 
-      const response = await fetch(`/api/products?${params}`);
+      const response = await fetch(`/api/product/client/get-all?${params}`);
       if (!response.ok) throw new Error('Failed to fetch products');
       return response.json();
     },
-    enabled,
+    enabled: Boolean(enabled),
     staleTime: 5 * 60 * 1000,
+    refetchOnWindowFocus: false,
     ...otherOptions
   });
 };
 
 export const useQueryProductsByCategories = (categoryIds, options = {}) => {
-  if (typeof options !== 'object' || options === null) {
-    console.warn('useQueryProductsByCategories: options must be an object');
-    options = {};
-  }
-
   const { enabled = true, sortBy = 'newest', page = 1, keyword = '', ...otherOptions } = options;
 
-  const isEnabledValid = typeof enabled === 'boolean' || typeof enabled === 'function';
-  const hasValidCategoryIds = Array.isArray(categoryIds) && categoryIds.length > 0;
-  const shouldExecuteQuery = isEnabledValid ? enabled : true;
-
-  const queryEnabled = Boolean(shouldExecuteQuery) && hasValidCategoryIds;
+  const hasValidCategories = Array.isArray(categoryIds) && categoryIds.length > 0;
+  const shouldExecute = Boolean(enabled) && hasValidCategories;
 
   return useQuery({
     queryKey: ['products', 'categories', categoryIds, { sortBy, page, keyword }],
     queryFn: async () => {
-      if (!hasValidCategoryIds) {
-        return { content: [], totalElements: 0 };
-      }
+      if (!hasValidCategories) return { content: [], totalElements: 0 };
 
-      try {
-        const params = new URLSearchParams({
-          categoryIds: categoryIds.join(','),
-          page: page.toString(),
-          pageSize: '15',
-          sortBy,
-          ...(keyword && { keyword })
-        });
+      const params = new URLSearchParams({
+        categoryIds: categoryIds.join(','),
+        pageNumber: (page - 1).toString(),
+        pageSize: '15',
+        orderBy: sortBy === 'newest' ? 'id' : sortBy,
+        isDesc: sortBy === 'newest' ? 'true' : 'false',
+        ...(keyword && { title: keyword })
+      });
 
-        const response = await fetch(`/api/products/by-categories?${params}`);
-
-        if (!response.ok) {
-          const errorText = await response.text();
-          throw new Error(`HTTP ${response.status}: ${errorText}`);
-        }
-
-        return response.json();
-      } catch (error) {
-        console.error('Failed to fetch category products:', error);
-        throw error;
-      }
+      const response = await fetch(`/api/product/client/get-all?${params}`);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      return response.json();
     },
-    enabled: queryEnabled,
+    enabled: shouldExecute,
     staleTime: 5 * 60 * 1000,
     refetchOnWindowFocus: false,
     ...otherOptions

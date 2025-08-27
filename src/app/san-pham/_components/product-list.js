@@ -137,7 +137,6 @@ const ProductList = () => {
 
   const updateURL = (newParams = {}) => {
     const params = new URLSearchParams();
-
     const finalParams = {
       page: currentPage,
       keyword: searchTerm,
@@ -554,6 +553,16 @@ const ProductList = () => {
       </Container>
     </>
   );
+};
+
+const getSortDisplayName = (sortValue) => {
+  const sortLabels = {
+    newest: 'Mới nhất',
+    oldest: 'Cũ nhất',
+    'price-asc': 'Giá tăng dần',
+    'price-desc': 'Giá giảm dần'
+  };
+  return sortLabels[sortValue] || 'Mới nhất';
 };
 
 export default ProductList;
