@@ -225,7 +225,7 @@ const ProductDetail = async ({ params }) => {
             {instruction && (
               <Box>
                 <div
-                  dangerouslySetInnerHTML={{ __html: description }}
+                  dangerouslySetInnerHTML={{ __html: instruction }}
                   style={{
                     textAlign: 'justify',
                     lineHeight: '1.6'
