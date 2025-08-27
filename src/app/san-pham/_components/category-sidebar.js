@@ -236,7 +236,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
             size="xl"
             variant="outline"
             w="full"
-            onClick={() => handleSubCategorySelect(selectedCategory)}
+            onClick={() => handleCategoryClick(selectedCategory)}
             borderColor="#003366"
             color="#003366"
             _hover={{ bg: '#003366', color: 'white' }}
