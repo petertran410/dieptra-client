@@ -26,6 +26,37 @@ const CategoryItem = ({
     onToggleExpand(category.id);
   };
 
+  const generateCategoryUrl = (categoryPath) => {
+    return (
+      '/san-pham/' +
+      categoryPath
+        .map((cat) =>
+          cat.name
+            .toLowerCase()
+            .trim()
+            .replace(/[áàảãạâấầẩẫậăắằẳẵặ]/g, 'a')
+            .replace(/[éèẻẽẹêếềểễệ]/g, 'e')
+            .replace(/[íìỉĩị]/g, 'i')
+            .replace(/[óòỏõọôốồổỗộơớờởỡợ]/g, 'o')
+            .replace(/[úùủũụưứừửữự]/g, 'u')
+            .replace(/[ýỳỷỹỵ]/g, 'y')
+            .replace(/đ/g, 'd')
+            .replace(/[^a-z0-9\s-]/g, '')
+            .replace(/\s+/g, '-')
+            .replace(/-+/g, '-')
+            .replace(/^-|-$/g, '')
+        )
+        .join('/')
+    );
+  };
+
+  // Trong component, thay đổi onClick handler:
+  const handleCategoryClick = (category) => {
+    const categoryPath = buildCategoryPath(category);
+    const url = generateCategoryUrl(categoryPath);
+    router.push(url);
+  };
+
   return (
     <Box>
       <HStack
