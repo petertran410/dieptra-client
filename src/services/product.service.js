@@ -108,21 +108,19 @@ export const useQueryProductList = (options = {}) => {
   return useQuery({
     queryKey: ['products', 'all', { sortBy, page, keyword }],
     queryFn: async () => {
-      const params = new URLSearchParams({
-        pageNumber: (page - 1).toString(),
-        pageSize: '15',
-        orderBy: sortBy === 'newest' ? 'id' : sortBy,
-        isDesc: sortBy === 'newest' ? 'true' : 'false',
-        ...(keyword && { title: keyword })
+      const response = await API.request({
+        url: '/api/product/client/get-all',
+        params: {
+          pageNumber: (page - 1).toString(),
+          pageSize: '15',
+          ...(keyword && { title: keyword })
+        }
       });
 
-      const response = await fetch(`/api/product/client/get-all?${params}`);
-      if (!response.ok) throw new Error('Failed to fetch products');
-      return response.json();
+      return response;
     },
     enabled: Boolean(enabled),
     staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
     ...otherOptions
   });
 };
@@ -136,24 +134,24 @@ export const useQueryProductsByCategories = (categoryIds, options = {}) => {
   return useQuery({
     queryKey: ['products', 'categories', categoryIds, { sortBy, page, keyword }],
     queryFn: async () => {
-      if (!hasValidCategories) return { content: [], totalElements: 0 };
+      if (!hasValidCategories) {
+        return { content: [], totalElements: 0 };
+      }
 
-      const params = new URLSearchParams({
-        categoryIds: categoryIds.join(','),
-        pageNumber: (page - 1).toString(),
-        pageSize: '15',
-        orderBy: sortBy === 'newest' ? 'id' : sortBy,
-        isDesc: sortBy === 'newest' ? 'true' : 'false',
-        ...(keyword && { title: keyword })
+      const response = await API.request({
+        url: '/api/product/client/get-all',
+        params: {
+          categoryIds: categoryIds.join(','),
+          pageNumber: (page - 1).toString(),
+          pageSize: '15',
+          ...(keyword && { title: keyword })
+        }
       });
 
-      const response = await fetch(`/api/product/client/get-all?${params}`);
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
       return response.json();
     },
     enabled: shouldExecute,
     staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
     ...otherOptions
   });
 };
