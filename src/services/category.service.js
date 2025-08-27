@@ -131,6 +131,8 @@ export const useQueryCategoryHierarchy = (parentCategoryId) => {
           id: child.id,
           name: child.name,
           level: level,
+          title_meta: child.title_meta,
+          description: child.description,
           parent_id: child.parent_id,
           productCount: child.productCount || 0,
           hasChildren: allCategories.some((cat) => cat.parent_id === child.id),
@@ -143,7 +145,9 @@ export const useQueryCategoryHierarchy = (parentCategoryId) => {
         name: parentCategory.name,
         level: 0,
         parent_id: parentCategory.parent_id,
+        title_meta: parentCategory.title_meta,
         productCount: parentCategory.productCount || 0,
+        description: parentCategory.description,
         children: getChildrenRecursive(parentCategory.id)
       };
 

@@ -28,7 +28,11 @@ import { PX_ALL } from '../../../utils/const';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
 import ProductItem from '../../../components/product-item/product-item';
 import { useQueryProductList, useQueryProductsByCategories } from '../../../services/product.service';
-import { useQueryTopLevelCategories, useQueryCategoryPaths } from '../../../services/category.service';
+import {
+  useQueryTopLevelCategories,
+  useQueryCategoryPaths,
+  useQueryCategoryHierarchy
+} from '../../../services/category.service';
 
 const PRODUCTS_PER_PAGE = 15;
 
@@ -49,6 +53,12 @@ const ProductList = () => {
   const effectiveCategoryId = subCategoryId || categoryId;
 
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
+
+  const { data: categoryHierarchy, isLoading: hierarchyLoading } = useQueryCategoryHierarchy(selectedCategory);
+
+  console.log(categoryHierarchy);
+
+  const { title_meta, description } = categoryHierarchy;
 
   const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
     effectiveCategoryId && effectiveCategoryId !== 'all' ? parseInt(effectiveCategoryId) : null
@@ -81,6 +91,38 @@ const ProductList = () => {
   const products = productsData?.content || [];
   const totalElements = productsData?.totalElements || 0;
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
+
+  const getCategoryDisplayName = () => {
+    if (selectedCategory === 'all') {
+      return 'Tất Cả Sản Phẩm';
+    }
+
+    if (subCategoryId && categoryHierarchy) {
+      const findSubCategoryName = (categories, targetId) => {
+        if (!categories || !Array.isArray(categories)) return null;
+
+        for (const category of categories) {
+          if (category.id.toString() === targetId.toString()) {
+            return category.name;
+          }
+
+          if (category.children && category.children.length > 0) {
+            const found = findSubCategoryName(category.children, targetId);
+            if (found) return found;
+          }
+        }
+        return null;
+      };
+
+      const subCategoryName = findSubCategoryName(categoryHierarchy.children, subCategoryId);
+      if (subCategoryName) {
+        return subCategoryName;
+      }
+    }
+
+    const category = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
+    return category ? category.name : 'Danh Mục';
+  };
 
   const updateURL = (newParams = {}) => {
     const params = new URLSearchParams();
@@ -135,10 +177,55 @@ const ProductList = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const breadcrumbData = [
-    { title: 'Trang chủ', href: '/' },
-    { title: 'Sản Phẩm', href: '/san-pham', isActive: true }
-  ];
+  const getBreadcrumbData = () => {
+    const baseBreadcrumb = [
+      { title: 'Trang chủ', href: '/' },
+      { title: 'Sản Phẩm', href: '/san-pham' }
+    ];
+
+    if (selectedCategory === 'all') {
+      return [...baseBreadcrumb, { title: 'Tất Cả Sản Phẩm', href: '#', isActive: true }];
+    }
+
+    const parentCategory = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
+    if (parentCategory) {
+      baseBreadcrumb.push({
+        title: parentCategory.name,
+        href: `/san-pham?categoryId=${parentCategory.id}`
+      });
+
+      if (subCategoryId && categoryHierarchy) {
+        const findSubCategory = (categories, targetId) => {
+          if (!categories || !Array.isArray(categories)) return null;
+
+          for (const category of categories) {
+            if (category.id.toString() === targetId.toString()) {
+              return category;
+            }
+
+            if (category.children && category.children.length > 0) {
+              const found = findSubCategory(category.children, targetId);
+              if (found) return found;
+            }
+          }
+          return null;
+        };
+
+        const subCategory = findSubCategory(categoryHierarchy.children, subCategoryId);
+        if (subCategory) {
+          baseBreadcrumb.push({
+            title: subCategory.name,
+            href: '#',
+            isActive: true
+          });
+        }
+      } else {
+        baseBreadcrumb[baseBreadcrumb.length - 1].isActive = true;
+      }
+    }
+
+    return baseBreadcrumb;
+  };
 
   const sortOptions = [
     { value: 'newest', label: 'Mới nhất' },
@@ -150,28 +237,18 @@ const ProductList = () => {
   return (
     <>
       <Head>
-        <title>Sản Phẩm | Diệp Trà</title>
+        <title>{title_meta} | Diệp Trà</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} />
         <meta name="robots" content="index, follow" />
-        <meta
-          name="description"
-          content="Khám phá bộ sưu tập nguyên liệu pha chế cao cấp từ Diệp Trà - Siro, mứt, bột kem và nhiều sản phẩm chất lượng khác."
-        />
+        <meta name="description" content={description} />
       </Head>
 
       <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
-          {/* {topCategories.map((category) => (
-            <Heading as="h1" fontSize={{ base: '28px', lg: '36px' }} fontWeight={700} color="#003366">
-              {category.name}
-            </Heading>
-          ))} */}
-
+          <Breadcrumb data={getBreadcrumbData()} />
           <Heading as="h1" fontSize={{ base: '28px', lg: '36px' }} fontWeight={700} color="#003366">
-            {selectedCategory}
+            {getCategoryDisplayName()}
           </Heading>
-
-          {/* selectedCategory */}
 
           <Flex
             direction={{ base: 'column', md: 'row' }}
