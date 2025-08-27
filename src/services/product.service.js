@@ -100,100 +100,52 @@ export const useQueryAllCategories = () => {
   });
 };
 
-export const useQueryProductList = () => {
-  const paramsURL = useGetParamsURL();
-  const { page = 1, keyword, categoryId, sortBy = 'newest' } = paramsURL || {};
-
-  const queryKey = ['GET_PRODUCT_LIST_CLIENT', page, keyword, categoryId, sortBy];
+export const useQueryProductList = (options = {}) => {
+  const { enabled = true, sortBy = 'newest', page = 1, keyword = '', ...otherOptions } = options;
 
   return useQuery({
-    queryKey,
+    queryKey: ['products', 'all', { sortBy, page, keyword }],
     queryFn: async () => {
-      const pageNumber = Number(page) - 1;
-
-      let sortParams = {};
-      switch (sortBy) {
-        case 'price-low':
-          sortParams.orderBy = 'kiotviet_price';
-          sortParams.isDesc = false;
-          break;
-        case 'price-high':
-          sortParams.orderBy = 'kiotviet_price';
-          sortParams.isDesc = true;
-          break;
-        case 'name':
-          sortParams.orderBy = 'title' ? 'title' : 'kiotviet_name';
-          sortParams.isDesc = false;
-          break;
-        case 'newest':
-        default:
-          sortParams.orderBy = 'created_date';
-          sortParams.isDesc = true;
-          break;
-      }
-
-      const apiParams = {
-        pageNumber,
-        pageSize: 15,
-        is_visible: 'true',
-        ...sortParams
-      };
-
-      if (keyword) {
-        apiParams.title = keyword;
-      }
-
-      if (categoryId && categoryId !== 'all') {
-        if (Array.isArray(categoryId)) {
-          apiParams.categoryIds = categoryId.join(',');
-        } else {
-          apiParams.categoryId = categoryId;
-        }
-      }
-
-      const response = await API.request({
-        url: '/api/product/client/get-all',
-        params: apiParams
+      const params = new URLSearchParams({
+        page: page.toString(),
+        pageSize: '15',
+        sortBy,
+        ...(keyword && { keyword })
       });
 
-      console.log('📦 API Response:', response);
-      return response;
+      const response = await fetch(`${API_BASE}/products?${params}`);
+      if (!response.ok) throw new Error('Failed to fetch products');
+      return response.json();
     },
-    staleTime: 2 * 60 * 1000,
-    cacheTime: 5 * 60 * 1000
+    enabled,
+    staleTime: 5 * 60 * 1000,
+    ...otherOptions
   });
 };
 
-export const useQueryProductsByCategories = (categoryIds = [], options = {}) => {
-  const paramsURL = useGetParamsURL();
-  const { page = 1, keyword, sortBy = 'name' } = paramsURL || {};
+export const useQueryProductsByCategories = (categoryIds, options = {}) => {
+  const { enabled = true, sortBy = 'newest', page = 1, keyword = '', ...otherOptions } = options;
 
   return useQuery({
-    queryKey: ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, page, keyword, sortBy],
+    queryKey: ['products', 'categories', categoryIds, { sortBy, page, keyword }],
     queryFn: async () => {
-      const sortConfig = {
-        'price-low': { orderBy: 'kiotviet_price', isDesc: false },
-        'price-high': { orderBy: 'kiotviet_price', isDesc: true },
-        newest: { orderBy: 'id', isDesc: true },
-        name: { orderBy: 'title', isDesc: false }
-      };
+      if (!categoryIds?.length) return { content: [], totalElements: 0 };
 
-      const sortParams = sortConfig[sortBy] || sortConfig['name'];
-
-      return API.request({
-        url: '/api/product/client/get-all',
-        params: {
-          pageNumber: Number(page) - 1,
-          pageSize: 15,
-          categoryIds: categoryIds.join(','),
-          title: keyword,
-          is_visible: 'true',
-          ...sortParams
-        }
+      const params = new URLSearchParams({
+        categoryIds: categoryIds.join(','),
+        page: page.toString(),
+        pageSize: '15',
+        sortBy,
+        ...(keyword && { keyword })
       });
+
+      const response = await fetch(`${API_BASE}/products/by-categories?${params}`);
+      if (!response.ok) throw new Error('Failed to fetch category products');
+      return response.json();
     },
-    enabled: Array.isArray(categoryIds) && categoryIds.length > 0 && options.enabled !== false,
-    staleTime: 2 * 60 * 1000
+    enabled: enabled && categoryIds?.length > 0,
+    staleTime: 5 * 60 * 1000,
+    ...otherOptions
   });
 };
 
