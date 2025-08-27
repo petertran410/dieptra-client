@@ -22,7 +22,6 @@ import {
   Center
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import Head from 'next/head';
 
 import { PX_ALL } from '../../../utils/const';
 import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
@@ -55,10 +54,6 @@ const ProductList = () => {
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
   const { data: categoryHierarchy, isLoading: hierarchyLoading } = useQueryCategoryHierarchy(selectedCategory);
-
-  console.log(categoryHierarchy);
-
-  const { title_meta, description } = categoryHierarchy;
 
   const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
     effectiveCategoryId && effectiveCategoryId !== 'all' ? parseInt(effectiveCategoryId) : null
@@ -177,6 +172,66 @@ const ProductList = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const getMetadata = () => {
+    const defaultDescription =
+      'Khám phá bộ sưu tập nguyên liệu pha chế cao cấp từ Diệp Trà - Siro, mứt, bột kem và nhiều sản phẩm chất lượng khác.';
+
+    if (selectedCategory === 'all') {
+      return {
+        title: 'Tất Cả Sản Phẩm',
+        description: defaultDescription
+      };
+    }
+
+    if (subCategoryId && categoryHierarchy) {
+      const findSubCategory = (categories, targetId) => {
+        if (!categories || !Array.isArray(categories)) return null;
+
+        for (const category of categories) {
+          if (category.id.toString() === targetId.toString()) {
+            return category;
+          }
+
+          if (category.children && category.children.length > 0) {
+            const found = findSubCategory(category.children, targetId);
+            if (found) return found;
+          }
+        }
+        return null;
+      };
+
+      const subCategory = findSubCategory(categoryHierarchy.children, subCategoryId);
+      if (subCategory) {
+        return {
+          title: subCategory.title_meta || subCategory.name,
+          description: subCategory.description || defaultDescription
+        };
+      }
+    }
+
+    if (categoryHierarchy) {
+      return {
+        title: categoryHierarchy.title_meta || categoryHierarchy.name || 'Danh Mục',
+        description: categoryHierarchy.description || defaultDescription
+      };
+    }
+
+    const category = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
+    if (category) {
+      return {
+        title: category.title_meta || category.name || 'Danh Mục',
+        description: category.description || defaultDescription
+      };
+    }
+
+    return {
+      title: 'Danh Mục',
+      description: defaultDescription
+    };
+  };
+
+  const metadata = getMetadata();
+
   const getBreadcrumbData = () => {
     const baseBreadcrumb = [
       { title: 'Trang chủ', href: '/' },
@@ -236,12 +291,10 @@ const ProductList = () => {
 
   return (
     <>
-      <Head>
-        <title>{title_meta} | Diệp Trà</title>
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} />
-        <meta name="robots" content="index, follow" />
-        <meta name="description" content={description} />
-      </Head>
+      <title>{metadata.title} | Diệp Trà</title>
+      <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} />
+      <meta name="robots" content="index, follow" />
+      <meta name="description" content={metadata.description} />
 
       <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
