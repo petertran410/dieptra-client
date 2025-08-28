@@ -132,7 +132,9 @@ const ProductList = () => {
     return category ? category.name : 'Danh Mục';
   };
 
-  const updateURL = async (newParams = {}) => {
+  const updateURL = (newParams = {}) => {
+    const params = new URLSearchParams();
+
     const finalParams = {
       page: currentPage,
       keyword: searchTerm,
@@ -142,29 +144,6 @@ const ProductList = () => {
       ...newParams
     };
 
-    const targetCategoryId = finalParams.subCategoryId || finalParams.categoryId;
-
-    if (targetCategoryId && targetCategoryId !== 'all') {
-      const categorySlug = await getCategorySlug(targetCategoryId);
-
-      if (categorySlug) {
-        let newURL = `/san-pham/${categorySlug}`;
-        const params = new URLSearchParams();
-
-        if (finalParams.keyword) params.set('keyword', finalParams.keyword);
-        if (finalParams.sortBy && finalParams.sortBy !== 'newest') params.set('sortBy', finalParams.sortBy);
-        if (finalParams.page && finalParams.page !== 1) params.set('page', finalParams.page);
-
-        if (params.toString()) {
-          newURL += `?${params.toString()}`;
-        }
-
-        router.push(newURL, { scroll: false });
-        return;
-      }
-    }
-
-    const params = new URLSearchParams();
     Object.entries(finalParams).forEach(([key, value]) => {
       if (value && value !== 'all' && value !== '') {
         params.set(key, value.toString());
@@ -204,21 +183,6 @@ const ProductList = () => {
   const handlePageChange = (newPage) => {
     updateURL({ page: newPage });
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const handleProductClick = async (product) => {
-    const { slug: productSlug, categoryId } = product;
-
-    if (!productSlug) {
-      return;
-    }
-
-    const categorySlug = await getCategorySlug(categoryId);
-    if (categorySlug) {
-      router.push(`/san-pham/${categorySlug}/${productSlug}`);
-    } else {
-      router.push(`/san-pham/product-detail?id=${product.id}`);
-    }
   };
 
   const getMetadata = () => {
@@ -293,13 +257,9 @@ const ProductList = () => {
 
     const parentCategory = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
     if (parentCategory) {
-      const categoryHref = parentCategory.slug
-        ? `/san-pham/${parentCategory.slug}`
-        : `/san-pham?categoryId=${parentCategory.id}`;
-
       baseBreadcrumb.push({
         title: parentCategory.name,
-        href: categoryHref
+        href: `/san-pham?categoryId=${parentCategory.id}`
       });
 
       if (subCategoryId && categoryHierarchy) {
@@ -489,7 +449,9 @@ const ProductList = () => {
                     mb={10}
                   >
                     {products.map((product) => (
-                      <ProductItem key={product.id} product={product} onClick={() => handleProductClick(product)} />
+                      <GridItem key={product.id}>
+                        <ProductItem item={product} />
+                      </GridItem>
                     ))}
                   </Grid>
                 ) : (
