@@ -36,18 +36,25 @@ import Head from 'next/head';
 
 const PRODUCTS_PER_PAGE = 15;
 
-const ProductList = () => {
+const ProductList = ({
+  preSelectedCategory = null,
+  categorySlug = null,
+  categoryData = null,
+  isSlugBasedRouting = false
+}) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const keyword = searchParams.get('keyword') || '';
-  const categoryId = searchParams.get('categoryId');
+  const categoryIdFromUrl = searchParams.get('categoryId');
   const subCategoryId = searchParams.get('subCategoryId');
   const sortBy = searchParams.get('sortBy') || 'newest';
 
   const [searchTerm, setSearchTerm] = useState(keyword);
-  const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
+  const [selectedCategory, setSelectedCategory] = useState(
+    preSelectedCategory?.toString() || categoryIdFromUrl || 'all'
+  );
   const [currentSort, setCurrentSort] = useState(sortBy);
 
   const effectiveCategoryId = subCategoryId || categoryId;
@@ -239,44 +246,54 @@ const ProductList = () => {
       { title: 'Sản Phẩm', href: '/san-pham' }
     ];
 
-    if (selectedCategory === 'all') {
-      return [...baseBreadcrumb, { title: 'Tất Cả Sản Phẩm', href: '#', isActive: true }];
-    }
-
-    const parentCategory = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
-    if (parentCategory) {
+    if (isSlugBasedRouting && categoryData) {
       baseBreadcrumb.push({
-        title: parentCategory.name,
-        href: `/san-pham?categoryId=${parentCategory.id}`
+        title: categoryData.name,
+        href: '#',
+        isActive: true
       });
+    } else if (selectedCategory === 'all') {
+      baseBreadcrumb.push({
+        title: 'Tất Cả Sản Phẩm',
+        href: '#',
+        isActive: true
+      });
+    } else {
+      const parentCategory = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
+      if (parentCategory) {
+        baseBreadcrumb.push({
+          title: parentCategory.name,
+          href: `/san-pham?categoryId=${parentCategory.id}`
+        });
 
-      if (subCategoryId && categoryHierarchy) {
-        const findSubCategory = (categories, targetId) => {
-          if (!categories || !Array.isArray(categories)) return null;
+        if (subCategoryId && categoryHierarchy) {
+          const findSubCategory = (categories, targetId) => {
+            if (!categories || !Array.isArray(categories)) return null;
 
-          for (const category of categories) {
-            if (category.id.toString() === targetId.toString()) {
-              return category;
+            for (const category of categories) {
+              if (category.id.toString() === targetId.toString()) {
+                return category;
+              }
+
+              if (category.children && category.children.length > 0) {
+                const found = findSubCategory(category.children, targetId);
+                if (found) return found;
+              }
             }
+            return null;
+          };
 
-            if (category.children && category.children.length > 0) {
-              const found = findSubCategory(category.children, targetId);
-              if (found) return found;
-            }
+          const subCategory = findSubCategory(categoryHierarchy.children, subCategoryId);
+          if (subCategory) {
+            baseBreadcrumb.push({
+              title: subCategory.name,
+              href: '#',
+              isActive: true
+            });
           }
-          return null;
-        };
-
-        const subCategory = findSubCategory(categoryHierarchy.children, subCategoryId);
-        if (subCategory) {
-          baseBreadcrumb.push({
-            title: subCategory.name,
-            href: '#',
-            isActive: true
-          });
+        } else {
+          baseBreadcrumb[baseBreadcrumb.length - 1].isActive = true;
         }
-      } else {
-        baseBreadcrumb[baseBreadcrumb.length - 1].isActive = true;
       }
     }
 
@@ -303,8 +320,13 @@ const ProductList = () => {
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
           <Breadcrumb data={getBreadcrumbData()} />
           <Heading as="h1" fontSize={{ base: '28px', lg: '36px' }} fontWeight={700} color="#003366">
-            {getCategoryDisplayName()}
+            {isSlugBasedRouting && categoryData ? categoryData.name : 'Tất Cả Sản Phẩm'}
           </Heading>
+          {isSlugBasedRouting && categoryData?.description && (
+            <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6">
+              {categoryData.description}
+            </Text>
+          )}
 
           <Flex
             direction={{ base: 'column', md: 'row' }}
