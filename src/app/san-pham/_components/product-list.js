@@ -19,7 +19,9 @@ import {
   Text,
   Button,
   Spinner,
-  Center
+  Center,
+  AspectRatio,
+  Image
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
@@ -33,8 +35,163 @@ import {
   useQueryCategoryHierarchy
 } from '../../../services/category.service';
 import Head from 'next/head';
+import { convertSlugURL } from '../../../utils/helper-server';
 
 const PRODUCTS_PER_PAGE = 15;
+
+const ProductCard = ({ product, productSlug }) => {
+  const { id, title, images_url, category_id, category_slut, kiotviet_name, kiotviet_price, kiotviet_images } = product;
+
+  return (
+    <Flex direction="column" gap="16px" h="100%">
+      <Link href={`/san-pham/${productSlug}/${title ? convertSlugURL(title) : convertSlugURL(kiotviet_name)}`}>
+        <AspectRatio ratio={16 / 9} w="full">
+          <Image
+            src={
+              images_url
+                ? images_url?.[0]?.replace('http://', 'https://') || '/images/news.webp'
+                : kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/news.webp'
+            }
+            w="full"
+            h="full"
+            alt={IMG_ALT}
+            borderRadius={12}
+            transition="transform 0.3s ease"
+            _hover={{ transform: 'scale(1.05)' }}
+          />
+        </AspectRatio>
+      </Link>
+
+      <Grid
+        templateColumns={{
+          base: 'repeat(1, 1fr)',
+          sm: 'repeat(2, 1fr)',
+          md: 'repeat(3, 1fr)',
+          lg: selectedCategory !== 'all' ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)',
+          xl: selectedCategory !== 'all' ? 'repeat(4, 1fr)' : 'repeat(5, 1fr)'
+        }}
+        gap={6}
+        mb={10}
+      >
+        <Link href={`/san-pham/${productSlug}/${title ? convertSlugURL(title) : convertSlugURL(kiotviet_name)}`}>
+          {title ? (
+            <Text
+              fontSize={18}
+              fontWeight={500}
+              lineHeight="24px"
+              noOfLines={2}
+              // h="48px"
+              _hover={{ color: '#065FD4' }}
+              transition="color 0.2s ease"
+            >
+              {title}
+            </Text>
+          ) : (
+            <Text
+              fontSize={18}
+              fontWeight={500}
+              lineHeight="24px"
+              noOfLines={2}
+              // h="48px"
+              _hover={{ color: '#065FD4' }}
+              transition="color 0.2s ease"
+            >
+              {kiotviet_name}
+            </Text>
+          )}
+        </Link>
+
+        {kiotviet_price ? (
+          <Text mt={1} fontSize={16} color="gray.600" lineHeight="20px" noOfLines={2}>
+            {kiotviet_price}
+          </Text>
+        ) : (
+          <Text mt={1} fontSize={16} color="gray.600" lineHeight="20px" noOfLines={2}>
+            Liên Hệ
+          </Text>
+        )}
+      </Grid>
+    </Flex>
+  );
+};
+
+const ProductSection = ({ section, products, isLoading }) => {
+  const { label, slug, href } = section;
+
+  if (isLoading) {
+    return (
+      <Box mb="50px">
+        <Flex justify="space-between" align="center" mb="24px">
+          <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
+            {label}
+          </Heading>
+        </Flex>
+        <Flex justify="center" py="40px">
+          <Spinner size="lg" color="#065FD4" />
+        </Flex>
+      </Box>
+    );
+  }
+
+  <Grid
+    templateColumns={{
+      xs: '1fr',
+      md: 'repeat(2, 1fr)',
+      lg: 'repeat(3, 1fr)'
+    }}
+    gap="24px"
+  >
+    {products.map((product) => (
+      <ProductCard key={product.id} product={product} categorySlug={slug} />
+    ))}
+  </Grid>;
+};
+
+const SectionsContent = () => {
+  const [sectionsData, setSectionsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProductSections = async () => {
+      try {
+        setLoading(true);
+
+        const response = await API.request({ url: '/api/product/client/get-all' });
+
+        if (response && Array.isArray(response)) {
+          const validatedSections = response.map((section) => {
+            const { content = [] } = section;
+
+            const validatedProducts = content.map((product) => {
+              return {
+                ...product,
+                id: Number(product.id)
+              };
+            });
+
+            return {
+              products: validatedProducts
+            };
+          });
+
+          setSectionsData(validatedSections);
+        } else {
+          console.warn('⚠️ Invalid API response format:', response);
+          setSectionsData([]);
+        }
+      } catch (error) {
+        console.error('❌ Error fetching products sections:', error);
+        setSectionsData([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProductSections();
+  }, []);
+
+  return <></>;
+};
 
 const ProductList = () => {
   const router = useRouter();
