@@ -13,17 +13,16 @@ const CategoryItem = ({
   onSubCategorySelect,
   isExpanded,
   onToggleExpand,
-  isSlugBasedRouting = false
+  isSlugBasedRouting = false,
+  expandedCategories
 }) => {
   const hasChildren = category.children && category.children.length > 0;
   const isSelected = selectedSubCategory === category.id.toString();
 
   const handleClick = () => {
     if (isSlugBasedRouting && category.slug) {
-      // NEW: Use slug-based navigation
       onSubCategorySelect(category.slug, category.id, 'slug');
     } else {
-      // FALLBACK: Use old query param navigation
       onSubCategorySelect(category.id.toString());
     }
   };
@@ -182,6 +181,7 @@ const CategorySidebar = ({
               isExpanded={expandedCategories.has(child.id)}
               onToggleExpand={handleToggleExpand}
               isSlugBasedRouting={isSlugBasedRouting}
+              expandedCategories={expandedCategories} // ← ADD THIS
             />
           ))}
       </VStack>

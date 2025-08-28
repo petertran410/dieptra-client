@@ -57,7 +57,7 @@ const ProductList = ({
   );
   const [currentSort, setCurrentSort] = useState(sortBy);
 
-  const effectiveCategoryId = subCategoryId || categoryId;
+  const effectiveCategoryId = subCategoryId || categoryIdFromUrl;
 
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
