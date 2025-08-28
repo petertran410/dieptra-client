@@ -232,14 +232,35 @@ export const useQueryProductByIds = (productIds = []) => {
   });
 };
 
+export const useQueryFindProductIdBySlug = (slug, categorySlug) => {
+  const queryKey = ['FIND_PRODUCT_ID_BY_SLUG', slug, categorySlug];
+
+  return useQuery({
+    queryKey,
+    queryFn: () =>
+      API.request({
+        url: '/api/product/client/find-id-by-slug',
+        params: { slug, categorySlug }
+      }),
+    enabled: !!(slug && categorySlug),
+    staleTime: 5 * 60 * 1000
+  });
+};
+
 export const useQueryProductDetail = (id) => {
   const queryKey = ['GET_PRODUCT_DETAIL_CLIENT', id];
 
   return useQuery({
     queryKey,
-    queryFn: () => API.request({ url: `/api/product/get-by-id/${id}` }),
-    enabled: !!id,
-    staleTime: 5 * 60 * 1000
+    queryFn: () =>
+      API.request({
+        url: `/api/product/client/get-all-product-list`
+      }).then((data) => {
+        const product = data.content?.find((p) => p.id === parseInt(id));
+        if (!product) throw new Error('Product not found');
+        return product;
+      }),
+    enabled: !!id
   });
 };
 

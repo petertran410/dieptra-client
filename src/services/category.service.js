@@ -158,3 +158,17 @@ export const useQueryCategoryHierarchy = (parentCategoryId) => {
     cacheTime: 15 * 60 * 1000
   });
 };
+
+export const useQueryCategoryBySlug = (slug) => {
+  const queryKey = ['GET_CATEGORY_BY_SLUG', slug];
+
+  return useQuery({
+    queryKey,
+    queryFn: () =>
+      API.request({
+        url: `/api/category/client/find-by-slug/${slug}`
+      }),
+    enabled: !!slug,
+    staleTime: 10 * 60 * 1000
+  });
+};

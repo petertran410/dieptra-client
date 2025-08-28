@@ -1,10 +1,13 @@
-export const generateProductCategoryUrl = (category, parentCategories = []) => {
-  const allCategories = [...parentCategories, category];
-  const slugPath = allCategories.map((cat) => cat.slug).filter(Boolean);
-  return `/san-pham/${slugPath.join('/')}`;
+import { convertSlugURL } from './helper-server';
+
+export const generateProductDetailUrl = (product) => {
+  if (!product.category?.slug) {
+    return `/san-pham/${convertSlugURL(product.title)}`;
+  }
+
+  return `/san-pham/${product.category.slug}/${convertSlugURL(product.title)}`;
 };
 
-export const generateProductDetailUrl = (product, categoryPath = []) => {
-  const basePath = categoryPath.length ? `/san-pham/${categoryPath.join('/')}` : '/san-pham';
-  return `${basePath}/${product.slug}`;
+export const generateProductCategoryUrl = (categorySlug) => {
+  return `/san-pham/${categorySlug}`;
 };
