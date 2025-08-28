@@ -6,23 +6,6 @@ import { Box, VStack, Text, Button, Collapse, HStack, Badge, Divider, useDisclos
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useQueryCategoryHierarchy } from '../../../services/category.service';
 
-const CategoryMenuItem = ({ category, currentPath = [] }) => {
-  const categoryPath = [...currentPath, category.slug];
-  const href = `/san-pham/${categoryPath.join('/')}`;
-
-  return (
-    <Box>
-      <Link href={href}>
-        <Text>{category.name}</Text>
-      </Link>
-
-      {category.children?.map((child) => (
-        <CategoryMenuItem key={child.id} category={child} currentPath={categoryPath} />
-      ))}
-    </Box>
-  );
-};
-
 const CategoryItem = ({
   category,
   level = 0,
@@ -41,37 +24,6 @@ const CategoryItem = ({
   const handleToggle = (e) => {
     e.stopPropagation();
     onToggleExpand(category.id);
-  };
-
-  const generateCategoryUrl = (categoryPath) => {
-    return (
-      '/san-pham/' +
-      categoryPath
-        .map((cat) =>
-          cat.name
-            .toLowerCase()
-            .trim()
-            .replace(/[áàảãạâấầẩẫậăắằẳẵặ]/g, 'a')
-            .replace(/[éèẻẽẹêếềểễệ]/g, 'e')
-            .replace(/[íìỉĩị]/g, 'i')
-            .replace(/[óòỏõọôốồổỗộơớờởỡợ]/g, 'o')
-            .replace(/[úùủũụưứừửữự]/g, 'u')
-            .replace(/[ýỳỷỹỵ]/g, 'y')
-            .replace(/đ/g, 'd')
-            .replace(/[^a-z0-9\s-]/g, '')
-            .replace(/\s+/g, '-')
-            .replace(/-+/g, '-')
-            .replace(/^-|-$/g, '')
-        )
-        .join('/')
-    );
-  };
-
-  // Trong component, thay đổi onClick handler:
-  const handleCategoryClick = (category) => {
-    const categoryPath = buildCategoryPath(category);
-    const url = generateCategoryUrl(categoryPath);
-    router.push(url);
   };
 
   return (
@@ -253,7 +205,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
             size="xl"
             variant="outline"
             w="full"
-            onClick={() => handleCategoryClick(selectedCategory)}
+            onClick={() => handleSubCategorySelect(selectedCategory)}
             borderColor="#003366"
             color="#003366"
             _hover={{ bg: '#003366', color: 'white' }}
