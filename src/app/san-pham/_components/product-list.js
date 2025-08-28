@@ -48,7 +48,7 @@ const getCategorySlug = async (categoryId) => {
   }
 };
 
-const ProductList = () => {
+const ProductList = ({ resolvedCategoryData, searchParams }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -70,7 +70,7 @@ const ProductList = () => {
 
   const { data: categoryHierarchy, isLoading: hierarchyLoading } = useQueryCategoryHierarchy(selectedCategory);
 
-  const categoryIds = getCategoryIdsForFiltering();
+  const categoryIds = resolvedCategoryData ? resolvedCategoryData.categoryHierarchy.map((cat) => Number(cat.id)) : [];
 
   const shouldUseCategoryFilter = categoryIds.length > 0;
 
@@ -90,10 +90,10 @@ const ProductList = () => {
   //   enabled: shouldUseCategoryFilter
   // });
 
-  const getEffectiveCategoryId = () => {
-    if (!categoryData) return null;
-    return categoryData.finalCategory.id;
-  };
+  // const getEffectiveCategoryId = () => {
+  //   if (!categoryData) return null;
+  //   return categoryData.finalCategory.id;
+  // };
 
   const getCategoryIdsForFiltering = () => {
     if (!categoryData) return [];
