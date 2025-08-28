@@ -190,7 +190,51 @@ const SectionsContent = () => {
     fetchProductSections();
   }, []);
 
-  return <></>;
+  const { data: allProductsData } = useQueryProductList({
+    enabled: !shouldUseCategoryFilter
+  });
+
+  const productsData = allProductsData;
+
+  const products = productsData?.content || [];
+
+  const PRODUCT_SECTIONS = [
+    {
+      type: products.map((product) => {
+        product.category_slug;
+      }),
+      label: products.map((product) => {
+        product.category.map((i) => {
+          i.slug;
+        });
+      }),
+      slug: products.map((product) => {
+        product.category_slug;
+      }),
+      href: products.map((product) => {
+        {
+          `/san-pham/${product.category_slug}`;
+        }
+      })
+    }
+  ];
+
+  return (
+    <>
+      {PRODUCT_SECTIONS.map((section) => {
+        const sectionData = sectionsData.find((data) => data.type === section.type);
+
+        return (
+          <ProductSection
+            key={section.type}
+            section={section}
+            products={sectionData?.products || []}
+            isLoading={loading}
+          />
+        );
+      })}
+    </>
+  );
 };
 
 const ProductList = () => {
@@ -241,8 +285,11 @@ const ProductList = () => {
   const error = allProductsError || categoryProductsError;
 
   const productsData = shouldUseCategoryFilter ? categoryProductsData : allProductsData;
+
   const products = productsData?.content || [];
+
   const totalElements = productsData?.totalElements || 0;
+
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
 
   const getCategoryDisplayName = () => {
@@ -446,6 +493,11 @@ const ProductList = () => {
     { value: 'price-low', label: 'Giá thấp → cao' },
     { value: 'price-high', label: 'Giá cao → thấp' }
   ];
+
+  // const breadcrumbData = [
+  //   { title: 'Trang chủ', href: '/' },
+  //   { title: 'Sản Phẩm', href: '/san-pham', isActive: true }
+  // ];
 
   return (
     <>
