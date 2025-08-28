@@ -1,130 +1,134 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Box, VStack, Text, Button, Divider, Flex, Icon, Collapse } from '@chakra-ui/react';
+import { Box, VStack, Text, Button, Collapse, HStack, Badge, Divider, useDisclosure } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useQueryCategoryHierarchy } from '../../../services/category.service';
 
 const CategoryItem = ({
   category,
-  level,
+  level = 0,
   selectedSubCategory,
   onSubCategorySelect,
   isExpanded,
-  onToggleExpand,
-  isSlugBasedRouting = false,
-  expandedCategories
+  onToggleExpand
 }) => {
   const hasChildren = category.children && category.children.length > 0;
   const isSelected = selectedSubCategory === category.id.toString();
 
   const handleClick = () => {
-    if (isSlugBasedRouting && category.slug) {
-      onSubCategorySelect(category.slug, category.id, 'slug');
-    } else {
-      onSubCategorySelect(category.id.toString());
-    }
+    onSubCategorySelect(category.id.toString());
   };
 
   const handleToggle = (e) => {
     e.stopPropagation();
-    if (hasChildren) {
-      onToggleExpand(category.id);
-    }
+    onToggleExpand(category.id);
   };
 
   return (
     <Box>
-      <Flex
-        align="center"
-        p={3}
-        pl={level * 4 + 12}
+      <HStack
+        p={2}
+        pl={level * 4 + 2}
         cursor="pointer"
-        bg={isSelected ? '#f7fafc' : 'transparent'}
-        color={isSelected ? '#065FD4' : '#4a5568'}
-        fontWeight={isSelected ? '600' : '400'}
-        _hover={{ bg: '#f7fafc', color: '#065FD4' }}
+        _hover={{ bg: 'gray.50' }}
+        bg={isSelected ? 'blue.50' : 'transparent'}
+        borderLeft={level > 0 ? '2px solid #E2E8F0' : 'none'}
         onClick={handleClick}
+        justify="space-between"
+        w="full"
       >
-        <Text flex={1} fontSize="sm">
-          {category.name}
-        </Text>
+        <HStack flex={1} spacing={2}>
+          {hasChildren && (
+            <Button
+              size="xs"
+              variant="ghost"
+              p={0}
+              minW="auto"
+              h="auto"
+              onClick={handleToggle}
+              _hover={{ bg: 'transparent' }}
+            >
+              {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            </Button>
+          )}
 
-        {hasChildren && (
-          <Icon as={isExpanded ? ChevronDownIcon : ChevronRightIcon} w={4} h={4} onClick={handleToggle} />
-        )}
-      </Flex>
+          <Text
+            fontSize="xl"
+            fontWeight={isSelected ? '600' : '400'}
+            color={isSelected ? '#003366' : 'gray.700'}
+            flex={1}
+          >
+            {category.name}
+          </Text>
+
+          {/* {category.productCount > 0 && (
+            <Badge size="sm" colorScheme={isSelected ? 'blue' : 'gray'} variant="subtle">
+              {category.productCount}
+            </Badge>
+          )} */}
+        </HStack>
+      </HStack>
 
       {hasChildren && (
-        <Collapse in={isExpanded}>
-          {category.children.map((child) => (
-            <CategoryItem
-              key={child.id}
-              category={child}
-              level={level + 1}
-              selectedSubCategory={selectedSubCategory}
-              onSubCategorySelect={onSubCategorySelect}
-              isExpanded={expandedCategories.has(child.id)}
-              onToggleExpand={onToggleExpand}
-              isSlugBasedRouting={isSlugBasedRouting}
-            />
-          ))}
+        <Collapse in={isExpanded} animateOpacity>
+          <VStack spacing={0} align="stretch">
+            {category.children.map((child) => (
+              <CategoryItem
+                key={child.id}
+                category={child}
+                level={level + 1}
+                selectedSubCategory={selectedSubCategory}
+                onSubCategorySelect={onSubCategorySelect}
+                isExpanded={isExpanded}
+                onToggleExpand={onToggleExpand}
+              />
+            ))}
+          </VStack>
         </Collapse>
       )}
     </Box>
   );
 };
 
-const CategorySidebar = ({
-  selectedCategory,
-  selectedSubCategory,
-  onSubCategorySelect,
-  isSlugBasedRouting = false
-}) => {
+const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const selectedSubCategory = searchParams.get('subCategoryId');
+
   const [expandedCategories, setExpandedCategories] = useState(new Set());
 
   const { data: categoryHierarchy, isLoading, error } = useQueryCategoryHierarchy(selectedCategory);
 
   const handleToggleExpand = (categoryId) => {
-    setExpandedCategories((prev) => {
-      const newSet = new Set(prev);
-      if (newSet.has(categoryId)) {
-        newSet.delete(categoryId);
-      } else {
-        newSet.add(categoryId);
-      }
-      return newSet;
-    });
+    const newExpanded = new Set(expandedCategories);
+    if (newExpanded.has(categoryId)) {
+      newExpanded.delete(categoryId);
+    } else {
+      newExpanded.add(categoryId);
+    }
+    setExpandedCategories(newExpanded);
   };
 
-  const handleSubCategorySelect = (identifier, categoryId, type = 'id') => {
-    if (type === 'slug' && isSlugBasedRouting) {
-      // NEW: Navigate using slug
-      router.push(`/san-pham/${identifier}`, { scroll: false });
+  const handleSubCategorySelect = (subCategoryId) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (subCategoryId === selectedCategory) {
+      params.delete('subCategoryId');
     } else {
-      // FALLBACK: Use existing query param logic
-      const params = new URLSearchParams(searchParams);
-
-      if (identifier === selectedCategory) {
-        params.delete('subCategoryId');
-      } else {
-        params.set('subCategoryId', identifier);
-      }
-      params.set('page', '1');
-
-      const newURL = `/san-pham?${params.toString()}`;
-      router.push(newURL, { scroll: false });
+      params.set('subCategoryId', subCategoryId);
     }
+    params.set('page', '1');
+
+    const newURL = `/san-pham?${params.toString()}`;
+    router.push(newURL, { scroll: false });
 
     if (onSubCategorySelect) {
-      onSubCategorySelect(identifier);
+      onSubCategorySelect(subCategoryId);
     }
   };
 
-  // Rest of component logic stays the same...
   if (!selectedCategory || selectedCategory === 'all') {
     return null;
   }
@@ -170,6 +174,17 @@ const CategorySidebar = ({
       </Box>
 
       <VStack spacing={0} align="stretch">
+        {/* <CategoryItem
+          category={categoryHierarchy}
+          level={0}
+          selectedSubCategory={selectedSubCategory}
+          onSubCategorySelect={handleSubCategorySelect}
+          isExpanded={true}
+          onToggleExpand={handleToggleExpand}
+        /> */}
+
+        {categoryHierarchy.children && categoryHierarchy.children.length > 0 && <Divider />}
+
         {categoryHierarchy.children &&
           categoryHierarchy.children.map((child) => (
             <CategoryItem
@@ -180,8 +195,6 @@ const CategorySidebar = ({
               onSubCategorySelect={handleSubCategorySelect}
               isExpanded={expandedCategories.has(child.id)}
               onToggleExpand={handleToggleExpand}
-              isSlugBasedRouting={isSlugBasedRouting}
-              expandedCategories={expandedCategories} // ← ADD THIS
             />
           ))}
       </VStack>

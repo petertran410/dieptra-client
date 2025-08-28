@@ -36,28 +36,21 @@ import Head from 'next/head';
 
 const PRODUCTS_PER_PAGE = 15;
 
-const ProductList = ({
-  preSelectedCategory = null,
-  categorySlug = null,
-  categoryData = null,
-  isSlugBasedRouting = false
-}) => {
+const ProductList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const keyword = searchParams.get('keyword') || '';
-  const categoryIdFromUrl = searchParams.get('categoryId');
+  const categoryId = searchParams.get('categoryId');
   const subCategoryId = searchParams.get('subCategoryId');
   const sortBy = searchParams.get('sortBy') || 'newest';
 
   const [searchTerm, setSearchTerm] = useState(keyword);
-  const [selectedCategory, setSelectedCategory] = useState(
-    preSelectedCategory?.toString() || categoryIdFromUrl || 'all'
-  );
+  const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
   const [currentSort, setCurrentSort] = useState(sortBy);
 
-  const effectiveCategoryId = subCategoryId || categoryIdFromUrl;
+  const effectiveCategoryId = subCategoryId || categoryId;
 
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
@@ -158,31 +151,6 @@ const ProductList = ({
     }
   };
 
-  const handleCategoryClick = (categoryIdOrSlug) => {
-    if (categoryIdOrSlug === 'all') {
-      setSelectedCategory('all');
-      updateURL({
-        categoryId: undefined,
-        subCategoryId: undefined,
-        page: 1
-      });
-      return;
-    }
-
-    const category = topCategories.find((cat) => cat.id.toString() === categoryIdOrSlug);
-
-    if (category?.slug) {
-      router.push(`/san-pham/${category.slug}`);
-    } else {
-      setSelectedCategory(categoryIdOrSlug);
-      updateURL({
-        categoryId: categoryIdOrSlug,
-        subCategoryId: undefined,
-        page: 1
-      });
-    }
-  };
-
   const handleCategoryChange = (newCategoryId) => {
     setSelectedCategory(newCategoryId);
     updateURL({
@@ -271,54 +239,44 @@ const ProductList = ({
       { title: 'Sản Phẩm', href: '/san-pham' }
     ];
 
-    if (isSlugBasedRouting && categoryData) {
+    if (selectedCategory === 'all') {
+      return [...baseBreadcrumb, { title: 'Tất Cả Sản Phẩm', href: '#', isActive: true }];
+    }
+
+    const parentCategory = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
+    if (parentCategory) {
       baseBreadcrumb.push({
-        title: categoryData.name,
-        href: '#',
-        isActive: true
+        title: parentCategory.name,
+        href: `/san-pham?categoryId=${parentCategory.id}`
       });
-    } else if (selectedCategory === 'all') {
-      baseBreadcrumb.push({
-        title: 'Tất Cả Sản Phẩm',
-        href: '#',
-        isActive: true
-      });
-    } else {
-      const parentCategory = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
-      if (parentCategory) {
-        baseBreadcrumb.push({
-          title: parentCategory.name,
-          href: `/san-pham?categoryId=${parentCategory.id}`
-        });
 
-        if (subCategoryId && categoryHierarchy) {
-          const findSubCategory = (categories, targetId) => {
-            if (!categories || !Array.isArray(categories)) return null;
+      if (subCategoryId && categoryHierarchy) {
+        const findSubCategory = (categories, targetId) => {
+          if (!categories || !Array.isArray(categories)) return null;
 
-            for (const category of categories) {
-              if (category.id.toString() === targetId.toString()) {
-                return category;
-              }
-
-              if (category.children && category.children.length > 0) {
-                const found = findSubCategory(category.children, targetId);
-                if (found) return found;
-              }
+          for (const category of categories) {
+            if (category.id.toString() === targetId.toString()) {
+              return category;
             }
-            return null;
-          };
 
-          const subCategory = findSubCategory(categoryHierarchy.children, subCategoryId);
-          if (subCategory) {
-            baseBreadcrumb.push({
-              title: subCategory.name,
-              href: '#',
-              isActive: true
-            });
+            if (category.children && category.children.length > 0) {
+              const found = findSubCategory(category.children, targetId);
+              if (found) return found;
+            }
           }
-        } else {
-          baseBreadcrumb[baseBreadcrumb.length - 1].isActive = true;
+          return null;
+        };
+
+        const subCategory = findSubCategory(categoryHierarchy.children, subCategoryId);
+        if (subCategory) {
+          baseBreadcrumb.push({
+            title: subCategory.name,
+            href: '#',
+            isActive: true
+          });
         }
+      } else {
+        baseBreadcrumb[baseBreadcrumb.length - 1].isActive = true;
       }
     }
 
@@ -345,13 +303,8 @@ const ProductList = ({
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
           <Breadcrumb data={getBreadcrumbData()} />
           <Heading as="h1" fontSize={{ base: '28px', lg: '36px' }} fontWeight={700} color="#003366">
-            {isSlugBasedRouting && categoryData ? categoryData.name : 'Tất Cả Sản Phẩm'}
+            {getCategoryDisplayName()}
           </Heading>
-          {isSlugBasedRouting && categoryData?.description && (
-            <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6">
-              {categoryData.description}
-            </Text>
-          )}
 
           <Flex
             direction={{ base: 'column', md: 'row' }}
@@ -384,7 +337,7 @@ const ProductList = ({
             <HStack spacing={4}>
               <Select
                 value={selectedCategory}
-                onChange={(e) => handleCategoryClick(e.target.value)}
+                onChange={(e) => handleCategoryChange(e.target.value)}
                 maxW="200px"
                 bg="white"
                 border="1px solid #E2E8F0"
