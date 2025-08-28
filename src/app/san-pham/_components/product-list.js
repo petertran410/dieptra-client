@@ -158,6 +158,31 @@ const ProductList = ({
     }
   };
 
+  const handleCategoryClick = (categoryIdOrSlug) => {
+    if (categoryIdOrSlug === 'all') {
+      setSelectedCategory('all');
+      updateURL({
+        categoryId: undefined,
+        subCategoryId: undefined,
+        page: 1
+      });
+      return;
+    }
+
+    const category = topCategories.find((cat) => cat.id.toString() === categoryIdOrSlug);
+
+    if (category?.slug) {
+      router.push(`/san-pham/${category.slug}`);
+    } else {
+      setSelectedCategory(categoryIdOrSlug);
+      updateURL({
+        categoryId: categoryIdOrSlug,
+        subCategoryId: undefined,
+        page: 1
+      });
+    }
+  };
+
   const handleCategoryChange = (newCategoryId) => {
     setSelectedCategory(newCategoryId);
     updateURL({
@@ -359,7 +384,7 @@ const ProductList = ({
             <HStack spacing={4}>
               <Select
                 value={selectedCategory}
-                onChange={(e) => handleCategoryChange(e.target.value)}
+                onChange={(e) => handleCategoryClick(e.target.value)}
                 maxW="200px"
                 bg="white"
                 border="1px solid #E2E8F0"

@@ -51,7 +51,7 @@ const ProductItem = ({ item }) => {
         }}
         position="relative"
       >
-        <Link href={`/san-pham/${productSlug}`}>
+        <Link>
           <Box
             position="absolute"
             top="8px"
