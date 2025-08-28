@@ -30,52 +30,87 @@ import ProductImageGallery from './_components/product-image-gallery';
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
-  const id = slug.split('.').pop();
-
-  let response;
 
   try {
-    response = await API.request({
-      url: `/api/product/get-by-id/${id}`
+    // Try slug-first approach
+    const response = await API.request({
+      url: `/api/product/client/find-by-slug/${slug}`
     });
 
-    const { title: titleData, kiotviet_images, general_description: meta_description } = response;
+    if (response && response.title) {
+      const { title: titleData, kiotviet_images, general_description: meta_description } = response;
+      const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
+      const title = `${titleData} | Diệp Trà`;
 
-    const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
-    const title = `${titleData} | Diệp Trà`;
-
-    return {
-      title,
-      description: meta_description,
-      openGraph: {
+      return {
         title,
-        description: meta_description,
-        images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
+        description: meta_description || META_DESCRIPTION,
+        openGraph: {
+          title,
+          description: meta_description || META_DESCRIPTION,
+          images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
+        }
+      };
+    }
+
+    // Fallback for old format products (slug contains .ID)
+    if (slug.includes('.')) {
+      const id = slug.split('.').pop();
+      const fallbackResponse = await API.request({
+        url: `/api/product/get-by-id/${id}`
+      });
+
+      if (fallbackResponse && fallbackResponse.title) {
+        const { title: titleData, kiotviet_images, general_description: meta_description } = fallbackResponse;
+        const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
+        const title = `${titleData} | Diệp Trà`;
+
+        return {
+          title,
+          description: meta_description || META_DESCRIPTION,
+          openGraph: {
+            title,
+            description: meta_description || META_DESCRIPTION,
+            images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
+          }
+        };
       }
-    };
+    }
   } catch (error) {
     console.error('Metadata generation failed:', error);
-    return {
-      title: 'Sản phẩm | Diệp Trà',
-      description: META_DESCRIPTION
-    };
   }
+
+  return {
+    title: 'Sản phẩm | Diệp Trà',
+    description: META_DESCRIPTION
+  };
 }
 
 const ProductDetail = async ({ params }) => {
   const { slug } = params;
-  const id = slug.split('.').pop();
-
   let productDetail;
   let relatedProducts = [];
 
   try {
-    productDetail = await API.request({
-      url: `/api/product/get-by-id/${id}`
-    });
+    // Try slug-first approach
+    try {
+      productDetail = await API.request({
+        url: `/api/product/client/find-by-slug/${slug}`
+      });
+    } catch (slugError) {
+      // Fallback for old format products (slug contains .ID)
+      if (slug.includes('.')) {
+        const id = slug.split('.').pop();
+        productDetail = await API.request({
+          url: `/api/product/get-by-id/${id}`
+        });
+      } else {
+        throw slugError;
+      }
+    }
 
     if (!productDetail) {
-      console.error('Product not found:', id);
+      console.error('Product not found:', slug);
       notFound();
     }
   } catch (error) {
@@ -83,6 +118,7 @@ const ProductDetail = async ({ params }) => {
     notFound();
   }
 
+  // Fetch related products
   try {
     const relatedProductsResponse = await API.request({
       url: '/api/product/client/get-all',
@@ -187,55 +223,30 @@ const ProductDetail = async ({ params }) => {
                   {price ? formatCurrency(price) : 'Liên hệ'}
                 </Text>
 
-                <Flex gap={4}>
-                  <HStack spacing={4} align="center">
-                    <NumberInput defaultValue={1} min={1} max={999} maxW="120px" size="lg">
-                      <NumberInputField />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                  </HStack>
+                <AddCart productDetail={productDetail} />
 
-                  <Flex justify="space-between" gap={4}>
-                    <AddCart price={price} productId={id} title={title} />
-                    <Button
-                      size="lg"
-                      w="full"
-                      variant="outline"
-                      borderColor="#003366"
-                      color="#003366"
-                      _hover={{ bg: '#003366', color: 'white' }}
-                      fontWeight="600"
-                    >
-                      Mua ngay
-                    </Button>
-                  </Flex>
-                </Flex>
+                {instruction && (
+                  <Box>
+                    <Text fontSize="18px" fontWeight="600" mb={3} color="#003366">
+                      Hướng dẫn sử dụng:
+                    </Text>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: instruction }}
+                      style={{
+                        textAlign: 'justify',
+                        lineHeight: '1.6',
+                        color: '#4A5568'
+                      }}
+                    />
+                  </Box>
+                )}
               </VStack>
             </GridItem>
           </Grid>
 
-          <Box>
-            <Heading as="h2" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
-              Thông Tin Sản Phẩm
-            </Heading>
+          <Divider />
 
-            {instruction && (
-              <Box>
-                <div
-                  dangerouslySetInnerHTML={{ __html: instruction }}
-                  style={{
-                    textAlign: 'justify',
-                    lineHeight: '1.6'
-                  }}
-                />
-              </Box>
-            )}
-          </Box>
-
-          {relatedProducts.length > 0 && <OtherProduct productList={relatedProducts} productId={id} />}
+          <OtherProduct productList={relatedProducts} productId={productDetail.id} />
         </VStack>
       </Container>
     </>
