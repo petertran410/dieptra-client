@@ -62,40 +62,56 @@ const ProductList = () => {
   const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
   const [currentSort, setCurrentSort] = useState(sortBy);
 
-  const effectiveCategoryId = subCategoryId || categoryId;
+  const [categoryData, setCategoryData] = useState(initialCategoryData);
+
+  // const effectiveCategoryId = subCategoryId || categoryId;
 
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
   const { data: categoryHierarchy, isLoading: hierarchyLoading } = useQueryCategoryHierarchy(selectedCategory);
 
-  const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
-    effectiveCategoryId && effectiveCategoryId !== 'all' ? parseInt(effectiveCategoryId) : null
-  );
+  const categoryIds = getCategoryIdsForFiltering();
 
-  const shouldUseCategoryFilter = effectiveCategoryId && effectiveCategoryId !== 'all' && categoryIds.length > 0;
+  const shouldUseCategoryFilter = categoryIds.length > 0;
+
+  // const {
+  //   data: allProductsData,
+  //   isLoading: allProductsLoading,
+  //   error: allProductsError
+  // } = useQueryProductList({
+  //   enabled: !shouldUseCategoryFilter
+  // });
+
+  // const {
+  //   data: categoryProductsData,
+  //   isLoading: categoryProductsLoading,
+  //   error: categoryProductsError
+  // } = useQueryProductsByCategories(categoryIds, {
+  //   enabled: shouldUseCategoryFilter
+  // });
+
+  const getEffectiveCategoryId = () => {
+    if (!categoryData) return null;
+    return categoryData.finalCategory.id;
+  };
+
+  const getCategoryIdsForFiltering = () => {
+    if (!categoryData) return [];
+    return categoryData.categoryHierarchy.map((cat) => cat.id);
+  };
 
   const {
-    data: allProductsData,
-    isLoading: allProductsLoading,
-    error: allProductsError
-  } = useQueryProductList({
-    enabled: !shouldUseCategoryFilter
-  });
+    data: productsData,
+    isLoading,
+    error
+  } = useQueryProductsByCategories(categoryIds, { enabled: shouldUseCategoryFilter });
 
-  const {
-    data: categoryProductsData,
-    isLoading: categoryProductsLoading,
-    error: categoryProductsError
-  } = useQueryProductsByCategories(categoryIds, {
-    enabled: shouldUseCategoryFilter
-  });
+  // const isLoading =
+  //   categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
 
-  const isLoading =
-    categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
+  // const error = allProductsError || categoryProductsError;
 
-  const error = allProductsError || categoryProductsError;
-
-  const productsData = shouldUseCategoryFilter ? categoryProductsData : allProductsData;
+  // const productsData = shouldUseCategoryFilter ? categoryProductsData : allProductsData;
   const products = productsData?.content || [];
   const totalElements = productsData?.totalElements || 0;
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
@@ -137,29 +153,34 @@ const ProductList = () => {
 
     const finalParams = {
       page: currentPage,
-      keyword: searchTerm,
-      categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
-      subCategoryId: subCategoryId,
-      sortBy: currentSort,
+      keyword,
+      sortBy,
       ...newParams
     };
 
     Object.entries(finalParams).forEach(([key, value]) => {
+      if (key === 'page' && value === 1) return;
+      if (key === 'sortBy' && value === 'newest') return;
+      if (key === 'keyword' && !value) return;
       if (value && value !== 'all' && value !== '') {
         params.set(key, value.toString());
       }
     });
 
-    const newURL = `/san-pham${params.toString() ? `?${params.toString()}` : ''}`;
+    let basePath = '/san-pham';
+    if (categoryData?.categoryPath) {
+      basePath += `/${categoryData.categoryPath.join('/')}`;
+    }
+
+    const queryString = params.toString();
+    const newURL = `${basePath}${queryString ? `?${queryString}` : ''}`;
+
     router.push(newURL, { scroll: false });
   };
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
-      updateURL({
-        keyword: searchTerm,
-        page: 1
-      });
+      updateURL({ keyword: searchTerm, page: 1 });
     }
   };
 
@@ -173,16 +194,11 @@ const ProductList = () => {
   };
 
   const handleSortChange = (newSortBy) => {
-    setCurrentSort(newSortBy);
-    updateURL({
-      sortBy: newSortBy,
-      page: 1
-    });
+    updateURL({ sortBy: newSortBy, page: 1 });
   };
 
   const handlePageChange = (newPage) => {
     updateURL({ page: newPage });
-    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const getMetadata = () => {

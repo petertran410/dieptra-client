@@ -6,6 +6,23 @@ import { Box, VStack, Text, Button, Collapse, HStack, Badge, Divider, useDisclos
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useQueryCategoryHierarchy } from '../../../services/category.service';
 
+const CategoryMenuItem = ({ category, currentPath = [] }) => {
+  const categoryPath = [...currentPath, category.slug];
+  const href = `/san-pham/${categoryPath.join('/')}`;
+
+  return (
+    <Box>
+      <Link href={href}>
+        <Text>{category.name}</Text>
+      </Link>
+
+      {category.children?.map((child) => (
+        <CategoryMenuItem key={child.id} category={child} currentPath={categoryPath} />
+      ))}
+    </Box>
+  );
+};
+
 const CategoryItem = ({
   category,
   level = 0,
