@@ -1,4 +1,3 @@
-// src/utils/article-types.js - MỚI
 export const ARTICLE_TYPES = {
   NEWS: 'NEWS',
   CULTURE: 'CULTURE',
@@ -60,7 +59,6 @@ export const ARTICLE_SECTIONS = [
   }
 ];
 
-// Helper functions
 export const getArticleTypeBySlug = (slug) => {
   return ARTICLE_SECTIONS.find((section) => section.slug === slug);
 };
