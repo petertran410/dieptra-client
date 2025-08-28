@@ -36,19 +36,7 @@ import Head from 'next/head';
 
 const PRODUCTS_PER_PAGE = 15;
 
-const getCategorySlug = async (categoryId) => {
-  if (!categoryId || categoryId === 'all') return null;
-
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/categories/${categoryId}`);
-    const category = await response.json();
-    return category.slug;
-  } catch {
-    return null;
-  }
-};
-
-const ProductList = ({ resolvedCategoryData, searchParams }) => {
+const ProductList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -62,56 +50,40 @@ const ProductList = ({ resolvedCategoryData, searchParams }) => {
   const [selectedCategory, setSelectedCategory] = useState(categoryId || 'all');
   const [currentSort, setCurrentSort] = useState(sortBy);
 
-  const [categoryData, setCategoryData] = useState(initialCategoryData);
-
-  // const effectiveCategoryId = subCategoryId || categoryId;
+  const effectiveCategoryId = subCategoryId || categoryId;
 
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
   const { data: categoryHierarchy, isLoading: hierarchyLoading } = useQueryCategoryHierarchy(selectedCategory);
 
-  const categoryIds = resolvedCategoryData ? resolvedCategoryData.categoryHierarchy.map((cat) => Number(cat.id)) : [];
+  const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
+    effectiveCategoryId && effectiveCategoryId !== 'all' ? parseInt(effectiveCategoryId) : null
+  );
 
-  const shouldUseCategoryFilter = categoryIds.length > 0;
-
-  // const {
-  //   data: allProductsData,
-  //   isLoading: allProductsLoading,
-  //   error: allProductsError
-  // } = useQueryProductList({
-  //   enabled: !shouldUseCategoryFilter
-  // });
-
-  // const {
-  //   data: categoryProductsData,
-  //   isLoading: categoryProductsLoading,
-  //   error: categoryProductsError
-  // } = useQueryProductsByCategories(categoryIds, {
-  //   enabled: shouldUseCategoryFilter
-  // });
-
-  // const getEffectiveCategoryId = () => {
-  //   if (!categoryData) return null;
-  //   return categoryData.finalCategory.id;
-  // };
-
-  const getCategoryIdsForFiltering = () => {
-    if (!categoryData) return [];
-    return categoryData.categoryHierarchy.map((cat) => cat.id);
-  };
+  const shouldUseCategoryFilter = effectiveCategoryId && effectiveCategoryId !== 'all' && categoryIds.length > 0;
 
   const {
-    data: productsData,
-    isLoading,
-    error
-  } = useQueryProductsByCategories(categoryIds, { enabled: shouldUseCategoryFilter });
+    data: allProductsData,
+    isLoading: allProductsLoading,
+    error: allProductsError
+  } = useQueryProductList({
+    enabled: !shouldUseCategoryFilter
+  });
 
-  // const isLoading =
-  //   categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
+  const {
+    data: categoryProductsData,
+    isLoading: categoryProductsLoading,
+    error: categoryProductsError
+  } = useQueryProductsByCategories(categoryIds, {
+    enabled: shouldUseCategoryFilter
+  });
 
-  // const error = allProductsError || categoryProductsError;
+  const isLoading =
+    categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
 
-  // const productsData = shouldUseCategoryFilter ? categoryProductsData : allProductsData;
+  const error = allProductsError || categoryProductsError;
+
+  const productsData = shouldUseCategoryFilter ? categoryProductsData : allProductsData;
   const products = productsData?.content || [];
   const totalElements = productsData?.totalElements || 0;
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
@@ -153,34 +125,29 @@ const ProductList = ({ resolvedCategoryData, searchParams }) => {
 
     const finalParams = {
       page: currentPage,
-      keyword,
-      sortBy,
+      keyword: searchTerm,
+      categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
+      subCategoryId: subCategoryId,
+      sortBy: currentSort,
       ...newParams
     };
 
     Object.entries(finalParams).forEach(([key, value]) => {
-      if (key === 'page' && value === 1) return;
-      if (key === 'sortBy' && value === 'newest') return;
-      if (key === 'keyword' && !value) return;
       if (value && value !== 'all' && value !== '') {
         params.set(key, value.toString());
       }
     });
 
-    let basePath = '/san-pham';
-    if (categoryData?.categoryPath) {
-      basePath += `/${categoryData.categoryPath.join('/')}`;
-    }
-
-    const queryString = params.toString();
-    const newURL = `${basePath}${queryString ? `?${queryString}` : ''}`;
-
+    const newURL = `/san-pham${params.toString() ? `?${params.toString()}` : ''}`;
     router.push(newURL, { scroll: false });
   };
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
-      updateURL({ keyword: searchTerm, page: 1 });
+      updateURL({
+        keyword: searchTerm,
+        page: 1
+      });
     }
   };
 
@@ -194,11 +161,16 @@ const ProductList = ({ resolvedCategoryData, searchParams }) => {
   };
 
   const handleSortChange = (newSortBy) => {
-    updateURL({ sortBy: newSortBy, page: 1 });
+    setCurrentSort(newSortBy);
+    updateURL({
+      sortBy: newSortBy,
+      page: 1
+    });
   };
 
   const handlePageChange = (newPage) => {
     updateURL({ page: newPage });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const getMetadata = () => {
@@ -322,7 +294,7 @@ const ProductList = ({ resolvedCategoryData, searchParams }) => {
     <>
       <Head>
         <title>{metadata.title} | Diệp Trà</title>
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} />
+        {/* <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} /> */}
         <meta name="robots" content="index, follow" />
         <meta name="description" content={metadata.description} />
       </Head>
