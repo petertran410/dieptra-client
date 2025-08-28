@@ -36,6 +36,18 @@ import Head from 'next/head';
 
 const PRODUCTS_PER_PAGE = 15;
 
+const getCategorySlug = async (categoryId) => {
+  if (!categoryId || categoryId === 'all') return null;
+
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/categories/${categoryId}`);
+    const category = await response.json();
+    return category.slug;
+  } catch {
+    return null;
+  }
+};
+
 const ProductList = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -120,9 +132,7 @@ const ProductList = () => {
     return category ? category.name : 'Danh Mục';
   };
 
-  const updateURL = (newParams = {}) => {
-    const params = new URLSearchParams();
-
+  const updateURL = async (newParams = {}) => {
     const finalParams = {
       page: currentPage,
       keyword: searchTerm,
@@ -132,6 +142,29 @@ const ProductList = () => {
       ...newParams
     };
 
+    const targetCategoryId = finalParams.subCategoryId || finalParams.categoryId;
+
+    if (targetCategoryId && targetCategoryId !== 'all') {
+      const categorySlug = await getCategorySlug(targetCategoryId);
+
+      if (categorySlug) {
+        let newURL = `/san-pham/${categorySlug}`;
+        const params = new URLSearchParams();
+
+        if (finalParams.keyword) params.set('keyword', finalParams.keyword);
+        if (finalParams.sortBy && finalParams.sortBy !== 'newest') params.set('sortBy', finalParams.sortBy);
+        if (finalParams.page && finalParams.page !== 1) params.set('page', finalParams.page);
+
+        if (params.toString()) {
+          newURL += `?${params.toString()}`;
+        }
+
+        router.push(newURL, { scroll: false });
+        return;
+      }
+    }
+
+    const params = new URLSearchParams();
     Object.entries(finalParams).forEach(([key, value]) => {
       if (value && value !== 'all' && value !== '') {
         params.set(key, value.toString());
@@ -171,6 +204,21 @@ const ProductList = () => {
   const handlePageChange = (newPage) => {
     updateURL({ page: newPage });
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleProductClick = async (product) => {
+    const { slug: productSlug, categoryId } = product;
+
+    if (!productSlug) {
+      return;
+    }
+
+    const categorySlug = await getCategorySlug(categoryId);
+    if (categorySlug) {
+      router.push(`/san-pham/${categorySlug}/${productSlug}`);
+    } else {
+      router.push(`/san-pham/product-detail?id=${product.id}`);
+    }
   };
 
   const getMetadata = () => {
@@ -245,9 +293,13 @@ const ProductList = () => {
 
     const parentCategory = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
     if (parentCategory) {
+      const categoryHref = parentCategory.slug
+        ? `/san-pham/${parentCategory.slug}`
+        : `/san-pham?categoryId=${parentCategory.id}`;
+
       baseBreadcrumb.push({
         title: parentCategory.name,
-        href: `/san-pham?categoryId=${parentCategory.id}`
+        href: categoryHref
       });
 
       if (subCategoryId && categoryHierarchy) {
@@ -294,7 +346,7 @@ const ProductList = () => {
     <>
       <Head>
         <title>{metadata.title} | Diệp Trà</title>
-        {/* <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} /> */}
+        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} />
         <meta name="robots" content="index, follow" />
         <meta name="description" content={metadata.description} />
       </Head>
@@ -437,9 +489,7 @@ const ProductList = () => {
                     mb={10}
                   >
                     {products.map((product) => (
-                      <GridItem key={product.id}>
-                        <ProductItem item={product} />
-                      </GridItem>
+                      <ProductItem key={product.id} product={product} onClick={() => handleProductClick(product)} />
                     ))}
                   </Grid>
                 ) : (
