@@ -214,18 +214,16 @@ const ProductList = ({ categorySlug = [] }) => {
 
   // Build category URL from hierarchy
   const buildCategoryUrl = (categoryId) => {
-    const buildHierarchyPath = (categories, targetId) => {
-      const category = categories.find((cat) => cat.id === targetId);
-      if (!category) return [];
+    // Chỉ cần tìm category và dùng slug của nó
+    const category = topCategories.find((cat) => cat.id === categoryId || cat.id.toString() === categoryId.toString());
 
-      if (category.parent_id) {
-        return [...buildHierarchyPath(categories, category.parent_id), category.slug];
-      }
-      return [category.slug];
-    };
+    if (!category || !category.slug) {
+      console.error('Category not found or missing slug:', categoryId);
+      return '/san-pham';
+    }
 
-    const slugPath = buildHierarchyPath(topCategories, categoryId);
-    return `/san-pham/${slugPath.join('/')}`;
+    // Với structure hiện tại, chỉ cần dùng slug trực tiếp
+    return `/san-pham/${category.slug}`;
   };
 
   const handleSearch = (e) => {
@@ -238,8 +236,17 @@ const ProductList = ({ categorySlug = [] }) => {
     if (newCategoryId === 'all') {
       router.push('/san-pham');
     } else {
-      const url = buildCategoryUrl(parseInt(newCategoryId));
-      router.push(url);
+      // Tìm category trực tiếp
+      const category = topCategories.find(
+        (cat) => cat.id === parseInt(newCategoryId) || cat.id.toString() === newCategoryId.toString()
+      );
+
+      if (category && category.slug) {
+        router.push(`/san-pham/${category.slug}`);
+      } else {
+        console.error('Category not found:', newCategoryId, 'Available categories:', topCategories);
+        router.push('/san-pham'); // Fallback
+      }
     }
   };
 

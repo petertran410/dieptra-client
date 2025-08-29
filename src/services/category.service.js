@@ -58,7 +58,8 @@ export const useQueryTopLevelCategories = () => {
           id: cat.id,
           name: cat.name,
           displayName: cat.displayName || cat.name,
-          path: cat.path
+          path: cat.path,
+          slug: cat.slug
         }));
     },
     staleTime: 10 * 60 * 1000,
