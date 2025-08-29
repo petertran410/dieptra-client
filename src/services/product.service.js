@@ -122,34 +122,22 @@ export const useQueryProductList = ({ currentPage = 1, enabled = true } = {}) =>
 };
 
 export const useQueryProductsByCategories = (categoryIds = [], options = {}) => {
-  const paramsURL = useGetParamsURL();
-  const { page = 1, keyword, sortBy = 'name' } = paramsURL || {};
+  const { currentPage = 1, enabled = true } = options;
 
   return useQuery({
-    queryKey: ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, page, keyword, sortBy],
+    queryKey: ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, currentPage], // ← THÊM currentPage
     queryFn: async () => {
-      const sortConfig = {
-        'price-low': { orderBy: 'kiotviet_price', isDesc: false },
-        'price-high': { orderBy: 'kiotviet_price', isDesc: true },
-        newest: { orderBy: 'id', isDesc: true },
-        name: { orderBy: 'title', isDesc: false }
-      };
-
-      const sortParams = sortConfig[sortBy] || sortConfig['name'];
-
       return API.request({
         url: '/api/product/client/get-all',
         params: {
-          pageNumber: Number(page) - 1,
+          pageNumber: currentPage - 1, // ← API pagination
           pageSize: 15,
           categoryIds: categoryIds.join(','),
-          title: keyword,
-          is_visible: 'true',
-          ...sortParams
+          is_visible: 'true'
         }
       });
     },
-    enabled: Array.isArray(categoryIds) && categoryIds.length > 0 && options.enabled !== false,
+    enabled: Array.isArray(categoryIds) && categoryIds.length > 0 && enabled,
     staleTime: 2 * 60 * 1000
   });
 };

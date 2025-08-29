@@ -1,9 +1,8 @@
-// src/app/san-pham/_components/category-sidebar.js
 'use client';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Box, VStack, Text, Button, Collapse, HStack, Badge, Divider } from '@chakra-ui/react';
+import { Box, VStack, Text, Button, Collapse, HStack, Divider } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useQueryCategoryHierarchy } from '../../../services/category.service';
 import { useQuery } from '@tanstack/react-query';
@@ -22,7 +21,7 @@ const CategoryItem = ({
   const isExpanded = expandedCategories.has(category.id);
 
   const handleClick = () => {
-    onSubCategorySelect(category.id);
+    onSubCategorySelect(category.id); // ← Gọi callback với categoryId
   };
 
   const handleToggle = (e) => {
@@ -59,7 +58,7 @@ const CategoryItem = ({
           )}
 
           <Text
-            fontSize="md"
+            fontSize="sm"
             fontWeight={isSelected ? '600' : '400'}
             color={isSelected ? '#003366' : 'gray.700'}
             flex={1}
@@ -93,6 +92,7 @@ const CategoryItem = ({
 const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   const [expandedCategories, setExpandedCategories] = useState(new Set());
 
+  // Fetch full categories để build slug path
   const { data: fullCategories = [], isLoading: fullCategoriesLoading } = useQuery({
     queryKey: ['GET_FULL_CATEGORIES'],
     queryFn: async () => {
@@ -117,7 +117,11 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     setExpandedCategories(newExpanded);
   };
 
-  const handleSubCategoryClick = (categoryId) => {
+  // BUILD SLUG PATH và navigate
+  const handleSubCategorySelect = (categoryId) => {
+    console.log('CategorySidebar: handleSubCategorySelect called with:', categoryId);
+
+    // Build full slug path từ root đến target category
     const buildCategorySlugPath = (categories, targetId) => {
       const category = categories.find((cat) => cat.id === targetId);
       if (!category) return [];
@@ -130,9 +134,16 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     };
 
     const slugPath = buildCategorySlugPath(fullCategories, categoryId);
+    console.log('Built slug path:', slugPath);
 
     if (slugPath.length > 0) {
-      onSubCategorySelect(slugPath.join('/'));
+      const url = `/san-pham/${slugPath.join('/')}`;
+      console.log('Navigating to:', url);
+
+      // Gọi callback để parent component handle
+      if (onSubCategorySelect) {
+        onSubCategorySelect(url);
+      }
     }
   };
 
@@ -153,7 +164,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   if (error || !categoryHierarchy) {
     return (
       <Box w="280px" bg="white" border="1px solid #E2E8F0" borderRadius="md" p={4}>
-        <Text fontSize="md" color="red.500">
+        <Text fontSize="sm" color="red.500">
           Không thể tải danh mục con
         </Text>
       </Box>
@@ -175,7 +186,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
         <Text fontSize="lg" fontWeight="600" color="#003366">
           Danh mục
         </Text>
-        <Text fontSize="md" color="gray.600" mt={1}>
+        <Text fontSize="sm" color="gray.600" mt={1}>
           {categoryHierarchy.name}
         </Text>
       </Box>
@@ -188,7 +199,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
               category={child}
               level={0}
               selectedSubCategory={null}
-              onSubCategorySelect={handleSubCategoryClick}
+              onSubCategorySelect={handleSubCategorySelect}
               expandedCategories={expandedCategories}
               onToggleExpand={handleToggleExpand}
             />
