@@ -20,10 +20,10 @@ import {
   Divider
 } from '@chakra-ui/react';
 import Head from 'next/head';
-import Breadcrumb from '../../../components/breadcrumb/breadcrumb';
-import { API } from '../../../utils/API';
-import { formatCurrency, META_DESCRIPTION } from '../../../utils/helper-server';
-import { PX_ALL } from '../../../utils/const';
+import Breadcrumb from '../../../../components/breadcrumb/breadcrumb';
+import { API } from '../../../../utils/API';
+import { formatCurrency, META_DESCRIPTION } from '../../../../utils/helper-server';
+import { PX_ALL } from '../../../../utils/const';
 import OtherProduct from './_components/other-product';
 import AddCart from './_components/add-cart';
 import ProductImageGallery from './_components/product-image-gallery';
@@ -138,7 +138,14 @@ const ProductDetail = async ({ params }) => {
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },
     { title: 'Sản Phẩm', href: '/san-pham' },
-    ...(category ? [{ title: category.name, href: `/san-pham?categoryId=${category.id}` }] : []),
+    ...(category
+      ? [
+          {
+            title: category.name,
+            href: `/san-pham/${category.slug}`
+          }
+        ]
+      : []),
     { title: title, href: '#', isActive: true }
   ];
 

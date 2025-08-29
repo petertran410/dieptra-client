@@ -46,7 +46,7 @@ const ProductItem = ({ item }) => {
       }}
       position="relative"
     >
-      <Link href={`/san-pham/${productSlug}`}>
+      <Link href={`/san-pham/sp/${productSlug}`}>
         <Box
           position="absolute"
           top="8px"

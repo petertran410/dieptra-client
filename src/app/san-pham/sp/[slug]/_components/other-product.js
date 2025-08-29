@@ -4,7 +4,7 @@
 import { useState } from 'react';
 import { Box, Flex, Grid, GridItem, IconButton, Heading } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
-import ProductItem from '../../../../components/product-item/product-item';
+import ProductItem from '../../../../../components/product-item/product-item';
 
 const OtherProduct = ({ productList, productId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
