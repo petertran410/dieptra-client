@@ -8,13 +8,15 @@ export async function generateMetadata({ params }) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/category/for-cms`);
     const data = await response.json();
 
+    console.log(data);
+
     if (data.success) {
       const categories = data.data;
       const targetCategory = findCategoryBySlugPath(categories, categorySlug);
 
       if (targetCategory) {
         return getMetadata({
-          title: `${targetCategory.name} | Diệp Trà`,
+          title: `${targetCategory.title_meta || targetCategory.name} | Diệp Trà`,
           description:
             targetCategory.description ||
             `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
@@ -60,10 +62,6 @@ function findCategoryBySlugPath(categories, slugPath) {
 }
 
 const CategoryProductsPage = ({ params }) => {
-  console.log('=== PAGE.JS DEBUG ===');
-  console.log('params:', params);
-  console.log('categorySlug:', params.categorySlug);
-
   return <ProductList categorySlug={params.categorySlug} />;
 };
 

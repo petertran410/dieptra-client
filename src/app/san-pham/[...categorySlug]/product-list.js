@@ -343,8 +343,7 @@ const ProductList = ({ categorySlug = [] }) => {
   };
 
   const getMetadata = () => {
-    const defaultDescription =
-      'Khám phá bộ sưu tập nguyên liệu pha chế cao cấp từ Diệp Trà - Siro, mứt, bột kem và nhiều sản phẩm chất lượng khác.';
+    const defaultDescription = 'Khám phá nguyên liệu pha chế chất lượng cao từ Diệp Trà';
 
     if (selectedCategory === 'all') {
       return {
@@ -353,24 +352,9 @@ const ProductList = ({ categorySlug = [] }) => {
       };
     }
 
-    if (subCategoryId && categoryHierarchy) {
-      const findSubCategory = (categories, targetId) => {
-        if (!categories || !Array.isArray(categories)) return null;
-
-        for (const category of categories) {
-          if (category.id.toString() === targetId.toString()) {
-            return category;
-          }
-
-          if (category.children && category.children.length > 0) {
-            const found = findSubCategory(category.children, targetId);
-            if (found) return found;
-          }
-        }
-        return null;
-      };
-
-      const subCategory = findSubCategory(categoryHierarchy.children, subCategoryId);
+    if (subCategoryId && allCategories.length > 0) {
+      const subCategory = allCategories.find((cat) => cat.id.toString() === subCategoryId);
+      console.log(subCategory);
       if (subCategory) {
         return {
           title: subCategory.title_meta || subCategory.name,
@@ -379,19 +363,14 @@ const ProductList = ({ categorySlug = [] }) => {
       }
     }
 
-    if (categoryHierarchy) {
-      return {
-        title: categoryHierarchy.title_meta || categoryHierarchy.name,
-        description: categoryHierarchy.description || defaultDescription
-      };
-    }
-
-    const category = topCategories.find((cat) => cat.id.toString() === selectedCategory);
-    if (category) {
-      return {
-        title: category.title_meta || category.name,
-        description: category.description || defaultDescription
-      };
+    if (selectedCategory && selectedCategory !== 'all' && allCategories.length > 0) {
+      const category = allCategories.find((cat) => cat.id.toString() === selectedCategory);
+      if (category) {
+        return {
+          title: category.title_meta || category.name,
+          description: category.description || defaultDescription
+        };
+      }
     }
 
     return {
@@ -412,11 +391,11 @@ const ProductList = ({ categorySlug = [] }) => {
       return [...baseBreadcrumb, { title: 'Tất Cả Sản Phẩm', href: '#', isActive: true }];
     }
 
-    // Build breadcrumb từ categorySlug
     let currentPath = '';
     categorySlug.forEach((slug, index) => {
       currentPath += (index === 0 ? '' : '/') + slug;
-      const category = topCategories.find((cat) => cat.slug === slug);
+
+      const category = allCategories.find((cat) => cat.slug === slug);
 
       if (category) {
         baseBreadcrumb.push({

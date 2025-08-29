@@ -117,7 +117,6 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
       };
 
       const categoryIds = collectCategoryTree(pid);
-      console.log('Category hierarchy IDs:', categoryIds);
       return categoryIds;
     }
   });
