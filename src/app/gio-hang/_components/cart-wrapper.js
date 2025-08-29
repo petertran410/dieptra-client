@@ -1,6 +1,6 @@
 'use client';
 
-import OtherProduct from '../../../app/san-pham/[slug]/_components/other-product';
+// import OtherProduct from '../../san-pham/_components/';
 import ModalContact from '../../../components/modal-contact';
 import SectionBlock from '../../../components/section-block';
 import { useQueryProductByIds, useQueryProductListOther } from '../../../services/product.service';
