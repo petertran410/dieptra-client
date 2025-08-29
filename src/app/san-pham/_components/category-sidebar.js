@@ -89,7 +89,7 @@ const CategoryItem = ({
   );
 };
 
-const CategorySidebar = ({ selectedCategory, onSubCategorySelect, subCategoryId }) => {
+const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   const [expandedCategories, setExpandedCategories] = useState(new Set());
 
   // Fetch full categories để build slug path
@@ -198,7 +198,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect, subCategoryId 
               key={child.id}
               category={child}
               level={0}
-              selectedSubCategory={subCategoryId}
+              selectedSubCategory={null}
               onSubCategorySelect={handleSubCategorySelect}
               expandedCategories={expandedCategories}
               onToggleExpand={handleToggleExpand}

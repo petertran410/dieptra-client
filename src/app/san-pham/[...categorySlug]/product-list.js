@@ -19,8 +19,7 @@ import {
   Text,
   Button,
   Spinner,
-  Center,
-  useQuery
+  Center
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
@@ -49,106 +48,73 @@ const ProductList = ({ categorySlug = [] }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [subCategoryId, setSubCategoryId] = useState(null);
 
-  const { data: allCategoriesData, isLoading: categoriesLoading } = useQuery({
-    queryKey: ['GET_ALL_CATEGORIES_FOR_ROUTING'],
-    queryFn: async () => {
-      const response = await API.request({
-        url: '/api/category/for-cms',
-        method: 'GET'
-      });
-      return response?.data || [];
-    },
-    staleTime: 10 * 60 * 1000
-  });
-
-  const topCategories = allCategoriesData?.filter((cat) => !cat.parent_id) || [];
+  // Fetch categories và determine selected category từ slug
+  const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
   useEffect(() => {
-    console.log('=== PROCESSING CATEGORY SLUG ===');
-    console.log('categorySlug:', categorySlug);
-    console.log('allCategoriesData count:', allCategoriesData?.length || 0);
-
     if (categorySlug.length === 0) {
       setSelectedCategory('all');
       setSubCategoryId(null);
       return;
     }
 
-    if (allCategoriesData && allCategoriesData.length > 0) {
-      // SỬA: Tìm category từ slug path với FULL categories
+    if (topCategories.length > 0) {
+      // Tìm category từ slug path
       const findCategoryBySlugPath = (categories, slugPath) => {
-        console.log('findCategoryBySlugPath with full categories');
-        console.log(
-          'Available slugs:',
-          categories.map((c) => ({ id: c.id, slug: c.slug, name: c.name, parent_id: c.parent_id }))
-        );
+        // Build category tree first
+        const categoryMap = new Map();
+        categories.forEach((cat) => {
+          categoryMap.set(cat.id, { ...cat, children: [] });
+        });
 
-        const foundCategories = [];
+        categories.forEach((cat) => {
+          if (cat.parent_id && categoryMap.has(cat.parent_id)) {
+            categoryMap.get(cat.parent_id).children.push(categoryMap.get(cat.id));
+          }
+        });
+
+        // Traverse slug path
+        let currentCategories = categories.filter((cat) => !cat.parent_id);
+        let foundCategories = [];
+
         for (const slug of slugPath) {
-          console.log('Looking for slug:', slug);
-          // Tìm trong TẤT CẢ categories, không chỉ root
-          const found = categories.find((cat) => cat.slug === slug);
+          const found = currentCategories.find((cat) => cat.slug === slug);
           if (!found) {
-            console.log('Slug not found:', slug);
             break;
           }
-          console.log('Found category:', { id: found.id, name: found.name, parent_id: found.parent_id });
           foundCategories.push(found);
+          currentCategories = categories.filter((cat) => cat.parent_id === found.id);
         }
 
-        console.log(
-          'Final foundCategories:',
-          foundCategories.map((c) => ({ id: c.id, name: c.name }))
-        );
         return foundCategories;
       };
 
-      const foundPath = findCategoryBySlugPath(allCategoriesData, categorySlug);
+      const foundPath = findCategoryBySlugPath(topCategories, categorySlug);
 
       if (foundPath.length > 0) {
-        const targetCategory = foundPath[foundPath.length - 1]; // Category cuối cùng
+        const parentCategory = foundPath[0];
+        setSelectedCategory(parentCategory.id.toString());
 
-        // Tìm top-level parent của target category
-        let topLevelParent = targetCategory;
-        while (topLevelParent.parent_id) {
-          const parent = allCategoriesData.find((cat) => cat.id === topLevelParent.parent_id);
-          if (!parent) break;
-          topLevelParent = parent;
-        }
-
-        console.log('Target category:', { id: targetCategory.id, name: targetCategory.name });
-        console.log('Top-level parent:', { id: topLevelParent.id, name: topLevelParent.name });
-
-        setSelectedCategory(topLevelParent.id.toString());
-
-        // Nếu target khác top-level parent thì set subCategoryId
-        if (targetCategory.id !== topLevelParent.id) {
-          console.log('Setting subCategoryId:', targetCategory.id);
-          setSubCategoryId(targetCategory.id.toString());
+        if (foundPath.length > 1) {
+          const subCategory = foundPath[foundPath.length - 1];
+          setSubCategoryId(subCategory.id.toString());
         } else {
           setSubCategoryId(null);
         }
       } else {
-        console.log('No categories found in path');
         setSelectedCategory('all');
         setSubCategoryId(null);
       }
     }
-  }, [categorySlug, allCategoriesData]);
+  }, [categorySlug, topCategories]);
 
   const effectiveCategoryId = subCategoryId || selectedCategory;
-  console.log('Logic check:');
-  console.log('selectedCategory:', selectedCategory);
-  console.log('subCategoryId:', subCategoryId);
-  console.log('effectiveCategoryId:', effectiveCategoryId);
 
   const { data: categoryHierarchy, isLoading: hierarchyLoading } = useQueryCategoryHierarchy(selectedCategory);
 
   const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
     effectiveCategoryId && effectiveCategoryId !== 'all' ? parseInt(effectiveCategoryId) : null
   );
-  console.log('useQueryCategoryPaths input:', effectiveCategoryId);
-  console.log('categoryIds result:', categoryIds);
 
   const shouldUseCategoryFilter = effectiveCategoryId && effectiveCategoryId !== 'all' && categoryIds.length > 0;
 
@@ -559,11 +525,7 @@ const ProductList = ({ categorySlug = [] }) => {
         <Flex gap={6} align="flex-start" direction={{ base: 'column', lg: 'row' }}>
           {selectedCategory && selectedCategory !== 'all' && (
             <Box display={{ base: 'none', lg: 'block' }} flexShrink={0}>
-              <CategorySidebar
-                selectedCategory={selectedCategory}
-                onSubCategorySelect={handleCategorySelect}
-                subCategoryId={subCategoryId}
-              />
+              <CategorySidebar selectedCategory={selectedCategory} onSubCategorySelect={handleCategorySelect} />
             </Box>
           )}
 
