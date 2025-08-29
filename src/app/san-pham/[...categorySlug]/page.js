@@ -5,7 +5,12 @@ export async function generateMetadata({ params }) {
   const { categorySlug } = params;
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/category/for-cms`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/category/for-cms`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
     const data = await response.json();
 
     console.log(data);
