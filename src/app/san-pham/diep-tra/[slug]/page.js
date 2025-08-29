@@ -30,13 +30,13 @@ import ProductImageGallery from './_components/product-image-gallery';
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
-  const id = slug.split('.').pop();
+  // const id = slug.split('.').pop();
 
   let response;
 
   try {
     response = await API.request({
-      url: `/api/product/get-by-id/${id}`
+      url: `/api/product/client/find-by-slug/${slug}`
     });
 
     const { title: titleData, kiotviet_images, general_description: meta_description } = response;
@@ -64,14 +64,14 @@ export async function generateMetadata({ params }) {
 
 const ProductDetail = async ({ params }) => {
   const { slug } = params;
-  const id = slug.split('.').pop();
+  // const id = slug.split('.').pop();
 
   let productDetail;
   let relatedProducts = [];
 
   try {
     productDetail = await API.request({
-      url: `/api/product/get-by-id/${id}`
+      url: `/api/product/client/find-by-slug/${slug}`
     });
 
     if (!productDetail) {

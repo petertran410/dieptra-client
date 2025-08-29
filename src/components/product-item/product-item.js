@@ -8,7 +8,9 @@ import Link from 'next/link';
 const ProductItem = ({ item }) => {
   const { id, title, kiotviet_name, kiotviet_price, ofCategories, kiotviet_images, slug } = item || {};
 
-  const productSlug = `${slug}.${id}`;
+  // ❌ CŨ: const productSlug = `${slug}.${id}`;
+  // ✅ MỚI: Chỉ dùng slug
+  const productSlug = slug;
 
   const getCategoryName = () => {
     if (!Array.isArray(ofCategories) || ofCategories.length === 0) {
@@ -46,6 +48,7 @@ const ProductItem = ({ item }) => {
       }}
       position="relative"
     >
+      {/* ✅ MỚI: Link chỉ dùng slug */}
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
         <Box
           position="absolute"
@@ -110,21 +113,6 @@ const ProductItem = ({ item }) => {
             {showName}
           </Text>
 
-          {/* {generate_description && (
-            <Text
-              fontSize="11px"
-              color="gray.600"
-              lineHeight="1.3"
-              display="-webkit-box"
-              style={{
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                overflow: 'hidden'
-              }}
-            >
-              {generate_description}
-            </Text>
-          )} */}
           <Flex justify="center" align="center" mt="6px">
             {!kiotviet_price || kiotviet_price === 0 ? (
               <Tag colorScheme="blue" size="sm" fontWeight="600">
