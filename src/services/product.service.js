@@ -56,50 +56,6 @@ export const useQueryProductCategories = () => {
   });
 };
 
-export const useQueryAllCategories = () => {
-  const queryKey = ['GET_ALL_CATEGORIES_FOR_SIDEBAR'];
-
-  return useQuery({
-    queryKey,
-    queryFn: async () => {
-      try {
-        const response = await API.request({
-          url: '/api/product/client/get-all',
-          params: {
-            pageSize: 200,
-            pageNumber: 0,
-            is_visible: 'true'
-          }
-        });
-
-        const categories = [];
-        const seen = new Set();
-
-        response.content?.forEach((product) => {
-          if (product.kiotViet?.category) {
-            const category = product.kiotViet.category;
-            const key = `${category.kiotVietId}-${category.name}`;
-
-            if (!seen.has(key)) {
-              seen.add(key);
-              categories.push({
-                id: category.kiotVietId,
-                name: category.name
-              });
-            }
-          }
-        });
-
-        return categories.sort((a, b) => a.name.localeCompare(b.name));
-      } catch (error) {
-        console.error('Error fetching categories:', error);
-        return [];
-      }
-    },
-    staleTime: 10 * 60 * 1000
-  });
-};
-
 export const useQueryProductList = ({ currentPage = 1, enabled = true } = {}) => {
   const queryKey = ['GET_PRODUCT_LIST_CLIENT', currentPage];
 

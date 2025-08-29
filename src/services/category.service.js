@@ -2,6 +2,24 @@ import { API } from '../utils/API';
 import { useGetParamsURL } from '../utils/hooks';
 import { useQuery } from '@tanstack/react-query';
 
+export const useQueryAllCategories = () => {
+  const queryKey = ['GET_ALL_CATEGORIES_FOR_SLUG_RESOLUTION'];
+
+  return useQuery({
+    queryKey,
+    queryFn: async () => {
+      const response = await API.request({
+        url: '/api/category/for-cms',
+        method: 'GET'
+      });
+
+      return response?.data || [];
+    },
+    staleTime: 10 * 60 * 1000,
+    cacheTime: 15 * 60 * 1000
+  });
+};
+
 export const useQueryCategoryList = () => {
   const params = useGetParamsURL();
   const { page: pageNumber = 1, keyword } = params;
@@ -67,7 +85,6 @@ export const useQueryTopLevelCategories = () => {
   });
 };
 
-// src/services/category.service.js - Thêm debug vào useQueryCategoryPaths
 export const useQueryCategoryPaths = (parentCategoryId) => {
   const pid = parentCategoryId != null ? Number(parentCategoryId) : NaN;
 
@@ -76,31 +93,19 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
     enabled: Number.isFinite(pid),
     staleTime: 10 * 60 * 1000,
     queryFn: async () => {
-      console.log('=== useQueryCategoryPaths DEBUG ===');
-      console.log('Input parentCategoryId:', parentCategoryId);
-      console.log('Processed pid:', pid);
-
       const response = await API.request({
         url: '/api/category/for-cms',
         method: 'GET'
       });
 
       const allCategories = response?.data || [];
-      console.log('All categories count:', allCategories.length);
 
       const collectCategoryTree = (parentId) => {
-        console.log('collectCategoryTree called with parentId:', parentId);
         const result = [parentId];
 
         const findChildren = (currentId) => {
-          const children = allCategories.filter((cat) => cat.parent_id === currentId);
-          console.log(
-            `Children of ${currentId}:`,
-            children.map((c) => ({ id: c.id, name: c.name }))
-          );
-
-          children.forEach((cat) => {
-            if (!result.includes(cat.id)) {
+          allCategories.forEach((cat) => {
+            if (cat.parent_id === currentId && !result.includes(cat.id)) {
               result.push(cat.id);
               findChildren(cat.id);
             }
@@ -108,12 +113,11 @@ export const useQueryCategoryPaths = (parentCategoryId) => {
         };
 
         findChildren(parentId);
-        console.log('Final category tree for', parentId, ':', result);
         return result;
       };
 
       const categoryIds = collectCategoryTree(pid);
-      console.log('Final categoryIds returned:', categoryIds);
+      console.log('Category hierarchy IDs:', categoryIds);
       return categoryIds;
     }
   });

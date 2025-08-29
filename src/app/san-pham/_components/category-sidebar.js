@@ -21,7 +21,7 @@ const CategoryItem = ({
   const isExpanded = expandedCategories.has(category.id);
 
   const handleClick = () => {
-    onSubCategorySelect(category.id); // ← Gọi callback với categoryId
+    onSubCategorySelect(category.id);
   };
 
   const handleToggle = (e) => {
@@ -92,7 +92,6 @@ const CategoryItem = ({
 const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   const [expandedCategories, setExpandedCategories] = useState(new Set());
 
-  // Fetch full categories để build slug path
   const { data: fullCategories = [], isLoading: fullCategoriesLoading } = useQuery({
     queryKey: ['GET_FULL_CATEGORIES'],
     queryFn: async () => {
@@ -117,11 +116,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     setExpandedCategories(newExpanded);
   };
 
-  // BUILD SLUG PATH và navigate
   const handleSubCategorySelect = (categoryId) => {
-    console.log('CategorySidebar: handleSubCategorySelect called with:', categoryId);
-
-    // Build full slug path từ root đến target category
     const buildCategorySlugPath = (categories, targetId) => {
       const category = categories.find((cat) => cat.id === targetId);
       if (!category) return [];
@@ -140,7 +135,6 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
       const url = `/san-pham/${slugPath.join('/')}`;
       console.log('Navigating to:', url);
 
-      // Gọi callback để parent component handle
       if (onSubCategorySelect) {
         onSubCategorySelect(url);
       }

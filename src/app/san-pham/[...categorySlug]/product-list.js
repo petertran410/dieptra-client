@@ -30,7 +30,8 @@ import { useQueryProductList, useQueryProductsByCategories } from '../../../serv
 import {
   useQueryTopLevelCategories,
   useQueryCategoryPaths,
-  useQueryCategoryHierarchy
+  useQueryCategoryHierarchy,
+  useQueryAllCategories
 } from '../../../services/category.service';
 import Head from 'next/head';
 
@@ -39,17 +40,15 @@ const PRODUCTS_PER_PAGE = 15;
 const ProductList = ({ categorySlug = [] }) => {
   const router = useRouter();
 
-  // Local state cho pagination và sorting (không còn trong URL)
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentSort, setCurrentSort] = useState('newest');
 
-  // Derived state từ categorySlug
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [subCategoryId, setSubCategoryId] = useState(null);
 
-  // Fetch categories và determine selected category từ slug
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
+  const { data: allCategories = [], isLoading: allCategoriesLoading } = useQueryAllCategories();
 
   useEffect(() => {
     if (categorySlug.length === 0) {
@@ -58,55 +57,62 @@ const ProductList = ({ categorySlug = [] }) => {
       return;
     }
 
-    if (topCategories.length > 0) {
-      // Tìm category từ slug path
+    if (allCategories.length > 0) {
       const findCategoryBySlugPath = (categories, slugPath) => {
-        // Build category tree first
-        const categoryMap = new Map();
-        categories.forEach((cat) => {
-          categoryMap.set(cat.id, { ...cat, children: [] });
-        });
-
-        categories.forEach((cat) => {
-          if (cat.parent_id && categoryMap.has(cat.parent_id)) {
-            categoryMap.get(cat.parent_id).children.push(categoryMap.get(cat.id));
-          }
-        });
-
-        // Traverse slug path
-        let currentCategories = categories.filter((cat) => !cat.parent_id);
+        let currentSlugPath = '';
         let foundCategories = [];
 
-        for (const slug of slugPath) {
-          const found = currentCategories.find((cat) => cat.slug === slug);
-          if (!found) {
+        for (let i = 0; i < slugPath.length; i++) {
+          currentSlugPath = slugPath.slice(0, i + 1).join('/');
+
+          const found = categories.find((cat) => {
+            const buildPath = (categoryId) => {
+              const cat = categories.find((c) => c.id === categoryId);
+              if (!cat) return '';
+
+              if (!cat.parent_id) return cat.slug;
+
+              const parentPath = buildPath(cat.parent_id);
+              return parentPath ? `${parentPath}/${cat.slug}` : cat.slug;
+            };
+
+            const categoryPath = buildPath(cat.id);
+            return categoryPath === currentSlugPath;
+          });
+
+          if (found) {
+            foundCategories.push(found);
+          } else {
             break;
           }
-          foundCategories.push(found);
-          currentCategories = categories.filter((cat) => cat.parent_id === found.id);
         }
 
         return foundCategories;
       };
 
-      const foundPath = findCategoryBySlugPath(topCategories, categorySlug);
+      const foundPath = findCategoryBySlugPath(allCategories, categorySlug);
 
       if (foundPath.length > 0) {
-        const parentCategory = foundPath[0];
-        setSelectedCategory(parentCategory.id.toString());
+        const lastCategory = foundPath[foundPath.length - 1];
 
-        if (foundPath.length > 1) {
-          const subCategory = foundPath[foundPath.length - 1];
-          setSubCategoryId(subCategory.id.toString());
-        } else {
+        if (!lastCategory.parent_id) {
+          setSelectedCategory(lastCategory.id.toString());
           setSubCategoryId(null);
+        } else {
+          let rootCategory = lastCategory;
+          while (rootCategory.parent_id) {
+            rootCategory = allCategories.find((cat) => cat.id === rootCategory.parent_id);
+          }
+
+          setSelectedCategory(rootCategory.id.toString());
+          setSubCategoryId(lastCategory.id.toString());
         }
       } else {
         setSelectedCategory('all');
         setSubCategoryId(null);
       }
     }
-  }, [categorySlug, topCategories]);
+  }, [categorySlug, allCategories]);
 
   const effectiveCategoryId = subCategoryId || selectedCategory;
 
@@ -137,7 +143,10 @@ const ProductList = ({ categorySlug = [] }) => {
   });
 
   const isLoading =
-    categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
+    categoriesLoading ||
+    allCategoriesLoading ||
+    pathsLoading ||
+    (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
 
   const error = allProductsError || categoryProductsError;
 
@@ -255,8 +264,6 @@ const ProductList = ({ categorySlug = [] }) => {
   };
 
   const handleCategorySelect = (urlOrId) => {
-    console.log('handleCategorySelect called with:', urlOrId);
-
     if (typeof urlOrId === 'string' && urlOrId.startsWith('/san-pham/')) {
       router.push(urlOrId);
     } else {
