@@ -1,24 +1,28 @@
+// src/app/san-pham/_components/category-sidebar.js
 'use client';
 
 import { useState } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Box, VStack, Text, Button, Collapse, HStack, Badge, Divider, useDisclosure } from '@chakra-ui/react';
+import { useRouter } from 'next/navigation';
+import { Box, VStack, Text, Button, Collapse, HStack, Badge, Divider } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useQueryCategoryHierarchy } from '../../../services/category.service';
+import { useQuery } from '@tanstack/react-query';
+import { API } from '../../../utils/API';
 
 const CategoryItem = ({
   category,
   level = 0,
   selectedSubCategory,
   onSubCategorySelect,
-  isExpanded,
+  expandedCategories, // ← Thêm prop này
   onToggleExpand
 }) => {
   const hasChildren = category.children && category.children.length > 0;
   const isSelected = selectedSubCategory === category.id.toString();
+  const isExpanded = expandedCategories.has(category.id); // ← Tính toán isExpanded ở đây
 
   const handleClick = () => {
-    onSubCategorySelect(category.id.toString());
+    onSubCategorySelect(category.id);
   };
 
   const handleToggle = (e) => {
@@ -55,19 +59,13 @@ const CategoryItem = ({
           )}
 
           <Text
-            fontSize="xl"
+            fontSize="sm"
             fontWeight={isSelected ? '600' : '400'}
             color={isSelected ? '#003366' : 'gray.700'}
             flex={1}
           >
             {category.name}
           </Text>
-
-          {/* {category.productCount > 0 && (
-            <Badge size="sm" colorScheme={isSelected ? 'blue' : 'gray'} variant="subtle">
-              {category.productCount}
-            </Badge>
-          )} */}
         </HStack>
       </HStack>
 
@@ -81,7 +79,7 @@ const CategoryItem = ({
                 level={level + 1}
                 selectedSubCategory={selectedSubCategory}
                 onSubCategorySelect={onSubCategorySelect}
-                isExpanded={isExpanded}
+                expandedCategories={expandedCategories} // ← Pass expandedCategories xuống
                 onToggleExpand={onToggleExpand}
               />
             ))}
@@ -93,11 +91,20 @@ const CategoryItem = ({
 };
 
 const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const selectedSubCategory = searchParams.get('subCategoryId');
-
   const [expandedCategories, setExpandedCategories] = useState(new Set());
+
+  // Fetch full category data with slugs
+  const { data: fullCategories = [], isLoading: fullCategoriesLoading } = useQuery({
+    queryKey: ['GET_FULL_CATEGORIES'],
+    queryFn: async () => {
+      const response = await API.request({
+        url: '/api/category/for-cms',
+        method: 'GET'
+      });
+      return response?.data || [];
+    },
+    staleTime: 10 * 60 * 1000
+  });
 
   const { data: categoryHierarchy, isLoading, error } = useQueryCategoryHierarchy(selectedCategory);
 
@@ -111,21 +118,25 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     setExpandedCategories(newExpanded);
   };
 
-  const handleSubCategorySelect = (subCategoryId) => {
-    const params = new URLSearchParams(searchParams);
+  // Build slug-based URL và gọi callback
+  const handleSubCategoryClick = (categoryId) => {
+    // Tìm category trong fullCategories để lấy hierarchy path
+    const buildCategorySlugPath = (categories, targetId) => {
+      const category = categories.find((cat) => cat.id === targetId);
+      if (!category) return [];
 
-    if (subCategoryId === selectedCategory) {
-      params.delete('subCategoryId');
-    } else {
-      params.set('subCategoryId', subCategoryId);
-    }
-    params.set('page', '1');
+      if (category.parent_id) {
+        const parentPath = buildCategorySlugPath(categories, category.parent_id);
+        return [...parentPath, category.slug];
+      }
+      return [category.slug];
+    };
 
-    const newURL = `/san-pham?${params.toString()}`;
-    router.push(newURL, { scroll: false });
+    const slugPath = buildCategorySlugPath(fullCategories, categoryId);
 
-    if (onSubCategorySelect) {
-      onSubCategorySelect(subCategoryId);
+    if (slugPath.length > 0) {
+      // Gọi callback với slug path
+      onSubCategorySelect(slugPath.join('/'));
     }
   };
 
@@ -133,7 +144,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     return null;
   }
 
-  if (isLoading) {
+  if (isLoading || fullCategoriesLoading) {
     return (
       <Box w="280px" bg="white" border="1px solid #E2E8F0" borderRadius="md" p={4}>
         <Text fontSize="sm" color="gray.500">
@@ -165,55 +176,28 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
       top="20px"
     >
       <Box p={4} borderBottom="1px solid #E2E8F0">
-        <Text fontSize="xl" fontWeight="600" color="#003366">
+        <Text fontSize="lg" fontWeight="600" color="#003366">
           Danh mục
         </Text>
-        <Text fontSize="xl" color="gray.600" mt={1}>
+        <Text fontSize="sm" color="gray.600" mt={1}>
           {categoryHierarchy.name}
         </Text>
       </Box>
 
       <VStack spacing={0} align="stretch">
-        {/* <CategoryItem
-          category={categoryHierarchy}
-          level={0}
-          selectedSubCategory={selectedSubCategory}
-          onSubCategorySelect={handleSubCategorySelect}
-          isExpanded={true}
-          onToggleExpand={handleToggleExpand}
-        /> */}
-
-        {categoryHierarchy.children && categoryHierarchy.children.length > 0 && <Divider />}
-
         {categoryHierarchy.children &&
           categoryHierarchy.children.map((child) => (
             <CategoryItem
               key={child.id}
               category={child}
               level={0}
-              selectedSubCategory={selectedSubCategory}
-              onSubCategorySelect={handleSubCategorySelect}
-              isExpanded={expandedCategories.has(child.id)}
+              selectedSubCategory={null}
+              onSubCategorySelect={handleSubCategoryClick}
+              expandedCategories={expandedCategories} // ← Pass expandedCategories
               onToggleExpand={handleToggleExpand}
             />
           ))}
       </VStack>
-
-      {selectedSubCategory && selectedSubCategory !== selectedCategory && (
-        <Box p={4} borderTop="1px solid #E2E8F0">
-          <Button
-            size="xl"
-            variant="outline"
-            w="full"
-            onClick={() => handleSubCategorySelect(selectedCategory)}
-            borderColor="#003366"
-            color="#003366"
-            _hover={{ bg: '#003366', color: 'white' }}
-          >
-            Hiển thị tất cả
-          </Button>
-        </Box>
-      )}
     </Box>
   );
 };

@@ -260,9 +260,15 @@ const ProductList = ({ categorySlug = [] }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleCategorySelect = (categoryId) => {
-    const url = buildCategoryUrl(categoryId);
-    router.push(url);
+  const handleCategorySelect = (slugPathOrId) => {
+    if (typeof slugPathOrId === 'string' && slugPathOrId.includes('/')) {
+      // Đây là slug path từ sidebar
+      router.push(`/san-pham/${slugPathOrId}`);
+    } else {
+      // Đây là categoryId từ dropdown
+      const url = buildCategoryUrl(slugPathOrId);
+      router.push(url);
+    }
   };
 
   const getMetadata = () => {
