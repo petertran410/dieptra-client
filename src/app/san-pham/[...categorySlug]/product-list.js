@@ -424,7 +424,7 @@ const ProductList = ({ categorySlug = [] }) => {
         <meta name="description" content={metadata.description} />
       </Head>
 
-      <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
+      <Container maxW="auto" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
           <Breadcrumb data={getBreadcrumbData()} />
           <Heading as="h1" fontSize={{ base: '28px', lg: '36px' }} fontWeight={700} color="#003366">
@@ -510,8 +510,12 @@ const ProductList = ({ categorySlug = [] }) => {
 
         <Flex gap={6} align="flex-start" direction={{ base: 'column', lg: 'row' }}>
           {selectedCategory && selectedCategory !== 'all' && (
-            <Box display={{ base: 'none', lg: 'block' }} flexShrink={0}>
-              <CategorySidebar selectedCategory={selectedCategory} onSubCategorySelect={handleCategorySelect} />
+            <Box display={{ base: 'column', lg: 'block' }} flexShrink={0}>
+              <CategorySidebar
+                selectedCategory={selectedCategory}
+                onSubCategorySelect={handleCategorySelect}
+                selectedSubCategory={subCategoryId}
+              />
             </Box>
           )}
 
@@ -595,20 +599,6 @@ const ProductList = ({ categorySlug = [] }) => {
           </Box>
         </Flex>
       </Container>
-
-      {process.env.NODE_ENV === 'development' && (
-        <Box mt={8} p={4} bg="gray.100" fontSize="sm">
-          <Text>
-            <strong>Debug Info:</strong>
-          </Text>
-          <Text>Total Products: {totalElements}</Text>
-          <Text>Total Pages: {totalPages}</Text>
-          <Text>Current Page: {currentPage}</Text>
-          <Text>Products on Page: {products.length}</Text>
-          <Text>Selected Category: {selectedCategory}</Text>
-          <Text>Sub Category: {subCategoryId}</Text>
-        </Box>
-      )}
     </>
   );
 };

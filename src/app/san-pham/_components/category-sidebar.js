@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Box, VStack, Text, Button, Collapse, HStack, Divider } from '@chakra-ui/react';
 import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
@@ -8,13 +8,16 @@ import { useQueryCategoryHierarchy } from '../../../services/category.service';
 import { useQuery } from '@tanstack/react-query';
 import { API } from '../../../utils/API';
 
+const SIDEBAR_EXPANSION_KEY = 'category_sidebar_expansion';
+
 const CategoryItem = ({
   category,
   level = 0,
   selectedSubCategory,
   onSubCategorySelect,
   expandedCategories,
-  onToggleExpand
+  onToggleExpand,
+  allCategories
 }) => {
   const hasChildren = category.children && category.children.length > 0;
   const isSelected = selectedSubCategory === category.id.toString();
@@ -43,22 +46,26 @@ const CategoryItem = ({
         w="full"
       >
         <HStack flex={1} spacing={2}>
-          {hasChildren && (
-            <Button
-              size="xs"
-              variant="ghost"
-              p={0}
-              minW="auto"
-              h="auto"
-              onClick={handleToggle}
-              _hover={{ bg: 'transparent' }}
-            >
-              {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
-            </Button>
-          )}
+          <Box minW="16px" h="16px" display="flex" alignItems="center" justifyContent="center">
+            {hasChildren ? (
+              <Button
+                size="xs"
+                variant="ghost"
+                p={0}
+                minW="auto"
+                h="auto"
+                onClick={handleToggle}
+                _hover={{ bg: 'transparent' }}
+              >
+                {isExpanded ? <ChevronDownIcon /> : <ChevronRightIcon />}
+              </Button>
+            ) : (
+              <Box w="16px" h="16px" />
+            )}
+          </Box>
 
           <Text
-            fontSize="sm"
+            fontSize="xl"
             fontWeight={isSelected ? '600' : '400'}
             color={isSelected ? '#003366' : 'gray.700'}
             flex={1}
@@ -80,6 +87,7 @@ const CategoryItem = ({
                 onSubCategorySelect={onSubCategorySelect}
                 expandedCategories={expandedCategories}
                 onToggleExpand={onToggleExpand}
+                allCategories={allCategories}
               />
             ))}
           </VStack>
@@ -89,7 +97,7 @@ const CategoryItem = ({
   );
 };
 
-const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
+const CategorySidebar = ({ selectedCategory, selectedSubCategory, onSubCategorySelect }) => {
   const [expandedCategories, setExpandedCategories] = useState(new Set());
 
   const { data: fullCategories = [], isLoading: fullCategoriesLoading } = useQuery({
@@ -97,7 +105,10 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     queryFn: async () => {
       const response = await API.request({
         url: '/api/category/for-cms',
-        method: 'GET'
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       return response?.data || [];
     },
@@ -105,6 +116,90 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   });
 
   const { data: categoryHierarchy, isLoading, error } = useQueryCategoryHierarchy(selectedCategory);
+
+  const getAllCategoryIds = (categories) => {
+    const ids = new Set();
+
+    const collectIds = (cats) => {
+      cats.forEach((cat) => {
+        ids.add(cat.id);
+        if (cat.children && cat.children.length > 0) {
+          collectIds(cat.children);
+        }
+      });
+    };
+
+    if (categories && categories.children) {
+      collectIds(categories.children);
+    }
+
+    return ids;
+  };
+
+  const getCategoryPath = (categories, targetId) => {
+    const path = [];
+
+    const findPath = (cats, target, currentPath) => {
+      for (const cat of cats) {
+        const newPath = [...currentPath, cat.id];
+
+        if (cat.id === target) {
+          path.splice(0, path.length, ...newPath);
+          return true;
+        }
+
+        if (cat.children && cat.children.length > 0) {
+          if (findPath(cat.children, target, newPath)) {
+            return true;
+          }
+        }
+      }
+      return false;
+    };
+
+    if (categories && categories.children) {
+      findPath(categories.children, targetId, []);
+    }
+
+    return path;
+  };
+
+  useEffect(() => {
+    if (!categoryHierarchy) return;
+
+    try {
+      const savedExpansion = localStorage.getItem(SIDEBAR_EXPANSION_KEY);
+      let initialExpanded = new Set();
+
+      if (savedExpansion) {
+        const savedIds = JSON.parse(savedExpansion);
+        initialExpanded = new Set(savedIds);
+      } else {
+        initialExpanded = getAllCategoryIds(categoryHierarchy);
+      }
+
+      if (selectedSubCategory && categoryHierarchy) {
+        const pathToSelected = getCategoryPath(categoryHierarchy, parseInt(selectedSubCategory));
+        pathToSelected.forEach((id) => initialExpanded.add(id));
+      }
+
+      setExpandedCategories(initialExpanded);
+    } catch (error) {
+      console.error('Error loading sidebar expansion state:', error);
+      setExpandedCategories(getAllCategoryIds(categoryHierarchy));
+    }
+  }, [categoryHierarchy, selectedSubCategory]);
+
+  useEffect(() => {
+    if (expandedCategories.size > 0) {
+      try {
+        const expandedArray = Array.from(expandedCategories);
+        localStorage.setItem(SIDEBAR_EXPANSION_KEY, JSON.stringify(expandedArray));
+      } catch (error) {
+        console.error('Error saving sidebar expansion state:', error);
+      }
+    }
+  }, [expandedCategories]);
 
   const handleToggleExpand = (categoryId) => {
     const newExpanded = new Set(expandedCategories);
@@ -129,11 +224,9 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     };
 
     const slugPath = buildCategorySlugPath(fullCategories, categoryId);
-    console.log('Built slug path:', slugPath);
 
     if (slugPath.length > 0) {
       const url = `/san-pham/${slugPath.join('/')}`;
-      console.log('Navigating to:', url);
 
       if (onSubCategorySelect) {
         onSubCategorySelect(url);
@@ -148,7 +241,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   if (isLoading || fullCategoriesLoading) {
     return (
       <Box w="280px" bg="white" border="1px solid #E2E8F0" borderRadius="md" p={4}>
-        <Text fontSize="sm" color="gray.500">
+        <Text fontSize="md" color="gray.500">
           Đang tải danh mục...
         </Text>
       </Box>
@@ -158,7 +251,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   if (error || !categoryHierarchy) {
     return (
       <Box w="280px" bg="white" border="1px solid #E2E8F0" borderRadius="md" p={4}>
-        <Text fontSize="sm" color="red.500">
+        <Text fontSize="md" color="red.500">
           Không thể tải danh mục con
         </Text>
       </Box>
@@ -177,10 +270,10 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
       top="20px"
     >
       <Box p={4} borderBottom="1px solid #E2E8F0">
-        <Text fontSize="lg" fontWeight="600" color="#003366">
+        <Text fontSize="xl" fontWeight="600" color="#003366">
           Danh mục
         </Text>
-        <Text fontSize="sm" color="gray.600" mt={1}>
+        <Text fontSize="xl" color="gray.600" mt={1}>
           {categoryHierarchy.name}
         </Text>
       </Box>
@@ -192,10 +285,11 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
               key={child.id}
               category={child}
               level={0}
-              selectedSubCategory={null}
+              selectedSubCategory={selectedSubCategory}
               onSubCategorySelect={handleSubCategorySelect}
               expandedCategories={expandedCategories}
               onToggleExpand={handleToggleExpand}
+              allCategories={fullCategories}
             />
           ))}
       </VStack>
