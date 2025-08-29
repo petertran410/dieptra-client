@@ -206,7 +206,18 @@ const ProductDetail = async ({ params }) => {
                   </HStack>
 
                   <Flex justify="space-between" gap={4}>
-                    <AddCart price={price} productId={id} title={title} />
+                    {/* <AddCart price={price} productId={slug} title={title} /> */}
+                    <Button
+                      size="lg"
+                      w="full"
+                      variant="outline"
+                      borderColor="#003366"
+                      color="#003366"
+                      _hover={{ bg: '#003366', color: 'white' }}
+                      fontWeight="600"
+                    >
+                      Liên Hệ
+                    </Button>
                     <Button
                       size="lg"
                       w="full"
@@ -242,7 +253,7 @@ const ProductDetail = async ({ params }) => {
             )}
           </Box>
 
-          {relatedProducts.length > 0 && <OtherProduct productList={relatedProducts} productId={id} />}
+          {relatedProducts.length > 0 && <OtherProduct productList={relatedProducts} productId={slug} />}
         </VStack>
       </Container>
     </>

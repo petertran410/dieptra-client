@@ -8,8 +8,6 @@ import Link from 'next/link';
 const ProductItem = ({ item }) => {
   const { id, title, kiotviet_name, kiotviet_price, ofCategories, kiotviet_images, slug } = item || {};
 
-  // ❌ CŨ: const productSlug = `${slug}.${id}`;
-  // ✅ MỚI: Chỉ dùng slug
   const productSlug = slug;
 
   const getCategoryName = () => {
