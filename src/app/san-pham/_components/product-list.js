@@ -1,6 +1,3 @@
-// MODIFY src/app/san-pham/_components/product-list.js
-// Replace query-based navigation với slug-based navigation
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -56,7 +53,9 @@ const ProductList = () => {
   const effectiveCategoryId = subCategoryId || categoryId;
 
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
+
   const { data: categoryHierarchy, isLoading: hierarchyLoading } = useQueryCategoryHierarchy(selectedCategory);
+
   const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
     effectiveCategoryId && effectiveCategoryId !== 'all' ? parseInt(effectiveCategoryId) : null
   );
@@ -83,6 +82,7 @@ const ProductList = () => {
     categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
 
   const error = allProductsError || categoryProductsError;
+
   const productsData = shouldUseCategoryFilter ? categoryProductsData : allProductsData;
   const products = productsData?.content || [];
   const totalElements = productsData?.totalElements || 0;
@@ -120,68 +120,56 @@ const ProductList = () => {
     return category ? category.name : 'Danh Mục';
   };
 
-  // REPLACE old updateURL logic với slug-based navigation
-  const navigateToCategory = async (categoryId) => {
-    if (categoryId === 'all') {
-      router.push('/san-pham');
-      return;
-    }
+  const updateURL = (newParams = {}) => {
+    const params = new URLSearchParams();
 
-    try {
-      // Get category slug path từ API
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/category/build-path`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ categoryIds: [parseInt(categoryId)] })
-      });
+    const finalParams = {
+      page: currentPage,
+      keyword: searchTerm,
+      categoryId: selectedCategory === 'all' ? undefined : selectedCategory,
+      subCategoryId: subCategoryId,
+      sortBy: currentSort,
+      ...newParams
+    };
 
-      if (response.ok) {
-        const slugPath = await response.json();
-        if (slugPath && slugPath.length > 0) {
-          router.push(`/san-pham/${slugPath.join('/')}`);
-        } else {
-          // Fallback to query params nếu không có slug
-          router.push(`/san-pham?categoryId=${categoryId}`);
-        }
-      } else {
-        // Fallback to query params
-        router.push(`/san-pham?categoryId=${categoryId}`);
+    Object.entries(finalParams).forEach(([key, value]) => {
+      if (value && value !== 'all' && value !== '') {
+        params.set(key, value.toString());
       }
-    } catch (error) {
-      console.error('Navigation error:', error);
-      // Fallback to query params
-      router.push(`/san-pham?categoryId=${categoryId}`);
-    }
+    });
+
+    const newURL = `/san-pham${params.toString() ? `?${params.toString()}` : ''}`;
+    router.push(newURL, { scroll: false });
   };
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
-      const params = new URLSearchParams();
-      if (searchTerm.trim()) params.set('keyword', searchTerm);
-      if (selectedCategory && selectedCategory !== 'all') params.set('categoryId', selectedCategory);
-
-      const newURL = `/san-pham${params.toString() ? `?${params.toString()}` : ''}`;
-      router.push(newURL, { scroll: false });
+      updateURL({
+        keyword: searchTerm,
+        page: 1
+      });
     }
   };
 
   const handleCategoryChange = (newCategoryId) => {
     setSelectedCategory(newCategoryId);
-    navigateToCategory(newCategoryId);
+    updateURL({
+      categoryId: newCategoryId === 'all' ? undefined : newCategoryId,
+      subCategoryId: undefined,
+      page: 1
+    });
   };
 
   const handleSortChange = (newSortBy) => {
     setCurrentSort(newSortBy);
-    // For now, handle sorting client-side hoặc keep current URL pattern
-    const params = new URLSearchParams(searchParams);
-    params.set('sortBy', newSortBy);
-    router.push(`/san-pham?${params.toString()}`, { scroll: false });
+    updateURL({
+      sortBy: newSortBy,
+      page: 1
+    });
   };
 
   const handlePageChange = (newPage) => {
-    const params = new URLSearchParams(searchParams);
-    params.set('page', newPage.toString());
-    router.push(`/san-pham?${params.toString()}`, { scroll: false });
+    updateURL({ page: newPage });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -246,66 +234,57 @@ const ProductList = () => {
   const metadata = getMetadata();
 
   const getBreadcrumbData = () => {
-    const breadcrumbs = [
+    const baseBreadcrumb = [
       { title: 'Trang chủ', href: '/' },
       { title: 'Sản Phẩm', href: '/san-pham' }
     ];
 
-    if (selectedCategory && selectedCategory !== 'all') {
-      const category = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
-      if (category) {
-        breadcrumbs.push({ title: category.name, href: '#', isActive: !subCategoryId });
+    if (selectedCategory === 'all') {
+      return [...baseBreadcrumb, { title: 'Tất Cả Sản Phẩm', href: '#', isActive: true }];
+    }
 
-        if (subCategoryId && categoryHierarchy) {
-          const findSubCategory = (categories, targetId) => {
-            if (!categories || !Array.isArray(categories)) return null;
-            for (const cat of categories) {
-              if (cat.id.toString() === targetId.toString()) return cat;
-              if (cat.children) {
-                const found = findSubCategory(cat.children, targetId);
-                if (found) return found;
-              }
+    const parentCategory = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
+    if (parentCategory) {
+      baseBreadcrumb.push({
+        title: parentCategory.name,
+        href: `/san-pham?categoryId=${parentCategory.id}`
+      });
+
+      if (subCategoryId && categoryHierarchy) {
+        const findSubCategory = (categories, targetId) => {
+          if (!categories || !Array.isArray(categories)) return null;
+
+          for (const category of categories) {
+            if (category.id.toString() === targetId.toString()) {
+              return category;
             }
-            return null;
-          };
 
-          const subCategory = findSubCategory(categoryHierarchy.children, subCategoryId);
-          if (subCategory) {
-            breadcrumbs.push({ title: subCategory.name, href: '#', isActive: true });
+            if (category.children && category.children.length > 0) {
+              const found = findSubCategory(category.children, targetId);
+              if (found) return found;
+            }
           }
+          return null;
+        };
+
+        const subCategory = findSubCategory(categoryHierarchy.children, subCategoryId);
+        if (subCategory) {
+          baseBreadcrumb.push({
+            title: subCategory.name,
+            href: '#',
+            isActive: true
+          });
         }
+      } else {
+        baseBreadcrumb[baseBreadcrumb.length - 1].isActive = true;
       }
     }
 
-    return breadcrumbs;
+    return baseBreadcrumb;
   };
-
-  if (isLoading) {
-    return (
-      <Container maxW="full" py={8} px={PX_ALL}>
-        <Center h="400px">
-          <VStack spacing={4}>
-            <Spinner size="xl" color="primary.500" />
-            <Text>Đang tải sản phẩm...</Text>
-          </VStack>
-        </Center>
-      </Container>
-    );
-  }
-
-  if (error) {
-    return (
-      <Container maxW="full" py={8} px={PX_ALL}>
-        <Center h="400px">
-          <Text color="red.500">Có lỗi xảy ra khi tải sản phẩm</Text>
-        </Center>
-      </Container>
-    );
-  }
 
   const sortOptions = [
     { value: 'newest', label: 'Mới nhất' },
-    { value: 'oldest', label: 'Cũ nhất' },
     { value: 'name', label: 'Tên A-Z' },
     { value: 'price-low', label: 'Giá thấp → cao' },
     { value: 'price-high', label: 'Giá cao → thấp' }
@@ -315,6 +294,7 @@ const ProductList = () => {
     <>
       <Head>
         <title>{metadata.title} | Diệp Trà</title>
+        {/* <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/san-pham`} /> */}
         <meta name="robots" content="index, follow" />
         <meta name="description" content={metadata.description} />
       </Head>
@@ -345,22 +325,39 @@ const ProductList = () => {
                   onKeyPress={handleSearch}
                   bg="white"
                   border="1px solid #E2E8F0"
-                  _focus={{ borderColor: '#003366' }}
+                  _focus={{ borderColor: '#003366', boxShadow: '0 0 0 1px #003366' }}
                 />
               </InputGroup>
 
-              <Button onClick={handleSearch} colorScheme="blue" minW="100px">
-                Tìm kiếm
+              <Button onClick={handleSearch} colorScheme="blue" bg="#003366" _hover={{ bg: '#002244' }} size="md">
+                Tìm
               </Button>
             </HStack>
 
             <HStack spacing={4}>
               <Select
+                value={selectedCategory}
+                onChange={(e) => handleCategoryChange(e.target.value)}
+                maxW="200px"
+                bg="white"
+                border="1px solid #E2E8F0"
+                _focus={{ borderColor: '#003366', boxShadow: '0 0 0 1px #003366' }}
+              >
+                <option value="all">Tất cả danh mục</option>
+                {topCategories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </Select>
+
+              <Select
                 value={currentSort}
                 onChange={(e) => handleSortChange(e.target.value)}
+                maxW="160px"
                 bg="white"
-                maxW="200px"
                 border="1px solid #E2E8F0"
+                _focus={{ borderColor: '#003366', boxShadow: '0 0 0 1px #003366' }}
               >
                 {sortOptions.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -370,94 +367,175 @@ const ProductList = () => {
               </Select>
             </HStack>
           </Flex>
+
+          <Text color="gray.600" fontSize="sm">
+            {isLoading
+              ? 'Đang tải...'
+              : `Hiển thị 1-${Math.min(PRODUCTS_PER_PAGE, products.length)} của ${totalElements} kết quả`}
+            {selectedCategory !== 'all' && (
+              <Text as="span" ml={2} fontWeight="500" color="#003366">
+                • {topCategories.find((cat) => cat.id.toString() === selectedCategory)?.name}
+              </Text>
+            )}
+          </Text>
         </VStack>
 
-        <Flex gap="32px" align="start">
-          <Box minW="280px" display={{ base: 'none', lg: 'block' }}>
-            <CategorySidebar
-              categories={topCategories}
-              selectedCategory={selectedCategory}
-              onCategoryChange={handleCategoryChange}
-              categoryHierarchy={categoryHierarchy}
-              subCategoryId={subCategoryId}
-            />
-          </Box>
+        <Flex gap={6} align="flex-start" direction={{ base: 'column', lg: 'row' }}>
+          {selectedCategory && selectedCategory !== 'all' && (
+            <Box display={{ base: 'none', lg: 'block' }} flexShrink={0}>
+              <CategorySidebar
+                selectedCategory={selectedCategory}
+                onSubCategorySelect={() => {
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+              />
+            </Box>
+          )}
 
-          <Box flex={1}>
-            {products.length > 0 ? (
+          <Box flex={1} w="full">
+            {isLoading && (
+              <Center py={20}>
+                <VStack>
+                  <Spinner size="xl" color="#003366" />
+                  <Text color="gray.600">Đang tải sản phẩm...</Text>
+                </VStack>
+              </Center>
+            )}
+
+            {error && (
+              <Center py={20}>
+                <VStack>
+                  <Text color="red.500" fontSize="lg" fontWeight="500">
+                    Có lỗi xảy ra khi tải sản phẩm
+                  </Text>
+                  <Text color="gray.600">{error.message || 'Vui lòng thử lại sau'}</Text>
+                  <Button
+                    onClick={() => window.location.reload()}
+                    colorScheme="blue"
+                    bg="#003366"
+                    _hover={{ bg: '#002244' }}
+                    mt={4}
+                  >
+                    Tải lại
+                  </Button>
+                </VStack>
+              </Center>
+            )}
+
+            {!isLoading && !error && (
               <>
-                <Grid
-                  templateColumns={{
-                    base: 'repeat(1, 1fr)',
-                    sm: 'repeat(2, 1fr)',
-                    md: 'repeat(3, 1fr)',
-                    lg: 'repeat(4, 1fr)',
-                    xl: 'repeat(5, 1fr)'
-                  }}
-                  gap={6}
-                  mb={8}
-                >
-                  {products.map((product) => (
-                    <GridItem key={product.id}>
-                      <ProductItem item={product} />
-                    </GridItem>
-                  ))}
-                </Grid>
+                {products.length > 0 ? (
+                  <Grid
+                    templateColumns={{
+                      base: 'repeat(1, 1fr)',
+                      sm: 'repeat(2, 1fr)',
+                      md: 'repeat(3, 1fr)',
+                      lg: selectedCategory !== 'all' ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)',
+                      xl: selectedCategory !== 'all' ? 'repeat(4, 1fr)' : 'repeat(5, 1fr)'
+                    }}
+                    gap={6}
+                    mb={10}
+                  >
+                    {products.map((product) => (
+                      <GridItem key={product.slug}>
+                        <ProductItem item={product} />
+                      </GridItem>
+                    ))}
+                  </Grid>
+                ) : (
+                  <Center py={20}>
+                    <VStack spacing={4}>
+                      <Text fontSize="xl" fontWeight="500" color="gray.600">
+                        Không tìm thấy sản phẩm nào
+                      </Text>
+                      <Text color="gray.500">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</Text>
+                      <Button
+                        onClick={() => {
+                          setSearchTerm('');
+                          setSelectedCategory('all');
+                          updateURL({
+                            keyword: undefined,
+                            categoryId: undefined,
+                            subCategoryId: undefined,
+                            page: 1
+                          });
+                        }}
+                        variant="outline"
+                        colorScheme="blue"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
+                      >
+                        Xóa bộ lọc
+                      </Button>
+                    </VStack>
+                  </Center>
+                )}
 
                 {totalPages > 1 && (
-                  <Flex justify="center" align="center" gap={2} pt={6}>
-                    <Button
-                      onClick={() => handlePageChange(currentPage - 1)}
-                      disabled={currentPage === 1}
-                      variant="outline"
-                      size="sm"
-                    >
-                      ‹ Trước
-                    </Button>
+                  <Flex justify="center" align="center" mt={10} mb={10}>
+                    <HStack spacing={2}>
+                      <Button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage <= 1}
+                        variant="outline"
+                        size="sm"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
+                        _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+                      >
+                        ‹ Trước
+                      </Button>
 
-                    <HStack spacing={1}>
                       {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                        const startPage = Math.max(1, Math.min(currentPage - 2, totalPages - 4));
-                        const pageNum = startPage + i;
-
-                        if (pageNum > totalPages) return null;
+                        let pageNum;
+                        if (totalPages <= 5) {
+                          pageNum = i + 1;
+                        } else if (currentPage <= 3) {
+                          pageNum = i + 1;
+                        } else if (currentPage >= totalPages - 2) {
+                          pageNum = totalPages - 4 + i;
+                        } else {
+                          pageNum = currentPage - 2 + i;
+                        }
 
                         return (
                           <Button
                             key={pageNum}
                             onClick={() => handlePageChange(pageNum)}
                             variant={currentPage === pageNum ? 'solid' : 'outline'}
-                            colorScheme={currentPage === pageNum ? 'blue' : 'gray'}
                             size="sm"
-                            minW="40px"
+                            colorScheme="blue"
+                            bg={currentPage === pageNum ? '#003366' : 'white'}
+                            borderColor="#003366"
+                            color={currentPage === pageNum ? 'white' : '#003366'}
+                            _hover={{
+                              bg: currentPage === pageNum ? '#002244' : '#003366',
+                              color: 'white'
+                            }}
                           >
                             {pageNum}
                           </Button>
                         );
                       })}
+
+                      <Button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage >= totalPages}
+                        variant="outline"
+                        size="sm"
+                        borderColor="#003366"
+                        color="#003366"
+                        _hover={{ bg: '#003366', color: 'white' }}
+                        _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+                      >
+                        Sau ›
+                      </Button>
                     </HStack>
-
-                    <Button
-                      onClick={() => handlePageChange(currentPage + 1)}
-                      disabled={currentPage === totalPages}
-                      variant="outline"
-                      size="sm"
-                    >
-                      Sau ›
-                    </Button>
-
-                    <Text fontSize="sm" color="gray.600" ml={4}>
-                      Trang {currentPage} / {totalPages}
-                    </Text>
                   </Flex>
                 )}
               </>
-            ) : (
-              <Center h="200px">
-                <Text fontSize="lg" color="gray.500">
-                  Không tìm thấy sản phẩm nào
-                </Text>
-              </Center>
             )}
           </Box>
         </Flex>

@@ -8,7 +8,7 @@ import Link from 'next/link';
 const ProductItem = ({ item }) => {
   const { id, title, kiotviet_name, kiotviet_price, ofCategories, kiotviet_images, slug } = item || {};
 
-  const productSlug = slug && slug.trim() ? slug : `${convertSlugURL(title)}.${id}`;
+  const productSlug = `${slug}.${id}`;
 
   const getCategoryName = () => {
     if (!Array.isArray(ofCategories) || ofCategories.length === 0) {
