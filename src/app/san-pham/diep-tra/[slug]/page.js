@@ -24,7 +24,7 @@ import Breadcrumb from '../../../../components/breadcrumb/breadcrumb';
 import { API } from '../../../../utils/API';
 import { formatCurrency, META_DESCRIPTION } from '../../../../utils/helper-server';
 import { PX_ALL } from '../../../../utils/const';
-import OtherProduct from './_components/other-product';
+import OtherProduct from '../../diep-tra/[slug]/_components/other-product';
 import AddCart from './_components/add-cart';
 import ProductImageGallery from './_components/product-image-gallery';
 
