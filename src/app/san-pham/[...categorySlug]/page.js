@@ -1,4 +1,3 @@
-// src/app/san-pham/[...categorySlug]/page.js
 import { getMetadata } from '../../../utils/helper-server';
 import ProductList from './product-list';
 
@@ -6,7 +5,6 @@ export async function generateMetadata({ params }) {
   const { categorySlug } = params;
 
   try {
-    // Fetch categories để tìm category name
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/category/for-cms`);
     const data = await response.json();
 
@@ -33,9 +31,7 @@ export async function generateMetadata({ params }) {
   });
 }
 
-// Helper function để tìm category theo slug path
 function findCategoryBySlugPath(categories, slugPath) {
-  // Build category tree
   const categoryMap = {};
   const rootCategories = [];
 
@@ -51,7 +47,6 @@ function findCategoryBySlugPath(categories, slugPath) {
     }
   });
 
-  // Traverse theo slug path
   let current = rootCategories;
   let targetCategory = null;
 

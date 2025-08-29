@@ -218,6 +218,7 @@ const ProductList = ({ categorySlug = [] }) => {
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const products = processedProducts;
+  console.log(products);
 
   console.log('=== PAGINATION DEBUG ===');
   console.log('totalElements:', totalElements);

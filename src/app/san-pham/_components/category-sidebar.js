@@ -14,12 +14,12 @@ const CategoryItem = ({
   level = 0,
   selectedSubCategory,
   onSubCategorySelect,
-  expandedCategories, // ← Thêm prop này
+  expandedCategories,
   onToggleExpand
 }) => {
   const hasChildren = category.children && category.children.length > 0;
   const isSelected = selectedSubCategory === category.id.toString();
-  const isExpanded = expandedCategories.has(category.id); // ← Tính toán isExpanded ở đây
+  const isExpanded = expandedCategories.has(category.id);
 
   const handleClick = () => {
     onSubCategorySelect(category.id);
@@ -79,7 +79,7 @@ const CategoryItem = ({
                 level={level + 1}
                 selectedSubCategory={selectedSubCategory}
                 onSubCategorySelect={onSubCategorySelect}
-                expandedCategories={expandedCategories} // ← Pass expandedCategories xuống
+                expandedCategories={expandedCategories}
                 onToggleExpand={onToggleExpand}
               />
             ))}
@@ -93,7 +93,6 @@ const CategoryItem = ({
 const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   const [expandedCategories, setExpandedCategories] = useState(new Set());
 
-  // Fetch full category data with slugs
   const { data: fullCategories = [], isLoading: fullCategoriesLoading } = useQuery({
     queryKey: ['GET_FULL_CATEGORIES'],
     queryFn: async () => {
@@ -118,9 +117,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     setExpandedCategories(newExpanded);
   };
 
-  // Build slug-based URL và gọi callback
   const handleSubCategoryClick = (categoryId) => {
-    // Tìm category trong fullCategories để lấy hierarchy path
     const buildCategorySlugPath = (categories, targetId) => {
       const category = categories.find((cat) => cat.id === targetId);
       if (!category) return [];
@@ -135,7 +132,6 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
     const slugPath = buildCategorySlugPath(fullCategories, categoryId);
 
     if (slugPath.length > 0) {
-      // Gọi callback với slug path
       onSubCategorySelect(slugPath.join('/'));
     }
   };

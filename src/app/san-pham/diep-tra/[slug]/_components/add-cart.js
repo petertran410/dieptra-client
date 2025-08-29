@@ -1,4 +1,3 @@
-// src/app/san-pham/[slug]/_components/add-cart.js - ENHANCED
 'use client';
 
 import ModalContact from '../../../../../components/modal-contact';
@@ -22,7 +21,6 @@ const AddCart = ({ price, productId, title }) => {
       if (!isExists) {
         setCart([...cart, { id: Number(productId), quantity: 1 }]);
       } else {
-        // Update quantity if already exists
         setCart(
           cart.map((item) => (Number(item.id) === Number(productId) ? { ...item, quantity: item.quantity + 1 } : item))
         );

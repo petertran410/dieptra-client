@@ -1,4 +1,3 @@
-// src/app/san-pham/[slug]/_components/other-product.js - WITH NAVIGATION
 'use client';
 
 import { useState } from 'react';
