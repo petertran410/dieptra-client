@@ -48,11 +48,20 @@ const ProductList = ({ categorySlug = [] }) => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [subCategoryId, setSubCategoryId] = useState(null);
 
+  console.log('=== PRODUCT LIST DEBUG ===');
+  console.log('categorySlug:', categorySlug);
+  console.log('selectedCategory:', selectedCategory);
+  console.log('subCategoryId:', subCategoryId);
+
   // Fetch categories và determine selected category từ slug
   const { data: topCategories = [], isLoading: categoriesLoading } = useQueryTopLevelCategories();
 
   // Process categorySlug để tìm selectedCategory và subCategoryId
   useEffect(() => {
+    console.log('=== PROCESSING CATEGORY SLUG ===');
+    console.log('categorySlug:', categorySlug);
+    console.log('topCategories:', topCategories);
+
     if (categorySlug.length === 0) {
       setSelectedCategory('all');
       setSubCategoryId(null);
@@ -63,6 +72,7 @@ const ProductList = ({ categorySlug = [] }) => {
       // Tìm category từ slug path
       const findCategoryBySlugPath = (categories, slugPath) => {
         // Build category tree first
+        console.log('findCategoryBySlugPath called with:', { categories: categories.length, slugPath });
         const categoryMap = new Map();
         categories.forEach((cat) => {
           categoryMap.set(cat.id, { ...cat, children: [] });
@@ -79,13 +89,23 @@ const ProductList = ({ categorySlug = [] }) => {
         let foundCategories = [];
 
         for (const slug of slugPath) {
+          console.log(
+            'Looking for slug:',
+            slug,
+            'in categories:',
+            currentCategories.map((c) => c.slug)
+          );
           const found = currentCategories.find((cat) => cat.slug === slug);
-          if (!found) break;
-
+          if (!found) {
+            console.log('Slug not found:', slug);
+            break;
+          }
+          console.log('Found category:', found);
           foundCategories.push(found);
           currentCategories = categories.filter((cat) => cat.parent_id === found.id);
         }
 
+        console.log('Final foundCategories:', foundCategories);
         return foundCategories;
       };
 
@@ -93,15 +113,18 @@ const ProductList = ({ categorySlug = [] }) => {
 
       if (foundPath.length > 0) {
         const parentCategory = foundPath[0];
+        console.log('Setting selectedCategory:', parentCategory.id);
         setSelectedCategory(parentCategory.id.toString());
 
         if (foundPath.length > 1) {
           const subCategory = foundPath[foundPath.length - 1];
+          console.log('Setting subCategoryId:', subCategory.id);
           setSubCategoryId(subCategory.id.toString());
         } else {
           setSubCategoryId(null);
         }
       } else {
+        console.log('No categories found in path, setting to all');
         setSelectedCategory('all');
         setSubCategoryId(null);
       }
@@ -109,14 +132,17 @@ const ProductList = ({ categorySlug = [] }) => {
   }, [categorySlug, topCategories]);
 
   const effectiveCategoryId = subCategoryId || selectedCategory;
+  console.log('effectiveCategoryId:', effectiveCategoryId);
 
   const { data: categoryHierarchy, isLoading: hierarchyLoading } = useQueryCategoryHierarchy(selectedCategory);
 
   const { data: categoryIds = [], isLoading: pathsLoading } = useQueryCategoryPaths(
     effectiveCategoryId && effectiveCategoryId !== 'all' ? parseInt(effectiveCategoryId) : null
   );
+  console.log('categoryIds from useQueryCategoryPaths:', categoryIds);
 
   const shouldUseCategoryFilter = effectiveCategoryId && effectiveCategoryId !== 'all' && categoryIds.length > 0;
+  console.log('shouldUseCategoryFilter:', shouldUseCategoryFilter);
 
   const {
     data: allProductsData,
@@ -134,6 +160,12 @@ const ProductList = ({ categorySlug = [] }) => {
     enabled: shouldUseCategoryFilter
   });
 
+  console.log('Query results:');
+  console.log('allProductsData:', allProductsData);
+  console.log('categoryProductsData:', categoryProductsData);
+  console.log('allProductsLoading:', allProductsLoading);
+  console.log('categoryProductsLoading:', categoryProductsLoading);
+
   const isLoading =
     categoriesLoading || pathsLoading || (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
 
@@ -142,11 +174,18 @@ const ProductList = ({ categorySlug = [] }) => {
   const productsData = shouldUseCategoryFilter ? categoryProductsData : allProductsData;
   const allProducts = productsData?.content || [];
 
-  // Client-side filtering, sorting, and pagination
+  console.log('Final products data:');
+  console.log('productsData:', productsData);
+  console.log('allProducts length:', allProducts.length);
+  console.log('allProducts sample:', allProducts.slice(0, 3));
+
   const processedProducts = useMemo(() => {
+    console.log('=== PROCESSING PRODUCTS ===');
+    console.log('Input allProducts:', allProducts.length);
+    console.log('searchTerm:', searchTerm);
+
     let filtered = [...allProducts];
 
-    // Apply search filter
     if (searchTerm.trim()) {
       const searchLower = searchTerm.toLowerCase();
       filtered = filtered.filter(
@@ -154,9 +193,9 @@ const ProductList = ({ categorySlug = [] }) => {
           (product.title || '').toLowerCase().includes(searchLower) ||
           (product.kiotviet_name || '').toLowerCase().includes(searchLower)
       );
+      console.log('After search filter:', filtered.length);
     }
 
-    // Apply sorting
     filtered.sort((a, b) => {
       switch (currentSort) {
         case 'price-low':
@@ -171,14 +210,21 @@ const ProductList = ({ categorySlug = [] }) => {
       }
     });
 
+    console.log('After sorting:', filtered.length);
     return filtered;
   }, [allProducts, searchTerm, currentSort]);
 
-  // Pagination
-  const totalElements = processedProducts.length;
+  const totalElements = productsData?.totalElements || 0;
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-  const products = processedProducts.slice(startIndex, startIndex + PRODUCTS_PER_PAGE);
+  const products = processedProducts;
+
+  console.log('=== PAGINATION DEBUG ===');
+  console.log('totalElements:', totalElements);
+  console.log('totalPages:', totalPages);
+  console.log('currentPage:', currentPage);
+  console.log('startIndex:', startIndex);
+  console.log('products for current page:', products.length);
 
   const getCategoryDisplayName = () => {
     if (selectedCategory === 'all') {
@@ -212,9 +258,7 @@ const ProductList = ({ categorySlug = [] }) => {
     return category ? category.name : 'Danh Mục';
   };
 
-  // Build category URL from hierarchy
   const buildCategoryUrl = (categoryId) => {
-    // Chỉ cần tìm category và dùng slug của nó
     const category = topCategories.find((cat) => cat.id === categoryId || cat.id.toString() === categoryId.toString());
 
     if (!category || !category.slug) {
@@ -222,7 +266,6 @@ const ProductList = ({ categorySlug = [] }) => {
       return '/san-pham';
     }
 
-    // Với structure hiện tại, chỉ cần dùng slug trực tiếp
     return `/san-pham/${category.slug}`;
   };
 
@@ -256,19 +299,95 @@ const ProductList = ({ categorySlug = [] }) => {
   };
 
   const handlePageChange = (newPage) => {
+    console.log('Page change from', currentPage, 'to', newPage);
     setCurrentPage(newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleCategorySelect = (slugPathOrId) => {
+    console.log('handleCategorySelect called with:', slugPathOrId);
+
     if (typeof slugPathOrId === 'string' && slugPathOrId.includes('/')) {
-      // Đây là slug path từ sidebar
+      console.log('Navigating to slug path:', `/san-pham/${slugPathOrId}`);
       router.push(`/san-pham/${slugPathOrId}`);
     } else {
-      // Đây là categoryId từ dropdown
       const url = buildCategoryUrl(slugPathOrId);
+      console.log('Navigating to category URL:', url);
       router.push(url);
     }
+  };
+
+  const renderPagination = () => {
+    console.log('Rendering pagination. totalPages:', totalPages, 'currentPage:', currentPage);
+
+    if (totalPages <= 1) {
+      console.log('Not rendering pagination - totalPages <= 1');
+      return null;
+    }
+
+    return (
+      <Flex justify="center" align="center" mt={10} mb={10}>
+        <HStack spacing={2}>
+          <Button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage <= 1}
+            variant="outline"
+            size="sm"
+            borderColor="#003366"
+            color="#003366"
+            _hover={{ bg: '#003366', color: 'white' }}
+            _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+          >
+            ‹ Trước
+          </Button>
+
+          {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
+            let pageNum;
+            if (totalPages <= 5) {
+              pageNum = i + 1;
+            } else if (currentPage <= 3) {
+              pageNum = i + 1;
+            } else if (currentPage >= totalPages - 2) {
+              pageNum = totalPages - 4 + i;
+            } else {
+              pageNum = currentPage - 2 + i;
+            }
+
+            return (
+              <Button
+                key={pageNum}
+                onClick={() => handlePageChange(pageNum)}
+                variant={currentPage === pageNum ? 'solid' : 'outline'}
+                size="sm"
+                colorScheme="blue"
+                bg={currentPage === pageNum ? '#003366' : 'white'}
+                borderColor="#003366"
+                color={currentPage === pageNum ? 'white' : '#003366'}
+                _hover={{
+                  bg: currentPage === pageNum ? '#002244' : '#003366',
+                  color: 'white'
+                }}
+              >
+                {pageNum}
+              </Button>
+            );
+          })}
+
+          <Button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage >= totalPages}
+            variant="outline"
+            size="sm"
+            borderColor="#003366"
+            color="#003366"
+            _hover={{ bg: '#003366', color: 'white' }}
+            _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
+          >
+            Sau ›
+          </Button>
+        </HStack>
+      </Flex>
+    );
   };
 
   const getMetadata = () => {
@@ -539,74 +658,26 @@ const ProductList = ({ categorySlug = [] }) => {
                   </Center>
                 )}
 
-                {totalPages > 1 && (
-                  <Flex justify="center" align="center" mt={10} mb={10}>
-                    <HStack spacing={2}>
-                      <Button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={currentPage <= 1}
-                        variant="outline"
-                        size="sm"
-                        borderColor="#003366"
-                        color="#003366"
-                        _hover={{ bg: '#003366', color: 'white' }}
-                        _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
-                      >
-                        ‹ Trước
-                      </Button>
-
-                      {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
-                        let pageNum;
-                        if (totalPages <= 5) {
-                          pageNum = i + 1;
-                        } else if (currentPage <= 3) {
-                          pageNum = i + 1;
-                        } else if (currentPage >= totalPages - 2) {
-                          pageNum = totalPages - 4 + i;
-                        } else {
-                          pageNum = currentPage - 2 + i;
-                        }
-
-                        return (
-                          <Button
-                            key={pageNum}
-                            onClick={() => handlePageChange(pageNum)}
-                            variant={currentPage === pageNum ? 'solid' : 'outline'}
-                            size="sm"
-                            colorScheme="blue"
-                            bg={currentPage === pageNum ? '#003366' : 'white'}
-                            borderColor="#003366"
-                            color={currentPage === pageNum ? 'white' : '#003366'}
-                            _hover={{
-                              bg: currentPage === pageNum ? '#002244' : '#003366',
-                              color: 'white'
-                            }}
-                          >
-                            {pageNum}
-                          </Button>
-                        );
-                      })}
-
-                      <Button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={currentPage >= totalPages}
-                        variant="outline"
-                        size="sm"
-                        borderColor="#003366"
-                        color="#003366"
-                        _hover={{ bg: '#003366', color: 'white' }}
-                        _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
-                      >
-                        Sau ›
-                      </Button>
-                    </HStack>
-                  </Flex>
-                )}
+                {renderPagination()}
               </>
             )}
           </Box>
         </Flex>
       </Container>
+
+      {process.env.NODE_ENV === 'development' && (
+        <Box mt={8} p={4} bg="gray.100" fontSize="sm">
+          <Text>
+            <strong>Debug Info:</strong>
+          </Text>
+          <Text>Total Products: {totalElements}</Text>
+          <Text>Total Pages: {totalPages}</Text>
+          <Text>Current Page: {currentPage}</Text>
+          <Text>Products on Page: {products.length}</Text>
+          <Text>Selected Category: {selectedCategory}</Text>
+          <Text>Sub Category: {subCategoryId}</Text>
+        </Box>
+      )}
     </>
   );
 };

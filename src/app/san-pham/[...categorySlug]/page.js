@@ -65,6 +65,10 @@ function findCategoryBySlugPath(categories, slugPath) {
 }
 
 const CategoryProductsPage = ({ params }) => {
+  console.log('=== PAGE.JS DEBUG ===');
+  console.log('params:', params);
+  console.log('categorySlug:', params.categorySlug);
+
   return <ProductList categorySlug={params.categorySlug} />;
 };
 

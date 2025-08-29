@@ -100,67 +100,24 @@ export const useQueryAllCategories = () => {
   });
 };
 
-export const useQueryProductList = () => {
-  const paramsURL = useGetParamsURL();
-  const { page = 1, keyword, categoryId, sortBy = 'newest' } = paramsURL || {};
-
-  const queryKey = ['GET_PRODUCT_LIST_CLIENT', page, keyword, categoryId, sortBy];
+export const useQueryProductList = ({ currentPage = 1, enabled = true } = {}) => {
+  const queryKey = ['GET_PRODUCT_LIST_CLIENT', currentPage];
 
   return useQuery({
     queryKey,
     queryFn: async () => {
-      const pageNumber = Number(page) - 1;
-
-      let sortParams = {};
-      switch (sortBy) {
-        case 'price-low':
-          sortParams.orderBy = 'kiotviet_price';
-          sortParams.isDesc = false;
-          break;
-        case 'price-high':
-          sortParams.orderBy = 'kiotviet_price';
-          sortParams.isDesc = true;
-          break;
-        case 'name':
-          sortParams.orderBy = 'title' ? 'title' : 'kiotviet_name';
-          sortParams.isDesc = false;
-          break;
-        case 'newest':
-        default:
-          sortParams.orderBy = 'created_date';
-          sortParams.isDesc = true;
-          break;
-      }
-
-      const apiParams = {
-        pageNumber,
-        pageSize: 15,
-        is_visible: 'true',
-        ...sortParams
-      };
-
-      if (keyword) {
-        apiParams.title = keyword;
-      }
-
-      if (categoryId && categoryId !== 'all') {
-        if (Array.isArray(categoryId)) {
-          apiParams.categoryIds = categoryId.join(',');
-        } else {
-          apiParams.categoryId = categoryId;
-        }
-      }
-
       const response = await API.request({
         url: '/api/product/client/get-all',
-        params: apiParams
+        params: {
+          pageNumber: currentPage - 1,
+          pageSize: 15,
+          is_visible: 'true'
+        }
       });
-
-      console.log('📦 API Response:', response);
       return response;
     },
-    staleTime: 2 * 60 * 1000,
-    cacheTime: 5 * 60 * 1000
+    enabled,
+    staleTime: 2 * 60 * 1000
   });
 };
 
