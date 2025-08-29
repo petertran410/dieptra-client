@@ -138,14 +138,6 @@ const ProductDetail = async ({ params }) => {
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },
     { title: 'Sản Phẩm', href: '/san-pham' },
-    ...(category
-      ? [
-          {
-            title: category.name,
-            href: `/san-pham/${category.slug}`
-          }
-        ]
-      : []),
     { title: title, href: '#', isActive: true }
   ];
 
