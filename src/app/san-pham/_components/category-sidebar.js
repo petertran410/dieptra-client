@@ -59,7 +59,7 @@ const CategoryItem = ({
           )}
 
           <Text
-            fontSize="sm"
+            fontSize="md"
             fontWeight={isSelected ? '600' : '400'}
             color={isSelected ? '#003366' : 'gray.700'}
             flex={1}
@@ -157,7 +157,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
   if (error || !categoryHierarchy) {
     return (
       <Box w="280px" bg="white" border="1px solid #E2E8F0" borderRadius="md" p={4}>
-        <Text fontSize="sm" color="red.500">
+        <Text fontSize="md" color="red.500">
           Không thể tải danh mục con
         </Text>
       </Box>
@@ -179,7 +179,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
         <Text fontSize="lg" fontWeight="600" color="#003366">
           Danh mục
         </Text>
-        <Text fontSize="sm" color="gray.600" mt={1}>
+        <Text fontSize="md" color="gray.600" mt={1}>
           {categoryHierarchy.name}
         </Text>
       </Box>
@@ -193,7 +193,7 @@ const CategorySidebar = ({ selectedCategory, onSubCategorySelect }) => {
               level={0}
               selectedSubCategory={null}
               onSubCategorySelect={handleSubCategoryClick}
-              expandedCategories={expandedCategories} // ← Pass expandedCategories
+              expandedCategories={expandedCategories}
               onToggleExpand={handleToggleExpand}
             />
           ))}
