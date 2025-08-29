@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import ProductList from './_components/product-list';
+import ProductList from './[...categorySlug]/product-list';
 import { API } from '../../utils/API';
 
 export async function generateMetadata({ searchParams }) {
