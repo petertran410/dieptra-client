@@ -255,11 +255,13 @@ const ProductList = ({ categorySlug = [] }) => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const handleCategorySelect = (slugPathOrId) => {
-    if (typeof slugPathOrId === 'string' && slugPathOrId.includes('/')) {
-      router.push(`/san-pham/${slugPathOrId}`);
+  const handleCategorySelect = (urlOrId) => {
+    console.log('handleCategorySelect called with:', urlOrId);
+
+    if (typeof urlOrId === 'string' && urlOrId.startsWith('/san-pham/')) {
+      router.push(urlOrId);
     } else {
-      const url = buildCategoryUrl(slugPathOrId);
+      const url = buildCategoryUrl(urlOrId);
       router.push(url);
     }
   };
