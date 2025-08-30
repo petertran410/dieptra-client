@@ -255,12 +255,12 @@ const ProductList = ({ categorySlug = [] }) => {
 
   const handleSortChange = (newSortBy) => {
     setCurrentSort(newSortBy);
-    setCurrentPage(1);
+    // setCurrentPage(1);
   };
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 175, behavior: 'smooth' });
   };
 
   const handleCategorySelect = (urlOrId) => {
@@ -388,7 +388,7 @@ const ProductList = ({ categorySlug = [] }) => {
     ];
 
     if (selectedCategory === 'all' || categorySlug.length === 0) {
-      return [...baseBreadcrumb, { title: 'Tất Cả Sản Phẩm', href: '#', isActive: true }];
+      return [...baseBreadcrumb];
     }
 
     let currentPath = '';
@@ -558,7 +558,7 @@ const ProductList = ({ categorySlug = [] }) => {
                       sm: 'repeat(2, 1fr)',
                       md: 'repeat(3, 1fr)',
                       lg: selectedCategory !== 'all' ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)',
-                      xl: selectedCategory !== 'all' ? 'repeat(4, 1fr)' : 'repeat(5, 1fr)'
+                      xl: selectedCategory !== 'all' ? 'repeat(5, 1fr)' : 'repeat(5, 1fr)'
                     }}
                     gap={6}
                     mb={10}
