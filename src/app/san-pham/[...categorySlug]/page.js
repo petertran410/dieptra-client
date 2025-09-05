@@ -13,20 +13,18 @@ export async function generateMetadata({ params }) {
     });
     const data = await response.json();
 
-    // console.log(data);
+    console.log(data);
 
     if (data.success) {
       const categories = data.data;
       const targetCategory = findCategoryBySlugPath(categories, categorySlug);
 
-      if (targetCategory) {
-        return getMetadata({
-          title: targetCategory.title_meta || targetCategory.name,
-          description:
-            targetCategory.description ||
-            `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
-        });
-      }
+      return getMetadata({
+        title: targetCategory.title_meta || targetCategory.name,
+        description:
+          targetCategory.description ||
+          `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
+      });
     }
   } catch (error) {
     console.error('Metadata generation error:', error);
@@ -36,11 +34,6 @@ export async function generateMetadata({ params }) {
       description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
     });
   }
-
-  return getMetadata({
-    title: 'Danh Mục Sản Phẩm',
-    description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
-  });
 }
 
 function findCategoryBySlugPath(categories, slugPath) {

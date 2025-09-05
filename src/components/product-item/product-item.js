@@ -34,6 +34,7 @@ const ProductItem = ({ item }) => {
       w="100%"
       maxW="320px"
       mx="auto"
+      h="100%"
       borderRadius={16}
       bgColor="#FFF"
       overflow="hidden"
