@@ -2,32 +2,25 @@ import { getMetadata } from '../../../utils/helper-server';
 import ProductList from './product-list';
 
 export async function generateMetadata({ params }) {
-  const { categorySlug } = params;
-  const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/category/for-cms`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
-  const data = await response.json();
-  const categories = data.data;
-  const targetCategory = findCategoryBySlugPath(categories, categorySlug);
-  console.log(targetCategory.title_meta);
-  console.log(targetCategory.name);
   try {
+    const { categorySlug } = params;
+    const response = await fetch(`https://api.gaulermao.com/api/category/for-cms`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    const categories = data.data;
+    const targetCategory = findCategoryBySlugPath(categories, categorySlug);
+    console.log(targetCategory.title_meta);
+    console.log(targetCategory.name);
     return getMetadata({
       title: targetCategory.title_meta || targetCategory.name,
-      description:
-        targetCategory.description || `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
+      description: targetCategory.description
     });
   } catch (error) {
     console.log('Meta generation error: ', error);
-
-    return getMetadata({
-      title: targetCategory.title_meta || targetCategory.name,
-      description:
-        targetCategory.description || `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
-    });
   }
 }
 
