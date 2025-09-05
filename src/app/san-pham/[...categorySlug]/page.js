@@ -15,17 +15,14 @@ export async function generateMetadata({ params }) {
 
     console.log(data);
 
-    if (data.success) {
-      const categories = data.data;
-      const targetCategory = findCategoryBySlugPath(categories, categorySlug);
+    const categories = data.data;
+    const targetCategory = findCategoryBySlugPath(categories, categorySlug);
 
-      return getMetadata({
-        title: targetCategory.title_meta || targetCategory.name,
-        description:
-          targetCategory.description ||
-          `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
-      });
-    }
+    return getMetadata({
+      title: targetCategory.title_meta || targetCategory.name,
+      description:
+        targetCategory.description || `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
+    });
   } catch (error) {
     console.error('Metadata generation error:', error);
 
