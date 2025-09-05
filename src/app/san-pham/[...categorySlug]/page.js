@@ -2,66 +2,81 @@ import { getMetadata } from '../../../utils/helper-server';
 import ProductList from './product-list';
 
 export async function generateMetadata({ params }) {
+  const { categorySlug } = params;
+
   try {
-    const { categorySlug } = params;
-    const response = await fetch(`https://api.gaulermao.com/api/category/for-cms`, {
+    const apiUrl = process.env.NEXT_PUBLIC_API_DOMAIN;
+    const response = await fetch(`${apiUrl}/api/category/for-cms`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json'
-      }
+      },
+      next: { revalidate: 300 }
     });
+
+    if (!response.ok) {
+      throw new Error(`API response not ok: ${response.status}`);
+    }
+
     const data = await response.json();
+
+    if (!data?.success || !data?.data) {
+      throw new Error('Invalid API response structure');
+    }
+
     const categories = data.data;
     const targetCategory = findCategoryBySlugPath(categories, categorySlug);
-    console.log(targetCategory.title_meta);
-    console.log(targetCategory.name);
-    return getMetadata({
-      title: targetCategory.title_meta || targetCategory.name,
-      description: targetCategory.description
-    });
+
+    if (targetCategory) {
+      console.log('🎯 Target category found:', targetCategory.name);
+      return getMetadata({
+        title: `${targetCategory.title_meta || targetCategory.name} | Diệp Trà`,
+        description: targetCategory.description || 'Khám phá nguyên liệu pha chế chất lượng cao từ Diệp Trà'
+      });
+    } else {
+      console.log('❌ Target category not found for path:', categorySlug);
+    }
   } catch (error) {
-    console.log('Meta generation error: ', error);
+    console.error('Meta generation error:', error);
   }
 
   return getMetadata({
-    title: 'Danh Mục Sản Phẩm',
+    title: 'Danh Mục Sản Phẩm | Diệp Trà',
     description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
   });
 }
 
 function findCategoryBySlugPath(categories, slugPath) {
-  const categoryMap = {};
-  const rootCategories = [];
-
-  categories.forEach((cat) => {
-    categoryMap[cat.id] = { ...cat, children: [] };
-  });
-
-  categories.forEach((cat) => {
-    if (cat.parent_id) {
-      categoryMap[cat.parent_id]?.children.push(categoryMap[cat.id]);
-    } else {
-      rootCategories.push(categoryMap[cat.id]);
-    }
-  });
-
-  if (slugPath.length === 1) {
-    const flatResult = categories.find((cat) => cat.slug === slugPath[0]);
-    if (flatResult) {
-      return flatResult;
-    }
+  if (!categories || !Array.isArray(categories) || !slugPath || slugPath.length === 0) {
+    return null;
   }
 
-  let current = rootCategories;
-  let targetCategory = null;
+  console.log('🔍 Finding category for path:', slugPath);
+  console.log(
+    '📂 Available categories:',
+    categories.map((c) => ({
+      id: c.id,
+      name: c.name,
+      slug: c.slug,
+      parent_id: c.parent_id
+    }))
+  );
 
-  for (const slug of slugPath) {
-    targetCategory = current.find((cat) => cat.slug === slug);
-    if (!targetCategory) return null;
-    current = targetCategory.children;
+  const targetSlug = slugPath[slugPath.length - 1];
+
+  const found = categories.find((cat) => cat.slug === targetSlug);
+
+  if (found) {
+    console.log('✅ Found category:', found.name);
+    return found;
+  } else {
+    console.log('❌ Category not found for slug:', targetSlug);
+    console.log(
+      'Available slugs:',
+      categories.map((c) => c.slug)
+    );
+    return null;
   }
-
-  return targetCategory;
 }
 
 const CategoryProductsPage = ({ params }) => {
