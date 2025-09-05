@@ -354,7 +354,6 @@ const ProductList = ({ categorySlug = [] }) => {
 
     if (subCategoryId && allCategories.length > 0) {
       const subCategory = allCategories.find((cat) => cat.id.toString() === subCategoryId);
-      console.log(subCategory);
       if (subCategory) {
         return {
           title: subCategory.title_meta || subCategory.name,

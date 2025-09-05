@@ -30,12 +30,17 @@ export async function generateMetadata({ params }) {
     }
   } catch (error) {
     console.error('Metadata generation error:', error);
+
+    return getMetadata({
+      title: 'Danh Mục Sản Phẩm',
+      description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
+    });
   }
 
-  // return getMetadata({
-  //   title: 'Danh Mục Sản Phẩm',
-  //   description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
-  // });
+  return getMetadata({
+    title: 'Danh Mục Sản Phẩm',
+    description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
+  });
 }
 
 function findCategoryBySlugPath(categories, slugPath) {
