@@ -22,6 +22,11 @@ export async function generateMetadata({ params }) {
   } catch (error) {
     console.log('Meta generation error: ', error);
   }
+
+  return getMetadata({
+    title: 'Danh Mục Sản Phẩm',
+    description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
+  });
 }
 
 function findCategoryBySlugPath(categories, slugPath) {
@@ -39,6 +44,13 @@ function findCategoryBySlugPath(categories, slugPath) {
       rootCategories.push(categoryMap[cat.id]);
     }
   });
+
+  if (slugPath.length === 1) {
+    const flatResult = categories.find((cat) => cat.slug === slugPath[0]);
+    if (flatResult) {
+      return flatResult;
+    }
+  }
 
   let current = rootCategories;
   let targetCategory = null;
