@@ -3,34 +3,23 @@ import ProductList from './product-list';
 
 export async function generateMetadata({ params }) {
   const { categorySlug } = params;
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/category/for-cms`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+  const data = await response.json();
 
-  try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/category/for-cms`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await response.json();
+  const categories = data.data;
+  const targetCategory = findCategoryBySlugPath(categories, categorySlug);
+  console.log(targetCategory.title_meta);
 
-    console.log(data);
-
-    const categories = data.data;
-    const targetCategory = findCategoryBySlugPath(categories, categorySlug);
-
-    return getMetadata({
-      title: targetCategory.title_meta || targetCategory.name,
-      description:
-        targetCategory.description || `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
-    });
-  } catch (error) {
-    console.error('Metadata generation error:', error);
-
-    return getMetadata({
-      title: 'Danh Mục Sản Phẩm',
-      description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
-    });
-  }
+  return getMetadata({
+    title: targetCategory.title_meta || targetCategory.name,
+    description:
+      targetCategory.description || `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
+  });
 }
 
 function findCategoryBySlugPath(categories, slugPath) {
