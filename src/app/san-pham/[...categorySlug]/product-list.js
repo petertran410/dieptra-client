@@ -284,7 +284,7 @@ const ProductList = ({ categorySlug = [] }) => {
             onClick={() => handlePageChange(currentPage - 1)}
             disabled={currentPage <= 1}
             variant="outline"
-            size="sm"
+            size="md"
             borderColor="#003366"
             color="#003366"
             _hover={{ bg: '#003366', color: 'white' }}
@@ -310,7 +310,8 @@ const ProductList = ({ categorySlug = [] }) => {
                 key={pageNum}
                 onClick={() => handlePageChange(pageNum)}
                 variant={currentPage === pageNum ? 'solid' : 'outline'}
-                size="sm"
+                size="md"
+                // fontSize={14}
                 colorScheme="blue"
                 bg={currentPage === pageNum ? '#003366' : 'white'}
                 borderColor="#003366"
@@ -329,7 +330,7 @@ const ProductList = ({ categorySlug = [] }) => {
             onClick={() => handlePageChange(currentPage + 1)}
             disabled={currentPage >= totalPages}
             variant="outline"
-            size="sm"
+            size="md"
             borderColor="#003366"
             color="#003366"
             _hover={{ bg: '#003366', color: 'white' }}
@@ -455,7 +456,7 @@ const ProductList = ({ categorySlug = [] }) => {
                 />
               </InputGroup>
 
-              <Button onClick={handleSearch} colorScheme="blue" bg="#003366" _hover={{ bg: '#002244' }} size="md">
+              <Button onClick={handleSearch} colorScheme="blue" bg="#3366ff" _hover={{ bg: '#3366ff' }} fontSize="18px">
                 Tìm
               </Button>
             </HStack>
