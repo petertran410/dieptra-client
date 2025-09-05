@@ -10,16 +10,25 @@ export async function generateMetadata({ params }) {
     }
   });
   const data = await response.json();
-
   const categories = data.data;
   const targetCategory = findCategoryBySlugPath(categories, categorySlug);
   console.log(targetCategory.title_meta);
+  console.log(targetCategory.name);
+  try {
+    return getMetadata({
+      title: targetCategory.title_meta || targetCategory.name,
+      description:
+        targetCategory.description || `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
+    });
+  } catch (error) {
+    console.log('Meta generation error: ', error);
 
-  return getMetadata({
-    title: targetCategory.title_meta || targetCategory.name,
-    description:
-      targetCategory.description || `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
-  });
+    return getMetadata({
+      title: targetCategory.title_meta || targetCategory.name,
+      description:
+        targetCategory.description || `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
+    });
+  }
 }
 
 function findCategoryBySlugPath(categories, slugPath) {
