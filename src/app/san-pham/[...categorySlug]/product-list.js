@@ -354,6 +354,7 @@ const ProductList = ({ categorySlug = [] }) => {
 
     if (subCategoryId && allCategories.length > 0) {
       const subCategory = allCategories.find((cat) => cat.id.toString() === subCategoryId);
+      // console.log(subCategory);
       if (subCategory) {
         return {
           title: subCategory.title_meta || subCategory.name,
@@ -364,6 +365,7 @@ const ProductList = ({ categorySlug = [] }) => {
 
     if (selectedCategory && selectedCategory !== 'all' && allCategories.length > 0) {
       const category = allCategories.find((cat) => cat.id.toString() === selectedCategory);
+      // console.log(category);
       if (category) {
         return {
           title: category.title_meta || category.name,

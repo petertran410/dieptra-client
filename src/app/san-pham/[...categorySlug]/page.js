@@ -21,7 +21,7 @@ export async function generateMetadata({ params }) {
 
       if (targetCategory) {
         return getMetadata({
-          title: `${targetCategory.title_meta || targetCategory.name}`,
+          title: targetCategory.title_meta || targetCategory.name,
           description:
             targetCategory.description ||
             `Khám phá ${targetCategory.name} - Nguyên liệu pha chế chất lượng cao từ Diệp Trà`
