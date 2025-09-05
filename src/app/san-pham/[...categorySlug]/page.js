@@ -28,9 +28,9 @@ export async function generateMetadata({ params }) {
     const targetCategory = findCategoryBySlugPath(categories, categorySlug);
 
     if (targetCategory) {
-      console.log('🎯 Target category found:', targetCategory.name);
+      // console.log('🎯 Target category found:', targetCategory.name);
       return getMetadata({
-        title: `${targetCategory.title_meta || targetCategory.name} | Diệp Trà`,
+        title: `${targetCategory.title_meta || targetCategory.name}`,
         description: targetCategory.description || 'Khám phá nguyên liệu pha chế chất lượng cao từ Diệp Trà'
       });
     } else {
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }) {
   }
 
   return getMetadata({
-    title: 'Danh Mục Sản Phẩm | Diệp Trà',
+    title: 'Danh Mục Sản Phẩm',
     description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
   });
 }
@@ -51,23 +51,23 @@ function findCategoryBySlugPath(categories, slugPath) {
     return null;
   }
 
-  console.log('🔍 Finding category for path:', slugPath);
-  console.log(
-    '📂 Available categories:',
-    categories.map((c) => ({
-      id: c.id,
-      name: c.name,
-      slug: c.slug,
-      parent_id: c.parent_id
-    }))
-  );
+  // console.log('🔍 Finding category for path:', slugPath);
+  // console.log(
+  //   '📂 Available categories:',
+  //   categories.map((c) => ({
+  //     id: c.id,
+  //     name: c.name,
+  //     slug: c.slug,
+  //     parent_id: c.parent_id
+  //   }))
+  // );
 
   const targetSlug = slugPath[slugPath.length - 1];
 
   const found = categories.find((cat) => cat.slug === targetSlug);
 
   if (found) {
-    console.log('✅ Found category:', found.name);
+    // console.log('✅ Found category:', found.name);
     return found;
   } else {
     console.log('❌ Category not found for slug:', targetSlug);
