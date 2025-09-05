@@ -13,7 +13,7 @@ const CongThucPhaChe = () => {
   return (
     <>
       <Head>
-        <title>Công Thức Pha Chế | Diệp Trà</title>
+        <title>Công Thức Pha Chế</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/cong-thuc-pha-che`} />
         <meta name="robots" content="index, follow" />
       </Head>

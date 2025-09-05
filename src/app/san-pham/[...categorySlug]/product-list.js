@@ -419,7 +419,7 @@ const ProductList = ({ categorySlug = [] }) => {
   return (
     <>
       <Head>
-        <title>{metadata.title} | Diệp Trà</title>
+        <title>{metadata.title}</title>
         <meta name="robots" content="index, follow" />
         <meta name="description" content={metadata.description} />
       </Head>
@@ -493,7 +493,7 @@ const ProductList = ({ categorySlug = [] }) => {
             </HStack>
           </Flex>
 
-          <Text color="gray.600" fontSize="sm">
+          {/* <Text color="gray.600" fontSize="sm">
             {isLoading
               ? 'Đang tải...'
               : `Hiển thị ${startIndex + 1}-${Math.min(
@@ -505,7 +505,7 @@ const ProductList = ({ categorySlug = [] }) => {
                 • {topCategories.find((cat) => cat.id.toString() === selectedCategory)?.name}
               </Text>
             )}
-          </Text>
+          </Text> */}
         </VStack>
 
         <Flex gap={6} align="flex-start" direction={{ base: 'column', lg: 'row' }}>

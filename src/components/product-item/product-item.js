@@ -46,7 +46,6 @@ const ProductItem = ({ item }) => {
       }}
       position="relative"
     >
-      {/* ✅ MỚI: Link chỉ dùng slug */}
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
         <Box
           position="absolute"
@@ -96,7 +95,7 @@ const ProductItem = ({ item }) => {
 
         <Flex direction="column" p="12px" gap="6px">
           <Text
-            fontSize="13px"
+            fontSize="16px"
             fontWeight={600}
             color="#333"
             lineHeight="1.3"
@@ -117,23 +116,23 @@ const ProductItem = ({ item }) => {
                 Liên hệ
               </Tag>
             ) : (
-              <Text color="#1E96BC" fontSize="14px" fontWeight={700}>
+              <Text color="#1E96BC" fontSize="16px" fontWeight={700}>
                 {formatCurrency(kiotviet_price)}
               </Text>
             )}
           </Flex>
           <Flex
             mt="6px"
-            bgColor="#065FD4"
+            bgColor="#FAE57C"
             color="white"
             py="6px"
             borderRadius="6px"
             justify="center"
             align="center"
-            _hover={{ bgColor: '#0052CC' }}
+            _hover={{ bgColor: '#6AA84F' }}
             transitionDuration="200ms"
           >
-            <Text fontSize="12px" fontWeight="600">
+            <Text fontSize="16px" fontWeight="600">
               Mua hàng
             </Text>
           </Flex>

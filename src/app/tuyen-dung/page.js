@@ -8,7 +8,7 @@ import Culture from './_components/culture';
 import JobList from './_components/job-list';
 import Search from './_components/search';
 
-export const metadata = getMetadata({ title: 'Tuyển dụng | Diệp Trà' });
+export const metadata = getMetadata({ title: 'Tuyển dụng' });
 
 const Recruitment = () => {
   return (

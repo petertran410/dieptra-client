@@ -7,7 +7,7 @@ export async function generateMetadata({ searchParams }) {
   const subCategoryId = searchParams?.subCategoryId;
 
   const defaultMetadata = {
-    title: 'Sản Phẩm | Diệp Trà',
+    title: 'Sản Phẩm',
     description:
       'Khám phá bộ sưu tập nguyên liệu pha chế cao cấp từ Diệp Trà - Siro, mứt, bột kem và nhiều sản phẩm chất lượng khác.'
   };
@@ -16,7 +16,7 @@ export async function generateMetadata({ searchParams }) {
     if (!categoryId || categoryId === 'all') {
       return {
         ...defaultMetadata,
-        title: 'Sản Phẩm | Diệp Trà'
+        title: 'Sản Phẩm'
       };
     }
 
@@ -32,10 +32,10 @@ export async function generateMetadata({ searchParams }) {
 
       if (subCategory) {
         return {
-          title: `${subCategory.title_meta || subCategory.name} | Diệp Trà`,
+          title: `${subCategory.title_meta || subCategory.name} `,
           description: subCategory.description || defaultMetadata.description,
           openGraph: {
-            title: `${subCategory.title_meta || subCategory.name} | Diệp Trà`,
+            title: `${subCategory.title_meta || subCategory.name} `,
             description: subCategory.description || defaultMetadata.description
           }
         };
@@ -46,10 +46,10 @@ export async function generateMetadata({ searchParams }) {
 
     if (parentCategory) {
       return {
-        title: `${parentCategory.title_meta || parentCategory.name} | Diệp Trà`,
+        title: `${parentCategory.title_meta || parentCategory.name} `,
         description: parentCategory.description || defaultMetadata.description,
         openGraph: {
-          title: `${parentCategory.title_meta || parentCategory.name} | Diệp Trà`,
+          title: `${parentCategory.title_meta || parentCategory.name} `,
           description: parentCategory.description || defaultMetadata.description
         }
       };

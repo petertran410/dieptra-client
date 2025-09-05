@@ -6,7 +6,7 @@ import ContactHCM from './_component/contact-hcm';
 import ContactHN from './_component/contact-hn';
 
 export const metadata = getMetadata({
-  title: 'Liên hệ | Diệp Trà',
+  title: 'Liên hệ',
   description:
     'Hãy liên hệ ngay với chúng tôi để nhận được giải pháp tối ưu, phù hợp nhất với nhu cầu của bạn. Với đội ngũ chuyên viên giàu kinh nghiệm, tận tâm và am hiểu sâu sắc thị trường, chúng tôi cam kết mang đến cho bạn sự hỗ trợ chuyên nghiệp, hiệu quả nhất.'
 });

@@ -13,7 +13,7 @@ const KienThucVeTra = () => {
   return (
     <>
       <Head>
-        <title>Kiến Thức Về Trà | Diệp Trà</title>
+        <title>Kiến Thức Về Trà</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/kien-thuc-ve-tra`} />
         <meta name="robots" content="index, follow" />
       </Head>

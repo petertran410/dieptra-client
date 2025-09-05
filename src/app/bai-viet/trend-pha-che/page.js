@@ -13,7 +13,7 @@ const TrendPhaChe = () => {
   return (
     <>
       <Head>
-        <title>Trend Pha Chế | Diệp Trà</title>
+        <title>Trend Pha Chế</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/trend-pha-che`} />
         <meta name="robots" content="index, follow" />
       </Head>

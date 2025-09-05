@@ -13,7 +13,7 @@ const ReviewDanhGiaSanPham = () => {
   return (
     <>
       <Head>
-        <title>Review - Đánh Giá Sản Phẩm | Diệp Trà</title>
+        <title>Review - Đánh Giá Sản Phẩm</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/review-danh-gia-san-pham`} />
         <meta name="robots" content="index, follow" />
       </Head>

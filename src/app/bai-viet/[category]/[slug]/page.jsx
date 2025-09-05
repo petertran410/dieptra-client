@@ -10,7 +10,7 @@ export async function generateMetadata({ params }) {
   const categoryData = getArticleTypeBySlug(category);
   if (!categoryData) {
     return {
-      title: 'Không tìm thấy trang | Diệp Trà',
+      title: 'Không tìm thấy trang',
       description: META_DESCRIPTION
     };
   }
@@ -75,7 +75,7 @@ export async function generateMetadata({ params }) {
   } catch (error) {
     console.error('Metadata generation error:', error);
     return {
-      title: 'Bài viết | Diệp Trà',
+      title: 'Bài viết ',
       description: META_DESCRIPTION
     };
   }

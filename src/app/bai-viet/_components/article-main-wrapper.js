@@ -255,7 +255,7 @@ const ArticleMainWrapper = () => {
   return (
     <>
       <Head>
-        <title>Bài Viết | Diệp Trà</title>
+        <title>Bài Viết</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet`} />
         <meta name="robots" content="index, follow" />
       </Head>

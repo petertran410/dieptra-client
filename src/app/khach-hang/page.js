@@ -8,7 +8,7 @@ import Statistic from '../gioi-thieu-diep-tra/_components/statistic';
 import CustomerItem from './_components/customer-item';
 import VideoList from './_components/video-list';
 
-export const metadata = getMetadata({ title: 'Khách hàng | Diệp Trà' });
+export const metadata = getMetadata({ title: 'Khách hàng' });
 
 const Customer = () => {
   const FEEDBACK_LIST = [

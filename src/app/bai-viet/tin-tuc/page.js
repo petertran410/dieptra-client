@@ -13,7 +13,7 @@ const TinTuc = () => {
   return (
     <>
       <Head>
-        <title>Tin Tức | Diệp Trà</title>
+        <title>Tin Tức</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/tin-tuc`} />
         <meta name="robots" content="index, follow" />
       </Head>

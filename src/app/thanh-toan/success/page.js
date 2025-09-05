@@ -1,7 +1,7 @@
 import { getMetadata } from '../../../utils/helper-server';
 import PaymentSuccessWrapper from './_components/payment-success-wrapper';
 
-export const metadata = getMetadata({ title: 'Thanh toán thành công | Diệp Trà' });
+export const metadata = getMetadata({ title: 'Thanh toán thành công' });
 
 const PaymentSuccess = () => {
   return <PaymentSuccessWrapper />;

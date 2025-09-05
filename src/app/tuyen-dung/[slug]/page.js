@@ -16,7 +16,7 @@ export async function generateMetadata({ params }) {
 
   const { title: titleData, imagesUrl } = data || {};
   const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
-  const title = `${titleData} | Diệp Trà`;
+  const title = `${titleData}`;
   const description = META_DESCRIPTION;
 
   return {

@@ -13,7 +13,7 @@ const KienThucNguyenLieuPhaChe = () => {
   return (
     <>
       <Head>
-        <title>Kiến Thức Nguyên Liệu Pha Chế | Diệp Trà</title>
+        <title>Kiến Thức Nguyên Liệu Pha Chế</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/kien-thuc-nguyen-lieu-pha-che`} />
         <meta name="robots" content="index, follow" />
       </Head>

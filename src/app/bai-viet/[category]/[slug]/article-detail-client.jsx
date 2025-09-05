@@ -349,7 +349,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
   return (
     <>
       <Head>
-        <title>{title} | Diệp Trà</title>
+        <title>{title}</title>
         <meta name="description" content={description || META_DESCRIPTION} />
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/${category}/${slug}`} />
       </Head>

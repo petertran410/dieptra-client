@@ -42,7 +42,7 @@ export async function generateMetadata({ params }) {
     const { title: titleData, kiotviet_images, general_description: meta_description } = response;
 
     const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
-    const title = `${titleData} | Diệp Trà`;
+    const title = `${titleData}`;
 
     return {
       title,
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }) {
   } catch (error) {
     console.error('Metadata generation failed:', error);
     return {
-      title: 'Sản phẩm | Diệp Trà',
+      title: 'Sản phẩm',
       description: META_DESCRIPTION
     };
   }
@@ -144,7 +144,7 @@ const ProductDetail = async ({ params }) => {
   return (
     <>
       <Head>
-        <title>{title} | Diệp Trà</title>
+        <title>{title}</title>
         <meta name="description" content={general_description} />
       </Head>
 
@@ -176,8 +176,10 @@ const ProductDetail = async ({ params }) => {
                       style={{
                         textAlign: 'justify',
                         lineHeight: '1.6',
-                        color: '#4A5568'
+                        color: '#4A5568',
+                        font: '100px'
                       }}
+                      fontSize={{ base: '24px', lg: '32px' }}
                     />
                   </Box>
                 )}
@@ -203,23 +205,25 @@ const ProductDetail = async ({ params }) => {
                       size="lg"
                       w="full"
                       variant="outline"
-                      borderColor="#003366"
+                      // borderColor="#003366"
+                      bgColor="#FAE57C"
                       color="#003366"
-                      _hover={{ bg: '#003366', color: 'white' }}
+                      _hover={{ bg: '#FAE57C', color: '#003366' }}
                       fontWeight="600"
                     >
-                      Liên Hệ
+                      Mua ngay
                     </Button>
                     <Button
                       size="lg"
                       w="full"
                       variant="outline"
-                      borderColor="#003366"
-                      color="#003366"
-                      _hover={{ bg: '#003366', color: 'white' }}
+                      // borderColor="#3970A7"
+                      bgColor="#3970A7"
+                      color="white"
+                      _hover={{ bg: '#3970A7', color: 'white' }}
                       fontWeight="600"
                     >
-                      Mua ngay
+                      Liên Hệ
                     </Button>
                   </Flex>
                 </Flex>

@@ -16,7 +16,7 @@ const Breadcrumb = (props) => {
             <Link href={href}>
               <Text
                 fontWeight={500}
-                fontSize={16}
+                fontSize={20}
                 color={isActive ? '#09090B' : '#A1A1AA'}
                 transitionDuration="200ms"
                 _hover={{ color: '#09090B' }}
