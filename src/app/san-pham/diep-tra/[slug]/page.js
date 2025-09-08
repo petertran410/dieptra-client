@@ -173,6 +173,7 @@ const ProductDetail = async ({ params }) => {
                   <Box>
                     <div
                       dangerouslySetInnerHTML={{ __html: description }}
+                      className="html-content"
                       style={{
                         textAlign: 'justify',
                         lineHeight: '1.6',
@@ -244,6 +245,7 @@ const ProductDetail = async ({ params }) => {
                     textAlign: 'justify',
                     lineHeight: '1.6'
                   }}
+                  className="html-content"
                 />
               </Box>
             )}
