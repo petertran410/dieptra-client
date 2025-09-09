@@ -22,11 +22,11 @@ const ProductItem = ({ item }) => {
   const getCategoryColor = () => {
     const categoryName = getCategoryName();
     if (categoryName.includes('TRÀ') || categoryName.includes('PHƯỢNG')) {
-      return '#4dabf7';
+      return '#FFF';
     } else if (categoryName.includes('MỨT') || categoryName.includes('LERMAO')) {
-      return '#ff6b6b';
+      return '#FFF';
     }
-    return '#51cf66';
+    return '#FFF';
   };
 
   return (
@@ -70,7 +70,7 @@ const ProductItem = ({ item }) => {
           <Box
             w="full"
             h="full"
-            bgColor="#F8F9FA"
+            bgColor="#FFF"
             display="flex"
             alignItems="center"
             justifyContent="center"

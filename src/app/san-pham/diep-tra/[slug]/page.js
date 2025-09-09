@@ -27,6 +27,7 @@ import { PX_ALL } from '../../../../utils/const';
 import OtherProduct from '../../diep-tra/[slug]/_components/other-product';
 import AddCart from './_components/add-cart';
 import ProductImageGallery from './_components/product-image-gallery';
+import Link from 'next/link';
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
@@ -214,18 +215,20 @@ const ProductDetail = async ({ params }) => {
                     >
                       Mua ngay
                     </Button>
-                    <Button
-                      size="lg"
-                      w="full"
-                      variant="outline"
-                      // borderColor="#3970A7"
-                      bgColor="#3970A7"
-                      color="white"
-                      _hover={{ bg: '#3970A7', color: 'white' }}
-                      fontWeight="600"
-                    >
-                      Liên Hệ
-                    </Button>
+                    <Link href={`/lien-he`}>
+                      <Button
+                        size="lg"
+                        w="full"
+                        variant="outline"
+                        // borderColor="#3970A7"
+                        bgColor="#3970A7"
+                        color="white"
+                        _hover={{ bg: '#3970A7', color: 'white' }}
+                        fontWeight="600"
+                      >
+                        Liên Hệ
+                      </Button>
+                    </Link>
                   </Flex>
                 </Flex>
               </VStack>

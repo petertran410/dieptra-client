@@ -28,13 +28,12 @@ export async function generateMetadata({ params }) {
     const targetCategory = findCategoryBySlugPath(categories, categorySlug);
 
     if (targetCategory) {
-      // console.log('🎯 Target category found:', targetCategory.name);
       return getMetadata({
         title: `${targetCategory.title_meta || targetCategory.name}`,
         description: targetCategory.description || 'Khám phá nguyên liệu pha chế chất lượng cao từ Diệp Trà'
       });
     } else {
-      console.log('❌ Target category not found for path:', categorySlug);
+      console.log('Target category not found for path:', categorySlug);
     }
   } catch (error) {
     console.error('Meta generation error:', error);
@@ -70,11 +69,6 @@ function findCategoryBySlugPath(categories, slugPath) {
     // console.log('✅ Found category:', found.name);
     return found;
   } else {
-    console.log('❌ Category not found for slug:', targetSlug);
-    console.log(
-      'Available slugs:',
-      categories.map((c) => c.slug)
-    );
     return null;
   }
 }

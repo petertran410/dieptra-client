@@ -37,7 +37,7 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
     return (
       <AspectRatio ratio={1} w="full" maxW="500px">
         <Box bg="gray.100" borderRadius="lg" border="1px solid #E2E8F0">
-          <Flex align="center" justify="center" h="full" color="gray.500">
+          <Flex align="center" justify="center" h="full" color="#FFF">
             Ảnh đại diện [vuông]
           </Flex>
         </Box>
@@ -49,7 +49,7 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
     <VStack spacing={4}>
       <AspectRatio ratio={1} w="full" maxW="500px">
         <Box
-          bg="gray.100"
+          // bg="gray.100"
           borderRadius="lg"
           overflow="hidden"
           border="1px solid #E2E8F0"
