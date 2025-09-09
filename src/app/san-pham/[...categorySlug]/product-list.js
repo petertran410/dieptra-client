@@ -42,6 +42,7 @@ const ProductList = ({ categorySlug = [] }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [activeSearchTerm, setActiveSearchTerm] = useState('');
   const [currentSort, setCurrentSort] = useState('newest');
 
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -180,12 +181,20 @@ const ProductList = ({ categorySlug = [] }) => {
     });
 
     return filtered;
-  }, [allProducts, searchTerm, currentSort]);
+  }, [allProducts, activeSearchTerm, currentSort]);
 
-  const totalElements = productsData?.totalElements || 0;
-  const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
+  const totalFilteredElements = processedProducts.length;
+  const totalPages = Math.ceil(totalFilteredElements / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-  const products = processedProducts;
+  const endIndex = startIndex + PRODUCTS_PER_PAGE;
+
+  const products = processedProducts.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, totalPages]);
 
   const getCategoryDisplayName = () => {
     if (selectedCategory === 'all') {
@@ -232,8 +241,15 @@ const ProductList = ({ categorySlug = [] }) => {
 
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
+      setActiveSearchTerm(searchTerm.trim());
       setCurrentPage(1);
     }
+  };
+
+  const handleClearSearch = () => {
+    setSearchTerm('');
+    setActiveSearchTerm('');
+    setCurrentPage(1);
   };
 
   const handleCategoryChange = (newCategoryId) => {
@@ -457,6 +473,12 @@ const ProductList = ({ categorySlug = [] }) => {
               <Button onClick={handleSearch} colorScheme="blue" bg="#3366ff" _hover={{ bg: '#3366ff' }} fontSize="18px">
                 Tìm
               </Button>
+
+              {activeSearchTerm && (
+                <Button onClick={handleClearSearch} variant="outline" colorScheme="gray">
+                  Xóa
+                </Button>
+              )}
             </HStack>
 
             <HStack spacing={4}>
