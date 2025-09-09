@@ -65,7 +65,6 @@ export async function generateMetadata({ params }) {
 
 const ProductDetail = async ({ params }) => {
   const { slug } = params;
-  // const id = slug.split('.').pop();
 
   let productDetail;
   let relatedProducts = [];
@@ -109,7 +108,8 @@ const ProductDetail = async ({ params }) => {
     rate,
     category,
     kiotViet,
-    general_description
+    general_description,
+    categoryHierarchy = []
   } = productDetail;
 
   const getProductImages = () => {
@@ -136,11 +136,31 @@ const ProductDetail = async ({ params }) => {
     };
   };
 
-  const breadcrumbData = [
-    { title: 'Trang chủ', href: '/' },
-    { title: 'Sản Phẩm', href: '/san-pham' },
-    { title: title, href: '#', isActive: true }
-  ];
+  const buildBreadcrumbData = () => {
+    const baseBreadcrumb = [
+      { title: 'Trang chủ', href: '/' },
+      { title: 'Sản Phẩm', href: '/san-pham' }
+    ];
+
+    if (categoryHierarchy && categoryHierarchy.length > 0) {
+      categoryHierarchy.forEach((cat) => {
+        baseBreadcrumb.push({
+          title: cat.name,
+          href: cat.href
+        });
+      });
+    }
+
+    baseBreadcrumb.push({
+      title: title,
+      href: '#',
+      isActive: true
+    });
+
+    return baseBreadcrumb;
+  };
+
+  const breadcrumbData = buildBreadcrumbData();
 
   return (
     <>
@@ -215,7 +235,7 @@ const ProductDetail = async ({ params }) => {
                     >
                       Mua ngay
                     </Button>
-                    <Link href={`/lien-he`}>
+                    <Link href={`/lien-he`} target="_blank">
                       <Button
                         size="lg"
                         w="full"
