@@ -157,8 +157,8 @@ const ProductList = ({ categorySlug = [] }) => {
   const processedProducts = useMemo(() => {
     let filtered = [...allProducts];
 
-    if (searchTerm.trim()) {
-      const searchLower = searchTerm.toLowerCase();
+    if (activeSearchTerm.trim()) {
+      const searchLower = activeSearchTerm.toLowerCase();
       filtered = filtered.filter(
         (product) =>
           (product.title || '').toLowerCase().includes(searchLower) ||
@@ -183,18 +183,19 @@ const ProductList = ({ categorySlug = [] }) => {
     return filtered;
   }, [allProducts, activeSearchTerm, currentSort]);
 
-  const totalFilteredElements = processedProducts.length;
-  const totalPages = Math.ceil(totalFilteredElements / PRODUCTS_PER_PAGE);
+  const totalElements = activeSearchTerm.trim() ? processedProducts.length : productsData?.totalElements || 0;
+
+  const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
 
-  const products = processedProducts.slice(startIndex, endIndex);
+  const products = activeSearchTerm.trim() ? processedProducts.slice(startIndex, endIndex) : processedProducts;
 
   useEffect(() => {
-    if (currentPage > totalPages && totalPages > 0) {
+    if (activeSearchTerm.trim() && currentPage > totalPages && totalPages > 0) {
       setCurrentPage(1);
     }
-  }, [currentPage, totalPages]);
+  }, [activeSearchTerm, currentPage, totalPages]);
 
   const getCategoryDisplayName = () => {
     if (selectedCategory === 'all') {
@@ -264,7 +265,7 @@ const ProductList = ({ categorySlug = [] }) => {
         router.push(`/san-pham/${category.slug}`);
       } else {
         console.error('Category not found:', newCategoryId, 'Available categories:', topCategories);
-        router.push('/san-pham'); // Fallback
+        router.push('/san-pham');
       }
     }
   };
