@@ -31,7 +31,6 @@ import Link from 'next/link';
 
 export async function generateMetadata({ params }) {
   const { slug } = params;
-  // const id = slug.split('.').pop();
 
   let response;
 

@@ -16,7 +16,6 @@ const ProductCard = ({ product }) => {
     setIsAddingToCart(true);
 
     try {
-      // Simulate API call
       await new Promise((resolve) => setTimeout(resolve, 500));
 
       toast({
@@ -67,7 +66,6 @@ const ProductCard = ({ product }) => {
       }}
       position="relative"
     >
-      {/* Product Image */}
       <Box position="relative" overflow="hidden">
         <Image
           src={product.image}
@@ -79,7 +77,6 @@ const ProductCard = ({ product }) => {
           transform={isHovered ? 'scale(1.05)' : 'scale(1)'}
         />
 
-        {/* Badges */}
         <VStack spacing={2} position="absolute" top={3} left={3}>
           {product.isNew && (
             <Badge colorScheme="green" variant="solid" borderRadius="full" px={3}>
@@ -93,7 +90,6 @@ const ProductCard = ({ product }) => {
           )}
         </VStack>
 
-        {/* Quick Actions */}
         {isHovered && (
           <HStack
             position="absolute"
@@ -129,7 +125,6 @@ const ProductCard = ({ product }) => {
         )}
       </Box>
 
-      {/* Product Info */}
       <VStack align="start" p={4} spacing={3}>
         <Text fontSize="md" fontWeight="600" color="#003366" lineHeight="1.3" noOfLines={2} minH="48px">
           {product.name}
@@ -139,7 +134,6 @@ const ProductCard = ({ product }) => {
           {product.description}
         </Text>
 
-        {/* Price */}
         <HStack spacing={2} w="full">
           <Text fontSize="lg" fontWeight="700" color="#d63384">
             {formatPrice(product.price)}
@@ -151,7 +145,6 @@ const ProductCard = ({ product }) => {
           )}
         </HStack>
 
-        {/* Stock Status */}
         <HStack justify="space-between" w="full">
           <Text fontSize="xs" color={product.inStock ? 'green.500' : 'red.500'}>
             {product.inStock ? 'Còn hàng' : 'Hết hàng'}
@@ -161,7 +154,6 @@ const ProductCard = ({ product }) => {
           </Text>
         </HStack>
 
-        {/* Add to Cart Button */}
         <Button
           colorScheme="blue"
           size="sm"
