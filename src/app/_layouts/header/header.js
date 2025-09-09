@@ -1,6 +1,7 @@
 'use client';
 
 import { ARTICLE_SECTIONS } from '../../../utils/article-types';
+import { useProductCategories } from '../../../hooks/useProductCategories';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import {
   Box,
@@ -28,7 +29,8 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(null);
   const isTransparent = pathname === '/' || pathname === '/lien-he';
 
-  // ← Update MENU_LIST to simple menu without product dropdown
+  const { categories: productCategories } = useProductCategories();
+
   const MENU_LIST = [
     {
       title: 'Trang chủ',
@@ -40,8 +42,9 @@ const Header = () => {
     },
     {
       title: 'Sản phẩm',
-      href: '/san-pham'
-      // ← Remove dropdown for now
+      href: '/san-pham',
+      hasDropdown: true,
+      dropdownItems: productCategories
     },
     {
       title: 'Bài Viết',
