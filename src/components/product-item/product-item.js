@@ -43,7 +43,9 @@ const ProductItem = ({ item }) => {
       border="1px solid #f1f3f4"
       _hover={{
         transform: 'translateY(-2px)',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+        // boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
+        boxShadow: '0 4px 12px rgba(13,102,191,0.5)'
+        // bgColor: '#0D66BF'
       }}
       position="relative"
     >
@@ -52,7 +54,7 @@ const ProductItem = ({ item }) => {
           position="absolute"
           top="8px"
           left="8px"
-          bgColor={getCategoryColor()}
+          // bgColor={getCategoryColor()}
           color="white"
           fontSize="9px"
           fontWeight="bold"
@@ -124,16 +126,16 @@ const ProductItem = ({ item }) => {
           </Flex>
           <Flex
             mt="6px"
-            bgColor="#FAE57C"
+            bgColor="#53C1E7"
             color="white"
             py="6px"
             borderRadius="6px"
             justify="center"
             align="center"
-            _hover={{ bgColor: '#6AA84F' }}
+            _hover={{ bgColor: '#3366ff' }}
             transitionDuration="200ms"
           >
-            <Text fontSize="16px" fontWeight="600">
+            <Text fontSize="16px" fontWeight="600" color="white">
               Mua hàng
             </Text>
           </Flex>
