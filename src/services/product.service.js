@@ -81,12 +81,12 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
   const { currentPage = 1, enabled = true } = options;
 
   return useQuery({
-    queryKey: ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, currentPage], // ← THÊM currentPage
+    queryKey: ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, currentPage],
     queryFn: async () => {
       return API.request({
         url: '/api/product/client/get-all',
         params: {
-          pageNumber: currentPage - 1, // ← API pagination
+          pageNumber: currentPage - 1,
           pageSize: 15,
           categoryIds: categoryIds.join(','),
           is_visible: 'true'
