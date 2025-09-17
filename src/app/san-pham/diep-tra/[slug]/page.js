@@ -39,16 +39,23 @@ export async function generateMetadata({ params }) {
       url: `/api/product/client/find-by-slug/${slug}`
     });
 
-    const { title: titleData, kiotviet_images, general_description: meta_description } = response;
+    const {
+      title: titleData,
+      kiotviet_images,
+      general_description: meta_description,
+      title_meta: title_meta
+    } = response;
 
     const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
     const title = `${titleData}`;
 
     return {
       title,
+      title_meta,
       description: meta_description,
       openGraph: {
         title,
+        title_meta,
         description: meta_description,
         images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
       }
@@ -100,6 +107,7 @@ const ProductDetail = async ({ params }) => {
 
   const {
     title,
+    title_meta,
     description = '',
     instruction = '',
     imagesUrl = [],
@@ -110,6 +118,8 @@ const ProductDetail = async ({ params }) => {
     general_description,
     categoryHierarchy = []
   } = productDetail;
+
+  console.log(title_meta);
 
   const getProductImages = () => {
     const primaryImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : [];
@@ -159,13 +169,22 @@ const ProductDetail = async ({ params }) => {
     return baseBreadcrumb;
   };
 
+  const getMetadata = () => {
+    return {
+      title: productDetail.title_meta,
+      description: productDetail.general_description
+    };
+  };
+
+  const metadata = getMetadata();
+
   const breadcrumbData = buildBreadcrumbData();
 
   return (
     <>
       <Head>
-        <title>{title}</title>
-        <meta name="description" content={general_description} />
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
       </Head>
 
       <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '120px' }}>

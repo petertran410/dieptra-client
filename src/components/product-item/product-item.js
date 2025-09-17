@@ -6,7 +6,7 @@ import { AspectRatio, Box, Flex, Image, Text, Tag } from '@chakra-ui/react';
 import Link from 'next/link';
 
 const ProductItem = ({ item }) => {
-  const { id, title, kiotviet_name, kiotviet_price, ofCategories, kiotviet_images, slug } = item || {};
+  const { id, title, title_meta, kiotviet_name, kiotviet_price, ofCategories, kiotviet_images, slug } = item || {};
 
   const productSlug = slug;
 
