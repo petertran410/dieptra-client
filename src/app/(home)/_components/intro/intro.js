@@ -9,7 +9,7 @@ const fontGaramond = EB_Garamond({ subsets: ['latin', 'vietnamese'] });
 const HomeIntro = () => {
   return (
     <Flex
-      px={PX_ALL}
+      px={{ xs: '15px', md: '30px', lg: '160px', xl: '200px', '2xl': '250px' }}
       gap={{ xs: '36px', lg: '80px' }}
       align="center"
       pt={{ xs: '100px', lg: '200px' }}
@@ -18,13 +18,13 @@ const HomeIntro = () => {
       justify="space-between"
       bgGradient="linear(to-b, #a3dcf3 0%, #FFF 50%, #FFF 100%)"
     >
-      <Flex flex={1 / 2} direction="column" pos="relative" zIndex={10} pl={{ xs: '10px', lg: 0 }}>
+      <Flex flex={1 / 2} direction="column" pos="relative" zIndex={10} pl={{ xs: '4px', lg: 0 }}>
         <Text
           as="h1"
           className={fontGaramond.className}
           fontWeight={500}
           lineHeight={{ xs: '33px', lg: '60px', xl: '100px' }}
-          fontSize={{ xs: 28, lg: 28, xl: 55 }}
+          fontSize={{ xs: 24, lg: 28, xl: 55 }}
           color="#20516A"
         >
           Diệp Trà

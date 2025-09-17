@@ -7,7 +7,7 @@ const AboutUs = () => {
     <Flex
       mt={{ xs: '30px', lg: '50px' }}
       mb={{ xs: '40px', lg: '50px' }}
-      px={{ xs: '20px', lg: '400px', md: '160px' }}
+      px={{ xs: '20px', lg: '400px', md: '200px' }}
       gap="24px"
       direction={{ xs: 'column', lg: 'row' }}
     >
@@ -48,7 +48,14 @@ const AboutUs = () => {
         </Link>
       </Flex>
       <Flex flex={1.1}>
-        <Image src="/images/about-us-2.webp" w="90%" h="full" fit="cover" alt={IMG_ALT} borderRadius={16} />
+        <Image
+          src="/images/about-us-2.webp"
+          w={{ lg: '400px', xs: 'full', md: '45%' }}
+          h="full"
+          fit="cover"
+          alt={IMG_ALT}
+          borderRadius={16}
+        />
       </Flex>
     </Flex>
   );
