@@ -21,7 +21,7 @@ const HomeIntro = () => {
       <Flex flex={1 / 2} direction="column" pos="relative" zIndex={10} pl={{ xs: '4px', lg: 0 }}>
         <Text
           as="h1"
-          className={fontGaramond.className}
+          className={`${fontGaramond.className} eb-garamond-font`}
           fontWeight={500}
           lineHeight={{ xs: '33px', lg: '60px', xl: '100px' }}
           fontSize={{ xs: 24, lg: 28, xl: 55 }}

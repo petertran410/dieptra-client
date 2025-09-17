@@ -3,6 +3,10 @@
   --foreground: #171717;
 }
 
+.eb-garamond-font {
+  font-family: 'EB Garamond', serif !important;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;

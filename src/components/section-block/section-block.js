@@ -4,7 +4,7 @@ const SectionBlock = (props) => {
   const { title, className, id, isNormal, isActiveMobile } = props;
 
   return (
-    <Flex direction="column" align="center" gap="4px" className={className} id={id}>
+    <Flex direction="column" align="center" gap="4px" className={className} id={id} mt={10}>
       <Text
         as="h1"
         textAlign="center"
