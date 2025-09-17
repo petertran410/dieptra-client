@@ -7,7 +7,7 @@ const AboutUs = () => {
     <Flex
       mt={{ xs: '30px', lg: '50px' }}
       mb={{ xs: '40px', lg: '50px' }}
-      px={PX_ALL}
+      px={400}
       gap="24px"
       direction={{ xs: 'column', lg: 'row' }}
     >
@@ -16,14 +16,14 @@ const AboutUs = () => {
           Về Diệp Trà
         </Text>
         <Text fontSize={16} textAlign="justify">
-          Là thương hiệu thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, được ra đời vào năm 2018 dưới tên Diệp
-          Trà, cùng sứ mệnh tiên phong, đi đầu trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên phục vụ các mặt hàng
-          nguyên liệu pha chế nhập khẩu từ Đài Loan (Trung Quốc) và Trung Quốc, tập trung vào chiến lược{' '}
-          <Text as="span" fontSize={16} fontWeight={600}>
-            “Hợp tác chiến lược Toàn Diện và Độc Quyền”
-          </Text>{' '}
-          với các đối tác uy tín số 1 trên thế giới để mang đến những sản phẩm tốt nhất, xu hướng nhất với giá thành hợp
-          lý đến thị trường Việt Nam.
+          Diệp Trà - Thương hiệu trực thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, ra đời năm 2018 với sứ mệnh
+          tiên phong trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên cung cấp nguyên liệu pha chế nhập khẩu từ Đài
+          Loan (Trung Quốc) và Trung Quốc, đáp ứng nhu cầu đa dạng của thị trường.
+        </Text>
+        <Text fontSize={16} textAlign="justify">
+          Với chiến lược “Hợp tác chiến lược Toàn diện và Độc quyền” cùng các đối tác uy tín hàng đầu thế giới, Diệp Trà
+          cam kết mang đến những sản phẩm chất lượng cao, đón đầu xu hướng, cùng mức giá hợp lý cho khách hàng tại Việt
+          Nam.
         </Text>
 
         <Link href="/gioi-thieu-diep-tra" target="_blank">
@@ -48,7 +48,7 @@ const AboutUs = () => {
         </Link>
       </Flex>
       <Flex flex={1.1}>
-        <Image src="/images/about-dieptra.webp" w="full" h="full" fit="cover" alt={IMG_ALT} borderRadius={16} />
+        <Image src="/images/about-us-2.webp" w="90%" h="full" fit="cover" alt={IMG_ALT} borderRadius={16} />
       </Flex>
     </Flex>
   );
