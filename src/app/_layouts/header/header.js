@@ -92,9 +92,9 @@ const Header = () => {
         boxShadow={isScrolled ? 'xs' : 'none'}
       >
         {/* LOGO */}
-        <a href="/">
+        <Link href="/">
           <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
-        </a>
+        </Link>
 
         {/* NAVIGATION MENU */}
         <Flex align="center" flex={1} h="full" justify="center">
