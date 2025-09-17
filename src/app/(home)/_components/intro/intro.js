@@ -24,7 +24,7 @@ const HomeIntro = () => {
           className={`${fontGaramond.className} eb-garamond-font`}
           fontWeight={500}
           lineHeight={{ xs: '33px', lg: '60px', xl: '100px' }}
-          fontSize={{ xs: 24, lg: 28, xl: 55 }}
+          fontSize={{ xs: 21, lg: 28, xl: 55 }}
           color="#20516A"
         >
           Diệp Trà
