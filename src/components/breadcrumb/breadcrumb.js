@@ -7,7 +7,15 @@ const Breadcrumb = (props) => {
   const { data } = props;
 
   return (
-    <Flex align="center" gap="12px" pl={{ xs: 0 }}>
+    <Flex
+      align="center"
+      gap="12px"
+      pl={{ xs: 0 }}
+      overflowX="auto"
+      whiteSpace="nowrap"
+      maxW="100%"
+      // className="small-scrollbar"
+    >
       {data.map((item, index) => {
         const { title, href, isActive } = item;
 
@@ -16,10 +24,12 @@ const Breadcrumb = (props) => {
             <Link href={href}>
               <Text
                 fontWeight={500}
-                fontSize={18}
+                fontSize={16}
                 color={isActive ? '#09090B' : '#A1A1AA'}
                 transitionDuration="200ms"
                 _hover={{ color: '#09090B' }}
+                whiteSpace="nowrap"
+                flexShrink={0}
               >
                 {title}
               </Text>
