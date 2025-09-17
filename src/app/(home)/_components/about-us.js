@@ -1,4 +1,4 @@
-import { IMG_ALT, PX_ALL } from '../../../utils/const';
+import { IMG_ALT, PX_ALL, ABOUT_US } from '../../../utils/const';
 import { Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 
@@ -7,7 +7,7 @@ const AboutUs = () => {
     <Flex
       mt={{ xs: '30px', lg: '50px' }}
       mb={{ xs: '40px', lg: '50px' }}
-      px={400}
+      px={{ xs: '20px', lg: '400px', md: '160px' }}
       gap="24px"
       direction={{ xs: 'column', lg: 'row' }}
     >
