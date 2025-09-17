@@ -47,15 +47,13 @@ export async function generateMetadata({ params }) {
     } = response;
 
     const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
-    const title = `${titleData}`;
+    const title = `${title_meta}`;
 
     return {
       title,
-      title_meta,
       description: meta_description,
       openGraph: {
         title,
-        title_meta,
         description: meta_description,
         images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
       }
@@ -119,8 +117,6 @@ const ProductDetail = async ({ params }) => {
     categoryHierarchy = []
   } = productDetail;
 
-  console.log(title_meta);
-
   const getProductImages = () => {
     const primaryImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : [];
     const kiotVietImages = kiotViet?.images || [];
@@ -169,22 +165,13 @@ const ProductDetail = async ({ params }) => {
     return baseBreadcrumb;
   };
 
-  const getMetadata = () => {
-    return {
-      title: productDetail.title_meta,
-      description: productDetail.general_description
-    };
-  };
-
-  const metadata = getMetadata();
-
   const breadcrumbData = buildBreadcrumbData();
 
   return (
     <>
       <Head>
-        <title>{metadata.title}</title>
-        <meta name="description" content={metadata.description} />
+        <title>{title}</title>
+        <meta name="description" content={general_description} />
       </Head>
 
       <Container maxW="full" py={8} px={PX_ALL} pt={{ base: '80px', lg: '120px' }}>
