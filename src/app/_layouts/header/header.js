@@ -234,7 +234,9 @@ const Header = () => {
         w="full"
         boxShadow="xs"
       >
-        <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
+        <Link href="/">
+          <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
+        </Link>
 
         <Flex align="center" gap="16px">
           <CartHeaderMobile />
