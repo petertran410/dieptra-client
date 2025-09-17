@@ -45,7 +45,7 @@ const HomeIntro = () => {
         >
           <ButtonContactIntro />
 
-          <Link href="/san-pham">
+          <Link href="/san-pham/nguyen-lieu-pha-che-lermao/mut-pha-che-lermao" target="_blank">
             <Flex
               align="center"
               justify="center"
@@ -62,7 +62,7 @@ const HomeIntro = () => {
               transitionDuration="250ms"
               _hover={{ bgColor: '#0f2c3d', borderColor: '#0f2c3d', color: '#FFF' }}
             >
-              Trải nghiệm sản phẩm
+              Sản Phẩm Lermao
             </Flex>
           </Link>
         </Flex>
