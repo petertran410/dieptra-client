@@ -9,6 +9,7 @@ import { Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRecoilState } from 'recoil';
 import Counter from './counter';
+import { useMemo } from 'react';
 
 const CartProduct = () => {
   const [cart, setCart] = useRecoilState(cartAtom);
