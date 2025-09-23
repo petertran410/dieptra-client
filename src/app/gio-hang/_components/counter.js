@@ -6,20 +6,20 @@ import { Flex, Image, Input } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-const Counter = ({ productId }) => {
+const Counter = ({ productSlug }) => {
   const [count, setCount] = useState(1);
   const [cart, setCart] = useRecoilState(cartAtom);
 
   const setCountCart = (countData) => {
-    setCart(cart.map((i) => (Number(i.id) === Number(productId) ? { ...i, quantity: countData } : i)));
+    setCart(cart.map((i) => (i.slug === productSlug ? { ...i, quantity: countData } : i)));
   };
 
   useEffect(() => {
-    const currentCartItem = cart.find((i) => Number(i.id) === Number(productId));
+    const currentCartItem = cart.find((i) => i.slug === productSlug);
     if (currentCartItem) {
       setCount(currentCartItem.quantity);
     }
-  }, [cart, productId]);
+  }, [cart, productSlug]);
 
   return (
     <Flex align="center" gap="16px" display={{ xs: 'none', lg: 'flex' }}>
