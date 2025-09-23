@@ -1,6 +1,6 @@
 'use client';
 
-import { useQueryProductByIds } from '../../../services/product.service';
+import { useQueryProductByIds, useQueryProductBySlugs } from '../../../services/product.service';
 import {
   useMutateCreatePayment,
   useQueryPaymentStatus,
@@ -42,13 +42,14 @@ import {
   Code
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 
 const PaymentWrapper = () => {
   const router = useRouter();
   const [cart, setCart] = useRecoilState(cartAtom);
-  const { data: cartData = [], isLoading: loadingProducts } = useQueryProductByIds(cart?.map((i) => i.id));
+  const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
+  const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
 
   // Payment states
   const [customerInfo, setCustomerInfo] = useState({
@@ -143,10 +144,9 @@ const PaymentWrapper = () => {
     }
   }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId]);
 
-  // Calculate totals
   const calculateSubtotal = () => {
     return cartData.reduce((total, product) => {
-      const cartItem = cart.find((item) => Number(item.id) === Number(product.id));
+      const cartItem = cart.find((item) => item.slug === product.slug);
       const quantity = cartItem ? cartItem.quantity : 1;
       return total + product.price * quantity;
     }, 0);
@@ -161,7 +161,6 @@ const PaymentWrapper = () => {
     return calculateSubtotal() + calculateShipping();
   };
 
-  // Handle form input changes
   const handleInputChange = (field, value) => {
     setCustomerInfo((prev) => ({
       ...prev,
@@ -169,7 +168,6 @@ const PaymentWrapper = () => {
     }));
   };
 
-  // Validate form
   const validateForm = () => {
     const { fullName, email, phone, address } = customerInfo;
 
@@ -205,7 +203,6 @@ const PaymentWrapper = () => {
     return true;
   };
 
-  // Handle payment creation
   const handleCreatePayment = async () => {
     if (!validateForm()) return;
 
@@ -215,10 +212,10 @@ const PaymentWrapper = () => {
     }
 
     try {
-      addDebugLog('🚀 Starting payment creation...');
+      addDebugLog('Starting payment creation...');
 
       const cartItems = cart.map((item) => {
-        const product = cartData.find((p) => Number(p.id) === Number(item.id));
+        const product = cartData.find((p) => p.slug === item.slug);
         return {
           productId: Number(item.id),
           quantity: item.quantity,
