@@ -59,9 +59,8 @@ export const useQueryPaymentStatus = (orderId, enabled = false) => {
         return false;
       }
 
-      // Poll every 2 seconds for pending payments (very aggressive)
       console.log(`🔄 Continuing to poll ${orderId} - Current status: ${data?.status || 'UNKNOWN'}`);
-      return 2000; // 2 seconds
+      return 2000;
     },
 
     refetchIntervalInBackground: true, // Keep polling even if window is not focused

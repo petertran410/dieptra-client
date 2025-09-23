@@ -8,7 +8,7 @@ import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-const AddCart = ({ price, productId, title }) => {
+const AddCart = ({ price, productId, title, productSlug }) => {
   const [cart, setCart] = useRecoilState(cartAtom);
   const [showContact, setShowContact] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
