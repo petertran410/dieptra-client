@@ -1,4 +1,3 @@
-// src/app/thanh-toan/_components/payment-wrapper.js - ENHANCED with debugging
 'use client';
 
 import { useQueryProductByIds } from '../../../services/product.service';
