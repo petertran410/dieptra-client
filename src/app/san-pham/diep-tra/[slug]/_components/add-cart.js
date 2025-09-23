@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import ModalContact from '../../../../../components/modal-contact';
 import { cartAtom } from '../../../../../states/common';
 import { showToast } from '../../../../../utils/helper';
@@ -46,9 +47,11 @@ const AddCart = ({ price, productId, title }) => {
         size="lg"
         w="full"
         bg="#065FD4"
-        color="white"
+        variant="outline"
+        bgColor="#FAE57C"
+        color="#003366"
+        _hover={{ bg: '#FAE57C', color: '#003366' }}
         fontWeight="600"
-        _hover={{ bg: '#5d97e3' }}
         _active={{ bg: '#5d97e3' }}
         isLoading={isLoading}
         loadingText="Đang thêm..."

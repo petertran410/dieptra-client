@@ -16,8 +16,7 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
-  Flex,
-  Divider
+  Flex
 } from '@chakra-ui/react';
 import Head from 'next/head';
 import Breadcrumb from '../../../../components/breadcrumb/breadcrumb';
@@ -226,9 +225,9 @@ const ProductDetail = async ({ params }) => {
                     </NumberInput>
                   </HStack>
 
-                  <Flex justify="space-between" gap={4}>
-                    {/* <AddCart price={price} productId={slug} title={title} /> */}
-                    <Button
+                  <Flex justify="space-evenly" gap={4}>
+                    <AddCart price={price} productId={slug} title={title} />
+                    {/* <Button
                       size="lg"
                       w="full"
                       variant="outline"
@@ -239,13 +238,13 @@ const ProductDetail = async ({ params }) => {
                       fontWeight="600"
                     >
                       Mua ngay
-                    </Button>
-                    <Link href={`/lien-he`} target="_blank">
+                    </Button> */}
+
+                    <Link href="/lien-he">
                       <Button
                         size="lg"
                         w="full"
                         variant="outline"
-                        // borderColor="#3970A7"
                         bgColor="#3970A7"
                         color="white"
                         _hover={{ bg: '#3970A7', color: 'white' }}
