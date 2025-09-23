@@ -17,14 +17,19 @@ const AddCart = ({ price, productId, title }) => {
     setIsLoading(true);
 
     try {
-      const isExists = cart.find((item) => Number(item.id) === Number(productId));
+      const isExists = cart.find((item) => item.slug === productSlug);
 
       if (!isExists) {
-        setCart([...cart, { id: Number(productId), quantity: 1 }]);
+        setCart([
+          ...cart,
+          {
+            slug: productSlug,
+            id: Number(productId),
+            quantity: 1
+          }
+        ]);
       } else {
-        setCart(
-          cart.map((item) => (Number(item.id) === Number(productId) ? { ...item, quantity: item.quantity + 1 } : item))
-        );
+        setCart(cart.map((item) => (item.slug === productSlug ? { ...item, quantity: item.quantity + 1 } : item)));
       }
 
       showToast({

@@ -1,6 +1,6 @@
 'use client';
 
-import { useQueryProductByIds } from '../../../services/product.service';
+import { useQueryProductByIds, useQueryProductBySlugs } from '../../../services/product.service';
 import { cartAtom } from '../../../states/common';
 import { IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -12,12 +12,14 @@ import Counter from './counter';
 
 const CartProduct = () => {
   const [cart, setCart] = useRecoilState(cartAtom);
-  const { data: cartQuery = [] } = useQueryProductByIds(cart?.map((i) => i.id));
-  const cartData = cartQuery.filter((cQ) => cart.map((i) => Number(i.id)).includes(Number(cQ.id)));
+  const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
+  const { data: cartQuery = [] } = useQueryProductBySlugs(cartSlugs);
+  const cartData = cartQuery.filter((cQ) => cart.map((i) => i.slug).includes(cQ.slug));
 
   return (
     <Flex direction="column" gap="24px">
       {cartData?.map((item) => {
+        const cartItem = cart.find((c) => c.slug === item.slug);
         const { title, id, price, imagesUrl, ofCategories } = item;
         const image = imagesUrl?.[0]?.replace('http://', 'https://');
 
@@ -55,7 +57,7 @@ const CartProduct = () => {
                   <Text fontSize={24} textAlign="center">
                     {formatCurrency(price)}
                   </Text>
-                  <Counter productId={id} />
+                  <Counter productSlug={item.slug} />
                 </Flex>
               </Flex>
             </Flex>
@@ -69,11 +71,11 @@ const CartProduct = () => {
               <Text fontSize={24} textAlign="center">
                 {formatCurrency(price)}
               </Text>
-              <Counter productId={id} />
+              <Counter productSlug={item.slug} />
               <button
                 type="button"
                 onClick={() => {
-                  setCart(cart.filter((i) => Number(i.id) !== Number(id)));
+                  setCart(cart.filter((i) => i.slug !== item.slug));
                   showToast({
                     status: 'success',
                     content: 'Đã xoá 01 sản phẩm khỏi giỏ hàng',

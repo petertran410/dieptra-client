@@ -3,14 +3,18 @@
 import OtherProduct from '../../san-pham/diep-tra/[slug]/_components/other-product';
 import ModalContact from '../../../components/modal-contact';
 import SectionBlock from '../../../components/section-block';
-import { useQueryProductByIds, useQueryProductListOther } from '../../../services/product.service';
+import {
+  useQueryProductByIds,
+  useQueryProductBySlugs,
+  useQueryProductListOther
+} from '../../../services/product.service';
 import { cartAtom } from '../../../states/common';
 import { PX_ALL } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
 import { Box, Button, Divider, Flex, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import CartProduct from './cart-product';
 import Image from 'next/image';
@@ -18,24 +22,23 @@ import Image from 'next/image';
 const CartWrapper = () => {
   const [showContact, setShowContact] = useState(false);
   const [cart, setCart] = useRecoilState(cartAtom);
-  const { data: cartData = [], isLoading } = useQueryProductByIds(cart?.map((i) => i.id));
+  const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
+  const { data: cartData = [], isLoading } = useQueryProductBySlugs(cartSlugs);
   const { data: productQuery } = useQueryProductListOther();
   const { content: productList = [] } = productQuery || {};
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
-  // Calculate total price
   const calculateTotal = () => {
     if (!cartData || cartData.length === 0) return 0;
 
     return cartData.reduce((total, product) => {
-      const cartItem = cart.find((item) => Number(item.id) === Number(product.id));
+      const cartItem = cart.find((item) => item.slug === product.slug);
       const quantity = cartItem ? cartItem.quantity : 1;
       return total + product.price * quantity;
     }, 0);
   };
 
-  // Calculate shipping cost
   const calculateShipping = () => {
     const subtotal = calculateTotal();
     // return subtotal > 500000 ? 0 : 30000;
@@ -52,43 +55,22 @@ const CartWrapper = () => {
     if (cart.length === 0) {
       showToast({
         status: 'error',
-        content: 'Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi thanh toán.',
-        icon: '/images/cart.webp'
+        content: 'Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi thanh toán.'
       });
       return;
     }
 
-    // Validate products still exist and have prices
-    const invalidProducts = cartData.filter((product) => !product.price || product.price === 0);
-    if (invalidProducts.length > 0) {
-      showToast({
-        status: 'error',
-        content: 'Một số sản phẩm trong giỏ hàng cần liên hệ để báo giá. Vui lòng liên hệ trực tiếp.',
-        icon: '/images/cart.webp'
-      });
-      return;
-    }
-    const missingProducts = cart.filter(
-      (cartItem) => !cartData.find((product) => Number(product.id) === Number(cartItem.id))
-    );
+    // Validate products có slug
+    const missingProducts = cart.filter((cartItem) => !cartData.find((product) => product.slug === cartItem.slug));
 
     if (missingProducts.length > 0) {
       showToast({
         status: 'error',
-        content: 'Một số sản phẩm trong giỏ hàng không còn tồn tại. Vui lòng kiểm tra lại.',
-        icon: '/images/cart.webp'
+        content: 'Một số sản phẩm trong giỏ hàng không còn tồn tại.'
       });
       return;
     }
 
-    // Show loading toast
-    showToast({
-      status: 'info',
-      content: 'Chuyển đến trang thanh toán...',
-      icon: '/images/cart.webp'
-    });
-
-    // Navigate to payment page
     router.push('/thanh-toan');
   };
 

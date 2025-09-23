@@ -144,6 +144,30 @@ export const useQueryProductDetail = (id) => {
   });
 };
 
+export const useQueryProductBySlugs = (slugs) => {
+  const queryKey = ['GET_PRODUCTS_BY_SLUGS', slugs];
+
+  return useQuery({
+    queryKey,
+    queryFn: async () => {
+      console.log('Fetching products by slugs:', slugs);
+
+      const productPromises = slugs.map((slug) =>
+        API.request({
+          url: `/api/product/client/find-by-slug/${slug}`,
+          method: 'GET'
+        })
+      );
+
+      const products = await Promise.allSettled(productPromises);
+
+      return products.filter((result) => result.status === 'fulfilled').map((result) => result.value);
+    },
+    enabled: !!slugs && slugs.length > 0,
+    staleTime: 5 * 60 * 1000
+  });
+};
+
 export const useMutateRating = () => {
   return useMutation({
     mutationFn: (params) =>

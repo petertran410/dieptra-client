@@ -226,7 +226,7 @@ const ProductDetail = async ({ params }) => {
                   </HStack>
 
                   <Flex justify="space-evenly" gap={4}>
-                    <AddCart price={price} productId={slug} title={title} />
+                    <AddCart price={price} productSlug={slug} productId={productDetail.id} title={title} />
                     {/* <Button
                       size="lg"
                       w="full"
