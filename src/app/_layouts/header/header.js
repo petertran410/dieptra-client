@@ -216,7 +216,7 @@ const Header = () => {
         </Flex>
 
         {/* CART HEADER */}
-        {/* <CartHeader /> */}
+        <CartHeader />
       </Flex>
 
       <Flex
