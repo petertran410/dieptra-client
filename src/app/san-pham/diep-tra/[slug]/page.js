@@ -226,8 +226,8 @@ const ProductDetail = async ({ params }) => {
                   </HStack>
 
                   <Flex justify="space-evenly" gap={4}>
-                    <AddCart price={price} productSlug={slug} productId={productDetail.id} title={title} />
-                    {/* <Button
+                    {/* <AddCart price={price} productSlug={slug} productId={productDetail.id} title={title} /> */}
+                    <Button
                       size="lg"
                       w="full"
                       variant="outline"
@@ -238,7 +238,7 @@ const ProductDetail = async ({ params }) => {
                       fontWeight="600"
                     >
                       Mua ngay
-                    </Button> */}
+                    </Button>
 
                     <Link href="/lien-he">
                       <Button

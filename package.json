@@ -35,7 +35,8 @@
     "recoil": "^0.7.7",
     "suneditor": "^2.47.0",
     "suneditor-react": "^3.6.1",
-    "swiper": "^11.1.14"
+    "swiper": "^11.1.14",
+    "vietnam-provinces-js": "^2.0.0"
   },
   "devDependencies": {
     "@types/node": "22.13.14",
