@@ -34,6 +34,9 @@ const PaymentSuccessContent = () => {
 
   const orderId = searchParams.get('orderId');
   const transactionId = searchParams.get('transactionId');
+  const transactionDate = searchParams.get('transactionDate');
+  const accountNumber = searchParams.get('accountNumber');
+  const content = searchParams.get('content');
   const status = searchParams.get('status');
 
   const [isClient, setIsClient] = useState(false);
@@ -140,6 +143,24 @@ const PaymentSuccessContent = () => {
                         <Text fontWeight="medium">{transactionId}</Text>
                       </HStack>
                     )}
+                    {transactionDate && (
+                      <HStack justify="space-between">
+                        <Text color="gray.600">Ngày giao dịch:</Text>
+                        <Text fontWeight="medium">{transactionDate}</Text>
+                      </HStack>
+                    )}
+                    {accountNumber && (
+                      <HStack justify="space-between">
+                        <Text color="gray.600">Số tài khoản:</Text>
+                        <Text fontWeight="medium">{accountNumber}</Text>
+                      </HStack>
+                    )}
+                    {content && (
+                      <HStack justify="space-between">
+                        <Text color="gray.600">Nội dung giao dịch:</Text>
+                        <Text fontWeight="medium">{content}</Text>
+                      </HStack>
+                    )}
                     {paymentStatus?.amount && (
                       <HStack justify="space-between">
                         <Text color="gray.600">Tổng tiền:</Text>
@@ -157,7 +178,6 @@ const PaymentSuccessContent = () => {
                   </VStack>
                 </Box>
 
-                {/* Next Steps */}
                 <Box w="full" bg="blue.50" p="4" borderRadius="md" border="1px" borderColor="blue.200">
                   <Text fontWeight="semibold" color="blue.800" mb="2">
                     Bước tiếp theo:
