@@ -264,23 +264,25 @@ const PaymentWrapper = () => {
         }
       }
 
-      const selectedProvinceName =
-        provinces.find((p) => (p.Code || p.code) === selectedProvince)?.Name || selectedProvince;
-      const selectedWardName = wards.find((w) => (w.Code || w.code) === selectedWard)?.Name || selectedWard;
+      const province = provinces.find((p) => (p.Code || p.code) === selectedProvince);
+      const ward = wards.find((w) => (w.Code || w.code) === selectedWard);
 
-      const customerInfo = {
-        fullName: customerInfoRef.current.fullName,
-        email: customerInfoRef.current.email,
-        phone: customerInfoRef.current.phone,
-        address: customerInfoRef.current.address,
-        detailedAddress: customerInfoRef.current.address,
-        provinceDistrict: selectedProvinceName,
-        ward: selectedWardName,
+      const provinceName = province ? province.FullName || province.Name || province.name : selectedProvince;
+      const wardName = ward ? ward.FullName || ward.Name || ward.name : selectedWard;
+
+      const finalCustomerInfo = {
+        fullName: customerInfoRef.current.fullName || '',
+        email: customerInfoRef.current.email || '',
+        phone: customerInfoRef.current.phone || '',
+        address: customerInfoRef.current.address || '',
+        detailedAddress: customerInfoRef.current.address || '',
+        provinceDistrict: provinceName || '',
+        ward: wardName || '',
         note: customerInfoRef.current.note || ''
       };
 
       const paymentData = {
-        customerInfo,
+        customerInfo: finalCustomerInfo,
         cartItems,
         paymentMethod,
         amounts: {
@@ -292,26 +294,7 @@ const PaymentWrapper = () => {
 
       addDebugLog('📤 Sending payment data', paymentData);
 
-      const province = provinces.find((p) => (p.Code || p.code) === selectedProvince);
-      const ward = wards.find((w) => (w.Code || w.code) === selectedWard);
-      const provinceName = province ? province.FullName || province.Name || province.name : '';
-      const wardName = ward ? ward.FullName || ward.Name || ward.name : '';
-
-      const response = await createPayment({
-        customerInfo: {
-          ...customerInfo,
-          detailedAddress: customerInfo.address,
-          provinceDistrict: provinceName,
-          ward: wardName
-        },
-        cartItems,
-        paymentMethod,
-        amounts: {
-          subtotal: calculateSubtotal(),
-          shipping: calculateShipping(),
-          total: calculateTotal()
-        }
-      });
+      const response = await createPayment(paymentData);
 
       addDebugLog('📥 Payment creation response', response);
 
@@ -335,21 +318,18 @@ const PaymentWrapper = () => {
           content: 'Đơn hàng đã được tạo thành công!'
         });
 
-        if (paymentMethod === 'cod') {
-          router.push(`/thanh-toan/success?orderId=${response.orderId}&status=success&method=cod`);
-        } else {
+        if (paymentMethod === 'sepay_bank' && response.qrCodeUrl) {
           onOpenPaymentModal();
-          addDebugLog('🔄 Started payment status polling', { orderId: response.orderId });
+        } else if (paymentMethod === 'cod') {
+          router.push(`/thanh-toan/success?orderId=${response.orderId}&status=pending`);
         }
-      } else {
-        throw new Error(response.message || 'Không thể tạo đơn hàng');
       }
     } catch (error) {
-      addDebugLog('❌ Payment creation failed', { error: error.message });
       console.error('Payment creation error:', error);
+      addDebugLog('❌ Payment creation failed', error);
       showToast({
         status: 'error',
-        content: `Lỗi tạo đơn hàng: ${error.message}`
+        content: error.message || 'Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại!'
       });
     }
   };

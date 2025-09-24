@@ -1,4 +1,3 @@
-// src/app/thanh-toan/success/_components/payment-success-wrapper.js
 'use client';
 
 import { useQueryPaymentStatus } from '../../../../services/payment.service';
@@ -28,13 +27,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { useRecoilState } from 'recoil';
 
-// Separate component for the main content that uses useSearchParams
 const PaymentSuccessContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [cart, setCart] = useRecoilState(cartAtom);
 
-  // Get URL parameters
   const orderId = searchParams.get('orderId');
   const transactionId = searchParams.get('transactionId');
   const status = searchParams.get('status');
@@ -42,10 +39,8 @@ const PaymentSuccessContent = () => {
   const [isClient, setIsClient] = useState(false);
   const [cartCleared, setCartCleared] = useState(false);
 
-  // Query payment status
   const { data: paymentStatus, isLoading, refetch } = useQueryPaymentStatus(orderId, !!orderId);
 
-  // Clear cart on successful payment
   useEffect(() => {
     if (paymentStatus?.status === 'SUCCESS' && !cartCleared) {
       setCart([]);
@@ -61,7 +56,6 @@ const PaymentSuccessContent = () => {
     setIsClient(true);
   }, []);
 
-  // Auto redirect if no order ID
   useEffect(() => {
     if (isClient && !orderId) {
       showToast({
@@ -106,7 +100,6 @@ const PaymentSuccessContent = () => {
   return (
     <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} pb="100px">
       <VStack spacing="8" maxW="800px" mx="auto">
-        {/* Success Status */}
         {isSuccess && (
           <Card w="full" variant="elevated">
             <CardHeader textAlign="center" pb="4">
@@ -130,7 +123,6 @@ const PaymentSuccessContent = () => {
                   </Box>
                 </Alert>
 
-                {/* Order Details */}
                 <Box w="full" bg="gray.50" p="6" borderRadius="md">
                   <Text fontSize="lg" fontWeight="semibold" mb="4">
                     Thông tin đơn hàng
@@ -138,8 +130,8 @@ const PaymentSuccessContent = () => {
                   <VStack align="stretch" spacing="3">
                     <HStack justify="space-between">
                       <Text color="gray.600">Mã đơn hàng:</Text>
-                      <Badge colorScheme="blue" fontSize="sm">
-                        {orderId}
+                      <Badge colorScheme="blue" fontSize="md">
+                        DH {orderId}
                       </Badge>
                     </HStack>
                     {transactionId && (
