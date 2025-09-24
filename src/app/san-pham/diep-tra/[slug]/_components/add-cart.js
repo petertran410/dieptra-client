@@ -8,7 +8,7 @@ import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-const AddCart = ({ price, productId, title, productSlug }) => {
+const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
   const [cart, setCart] = useRecoilState(cartAtom);
   const [showContact, setShowContact] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,11 +25,13 @@ const AddCart = ({ price, productId, title, productSlug }) => {
           {
             slug: productSlug,
             id: Number(productId),
-            quantity: 1
+            quantity: quantity
           }
         ]);
       } else {
-        setCart(cart.map((item) => (item.slug === productSlug ? { ...item, quantity: item.quantity + 1 } : item)));
+        setCart(
+          cart.map((item) => (item.slug === productSlug ? { ...item, quantity: item.quantity + quantity } : item))
+        );
       }
 
       showToast({
