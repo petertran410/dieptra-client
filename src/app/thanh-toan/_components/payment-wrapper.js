@@ -123,7 +123,31 @@ const PaymentWrapper = () => {
         onClosePaymentModal();
         setCart([]);
 
-        const successUrl = `/thanh-toan/success?orderId=${currentOrderId}&transactionId=${paymentStatus.transactionId}&status=success`;
+        const successParams = new URLSearchParams({
+          orderId: currentOrderId,
+          status: 'success'
+        });
+
+        if (paymentStatus.transactionId) {
+          successParams.append('transactionId', paymentStatus.transactionId);
+        }
+        if (paymentStatus.gateway) {
+          successParams.append('gateway', paymentStatus.gateway);
+        }
+        if (paymentStatus.transactionDate) {
+          successParams.append('transactionDate', paymentStatus.transactionDate);
+        }
+        if (paymentStatus.referenceCode) {
+          successParams.append('referenceCode', paymentStatus.referenceCode);
+        }
+        if (paymentStatus.accountNumber) {
+          successParams.append('accountNumber', paymentStatus.accountNumber);
+        }
+        if (paymentStatus.content) {
+          successParams.append('content', paymentStatus.content);
+        }
+
+        const successUrl = `/thanh-toan/success?${successParams.toString()}`;
         addDebugLog('Redirecting to success page', { url: successUrl });
 
         router.push(successUrl);
