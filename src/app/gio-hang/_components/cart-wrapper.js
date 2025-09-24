@@ -3,11 +3,7 @@
 import OtherProduct from '../../san-pham/diep-tra/[slug]/_components/other-product';
 import ModalContact from '../../../components/modal-contact';
 import SectionBlock from '../../../components/section-block';
-import {
-  useQueryProductByIds,
-  useQueryProductBySlugs,
-  useQueryProductListOther
-} from '../../../services/product.service';
+import { useQueryProductBySlugs, useQueryProductListOther } from '../../../services/product.service';
 import { cartAtom } from '../../../states/common';
 import { PX_ALL } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -28,6 +24,9 @@ const CartWrapper = () => {
   const { content: productList = [] } = productQuery || {};
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
+
+  const data_kiotviet = cartData.map((data) => data.kiotViet);
+  const image_url = data_kiotviet.map((image) => image.images[0]);
 
   const calculateTotal = () => {
     if (!cartData || cartData.length === 0) return 0;
@@ -142,7 +141,6 @@ const CartWrapper = () => {
 
       <CartProduct />
 
-      {/* Enhanced Order Summary and Payment Section */}
       {!!cart.length && (
         <Flex
           justify="right"

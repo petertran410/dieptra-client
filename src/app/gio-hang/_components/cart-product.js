@@ -1,6 +1,6 @@
 'use client';
 
-import { useQueryProductByIds, useQueryProductBySlugs } from '../../../services/product.service';
+import { useQueryProductBySlugs } from '../../../services/product.service';
 import { cartAtom } from '../../../states/common';
 import { IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -21,13 +21,14 @@ const CartProduct = () => {
     <Flex direction="column" gap="24px">
       {cartData?.map((item) => {
         const cartItem = cart.find((c) => c.slug === item.slug);
-        const { title, id, price, imagesUrl, ofCategories } = item;
-        const image = imagesUrl?.[0]?.replace('http://', 'https://');
+        const { title, id, price, ofCategories, kiotViet } = item;
+
+        const image_url = kiotViet.images?.[0]?.replace('http://', 'https://');
 
         return (
           <Flex align="center" key={id} justify="space-between" pos="relative">
             <Flex align={{ xs: 'flex-start', lg: 'center' }} gap={{ xs: '16px', lg: '24px' }} flex={1}>
-              <Link href="/" target="_blank">
+              <Link href={`/san-pham/diep-tra/${cartItem.slug}`} target="_blank">
                 <Flex
                   w={{ xs: '80px', md: '100px', lg: '150px' }}
                   h={{ xs: '80px', md: '100px', lg: '150px' }}
@@ -36,7 +37,13 @@ const CartProduct = () => {
                   justify="center"
                   borderRadius={16}
                 >
-                  <Image h="90%" w="auto" fit="cover" alt={IMG_ALT} src={image || '/images/tra-phuong-hoang.webp'} />
+                  <Image
+                    h="90%"
+                    w="auto"
+                    fit="cover"
+                    alt={IMG_ALT}
+                    src={image_url || '/images/tra-phuong-hoang.webp'}
+                  />
                 </Flex>
               </Link>
               <Flex direction="column" flex={1}>

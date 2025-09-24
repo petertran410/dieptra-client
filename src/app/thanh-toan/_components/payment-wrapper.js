@@ -1,8 +1,7 @@
-// src/app/thanh-toan/_components/payment-wrapper.js
 'use client';
 
 import { useQueryProductBySlugs } from '../../../services/product.service';
-import { useMutateCreatePayment } from '../../../services/payment.service';
+import { useMutateCreatePayment, useQueryPaymentStatus } from '../../../services/payment.service';
 import { cartAtom } from '../../../states/common';
 import { PX_ALL, IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -47,23 +46,13 @@ const PaymentWrapper = () => {
   const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
   const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
 
-  const [customerInfo, setCustomerInfo] = useState({
+  const customerInfo = useRef({
     fullName: '',
     email: '',
     phone: '',
     address: '',
     note: ''
   });
-
-  const [inputValues, setInputValues] = useState({
-    fullName: '',
-    email: '',
-    phone: '',
-    address: '',
-    note: ''
-  });
-
-  const debounceTimeouts = useRef({});
 
   const [provinces, setProvinces] = useState([]);
   const [selectedProvince, setSelectedProvince] = useState('');
@@ -75,41 +64,32 @@ const PaymentWrapper = () => {
   const [paymentUrl, setPaymentUrl] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState('');
 
+  const [debugInfo, setDebugInfo] = useState([]);
+  const [pollCount, setPollCount] = useState(0);
+  const pollCountRef = useRef(0);
+  const [lastStatusCheck, setLastStatusCheck] = useState(null);
+
   const { mutateAsync: createPayment, isPending: creatingPayment } = useMutateCreatePayment();
+
+  const {
+    data: paymentStatus,
+    isLoading: checkingStatus,
+    error: statusError
+  } = useQueryPaymentStatus(currentOrderId, !!currentOrderId);
+
   const { isOpen: isPaymentModalOpen, onOpen: onOpenPaymentModal, onClose: onClosePaymentModal } = useDisclosure();
 
-  const debouncedUpdateCustomerInfo = useCallback((field, value) => {
-    if (debounceTimeouts.current[field]) {
-      clearTimeout(debounceTimeouts.current[field]);
-    }
-
-    debounceTimeouts.current[field] = setTimeout(() => {
-      setCustomerInfo((prev) => ({
-        ...prev,
-        [field]: value
-      }));
-    }, 1800);
-  }, []);
-
-  const handleInputChange = useCallback(
-    (field, value) => {
-      setInputValues((prev) => ({
-        ...prev,
-        [field]: value
-      }));
-
-      debouncedUpdateCustomerInfo(field, value);
-    },
-    [debouncedUpdateCustomerInfo]
-  );
-
-  useEffect(() => {
-    return () => {
-      Object.values(debounceTimeouts.current).forEach((timeout) => {
-        if (timeout) clearTimeout(timeout);
-      });
+  const addDebugLog = (message, data = null) => {
+    const timestamp = new Date().toLocaleTimeString();
+    const logEntry = {
+      timestamp,
+      message,
+      data,
+      id: Date.now()
     };
-  }, []);
+
+    setDebugInfo((prev) => [...prev.slice(-10), logEntry]);
+  };
 
   useEffect(() => {
     const loadProvinces = async () => {
@@ -124,39 +104,89 @@ const PaymentWrapper = () => {
     loadProvinces();
   }, []);
 
-  const handleProvinceChange = useCallback(
-    (provinceCode) => {
-      setSelectedProvince(provinceCode);
-      setSelectedWard('');
-      setWards([]);
+  useEffect(() => {
+    if (paymentStatus) {
+      pollCountRef.current += 1;
+      setPollCount(pollCountRef.current);
+      setLastStatusCheck(new Date().toLocaleTimeString());
 
-      const province = provinces.find((p) => (p.Code || p.code) === provinceCode);
-      if (province && province.Wards) {
-        setWards(province.Wards);
+      addDebugLog(`Poll #${pollCountRef.current} - Status Check`, {
+        orderId: currentOrderId,
+        status: paymentStatus.status,
+        amount: paymentStatus.amount,
+        success: paymentStatus.success
+      });
+
+      if (paymentStatus.status === 'SUCCESS' || paymentStatus.status === 'PAID') {
+        addDebugLog('🎉 PAYMENT SUCCESSFUL!', paymentStatus);
+
+        onClosePaymentModal();
+        setCart([]);
+
+        const successUrl = `/thanh-toan/success?orderId=${currentOrderId}&transactionId=${paymentStatus.transactionId}&status=success`;
+        addDebugLog('Redirecting to success page', { url: successUrl });
+
+        router.push(successUrl);
+
+        showToast({
+          status: 'success',
+          content: 'Thanh toán thành công! Cảm ơn bạn đã mua hàng.'
+        });
+      } else if (paymentStatus.status === 'FAILED' || paymentStatus.status === 'CANCELLED') {
+        addDebugLog('❌ PAYMENT FAILED', paymentStatus);
+
+        onClosePaymentModal();
+        router.push(`/thanh-toan/success?orderId=${currentOrderId}&status=failed`);
+
+        showToast({
+          status: 'error',
+          content: 'Thanh toán thất bại. Vui lòng thử lại.'
+        });
       }
-    },
-    [provinces]
-  );
+    }
 
-  const calculatedValues = useMemo(() => {
-    const subtotal = cartData.reduce((total, product) => {
+    if (statusError) {
+      addDebugLog('❌ Status Check Error', statusError);
+    }
+  }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId]);
+
+  const handleProvinceChange = (provinceCode) => {
+    setSelectedProvince(provinceCode);
+    setSelectedWard('');
+    setWards([]);
+
+    const province = provinces.find((p) => (p.Code || p.code) === provinceCode);
+    if (province && province.Wards) {
+      setWards(province.Wards);
+    }
+  };
+
+  const calculateSubtotal = () => {
+    return cartData.reduce((total, product) => {
       const cartItem = cart.find((item) => item.slug === product.slug);
       const quantity = cartItem ? cartItem.quantity : 1;
       return total + product.price * quantity;
     }, 0);
+  };
 
-    const shipping = subtotal > 0 ? 0 : 0;
-    const total = subtotal + shipping;
+  const calculateShipping = () => {
+    const subtotal = calculateSubtotal();
+    return subtotal > 0 ? 0 : 0;
+  };
 
-    return { subtotal, shipping, total };
-  }, [cartData, cart]);
+  const calculateTotal = () => {
+    return calculateSubtotal() + calculateShipping();
+  };
 
-  const calculateSubtotal = () => calculatedValues.subtotal;
-  const calculateShipping = () => calculatedValues.shipping;
-  const calculateTotal = () => calculatedValues.total;
+  const handleInputChange = useCallback(
+    (field) => (e) => {
+      customerInfo.current[field] = e.target.value;
+    },
+    []
+  );
 
-  const validateForm = useCallback(() => {
-    const { fullName, email, phone, address } = customerInfo;
+  const validateForm = () => {
+    const { fullName, email, phone, address } = customerInfo.current;
 
     if (!fullName.trim()) {
       showToast({ status: 'error', content: 'Vui lòng nhập họ tên' });
@@ -196,7 +226,7 @@ const PaymentWrapper = () => {
     }
 
     return true;
-  }, [customerInfo, selectedProvince, selectedWard]);
+  };
 
   const handleCreatePayment = async () => {
     if (!validateForm()) return;
@@ -207,6 +237,8 @@ const PaymentWrapper = () => {
     }
 
     try {
+      addDebugLog('Starting payment creation...');
+
       const cartItems = cart.map((item) => {
         const product = cartData.find((p) => p.slug === item.slug);
         return {
@@ -228,16 +260,8 @@ const PaymentWrapper = () => {
         }
       }
 
-      const selectedProvinceName =
-        provinces.find((p) => (p.Code || p.code) === selectedProvince)?.Name || selectedProvince;
-      const selectedWardName = wards.find((w) => (w.Code || w.code) === selectedWard)?.Name || selectedWard;
-
       const paymentData = {
-        customerInfo: {
-          ...customerInfo,
-          province: selectedProvinceName,
-          ward: selectedWardName
-        },
+        customerInfo,
         cartItems,
         paymentMethod,
         amounts: {
@@ -247,28 +271,66 @@ const PaymentWrapper = () => {
         }
       };
 
-      const result = await createPayment(paymentData);
+      addDebugLog('📤 Sending payment data', paymentData);
 
-      if (result.success) {
-        setCurrentOrderId(result.orderId);
+      const province = provinces.find((p) => (p.Code || p.code) === selectedProvince);
+      const ward = wards.find((w) => (w.Code || w.code) === selectedWard);
+      const provinceName = province ? province.FullName || province.Name || province.name : '';
+      const wardName = ward ? ward.FullName || ward.Name || ward.name : '';
 
-        if (paymentMethod === 'sepay_bank' && result.paymentUrl) {
-          setPaymentUrl(result.paymentUrl);
-          setQrCodeUrl(result.qrCodeUrl);
-          onOpenPaymentModal();
-        } else if (paymentMethod === 'cod') {
-          showToast({
-            status: 'success',
-            content: 'Đặt hàng thành công! Chúng tôi sẽ liên hệ với bạn để xác nhận đơn hàng.'
-          });
-          router.push(`/thanh-toan/success?orderId=${result.orderId}&status=pending`);
+      const response = await createPayment({
+        customerInfo: {
+          ...customerInfo,
+          detailedAddress: customerInfo.address,
+          provinceDistrict: provinceName,
+          ward: wardName
+        },
+        cartItems,
+        paymentMethod,
+        amounts: {
+          subtotal: calculateSubtotal(),
+          shipping: calculateShipping(),
+          total: calculateTotal()
         }
+      });
+
+      addDebugLog('📥 Payment creation response', response);
+
+      if (response.success) {
+        setCurrentOrderId(response.orderId);
+        setPaymentUrl(response.paymentUrl || '');
+        setQrCodeUrl(response.qrCodeUrl || '');
+
+        setPollCount(0);
+        pollCountRef.current = 0;
+        setDebugInfo([]);
+
+        addDebugLog('✅ Payment order created', {
+          orderId: response.orderId,
+          qrCodeUrl: response.qrCodeUrl,
+          paymentMethod
+        });
+
+        showToast({
+          status: 'success',
+          content: 'Đơn hàng đã được tạo thành công!'
+        });
+
+        if (paymentMethod === 'cod') {
+          router.push(`/thanh-toan/success?orderId=${response.orderId}&status=success&method=cod`);
+        } else {
+          onOpenPaymentModal();
+          addDebugLog('🔄 Started payment status polling', { orderId: response.orderId });
+        }
+      } else {
+        throw new Error(response.message || 'Không thể tạo đơn hàng');
       }
     } catch (error) {
+      addDebugLog('❌ Payment creation failed', { error: error.message });
       console.error('Payment creation error:', error);
       showToast({
         status: 'error',
-        content: error.message || 'Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại!'
+        content: `Lỗi tạo đơn hàng: ${error.message}`
       });
     }
   };
@@ -299,100 +361,63 @@ const PaymentWrapper = () => {
 
   return (
     <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} pb="50px">
+      {/* Header */}
       <VStack spacing="8" align="stretch">
-        <Box textAlign="center">
-          <Text as="h1" fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold" mb="2" color="gray.800">
+        <Box>
+          <Text as="h1" fontSize="2xl" fontWeight="bold" mb="2">
             Thanh toán đơn hàng
           </Text>
-          <Text color="gray.600" fontSize={{ base: 'sm', md: 'md' }}>
-            Vui lòng kiểm tra thông tin và hoàn tất thanh toán
-          </Text>
+          <Text color="gray.600">Vui lòng kiểm tra thông tin và hoàn tất thanh toán</Text>
         </Box>
 
         <Flex direction={{ base: 'column', lg: 'row' }} gap="8">
-          <Box flex="1" bg="white" p="6" borderRadius="xl" border="1px" borderColor="gray.200" shadow="sm">
-            <Text fontSize="lg" fontWeight="semibold" mb="6" color="gray.800">
-              📋 Thông tin khách hàng
+          <Box flex="1" bg="white" p="6" borderRadius="lg" border="1px" borderColor="gray.200">
+            <Text fontSize="lg" fontWeight="semibold" mb="4">
+              Thông tin khách hàng
             </Text>
 
-            <VStack spacing="5">
+            <VStack spacing="4">
               <FormControl isRequired>
-                <FormLabel color="gray.700" fontSize="sm" fontWeight="medium">
-                  Họ và tên
-                </FormLabel>
-                <Input
-                  value={inputValues.fullName}
-                  onChange={(e) => handleInputChange('fullName', e.target.value)}
-                  placeholder="Nhập họ và tên đầy đủ"
-                  autoComplete="name"
-                  size="lg"
-                  borderColor="gray.300"
-                  _hover={{ borderColor: 'gray.400' }}
-                  _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px #3182ce' }}
-                  bg="gray.50"
-                />
+                <FormLabel>Họ và tên</FormLabel>
+                <Input onChange={handleInputChange('fullName')} placeholder="Nhập họ và tên" autoComplete="off" />
               </FormControl>
 
               <HStack width="100%" spacing="4">
                 <FormControl isRequired flex="1">
-                  <FormLabel color="gray.700" fontSize="sm" fontWeight="medium">
-                    Số điện thoại
-                  </FormLabel>
+                  <FormLabel>Số điện thoại</FormLabel>
                   <Input
-                    value={inputValues.phone}
-                    onChange={(e) => handleInputChange('phone', e.target.value)}
+                    onChange={handleInputChange('phone')}
                     placeholder="Nhập số điện thoại"
                     type="tel"
-                    autoComplete="tel"
-                    size="lg"
-                    borderColor="gray.300"
-                    _hover={{ borderColor: 'gray.400' }}
-                    _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px #3182ce' }}
-                    bg="gray.50"
+                    autoComplete="off"
                   />
                 </FormControl>
 
                 <FormControl isRequired flex="1">
-                  <FormLabel color="gray.700" fontSize="sm" fontWeight="medium">
-                    Email
-                  </FormLabel>
+                  <FormLabel>Email</FormLabel>
                   <Input
-                    value={inputValues.email}
-                    onChange={(e) => handleInputChange('email', e.target.value)}
+                    onChange={handleInputChange('email')}
                     placeholder="Nhập email"
                     type="email"
-                    autoComplete="email"
-                    size="lg"
-                    borderColor="gray.300"
-                    _hover={{ borderColor: 'gray.400' }}
-                    _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px #3182ce' }}
-                    bg="gray.50"
+                    autoComplete="off"
                   />
                 </FormControl>
               </HStack>
 
               <HStack width="100%" spacing="4">
                 <FormControl isRequired flex="1">
-                  <FormLabel color="gray.700" fontSize="sm" fontWeight="medium">
-                    Tỉnh/Thành phố
-                  </FormLabel>
+                  <FormLabel>Tỉnh/Thành phố</FormLabel>
                   <Select
                     value={selectedProvince}
                     onChange={(e) => handleProvinceChange(e.target.value)}
                     placeholder="-- Chọn tỉnh/thành --"
-                    size="lg"
-                    borderColor="gray.300"
-                    _hover={{ borderColor: 'gray.400' }}
-                    _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px #3182ce' }}
-                    bg="gray.50"
                   >
                     {provinces.map((province) => {
                       const code = province.Code || province.code;
                       const name = province.Name || province.FullName || province.name;
                       const MUNICIPALITIES = ['Hà Nội', 'Hồ Chí Minh', 'Hải Phòng', 'Đà Nẵng', 'Cần Thơ', 'Huế'];
                       const isCity = MUNICIPALITIES.some((c) => name.toLowerCase().includes(c.toLowerCase()));
-                      const shortName = name.replace(/^(Thành phố|Tỉnh)\s+/i, '');
-                      const displayName = isCity ? `${shortName} ${name}` : name;
+                      const displayName = (isCity ? 'Thành phố ' : 'Tỉnh ') + name;
 
                       return (
                         <option key={code} value={code}>
@@ -404,26 +429,22 @@ const PaymentWrapper = () => {
                 </FormControl>
 
                 <FormControl isRequired flex="1">
-                  <FormLabel color="gray.700" fontSize="sm" fontWeight="medium">
-                    Phường/Xã
-                  </FormLabel>
+                  <FormLabel>Phường/Xã</FormLabel>
                   <Select
                     value={selectedWard}
                     onChange={(e) => setSelectedWard(e.target.value)}
                     placeholder="-- Chọn phường/xã --"
                     disabled={!selectedProvince}
-                    size="lg"
-                    borderColor="gray.300"
-                    _hover={{ borderColor: 'gray.400' }}
-                    _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px #3182ce' }}
-                    bg="gray.50"
                   >
                     {wards.map((ward) => {
                       const code = ward.Code || ward.code;
                       const name = ward.Name || ward.FullName || ward.name;
+                      const shortName = ward.AdministrativeUnitShortName;
+                      const displayName = shortName ? `${shortName} ${name}` : name;
+
                       return (
                         <option key={code} value={code}>
-                          {name}
+                          {displayName}
                         </option>
                       );
                     })}
@@ -432,64 +453,39 @@ const PaymentWrapper = () => {
               </HStack>
 
               <FormControl>
-                <FormLabel color="gray.700" fontSize="sm" fontWeight="medium">
-                  Địa chỉ chi tiết
-                </FormLabel>
+                <FormLabel>Địa chỉ chi tiết</FormLabel>
                 <Textarea
-                  value={inputValues.address}
-                  onChange={(e) => handleInputChange('address', e.target.value)}
+                  onChange={handleInputChange('address')}
                   placeholder="Số nhà, tên đường, ngõ/hẻm..."
                   rows="3"
-                  autoComplete="street-address"
-                  borderColor="gray.300"
-                  _hover={{ borderColor: 'gray.400' }}
-                  _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px #3182ce' }}
-                  bg="gray.50"
+                  autoComplete="off"
                 />
               </FormControl>
 
               <FormControl>
-                <FormLabel color="gray.700" fontSize="sm" fontWeight="medium">
-                  Ghi chú đơn hàng
-                </FormLabel>
+                <FormLabel>Ghi chú đơn hàng</FormLabel>
                 <Textarea
-                  value={inputValues.note}
-                  onChange={(e) => handleInputChange('note', e.target.value)}
-                  placeholder="Ghi chú đặc biệt cho đơn hàng (không bắt buộc)"
+                  onChange={handleInputChange('note')}
+                  placeholder="Ghi chú đặc biệt (không bắt buộc)"
                   rows="2"
-                  borderColor="gray.300"
-                  _hover={{ borderColor: 'gray.400' }}
-                  _focus={{ borderColor: 'blue.500', boxShadow: '0 0 0 1px #3182ce' }}
-                  bg="gray.50"
+                  autoComplete="off"
                 />
               </FormControl>
             </VStack>
 
-            <Box mt="8">
-              <Text fontSize="lg" fontWeight="semibold" mb="4" color="gray.800">
-                💳 Phương thức thanh toán
+            <Box mt="6">
+              <Text fontSize="lg" fontWeight="semibold" mb="4">
+                Phương thức thanh toán
               </Text>
 
               <RadioGroup value={paymentMethod} onChange={setPaymentMethod}>
-                <Stack spacing="4">
-                  <Radio value="sepay_bank" colorScheme="blue" size="lg">
+                <Stack spacing="3">
+                  <Radio value="sepay_bank" colorScheme="blue">
                     <HStack>
-                      <Box
-                        w="8"
-                        h="8"
-                        bg="blue.500"
-                        borderRadius="lg"
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                      >
-                        <Text color="white" fontSize="sm" fontWeight="bold">
-                          ₫
-                        </Text>
-                      </Box>
+                      <Box w="6" h="6" bg="blue.500" borderRadius="md" />
                       <VStack align="start" spacing="0">
-                        <Text fontWeight="medium">Chuyển khoản ngân hàng (SePay)</Text>
-                        <Text fontSize="sm" color="gray.600">
+                        <Text>Chuyển khoản ngân hàng (SePay)</Text>
+                        <Text fontSize="xs" color="gray.600">
                           Thanh toán qua QR Code hoặc chuyển khoản
                         </Text>
                       </VStack>
@@ -500,42 +496,34 @@ const PaymentWrapper = () => {
             </Box>
           </Box>
 
-          {/* Order Summary */}
-          <Box
-            w={{ base: '100%', lg: '400px' }}
-            bg="gradient-to-br from-blue-50 to-indigo-50"
-            p="6"
-            borderRadius="xl"
-            h="fit-content"
-            shadow="sm"
-          >
-            <Text fontSize="lg" fontWeight="semibold" mb="6" color="gray.800">
-              🛒 Thông tin đơn hàng
+          <Box w={{ base: '100%', lg: '400px' }} bg="gray.50" p="6" borderRadius="lg" h="fit-content">
+            <Text fontSize="lg" fontWeight="semibold" mb="4">
+              Thông tin đơn hàng
             </Text>
 
             <VStack spacing="4" align="stretch">
               {cartData.map((product) => {
                 const cartItem = cart.find((item) => Number(item.id) === Number(product.id));
+                const { kiotViet } = product;
                 const quantity = cartItem ? cartItem.quantity : 1;
                 const itemTotal = product.price * quantity;
+                const image_url = kiotViet.images?.[0]?.replace('http://', 'https://');
 
                 return (
-                  <HStack key={product.id} spacing="4" align="start" p="3" bg="white" borderRadius="lg">
+                  <HStack key={product.id} spacing="3" align="start">
                     <Image
-                      src={product.imagesUrl?.[0] || '/images/placeholder.jpg'}
+                      src={image_url || '/images/placeholder.jpg'}
                       alt={product.title || IMG_ALT}
-                      boxSize="60px"
+                      boxSize="50px"
                       objectFit="cover"
                       borderRadius="md"
-                      border="1px"
-                      borderColor="gray.200"
                     />
                     <VStack align="start" spacing="1" flex="1">
-                      <Text fontSize="sm" fontWeight="medium" color="gray.800" noOfLines={2}>
+                      <Text fontSize="sm" fontWeight="medium" noOfLines={2}>
                         {product.title}
                       </Text>
                       <HStack>
-                        <Text fontSize="sm" color="gray.600">
+                        <Text fontSize="xs" color="gray.600">
                           SL: {quantity}
                         </Text>
                         <Text fontSize="sm" fontWeight="semibold" color="blue.600">
@@ -548,7 +536,7 @@ const PaymentWrapper = () => {
               })}
             </VStack>
 
-            <Divider my="6" />
+            <Divider my="4" />
 
             <VStack spacing="3" align="stretch">
               <HStack justify="space-between">
@@ -572,65 +560,90 @@ const PaymentWrapper = () => {
               <Divider />
 
               <HStack justify="space-between">
-                <Text fontSize="lg" fontWeight="bold" color="gray.800">
+                <Text fontSize="md" fontWeight="bold">
                   Tổng cộng:
                 </Text>
-                <Text fontSize="lg" fontWeight="bold" color="blue.600">
+                <Text fontSize="md" fontWeight="bold" color="blue.600">
                   {formatCurrency(calculateTotal())}
                 </Text>
               </HStack>
             </VStack>
 
-            <Button
-              colorScheme="blue"
-              size="lg"
-              width="100%"
-              mt="6"
-              onClick={handleCreatePayment}
-              isLoading={creatingPayment}
-              loadingText="Đang xử lý..."
-              _hover={{ transform: 'translateY(-2px)', shadow: 'lg' }}
-              transition="all 0.2s"
-            >
-              Đặt hàng ngay
-            </Button>
+            <Flex justify="space-evenly" gap={4}>
+              <Button
+                colorScheme="blue"
+                size="lg"
+                width="100%"
+                mt="6"
+                onClick={handleCreatePayment}
+                isLoading={creatingPayment}
+                loadingText="Đang xử lý..."
+              >
+                {paymentMethod === 'cod' ? 'Đặt hàng COD' : 'Thanh toán ngay'}
+              </Button>
+              <Button variant="outline" size="lg" width="100%" mt="6" onClick={() => router.push('/gio-hang')}>
+                Quay lại giỏ hàng
+              </Button>
+            </Flex>
           </Box>
         </Flex>
       </VStack>
 
-      {/* Payment Modal */}
-      <Modal isOpen={isPaymentModalOpen} onClose={onClosePaymentModal} isCentered size="md">
-        <ModalOverlay backdropFilter="blur(4px)" />
+      <Modal isOpen={isPaymentModalOpen} onClose={onClosePaymentModal} size="2xl" closeOnOverlayClick={false}>
+        <ModalOverlay />
         <ModalContent>
-          <ModalHeader textAlign="center">Thanh toán đơn hàng</ModalHeader>
+          <ModalHeader>Thanh toán đơn hàng</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb="6">
-            <VStack spacing="4">
+            <VStack spacing="6">
+              <Alert status="info">
+                <AlertIcon />
+                <Box>
+                  <AlertTitle>Đang chờ thanh toán!</AlertTitle>
+                  <AlertDescription>Vui lòng thực hiện thanh toán để hoàn tất đơn hàng.</AlertDescription>
+                </Box>
+              </Alert>
+
+              {/* QR Code Display */}
               {qrCodeUrl && (
                 <Box textAlign="center">
-                  <Image src={qrCodeUrl} alt="QR Code thanh toán" maxW="250px" mx="auto" borderRadius="md" />
-                  <Text fontSize="sm" color="gray.600" mt="2">
+                  <Text fontSize="lg" fontWeight="semibold" mb="4">
                     Quét mã QR để thanh toán
+                  </Text>
+                  <Image
+                    src={qrCodeUrl}
+                    alt="QR Code thanh toán"
+                    maxW="300px"
+                    mx="auto"
+                    border="1px"
+                    borderColor="gray.200"
+                    borderRadius="md"
+                  />
+                  <Text fontSize="sm" color="gray.600" mt="2">
+                    Tổng tiền: <strong>{formatCurrency(calculateTotal())}</strong>
                   </Text>
                 </Box>
               )}
 
-              <Alert status="info" borderRadius="md">
-                <AlertIcon />
-                <Box>
-                  <AlertTitle fontSize="sm">Hướng dẫn thanh toán!</AlertTitle>
-                  <AlertDescription fontSize="sm">
-                    Quét mã QR bằng ứng dụng ngân hàng hoặc ví điện tử để thanh toán. Đơn hàng sẽ được xử lý ngay sau
-                    khi nhận được thanh toán.
-                  </AlertDescription>
+              {/* Payment URL */}
+              {paymentUrl && !qrCodeUrl && (
+                <Box textAlign="center">
+                  <Text fontSize="lg" fontWeight="semibold" mb="4">
+                    Nhấn vào liên kết để thanh toán
+                  </Text>
+                  <Button as="a" href={paymentUrl} target="_blank" colorScheme="blue" size="lg">
+                    Mở trang thanh toán
+                  </Button>
                 </Box>
-              </Alert>
-
-              {paymentUrl && (
-                <Button colorScheme="blue" width="100%" onClick={() => window.open(paymentUrl, '_blank')}>
-                  Mở trang thanh toán
-                </Button>
               )}
+
+              <Alert status="warning">
+                <AlertIcon />
+                <AlertDescription fontSize="sm">
+                  Vui lòng không tắt trang này cho đến khi thanh toán hoàn tất. Hệ thống sẽ tự động cập nhật khi thanh
+                  toán thành công.
+                </AlertDescription>
+              </Alert>
             </VStack>
           </ModalBody>
         </ModalContent>
