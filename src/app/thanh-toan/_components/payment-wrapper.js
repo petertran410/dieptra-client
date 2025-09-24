@@ -1,11 +1,7 @@
 'use client';
 
-import { useQueryProductByIds, useQueryProductBySlugs } from '../../../services/product.service';
-import {
-  useMutateCreatePayment,
-  useQueryPaymentStatus,
-  useManualPaymentCheck
-} from '../../../services/payment.service';
+import { useQueryProductBySlugs } from '../../../services/product.service';
+import { useMutateCreatePayment } from '../../../services/payment.service';
 import { cartAtom } from '../../../states/common';
 import { PX_ALL, IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -41,7 +37,7 @@ import {
   Select
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useRef, useMemo } from 'react';
+import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 
 const PaymentWrapper = () => {
@@ -68,33 +64,9 @@ const PaymentWrapper = () => {
   const [paymentUrl, setPaymentUrl] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState('');
 
-  const [debugInfo, setDebugInfo] = useState([]);
-  const [pollCount, setPollCount] = useState(0);
-  const pollCountRef = useRef(0);
-  const [lastStatusCheck, setLastStatusCheck] = useState(null);
-
   const { mutateAsync: createPayment, isPending: creatingPayment } = useMutateCreatePayment();
-  const { mutateAsync: manualCheck, isPending: checkingManually } = useManualPaymentCheck();
-
-  const {
-    data: paymentStatus,
-    isLoading: checkingStatus,
-    error: statusError
-  } = useQueryPaymentStatus(currentOrderId, !!currentOrderId);
 
   const { isOpen: isPaymentModalOpen, onOpen: onOpenPaymentModal, onClose: onClosePaymentModal } = useDisclosure();
-
-  const addDebugLog = (message, data = null) => {
-    const timestamp = new Date().toLocaleTimeString();
-    const logEntry = {
-      timestamp,
-      message,
-      data,
-      id: Date.now()
-    };
-
-    setDebugInfo((prev) => [...prev.slice(-10), logEntry]);
-  };
 
   useEffect(() => {
     const loadProvinces = async () => {
@@ -120,79 +92,29 @@ const PaymentWrapper = () => {
     }
   };
 
-  const handleWardChange = (wardCode) => {
-    setSelectedWard(wardCode);
-  };
-
-  useEffect(() => {
-    if (paymentStatus) {
-      pollCountRef.current += 1;
-      setPollCount(pollCountRef.current);
-      setLastStatusCheck(new Date().toLocaleTimeString());
-
-      addDebugLog(`Poll #${pollCountRef.current} - Status Check`, {
-        orderId: currentOrderId,
-        status: paymentStatus.status,
-        amount: paymentStatus.amount,
-        success: paymentStatus.success
-      });
-
-      if (paymentStatus.status === 'SUCCESS' || paymentStatus.status === 'PAID') {
-        addDebugLog('🎉 PAYMENT SUCCESSFUL!', paymentStatus);
-
-        onClosePaymentModal();
-        setCart([]);
-
-        const successUrl = `/thanh-toan/success?orderId=${currentOrderId}&transactionId=${paymentStatus.transactionId}&status=success`;
-        addDebugLog('Redirecting to success page', { url: successUrl });
-
-        router.push(successUrl);
-
-        showToast({
-          status: 'success',
-          content: 'Thanh toán thành công! Cảm ơn bạn đã mua hàng.'
-        });
-      } else if (paymentStatus.status === 'FAILED' || paymentStatus.status === 'CANCELLED') {
-        addDebugLog('❌ PAYMENT FAILED', paymentStatus);
-
-        onClosePaymentModal();
-        router.push(`/thanh-toan/success?orderId=${currentOrderId}&status=failed`);
-
-        showToast({
-          status: 'error',
-          content: 'Thanh toán thất bại. Vui lòng thử lại.'
-        });
-      }
-    }
-
-    if (statusError) {
-      addDebugLog('❌ Status Check Error', statusError);
-    }
-  }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId]);
-
-  const calculateSubtotal = () => {
-    return cartData.reduce((total, product) => {
+  const calculatedValues = useMemo(() => {
+    const subtotal = cartData.reduce((total, product) => {
       const cartItem = cart.find((item) => item.slug === product.slug);
       const quantity = cartItem ? cartItem.quantity : 1;
       return total + product.price * quantity;
     }, 0);
-  };
 
-  const calculateShipping = () => {
-    const subtotal = calculateSubtotal();
-    return subtotal > 0 ? 0 : 0;
-  };
+    const shipping = subtotal > 0 ? 0 : 0;
+    const total = subtotal + shipping;
 
-  const calculateTotal = () => {
-    return calculateSubtotal() + calculateShipping();
-  };
+    return { subtotal, shipping, total };
+  }, [cartData, cart]);
 
-  const handleInputChange = (field, value) => {
+  const calculateSubtotal = () => calculatedValues.subtotal;
+  const calculateShipping = () => calculatedValues.shipping;
+  const calculateTotal = () => calculatedValues.total;
+
+  const handleInputChange = useCallback((field, value) => {
     setCustomerInfo((prev) => ({
       ...prev,
       [field]: value
     }));
-  };
+  }, []);
 
   const validateForm = () => {
     const { fullName, email, phone, address } = customerInfo;
@@ -383,7 +305,6 @@ const PaymentWrapper = () => {
         </Box>
 
         <Flex direction={{ base: 'column', lg: 'row' }} gap="8">
-          {/* Customer Information Form */}
           <Box flex="1" bg="white" p="6" borderRadius="lg" border="1px" borderColor="gray.200">
             <Text fontSize="lg" fontWeight="semibold" mb="4">
               Thông tin khách hàng
@@ -396,6 +317,7 @@ const PaymentWrapper = () => {
                   value={customerInfo.fullName}
                   onChange={(e) => handleInputChange('fullName', e.target.value)}
                   placeholder="Nhập họ và tên"
+                  autoComplete="off"
                 />
               </FormControl>
 
@@ -407,6 +329,7 @@ const PaymentWrapper = () => {
                     onChange={(e) => handleInputChange('phone', e.target.value)}
                     placeholder="Nhập số điện thoại"
                     type="tel"
+                    autoComplete="off"
                   />
                 </FormControl>
 
@@ -417,6 +340,7 @@ const PaymentWrapper = () => {
                     onChange={(e) => handleInputChange('email', e.target.value)}
                     placeholder="Nhập email"
                     type="email"
+                    autoComplete="off"
                   />
                 </FormControl>
               </HStack>
@@ -476,6 +400,7 @@ const PaymentWrapper = () => {
                   onChange={(e) => handleInputChange('address', e.target.value)}
                   placeholder="Số nhà, tên đường, ngõ/hẻm..."
                   rows="3"
+                  autoComplete="off"
                 />
               </FormControl>
 
@@ -486,11 +411,11 @@ const PaymentWrapper = () => {
                   onChange={(e) => handleInputChange('note', e.target.value)}
                   placeholder="Ghi chú đặc biệt (không bắt buộc)"
                   rows="2"
+                  autoComplete="off"
                 />
               </FormControl>
             </VStack>
 
-            {/* Payment Method Selection */}
             <Box mt="6">
               <Text fontSize="lg" fontWeight="semibold" mb="4">
                 Phương thức thanh toán
@@ -505,28 +430,6 @@ const PaymentWrapper = () => {
                         <Text>Chuyển khoản ngân hàng (SePay)</Text>
                         <Text fontSize="xs" color="gray.600">
                           Thanh toán qua QR Code hoặc chuyển khoản
-                        </Text>
-                      </VStack>
-                    </HStack>
-                  </Radio>
-                  <Radio value="sepay_momo" colorScheme="pink">
-                    <HStack>
-                      <Box w="6" h="6" bg="pink.500" borderRadius="md" />
-                      <VStack align="start" spacing="0">
-                        <Text>Ví MoMo (SePay)</Text>
-                        <Text fontSize="xs" color="gray.600">
-                          Thanh toán qua ví điện tử MoMo
-                        </Text>
-                      </VStack>
-                    </HStack>
-                  </Radio>
-                  <Radio value="cod" colorScheme="green">
-                    <HStack>
-                      <Box w="6" h="6" bg="green.500" borderRadius="md" />
-                      <VStack align="start" spacing="0">
-                        <Text>Thanh toán khi nhận hàng (COD)</Text>
-                        <Text fontSize="xs" color="gray.600">
-                          Thanh toán bằng tiền mặt khi nhận hàng
                         </Text>
                       </VStack>
                     </HStack>
