@@ -266,7 +266,6 @@ const PaymentSuccessContent = () => {
           </Card>
         )}
 
-        {/* Failed Status */}
         {isFailed && (
           <Card w="full" variant="elevated">
             <CardHeader textAlign="center" pb="4">
@@ -360,7 +359,6 @@ const PaymentSuccessContent = () => {
   );
 };
 
-// Loading fallback component
 const PaymentSuccessLoading = () => (
   <Flex justify="center" align="center" minH="60vh" direction="column">
     <Spinner size="lg" color="blue.500" mb="4" />
@@ -368,7 +366,6 @@ const PaymentSuccessLoading = () => (
   </Flex>
 );
 
-// Main wrapper component with Suspense boundary
 const PaymentSuccessWrapper = () => {
   return (
     <Suspense fallback={<PaymentSuccessLoading />}>

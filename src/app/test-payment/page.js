@@ -324,7 +324,6 @@ const PaymentTestPage = () => {
 
         <Divider />
 
-        {/* Payment Status Check */}
         <Box>
           <Text fontSize="lg" fontWeight="semibold" mb="4">
             4. Check Payment Status

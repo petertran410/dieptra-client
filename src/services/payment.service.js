@@ -1,10 +1,6 @@
-// src/services/payment.service.js - FIXED Frontend Payment Service
 import { API } from '../utils/API';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-/**
- * Create payment order
- */
 export const useMutateCreatePayment = () => {
   return useMutation({
     mutationFn: async (paymentData) => {
@@ -25,54 +21,43 @@ export const useMutateCreatePayment = () => {
   });
 };
 
-/**
- * FIXED: Enhanced payment status polling with aggressive intervals
- */
 export const useQueryPaymentStatus = (orderId, enabled = false) => {
   const queryKey = ['GET_PAYMENT_STATUS', orderId];
 
   return useQuery({
     queryKey,
     queryFn: async () => {
-      console.log(`🔍 Checking payment status for order: ${orderId}`);
-
       const response = await API.request({
         url: `/api/payment/status/${orderId}`,
         method: 'GET'
       });
 
-      console.log(`💳 Payment status response for ${orderId}:`, response);
       return response;
     },
     enabled: enabled && !!orderId,
 
-    // CRITICAL: Aggressive polling settings
-    refetchInterval: (data) => {
-      // Stop polling if payment is complete or failed
+    refetchInterval: (query) => {
+      const data = query?.state?.data;
+
       if (
         data?.status === 'SUCCESS' ||
         data?.status === 'PAID' ||
         data?.status === 'FAILED' ||
         data?.status === 'CANCELLED'
       ) {
-        console.log(`🛑 Stopping polling for ${orderId} - Final status: ${data.status}`);
         return false;
       }
 
-      console.log(`🔄 Continuing to poll ${orderId} - Current status: ${data?.status || 'UNKNOWN'}`);
       return 2000;
     },
 
-    refetchIntervalInBackground: true, // Keep polling even if window is not focused
-    staleTime: 0, // Always fetch fresh data
-    cacheTime: 0, // Don't cache payment status
-    retry: 3, // Retry failed requests
-    retryDelay: 1000, // Wait 1 second between retries
+    refetchIntervalInBackground: true,
+    staleTime: 0,
+    cacheTime: 0,
+    retry: 3,
+    retryDelay: 1000,
 
     onSuccess: (data) => {
-      console.log(`✅ Payment status poll success for ${orderId}:`, data);
-
-      // Log status changes
       if (data?.status === 'SUCCESS' || data?.status === 'PAID') {
         console.log(`🎉 PAYMENT SUCCESSFUL for order ${orderId}!`);
       }
@@ -84,26 +69,6 @@ export const useQueryPaymentStatus = (orderId, enabled = false) => {
   });
 };
 
-/**
- * Manual payment status check (for debugging)
- */
-export const useManualPaymentCheck = () => {
-  return useMutation({
-    mutationFn: async (orderId) => {
-      console.log(`🔍 Manual payment check for: ${orderId}`);
-
-      const response = await API.request({
-        url: `/api/payment/status/${orderId}`,
-        method: 'GET'
-      });
-
-      console.log(`💳 Manual check result:`, response);
-      return response;
-    }
-  });
-};
-
-// Other existing hooks remain the same...
 export const useQueryPaymentMethods = () => {
   const queryKey = ['GET_PAYMENT_METHODS'];
 
