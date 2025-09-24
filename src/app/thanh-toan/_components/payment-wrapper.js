@@ -38,8 +38,7 @@ import {
   Radio,
   RadioGroup,
   Stack,
-  Badge,
-  Code
+  Select
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useRef, useMemo } from 'react';
@@ -51,7 +50,6 @@ const PaymentWrapper = () => {
   const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
   const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
 
-  // Payment states
   const [customerInfo, setCustomerInfo] = useState({
     fullName: '',
     email: '',
@@ -59,32 +57,33 @@ const PaymentWrapper = () => {
     address: '',
     note: ''
   });
+
+  const [provinces, setProvinces] = useState([]);
+  const [selectedProvince, setSelectedProvince] = useState('');
+  const [selectedWard, setSelectedWard] = useState('');
+  const [wards, setWards] = useState([]);
+
   const [paymentMethod, setPaymentMethod] = useState('sepay_bank');
   const [currentOrderId, setCurrentOrderId] = useState(null);
   const [paymentUrl, setPaymentUrl] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState('');
 
-  // Debug states
   const [debugInfo, setDebugInfo] = useState([]);
   const [pollCount, setPollCount] = useState(0);
   const pollCountRef = useRef(0);
   const [lastStatusCheck, setLastStatusCheck] = useState(null);
 
-  // API hooks
   const { mutateAsync: createPayment, isPending: creatingPayment } = useMutateCreatePayment();
   const { mutateAsync: manualCheck, isPending: checkingManually } = useManualPaymentCheck();
 
-  // CRITICAL: Enhanced polling with debug info
   const {
     data: paymentStatus,
     isLoading: checkingStatus,
     error: statusError
   } = useQueryPaymentStatus(currentOrderId, !!currentOrderId);
 
-  // Modal controls
   const { isOpen: isPaymentModalOpen, onOpen: onOpenPaymentModal, onClose: onClosePaymentModal } = useDisclosure();
 
-  // Debug function to add timestamped logs
   const addDebugLog = (message, data = null) => {
     const timestamp = new Date().toLocaleTimeString();
     const logEntry = {
@@ -95,6 +94,34 @@ const PaymentWrapper = () => {
     };
 
     setDebugInfo((prev) => [...prev.slice(-10), logEntry]);
+  };
+
+  useEffect(() => {
+    const loadProvinces = async () => {
+      try {
+        const response = await fetch('https://cdn.jsdelivr.net/gh/giaodienblog/cdn@master/provinces-database.json');
+        const data = await response.json();
+        setProvinces(data);
+      } catch (error) {
+        console.error('Lỗi khi tải dữ liệu tỉnh/thành:', error);
+      }
+    };
+    loadProvinces();
+  }, []);
+
+  const handleProvinceChange = (provinceCode) => {
+    setSelectedProvince(provinceCode);
+    setSelectedWard('');
+    setWards([]);
+
+    const province = provinces.find((p) => (p.Code || p.code) === provinceCode);
+    if (province && province.Wards) {
+      setWards(province.Wards);
+    }
+  };
+
+  const handleWardChange = (wardCode) => {
+    setSelectedWard(wardCode);
   };
 
   useEffect(() => {
@@ -110,7 +137,6 @@ const PaymentWrapper = () => {
         success: paymentStatus.success
       });
 
-      // Check for successful payment
       if (paymentStatus.status === 'SUCCESS' || paymentStatus.status === 'PAID') {
         addDebugLog('🎉 PAYMENT SUCCESSFUL!', paymentStatus);
 
@@ -183,8 +209,16 @@ const PaymentWrapper = () => {
       showToast({ status: 'error', content: 'Vui lòng nhập email' });
       return false;
     }
+    if (!selectedProvince) {
+      showToast({ status: 'error', content: 'Vui lòng chọn tỉnh/thành phố' });
+      return false;
+    }
+    if (!selectedWard) {
+      showToast({ status: 'error', content: 'Vui lòng chọn phường/xã' });
+      return false;
+    }
     if (!address.trim()) {
-      showToast({ status: 'error', content: 'Vui lòng nhập địa chỉ' });
+      showToast({ status: 'error', content: 'Vui lòng nhập địa chỉ chi tiết' });
       return false;
     }
 
@@ -248,7 +282,26 @@ const PaymentWrapper = () => {
 
       addDebugLog('📤 Sending payment data', paymentData);
 
-      const response = await createPayment(paymentData);
+      const province = provinces.find((p) => (p.Code || p.code) === selectedProvince);
+      const ward = wards.find((w) => (w.Code || w.code) === selectedWard);
+      const provinceName = province ? province.FullName || province.Name || province.name : '';
+      const wardName = ward ? ward.FullName || ward.Name || ward.name : '';
+
+      const response = await createPayment({
+        customerInfo: {
+          ...customerInfo,
+          detailedAddress: customerInfo.address,
+          provinceDistrict: provinceName,
+          ward: wardName
+        },
+        cartItems,
+        paymentMethod,
+        amounts: {
+          subtotal: calculateSubtotal(),
+          shipping: calculateShipping(),
+          total: calculateTotal()
+        }
+      });
 
       addDebugLog('📥 Payment creation response', response);
 
@@ -257,7 +310,6 @@ const PaymentWrapper = () => {
         setPaymentUrl(response.paymentUrl || '');
         setQrCodeUrl(response.qrCodeUrl || '');
 
-        // Reset debug counters
         setPollCount(0);
         pollCountRef.current = 0;
         setDebugInfo([]);
@@ -292,28 +344,6 @@ const PaymentWrapper = () => {
     }
   };
 
-  // Manual status check for debugging
-  const handleManualCheck = async () => {
-    if (!currentOrderId) return;
-
-    try {
-      addDebugLog('🔍 Manual status check triggered');
-      const result = await manualCheck(currentOrderId);
-      addDebugLog('📋 Manual check result', result);
-      showToast({
-        status: 'info',
-        content: `Status: ${result.status}`
-      });
-    } catch (error) {
-      addDebugLog('❌ Manual check failed', error);
-      showToast({
-        status: 'error',
-        content: 'Lỗi kiểm tra trạng thái'
-      });
-    }
-  };
-
-  // Redirect if cart is empty
   useEffect(() => {
     if (!loadingProducts && cart.length === 0) {
       showToast({
@@ -391,12 +421,60 @@ const PaymentWrapper = () => {
                 </FormControl>
               </HStack>
 
-              <FormControl isRequired>
-                <FormLabel>Địa chỉ giao hàng</FormLabel>
+              <HStack width="100%" spacing="4">
+                <FormControl isRequired flex="1">
+                  <FormLabel>Tỉnh/Thành phố</FormLabel>
+                  <Select
+                    value={selectedProvince}
+                    onChange={(e) => handleProvinceChange(e.target.value)}
+                    placeholder="-- Chọn tỉnh/thành --"
+                  >
+                    {provinces.map((province) => {
+                      const code = province.Code || province.code;
+                      const name = province.Name || province.FullName || province.name;
+                      const MUNICIPALITIES = ['Hà Nội', 'Hồ Chí Minh', 'Hải Phòng', 'Đà Nẵng', 'Cần Thơ', 'Huế'];
+                      const isCity = MUNICIPALITIES.some((c) => name.toLowerCase().includes(c.toLowerCase()));
+                      const displayName = (isCity ? 'Thành phố ' : 'Tỉnh ') + name;
+
+                      return (
+                        <option key={code} value={code}>
+                          {displayName}
+                        </option>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+
+                <FormControl isRequired flex="1">
+                  <FormLabel>Phường/Xã</FormLabel>
+                  <Select
+                    value={selectedWard}
+                    onChange={(e) => setSelectedWard(e.target.value)}
+                    placeholder="-- Chọn phường/xã --"
+                    disabled={!selectedProvince}
+                  >
+                    {wards.map((ward) => {
+                      const code = ward.Code || ward.code;
+                      const name = ward.Name || ward.FullName || ward.name;
+                      const shortName = ward.AdministrativeUnitShortName;
+                      const displayName = shortName ? `${shortName} ${name}` : name;
+
+                      return (
+                        <option key={code} value={code}>
+                          {displayName}
+                        </option>
+                      );
+                    })}
+                  </Select>
+                </FormControl>
+              </HStack>
+
+              <FormControl>
+                <FormLabel>Địa chỉ chi tiết</FormLabel>
                 <Textarea
                   value={customerInfo.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
-                  placeholder="Nhập địa chỉ chi tiết"
+                  placeholder="Số nhà, tên đường, ngõ/hẻm..."
                   rows="3"
                 />
               </FormControl>
