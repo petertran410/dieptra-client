@@ -46,7 +46,7 @@ const PaymentWrapper = () => {
   const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
   const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
 
-  const customerInfo = useRef({
+  const customerInfoRef = useRef({
     fullName: '',
     email: '',
     phone: '',
@@ -150,16 +150,19 @@ const PaymentWrapper = () => {
     }
   }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId]);
 
-  const handleProvinceChange = (provinceCode) => {
-    setSelectedProvince(provinceCode);
-    setSelectedWard('');
-    setWards([]);
+  const handleProvinceChange = useCallback(
+    (provinceCode) => {
+      setSelectedProvince(provinceCode);
+      setSelectedWard('');
+      setWards([]);
 
-    const province = provinces.find((p) => (p.Code || p.code) === provinceCode);
-    if (province && province.Wards) {
-      setWards(province.Wards);
-    }
-  };
+      const province = provinces.find((p) => (p.Code || p.code) === provinceCode);
+      if (province && province.Wards) {
+        setWards(province.Wards);
+      }
+    },
+    [provinces]
+  );
 
   const calculateSubtotal = () => {
     return cartData.reduce((total, product) => {
@@ -180,13 +183,14 @@ const PaymentWrapper = () => {
 
   const handleInputChange = useCallback(
     (field) => (e) => {
-      customerInfo.current[field] = e.target.value;
+      const value = e.target.value;
+      customerInfoRef.current[field] = value;
     },
     []
   );
 
   const validateForm = () => {
-    const { fullName, email, phone, address } = customerInfo.current;
+    const { fullName, email, phone, address } = customerInfoRef.current;
 
     if (!fullName.trim()) {
       showToast({ status: 'error', content: 'Vui lòng nhập họ tên' });
@@ -208,10 +212,10 @@ const PaymentWrapper = () => {
       showToast({ status: 'error', content: 'Vui lòng chọn phường/xã' });
       return false;
     }
-    if (!address.trim()) {
-      showToast({ status: 'error', content: 'Vui lòng nhập địa chỉ chi tiết' });
-      return false;
-    }
+    // if (!address.trim()) {
+    //   showToast({ status: 'error', content: 'Vui lòng nhập địa chỉ chi tiết' });
+    //   return false;
+    // }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -259,6 +263,21 @@ const PaymentWrapper = () => {
           return;
         }
       }
+
+      const selectedProvinceName =
+        provinces.find((p) => (p.Code || p.code) === selectedProvince)?.Name || selectedProvince;
+      const selectedWardName = wards.find((w) => (w.Code || w.code) === selectedWard)?.Name || selectedWard;
+
+      const customerInfo = {
+        fullName: customerInfoRef.current.fullName,
+        email: customerInfoRef.current.email,
+        phone: customerInfoRef.current.phone,
+        address: customerInfoRef.current.address,
+        detailedAddress: customerInfoRef.current.address,
+        provinceDistrict: selectedProvinceName,
+        ward: selectedWardName,
+        note: customerInfoRef.current.note || ''
+      };
 
       const paymentData = {
         customerInfo,
