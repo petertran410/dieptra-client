@@ -348,7 +348,8 @@ const PaymentWrapper = () => {
         phone: customerInfoRef.current.phone || '',
         address: customerInfoRef.current.address || '',
         detailedAddress: customerInfoRef.current.address || '',
-        provinceDistrict: `${provinceName}, ${districtName}`,
+        province: provinceName,
+        district: districtName,
         ward: wardName,
         note: customerInfoRef.current.note || ''
       };
