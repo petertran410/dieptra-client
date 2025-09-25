@@ -58,6 +58,8 @@ const PaymentWrapper = () => {
   const [selectedProvince, setSelectedProvince] = useState('');
   const [selectedWard, setSelectedWard] = useState('');
   const [wards, setWards] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState('');
+  const [districts, setDistricts] = useState([]);
 
   const [paymentMethod, setPaymentMethod] = useState('sepay_bank');
   const [currentOrderId, setCurrentOrderId] = useState(null);
@@ -94,7 +96,9 @@ const PaymentWrapper = () => {
   useEffect(() => {
     const loadProvinces = async () => {
       try {
-        const response = await fetch('https://cdn.jsdelivr.net/gh/giaodienblog/cdn@master/provinces-database.json');
+        const response = await fetch(
+          'https://raw.githubusercontent.com/giaodienblog/provinces/refs/heads/main/district.json'
+        );
         const data = await response.json();
         setProvinces(data);
       } catch (error) {
@@ -176,16 +180,37 @@ const PaymentWrapper = () => {
 
   const handleProvinceChange = useCallback(
     (provinceCode) => {
-      setSelectedProvince(provinceCode);
+      const code = parseInt(provinceCode);
+      setSelectedProvince(code);
+      setSelectedDistrict('');
       setSelectedWard('');
+      setDistricts([]);
       setWards([]);
 
-      const province = provinces.find((p) => (p.Code || p.code) === provinceCode);
-      if (province && province.Wards) {
-        setWards(province.Wards);
+      const province = provinces.find((p) => p.code === code);
+      if (province && province.districts) {
+        setDistricts(province.districts);
       }
     },
     [provinces]
+  );
+
+  const handleDistrictChange = useCallback(
+    (districtCode) => {
+      const code = parseInt(districtCode);
+      setSelectedDistrict(code);
+      setSelectedWard('');
+      setWards([]);
+
+      const province = provinces.find((p) => p.code === selectedProvince);
+      if (province && province.districts) {
+        const district = province.districts.find((d) => d.code === code);
+        if (district && district.wards) {
+          setWards(district.wards);
+        }
+      }
+    },
+    [provinces, selectedProvince]
   );
 
   const calculateSubtotal = () => {
@@ -232,24 +257,18 @@ const PaymentWrapper = () => {
       showToast({ status: 'error', content: 'Vui lòng chọn tỉnh/thành phố' });
       return false;
     }
+    if (!selectedDistrict) {
+      showToast({ status: 'error', content: 'Vui lòng chọn quận/huyện' });
+      return false;
+    }
     if (!selectedWard) {
       showToast({ status: 'error', content: 'Vui lòng chọn phường/xã' });
       return false;
     }
-    // if (!address.trim()) {
-    //   showToast({ status: 'error', content: 'Vui lòng nhập địa chỉ chi tiết' });
-    //   return false;
-    // }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       showToast({ status: 'error', content: 'Email không hợp lệ' });
-      return false;
-    }
-
-    const phoneRegex = /^[0-9]{10,11}$/;
-    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
-      showToast({ status: 'error', content: 'Số điện thoại không hợp lệ' });
       return false;
     }
 
@@ -315,11 +334,13 @@ const PaymentWrapper = () => {
         }
       }
 
-      const province = provinces.find((p) => (p.Code || p.code) === selectedProvince);
-      const ward = wards.find((w) => (w.Code || w.code) === selectedWard);
+      const province = provinces.find((p) => p.code === selectedProvince);
+      const district = districts.find((d) => d.code === selectedDistrict);
+      const ward = wards.find((w) => w.code === selectedWard);
 
-      const provinceName = province ? province.FullName || province.Name || province.name : selectedProvince;
-      const wardName = ward ? ward.FullName || ward.Name || ward.name : selectedWard;
+      const provinceName = province ? province.name : '';
+      const districtName = district ? district.name : '';
+      const wardName = ward ? ward.name : '';
 
       const finalCustomerInfo = {
         fullName: customerInfoRef.current.fullName || '',
@@ -327,8 +348,8 @@ const PaymentWrapper = () => {
         phone: customerInfoRef.current.phone || '',
         address: customerInfoRef.current.address || '',
         detailedAddress: customerInfoRef.current.address || '',
-        provinceDistrict: provinceName || '',
-        ward: wardName || '',
+        provinceDistrict: `${provinceName}, ${districtName}`,
+        ward: wardName,
         note: customerInfoRef.current.note || ''
       };
 
@@ -463,15 +484,9 @@ const PaymentWrapper = () => {
                     placeholder="-- Chọn tỉnh/thành --"
                   >
                     {provinces.map((province) => {
-                      const code = province.Code || province.code;
-                      const name = province.Name || province.FullName || province.name;
-                      const MUNICIPALITIES = ['Hà Nội', 'Hồ Chí Minh', 'Hải Phòng', 'Đà Nẵng', 'Cần Thơ', 'Huế'];
-                      const isCity = MUNICIPALITIES.some((c) => name.toLowerCase().includes(c.toLowerCase()));
-                      const displayName = (isCity ? 'Thành phố ' : 'Tỉnh ') + name;
-
                       return (
-                        <option key={code} value={code}>
-                          {displayName}
+                        <option key={province.code} value={province.code}>
+                          {province.name}
                         </option>
                       );
                     })}
@@ -479,28 +494,41 @@ const PaymentWrapper = () => {
                 </FormControl>
 
                 <FormControl isRequired flex="1">
-                  <FormLabel>Phường/Xã</FormLabel>
+                  <FormLabel>Quận/Huyện</FormLabel>
                   <Select
-                    value={selectedWard}
-                    onChange={(e) => setSelectedWard(e.target.value)}
-                    placeholder="-- Chọn phường/xã --"
+                    value={selectedDistrict}
+                    onChange={(e) => handleDistrictChange(e.target.value)}
+                    placeholder="-- Chọn quận/huyện --"
                     disabled={!selectedProvince}
                   >
-                    {wards.map((ward) => {
-                      const code = ward.Code || ward.code;
-                      const name = ward.Name || ward.FullName || ward.name;
-                      const shortName = ward.AdministrativeUnitShortName;
-                      const displayName = shortName ? `${shortName} ${name}` : name;
-
+                    {districts.map((district) => {
                       return (
-                        <option key={code} value={code}>
-                          {displayName}
+                        <option key={district.code} value={district.code}>
+                          {district.name}
                         </option>
                       );
                     })}
                   </Select>
                 </FormControl>
               </HStack>
+
+              <FormControl isRequired>
+                <FormLabel>Phường/Xã</FormLabel>
+                <Select
+                  value={selectedWard}
+                  onChange={(e) => setSelectedWard(parseInt(e.target.value))}
+                  placeholder="-- Chọn phường/xã --"
+                  disabled={!selectedDistrict}
+                >
+                  {wards.map((ward) => {
+                    return (
+                      <option key={ward.code} value={ward.code}>
+                        {ward.name}
+                      </option>
+                    );
+                  })}
+                </Select>
+              </FormControl>
 
               <FormControl>
                 <FormLabel>Địa chỉ chi tiết</FormLabel>
