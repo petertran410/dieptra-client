@@ -267,15 +267,42 @@ const PaymentWrapper = () => {
     try {
       addDebugLog('Starting payment creation...');
 
-      const cartItems = cart.map((item) => {
-        const product = cartData.find((p) => p.slug === item.slug);
-        return {
-          productId: Number(item.id),
-          quantity: item.quantity,
-          price: product?.price || 0,
-          title: product?.title || ''
-        };
-      });
+      const cartItems = cart
+        .map((item) => {
+          const product = cartData.find((p) => p.slug === item.slug);
+
+          if (!product) {
+            console.warn(`Product not found for slug: ${item.slug}`);
+            return null;
+          }
+
+          return {
+            productId: Number(product.id),
+            quantity: Number(item.quantity) || 1,
+            price: Number(product.price) || 0,
+            title: product.title || product.kiotviet_name || `Sản phẩm #${product.id}`
+          };
+        })
+        .filter(Boolean);
+
+      if (cartItems.length === 0) {
+        showToast({
+          status: 'error',
+          content: 'Không có sản phẩm hợp lệ trong giỏ hàng'
+        });
+        return;
+      }
+
+      const invalidItems = cartItems.filter((item) => !item.productId || isNaN(item.productId));
+      if (invalidItems.length > 0) {
+        showToast({
+          status: 'error',
+          content: 'Một số sản phẩm không có mã sản phẩm hợp lệ'
+        });
+        return;
+      }
+
+      addDebugLog('📦 Valid cart items:', cartItems);
 
       if (paymentMethod !== 'cod') {
         const invalidProducts = cartItems.filter((item) => !item.price || item.price === 0);
