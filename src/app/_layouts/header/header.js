@@ -260,7 +260,7 @@ const Header = () => {
                 <Flex align="center" gap="8px" cursor="pointer" p="8px" borderRadius="8px" _hover={{ bg: 'gray.50' }}>
                   <UserIcon w="20px" h="20px" color="#065FD4" />
                   <Text fontSize="14px" fontWeight={500} color="#333">
-                    {user.fullName}
+                    {user.full_name || user.fullName}
                   </Text>
                 </Flex>
               </MenuButton>

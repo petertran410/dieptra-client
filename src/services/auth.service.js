@@ -5,9 +5,14 @@ import { CK_CLIENT_TOKEN, CK_CLIENT_USER } from '../utils/const';
 export const authService = {
   register: async (data) => {
     const response = await API.request({
-      url: '/client-auth/register',
+      url: '/api/client-auth/register',
       method: 'POST',
-      params: data
+      params: {
+        full_name: data.fullName,
+        email: data.email,
+        phone: data.phone,
+        pass_word: data.pass_word
+      }
     });
 
     if (response.access_token) {
@@ -19,7 +24,7 @@ export const authService = {
 
   login: async (data) => {
     const response = await API.request({
-      url: '/client-auth/login',
+      url: '/api/client-auth/login',
       method: 'POST',
       params: data
     });
@@ -34,7 +39,7 @@ export const authService = {
   checkAuth: async () => {
     try {
       const response = await API.request({
-        url: '/client-auth/check-auth',
+        url: '/api/client-auth/check-auth',
         method: 'GET'
       });
 
@@ -52,7 +57,7 @@ export const authService = {
   logout: async () => {
     try {
       await API.request({
-        url: '/client-auth/logout',
+        url: '/api/client-auth/logout',
         method: 'POST'
       });
     } catch (error) {

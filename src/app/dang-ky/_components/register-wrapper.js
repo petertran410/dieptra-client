@@ -24,6 +24,7 @@ const RegisterWrapper = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
+    phone: '',
     pass_word: '',
     confirmPassword: ''
   });
@@ -48,6 +49,12 @@ const RegisterWrapper = () => {
       newErrors.email = 'Email không được để trống';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = 'Email không hợp lệ';
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Số điện thoại không được để trống';
+    } else if (!/^[0-9]{10,11}$/.test(formData.phone.replace(/\s/g, ''))) {
+      newErrors.phone = 'Số điện thoại không hợp lệ (10-11 số)';
     }
 
     if (!formData.pass_word) {
@@ -130,6 +137,17 @@ const RegisterWrapper = () => {
                   placeholder="Nhập email"
                 />
                 <FormErrorMessage>{errors.email}</FormErrorMessage>
+              </FormControl>
+
+              <FormControl isInvalid={!!errors.phone}>
+                <FormLabel>Số điện thoại</FormLabel>
+                <Input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => handleChange('phone', e.target.value)}
+                  placeholder="Nhập số điện thoại"
+                />
+                <FormErrorMessage>{errors.phone}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.pass_word}>
