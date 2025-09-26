@@ -222,19 +222,6 @@ const PaymentWrapper = () => {
     }
   }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId, isAuthenticated]);
 
-  if (authLoading) {
-    return (
-      <Flex justify="center" align="center" minH="60vh" direction="column">
-        <Spinner size="lg" color="blue.500" mb="4" />
-        <Text>Đang kiểm tra đăng nhập...</Text>
-      </Flex>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return null;
-  }
-
   const handleProvinceChange = useCallback(
     (provinceCode) => {
       const code = parseInt(provinceCode);
@@ -486,6 +473,19 @@ const PaymentWrapper = () => {
         </Button>
       </Flex>
     );
+  }
+
+  if (authLoading) {
+    return (
+      <Flex justify="center" align="center" minH="60vh" direction="column">
+        <Spinner size="lg" color="blue.500" mb="4" />
+        <Text>Đang kiểm tra đăng nhập...</Text>
+      </Flex>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
   }
 
   return (

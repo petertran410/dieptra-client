@@ -27,6 +27,7 @@ import { useEffect, useState } from 'react';
 import CartHeader from './_components/cart-header';
 import CartHeaderMobile from './_components/cart-header-mobile';
 import { authService } from '../../../services/auth.service';
+import { showToast } from '../../../utils/helper';
 
 const UserIcon = (props) => (
   <Icon viewBox="0 0 24 24" {...props}>
