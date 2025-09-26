@@ -107,7 +107,21 @@ const Header = () => {
   const handleLogout = async () => {
     await authService.logout();
     setUser(null);
-    router.refresh();
+
+    const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang'];
+    const currentPath = window.location.pathname;
+
+    const isOnProtectedPage = protectedPages.some((page) => currentPath.startsWith(page));
+
+    if (isOnProtectedPage) {
+      showToast({
+        status: 'info',
+        content: 'Đã đăng xuất thành công.'
+      });
+      router.push('/');
+    } else {
+      router.refresh();
+    }
   };
 
   return (

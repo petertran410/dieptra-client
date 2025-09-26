@@ -5,6 +5,7 @@ import { useMutateCreatePayment, useQueryPaymentStatus } from '../../../services
 import { cartAtom } from '../../../states/common';
 import { PX_ALL, IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
+import { authService } from '../../../services/auth.service';
 import { formatCurrency } from '../../../utils/helper-server';
 import {
   Box,
@@ -45,6 +46,9 @@ const PaymentWrapper = () => {
   const [cart, setCart] = useRecoilState(cartAtom);
   const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
   const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
+
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
 
   const customerInfoRef = useRef({
     fullName: '',
@@ -94,6 +98,62 @@ const PaymentWrapper = () => {
   };
 
   useEffect(() => {
+    const checkAuthentication = async () => {
+      setAuthLoading(true);
+
+      const currentUser = authService.getCurrentUser();
+      if (currentUser && currentUser.token) {
+        setIsAuthenticated(true);
+      } else {
+        try {
+          const authCheck = await authService.checkAuth();
+          if (authCheck.isAuthenticated) {
+            setIsAuthenticated(true);
+          } else {
+            router.replace('/dang-nhap?redirect=/thanh-toan');
+            return;
+          }
+        } catch (error) {
+          router.replace('/dang-nhap?redirect=/thanh-toan');
+          return;
+        }
+      }
+
+      setAuthLoading(false);
+    };
+
+    checkAuthentication();
+  }, [router]);
+
+  useEffect(() => {
+    const handleStorageChange = (e) => {
+      if (e.key === 'CK_CLIENT_TOKEN' && !e.newValue) {
+        showToast({
+          status: 'warning',
+          content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'
+        });
+        router.replace('/dang-nhap?redirect=/thanh-toan');
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, [router]);
+
+  if (authLoading) {
+    return (
+      <Flex justify="center" align="center" minH="60vh" direction="column">
+        <Spinner size="lg" color="blue.500" mb="4" />
+        <Text>Đang kiểm tra đăng nhập...</Text>
+      </Flex>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  useEffect(() => {
     const loadProvinces = async () => {
       try {
         const response = await fetch(
@@ -109,7 +169,7 @@ const PaymentWrapper = () => {
   }, []);
 
   useEffect(() => {
-    if (paymentStatus) {
+    if (paymentStatus && isAuthenticated) {
       pollCountRef.current += 1;
       setPollCount(pollCountRef.current);
       setLastStatusCheck(new Date().toLocaleTimeString());
@@ -176,7 +236,7 @@ const PaymentWrapper = () => {
     if (statusError) {
       addDebugLog('❌ Status Check Error', statusError);
     }
-  }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId]);
+  }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId, isAuthenticated]);
 
   const handleProvinceChange = useCallback(
     (provinceCode) => {
