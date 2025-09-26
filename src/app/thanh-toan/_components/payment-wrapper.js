@@ -85,7 +85,7 @@ const PaymentWrapper = () => {
 
   const { isOpen: isPaymentModalOpen, onOpen: onOpenPaymentModal, onClose: onClosePaymentModal } = useDisclosure();
 
-  const addDebugLog = (message, data = null) => {
+  const addDebugLog = useCallback((message, data = null) => {
     const timestamp = new Date().toLocaleTimeString();
     const logEntry = {
       timestamp,
@@ -93,9 +93,8 @@ const PaymentWrapper = () => {
       data,
       id: Date.now()
     };
-
     setDebugInfo((prev) => [...prev.slice(-10), logEntry]);
-  };
+  }, []);
 
   useEffect(() => {
     const checkAuthentication = async () => {
@@ -139,19 +138,6 @@ const PaymentWrapper = () => {
     window.addEventListener('storage', handleStorageChange);
     return () => window.removeEventListener('storage', handleStorageChange);
   }, [router]);
-
-  if (authLoading) {
-    return (
-      <Flex justify="center" align="center" minH="60vh" direction="column">
-        <Spinner size="lg" color="blue.500" mb="4" />
-        <Text>Đang kiểm tra đăng nhập...</Text>
-      </Flex>
-    );
-  }
-
-  if (!isAuthenticated) {
-    return null;
-  }
 
   useEffect(() => {
     const loadProvinces = async () => {
@@ -212,8 +198,6 @@ const PaymentWrapper = () => {
         }
 
         const successUrl = `/thanh-toan/success?${successParams.toString()}`;
-        addDebugLog('Redirecting to success page', { url: successUrl });
-
         router.push(successUrl);
 
         showToast({
@@ -237,6 +221,19 @@ const PaymentWrapper = () => {
       addDebugLog('❌ Status Check Error', statusError);
     }
   }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId, isAuthenticated]);
+
+  if (authLoading) {
+    return (
+      <Flex justify="center" align="center" minH="60vh" direction="column">
+        <Spinner size="lg" color="blue.500" mb="4" />
+        <Text>Đang kiểm tra đăng nhập...</Text>
+      </Flex>
+    );
+  }
+
+  if (!isAuthenticated) {
+    return null;
+  }
 
   const handleProvinceChange = useCallback(
     (provinceCode) => {
