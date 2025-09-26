@@ -145,7 +145,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                       onChange={(valueString, valueNumber) => setQuantity(valueNumber)}
                       min={1}
                       max={999}
-                      maxW="120px"
+                      maxW="90px"
                       size="lg"
                     >
                       <NumberInputField />
@@ -157,18 +157,29 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                   </HStack>
 
                   <Flex justify="space-evenly" gap={4}>
-                    <AddCart
+                    {/* <AddCart
                       price={price}
                       productSlug={slug}
                       productId={productDetail.id}
                       title={title}
                       quantity={quantity}
-                    />
+                    /> */}
+                    <Button
+                      size="lg"
+                      // w="full"
+                      variant="outline"
+                      bgColor="yellow.300"
+                      color="black"
+                      _hover={{ bg: 'green', color: 'white' }}
+                      fontWeight="600"
+                    >
+                      Mua Hàng
+                    </Button>
 
                     <Link href="/lien-he">
                       <Button
                         size="lg"
-                        w="full"
+                        // w="full"
                         variant="outline"
                         bgColor="#3970A7"
                         color="white"
