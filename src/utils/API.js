@@ -1,4 +1,3 @@
-// src/utils/API.js - Updated API configuration for dieptra-client
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { CK_TOKEN } from './const';

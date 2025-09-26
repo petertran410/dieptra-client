@@ -11,22 +11,34 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
+  Icon,
   Image,
   Text,
   useDisclosure,
   VStack
 } from '@chakra-ui/react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import CartHeader from './_components/cart-header';
 import CartHeaderMobile from './_components/cart-header-mobile';
 
+const UserIcon = (props) => (
+  <Icon viewBox="0 0 24 24" {...props}>
+    <path
+      fill="currentColor"
+      d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+    />
+  </Icon>
+);
+
 const Header = () => {
   const pathname = usePathname();
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(null);
+  const [user, setUser] = useState(null);
   const isTransparent = pathname === '/' || pathname === '/lien-he';
 
   const { categories: productCategories } = useProductCategories();
@@ -70,6 +82,28 @@ const Header = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const currentUser = authService.getCurrentUser();
+      if (currentUser) {
+        setUser(currentUser.user);
+      } else {
+        const authCheck = await authService.checkAuth();
+        if (authCheck.isAuthenticated) {
+          setUser(authCheck.user);
+        }
+      }
+    };
+
+    checkAuth();
+  }, [pathname]);
+
+  const handleLogout = async () => {
+    await authService.logout();
+    setUser(null);
+    router.refresh();
+  };
 
   return (
     <Box>
@@ -215,8 +249,36 @@ const Header = () => {
           })}
         </Flex>
 
-        {/* CART HEADER */}
-        {/* <CartHeader /> */}
+        {/* RIGHT SECTION - Cart + Auth */}
+        <Flex align="center" gap="16px">
+          <CartHeader />
+
+          {/* Auth Section */}
+          {user ? (
+            <Menu>
+              <MenuButton>
+                <Flex align="center" gap="8px" cursor="pointer" p="8px" borderRadius="8px" _hover={{ bg: 'gray.50' }}>
+                  <UserIcon w="20px" h="20px" color="#065FD4" />
+                  <Text fontSize="14px" fontWeight={500} color="#333">
+                    {user.fullName}
+                  </Text>
+                </Flex>
+              </MenuButton>
+              <MenuList>
+                <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+              </MenuList>
+            </Menu>
+          ) : (
+            <Link href="/dang-nhap">
+              <Flex align="center" gap="8px" cursor="pointer" p="8px" borderRadius="8px" _hover={{ bg: 'gray.50' }}>
+                <UserIcon w="20px" h="20px" color="#065FD4" />
+                <Text fontSize="14px" fontWeight={500} color="#333">
+                  Đăng nhập
+                </Text>
+              </Flex>
+            </Link>
+          )}
+        </Flex>
       </Flex>
 
       <Flex

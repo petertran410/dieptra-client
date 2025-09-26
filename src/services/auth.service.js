@@ -1,0 +1,71 @@
+import { API } from '../utils/API';
+import Cookies from 'js-cookie';
+import { CK_CLIENT_TOKEN, CK_CLIENT_USER } from '../utils/const';
+
+export const authService = {
+  register: async (data) => {
+    const response = await API.request({
+      url: '/client-auth/register',
+      method: 'POST',
+      params: data
+    });
+
+    if (response.access_token) {
+      Cookies.set(CK_CLIENT_TOKEN, response.access_token, { expires: 7 });
+      Cookies.set(CK_CLIENT_USER, JSON.stringify(response.user), { expires: 7 });
+    }
+    return response;
+  },
+
+  login: async (data) => {
+    const response = await API.request({
+      url: '/client-auth/login',
+      method: 'POST',
+      params: data
+    });
+
+    if (response.access_token) {
+      Cookies.set(CK_CLIENT_TOKEN, response.access_token, { expires: 7 });
+      Cookies.set(CK_CLIENT_USER, JSON.stringify(response.user), { expires: 7 });
+    }
+    return response;
+  },
+
+  checkAuth: async () => {
+    try {
+      const response = await API.request({
+        url: '/client-auth/check-auth',
+        method: 'GET'
+      });
+
+      if (response.authenticated && response.access_token) {
+        Cookies.set(CK_CLIENT_TOKEN, response.access_token, { expires: 7 });
+        Cookies.set(CK_CLIENT_USER, JSON.stringify(response.user), { expires: 7 });
+        return { isAuthenticated: true, user: response.user };
+      }
+      return { isAuthenticated: false };
+    } catch (error) {
+      return { isAuthenticated: false };
+    }
+  },
+
+  logout: async () => {
+    try {
+      await API.request({
+        url: '/client-auth/logout',
+        method: 'POST'
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      Cookies.remove(CK_CLIENT_TOKEN);
+      Cookies.remove(CK_CLIENT_USER);
+    }
+  },
+
+  getCurrentUser: () => {
+    const token = Cookies.get(CK_CLIENT_TOKEN);
+    const user = Cookies.get(CK_CLIENT_USER);
+    return token && user ? { token, user: JSON.parse(user) } : null;
+  }
+};

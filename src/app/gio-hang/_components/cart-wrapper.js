@@ -50,7 +50,7 @@ const CartWrapper = () => {
   };
 
   // Handle payment navigation
-  const handlePayment = () => {
+  const handlePayment = async () => {
     if (cart.length === 0) {
       showToast({
         status: 'error',
@@ -67,6 +67,17 @@ const CartWrapper = () => {
         status: 'error',
         content: 'Một số sản phẩm trong giỏ hàng không còn tồn tại.'
       });
+      return;
+    }
+
+    // Check authentication
+    const authCheck = await authService.checkAuth();
+    if (!authCheck.isAuthenticated) {
+      showToast({
+        status: 'warning',
+        content: 'Vui lòng đăng nhập để tiếp tục thanh toán.'
+      });
+      router.push('/dang-nhap?redirect=/thanh-toan');
       return;
     }
 

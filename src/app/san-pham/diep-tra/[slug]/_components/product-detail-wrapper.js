@@ -164,14 +164,14 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                   </HStack>
 
                   <Flex justify="space-evenly" gap={4}>
-                    {/* <AddCart
+                    <AddCart
                       price={price}
                       productSlug={slug}
                       productId={productDetail.id}
                       title={title}
                       quantity={quantity}
-                    /> */}
-                    <Button
+                    />
+                    {/* <Button
                       size="lg"
                       // w="full"
                       variant="outline"
@@ -181,7 +181,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                       fontWeight="600"
                     >
                       Mua Hàng
-                    </Button>
+                    </Button> */}
 
                     <Link href="/lien-he">
                       <Button
