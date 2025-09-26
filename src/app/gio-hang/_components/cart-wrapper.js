@@ -14,6 +14,7 @@ import { useEffect, useState, useMemo } from 'react';
 import { useRecoilState } from 'recoil';
 import CartProduct from './cart-product';
 import Image from 'next/image';
+import { authService } from '../../../services/auth.service';
 
 const CartWrapper = () => {
   const [showContact, setShowContact] = useState(false);

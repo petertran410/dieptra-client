@@ -5,7 +5,7 @@ import { CK_CLIENT_TOKEN, CK_CLIENT_USER } from '../utils/const';
 export const authService = {
   register: async (data) => {
     const response = await API.request({
-      url: '/client-auth/register', // Bỏ /api prefix
+      url: '/api/client-auth/register', // Bỏ /api prefix
       method: 'POST',
       params: {
         full_name: data.fullName,
@@ -24,7 +24,7 @@ export const authService = {
 
   login: async (data) => {
     const response = await API.request({
-      url: '/client-auth/login', // Bỏ /api prefix
+      url: '/api/client-auth/login', // Bỏ /api prefix
       method: 'POST',
       params: data
     });
@@ -39,7 +39,7 @@ export const authService = {
   checkAuth: async () => {
     try {
       const response = await API.request({
-        url: '/client-auth/check-auth', // Bỏ /api prefix
+        url: '/api/client-auth/check-auth', // Bỏ /api prefix
         method: 'GET'
       });
 
@@ -57,7 +57,7 @@ export const authService = {
   logout: async () => {
     try {
       await API.request({
-        url: '/client-auth/logout', // Bỏ /api prefix
+        url: '/api/client-auth/logout', // Bỏ /api prefix
         method: 'POST'
       });
     } catch (error) {
