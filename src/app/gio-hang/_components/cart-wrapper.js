@@ -50,7 +50,6 @@ const CartWrapper = () => {
     return calculateTotal() + calculateShipping();
   };
 
-  // Handle payment navigation
   const handlePayment = async () => {
     if (cart.length === 0) {
       showToast({
@@ -60,7 +59,6 @@ const CartWrapper = () => {
       return;
     }
 
-    // Validate products có slug
     const missingProducts = cart.filter((cartItem) => !cartData.find((product) => product.slug === cartItem.slug));
 
     if (missingProducts.length > 0) {
@@ -71,18 +69,28 @@ const CartWrapper = () => {
       return;
     }
 
-    // Check authentication
-    const authCheck = await authService.checkAuth();
-    if (!authCheck.isAuthenticated) {
-      showToast({
-        status: 'warning',
-        content: 'Vui lòng đăng nhập để tiếp tục thanh toán.'
-      });
-      router.push('/dang-nhap?redirect=/thanh-toan');
+    const currentUser = authService.getCurrentUser();
+
+    if (currentUser && currentUser.token) {
+      router.push('/thanh-toan');
       return;
     }
 
-    router.push('/thanh-toan');
+    try {
+      const authCheck = await authService.checkAuth();
+      if (authCheck.isAuthenticated) {
+        router.push('/thanh-toan');
+        return;
+      }
+    } catch (error) {
+      console.error('Auth check failed:', error);
+    }
+
+    showToast({
+      status: 'warning',
+      content: 'Vui lòng đăng nhập để tiếp tục thanh toán.'
+    });
+    router.push('/dang-nhap?redirect=/thanh-toan');
   };
 
   useEffect(() => {
