@@ -13,6 +13,10 @@ import {
   Flex,
   Icon,
   Image,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Text,
   useDisclosure,
   VStack
@@ -22,6 +26,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import CartHeader from './_components/cart-header';
 import CartHeaderMobile from './_components/cart-header-mobile';
+import { authService } from '../../../services/auth.service';
 
 const UserIcon = (props) => (
   <Icon viewBox="0 0 24 24" {...props}>
