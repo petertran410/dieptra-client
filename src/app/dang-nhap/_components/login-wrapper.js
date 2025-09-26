@@ -72,7 +72,7 @@ const LoginWrapper = () => {
         content: 'Đăng nhập thành công!'
       });
 
-      router.push(redirectTo);
+      window.location.href = redirectTo;
     } catch (error) {
       showToast({
         status: 'error',

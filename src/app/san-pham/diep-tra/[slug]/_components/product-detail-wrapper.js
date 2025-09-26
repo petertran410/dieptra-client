@@ -94,8 +94,6 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
     return baseBreadcrumb;
   };
 
-  const productImages = getProductImages();
-  console.log(productImages);
   const breadcrumbData = buildBreadcrumbData();
 
   return (

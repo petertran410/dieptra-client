@@ -89,7 +89,7 @@ const RegisterWrapper = () => {
         content: 'Đăng ký thành công!'
       });
 
-      router.push('/');
+      window.location.href = '/';
     } catch (error) {
       showToast({
         status: 'error',
