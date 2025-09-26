@@ -285,6 +285,9 @@ const Header = () => {
                 </Flex>
               </MenuButton>
               <MenuList>
+                <Link href="/profile">
+                  <MenuItem>Thông tin</MenuItem>
+                </Link>
                 <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
               </MenuList>
             </Menu>
