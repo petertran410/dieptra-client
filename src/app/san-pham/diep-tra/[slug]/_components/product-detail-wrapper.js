@@ -34,8 +34,8 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
   const {
     title,
     title_meta,
-    description = '',
-    instruction = '',
+    description,
+    instruction,
     imagesUrl = [],
     price,
     rate,
@@ -117,10 +117,17 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                   {title}
                 </Heading>
 
-                {general_description && (
-                  <Text fontSize="16px" color="gray.600" lineHeight="1.6">
-                    {general_description}
-                  </Text>
+                {description && (
+                  <Box>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: description }}
+                      style={{
+                        textAlign: 'justify',
+                        lineHeight: '1.6'
+                      }}
+                      className="html-content"
+                    />
+                  </Box>
                 )}
 
                 {/* {rate && (
