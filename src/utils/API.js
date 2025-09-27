@@ -46,39 +46,5 @@ export const API = {
       console.error('API Error:', error);
       throw error;
     }
-  },
-
-  upload: (config) => {
-    const { headers, file, url = '/api/file/upload', internalUrl, responseType = 'json' } = config;
-
-    if (!file) {
-      return Promise.resolve(null);
-    }
-
-    const formData = new FormData();
-    formData.append('file', file);
-
-    const baseUrlDefault = process.env.NEXT_PUBLIC_API_DOMAIN;
-
-    const requestConfig = {
-      url: internalUrl || `${baseUrlDefault}${url}`,
-      method: 'POST',
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        ...headers
-      },
-      data: formData,
-      timeout: 20000,
-      timeoutErrorMessage: 'Hệ thống không phản hồi. Vui lòng thử lại sau!',
-      responseType: responseType
-    };
-
-    return axios(requestConfig)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((e) => {
-        return Promise.reject(e?.response?.data || e);
-      });
   }
 };
