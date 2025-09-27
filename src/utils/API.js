@@ -1,39 +1,51 @@
-import axios from 'axios';
 import Cookies from 'js-cookie';
-import { CK_TOKEN } from './const';
+import { CK_CLIENT_TOKEN } from './const';
+
+const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://api.gaulermao.com' : 'http://localhost:8084';
 
 export const API = {
-  request: (config) => {
-    const { baseUrl = process.env.NEXT_PUBLIC_API_DOMAIN, method = 'GET', url, params, headers } = config;
-    const token = Cookies.get(CK_TOKEN);
+  request: async ({ url, method = 'GET', params = {} }) => {
+    try {
+      const token = Cookies.get(CK_CLIENT_TOKEN);
 
-    const requestConfig = {
-      url: `${baseUrl}${url}`,
-      method,
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: token ? `Bearer ${token}` : undefined,
-        ...headers
-      },
-      data: ['POST', 'PATCH', 'PUT'].includes(method) ? params : undefined,
-      params: method === 'GET' ? params : undefined,
-      timeout: 20000,
-      timeoutErrorMessage: 'Hệ thống không phản hồi. Vui lòng thử lại sau!'
-    };
+      const config = {
+        method,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include'
+      };
 
-    return axios(requestConfig)
-      .then((response) => {
-        return response.data;
-      })
-      .catch((e) => {
-        const { status } = e?.response || {};
-        if (status === 401) {
-          Cookies.remove(CK_TOKEN);
-          // Don't reload on client-side, just handle gracefully
-          console.warn('Authentication token expired');
-        }
-        return Promise.reject(e?.response?.data || e);
-      });
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      let fullUrl = `${BASE_URL}${url}`;
+
+      if (method === 'GET' && Object.keys(params).length > 0) {
+        const searchParams = new URLSearchParams();
+        Object.entries(params).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            searchParams.append(key, value);
+          }
+        });
+        fullUrl += `?${searchParams.toString()}`;
+      } else if (method !== 'GET') {
+        config.body = JSON.stringify(params);
+      }
+
+      const response = await fetch(fullUrl, config);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
   },
 
   upload: (config) => {
