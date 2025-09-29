@@ -15,6 +15,7 @@ import { useRecoilState } from 'recoil';
 import CartProduct from './cart-product';
 import Image from 'next/image';
 import { authService } from '../../../services/auth.service';
+import { profileService } from '../../../services/profile.service';
 
 const CartWrapper = () => {
   const [showContact, setShowContact] = useState(false);
@@ -41,11 +42,9 @@ const CartWrapper = () => {
 
   const calculateShipping = () => {
     const subtotal = calculateTotal();
-    // return subtotal > 500000 ? 0 : 30000;
     return subtotal > 0 ? 0 : 0;
   };
 
-  // Calculate grand total
   const calculateGrandTotal = () => {
     return calculateTotal() + calculateShipping();
   };
@@ -71,26 +70,49 @@ const CartWrapper = () => {
 
     const currentUser = authService.getCurrentUser();
 
-    if (currentUser && currentUser.token) {
-      router.push('/thanh-toan');
-      return;
+    if (!currentUser || !currentUser.token) {
+      try {
+        const authCheck = await authService.checkAuth();
+        if (!authCheck.isAuthenticated) {
+          showToast({
+            status: 'warning',
+            content: 'Vui lòng đăng nhập để tiếp tục thanh toán.'
+          });
+          router.push('/dang-nhap?redirect=/gio-hang');
+          return;
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        showToast({
+          status: 'warning',
+          content: 'Vui lòng đăng nhập để tiếp tục thanh toán.'
+        });
+        router.push('/dang-nhap?redirect=/gio-hang');
+        return;
+      }
     }
 
     try {
-      const authCheck = await authService.checkAuth();
-      if (authCheck.isAuthenticated) {
-        router.push('/thanh-toan');
+      const profileData = await profileService.getProfile();
+      const userData = profileData.user;
+
+      if (!userData.detailed_address || !userData.ward || !userData.province) {
+        showToast({
+          status: 'warning',
+          content: 'Vui lòng cập nhật đầy đủ địa chỉ giao hàng trước khi thanh toán.'
+        });
+        router.push('/profile?redirect=/gio-hang&required=address');
         return;
       }
-    } catch (error) {
-      console.error('Auth check failed:', error);
-    }
 
-    showToast({
-      status: 'warning',
-      content: 'Vui lòng đăng nhập để tiếp tục thanh toán.'
-    });
-    router.push('/dang-nhap?redirect=/thanh-toan');
+      router.push('/thanh-toan');
+    } catch (error) {
+      console.error('Failed to get profile:', error);
+      showToast({
+        status: 'error',
+        content: 'Không thể kiểm tra thông tin cá nhân. Vui lòng thử lại.'
+      });
+    }
   };
 
   useEffect(() => {
