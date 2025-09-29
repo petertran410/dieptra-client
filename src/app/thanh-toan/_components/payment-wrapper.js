@@ -5,7 +5,6 @@ import { useMutateCreatePayment, useQueryPaymentStatus } from '../../../services
 import { cartAtom } from '../../../states/common';
 import { PX_ALL, IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
-import { authService } from '../../../services/auth.service';
 import { formatCurrency } from '../../../utils/helper-server';
 import {
   Box,
@@ -40,6 +39,8 @@ import {
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
+import { authService } from '../../../services/auth.service';
+import { profileService } from '../../../services/profile.service';
 
 const PaymentWrapper = () => {
   const router = useRouter();
@@ -221,6 +222,56 @@ const PaymentWrapper = () => {
       addDebugLog('❌ Status Check Error', statusError);
     }
   }, [paymentStatus, statusError, setCart, onClosePaymentModal, router, currentOrderId, isAuthenticated]);
+
+  useEffect(() => {
+    const loadProfile = async () => {
+      if (!isAuthenticated || provinces.length === 0) return;
+
+      try {
+        const profileData = await profileService.getProfile();
+        const userData = profileData.user;
+
+        customerInfoRef.current = {
+          fullName: userData.full_name || '',
+          email: userData.email || '',
+          phone: userData.phone || '',
+          address: userData.detailed_address || '',
+          note: ''
+        };
+
+        if (userData.province && provinces.length > 0) {
+          const province = provinces.find((p) => p.name === userData.province);
+          if (province) {
+            setSelectedProvince(province.code);
+            if (province.districts) {
+              setDistricts(province.districts);
+
+              if (userData.district) {
+                const district = province.districts.find((d) => d.name === userData.district);
+                if (district) {
+                  setSelectedDistrict(district.code);
+                  if (district.wards) {
+                    setWards(district.wards);
+
+                    if (userData.ward) {
+                      const ward = district.wards.find((w) => w.name === userData.ward);
+                      if (ward) {
+                        setSelectedWard(ward.code);
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Lỗi khi tải thông tin profile:', error);
+      }
+    };
+
+    loadProfile();
+  }, [isAuthenticated, provinces]);
 
   const handleProvinceChange = useCallback(
     (provinceCode) => {
@@ -490,7 +541,6 @@ const PaymentWrapper = () => {
 
   return (
     <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} pb="50px">
-      {/* Header */}
       <VStack spacing="8" align="stretch">
         <Box>
           <Text as="h1" fontSize="2xl" fontWeight="bold" mb="2">
@@ -508,13 +558,19 @@ const PaymentWrapper = () => {
             <VStack spacing="4">
               <FormControl isRequired>
                 <FormLabel>Họ và tên</FormLabel>
-                <Input onChange={handleInputChange('fullName')} placeholder="Nhập họ và tên" autoComplete="off" />
+                <Input
+                  defaultValue={customerInfoRef.current.fullName}
+                  onChange={handleInputChange('fullName')}
+                  placeholder="Nhập họ và tên"
+                  autoComplete="off"
+                />
               </FormControl>
 
               <HStack width="100%" spacing="4">
                 <FormControl isRequired flex="1">
                   <FormLabel>Số điện thoại</FormLabel>
                   <Input
+                    defaultValue={customerInfoRef.current.phone}
                     onChange={handleInputChange('phone')}
                     placeholder="Nhập số điện thoại"
                     type="tel"
@@ -525,6 +581,7 @@ const PaymentWrapper = () => {
                 <FormControl isRequired flex="1">
                   <FormLabel>Email</FormLabel>
                   <Input
+                    defaultValue={customerInfoRef.current.email}
                     onChange={handleInputChange('email')}
                     placeholder="Nhập email"
                     type="email"
@@ -591,6 +648,7 @@ const PaymentWrapper = () => {
               <FormControl>
                 <FormLabel>Địa chỉ chi tiết</FormLabel>
                 <Textarea
+                  defaultValue={customerInfoRef.current.address}
                   onChange={handleInputChange('address')}
                   placeholder="Số nhà, tên đường, ngõ/hẻm..."
                   rows="3"
