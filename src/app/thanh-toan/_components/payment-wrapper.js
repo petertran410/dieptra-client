@@ -563,6 +563,9 @@ const PaymentWrapper = () => {
                   onChange={handleInputChange('fullName')}
                   placeholder="Nhập họ và tên"
                   autoComplete="off"
+                  isReadOnly
+                  bg="gray.50"
+                  cursor="not-allowed"
                 />
               </FormControl>
 
