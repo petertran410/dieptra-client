@@ -944,7 +944,7 @@ const PaymentWrapper = () => {
                   <Text color="gray.600" fontSize="lg">
                     Tạm tính:
                   </Text>
-                  <Text fontWeight="medium" fontSize="lg">
+                  <Text fontWeight="bold" fontSize="lg" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text">
                     {formatCurrency(calculateSubtotal())}
                   </Text>
                 </HStack>
@@ -963,17 +963,70 @@ const PaymentWrapper = () => {
 
                 <Divider />
 
-                <HStack justify="space-between">
+                {/* <HStack justify="space-between">
                   <Text fontWeight="bold" color="gray.800" fontSize="2xl">
                     Tổng cộng:
                   </Text>
                   <Text fontWeight="bold" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" fontSize="2xl">
                     {formatCurrency(calculateTotal())}
                   </Text>
+                </HStack> */}
+
+                <HStack justify="space-between">
+                  <Text color="gray.600" fontSize="2xl">
+                    Tổng cộng:
+                  </Text>
+                  <Text fontWeight="bold" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" fontSize="2xl">
+                    {formatCurrency(calculateTotal())}
+                  </Text>
                 </HStack>
+
+                <Flex justify="flex-end" mt={4}>
+                  <HStack spacing={3}>
+                    <Button
+                      colorScheme="green"
+                      w="180px"
+                      h="60px"
+                      fontSize="18px"
+                      fontWeight="600"
+                      onClick={handlePayment}
+                      isLoading={creatingPayment}
+                      // bgGradient="linear(to-r, blue.500, purple.500)"
+                      _hover={{
+                        bgGradient: 'linear(to-r, green.500, green.600)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: 'xl'
+                      }}
+                      leftIcon={<Icon as={FiCheckCircle} boxSize={6} />}
+                      transition="all 0.3s"
+                    >
+                      {paymentMethod === 'cod' ? 'Đặt hàng COD' : 'Thanh toán ngay'}
+                    </Button>
+
+                    <Button
+                      colorScheme="blue"
+                      color="#FFF"
+                      w="180px"
+                      h="60px"
+                      fontSize="18px"
+                      fontWeight="600"
+                      onClick={() => router.push('/gio-hang')}
+                      leftIcon={<Icon as={FiShoppingCart} boxSize={6} />}
+                      _hover={{
+                        bgGradient: 'linear(to-r, blue.600, purple.600)',
+                        transform: 'translateY(-2px)',
+                        boxShadow: 'xl'
+                      }}
+                      _active={{ bgColor: '#5d97e3' }}
+                      transition="all 0.3s"
+                    >
+                      Quay lại giỏ hàng
+                    </Button>
+                  </HStack>
+                </Flex>
               </VStack>
 
-              <VStack spacing={4} mt={8}>
+              {/* <VStack spacing={4} mt={8}>
                 <Button
                   colorScheme="blue"
                   size="lg"
@@ -1009,9 +1062,9 @@ const PaymentWrapper = () => {
                 >
                   Quay lại giỏ hàng
                 </Button>
-              </VStack>
+              </VStack> */}
 
-              <Alert status="info" mt={6} borderRadius="lg" bg="blue.50" border="1px" borderColor="blue.200">
+              {/* <Alert status="info" mt={6} borderRadius="lg" bg="blue.50" border="1px" borderColor="blue.200">
                 <AlertIcon color="blue.500" />
                 <Box fontSize="sm">
                   <Text fontWeight="semibold" color="blue.800">
@@ -1021,7 +1074,7 @@ const PaymentWrapper = () => {
                     Thông tin của bạn được mã hóa và bảo vệ
                   </Text>
                 </Box>
-              </Alert>
+              </Alert> */}
             </Box>
           </Flex>
         </VStack>

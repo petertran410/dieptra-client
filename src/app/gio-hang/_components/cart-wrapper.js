@@ -249,6 +249,11 @@ const CartWrapper = () => {
                 fontWeight="600"
                 w="full"
                 leftIcon={<Image src="/images/cart.webp" width={24} height={24} alt="Cart" />}
+                _hover={{
+                  bgGradient: 'linear(to-r, green.500, green.600)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: 'xl'
+                }}
               >
                 Thanh toán ngay
               </Button>
@@ -266,7 +271,11 @@ const CartWrapper = () => {
                 fontWeight="600"
                 borderRadius={8}
                 w="full"
-                _hover={{ bgColor: '#5d97e3' }}
+                _hover={{
+                  bgGradient: 'linear(to-r, blue.600, purple.600)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: 'xl'
+                }}
                 _active={{ bgColor: '#5d97e3' }}
                 isDisabled={!cart.length}
                 onClick={() => setShowContact(true)}
