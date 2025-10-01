@@ -612,7 +612,7 @@ const PaymentWrapper = () => {
               </HStack>
 
               <VStack spacing={5}>
-                <FormControl isRequired>
+                <FormControl>
                   <FormLabel fontWeight="medium" color="gray.700">
                     <HStack spacing={2}>
                       <Icon as={FiUser} />
@@ -628,6 +628,9 @@ const PaymentWrapper = () => {
                     focusBorderColor="blue.400"
                     _hover={{ borderColor: 'blue.300' }}
                     autoComplete="off"
+                    cursor="not-allowed"
+                    isReadOnly
+                    isDisabled
                   />
                 </FormControl>
 
@@ -648,6 +651,9 @@ const PaymentWrapper = () => {
                     focusBorderColor="blue.400"
                     _hover={{ borderColor: 'blue.300' }}
                     autoComplete="off"
+                    cursor="not-allowed"
+                    isReadOnly
+                    isDisabled
                   />
                 </FormControl>
 
@@ -668,6 +674,9 @@ const PaymentWrapper = () => {
                     focusBorderColor="blue.400"
                     _hover={{ borderColor: 'blue.300' }}
                     autoComplete="off"
+                    cursor="not-allowed"
+                    isReadOnly
+                    isDisabled
                   />
                 </FormControl>
 
@@ -686,6 +695,9 @@ const PaymentWrapper = () => {
                     borderRadius="lg"
                     focusBorderColor="blue.400"
                     _hover={{ borderColor: 'blue.300' }}
+                    cursor="not-allowed"
+                    isReadOnly
+                    isDisabled
                   >
                     {provinces.map((province) => (
                       <option key={province.code} value={province.code}>
@@ -706,11 +718,13 @@ const PaymentWrapper = () => {
                     placeholder="Chọn quận/huyện"
                     value={selectedDistrict}
                     onChange={(e) => handleDistrictChange(e.target.value)}
-                    isDisabled={!selectedProvince}
                     size="lg"
                     borderRadius="lg"
                     focusBorderColor="blue.400"
                     _hover={{ borderColor: 'blue.300' }}
+                    cursor="not-allowed"
+                    isReadOnly
+                    isDisabled
                   >
                     {districts.map((district) => (
                       <option key={district.code} value={district.code}>
@@ -731,11 +745,13 @@ const PaymentWrapper = () => {
                     placeholder="Chọn phường/xã"
                     value={selectedWard}
                     onChange={(e) => setSelectedWard(parseInt(e.target.value))}
-                    isDisabled={!selectedDistrict}
                     size="lg"
                     borderRadius="lg"
                     focusBorderColor="blue.400"
                     _hover={{ borderColor: 'blue.300' }}
+                    cursor="not-allowed"
+                    isReadOnly
+                    isDisabled
                   >
                     {wards.map((ward) => (
                       <option key={ward.code} value={ward.code}>
@@ -761,6 +777,9 @@ const PaymentWrapper = () => {
                     focusBorderColor="blue.400"
                     _hover={{ borderColor: 'blue.300' }}
                     autoComplete="off"
+                    cursor="not-allowed"
+                    isReadOnly
+                    isDisabled
                   />
                 </FormControl>
 
