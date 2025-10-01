@@ -64,6 +64,8 @@ const PaymentWrapper = () => {
   const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
   const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
 
+  console.log(cartData);
+
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
 
@@ -588,7 +590,7 @@ const PaymentWrapper = () => {
               Hoàn tất đơn hàng
             </Heading>
             <Text color="gray.600" fontSize="lg">
-              Vui lòng kiểm tra thông tin và chọn phương thức thanh toán
+              Vui lòng kiểm tra thông tin
             </Text>
           </Box>
 
@@ -810,7 +812,7 @@ const PaymentWrapper = () => {
                           <Icon as={BsBank} boxSize={6} color="blue.600" />
                           <VStack align="start" spacing={0}>
                             <Text fontWeight="semibold" fontSize="lg">
-                              Chuyển khoản ngân hàng (SePay)
+                              Chuyển khoản ngân hàng
                             </Text>
                             <Text fontSize="sm" color="gray.600">
                               Thanh toán qua QR Code hoặc chuyển khoản
@@ -864,18 +866,20 @@ const PaymentWrapper = () => {
                         <Image
                           src={image_url}
                           alt={product.name || IMG_ALT}
-                          boxSize="70px"
-                          objectFit="cover"
+                          boxSize="120px"
+                          objectFit="contain"
                           borderRadius="md"
                           boxShadow="sm"
                         />
                         <VStack align="start" flex={1} spacing={1}>
-                          <Text fontWeight="semibold" fontSize="sm" noOfLines={2}>
-                            {product.name}
+                          <Text fontWeight="semibold" fontSize="lg">
+                            {product.title}
                           </Text>
                           <HStack justify="space-between" w="full">
-                            <Badge colorScheme="blue">x{quantity}</Badge>
-                            <Text fontWeight="bold" color="blue.600">
+                            <Badge colorScheme="blue" fontSize="md">
+                              x{quantity}
+                            </Badge>
+                            <Text fontWeight="bold" color="blue.600" fontSize="2xl">
                               {formatCurrency(itemTotal)}
                             </Text>
                           </HStack>
@@ -889,28 +893,34 @@ const PaymentWrapper = () => {
               <Divider my={6} />
 
               <VStack spacing={4} align="stretch">
-                <HStack justify="space-between" fontSize="lg">
-                  <Text color="gray.600">Tạm tính:</Text>
-                  <Text fontWeight="medium">{formatCurrency(calculateSubtotal())}</Text>
+                <HStack justify="space-between">
+                  <Text color="gray.600" fontSize="lg">
+                    Tạm tính:
+                  </Text>
+                  <Text fontWeight="medium" fontSize="lg">
+                    {formatCurrency(calculateSubtotal())}
+                  </Text>
                 </HStack>
 
                 <HStack justify="space-between" fontSize="lg">
                   <HStack>
-                    <Icon as={FiTruck} color="green.500" />
-                    <Text color="gray.600">Phí vận chuyển:</Text>
+                    <Icon as={FiTruck} color="green.500" fontSize="lg" />
+                    <Text color="gray.600" fontSize="lg">
+                      Đơn vị vận chuyển:
+                    </Text>
                   </HStack>
-                  <Badge colorScheme="green" fontSize="md" px={3} py={1}>
-                    Miễn phí
+                  <Badge colorScheme="green" fontSize="lg" px={3} py={1}>
+                    Giao hàng nhanh
                   </Badge>
                 </HStack>
 
                 <Divider />
 
-                <HStack justify="space-between" fontSize="2xl">
-                  <Text fontWeight="bold" color="gray.800">
+                <HStack justify="space-between">
+                  <Text fontWeight="bold" color="gray.800" fontSize="lg">
                     Tổng cộng:
                   </Text>
-                  <Text fontWeight="bold" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text">
+                  <Text fontWeight="bold" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" fontSize="lg">
                     {formatCurrency(calculateTotal())}
                   </Text>
                 </HStack>
