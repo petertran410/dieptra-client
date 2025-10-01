@@ -559,12 +559,11 @@ const PaymentWrapper = () => {
               <FormControl isRequired>
                 <FormLabel>Họ và tên</FormLabel>
                 <Input
-                  defaultValue={customerInfoRef.current.fullName}
-                  onChange={handleInputChange('fullName')}
+                  value={customerInfoRef.current.fullName}
                   placeholder="Nhập họ và tên"
                   autoComplete="off"
-                  isReadOnly
-                  bg="gray.50"
+                  isDisabled={true}
+                  bg="gray.100"
                   cursor="not-allowed"
                 />
               </FormControl>
@@ -573,22 +572,26 @@ const PaymentWrapper = () => {
                 <FormControl isRequired flex="1">
                   <FormLabel>Số điện thoại</FormLabel>
                   <Input
-                    defaultValue={customerInfoRef.current.phone}
-                    onChange={handleInputChange('phone')}
+                    value={customerInfoRef.current.phone}
                     placeholder="Nhập số điện thoại"
                     type="tel"
                     autoComplete="off"
+                    isDisabled={true}
+                    bg="gray.100"
+                    cursor="not-allowed"
                   />
                 </FormControl>
 
                 <FormControl isRequired flex="1">
                   <FormLabel>Email</FormLabel>
                   <Input
-                    defaultValue={customerInfoRef.current.email}
-                    onChange={handleInputChange('email')}
+                    value={customerInfoRef.current.email}
                     placeholder="Nhập email"
                     type="email"
                     autoComplete="off"
+                    isDisabled={true}
+                    bg="gray.100"
+                    cursor="not-allowed"
                   />
                 </FormControl>
               </HStack>
@@ -598,16 +601,16 @@ const PaymentWrapper = () => {
                   <FormLabel>Tỉnh/Thành phố</FormLabel>
                   <Select
                     value={selectedProvince}
-                    onChange={(e) => handleProvinceChange(e.target.value)}
                     placeholder="-- Chọn tỉnh/thành --"
+                    isDisabled={true}
+                    bg="gray.100"
+                    cursor="not-allowed"
                   >
-                    {provinces.map((province) => {
-                      return (
-                        <option key={province.code} value={province.code}>
-                          {province.name}
-                        </option>
-                      );
-                    })}
+                    {provinces.map((province) => (
+                      <option key={province.code} value={province.code}>
+                        {province.name}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
 
@@ -615,17 +618,16 @@ const PaymentWrapper = () => {
                   <FormLabel>Quận/Huyện</FormLabel>
                   <Select
                     value={selectedDistrict}
-                    onChange={(e) => handleDistrictChange(e.target.value)}
                     placeholder="-- Chọn quận/huyện --"
-                    disabled={!selectedProvince}
+                    isDisabled={true}
+                    bg="gray.100"
+                    cursor="not-allowed"
                   >
-                    {districts.map((district) => {
-                      return (
-                        <option key={district.code} value={district.code}>
-                          {district.name}
-                        </option>
-                      );
-                    })}
+                    {districts.map((district) => (
+                      <option key={district.code} value={district.code}>
+                        {district.name}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
               </HStack>
@@ -634,28 +636,29 @@ const PaymentWrapper = () => {
                 <FormLabel>Phường/Xã</FormLabel>
                 <Select
                   value={selectedWard}
-                  onChange={(e) => setSelectedWard(parseInt(e.target.value))}
                   placeholder="-- Chọn phường/xã --"
-                  disabled={!selectedDistrict}
+                  isDisabled={true}
+                  bg="gray.100"
+                  cursor="not-allowed"
                 >
-                  {wards.map((ward) => {
-                    return (
-                      <option key={ward.code} value={ward.code}>
-                        {ward.name}
-                      </option>
-                    );
-                  })}
+                  {wards.map((ward) => (
+                    <option key={ward.code} value={ward.code}>
+                      {ward.name}
+                    </option>
+                  ))}
                 </Select>
               </FormControl>
 
               <FormControl>
                 <FormLabel>Địa chỉ chi tiết</FormLabel>
                 <Textarea
-                  defaultValue={customerInfoRef.current.address}
-                  onChange={handleInputChange('address')}
+                  value={customerInfoRef.current.address}
                   placeholder="Số nhà, tên đường, ngõ/hẻm..."
                   rows="3"
                   autoComplete="off"
+                  isDisabled={true}
+                  bg="gray.100"
+                  cursor="not-allowed"
                 />
               </FormControl>
 
@@ -667,6 +670,9 @@ const PaymentWrapper = () => {
                   rows="2"
                   autoComplete="off"
                 />
+                <Text fontSize="md" color="gray.600" mt="1">
+                  Bạn có thể thêm ghi chú cho đơn hàng tại đây
+                </Text>
               </FormControl>
             </VStack>
 
