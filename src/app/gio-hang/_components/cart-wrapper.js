@@ -216,9 +216,9 @@ const CartWrapper = () => {
                       )}
                 </Text>
               </Flex> */}
-              <Text fontWeight="medium" color="green.500">
+              {/* <Text fontWeight="medium" color="green.500">
                 Đơn vị vận chuyển: Giao hàng nhanh
-              </Text>
+              </Text> */}
 
               {/* {calculateShipping() === 0 && (
                 <Text fontSize="xs" color="green.600" fontStyle="italic">

@@ -34,13 +34,29 @@ import {
   Radio,
   RadioGroup,
   Stack,
-  Select
+  Select,
+  Badge,
+  Icon,
+  Container,
+  Heading
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import { authService } from '../../../services/auth.service';
 import { profileService } from '../../../services/profile.service';
+import {
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiMapPin,
+  FiCreditCard,
+  FiShoppingCart,
+  FiCheckCircle,
+  FiPackage,
+  FiTruck
+} from 'react-icons/fi';
+import { BsBank } from 'react-icons/bs';
 
 const PaymentWrapper = () => {
   const router = useRouter();
@@ -82,7 +98,7 @@ const PaymentWrapper = () => {
     data: paymentStatus,
     isLoading: checkingStatus,
     error: statusError
-  } = useQueryPaymentStatus(currentOrderId, !!currentOrderId);
+  } = useQueryPaymentStatus(currentOrderId, !currentOrderId);
 
   const { isOpen: isPaymentModalOpen, onOpen: onOpenPaymentModal, onClose: onClosePaymentModal } = useDisclosure();
 
@@ -367,29 +383,28 @@ const PaymentWrapper = () => {
       return false;
     }
 
+    const phoneRegex = /^[0-9]{10}$/;
+    if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
+      showToast({ status: 'error', content: 'Số điện thoại không hợp lệ (10 chữ số)' });
+      return false;
+    }
+
     return true;
   };
 
-  const handleCreatePayment = async () => {
-    if (!validateForm()) return;
-
-    if (cart.length === 0) {
-      showToast({ status: 'error', content: 'Giỏ hàng trống' });
+  const handlePayment = async () => {
+    if (!validateForm()) {
       return;
     }
 
     try {
-      addDebugLog('Starting payment creation...');
-
       const cartItems = cart
         .map((item) => {
           const product = cartData.find((p) => p.slug === item.slug);
-
           if (!product) {
             console.warn(`Product not found for slug: ${item.slug}`);
             return null;
           }
-
           return {
             productId: Number(product.id),
             quantity: Number(item.quantity) || 1,
@@ -415,8 +430,6 @@ const PaymentWrapper = () => {
         });
         return;
       }
-
-      addDebugLog('📦 Valid cart items:', cartItems);
 
       if (paymentMethod !== 'cod') {
         const invalidProducts = cartItems.filter((item) => !item.price || item.price === 0);
@@ -504,33 +517,55 @@ const PaymentWrapper = () => {
 
   if (loadingProducts) {
     return (
-      <Flex justify="center" align="center" minH="60vh">
-        <Spinner size="xl" color="blue.500" />
-        <Text ml="4" fontSize="lg">
-          Đang tải thông tin sản phẩm...
-        </Text>
+      <Flex justify="center" align="center" minH="60vh" bgGradient="linear(to-br, blue.50, purple.50)">
+        <VStack spacing={4}>
+          <Spinner size="xl" color="blue.500" thickness="4px" />
+          <Text fontSize="lg" fontWeight="medium" color="gray.700">
+            Đang tải thông tin sản phẩm...
+          </Text>
+        </VStack>
       </Flex>
     );
   }
 
   if (cart.length === 0) {
     return (
-      <Flex justify="center" align="center" minH="60vh" direction="column">
-        <Text fontSize="xl" mb="4">
-          Giỏ hàng của bạn đang trống
-        </Text>
-        <Button colorScheme="blue" onClick={() => router.push('/san-pham')}>
-          Tiếp tục mua hàng
-        </Button>
+      <Flex
+        justify="center"
+        align="center"
+        minH="60vh"
+        direction="column"
+        bgGradient="linear(to-br, blue.50, purple.50)"
+      >
+        <Box bg="white" p={8} borderRadius="xl" boxShadow="xl" textAlign="center" maxW="400px">
+          <Icon as={FiShoppingCart} boxSize={16} color="gray.400" mb={4} />
+          <Text fontSize="2xl" fontWeight="bold" mb={2} color="gray.700">
+            Giỏ hàng trống
+          </Text>
+          <Text color="gray.600" mb={6}>
+            Bạn chưa có sản phẩm nào trong giỏ hàng
+          </Text>
+          <Button colorScheme="blue" size="lg" onClick={() => router.push('/san-pham')} leftIcon={<FiPackage />}>
+            Khám phá sản phẩm
+          </Button>
+        </Box>
       </Flex>
     );
   }
 
   if (authLoading) {
     return (
-      <Flex justify="center" align="center" minH="60vh" direction="column">
-        <Spinner size="lg" color="blue.500" mb="4" />
-        <Text>Đang kiểm tra đăng nhập...</Text>
+      <Flex
+        justify="center"
+        align="center"
+        minH="60vh"
+        direction="column"
+        bgGradient="linear(to-br, blue.50, purple.50)"
+      >
+        <VStack spacing={4}>
+          <Spinner size="lg" color="blue.500" thickness="4px" />
+          <Text color="gray.700">Đang kiểm tra đăng nhập...</Text>
+        </VStack>
       </Flex>
     );
   }
@@ -540,71 +575,115 @@ const PaymentWrapper = () => {
   }
 
   return (
-    <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} pb="50px">
-      <VStack spacing="8" align="stretch">
-        <Box>
-          <Text as="h1" fontSize="2xl" fontWeight="bold" mb="2">
-            Thanh toán đơn hàng
-          </Text>
-          <Text color="gray.600">Vui lòng kiểm tra thông tin và hoàn tất thanh toán</Text>
-        </Box>
-
-        <Flex direction={{ base: 'column', lg: 'row' }} gap="8">
-          <Box flex="1" bg="white" p="6" borderRadius="lg" border="1px" borderColor="gray.200">
-            <Text fontSize="lg" fontWeight="semibold" mb="4">
-              Thông tin khách hàng
+    <Box
+      minH="100vh"
+      bgGradient="linear(to-br, blue.50, purple.50, pink.50)"
+      pt={{ base: '70px', lg: '162px' }}
+      pb="50px"
+    >
+      <Container maxW="container.xl" px={PX_ALL}>
+        <VStack spacing={8} align="stretch">
+          <Box textAlign="center">
+            <Heading as="h1" size="xl" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" mb={2}>
+              Hoàn tất đơn hàng
+            </Heading>
+            <Text color="gray.600" fontSize="lg">
+              Vui lòng kiểm tra thông tin và chọn phương thức thanh toán
             </Text>
+          </Box>
 
-            <VStack spacing="4">
-              <FormControl isRequired>
-                <FormLabel>Họ và tên</FormLabel>
-                <Input
-                  value={customerInfoRef.current.fullName}
-                  placeholder="Nhập họ và tên"
-                  autoComplete="off"
-                  isDisabled={true}
-                  bg="gray.100"
-                  cursor="not-allowed"
-                />
-              </FormControl>
+          <Flex direction={{ base: 'column', lg: 'row' }} gap={8}>
+            <Box
+              flex="1"
+              bg="white"
+              p={8}
+              borderRadius="xl"
+              boxShadow="lg"
+              transition="all 0.3s"
+              _hover={{ boxShadow: 'xl' }}
+            >
+              <HStack mb={6} spacing={3}>
+                <Icon as={FiUser} boxSize={6} color="blue.500" />
+                <Heading size="md" color="gray.800">
+                  Thông tin khách hàng
+                </Heading>
+              </HStack>
 
-              <HStack width="100%" spacing="4">
-                <FormControl isRequired flex="1">
-                  <FormLabel>Số điện thoại</FormLabel>
+              <VStack spacing={5}>
+                <FormControl isRequired>
+                  <FormLabel fontWeight="medium" color="gray.700">
+                    <HStack spacing={2}>
+                      <Icon as={FiUser} />
+                      <Text>Họ và tên</Text>
+                    </HStack>
+                  </FormLabel>
                   <Input
-                    value={customerInfoRef.current.phone}
-                    placeholder="Nhập số điện thoại"
-                    type="tel"
+                    value={customerInfoRef.current.fullName}
+                    placeholder="Nhập họ và tên"
+                    onChange={handleInputChange('fullName')}
+                    size="lg"
+                    borderRadius="lg"
+                    focusBorderColor="blue.400"
+                    _hover={{ borderColor: 'blue.300' }}
                     autoComplete="off"
-                    isDisabled={true}
-                    bg="gray.100"
-                    cursor="not-allowed"
                   />
                 </FormControl>
 
-                <FormControl isRequired flex="1">
-                  <FormLabel>Email</FormLabel>
+                <FormControl isRequired>
+                  <FormLabel fontWeight="medium" color="gray.700">
+                    <HStack spacing={2}>
+                      <Icon as={FiMail} />
+                      <Text>Email</Text>
+                    </HStack>
+                  </FormLabel>
                   <Input
                     value={customerInfoRef.current.email}
                     placeholder="Nhập email"
+                    onChange={handleInputChange('email')}
                     type="email"
+                    size="lg"
+                    borderRadius="lg"
+                    focusBorderColor="blue.400"
+                    _hover={{ borderColor: 'blue.300' }}
                     autoComplete="off"
-                    isDisabled={true}
-                    bg="gray.100"
-                    cursor="not-allowed"
                   />
                 </FormControl>
-              </HStack>
 
-              <HStack width="100%" spacing="4">
-                <FormControl isRequired flex="1">
-                  <FormLabel>Tỉnh/Thành phố</FormLabel>
+                <FormControl isRequired>
+                  <FormLabel fontWeight="medium" color="gray.700">
+                    <HStack spacing={2}>
+                      <Icon as={FiPhone} />
+                      <Text>Số điện thoại</Text>
+                    </HStack>
+                  </FormLabel>
+                  <Input
+                    value={customerInfoRef.current.phone}
+                    placeholder="Nhập số điện thoại"
+                    onChange={handleInputChange('phone')}
+                    type="tel"
+                    size="lg"
+                    borderRadius="lg"
+                    focusBorderColor="blue.400"
+                    _hover={{ borderColor: 'blue.300' }}
+                    autoComplete="off"
+                  />
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel fontWeight="medium" color="gray.700">
+                    <HStack spacing={2}>
+                      <Icon as={FiMapPin} />
+                      <Text>Tỉnh/Thành phố</Text>
+                    </HStack>
+                  </FormLabel>
                   <Select
+                    placeholder="Chọn tỉnh/thành phố"
                     value={selectedProvince}
-                    placeholder="-- Chọn tỉnh/thành --"
-                    isDisabled={true}
-                    bg="gray.100"
-                    cursor="not-allowed"
+                    onChange={(e) => handleProvinceChange(e.target.value)}
+                    size="lg"
+                    borderRadius="lg"
+                    focusBorderColor="blue.400"
+                    _hover={{ borderColor: 'blue.300' }}
                   >
                     {provinces.map((province) => (
                       <option key={province.code} value={province.code}>
@@ -614,14 +693,22 @@ const PaymentWrapper = () => {
                   </Select>
                 </FormControl>
 
-                <FormControl isRequired flex="1">
-                  <FormLabel>Quận/Huyện</FormLabel>
+                <FormControl isRequired>
+                  <FormLabel fontWeight="medium" color="gray.700">
+                    <HStack spacing={2}>
+                      <Icon as={FiMapPin} />
+                      <Text>Quận/Huyện</Text>
+                    </HStack>
+                  </FormLabel>
                   <Select
+                    placeholder="Chọn quận/huyện"
                     value={selectedDistrict}
-                    placeholder="-- Chọn quận/huyện --"
-                    isDisabled={true}
-                    bg="gray.100"
-                    cursor="not-allowed"
+                    onChange={(e) => handleDistrictChange(e.target.value)}
+                    isDisabled={!selectedProvince}
+                    size="lg"
+                    borderRadius="lg"
+                    focusBorderColor="blue.400"
+                    _hover={{ borderColor: 'blue.300' }}
                   >
                     {districts.map((district) => (
                       <option key={district.code} value={district.code}>
@@ -630,219 +717,329 @@ const PaymentWrapper = () => {
                     ))}
                   </Select>
                 </FormControl>
-              </HStack>
 
-              <FormControl isRequired>
-                <FormLabel>Phường/Xã</FormLabel>
-                <Select
-                  value={selectedWard}
-                  placeholder="-- Chọn phường/xã --"
-                  isDisabled={true}
-                  bg="gray.100"
-                  cursor="not-allowed"
-                >
-                  {wards.map((ward) => (
-                    <option key={ward.code} value={ward.code}>
-                      {ward.name}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Địa chỉ chi tiết</FormLabel>
-                <Textarea
-                  value={customerInfoRef.current.address}
-                  placeholder="Số nhà, tên đường, ngõ/hẻm..."
-                  rows="3"
-                  autoComplete="off"
-                  isDisabled={true}
-                  bg="gray.100"
-                  cursor="not-allowed"
-                />
-              </FormControl>
-
-              <FormControl>
-                <FormLabel>Ghi chú đơn hàng</FormLabel>
-                <Textarea
-                  onChange={handleInputChange('note')}
-                  placeholder="Ghi chú đặc biệt (không bắt buộc)"
-                  rows="2"
-                  autoComplete="off"
-                />
-                <Text fontSize="md" color="gray.600" mt="1">
-                  Bạn có thể thêm ghi chú cho đơn hàng tại đây
-                </Text>
-              </FormControl>
-            </VStack>
-
-            <Box mt="6">
-              <Text fontSize="lg" fontWeight="semibold" mb="4">
-                Phương thức thanh toán
-              </Text>
-
-              <RadioGroup value={paymentMethod} onChange={setPaymentMethod}>
-                <Stack spacing="3">
-                  <Radio value="sepay_bank" colorScheme="blue">
-                    <HStack>
-                      <Box w="6" h="6" bg="blue.500" borderRadius="md" />
-                      <VStack align="start" spacing="0">
-                        <Text>Chuyển khoản ngân hàng (SePay)</Text>
-                        <Text fontSize="xs" color="gray.600">
-                          Thanh toán qua QR Code hoặc chuyển khoản
-                        </Text>
-                      </VStack>
+                <FormControl isRequired>
+                  <FormLabel fontWeight="medium" color="gray.700">
+                    <HStack spacing={2}>
+                      <Icon as={FiMapPin} />
+                      <Text>Phường/Xã</Text>
                     </HStack>
-                  </Radio>
-                </Stack>
-              </RadioGroup>
+                  </FormLabel>
+                  <Select
+                    placeholder="Chọn phường/xã"
+                    value={selectedWard}
+                    onChange={(e) => setSelectedWard(parseInt(e.target.value))}
+                    isDisabled={!selectedDistrict}
+                    size="lg"
+                    borderRadius="lg"
+                    focusBorderColor="blue.400"
+                    _hover={{ borderColor: 'blue.300' }}
+                  >
+                    {wards.map((ward) => (
+                      <option key={ward.code} value={ward.code}>
+                        {ward.name}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+
+                <FormControl isRequired>
+                  <FormLabel fontWeight="medium" color="gray.700">
+                    <HStack spacing={2}>
+                      <Icon as={FiMapPin} />
+                      <Text>Địa chỉ cụ thể</Text>
+                    </HStack>
+                  </FormLabel>
+                  <Input
+                    value={customerInfoRef.current.address}
+                    placeholder="Nhập địa chỉ cụ thể"
+                    onChange={handleInputChange('address')}
+                    size="lg"
+                    borderRadius="lg"
+                    focusBorderColor="blue.400"
+                    _hover={{ borderColor: 'blue.300' }}
+                    autoComplete="off"
+                  />
+                </FormControl>
+
+                <FormControl>
+                  <FormLabel fontWeight="medium" color="gray.700">
+                    Ghi chú
+                  </FormLabel>
+                  <Textarea
+                    onChange={handleInputChange('note')}
+                    placeholder="Ghi chú đặc biệt (không bắt buộc)"
+                    rows="2"
+                    borderRadius="lg"
+                    focusBorderColor="blue.400"
+                    _hover={{ borderColor: 'blue.300' }}
+                    autoComplete="off"
+                  />
+                  <Text fontSize="sm" color="gray.500" mt={2}>
+                    Bạn có thể thêm ghi chú cho đơn hàng tại đây
+                  </Text>
+                </FormControl>
+              </VStack>
+
+              <Box mt={8}>
+                <HStack mb={5} spacing={3}>
+                  <Icon as={FiCreditCard} boxSize={6} color="purple.500" />
+                  <Heading size="md" color="gray.800">
+                    Phương thức thanh toán
+                  </Heading>
+                </HStack>
+
+                <RadioGroup value={paymentMethod} onChange={setPaymentMethod}>
+                  <Stack spacing={4}>
+                    <Box
+                      p={4}
+                      border="2px"
+                      borderColor={paymentMethod === 'sepay_bank' ? 'blue.500' : 'gray.200'}
+                      borderRadius="lg"
+                      cursor="pointer"
+                      transition="all 0.3s"
+                      _hover={{
+                        borderColor: 'blue.400',
+                        transform: 'translateY(-2px)',
+                        boxShadow: 'md'
+                      }}
+                      bg={paymentMethod === 'sepay_bank' ? 'blue.50' : 'white'}
+                    >
+                      <Radio value="sepay_bank" colorScheme="blue" size="lg">
+                        <HStack spacing={3} ml={2}>
+                          <Icon as={BsBank} boxSize={6} color="blue.600" />
+                          <VStack align="start" spacing={0}>
+                            <Text fontWeight="semibold" fontSize="lg">
+                              Chuyển khoản ngân hàng (SePay)
+                            </Text>
+                            <Text fontSize="sm" color="gray.600">
+                              Thanh toán qua QR Code hoặc chuyển khoản
+                            </Text>
+                          </VStack>
+                        </HStack>
+                      </Radio>
+                    </Box>
+                  </Stack>
+                </RadioGroup>
+              </Box>
             </Box>
-          </Box>
 
-          <Box w={{ base: '100%', lg: '400px' }} bg="gray.50" p="6" borderRadius="lg" h="fit-content">
-            <Text fontSize="lg" fontWeight="semibold" mb="4">
-              Thông tin đơn hàng
-            </Text>
+            <Box
+              w={{ base: '100%', lg: '420px' }}
+              bg="white"
+              p={8}
+              borderRadius="xl"
+              boxShadow="lg"
+              h="fit-content"
+              position="sticky"
+              top="100px"
+              transition="all 0.3s"
+              _hover={{ boxShadow: 'xl' }}
+            >
+              <HStack mb={6} spacing={3}>
+                <Icon as={FiShoppingCart} boxSize={6} color="purple.500" />
+                <Heading size="md" color="gray.800">
+                  Thông tin đơn hàng
+                </Heading>
+              </HStack>
 
-            <VStack spacing="4" align="stretch">
-              {cartData.map((product) => {
-                const cartItem = cart.find((item) => Number(item.id) === Number(product.id));
-                const { kiotViet } = product;
-                const quantity = cartItem ? cartItem.quantity : 1;
-                const itemTotal = product.price * quantity;
-                const image_url = kiotViet.images?.[0]?.replace('http://', 'https://');
+              <VStack spacing={4} align="stretch" mb={6}>
+                {cartData.map((product) => {
+                  const cartItem = cart.find((item) => Number(item.id) === Number(product.id));
+                  const { kiotViet } = product;
+                  const quantity = cartItem ? cartItem.quantity : 1;
+                  const itemTotal = product.price * quantity;
+                  const image_url = kiotViet.images?.[0] || '';
 
-                return (
-                  <HStack key={product.id} spacing="3" align="start">
-                    <Image
-                      src={image_url || '/images/placeholder.jpg'}
-                      alt={product.title || IMG_ALT}
-                      boxSize="50px"
-                      objectFit="cover"
-                      borderRadius="md"
-                    />
-                    <VStack align="start" spacing="1" flex="1">
-                      <Text fontSize="sm" fontWeight="medium" noOfLines={2}>
-                        {product.title}
-                      </Text>
-                      <HStack>
-                        <Text fontSize="xs" color="gray.600">
-                          SL: {quantity}
-                        </Text>
-                        <Text fontSize="sm" fontWeight="semibold" color="blue.600">
-                          {formatCurrency(itemTotal)}
-                        </Text>
+                  return (
+                    <Box
+                      key={product.id}
+                      p={4}
+                      bg="gray.50"
+                      borderRadius="lg"
+                      transition="all 0.3s"
+                      _hover={{ bg: 'gray.100' }}
+                    >
+                      <HStack spacing={4}>
+                        <Image
+                          src={image_url}
+                          alt={product.name || IMG_ALT}
+                          boxSize="70px"
+                          objectFit="cover"
+                          borderRadius="md"
+                          boxShadow="sm"
+                        />
+                        <VStack align="start" flex={1} spacing={1}>
+                          <Text fontWeight="semibold" fontSize="sm" noOfLines={2}>
+                            {product.name}
+                          </Text>
+                          <HStack justify="space-between" w="full">
+                            <Badge colorScheme="blue">x{quantity}</Badge>
+                            <Text fontWeight="bold" color="blue.600">
+                              {formatCurrency(itemTotal)}
+                            </Text>
+                          </HStack>
+                        </VStack>
                       </HStack>
-                    </VStack>
+                    </Box>
+                  );
+                })}
+              </VStack>
+
+              <Divider my={6} />
+
+              <VStack spacing={4} align="stretch">
+                <HStack justify="space-between" fontSize="lg">
+                  <Text color="gray.600">Tạm tính:</Text>
+                  <Text fontWeight="medium">{formatCurrency(calculateSubtotal())}</Text>
+                </HStack>
+
+                <HStack justify="space-between" fontSize="lg">
+                  <HStack>
+                    <Icon as={FiTruck} color="green.500" />
+                    <Text color="gray.600">Phí vận chuyển:</Text>
                   </HStack>
-                );
-              })}
-            </VStack>
+                  <Badge colorScheme="green" fontSize="md" px={3} py={1}>
+                    Miễn phí
+                  </Badge>
+                </HStack>
 
-            <Divider my="4" />
+                <Divider />
 
-            <VStack spacing="3" align="stretch">
-              <HStack justify="space-between">
-                <Text fontSize="sm" color="gray.600">
-                  Tạm tính:
-                </Text>
-                <Text fontSize="sm" fontWeight="medium">
-                  {formatCurrency(calculateSubtotal())}
-                </Text>
+                <HStack justify="space-between" fontSize="2xl">
+                  <Text fontWeight="bold" color="gray.800">
+                    Tổng cộng:
+                  </Text>
+                  <Text fontWeight="bold" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text">
+                    {formatCurrency(calculateTotal())}
+                  </Text>
+                </HStack>
+              </VStack>
+
+              <VStack spacing={4} mt={8}>
+                <Button
+                  colorScheme="blue"
+                  size="lg"
+                  width="100%"
+                  height="60px"
+                  fontSize="lg"
+                  onClick={handlePayment}
+                  isLoading={creatingPayment}
+                  bgGradient="linear(to-r, blue.500, purple.500)"
+                  _hover={{
+                    bgGradient: 'linear(to-r, blue.600, purple.600)',
+                    transform: 'translateY(-2px)',
+                    boxShadow: 'xl'
+                  }}
+                  leftIcon={<Icon as={FiCheckCircle} boxSize={6} />}
+                  transition="all 0.3s"
+                >
+                  {paymentMethod === 'cod' ? 'Đặt hàng COD' : 'Thanh toán ngay'}
+                </Button>
+
+                <Button
+                  variant="outline"
+                  size="lg"
+                  width="100%"
+                  height="50px"
+                  onClick={() => router.push('/gio-hang')}
+                  leftIcon={<FiShoppingCart />}
+                  _hover={{
+                    bg: 'gray.50',
+                    transform: 'translateY(-2px)'
+                  }}
+                  transition="all 0.3s"
+                >
+                  Quay lại giỏ hàng
+                </Button>
+              </VStack>
+
+              <Alert status="info" mt={6} borderRadius="lg" bg="blue.50" border="1px" borderColor="blue.200">
+                <AlertIcon color="blue.500" />
+                <Box fontSize="sm">
+                  <Text fontWeight="semibold" color="blue.800">
+                    Thanh toán an toàn & bảo mật
+                  </Text>
+                  <Text color="blue.700" fontSize="xs">
+                    Thông tin của bạn được mã hóa và bảo vệ
+                  </Text>
+                </Box>
+              </Alert>
+            </Box>
+          </Flex>
+        </VStack>
+      </Container>
+
+      <Modal isOpen={isPaymentModalOpen} onClose={onClosePaymentModal} size="xl" closeOnOverlayClick={false} isCentered>
+        <ModalOverlay backdropFilter="blur(10px)" />
+        <ModalContent borderRadius="2xl" overflow="hidden">
+          <Box bgGradient="linear(to-r, blue.500, purple.500)" p={6}>
+            <ModalHeader color="white" fontSize="2xl" p={0}>
+              <HStack spacing={3}>
+                <Icon as={BsBank} boxSize={8} />
+                <Text>Thanh toán đơn hàng</Text>
               </HStack>
-
-              <HStack justify="space-between">
-                <Text fontSize="sm" color="gray.600">
-                  Phí vận chuyển:
-                </Text>
-                <Text fontSize="sm" fontWeight="medium" color="green.600">
-                  {calculateShipping() === 0 ? 'Miễn phí' : formatCurrency(calculateShipping())}
-                </Text>
-              </HStack>
-
-              <Divider />
-
-              <HStack justify="space-between">
-                <Text fontSize="md" fontWeight="bold">
-                  Tổng cộng:
-                </Text>
-                <Text fontSize="md" fontWeight="bold" color="blue.600">
-                  {formatCurrency(calculateTotal())}
-                </Text>
-              </HStack>
-            </VStack>
-
-            <Flex justify="space-evenly" gap={4}>
-              <Button
-                colorScheme="blue"
-                size="lg"
-                width="100%"
-                mt="6"
-                onClick={handleCreatePayment}
-                isLoading={creatingPayment}
-                loadingText="Đang xử lý..."
-              >
-                {paymentMethod === 'cod' ? 'Đặt hàng COD' : 'Thanh toán ngay'}
-              </Button>
-              <Button variant="outline" size="lg" width="100%" mt="6" onClick={() => router.push('/gio-hang')}>
-                Quay lại giỏ hàng
-              </Button>
-            </Flex>
+            </ModalHeader>
+            <ModalCloseButton color="white" size="lg" />
           </Box>
-        </Flex>
-      </VStack>
 
-      <Modal isOpen={isPaymentModalOpen} onClose={onClosePaymentModal} size="2xl" closeOnOverlayClick={false}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Thanh toán đơn hàng</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb="6">
-            <VStack spacing="6">
-              <Alert status="info">
-                <AlertIcon />
+          <ModalBody p={8}>
+            <VStack spacing={6}>
+              <Alert status="info" borderRadius="lg" bg="blue.50" border="2px" borderColor="blue.200">
+                <AlertIcon color="blue.500" boxSize={6} />
                 <Box>
-                  <AlertTitle>Đang chờ thanh toán!</AlertTitle>
-                  <AlertDescription>Vui lòng thực hiện thanh toán để hoàn tất đơn hàng.</AlertDescription>
+                  <AlertTitle fontSize="lg">Đang chờ thanh toán!</AlertTitle>
+                  <AlertDescription fontSize="md">Vui lòng thực hiện thanh toán để hoàn tất đơn hàng.</AlertDescription>
                 </Box>
               </Alert>
 
-              {/* QR Code Display */}
               {qrCodeUrl && (
-                <Box textAlign="center">
-                  <Text fontSize="lg" fontWeight="semibold" mb="4">
+                <Box textAlign="center" p={6} bg="gray.50" borderRadius="xl" w="full">
+                  <Text fontSize="xl" fontWeight="bold" mb={4} color="gray.800">
                     Quét mã QR để thanh toán
                   </Text>
-                  <Image
-                    src={qrCodeUrl}
-                    alt="QR Code thanh toán"
-                    maxW="300px"
-                    mx="auto"
-                    border="1px"
-                    borderColor="gray.200"
-                    borderRadius="md"
-                  />
-                  <Text fontSize="sm" color="gray.600" mt="2">
-                    Tổng tiền: <strong>{formatCurrency(calculateTotal())}</strong>
-                  </Text>
+                  <Box p={4} bg="white" borderRadius="lg" display="inline-block" boxShadow="lg">
+                    <Image src={qrCodeUrl} alt="QR Code thanh toán" maxW="280px" mx="auto" />
+                  </Box>
+                  <HStack justify="center" mt={4} spacing={2} p={3} bg="green.50" borderRadius="lg">
+                    <Text fontSize="md" color="gray.700">
+                      Tổng tiền:
+                    </Text>
+                    <Text fontSize="2xl" fontWeight="bold" color="green.600">
+                      {formatCurrency(calculateTotal())}
+                    </Text>
+                  </HStack>
                 </Box>
               )}
 
-              {/* Payment URL */}
               {paymentUrl && !qrCodeUrl && (
-                <Box textAlign="center">
-                  <Text fontSize="lg" fontWeight="semibold" mb="4">
+                <Box textAlign="center" w="full">
+                  <Text fontSize="xl" fontWeight="bold" mb={4} color="gray.800">
                     Nhấn vào liên kết để thanh toán
                   </Text>
-                  <Button as="a" href={paymentUrl} target="_blank" colorScheme="blue" size="lg">
+                  <Button
+                    as="a"
+                    href={paymentUrl}
+                    target="_blank"
+                    colorScheme="blue"
+                    size="lg"
+                    w="full"
+                    height="60px"
+                    fontSize="lg"
+                    bgGradient="linear(to-r, blue.500, purple.500)"
+                    _hover={{
+                      bgGradient: 'linear(to-r, blue.600, purple.600)',
+                      transform: 'translateY(-2px)'
+                    }}
+                  >
                     Mở trang thanh toán
                   </Button>
                 </Box>
               )}
 
-              <Alert status="warning">
-                <AlertIcon />
-                <AlertDescription fontSize="sm">
+              <Alert status="warning" borderRadius="lg" bg="orange.50" border="1px" borderColor="orange.200">
+                <AlertIcon color="orange.500" />
+                <AlertDescription fontSize="sm" color="orange.900">
                   Vui lòng không tắt trang này cho đến khi thanh toán hoàn tất. Hệ thống sẽ tự động cập nhật khi thanh
                   toán thành công.
                 </AlertDescription>
@@ -851,7 +1048,7 @@ const PaymentWrapper = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
-    </Flex>
+    </Box>
   );
 };
 
