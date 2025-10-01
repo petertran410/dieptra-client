@@ -583,7 +583,7 @@ const PaymentWrapper = () => {
       pt={{ base: '70px', lg: '162px' }}
       pb="50px"
     >
-      <Container maxW="container.xl" px={PX_ALL}>
+      <Container maxW="full" px={PX_ALL}>
         <VStack spacing={8} align="stretch">
           <Box textAlign="center">
             <Heading as="h1" size="xl" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" mb={2}>
@@ -865,7 +865,7 @@ const PaymentWrapper = () => {
                       <HStack spacing={4}>
                         <Image
                           src={image_url}
-                          alt={product.name || IMG_ALT}
+                          alt={product.title || IMG_ALT}
                           boxSize="120px"
                           objectFit="contain"
                           borderRadius="md"
