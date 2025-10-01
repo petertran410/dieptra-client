@@ -186,27 +186,27 @@ const CartWrapper = () => {
       {!!cart.length && (
         <Flex
           justify="right"
-          align="center"
+          align="flex-end"
           mt="24px"
           mb="100px"
-          direction={{ xs: 'column', lg: 'row' }}
+          direction={{ xs: 'column', lg: 'column' }}
           gap={{ xs: '16px', lg: '24px' }}
         >
           {/* Order Summary */}
           <Box bg="gray.50" p="6" borderRadius="lg" w={{ xs: 'full', lg: '350px' }} border="1px" borderColor="gray.200">
-            <Text fontSize="lg" fontWeight="semibold" mb="4">
+            <Text fontSize="2xl" fontWeight="semibold" mb="4">
               Tóm tắt đơn hàng
             </Text>
 
             <Flex direction="column" gap="3">
               <Flex justify="space-between">
-                <Text>Tạm tính ({cart.length} sản phẩm):</Text>
-                <Text fontWeight="medium">
+                <Text fontSize="2xl">Tạm tính:</Text>
+                <Text fontWeight="medium" fontSize="2xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(calculateTotal())}
                 </Text>
               </Flex>
 
-              <Flex justify="space-between">
+              {/* <Flex justify="space-between">
                 <Text>Phí vận chuyển:</Text>
                 <Text fontWeight="medium" color={calculateShipping() === 0 ? 'green.500' : 'inherit'}>
                   {calculateShipping() === 0
@@ -215,19 +215,22 @@ const CartWrapper = () => {
                         calculateShipping()
                       )}
                 </Text>
-              </Flex>
+              </Flex> */}
+              <Text fontWeight="medium" color="green.500">
+                Đơn vị vận chuyển: Giao hàng nhanh
+              </Text>
 
-              {calculateShipping() === 0 && (
+              {/* {calculateShipping() === 0 && (
                 <Text fontSize="xs" color="green.600" fontStyle="italic">
                   🎉 Miễn phí vận chuyển cho đơn hàng trên 500.000đ
                 </Text>
-              )}
+              )} */}
 
               <Divider />
 
               <Flex justify="space-between" fontSize="lg" fontWeight="bold">
-                <Text>Tổng cộng:</Text>
-                <Text color="blue.600">
+                <Text fontSize="2xl">Tổng cộng:</Text>
+                <Text color="blue.600" fontSize="2xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(calculateGrandTotal())}
                 </Text>
               </Flex>
@@ -235,28 +238,50 @@ const CartWrapper = () => {
           </Box>
 
           {/* Payment Button */}
-          <Flex direction="column" gap="3" w={{ xs: 'full', lg: '200px' }}>
+          <Flex justify="space-around">
+            <Flex direction="column" gap="3" w={{ xs: 'full', lg: '200px' }}>
+              <Button
+                colorScheme="green"
+                size="lg"
+                onClick={handlePayment}
+                isDisabled={!cart.length}
+                h="60px"
+                fontSize="18px"
+                fontWeight="600"
+                leftIcon={<Image src="/images/cart.webp" width={24} height={24} alt="Cart" />}
+              >
+                Thanh toán ngay
+              </Button>
+
+              <Text fontSize="xs" color="gray.600" textAlign="center">
+                Bảo mật thanh toán với SePay
+              </Text>
+            </Flex>
             <Button
-              colorScheme="green"
-              size="lg"
-              onClick={handlePayment}
-              isDisabled={!cart.length}
-              h="60px"
+              align="center"
+              // justify="center"
+              bgColor="#065FD4"
+              color="#FFF"
+              // w={{ xs: 'full', lg: '500px' }}
+              // h={{ xs: '32px', lg: '40px' }}
+              gap="4px"
+              // fontSize={16}
+              // fontWeight={500}
               fontSize="18px"
               fontWeight="600"
-              leftIcon={<Image src="/images/cart.webp" width={24} height={24} alt="Cart" />}
+              borderRadius={8}
+              _hover={{ bgColor: '#5d97e3' }}
+              _active={{ bgColor: '#5d97e3' }}
+              isDisabled={!cart.length}
+              onClick={() => setShowContact(true)}
             >
-              Thanh toán ngay
+              Liên hệ tư vấn
             </Button>
-
-            <Text fontSize="xs" color="gray.600" textAlign="center">
-              Bảo mật thanh toán với SePay
-            </Text>
           </Flex>
         </Flex>
       )}
 
-      <Flex justify="center" mt={{ xs: '16px', lg: '24px' }}>
+      {/* <Flex justify="center" mt={{ xs: '16px', lg: '24px' }}>
         <Button
           align="center"
           justify="center"
@@ -275,13 +300,13 @@ const CartWrapper = () => {
         >
           Liên hệ tư vấn
         </Button>
-      </Flex>
+      </Flex> */}
 
-      <Divider display={{ xs: 'block', lg: 'none' }} mt="24px" />
+      {/* <Divider display={{ xs: 'block', lg: 'none' }} mt="24px" />
 
       <Box mt={{ xs: '24px', lg: '64px' }}>
         <OtherProduct productList={productList} />
-      </Box>
+      </Box> */}
 
       <ModalContact
         isOrder
