@@ -7,7 +7,7 @@ import { useQueryProductBySlugs, useQueryProductListOther } from '../../../servi
 import { cartAtom } from '../../../states/common';
 import { PX_ALL } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
-import { Box, Button, Divider, Flex, Text } from '@chakra-ui/react';
+import { Box, Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
@@ -237,53 +237,45 @@ const CartWrapper = () => {
             </Flex>
           </Box>
 
-          <Flex direction="row" gap="4" w={{ xs: 'full', lg: '350px' }}>
-            <Flex direction="column" gap="3" flex="1">
-              <Button
-                colorScheme="green"
-                size="lg"
-                onClick={handlePayment}
-                isDisabled={!cart.length}
-                h="60px"
-                fontSize="18px"
-                fontWeight="600"
-                w="full"
-                leftIcon={<Image src="/images/cart.webp" width={24} height={24} alt="Cart" />}
-                _hover={{
-                  // bgGradient: 'linear(to-r, green.500, green.600)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: 'xl'
-                }}
-              >
-                Thanh toán ngay
-              </Button>
-              {/* <Text fontSize="xs" color="gray.600" textAlign="center">
-                Bảo mật thanh toán với SePay
-              </Text> */}
-            </Flex>
+          <Stack direction={{ base: 'column', lg: 'row' }} spacing={4} w={{ base: 'full', lg: '350px' }}>
+            <Button
+              colorScheme="green"
+              size="lg"
+              onClick={handlePayment}
+              isDisabled={!cart.length}
+              h="60px"
+              fontSize="18px"
+              fontWeight="600"
+              w="full"
+              leftIcon={<Image src="/images/cart.webp" width={24} height={24} alt="Cart" />}
+              _hover={{
+                transform: 'translateY(-2px)',
+                boxShadow: 'xl'
+              }}
+            >
+              Thanh toán ngay
+            </Button>
 
-            <Flex direction="column" gap="3" flex="1">
-              <Button
-                bgColor="#065FD4"
-                color="#FFF"
-                h="60px"
-                fontSize="18px"
-                fontWeight="600"
-                borderRadius={8}
-                w="full"
-                _hover={{
-                  // bgGradient: 'linear(to-r, blue.600, purple.600)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: 'xl'
-                }}
-                _active={{ bgColor: '#5d97e3' }}
-                isDisabled={!cart.length}
-                onClick={() => setShowContact(true)}
-              >
-                Liên hệ tư vấn
-              </Button>
-            </Flex>
-          </Flex>
+            <Button
+              bgColor="#065FD4"
+              color="#FFF"
+              h="60px"
+              fontSize="18px"
+              fontWeight="600"
+              borderRadius={8}
+              w="full"
+              _hover={{
+                bgColor: '#5d97e3',
+                transform: 'translateY(-2px)',
+                boxShadow: 'xl'
+              }}
+              _active={{ bgColor: '#5d97e3' }}
+              isDisabled={!cart.length}
+              onClick={() => setShowContact(true)}
+            >
+              Liên hệ tư vấn
+            </Button>
+          </Stack>
         </Flex>
       )}
 

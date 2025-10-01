@@ -981,19 +981,17 @@ const PaymentWrapper = () => {
                   </Text>
                 </HStack>
 
-                <Flex justify="flex-end" mt={4}>
-                  <HStack spacing={3}>
+                <Flex justify={{ base: 'stretch', lg: 'flex-end' }} mt={4}>
+                  <Stack direction={{ base: 'column', lg: 'row' }} spacing={3} w={{ base: 'full', lg: 'auto' }}>
                     <Button
                       colorScheme="green"
-                      w="180px"
+                      w={{ base: 'full', lg: '180px' }}
                       h="60px"
                       fontSize="18px"
                       fontWeight="600"
                       onClick={handlePayment}
                       isLoading={creatingPayment}
-                      // bgGradient="linear(to-r, blue.500, purple.500)"
                       _hover={{
-                        // bgGradient: 'linear(to-r, green.500, green.600)',
                         transform: 'translateY(-2px)',
                         boxShadow: 'xl'
                       }}
@@ -1006,14 +1004,13 @@ const PaymentWrapper = () => {
                     <Button
                       colorScheme="blue"
                       color="#FFF"
-                      w="180px"
+                      w={{ base: 'full', lg: '180px' }}
                       h="60px"
                       fontSize="18px"
                       fontWeight="600"
                       onClick={() => router.push('/gio-hang')}
                       leftIcon={<Icon as={FiShoppingCart} boxSize={6} />}
                       _hover={{
-                        // bgGradient: 'linear(to-r, blue.600, purple.600)',
                         transform: 'translateY(-2px)',
                         boxShadow: 'xl'
                       }}
@@ -1022,7 +1019,7 @@ const PaymentWrapper = () => {
                     >
                       Quay lại giỏ hàng
                     </Button>
-                  </HStack>
+                  </Stack>
                 </Flex>
               </VStack>
 
