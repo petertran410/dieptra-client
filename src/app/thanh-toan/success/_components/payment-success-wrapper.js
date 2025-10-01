@@ -25,7 +25,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { useRecoilState } from 'recoil';
-import { API } from '../../../../utils/axios';
+import { API } from '../../../../utils/API';
 
 const PaymentSuccessContent = () => {
   const router = useRouter();
@@ -155,21 +155,38 @@ const PaymentSuccessContent = () => {
               <Divider />
 
               <Box>
-                <Text fontWeight="semibold" mb="3" fontSize="lg">
+                <Text fontWeight="semibold" mb="3" fontSize="2xl" align="center">
                   Thông tin đơn hàng
                 </Text>
                 <VStack spacing="3" align="stretch">
                   {orderDetails?.fullName && (
                     <HStack justify="space-between">
-                      <Text color="gray.600">Tên khách hàng:</Text>
-                      <Text fontWeight="medium">{orderDetails.fullName}</Text>
+                      <Text color="gray.600" fontSize="lg">
+                        Tên khách hàng:
+                      </Text>
+                      <Text fontWeight="medium" fontSize="lg">
+                        {orderDetails.fullName}
+                      </Text>
+                    </HStack>
+                  )}
+
+                  {paymentStatus?.orderId && (
+                    <HStack justify="space-between">
+                      <Text color="gray.600" fontSize="lg">
+                        Đơn Hàng:
+                      </Text>
+                      <Badge colorScheme="blue" px="3" py="1" fontSize="lg">
+                        {paymentStatus.orderId}
+                      </Badge>
                     </HStack>
                   )}
 
                   {paymentStatus?.orderKiotCode && (
                     <HStack justify="space-between">
-                      <Text color="gray.600">Mã đơn hàng:</Text>
-                      <Badge colorScheme="blue" fontSize="md" px="3" py="1">
+                      <Text color="gray.600" fontSize="lg">
+                        Mã đơn hàng:
+                      </Text>
+                      <Badge colorScheme="blue" fontSize="lg" px="3" py="1">
                         {paymentStatus.orderKiotCode}
                       </Badge>
                     </HStack>
@@ -177,7 +194,9 @@ const PaymentSuccessContent = () => {
 
                   {paymentStatus?.amount && (
                     <HStack justify="space-between">
-                      <Text color="gray.600">Số tiền:</Text>
+                      <Text color="gray.600" fontSize="lg">
+                        Số tiền:
+                      </Text>
                       <Text fontWeight="medium" color="green.600" fontSize="lg">
                         {paymentStatus.amount.toLocaleString('vi-VN')}đ
                       </Text>
@@ -186,17 +205,21 @@ const PaymentSuccessContent = () => {
 
                   {orderDetails?.transactionDate && (
                     <HStack justify="space-between">
-                      <Text color="gray.600">Ngày mua hàng:</Text>
-                      <Text fontWeight="medium">{new Date(orderDetails.transactionDate).toLocaleString('vi-VN')}</Text>
+                      <Text color="gray.600" fontSize="lg">
+                        Ngày mua hàng:
+                      </Text>
+                      <Text fontWeight="medium" fontSize="lg">
+                        {new Date(orderDetails.transactionDate).toLocaleString('vi-VN')}
+                      </Text>
                     </HStack>
                   )}
 
                   {orderDetails?.transactionContent && (
                     <Box>
-                      <Text color="gray.600" mb="1">
+                      <Text color="gray.600" mb="1" fontSize="lg">
                         Nội dung giao dịch:
                       </Text>
-                      <Text fontWeight="medium" fontSize="sm" color="gray.700">
+                      <Text fontWeight="medium" fontSize="lg" color="gray.700">
                         {orderDetails.transactionContent}
                       </Text>
                     </Box>

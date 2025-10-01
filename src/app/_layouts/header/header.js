@@ -271,7 +271,7 @@ const Header = () => {
 
         {/* RIGHT SECTION - Cart + Auth */}
         <Flex align="center" gap="16px">
-          {/* <CartHeader /> */}
+          <CartHeader />
 
           {/* Auth Section */}
           {user ? (
