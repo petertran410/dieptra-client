@@ -16,7 +16,6 @@ import {
   AlertTitle,
   AlertDescription,
   Spinner,
-  Image,
   Divider,
   Badge,
   Card,
@@ -26,6 +25,7 @@ import {
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { useRecoilState } from 'recoil';
+import { API } from '../../../../utils/axios';
 
 const PaymentSuccessContent = () => {
   const router = useRouter();
@@ -33,16 +33,40 @@ const PaymentSuccessContent = () => {
   const [cart, setCart] = useRecoilState(cartAtom);
 
   const orderId = searchParams.get('orderId');
-  const transactionId = searchParams.get('transactionId');
-  const transactionDate = searchParams.get('transactionDate');
-  const accountNumber = searchParams.get('accountNumber');
-  const content = searchParams.get('content');
   const status = searchParams.get('status');
 
   const [isClient, setIsClient] = useState(false);
   const [cartCleared, setCartCleared] = useState(false);
+  const [orderDetails, setOrderDetails] = useState(null);
+  const [loadingDetails, setLoadingDetails] = useState(true);
 
-  const { data: paymentStatus, isLoading, refetch } = useQueryPaymentStatus(orderId, !!orderId);
+  const { data: paymentStatus, isLoading } = useQueryPaymentStatus(orderId, !!orderId);
+
+  console.log(paymentStatus);
+  console.log(orderDetails);
+
+  useEffect(() => {
+    const fetchOrderDetails = async () => {
+      if (!orderId) return;
+
+      try {
+        const response = await API.request({
+          url: `/api/payment/order-details/${orderId}`,
+          method: 'GET'
+        });
+
+        if (response.success) {
+          setOrderDetails(response.order);
+        }
+      } catch (error) {
+        console.error('Error fetching order details:', error);
+      } finally {
+        setLoadingDetails(false);
+      }
+    };
+
+    fetchOrderDetails();
+  }, [orderId]);
 
   useEffect(() => {
     if (paymentStatus?.status === 'SUCCESS' && !cartCleared) {
@@ -87,7 +111,7 @@ const PaymentSuccessContent = () => {
     );
   }
 
-  if (isLoading) {
+  if (isLoading || loadingDetails) {
     return (
       <Flex justify="center" align="center" minH="60vh" direction="column">
         <Spinner size="xl" color="blue.500" mb="4" />
@@ -101,7 +125,6 @@ const PaymentSuccessContent = () => {
   return (
     <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} pb="50px">
       <VStack spacing="8" align="stretch" maxW="800px" mx="auto">
-        {/* Status Card */}
         <Card>
           <CardHeader>
             <VStack spacing="4">
@@ -116,9 +139,9 @@ const PaymentSuccessContent = () => {
               >
                 {isSuccess ? <Text fontSize="4xl">✓</Text> : <Text fontSize="4xl">✗</Text>}
               </Box>
-              <Heading size="lg" color={isSuccess ? 'green.600' : 'red.600'}>
+              <Text fontSize="2xl" fontWeight="bold" color={isSuccess ? 'green.600' : 'red.600'}>
                 {isSuccess ? 'Thanh toán thành công!' : 'Thanh toán thất bại'}
-              </Heading>
+              </Text>
               <Text color="gray.600" textAlign="center">
                 {isSuccess
                   ? 'Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đang được xử lý.'
@@ -131,12 +154,18 @@ const PaymentSuccessContent = () => {
             <VStack spacing="4" align="stretch">
               <Divider />
 
-              {/* Order Information */}
               <Box>
-                <Text fontWeight="semibold" mb="3">
+                <Text fontWeight="semibold" mb="3" fontSize="lg">
                   Thông tin đơn hàng
                 </Text>
-                <VStack spacing="2" align="stretch">
+                <VStack spacing="3" align="stretch">
+                  {orderDetails?.fullName && (
+                    <HStack justify="space-between">
+                      <Text color="gray.600">Tên khách hàng:</Text>
+                      <Text fontWeight="medium">{orderDetails.fullName}</Text>
+                    </HStack>
+                  )}
+
                   {paymentStatus?.orderKiotCode && (
                     <HStack justify="space-between">
                       <Text color="gray.600">Mã đơn hàng:</Text>
@@ -146,34 +175,37 @@ const PaymentSuccessContent = () => {
                     </HStack>
                   )}
 
-                  {transactionId && (
-                    <HStack justify="space-between">
-                      <Text color="gray.600">Mã giao dịch:</Text>
-                      <Text fontWeight="medium">{transactionId}</Text>
-                    </HStack>
-                  )}
-
                   {paymentStatus?.amount && (
                     <HStack justify="space-between">
                       <Text color="gray.600">Số tiền:</Text>
-                      <Text fontWeight="medium" color="green.600">
+                      <Text fontWeight="medium" color="green.600" fontSize="lg">
                         {paymentStatus.amount.toLocaleString('vi-VN')}đ
                       </Text>
                     </HStack>
                   )}
 
-                  {transactionDate && (
+                  {orderDetails?.transactionDate && (
                     <HStack justify="space-between">
-                      <Text color="gray.600">Thời gian:</Text>
-                      <Text fontWeight="medium">{new Date(transactionDate).toLocaleString('vi-VN')}</Text>
+                      <Text color="gray.600">Ngày mua hàng:</Text>
+                      <Text fontWeight="medium">{new Date(orderDetails.transactionDate).toLocaleString('vi-VN')}</Text>
                     </HStack>
+                  )}
+
+                  {orderDetails?.transactionContent && (
+                    <Box>
+                      <Text color="gray.600" mb="1">
+                        Nội dung giao dịch:
+                      </Text>
+                      <Text fontWeight="medium" fontSize="sm" color="gray.700">
+                        {orderDetails.transactionContent}
+                      </Text>
+                    </Box>
                   )}
                 </VStack>
               </Box>
 
               <Divider />
 
-              {/* Action Buttons */}
               <HStack spacing="4" pt="4">
                 <Button flex="1" colorScheme="blue" onClick={() => router.push('/san-pham')}>
                   Tiếp tục mua hàng
