@@ -1,7 +1,7 @@
 import Cookies from 'js-cookie';
 import { CK_CLIENT_TOKEN } from './const';
 
-const BASE_URL = process.env.NODE_ENV === 'production' ? 'https://api.gaulermao.com' : 'http://localhost:8084';
+const BASE_URL = process.env.NEXT_PUBLIC_API_DOMAIN || 'http://localhost:8084';
 
 export const API = {
   request: async ({ url, method = 'GET', params = {} }) => {
