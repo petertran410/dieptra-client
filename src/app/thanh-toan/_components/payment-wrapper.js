@@ -631,6 +631,10 @@ const PaymentWrapper = () => {
                     cursor="not-allowed"
                     isReadOnly
                     isDisabled
+                    _disabled={{
+                      opacity: 1,
+                      cursor: 'not-allowed'
+                    }}
                   />
                 </FormControl>
 
@@ -654,6 +658,10 @@ const PaymentWrapper = () => {
                     cursor="not-allowed"
                     isReadOnly
                     isDisabled
+                    _disabled={{
+                      opacity: 1,
+                      cursor: 'not-allowed'
+                    }}
                   />
                 </FormControl>
 
@@ -677,6 +685,10 @@ const PaymentWrapper = () => {
                     cursor="not-allowed"
                     isReadOnly
                     isDisabled
+                    _disabled={{
+                      opacity: 1,
+                      cursor: 'not-allowed'
+                    }}
                   />
                 </FormControl>
 
@@ -698,6 +710,10 @@ const PaymentWrapper = () => {
                     cursor="not-allowed"
                     isReadOnly
                     isDisabled
+                    _disabled={{
+                      opacity: 1,
+                      cursor: 'not-allowed'
+                    }}
                   >
                     {provinces.map((province) => (
                       <option key={province.code} value={province.code}>
@@ -725,6 +741,10 @@ const PaymentWrapper = () => {
                     cursor="not-allowed"
                     isReadOnly
                     isDisabled
+                    _disabled={{
+                      opacity: 1,
+                      cursor: 'not-allowed'
+                    }}
                   >
                     {districts.map((district) => (
                       <option key={district.code} value={district.code}>
@@ -752,6 +772,10 @@ const PaymentWrapper = () => {
                     cursor="not-allowed"
                     isReadOnly
                     isDisabled
+                    _disabled={{
+                      opacity: 1,
+                      cursor: 'not-allowed'
+                    }}
                   >
                     {wards.map((ward) => (
                       <option key={ward.code} value={ward.code}>
@@ -780,6 +804,10 @@ const PaymentWrapper = () => {
                     cursor="not-allowed"
                     isReadOnly
                     isDisabled
+                    _disabled={{
+                      opacity: 1,
+                      cursor: 'not-allowed'
+                    }}
                   />
                 </FormControl>
 
@@ -846,7 +874,7 @@ const PaymentWrapper = () => {
             </Box>
 
             <Box
-              w={{ base: '100%', lg: '420px' }}
+              flex="1"
               bg="white"
               p={8}
               borderRadius="xl"
@@ -928,7 +956,7 @@ const PaymentWrapper = () => {
                       Đơn vị vận chuyển:
                     </Text>
                   </HStack>
-                  <Badge colorScheme="green" fontSize="lg" px={3} py={1}>
+                  <Badge fontSize="md" px={3} py={1}>
                     Giao hàng nhanh
                   </Badge>
                 </HStack>
@@ -936,10 +964,10 @@ const PaymentWrapper = () => {
                 <Divider />
 
                 <HStack justify="space-between">
-                  <Text fontWeight="bold" color="gray.800" fontSize="lg">
+                  <Text fontWeight="bold" color="gray.800" fontSize="2xl">
                     Tổng cộng:
                   </Text>
-                  <Text fontWeight="bold" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" fontSize="lg">
+                  <Text fontWeight="bold" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" fontSize="2xl">
                     {formatCurrency(calculateTotal())}
                   </Text>
                 </HStack>
