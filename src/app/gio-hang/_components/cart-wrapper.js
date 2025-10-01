@@ -237,9 +237,8 @@ const CartWrapper = () => {
             </Flex>
           </Box>
 
-          {/* Payment Button */}
-          <Flex justify="space-around">
-            <Flex direction="column" gap="3" w={{ xs: 'full', lg: '200px' }}>
+          <Flex direction="row" gap="4" w={{ xs: 'full', lg: '350px' }}>
+            <Flex direction="column" gap="3" flex="1">
               <Button
                 colorScheme="green"
                 size="lg"
@@ -248,35 +247,33 @@ const CartWrapper = () => {
                 h="60px"
                 fontSize="18px"
                 fontWeight="600"
+                w="full"
                 leftIcon={<Image src="/images/cart.webp" width={24} height={24} alt="Cart" />}
               >
                 Thanh toán ngay
               </Button>
-
-              <Text fontSize="xs" color="gray.600" textAlign="center">
+              {/* <Text fontSize="xs" color="gray.600" textAlign="center">
                 Bảo mật thanh toán với SePay
-              </Text>
+              </Text> */}
             </Flex>
-            <Button
-              align="center"
-              // justify="center"
-              bgColor="#065FD4"
-              color="#FFF"
-              // w={{ xs: 'full', lg: '500px' }}
-              // h={{ xs: '32px', lg: '40px' }}
-              gap="4px"
-              // fontSize={16}
-              // fontWeight={500}
-              fontSize="18px"
-              fontWeight="600"
-              borderRadius={8}
-              _hover={{ bgColor: '#5d97e3' }}
-              _active={{ bgColor: '#5d97e3' }}
-              isDisabled={!cart.length}
-              onClick={() => setShowContact(true)}
-            >
-              Liên hệ tư vấn
-            </Button>
+
+            <Flex direction="column" gap="3" flex="1">
+              <Button
+                bgColor="#065FD4"
+                color="#FFF"
+                h="60px"
+                fontSize="18px"
+                fontWeight="600"
+                borderRadius={8}
+                w="full"
+                _hover={{ bgColor: '#5d97e3' }}
+                _active={{ bgColor: '#5d97e3' }}
+                isDisabled={!cart.length}
+                onClick={() => setShowContact(true)}
+              >
+                Liên hệ tư vấn
+              </Button>
+            </Flex>
           </Flex>
         </Flex>
       )}
