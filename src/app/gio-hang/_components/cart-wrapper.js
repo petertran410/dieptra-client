@@ -250,7 +250,7 @@ const CartWrapper = () => {
                 w="full"
                 leftIcon={<Image src="/images/cart.webp" width={24} height={24} alt="Cart" />}
                 _hover={{
-                  bgGradient: 'linear(to-r, green.500, green.600)',
+                  // bgGradient: 'linear(to-r, green.500, green.600)',
                   transform: 'translateY(-2px)',
                   boxShadow: 'xl'
                 }}
@@ -272,7 +272,7 @@ const CartWrapper = () => {
                 borderRadius={8}
                 w="full"
                 _hover={{
-                  bgGradient: 'linear(to-r, blue.600, purple.600)',
+                  // bgGradient: 'linear(to-r, blue.600, purple.600)',
                   transform: 'translateY(-2px)',
                   boxShadow: 'xl'
                 }}

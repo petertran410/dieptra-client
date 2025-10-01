@@ -580,7 +580,7 @@ const PaymentWrapper = () => {
     <Box
       minH="100vh"
       bgGradient="linear(to-br, blue.50, purple.50, pink.50)"
-      pt={{ base: '70px', lg: '162px' }}
+      pt={{ base: '70px', lg: '162px', xs: '85px' }}
       pb="50px"
     >
       <Container maxW="full" px={PX_ALL}>
@@ -993,7 +993,7 @@ const PaymentWrapper = () => {
                       isLoading={creatingPayment}
                       // bgGradient="linear(to-r, blue.500, purple.500)"
                       _hover={{
-                        bgGradient: 'linear(to-r, green.500, green.600)',
+                        // bgGradient: 'linear(to-r, green.500, green.600)',
                         transform: 'translateY(-2px)',
                         boxShadow: 'xl'
                       }}
@@ -1013,7 +1013,7 @@ const PaymentWrapper = () => {
                       onClick={() => router.push('/gio-hang')}
                       leftIcon={<Icon as={FiShoppingCart} boxSize={6} />}
                       _hover={{
-                        bgGradient: 'linear(to-r, blue.600, purple.600)',
+                        // bgGradient: 'linear(to-r, blue.600, purple.600)',
                         transform: 'translateY(-2px)',
                         boxShadow: 'xl'
                       }}
