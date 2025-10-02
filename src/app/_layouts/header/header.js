@@ -109,7 +109,7 @@ const Header = () => {
     await authService.logout();
     setUser(null);
 
-    const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang'];
+    const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang', '/profile'];
     const currentPath = window.location.pathname;
 
     const isOnProtectedPage = protectedPages.some((page) => currentPath.startsWith(page));
@@ -145,12 +145,10 @@ const Header = () => {
         w="full"
         boxShadow={isScrolled ? 'xs' : 'none'}
       >
-        {/* LOGO */}
         <Link href="/">
           <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
         </Link>
 
-        {/* NAVIGATION MENU */}
         <Flex align="center" flex={1} h="full" justify="center">
           {MENU_LIST.map((item, index) => {
             const { title, href, hasDropdown, dropdownItems } = item;
@@ -161,7 +159,6 @@ const Header = () => {
               isActive = pathname.includes(href);
             }
 
-            // Menu item with dropdown (only for "Bài Viết")
             if (hasDropdown && dropdownItems) {
               return (
                 <Box
@@ -170,7 +167,6 @@ const Header = () => {
                   onMouseEnter={() => setShowDropdown(index)}
                   onMouseLeave={() => setShowDropdown(null)}
                 >
-                  {/* Menu Button */}
                   <Link href={href}>
                     <Flex
                       justify="center"
@@ -178,7 +174,7 @@ const Header = () => {
                       py="10px"
                       w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
                       borderBottom="2px solid"
-                      borderColor={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : 'transparent'}
+                      borderColor={isActive ? (!isTransparent || isScrolled ? '#003366' : '#333') : 'transparent'}
                       cursor="pointer"
                     >
                       <Text
@@ -196,51 +192,42 @@ const Header = () => {
                       </Text>
                     </Flex>
                   </Link>
-
-                  {/* Dropdown Menu */}
                   {showDropdown === index && (
                     <Box
                       position="absolute"
                       top="100%"
                       left="0"
                       bg="white"
-                      border="1px solid #e2e8f0"
+                      boxShadow="lg"
                       borderRadius="8px"
-                      boxShadow="0 10px 25px rgba(0,0,0,0.15)"
-                      py={2}
-                      minW="280px"
-                      maxH="400px"
-                      overflowY="auto"
+                      minW="200px"
                       zIndex={1001}
+                      mt="8px"
                     >
-                      {dropdownItems.map((dropdownItem, itemIndex) => (
-                        <Link key={itemIndex} href={dropdownItem.href}>
-                          <Box
-                            px={4}
-                            py={3}
-                            fontSize={16}
-                            fontWeight={400}
-                            color="gray.700"
-                            cursor="pointer"
-                            _hover={{
-                              bg: 'gray.200',
-                              color: 'black'
-                            }}
-                            transition="all 0.2s ease"
-                          >
-                            {dropdownItem.label || dropdownItem.name}
-                          </Box>
-                        </Link>
-                      ))}
+                      <VStack spacing={0} align="stretch">
+                        {dropdownItems.map((dropItem, dropIndex) => (
+                          <Link key={dropIndex} href={dropItem.href}>
+                            <Box
+                              px="16px"
+                              py="12px"
+                              fontSize="15px"
+                              color="#333"
+                              _hover={{ bg: '#f7fafc', color: '#065FD4' }}
+                              borderBottom={dropIndex !== dropdownItems.length - 1 ? '1px solid #e2e8f0' : 'none'}
+                            >
+                              {dropItem.label}
+                            </Box>
+                          </Link>
+                        ))}
+                      </VStack>
                     </Box>
                   )}
                 </Box>
               );
             }
 
-            // Regular menu item
             return (
-              <Link href={href} key={title}>
+              <Link key={title} href={href}>
                 <Flex
                   justify="center"
                   px="16px"
@@ -269,11 +256,9 @@ const Header = () => {
           })}
         </Flex>
 
-        {/* RIGHT SECTION - Cart + Auth */}
         <Flex align="center" gap="16px">
           <CartHeader />
 
-          {/* Auth Section */}
           {user ? (
             <Menu>
               <MenuButton>
@@ -304,6 +289,7 @@ const Header = () => {
         </Flex>
       </Flex>
 
+      {/* MOBILE HEADER */}
       <Flex
         display={{ xs: 'flex', lg: 'none' }}
         zIndex={1000}
@@ -325,6 +311,16 @@ const Header = () => {
 
         <Flex align="center" gap="16px">
           <CartHeaderMobile />
+
+          {user ? (
+            <Link href="/profile">
+              <UserIcon w="24px" h="24px" color="#065FD4" cursor="pointer" />
+            </Link>
+          ) : (
+            <Link href="/dang-nhap">
+              <UserIcon w="24px" h="24px" color="#065FD4" cursor="pointer" />
+            </Link>
+          )}
 
           <Box onClick={onOpen} cursor="pointer">
             <Box w="24px" h="2px" bg="#333" mb="6px" />
@@ -350,6 +346,65 @@ const Header = () => {
           </DrawerHeader>
           <DrawerBody p={0}>
             <VStack spacing={0} align="stretch">
+              {user && (
+                <Box borderBottom="1px solid #e2e8f0" bg="#f7fafc">
+                  <Flex px={6} py={4} align="center" gap="12px">
+                    <UserIcon w="24px" h="24px" color="#065FD4" />
+                    <Text fontSize={16} fontWeight={600} color="#333">
+                      {user.full_name || user.fullName}
+                    </Text>
+                  </Flex>
+                  <VStack spacing={0} align="stretch">
+                    <Link href="/profile" onClick={onClose}>
+                      <Box
+                        px={8}
+                        py={3}
+                        fontSize={15}
+                        color="#666"
+                        _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
+                        borderBottom="1px solid #e2e8f0"
+                      >
+                        Thông tin
+                      </Box>
+                    </Link>
+                    <Box
+                      px={8}
+                      py={3}
+                      fontSize={15}
+                      color="#666"
+                      _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
+                      borderBottom="1px solid #e2e8f0"
+                      cursor="pointer"
+                      onClick={() => {
+                        handleLogout();
+                        onClose();
+                      }}
+                    >
+                      Đăng xuất
+                    </Box>
+                  </VStack>
+                </Box>
+              )}
+
+              {!user && (
+                <Link href="/dang-nhap" onClick={onClose}>
+                  <Box
+                    px={6}
+                    py={4}
+                    fontSize={16}
+                    fontWeight={500}
+                    color="#065FD4"
+                    bg="#f7fafc"
+                    borderBottom="1px solid #e2e8f0"
+                  >
+                    <Flex align="center" gap="12px">
+                      <UserIcon w="24px" h="24px" />
+                      <Text>Đăng nhập</Text>
+                    </Flex>
+                  </Box>
+                </Link>
+              )}
+
               {MENU_LIST.map((menu, index) => {
                 const { title, href, hasDropdown, dropdownItems } = menu;
                 const isActive = pathname === href || pathname.startsWith(href);
