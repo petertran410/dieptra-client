@@ -62,16 +62,24 @@ const ProductDetail = async ({ params }) => {
   }
 
   try {
-    const relatedProductsResponse = await API.request({
-      url: '/api/product/client/get-all',
-      params: {
-        pageSize: 8,
-        pageNumber: 0,
-        is_visible: 'true'
-      }
-    });
+    const categoryId = productDetail?.categoryId;
 
-    relatedProducts = relatedProductsResponse?.content || [];
+    if (categoryId) {
+      const relatedProductsResponse = await API.request({
+        url: '/api/product/client/get-all',
+        params: {
+          pageSize: 8,
+          pageNumber: 0,
+          categoryId: categoryId,
+          excludeProductId: productDetail.id,
+          randomize: 'true',
+          is_visible: 'true'
+        },
+        cache: 'no-store'
+      });
+
+      relatedProducts = relatedProductsResponse?.content || [];
+    }
   } catch (error) {
     console.error('Failed to fetch related products:', error);
     relatedProducts = [];
