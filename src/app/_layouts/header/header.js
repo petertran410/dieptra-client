@@ -275,7 +275,7 @@ const Header = () => {
 
         {/* RIGHT SECTION - Cart + Auth */}
         <Flex align="center" gap="16px">
-          <CartHeader />
+          {/* <CartHeader /> */}
 
           {/* Auth Section */}
           {user ? (
@@ -328,7 +328,7 @@ const Header = () => {
         </Link>
 
         <Flex align="center" gap="16px">
-          <CartHeaderMobile />
+          {/* <CartHeaderMobile />
 
           {user ? (
             <Link href="/profile">
@@ -338,7 +338,7 @@ const Header = () => {
             <Link href="/dang-nhap">
               <UserIcon w="24px" h="24px" color="#065FD4" cursor="pointer" />
             </Link>
-          )}
+          )} */}
 
           <Box onClick={onOpen} cursor="pointer">
             <Box w="24px" h="2px" bg="#333" mb="6px" />
