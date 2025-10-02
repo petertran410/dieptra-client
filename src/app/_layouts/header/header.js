@@ -121,6 +121,10 @@ const Header = () => {
       });
       router.push('/');
     } else {
+      showToast({
+        status: 'info',
+        content: 'Đã đăng xuất thành công.'
+      });
       router.refresh();
     }
   };
@@ -145,10 +149,12 @@ const Header = () => {
         w="full"
         boxShadow={isScrolled ? 'xs' : 'none'}
       >
+        {/* LOGO */}
         <Link href="/">
           <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
         </Link>
 
+        {/* NAVIGATION MENU */}
         <Flex align="center" flex={1} h="full" justify="center">
           {MENU_LIST.map((item, index) => {
             const { title, href, hasDropdown, dropdownItems } = item;
@@ -159,6 +165,7 @@ const Header = () => {
               isActive = pathname.includes(href);
             }
 
+            // Menu item with dropdown (only for "Bài Viết")
             if (hasDropdown && dropdownItems) {
               return (
                 <Box
@@ -167,6 +174,7 @@ const Header = () => {
                   onMouseEnter={() => setShowDropdown(index)}
                   onMouseLeave={() => setShowDropdown(null)}
                 >
+                  {/* Menu Button */}
                   <Link href={href}>
                     <Flex
                       justify="center"
@@ -174,7 +182,7 @@ const Header = () => {
                       py="10px"
                       w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
                       borderBottom="2px solid"
-                      borderColor={isActive ? (!isTransparent || isScrolled ? '#003366' : '#333') : 'transparent'}
+                      borderColor={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : 'transparent'}
                       cursor="pointer"
                     >
                       <Text
@@ -192,42 +200,51 @@ const Header = () => {
                       </Text>
                     </Flex>
                   </Link>
+
+                  {/* Dropdown Menu */}
                   {showDropdown === index && (
                     <Box
                       position="absolute"
                       top="100%"
                       left="0"
                       bg="white"
-                      boxShadow="lg"
+                      border="1px solid #e2e8f0"
                       borderRadius="8px"
-                      minW="200px"
+                      boxShadow="0 10px 25px rgba(0,0,0,0.15)"
+                      py={2}
+                      minW="280px"
+                      maxH="400px"
+                      overflowY="auto"
                       zIndex={1001}
-                      mt="8px"
                     >
-                      <VStack spacing={0} align="stretch">
-                        {dropdownItems.map((dropItem, dropIndex) => (
-                          <Link key={dropIndex} href={dropItem.href}>
-                            <Box
-                              px="16px"
-                              py="12px"
-                              fontSize="15px"
-                              color="#333"
-                              _hover={{ bg: '#f7fafc', color: '#065FD4' }}
-                              borderBottom={dropIndex !== dropdownItems.length - 1 ? '1px solid #e2e8f0' : 'none'}
-                            >
-                              {dropItem.label}
-                            </Box>
-                          </Link>
-                        ))}
-                      </VStack>
+                      {dropdownItems.map((dropdownItem, itemIndex) => (
+                        <Link key={itemIndex} href={dropdownItem.href}>
+                          <Box
+                            px={4}
+                            py={3}
+                            fontSize={16}
+                            fontWeight={400}
+                            color="gray.700"
+                            cursor="pointer"
+                            _hover={{
+                              bg: 'gray.200',
+                              color: 'black'
+                            }}
+                            transition="all 0.2s ease"
+                          >
+                            {dropdownItem.label || dropdownItem.name}
+                          </Box>
+                        </Link>
+                      ))}
                     </Box>
                   )}
                 </Box>
               );
             }
 
+            // Regular menu item
             return (
-              <Link key={title} href={href}>
+              <Link href={href} key={title}>
                 <Flex
                   justify="center"
                   px="16px"
@@ -256,9 +273,11 @@ const Header = () => {
           })}
         </Flex>
 
+        {/* RIGHT SECTION - Cart + Auth */}
         <Flex align="center" gap="16px">
           <CartHeader />
 
+          {/* Auth Section */}
           {user ? (
             <Menu>
               <MenuButton>
@@ -289,7 +308,6 @@ const Header = () => {
         </Flex>
       </Flex>
 
-      {/* MOBILE HEADER */}
       <Flex
         display={{ xs: 'flex', lg: 'none' }}
         zIndex={1000}
