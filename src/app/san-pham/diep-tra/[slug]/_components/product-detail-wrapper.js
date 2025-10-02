@@ -201,7 +201,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
           </Grid>
 
           <Box>
-            <Heading as="h2" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
+            <Heading as="p" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
               Thông Tin Sản Phẩm
             </Heading>
 

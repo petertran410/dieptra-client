@@ -50,12 +50,12 @@ const ProductItem = ({ item }) => {
       position="relative"
     >
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
-        <Box
+        {/* <Box
           position="absolute"
           top="8px"
           left="8px"
           // bgColor={getCategoryColor()}
-          color="white"
+          color="black"
           fontSize="9px"
           fontWeight="bold"
           px="6px"
@@ -66,7 +66,7 @@ const ProductItem = ({ item }) => {
           letterSpacing="0.5px"
         >
           {getCategoryName()}
-        </Box>
+        </Box> */}
 
         <AspectRatio ratio={1 / 1} w="full">
           <Box

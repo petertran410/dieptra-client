@@ -24,7 +24,7 @@ const OtherProduct = ({ productList, productId }) => {
 
   return (
     <Box>
-      <Heading as="h2" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
+      <Heading as="h3" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
         Sản Phẩm Liên Quan
       </Heading>
 
