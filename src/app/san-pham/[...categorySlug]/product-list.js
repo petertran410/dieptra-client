@@ -129,7 +129,7 @@ const ProductList = ({ categorySlug = [] }) => {
     isLoading: allProductsLoading,
     error: allProductsError
   } = useQueryProductList({
-    currentPage,
+    currentPage: searchTerm.trim() ? 1 : currentPage,
     enabled: !shouldUseCategoryFilter
   });
 
@@ -138,19 +138,39 @@ const ProductList = ({ categorySlug = [] }) => {
     isLoading: categoryProductsLoading,
     error: categoryProductsError
   } = useQueryProductsByCategories(categoryIds, {
-    currentPage,
+    currentPage: searchTerm.trim() ? 1 : currentPage,
     enabled: shouldUseCategoryFilter
   });
+
+  const { data: allProductsForSearch, isLoading: searchLoading } = useQueryProductList({
+    currentPage: 1,
+    enabled: !!searchTerm.trim() && !shouldUseCategoryFilter
+  });
+
+  const { data: categoryProductsForSearch, isLoading: categorySearchLoading } = useQueryProductsByCategories(
+    categoryIds,
+    {
+      currentPage: 1,
+      enabled: !!searchTerm.trim() && shouldUseCategoryFilter
+    }
+  );
 
   const isLoading =
     categoriesLoading ||
     allCategoriesLoading ||
     pathsLoading ||
-    (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading);
+    (shouldUseCategoryFilter ? categoryProductsLoading : allProductsLoading) ||
+    (searchTerm.trim() ? (shouldUseCategoryFilter ? categorySearchLoading : searchLoading) : false);
 
   const error = allProductsError || categoryProductsError;
 
-  const productsData = shouldUseCategoryFilter ? categoryProductsData : allProductsData;
+  const productsData = searchTerm.trim()
+    ? shouldUseCategoryFilter
+      ? categoryProductsForSearch
+      : allProductsForSearch
+    : shouldUseCategoryFilter
+    ? categoryProductsData
+    : allProductsData;
   const allProducts = productsData?.content || [];
 
   const processedProducts = useMemo(() => {
@@ -182,10 +202,11 @@ const ProductList = ({ categorySlug = [] }) => {
     return filtered;
   }, [allProducts, searchTerm, currentSort]);
 
-  const totalElements = productsData?.totalElements || 0;
+  const totalElements = searchTerm.trim() ? processedProducts.length : productsData?.totalElements || 0;
   const totalPages = Math.ceil(totalElements / PRODUCTS_PER_PAGE);
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
-  const products = processedProducts;
+  const endIndex = startIndex + PRODUCTS_PER_PAGE;
+  const products = processedProducts.slice(startIndex, endIndex);
 
   const getCategoryDisplayName = () => {
     if (selectedCategory === 'all') {

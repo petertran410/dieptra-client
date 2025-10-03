@@ -65,8 +65,8 @@ export const useQueryProductList = ({ currentPage = 1, enabled = true } = {}) =>
       const response = await API.request({
         url: '/api/product/client/get-all',
         params: {
-          pageNumber: currentPage - 1,
-          pageSize: 15,
+          pageNumber: 0,
+          pageSize: 1000,
           is_visible: 'true'
         }
       });
@@ -81,13 +81,13 @@ export const useQueryProductsByCategories = (categoryIds = [], options = {}) => 
   const { currentPage = 1, enabled = true } = options;
 
   return useQuery({
-    queryKey: ['GET_PRODUCTS_BY_CATEGORIES', categoryIds, currentPage],
+    queryKey: ['GET_PRODUCTS_BY_CATEGORIES', categoryIds],
     queryFn: async () => {
       return API.request({
         url: '/api/product/client/get-all',
         params: {
-          pageNumber: currentPage - 1,
-          pageSize: 15,
+          pageNumber: 0,
+          pageSize: 1000,
           categoryIds: categoryIds.join(','),
           is_visible: 'true'
         }
