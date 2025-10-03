@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Flex,
@@ -33,6 +33,29 @@ const RegisterWrapper = () => {
   const [otp, setOtp] = useState('');
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [countdown, setCountdown] = useState(0);
+
+  useEffect(() => {
+    if (countdown > 0) {
+      const timer = setInterval(() => {
+        setCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+
+      return () => clearInterval(timer);
+    }
+  }, [countdown]);
+
+  const formatCountdown = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -93,6 +116,7 @@ const RegisterWrapper = () => {
       });
 
       setStep('verify');
+      setCountdown(600);
     } catch (error) {
       showToast({
         status: 'error',
@@ -123,9 +147,22 @@ const RegisterWrapper = () => {
 
       window.location.href = '/';
     } catch (error) {
+      const errorMessage = error?.message || '';
+
+      let toastContent = 'Mã OTP không hợp lệ. Vui lòng thử lại.';
+
+      if (errorMessage.includes('expired') || errorMessage.includes('hết hạn')) {
+        toastContent = 'Mã xác thực đã hết hạn. Vui lòng gửi lại mã mới.';
+      } else if (errorMessage.includes('Invalid verification code') || errorMessage.includes('không hợp lệ')) {
+        toastContent = 'Mã xác thực không đúng. Vui lòng kiểm tra lại.';
+      }
+      // else if (errorMessage.includes('No pending registration') || errorMessage.includes('không tìm thấy')) {
+      //   toastContent = 'Không tìm thấy yêu cầu đăng ký. Vui lòng đăng ký lại.';
+      // }
+
       showToast({
         status: 'error',
-        content: error?.message || 'Mã OTP không hợp lệ hoặc đã hết hạn'
+        content: toastContent
       });
     } finally {
       setIsLoading(false);
@@ -143,6 +180,7 @@ const RegisterWrapper = () => {
         content: 'Mã xác thực mới đã được gửi đến email của bạn!'
       });
       setOtp('');
+      setCountdown(600);
     } catch (error) {
       showToast({
         status: 'error',
@@ -291,8 +329,16 @@ const RegisterWrapper = () => {
                   Xác nhận
                 </Button>
 
-                <Button variant="ghost" color="#065FD4" onClick={handleResendOtp} isDisabled={isLoading}>
-                  Gửi lại mã
+                <Button
+                  variant="ghost"
+                  color="#065FD4"
+                  onClick={handleResendOtp}
+                  isDisabled={countdown > 0 || isLoading}
+                  opacity={countdown > 0 ? 0.4 : 1}
+                  cursor={countdown > 0 ? 'not-allowed' : 'pointer'}
+                  _hover={countdown > 0 ? {} : { bg: 'gray.100' }}
+                >
+                  {countdown > 0 ? `Gửi lại mã (${formatCountdown(countdown)})` : 'Gửi lại mã'}
                 </Button>
 
                 <Button variant="ghost" onClick={() => setStep('register')} isDisabled={isLoading}>
