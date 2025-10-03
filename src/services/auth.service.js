@@ -14,6 +14,15 @@ export const authService = {
         pass_word: data.pass_word
       }
     });
+    return response;
+  },
+
+  verifyEmail: async (email, code) => {
+    const response = await API.request({
+      url: '/api/client-auth/verify-email',
+      method: 'POST',
+      params: { email, code }
+    });
 
     if (response.access_token) {
       Cookies.set(CK_CLIENT_TOKEN, response.access_token, { expires: 7 });
