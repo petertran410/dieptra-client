@@ -46,7 +46,6 @@ const ProfileWrapper = () => {
     detailed_address: ''
   });
 
-  // Load provinces data
   useEffect(() => {
     const loadProvinces = async () => {
       try {
@@ -63,7 +62,6 @@ const ProfileWrapper = () => {
     loadProvinces();
   }, []);
 
-  // Load user profile
   useEffect(() => {
     const loadProfile = async () => {
       try {

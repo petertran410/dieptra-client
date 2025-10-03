@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import CategorySidebar from '../_components/category-sidebar';
 import {
@@ -39,6 +39,7 @@ const PRODUCTS_PER_PAGE = 15;
 
 const ProductList = ({ categorySlug = [] }) => {
   const router = useRouter();
+  const searchInputRef = useRef(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
@@ -251,8 +252,9 @@ const ProductList = ({ categorySlug = [] }) => {
     return `/san-pham/${category.slug}`;
   };
 
-  const handleSearch = (e) => {
-    if (e.key === 'Enter' || e.type === 'click') {
+  const handleSearch = () => {
+    if (searchInputRef.current) {
+      setSearchTerm(searchInputRef.current.value);
       setCurrentPage(1);
     }
   };
@@ -465,10 +467,10 @@ const ProductList = ({ categorySlug = [] }) => {
                   <SearchIcon color="gray.400" />
                 </InputLeftElement>
                 <Input
+                  ref={searchInputRef}
                   placeholder="Tìm kiếm sản phẩm..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  onKeyPress={handleSearch}
+                  defaultValue={searchTerm}
+                  onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   bg="white"
                   border="1px solid #E2E8F0"
                   _focus={{ borderColor: '#003366', boxShadow: '0 0 0 1px #003366' }}
