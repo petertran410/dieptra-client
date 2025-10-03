@@ -57,10 +57,18 @@ export const authService = {
         Cookies.set(CK_CLIENT_USER, JSON.stringify(response.user), { expires: 7 });
         return { isAuthenticated: true, user: response.user };
       }
+
+      this.clearAuthData();
       return { isAuthenticated: false };
     } catch (error) {
+      this.clearAuthData();
       return { isAuthenticated: false };
     }
+  },
+
+  clearAuthData: () => {
+    Cookies.remove(CK_CLIENT_TOKEN);
+    Cookies.remove(CK_CLIENT_USER);
   },
 
   logout: async () => {
@@ -72,8 +80,7 @@ export const authService = {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      Cookies.remove(CK_CLIENT_TOKEN);
-      Cookies.remove(CK_CLIENT_USER);
+      this.clearAuthData();
     }
   },
 

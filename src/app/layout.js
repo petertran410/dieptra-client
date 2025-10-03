@@ -8,6 +8,7 @@ import Footer from './_layouts/footer';
 import Header from './_layouts/header';
 import './globals.css';
 import { Providers } from './providers';
+import { AuthProvider } from '../contexts/auth-context';
 
 const fontFamily = Afacad({ subsets: ['latin', 'vietnamese'] });
 
@@ -25,7 +26,6 @@ export default function RootLayout({ children }) {
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       </Head>
       <body className={fontFamily.className}>
-        {/* Google Analytics */}
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-S515RVWJQQ" strategy="afterInteractive" />
         <Script id="google-analytics" strategy="afterInteractive">
           {`
@@ -35,15 +35,16 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-S515RVWJQQ');
           `}
         </Script>
-
-        <Providers>
-          <Box pos="relative">
-            <Contact />
-            <Header />
-            <Box minH="100vh">{children}</Box>
-            <Footer />
-          </Box>
-        </Providers>
+        <AuthProvider>
+          <Providers>
+            <Box pos="relative">
+              <Contact />
+              <Header />
+              <Box minH="100vh">{children}</Box>
+              <Footer />
+            </Box>
+          </Providers>
+        </AuthProvider>
       </body>
     </html>
   );

@@ -14,12 +14,16 @@ import {
   FormErrorMessage,
   Link as ChakraLink,
   PinInput,
-  PinInputField
+  PinInputField,
+  InputGroup,
+  InputRightElement,
+  IconButton
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { authService } from '../../../services/auth.service';
 import { showToast } from '../../../utils/helper';
 import { PX_ALL } from '../../../utils/const';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 const RegisterWrapper = () => {
   const [step, setStep] = useState('register');
@@ -34,6 +38,8 @@ const RegisterWrapper = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -244,23 +250,45 @@ const RegisterWrapper = () => {
 
                   <FormControl isInvalid={!!errors.pass_word}>
                     <FormLabel>Mật khẩu</FormLabel>
-                    <Input
-                      type="password"
-                      value={formData.pass_word}
-                      onChange={(e) => handleChange('pass_word', e.target.value)}
-                      placeholder="Nhập mật khẩu"
-                    />
+                    <InputGroup>
+                      <Input
+                        type={showPassword ? 'text' : 'password'}
+                        value={formData.pass_word}
+                        onChange={(e) => handleChange('pass_word', e.target.value)}
+                        placeholder="Nhập mật khẩu"
+                      />
+                      <InputRightElement>
+                        <IconButton
+                          aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                          icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                          onClick={() => setShowPassword(!showPassword)}
+                          variant="ghost"
+                          size="sm"
+                        />
+                      </InputRightElement>
+                    </InputGroup>
                     <FormErrorMessage>{errors.pass_word}</FormErrorMessage>
                   </FormControl>
 
                   <FormControl isInvalid={!!errors.confirmPassword}>
                     <FormLabel>Xác nhận mật khẩu</FormLabel>
-                    <Input
-                      type="password"
-                      value={formData.confirmPassword}
-                      onChange={(e) => handleChange('confirmPassword', e.target.value)}
-                      placeholder="Nhập lại mật khẩu"
-                    />
+                    <InputGroup>
+                      <Input
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        value={formData.confirmPassword}
+                        onChange={(e) => handleChange('confirmPassword', e.target.value)}
+                        placeholder="Nhập lại mật khẩu"
+                      />
+                      <InputRightElement>
+                        <IconButton
+                          aria-label={showConfirmPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                          icon={showConfirmPassword ? <ViewOffIcon /> : <ViewIcon />}
+                          onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                          variant="ghost"
+                          size="sm"
+                        />
+                      </InputRightElement>
+                    </InputGroup>
                     <FormErrorMessage>{errors.confirmPassword}</FormErrorMessage>
                   </FormControl>
 

@@ -12,8 +12,12 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  Link as ChakraLink
+  Link as ChakraLink,
+  InputGroup,
+  InputRightElement,
+  IconButton
 } from '@chakra-ui/react';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import Link from 'next/link';
 import { authService } from '../../../services/auth.service';
 import { showToast } from '../../../utils/helper';
@@ -30,6 +34,7 @@ const LoginWrapper = () => {
   });
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -114,12 +119,23 @@ const LoginWrapper = () => {
 
               <FormControl isInvalid={!!errors.pass_word}>
                 <FormLabel>Mật khẩu</FormLabel>
-                <Input
-                  type="password"
-                  value={formData.pass_word}
-                  onChange={(e) => handleChange('pass_word', e.target.value)}
-                  placeholder="Nhập mật khẩu"
-                />
+                <InputGroup>
+                  <Input
+                    type={showPassword ? 'text' : 'password'}
+                    value={formData.pass_word}
+                    onChange={(e) => handleChange('pass_word', e.target.value)}
+                    placeholder="Nhập mật khẩu"
+                  />
+                  <InputRightElement>
+                    <IconButton
+                      aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                      icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
+                      onClick={() => setShowPassword(!showPassword)}
+                      variant="ghost"
+                      size="sm"
+                    />
+                  </InputRightElement>
+                </InputGroup>
                 <FormErrorMessage>{errors.pass_word}</FormErrorMessage>
               </FormControl>
 
