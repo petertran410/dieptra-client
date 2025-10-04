@@ -52,7 +52,7 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
           // bg="gray.100"
           borderRadius="lg"
           overflow="hidden"
-          border="1px solid #E2E8F0"
+          // border="1px solid #E2E8F0"
           position="relative"
           cursor="pointer"
           onClick={onOpen}
