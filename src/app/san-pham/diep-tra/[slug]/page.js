@@ -3,6 +3,8 @@ import { API } from '../../../../utils/API';
 import { META_DESCRIPTION } from '../../../../utils/helper-server';
 import ProductDetailWrapper from './_components/product-detail-wrapper';
 
+export const revalidate = 0;
+
 export async function generateMetadata({ params }) {
   const { slug } = params;
 
