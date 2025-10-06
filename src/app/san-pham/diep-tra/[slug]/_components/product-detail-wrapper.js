@@ -143,13 +143,14 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                   {price ? formatCurrency(price) : 'Liên hệ'}
                 </Text>
 
-                <Flex direction={{ base: 'column', lg: 'row' }} gap={4} align="stretch" w="full">
+                <Flex direction="row" gap={4} align="stretch" w="full">
                   <NumberInput
                     value={quantity}
                     onChange={(valueString, valueNumber) => setQuantity(valueNumber)}
                     min={1}
                     max={999}
-                    maxW={{ base: 'full', lg: '90px' }}
+                    flex={{ base: '0 0 auto', lg: '0 0 90px' }}
+                    w={{ base: '80px', lg: '90px' }}
                     size="lg"
                   >
                     <NumberInputField />
@@ -159,33 +160,31 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                     </NumberInputStepper>
                   </NumberInput>
 
-                  <Flex gap={4} flex={1}>
-                    <Box flex={1}>
-                      <AddCart
-                        price={price}
-                        productSlug={slug}
-                        productId={productDetail.id}
-                        title={title}
-                        quantity={quantity}
-                      />
-                    </Box>
+                  <Box flex="1" minW="0">
+                    <AddCart
+                      price={price}
+                      productSlug={slug}
+                      productId={productDetail.id}
+                      title={title}
+                      quantity={quantity}
+                    />
+                  </Box>
 
-                    <Box flex={1}>
-                      <Link href="/lien-he">
-                        <Button
-                          size="lg"
-                          w="full"
-                          variant="outline"
-                          bgColor="#3970A7"
-                          color="white"
-                          _hover={{ bg: '#3970A7', color: 'white' }}
-                          fontWeight="600"
-                        >
-                          Liên Hệ
-                        </Button>
-                      </Link>
-                    </Box>
-                  </Flex>
+                  <Box flex="1" minW="0">
+                    <Link href="/lien-he">
+                      <Button
+                        size="lg"
+                        w="full"
+                        variant="outline"
+                        bgColor="#3970A7"
+                        color="white"
+                        _hover={{ bg: '#3970A7', color: 'white' }}
+                        fontWeight="600"
+                      >
+                        Liên Hệ
+                      </Button>
+                    </Link>
+                  </Box>
                 </Flex>
               </VStack>
             </GridItem>
