@@ -617,7 +617,7 @@ const PaymentWrapper = () => {
         });
 
         setCart([]);
-        router.push(`/thanh-toan/success?orderId=${response.orderId}&status=cod`);
+        router.push(`/thanh-toan/success?orderId=${response.orderId}&status=pending`);
       }
     } catch (error) {
       console.error('COD order creation error:', error);
@@ -1123,7 +1123,8 @@ const PaymentWrapper = () => {
                       h="60px"
                       fontSize="18px"
                       fontWeight="600"
-                      onClick={isCOD ? handleCODPayment : handlePayment}
+                      // onClick={isCOD ? handleCODPayment : handlePayment}
+                      onClick={isCOD ? handleCODPayment : cannotPay}
                       isLoading={isCOD ? creatingCODOrder : creatingPayment}
                       _hover={{
                         transform: 'translateY(-2px)',
