@@ -64,8 +64,6 @@ const PaymentWrapper = () => {
   const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
   const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
 
-  console.log(cartData);
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
 
@@ -393,6 +391,12 @@ const PaymentWrapper = () => {
 
     return true;
   };
+
+  const cannotPay = async () =>
+    showToast({
+      status: 'success',
+      content: 'Chức Năng Còn Phát Triển'
+    });
 
   const handlePayment = async () => {
     if (!validateForm()) {
@@ -862,7 +866,7 @@ const PaymentWrapper = () => {
                               Chuyển khoản ngân hàng
                             </Text>
                             <Text fontSize="sm" color="gray.600">
-                              Thanh toán qua QR Code hoặc chuyển khoản
+                              Thanh toán qua QR Code
                             </Text>
                           </VStack>
                         </HStack>
@@ -989,7 +993,8 @@ const PaymentWrapper = () => {
                       h="60px"
                       fontSize="18px"
                       fontWeight="600"
-                      onClick={handlePayment}
+                      // onClick={handlePayment}
+                      onClick={cannotPay}
                       isLoading={creatingPayment}
                       _hover={{
                         transform: 'translateY(-2px)',
@@ -998,7 +1003,7 @@ const PaymentWrapper = () => {
                       leftIcon={<Icon as={FiCheckCircle} boxSize={6} />}
                       transition="all 0.3s"
                     >
-                      {paymentMethod === 'cod' ? 'Đặt hàng COD' : 'Thanh toán ngay'}
+                      Thanh toán ngay
                     </Button>
 
                     <Button

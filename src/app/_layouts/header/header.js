@@ -275,7 +275,7 @@ const Header = () => {
 
         {/* RIGHT SECTION - Cart + Auth */}
         <Flex align="center" gap="16px">
-          {/* <CartHeader /> */}
+          <CartHeader />
 
           {/* Auth Section */}
           {user ? (
@@ -328,7 +328,7 @@ const Header = () => {
         </Link>
 
         <Flex align="center" gap="16px">
-          {/* <CartHeaderMobile /> */}
+          <CartHeaderMobile />
 
           {user ? (
             <Link href="/profile">
