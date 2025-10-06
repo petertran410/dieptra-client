@@ -152,3 +152,17 @@ export const useQueryPaymentConnection = () => {
     retry: 1
   });
 };
+
+export const useMutateCreateCODOrder = () => {
+  return useMutation({
+    mutationFn: async (orderData) => {
+      const response = await API.request({
+        url: '/api/payment/create-cod-order',
+        method: 'POST',
+        data: orderData
+      });
+
+      return response;
+    }
+  });
+};

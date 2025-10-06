@@ -1,7 +1,11 @@
 'use client';
 
 import { useQueryProductBySlugs } from '../../../services/product.service';
-import { useMutateCreatePayment, useQueryPaymentStatus } from '../../../services/payment.service';
+import {
+  useMutateCreatePayment,
+  useQueryPaymentStatus,
+  useMutateCreateCODOrder
+} from '../../../services/payment.service';
 import { cartAtom } from '../../../states/common';
 import { PX_ALL, IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -38,7 +42,8 @@ import {
   Badge,
   Icon,
   Container,
-  Heading
+  Heading,
+  Checkbox
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
@@ -63,6 +68,7 @@ const PaymentWrapper = () => {
   const [cart, setCart] = useRecoilState(cartAtom);
   const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
   const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
+  const { mutateAsync: createCODOrder, isPending: creatingCODOrder } = useMutateCreateCODOrder();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
@@ -81,6 +87,8 @@ const PaymentWrapper = () => {
   const [wards, setWards] = useState([]);
   const [selectedDistrict, setSelectedDistrict] = useState('');
   const [districts, setDistricts] = useState([]);
+
+  const [isCOD, setIsCOD] = useState(false);
 
   const [paymentMethod, setPaymentMethod] = useState('sepay_bank');
   const [currentOrderId, setCurrentOrderId] = useState(null);
@@ -514,6 +522,106 @@ const PaymentWrapper = () => {
     } catch (error) {
       console.error('Payment creation error:', error);
       addDebugLog('❌ Payment creation failed', error);
+      showToast({
+        status: 'error',
+        content: error.message || 'Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại!'
+      });
+    }
+  };
+
+  const handleCODPayment = async () => {
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      const cartItems = cart
+        .map((item) => {
+          const product = cartData.find((p) => p.slug === item.slug);
+          if (!product) {
+            console.warn(`Product not found for slug: ${item.slug}`);
+            return null;
+          }
+          return {
+            productId: Number(product.id),
+            quantity: Number(item.quantity) || 1,
+            price: Number(product.price) || 0,
+            title: product.title || product.kiotviet_name || `Sản phẩm #${product.id}`
+          };
+        })
+        .filter(Boolean);
+
+      if (cartItems.length === 0) {
+        showToast({
+          status: 'error',
+          content: 'Không có sản phẩm hợp lệ trong giỏ hàng'
+        });
+        return;
+      }
+
+      const invalidItems = cartItems.filter((item) => !item.productId || isNaN(item.productId));
+      if (invalidItems.length > 0) {
+        showToast({
+          status: 'error',
+          content: 'Một số sản phẩm không có mã sản phẩm hợp lệ'
+        });
+        return;
+      }
+
+      const province = provinces.find((p) => p.code === selectedProvince);
+      const district = districts.find((d) => d.code === selectedDistrict);
+      const ward = wards.find((w) => w.code === selectedWard);
+
+      const provinceName = province ? province.name : '';
+      const districtName = district ? district.name : '';
+      const wardName = ward ? ward.name : '';
+
+      const finalCustomerInfo = {
+        fullName: customerInfoRef.current.fullName || '',
+        email: customerInfoRef.current.email || '',
+        phone: customerInfoRef.current.phone || '',
+        address: customerInfoRef.current.address || '',
+        detailedAddress: customerInfoRef.current.address || '',
+        province: provinceName,
+        district: districtName,
+        ward: wardName,
+        note: customerInfoRef.current.note || ''
+      };
+
+      const paymentData = {
+        customerInfo: finalCustomerInfo,
+        cartItems,
+        paymentMethod: 'cod',
+        amounts: {
+          subtotal: calculateSubtotal(),
+          shipping: calculateShipping(),
+          total: calculateTotal()
+        }
+      };
+
+      addDebugLog('📤 Sending COD order data', paymentData);
+
+      const response = await createCODOrder(paymentData);
+
+      addDebugLog('📥 COD order creation response', response);
+
+      if (response.success) {
+        addDebugLog('✅ COD order created', {
+          orderId: response.orderId,
+          paymentMethod: 'cod'
+        });
+
+        showToast({
+          status: 'success',
+          content: 'Đơn hàng COD đã được tạo thành công!'
+        });
+
+        setCart([]);
+        router.push(`/thanh-toan/success?orderId=${response.orderId}&status=cod`);
+      }
+    } catch (error) {
+      console.error('COD order creation error:', error);
+      addDebugLog('❌ COD order creation failed', error);
       showToast({
         status: 'error',
         content: error.message || 'Có lỗi xảy ra khi tạo đơn hàng. Vui lòng thử lại!'
@@ -967,15 +1075,6 @@ const PaymentWrapper = () => {
 
                 <Divider />
 
-                {/* <HStack justify="space-between">
-                  <Text fontWeight="bold" color="gray.800" fontSize="2xl">
-                    Tổng cộng:
-                  </Text>
-                  <Text fontWeight="bold" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" fontSize="2xl">
-                    {formatCurrency(calculateTotal())}
-                  </Text>
-                </HStack> */}
-
                 <HStack justify="space-between">
                   <Text color="gray.600" fontSize="2xl">
                     Tổng cộng:
@@ -985,6 +1084,39 @@ const PaymentWrapper = () => {
                   </Text>
                 </HStack>
 
+                {/* Checkbox COD */}
+                <Box
+                  p={4}
+                  borderWidth="2px"
+                  borderRadius="lg"
+                  borderColor={isCOD ? 'green.500' : 'gray.200'}
+                  bg={isCOD ? 'green.50' : 'transparent'}
+                  cursor="pointer"
+                  transition="all 0.3s"
+                  _hover={{ borderColor: isCOD ? 'green.600' : 'gray.300', bg: isCOD ? 'green.100' : 'gray.50' }}
+                  onClick={() => setIsCOD(!isCOD)}
+                >
+                  <HStack spacing={3}>
+                    <Checkbox
+                      isChecked={isCOD}
+                      onChange={(e) => setIsCOD(e.target.checked)}
+                      colorScheme="green"
+                      size="lg"
+                    />
+                    <VStack align="start" spacing={0} flex="1">
+                      <HStack>
+                        <Icon as={FiTruck} color="green.500" boxSize={5} />
+                        <Text fontWeight="semibold" fontSize="md">
+                          Thanh toán khi nhận hàng (COD)
+                        </Text>
+                      </HStack>
+                      <Text fontSize="sm" color="gray.600">
+                        Thanh toán bằng tiền mặt khi nhận hàng
+                      </Text>
+                    </VStack>
+                  </HStack>
+                </Box>
+
                 <Flex justify={{ base: 'stretch', lg: 'flex-end' }} mt={4}>
                   <Stack direction={{ base: 'column', lg: 'row' }} spacing={3} w={{ base: 'full', lg: 'auto' }}>
                     <Button
@@ -993,17 +1125,16 @@ const PaymentWrapper = () => {
                       h="60px"
                       fontSize="18px"
                       fontWeight="600"
-                      // onClick={handlePayment}
-                      onClick={cannotPay}
-                      isLoading={creatingPayment}
+                      onClick={isCOD ? handleCODPayment : handlePayment}
+                      isLoading={isCOD ? creatingCODOrder : creatingPayment}
                       _hover={{
                         transform: 'translateY(-2px)',
                         boxShadow: 'xl'
                       }}
-                      leftIcon={<Icon as={FiCheckCircle} boxSize={6} />}
+                      leftIcon={<Icon as={isCOD ? FiPackage : FiCheckCircle} boxSize={6} />}
                       transition="all 0.3s"
                     >
-                      Thanh toán ngay
+                      {isCOD ? 'Tạo đơn hàng' : 'Thanh toán ngay'}
                     </Button>
 
                     <Button
