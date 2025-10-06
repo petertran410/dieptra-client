@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { Box, Flex, Grid, GridItem, IconButton, Heading } from '@chakra-ui/react';
+import { useState, useRef } from 'react';
+import { Box, Grid, GridItem, IconButton, Heading, useBreakpointValue } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import ProductItem from '../../../../../components/product-item/product-item';
 
@@ -9,7 +9,10 @@ const OtherProduct = ({ productList, productId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const filteredProducts = productId ? productList?.filter((item) => item.id !== Number(productId)) : productList;
 
-  const itemsPerPage = 4;
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
+
+  const itemsPerPage = useBreakpointValue({ base: 2, lg: 4 }) || 4;
   const totalPages = Math.ceil(filteredProducts?.length / itemsPerPage) || 1;
 
   const handlePrev = () => {
@@ -18,6 +21,27 @@ const OtherProduct = ({ productList, productId }) => {
 
   const handleNext = () => {
     setCurrentIndex((prev) => (prev < totalPages - 1 ? prev + 1 : 0));
+  };
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const swipeThreshold = 50;
+    const diff = touchStartX.current - touchEndX.current;
+
+    if (Math.abs(diff) > swipeThreshold) {
+      if (diff > 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
   };
 
   const currentProducts = filteredProducts?.slice(currentIndex * itemsPerPage, (currentIndex + 1) * itemsPerPage) || [];
@@ -29,7 +53,6 @@ const OtherProduct = ({ productList, productId }) => {
       </Heading>
 
       <Box position="relative">
-        {/* Navigation Arrows */}
         <IconButton
           aria-label="Previous products"
           icon={<ChevronLeftIcon />}
@@ -43,6 +66,7 @@ const OtherProduct = ({ productList, productId }) => {
           _hover={{ bg: 'gray.50' }}
           onClick={handlePrev}
           isDisabled={filteredProducts?.length <= itemsPerPage}
+          display={{ base: 'none', lg: 'flex' }}
         />
 
         <IconButton
@@ -58,16 +82,33 @@ const OtherProduct = ({ productList, productId }) => {
           _hover={{ bg: 'gray.50' }}
           onClick={handleNext}
           isDisabled={filteredProducts?.length <= itemsPerPage}
+          display={{ base: 'none', lg: 'flex' }}
         />
 
-        {/* Products Grid */}
-        <Grid templateColumns="repeat(4, 1fr)" gap={6} px={4}>
-          {currentProducts.map((item) => (
-            <GridItem key={item.id}>
-              <ProductItem item={item} />
-            </GridItem>
-          ))}
-        </Grid>
+        <Box
+          onTouchStart={handleTouchStart}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          display={{ base: 'block', lg: 'none' }}
+        >
+          <Grid templateColumns="repeat(2, 1fr)" gap={4}>
+            {currentProducts.map((item) => (
+              <GridItem key={item.id}>
+                <ProductItem item={item} />
+              </GridItem>
+            ))}
+          </Grid>
+        </Box>
+
+        <Box display={{ base: 'none', lg: 'block' }}>
+          <Grid templateColumns="repeat(4, 1fr)" gap={6} px={4}>
+            {currentProducts.map((item) => (
+              <GridItem key={item.id}>
+                <ProductItem item={item} />
+              </GridItem>
+            ))}
+          </Grid>
+        </Box>
       </Box>
     </Box>
   );
