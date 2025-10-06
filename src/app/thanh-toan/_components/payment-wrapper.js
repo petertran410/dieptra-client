@@ -394,7 +394,7 @@ const PaymentWrapper = () => {
 
   const cannotPay = async () =>
     showToast({
-      status: 'success',
+      status: 'error',
       content: 'Chức Năng Còn Phát Triển'
     });
 
