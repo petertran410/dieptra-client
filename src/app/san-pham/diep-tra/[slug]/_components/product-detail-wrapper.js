@@ -143,25 +143,23 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                   {price ? formatCurrency(price) : 'Liên hệ'}
                 </Text>
 
-                <Flex gap={4}>
-                  <HStack spacing={4} align="center">
-                    <NumberInput
-                      value={quantity}
-                      onChange={(valueString, valueNumber) => setQuantity(valueNumber)}
-                      min={1}
-                      max={999}
-                      maxW="90px"
-                      size="lg"
-                    >
-                      <NumberInputField />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper />
-                        <NumberDecrementStepper />
-                      </NumberInputStepper>
-                    </NumberInput>
-                  </HStack>
+                <Flex gap={4} align="center" w="full">
+                  <NumberInput
+                    value={quantity}
+                    onChange={(valueString, valueNumber) => setQuantity(valueNumber)}
+                    min={1}
+                    max={999}
+                    maxW="90px"
+                    size="lg"
+                  >
+                    <NumberInputField />
+                    <NumberInputStepper>
+                      <NumberIncrementStepper />
+                      <NumberDecrementStepper />
+                    </NumberInputStepper>
+                  </NumberInput>
 
-                  <Flex justify="space-evenly" gap={4}>
+                  <Box flex={1}>
                     <AddCart
                       price={price}
                       productSlug={slug}
@@ -169,22 +167,13 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                       title={title}
                       quantity={quantity}
                     />
-                    {/* <Button
-                      size="lg"
-                      // w="full"
-                      variant="outline"
-                      bgColor="yellow.300"
-                      color="black"
-                      _hover={{ bg: 'green', color: 'white' }}
-                      fontWeight="600"
-                    >
-                      Mua Hàng
-                    </Button> */}
+                  </Box>
 
+                  <Box flex={1}>
                     <Link href="/lien-he">
                       <Button
                         size="lg"
-                        // w="full"
+                        w="full"
                         variant="outline"
                         bgColor="#3970A7"
                         color="white"
@@ -194,7 +183,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                         Liên Hệ
                       </Button>
                     </Link>
-                  </Flex>
+                  </Box>
                 </Flex>
               </VStack>
             </GridItem>
