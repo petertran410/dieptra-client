@@ -43,7 +43,7 @@ const ProductList = ({ categorySlug = [] }) => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentSort, setCurrentSort] = useState('newest');
+  const [currentSort, setCurrentSort] = useState('name');
 
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [subCategoryId, setSubCategoryId] = useState(null);
@@ -193,10 +193,8 @@ const ProductList = ({ categorySlug = [] }) => {
         case 'price-high':
           return (b.kiotviet_price || 0) - (a.kiotviet_price || 0);
         case 'name':
-          return (a.title || '').localeCompare(b.title || '');
-        case 'newest':
         default:
-          return b.id - a.id;
+          return (a.title || '').localeCompare(b.title || '');
       }
     });
 
@@ -433,7 +431,6 @@ const ProductList = ({ categorySlug = [] }) => {
   };
 
   const sortOptions = [
-    { value: 'newest', label: 'Mới nhất' },
     { value: 'name', label: 'Tên A-Z' },
     { value: 'price-low', label: 'Giá thấp → cao' },
     { value: 'price-high', label: 'Giá cao → thấp' }
