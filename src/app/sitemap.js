@@ -27,6 +27,30 @@ export default function sitemap() {
       priority: 0.9
     },
     {
+      url: `${domain}/san-pham/tra-phuong-hoang`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/tra-phuong-hoang/tra-o-long-phuong-hoang`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/tra-phuong-hoang/hong-tra-phuong-hoang`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.6
+    },
+    {
+      url: `${domain}/san-pham/tra-phuong-hoang/tra-tui-loc-phuong-hoang`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.6
+    },
+    {
       url: `${domain}/tuyen-dung`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
