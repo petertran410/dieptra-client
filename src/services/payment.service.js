@@ -159,7 +159,7 @@ export const useMutateCreateCODOrder = () => {
       const response = await API.request({
         url: '/api/payment/create-cod-order',
         method: 'POST',
-        data: orderData
+        params: orderData
       });
 
       return response;

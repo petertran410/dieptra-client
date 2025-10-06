@@ -1091,10 +1091,8 @@ const PaymentWrapper = () => {
                   borderRadius="lg"
                   borderColor={isCOD ? 'green.500' : 'gray.200'}
                   bg={isCOD ? 'green.50' : 'transparent'}
-                  cursor="pointer"
                   transition="all 0.3s"
                   _hover={{ borderColor: isCOD ? 'green.600' : 'gray.300', bg: isCOD ? 'green.100' : 'gray.50' }}
-                  onClick={() => setIsCOD(!isCOD)}
                 >
                   <HStack spacing={3}>
                     <Checkbox
@@ -1103,7 +1101,7 @@ const PaymentWrapper = () => {
                       colorScheme="green"
                       size="lg"
                     />
-                    <VStack align="start" spacing={0} flex="1">
+                    <VStack align="start" spacing={0} flex="1" cursor="pointer" onClick={() => setIsCOD(!isCOD)}>
                       <HStack>
                         <Icon as={FiTruck} color="green.500" boxSize={5} />
                         <Text fontWeight="semibold" fontSize="md">
