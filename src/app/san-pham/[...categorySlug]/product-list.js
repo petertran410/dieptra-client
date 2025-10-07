@@ -174,16 +174,25 @@ const ProductList = ({ categorySlug = [] }) => {
     : allProductsData;
   const allProducts = productsData?.content || [];
 
+  const removeVietnameseTones = (str) => {
+    return str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/đ/g, 'd')
+      .replace(/Đ/g, 'D')
+      .toLowerCase();
+  };
+
   const processedProducts = useMemo(() => {
     let filtered = [...allProducts];
 
     if (searchTerm.trim()) {
-      const searchLower = searchTerm.toLowerCase();
-      filtered = filtered.filter(
-        (product) =>
-          (product.title || '').toLowerCase().includes(searchLower) ||
-          (product.kiotviet_name || '').toLowerCase().includes(searchLower)
-      );
+      const normalizedSearch = removeVietnameseTones(searchTerm);
+      filtered = filtered.filter((product) => {
+        const normalizedTitle = removeVietnameseTones(product.title || '');
+        const normalizedKiotvietName = removeVietnameseTones(product.kiotviet_name || '');
+        return normalizedTitle.includes(normalizedSearch) || normalizedKiotvietName.includes(normalizedSearch);
+      });
     }
 
     filtered.sort((a, b) => {
