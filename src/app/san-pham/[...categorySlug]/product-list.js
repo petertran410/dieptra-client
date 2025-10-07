@@ -188,10 +188,16 @@ const ProductList = ({ categorySlug = [] }) => {
 
     if (searchTerm.trim()) {
       const normalizedSearch = removeVietnameseTones(searchTerm);
+      const searchWords = normalizedSearch.split(/\s+/).filter((w) => w.length > 0);
+
       filtered = filtered.filter((product) => {
         const normalizedTitle = removeVietnameseTones(product.title || '');
         const normalizedKiotvietName = removeVietnameseTones(product.kiotviet_name || '');
-        return normalizedTitle.includes(normalizedSearch) || normalizedKiotvietName.includes(normalizedSearch);
+
+        const titleMatch = searchWords.every((word) => normalizedTitle.includes(word));
+        const kiotvietMatch = searchWords.every((word) => normalizedKiotvietName.includes(word));
+
+        return titleMatch || kiotvietMatch;
       });
     }
 
