@@ -32,6 +32,7 @@ const OrderList = () => {
       const response = await profileService.getMyOrders(page, 10, statusFilter);
       setOrders(response.orders || []);
       setTotalPages(response.pagination?.totalPages || 1);
+      console.log(response);
     } catch (error) {
       console.error('Error loading orders:', error);
       showToast({ status: 'error', content: 'Không thể tải đơn hàng' });
