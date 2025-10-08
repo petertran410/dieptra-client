@@ -617,7 +617,7 @@ const PaymentWrapper = () => {
         });
 
         setCart([]);
-        router.push(`/thanh-toan/success?orderId=${response.orderId}&status=pending`);
+        router.push(`/thanh-toan/cod-success?orderId=${response.orderId}`);
       }
     } catch (error) {
       console.error('COD order creation error:', error);

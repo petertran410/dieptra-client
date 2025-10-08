@@ -1,8 +1,6 @@
 'use client';
 
-import { useQueryPaymentStatus } from '../../../../services/payment.service';
 import { cartAtom } from '../../../../states/common';
-import { PX_ALL } from '../../../../utils/const';
 import { showToast } from '../../../../utils/helper';
 import {
   Box,
@@ -24,26 +22,20 @@ import {
 } from '@chakra-ui/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { API } from '../../../../utils/API';
+import { PX_ALL } from '../../../../utils/const';
 
-const PaymentSuccessContent = () => {
+const CODSuccessContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [cart, setCart] = useRecoilState(cartAtom);
+  const setCart = useSetRecoilState(cartAtom);
 
   const orderId = searchParams.get('orderId');
-  const status = searchParams.get('status');
 
   const [isClient, setIsClient] = useState(false);
-  const [cartCleared, setCartCleared] = useState(false);
   const [orderDetails, setOrderDetails] = useState(null);
   const [loadingDetails, setLoadingDetails] = useState(true);
-
-  const { data: paymentStatus, isLoading } = useQueryPaymentStatus(orderId, !!orderId);
-
-  console.log(paymentStatus);
-  console.log(orderDetails);
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -69,15 +61,8 @@ const PaymentSuccessContent = () => {
   }, [orderId]);
 
   useEffect(() => {
-    if (paymentStatus?.status === 'SUCCESS' && !cartCleared) {
-      setCart([]);
-      setCartCleared(true);
-      showToast({
-        status: 'success',
-        content: 'Thanh toán thành công! Giỏ hàng đã được xóa.'
-      });
-    }
-  }, [paymentStatus, cart, setCart, cartCleared]);
+    setCart([]);
+  }, [setCart]);
 
   useEffect(() => {
     setIsClient(true);
@@ -104,48 +89,53 @@ const PaymentSuccessContent = () => {
           <AlertIcon />
           <Box>
             <AlertTitle>Lỗi!</AlertTitle>
-            <AlertDescription>Không tìm thấy thông tin đơn hàng. Đang chuyển về trang chủ...</AlertDescription>
+            <AlertDescription>Không tìm thấy thông tin đơn hàng.</AlertDescription>
           </Box>
         </Alert>
       </Flex>
     );
   }
 
-  if (isLoading || loadingDetails) {
+  if (loadingDetails) {
     return (
       <Flex justify="center" align="center" minH="60vh" direction="column">
-        <Spinner size="xl" color="blue.500" mb="4" />
-        <Text>Đang kiểm tra trạng thái thanh toán...</Text>
+        <Spinner size="lg" color="blue.500" mb="4" />
+        <Text>Đang tải thông tin đơn hàng...</Text>
       </Flex>
     );
   }
 
-  const isSuccess = paymentStatus?.status === 'SUCCESS' || status === 'success';
-
   return (
-    <Flex direction="column" px={PX_ALL} pt={{ xs: '100px', lg: '162px' }} pb="50px">
-      <VStack spacing="8" align="stretch" maxW="800px" mx="auto">
-        <Card>
-          <CardHeader>
-            <VStack spacing="4">
+    <Flex
+      justify="center"
+      align="center"
+      minH="60vh"
+      py="8"
+      direction="column"
+      px={PX_ALL}
+      pt={{ xs: '100px', lg: '162px' }}
+      pb="50px"
+    >
+      <VStack spacing="6" w="full" maxW="600px" px="4">
+        <Card w="full" shadow="lg">
+          <CardHeader bg="green.50" borderTopRadius="md">
+            <VStack spacing="3">
               <Box
                 w="80px"
                 h="80px"
                 borderRadius="full"
-                bg={isSuccess ? 'green.100' : 'red.100'}
+                bg="green.100"
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
               >
-                {isSuccess ? <Text fontSize="4xl">✓</Text> : <Text fontSize="4xl">✗</Text>}
+                <Text fontSize="4xl">✓</Text>
               </Box>
-              <Text fontSize="2xl" fontWeight="bold" color={isSuccess ? 'green.600' : 'red.600'}>
-                {isSuccess ? 'Thanh toán thành công!' : 'Thanh toán thất bại'}
+              <Text fontSize="2xl" fontWeight="bold" color="green.600">
+                Tạo đơn hàng thành công!
               </Text>
               <Text color="gray.600" textAlign="center">
-                {isSuccess
-                  ? 'Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đang được xử lý.'
-                  : 'Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.'}
+                Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ liên hệ với bạn để xác nhận đơn hàng.
               </Text>
             </VStack>
           </CardHeader>
@@ -170,59 +160,48 @@ const PaymentSuccessContent = () => {
                     </HStack>
                   )}
 
-                  {paymentStatus?.orderId && (
+                  {orderId && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
                         Đơn Hàng:
                       </Text>
                       <Badge colorScheme="blue" px="3" py="1" fontSize="lg">
-                        {paymentStatus.orderId}
+                        {orderId}
                       </Badge>
                     </HStack>
                   )}
 
-                  {paymentStatus?.orderKiotCode && (
+                  {orderDetails?.orderKiotCode && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
                         Mã đơn hàng:
                       </Text>
                       <Badge colorScheme="blue" fontSize="lg" px="3" py="1">
-                        {paymentStatus.orderKiotCode}
+                        {orderDetails.orderKiotCode}
                       </Badge>
                     </HStack>
                   )}
 
-                  {paymentStatus?.amount && (
+                  {orderDetails?.total && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
                         Số tiền:
                       </Text>
                       <Text fontWeight="medium" color="green.600" fontSize="lg">
-                        {paymentStatus.amount.toLocaleString('vi-VN')}đ
+                        {Number(orderDetails.total).toLocaleString('vi-VN')}đ
                       </Text>
                     </HStack>
                   )}
 
-                  {orderDetails?.transactionDate && (
+                  {orderDetails?.createdDate && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
                         Ngày mua hàng:
                       </Text>
                       <Text fontWeight="medium" fontSize="lg">
-                        {new Date(orderDetails.transactionDate).toLocaleString('vi-VN')}
+                        {new Date(orderDetails.createdDate).toLocaleString('vi-VN')}
                       </Text>
                     </HStack>
-                  )}
-
-                  {orderDetails?.transactionContent && (
-                    <Box>
-                      <Text color="gray.600" mb="1" fontSize="lg">
-                        Nội dung giao dịch:
-                      </Text>
-                      <Text fontWeight="medium" fontSize="lg" color="gray.700">
-                        {orderDetails.transactionContent}
-                      </Text>
-                    </Box>
                   )}
                 </VStack>
               </Box>
@@ -245,19 +224,19 @@ const PaymentSuccessContent = () => {
   );
 };
 
-const PaymentSuccessLoading = () => (
+const CODSuccessLoading = () => (
   <Flex justify="center" align="center" minH="60vh" direction="column">
     <Spinner size="lg" color="blue.500" mb="4" />
-    <Text>Đang tải thông tin thanh toán...</Text>
+    <Text>Đang tải thông tin đơn hàng...</Text>
   </Flex>
 );
 
-const PaymentSuccessWrapper = () => {
+const CODSuccessWrapper = () => {
   return (
-    <Suspense fallback={<PaymentSuccessLoading />}>
-      <PaymentSuccessContent />
+    <Suspense fallback={<CODSuccessLoading />}>
+      <CODSuccessContent />
     </Suspense>
   );
 };
 
-export default PaymentSuccessWrapper;
+export default CODSuccessWrapper;
