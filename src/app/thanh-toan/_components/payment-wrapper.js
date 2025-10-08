@@ -106,7 +106,7 @@ const PaymentWrapper = () => {
     data: paymentStatus,
     isLoading: checkingStatus,
     error: statusError
-  } = useQueryPaymentStatus(currentOrderId, !currentOrderId);
+  } = useQueryPaymentStatus(currentOrderId, !!currentOrderId);
 
   const { isOpen: isPaymentModalOpen, onOpen: onOpenPaymentModal, onClose: onClosePaymentModal } = useDisclosure();
 
@@ -1123,8 +1123,8 @@ const PaymentWrapper = () => {
                       h="60px"
                       fontSize="18px"
                       fontWeight="600"
-                      // onClick={isCOD ? handleCODPayment : handlePayment}
-                      onClick={isCOD ? handleCODPayment : cannotPay}
+                      onClick={isCOD ? handleCODPayment : handlePayment}
+                      // onClick={isCOD ? handleCODPayment : cannotPay}
                       isLoading={isCOD ? creatingCODOrder : creatingPayment}
                       _hover={{
                         transform: 'translateY(-2px)',
