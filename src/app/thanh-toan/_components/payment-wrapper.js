@@ -974,7 +974,7 @@ const PaymentWrapper = () => {
                               Chuyển khoản ngân hàng
                             </Text>
                             <Text fontSize="sm" color="gray.600">
-                              Thanh toán qua QR Code
+                              Thanh toán qua QR Code hoặc tạo đơn COD
                             </Text>
                           </VStack>
                         </HStack>
@@ -1123,8 +1123,8 @@ const PaymentWrapper = () => {
                       h="60px"
                       fontSize="18px"
                       fontWeight="600"
-                      // onClick={isCOD ? handleCODPayment : handlePayment}
-                      onClick={isCOD ? handleCODPayment : cannotPay}
+                      onClick={isCOD ? handleCODPayment : handlePayment}
+                      // onClick={isCOD ? handleCODPayment : cannotPay}
                       isLoading={isCOD ? creatingCODOrder : creatingPayment}
                       _hover={{
                         transform: 'translateY(-2px)',

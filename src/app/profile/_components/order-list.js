@@ -83,12 +83,12 @@ const OrderList = () => {
   return (
     <VStack spacing={4} align="stretch">
       <HStack justify="space-between" mb={2}>
-        <Text fontSize="md" fontWeight="medium" color="gray.700">
+        <Text fontSize="xl" fontWeight="medium" color="gray.700">
           Tổng: {orders.length} đơn hàng
         </Text>
-        <Select
+        {/* <Select
           w="200px"
-          size="sm"
+          size="lg"
           value={statusFilter}
           onChange={(e) => {
             setStatusFilter(e.target.value);
@@ -101,7 +101,7 @@ const OrderList = () => {
               {label}
             </option>
           ))}
-        </Select>
+        </Select> */}
       </HStack>
 
       {orders.map((order) => (
@@ -117,21 +117,21 @@ const OrderList = () => {
         >
           <HStack justify="space-between" mb={3}>
             <VStack align="start" spacing={1}>
-              <Text fontWeight="bold" fontSize="md" color="#003366">
+              <Text fontWeight="bold" fontSize="xl" color="#003366">
                 {order.orderCode}
               </Text>
-              <Text fontSize="sm" color="gray.500">
+              <Text fontSize="xl" color="gray.500">
                 {formatDate(order.createdDate)}
               </Text>
             </VStack>
-            <VStack align="end" spacing={2}>
+            {/* <VStack align="end" spacing={2}>
               <Badge colorScheme={ORDER_STATUS[order.status]?.color || 'gray'} fontSize="xs" px={2} py={1}>
                 {ORDER_STATUS[order.status]?.label || order.status}
               </Badge>
               <Badge colorScheme={PAYMENT_STATUS[order.paymentStatus]?.color || 'gray'} fontSize="xs" px={2} py={1}>
                 {PAYMENT_STATUS[order.paymentStatus]?.label || order.paymentStatus}
               </Badge>
-            </VStack>
+            </VStack> */}
           </HStack>
 
           <Divider my={3} />
@@ -143,14 +143,14 @@ const OrderList = () => {
                   <Image src={item.image} alt={item.productName} boxSize="60px" objectFit="cover" borderRadius="md" />
                 )}
                 <VStack align="start" flex={1} spacing={0}>
-                  <Text fontWeight="medium" fontSize="sm">
+                  <Text fontWeight="medium" fontSize="xl">
                     {item.productName}
                   </Text>
-                  <Text fontSize="xs" color="gray.600">
+                  <Text fontSize="xl" color="gray.600">
                     {formatPrice(item.price)} x {item.quantity}
                   </Text>
                 </VStack>
-                <Text fontWeight="semibold" color="#003366" fontSize="sm">
+                <Text fontWeight="semibold" color="#003366" fontSize="xl">
                   {formatPrice(item.price * item.quantity)}
                 </Text>
               </HStack>
@@ -161,18 +161,18 @@ const OrderList = () => {
 
           <HStack justify="space-between">
             <VStack align="start" spacing={0}>
-              <Text fontSize="xs" color="gray.600">
+              <Text fontSize="xl" color="gray.600">
                 Người nhận: {order.fullName}
               </Text>
-              <Text fontSize="xs" color="gray.600">
+              <Text fontSize="xl" color="gray.600">
                 SĐT: {order.phone}
               </Text>
-              <Text fontSize="xs" color="gray.600" noOfLines={1}>
+              <Text fontSize="xl" color="gray.600" noOfLines={1}>
                 Địa chỉ: {order.address}
               </Text>
             </VStack>
             <VStack align="end" spacing={0}>
-              <Text fontSize="xs" color="gray.600">
+              <Text fontSize="xl" color="gray.600">
                 Tổng tiền:
               </Text>
               <Text fontSize="lg" fontWeight="bold" color="#003366">

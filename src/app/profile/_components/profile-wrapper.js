@@ -265,10 +265,18 @@ const ProfileWrapper = () => {
         <CardBody pt={4}>
           <Tabs colorScheme="blue" variant="enclosed">
             <TabList>
-              <Tab fontWeight="semibold" _selected={{ color: 'white', bg: '#003366', borderColor: '#003366' }}>
+              <Tab
+                fontWeight="semibold"
+                fontSize="xl"
+                _selected={{ color: 'white', bg: '#003366', borderColor: '#003366' }}
+              >
                 Thông tin cá nhân
               </Tab>
-              <Tab fontWeight="semibold" _selected={{ color: 'white', bg: '#003366', borderColor: '#003366' }}>
+              <Tab
+                fontWeight="semibold"
+                fontSize="xl"
+                _selected={{ color: 'white', bg: '#003366', borderColor: '#003366' }}
+              >
                 Đơn hàng của tôi
               </Tab>
             </TabList>
