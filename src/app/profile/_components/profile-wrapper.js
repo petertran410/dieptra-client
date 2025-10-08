@@ -18,14 +18,18 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Divider,
-  Flex
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel
 } from '@chakra-ui/react';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { authService } from '../../../services/auth.service';
 import { profileService } from '../../../services/profile.service';
 import { showToast } from '../../../utils/helper';
+import OrderList from './order-list';
 
 const ProfileWrapper = () => {
   const router = useRouter();
@@ -83,7 +87,6 @@ const ProfileWrapper = () => {
           detailed_address: userData.detailed_address || ''
         };
 
-        // Set address data if available
         if (userData.province && provinces.length > 0) {
           const province = provinces.find((p) => p.name === userData.province);
           if (province) {
@@ -212,7 +215,6 @@ const ProfileWrapper = () => {
       const response = await profileService.updateProfile(updateData);
 
       if (response.success !== false) {
-        // Update local user data
         const updatedUser = { ...user, ...updateData };
         setUser(updatedUser);
 
@@ -252,129 +254,143 @@ const ProfileWrapper = () => {
   }
 
   return (
-    <Box maxW="800px" mx="auto">
+    <Box maxW="1000px" mx="auto" pt={{ xs: '20px', lg: '30px' }} pb="50px">
       <Card>
-        <Flex align="center" justify="center">
-          <CardHeader>
-            <Heading size="lg" color="#003366" textAlign="center">
-              Thông tin cá nhân
-            </Heading>
-            <Text color="gray.600" mt={2} fontSize="md" textAlign="center">
-              Quản lý thông tin tài khoản và địa chỉ giao hàng của bạn
-            </Text>
-          </CardHeader>
-        </Flex>
+        <CardHeader pb={0}>
+          <Heading size="lg" color="#003366" textAlign="center">
+            Tài khoản của tôi
+          </Heading>
+        </CardHeader>
 
-        <CardBody>
-          <VStack spacing={6} align="stretch">
-            {/* Basic Info */}
-            <FormControl isRequired>
-              <FormLabel>Họ và tên</FormLabel>
-              <Input
-                defaultValue={user.full_name}
-                onChange={handleInputChange('full_name')}
-                placeholder="Nhập họ và tên"
-              />
-            </FormControl>
+        <CardBody pt={4}>
+          <Tabs colorScheme="blue" variant="enclosed">
+            <TabList>
+              <Tab fontWeight="semibold" _selected={{ color: 'white', bg: '#003366', borderColor: '#003366' }}>
+                Thông tin cá nhân
+              </Tab>
+              <Tab fontWeight="semibold" _selected={{ color: 'white', bg: '#003366', borderColor: '#003366' }}>
+                Đơn hàng của tôi
+              </Tab>
+            </TabList>
 
-            <HStack spacing={4}>
-              <FormControl isRequired flex={1}>
-                <FormLabel>Số điện thoại</FormLabel>
-                <Input
-                  defaultValue={user.phone}
-                  onChange={handleInputChange('phone')}
-                  placeholder="Nhập số điện thoại"
-                  type="tel"
-                />
-              </FormControl>
+            <TabPanels>
+              <TabPanel px={0} pt={6}>
+                <VStack spacing={6} align="stretch">
+                  <FormControl isRequired>
+                    <FormLabel>Họ và tên</FormLabel>
+                    <Input
+                      defaultValue={user.full_name}
+                      onChange={handleInputChange('full_name')}
+                      placeholder="Nhập họ và tên"
+                    />
+                  </FormControl>
 
-              <FormControl isRequired flex={1}>
-                <FormLabel>Email</FormLabel>
-                <Input
-                  defaultValue={user.email}
-                  onChange={handleInputChange('email')}
-                  placeholder="Nhập email"
-                  type="email"
-                />
-              </FormControl>
-            </HStack>
+                  <HStack spacing={4}>
+                    <FormControl isRequired flex={1}>
+                      <FormLabel>Số điện thoại</FormLabel>
+                      <Input
+                        defaultValue={user.phone}
+                        onChange={handleInputChange('phone')}
+                        placeholder="Nhập số điện thoại"
+                        type="tel"
+                      />
+                    </FormControl>
 
-            <Divider />
+                    <FormControl isRequired flex={1}>
+                      <FormLabel>Email</FormLabel>
+                      <Input
+                        defaultValue={user.email}
+                        onChange={handleInputChange('email')}
+                        placeholder="Nhập email"
+                        type="email"
+                      />
+                    </FormControl>
+                  </HStack>
 
-            {/* Address Section */}
-            <Heading size="md" color="#003366">
-              Địa chỉ giao hàng
-            </Heading>
+                  <Box borderTop="2px solid" borderColor="gray.200" pt={6} mt={2}>
+                    <Heading size="md" color="#003366" mb={4}>
+                      Địa chỉ giao hàng
+                    </Heading>
 
-            <HStack spacing={4}>
-              <FormControl flex={1}>
-                <FormLabel>Tỉnh/Thành phố</FormLabel>
-                <Select
-                  value={selectedProvince}
-                  onChange={(e) => handleProvinceChange(e.target.value)}
-                  placeholder="-- Chọn tỉnh/thành --"
-                >
-                  {provinces.map((province) => (
-                    <option key={province.code} value={province.code}>
-                      {province.name}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
+                    <VStack spacing={4} align="stretch">
+                      <FormControl>
+                        <FormLabel>Tỉnh/Thành phố</FormLabel>
+                        <Select
+                          value={selectedProvince}
+                          onChange={(e) => handleProvinceChange(e.target.value)}
+                          placeholder="-- Chọn tỉnh/thành --"
+                        >
+                          {provinces.map((province) => (
+                            <option key={province.code} value={province.code}>
+                              {province.name}
+                            </option>
+                          ))}
+                        </Select>
+                      </FormControl>
 
-              <FormControl flex={1}>
-                <FormLabel>Quận/Huyện</FormLabel>
-                <Select
-                  value={selectedDistrict}
-                  onChange={(e) => handleDistrictChange(e.target.value)}
-                  placeholder="-- Chọn quận/huyện --"
-                  disabled={!selectedProvince}
-                >
-                  {districts.map((district) => (
-                    <option key={district.code} value={district.code}>
-                      {district.name}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-            </HStack>
+                      <HStack spacing={4}>
+                        <FormControl flex={1}>
+                          <FormLabel>Quận/Huyện</FormLabel>
+                          <Select
+                            value={selectedDistrict}
+                            onChange={(e) => handleDistrictChange(e.target.value)}
+                            placeholder="-- Chọn quận/huyện --"
+                            disabled={!selectedProvince}
+                          >
+                            {districts.map((district) => (
+                              <option key={district.code} value={district.code}>
+                                {district.name}
+                              </option>
+                            ))}
+                          </Select>
+                        </FormControl>
 
-            <FormControl>
-              <FormLabel>Phường/Xã</FormLabel>
-              <Select
-                value={selectedWard}
-                onChange={(e) => setSelectedWard(parseInt(e.target.value))}
-                placeholder="-- Chọn phường/xã --"
-                disabled={!selectedDistrict}
-              >
-                {wards.map((ward) => (
-                  <option key={ward.code} value={ward.code}>
-                    {ward.name}
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
+                        <FormControl flex={1}>
+                          <FormLabel>Phường/Xã</FormLabel>
+                          <Select
+                            value={selectedWard}
+                            onChange={(e) => setSelectedWard(parseInt(e.target.value))}
+                            placeholder="-- Chọn phường/xã --"
+                            disabled={!selectedDistrict}
+                          >
+                            {wards.map((ward) => (
+                              <option key={ward.code} value={ward.code}>
+                                {ward.name}
+                              </option>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </HStack>
 
-            <FormControl>
-              <FormLabel>Địa chỉ chi tiết</FormLabel>
-              <Textarea
-                defaultValue={user.detailed_address}
-                onChange={handleInputChange('detailed_address')}
-                placeholder="Số nhà, tên đường, ngõ/hẻm..."
-                rows={3}
-              />
-            </FormControl>
+                      <FormControl>
+                        <FormLabel>Địa chỉ chi tiết</FormLabel>
+                        <Textarea
+                          defaultValue={user.detailed_address}
+                          onChange={handleInputChange('detailed_address')}
+                          placeholder="Số nhà, tên đường, ngõ/hẻm..."
+                          rows={3}
+                        />
+                      </FormControl>
+                    </VStack>
+                  </Box>
 
-            <Button
-              colorScheme="blue"
-              size="lg"
-              onClick={handleUpdateProfile}
-              isLoading={isUpdating}
-              loadingText="Đang cập nhật..."
-            >
-              Cập nhật thông tin
-            </Button>
-          </VStack>
+                  <Button
+                    colorScheme="blue"
+                    size="lg"
+                    onClick={handleUpdateProfile}
+                    isLoading={isUpdating}
+                    loadingText="Đang cập nhật..."
+                  >
+                    Cập nhật thông tin
+                  </Button>
+                </VStack>
+              </TabPanel>
+
+              <TabPanel px={0} pt={6}>
+                <OrderList />
+              </TabPanel>
+            </TabPanels>
+          </Tabs>
         </CardBody>
       </Card>
     </Box>

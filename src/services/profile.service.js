@@ -14,5 +14,16 @@ export const profileService = {
       method: 'PATCH',
       params: data
     });
+  },
+
+  getMyOrders: async (page = 1, limit = 10, status) => {
+    const params = { page, limit };
+    if (status) params.status = status;
+
+    return await API.request({
+      url: '/api/client-user/my-orders',
+      method: 'GET',
+      params
+    });
   }
 };

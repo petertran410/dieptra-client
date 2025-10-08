@@ -2,6 +2,11 @@ import { API } from '../utils/API';
 import Cookies from 'js-cookie';
 import { CK_CLIENT_TOKEN, CK_CLIENT_USER } from '../utils/const';
 
+const clearAuthData = () => {
+  Cookies.remove(CK_CLIENT_TOKEN);
+  Cookies.remove(CK_CLIENT_USER);
+};
+
 export const authService = {
   register: async (data) => {
     const response = await API.request({
@@ -58,18 +63,15 @@ export const authService = {
         return { isAuthenticated: true, user: response.user };
       }
 
-      this.clearAuthData();
+      clearAuthData();
       return { isAuthenticated: false };
     } catch (error) {
-      this.clearAuthData();
+      clearAuthData();
       return { isAuthenticated: false };
     }
   },
 
-  clearAuthData: () => {
-    Cookies.remove(CK_CLIENT_TOKEN);
-    Cookies.remove(CK_CLIENT_USER);
-  },
+  clearAuthData,
 
   logout: async () => {
     try {
@@ -80,7 +82,7 @@ export const authService = {
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
-      this.clearAuthData();
+      clearAuthData();
     }
   },
 
