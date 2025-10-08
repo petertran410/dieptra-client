@@ -1123,9 +1123,9 @@ const PaymentWrapper = () => {
                       h="60px"
                       fontSize="18px"
                       fontWeight="600"
-                      onClick={isCOD ? handleCODPayment : handlePayment}
-                      // onClick={isCOD ? handleCODPayment : cannotPay}
-                      isLoading={isCOD ? creatingCODOrder : creatingPayment}
+                      // onClick={isCOD ? handleCODPayment : handlePayment}
+                      onClick={isCOD ? handleCODPayment : cannotPay}
+                      // isLoading={isCOD ? creatingCODOrder : creatingPayment}
                       _hover={{
                         transform: 'translateY(-2px)',
                         boxShadow: 'xl'
