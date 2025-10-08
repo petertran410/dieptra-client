@@ -18,7 +18,8 @@ import {
   Card,
   CardHeader,
   CardBody,
-  Divider
+  Divider,
+  Flex
 } from '@chakra-ui/react';
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
@@ -253,14 +254,16 @@ const ProfileWrapper = () => {
   return (
     <Box maxW="800px" mx="auto">
       <Card>
-        <CardHeader>
-          <Heading size="lg" color="#003366">
-            Thông tin cá nhân
-          </Heading>
-          <Text color="gray.600" mt={2}>
-            Quản lý thông tin tài khoản và địa chỉ giao hàng của bạn
-          </Text>
-        </CardHeader>
+        <Flex align="center" justify="center">
+          <CardHeader>
+            <Heading size="lg" color="#003366" textAlign="center">
+              Thông tin cá nhân
+            </Heading>
+            <Text color="gray.600" mt={2} fontSize="md" textAlign="center">
+              Quản lý thông tin tài khoản và địa chỉ giao hàng của bạn
+            </Text>
+          </CardHeader>
+        </Flex>
 
         <CardBody>
           <VStack spacing={6} align="stretch">
