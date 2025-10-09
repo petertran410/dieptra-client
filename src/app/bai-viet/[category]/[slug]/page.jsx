@@ -6,7 +6,6 @@ import ArticleDetailClient from './article-detail-client';
 export async function generateMetadata({ params }) {
   const { category, slug } = params;
 
-  // Validate category
   const categoryData = getArticleTypeBySlug(category);
   if (!categoryData) {
     return {
@@ -16,7 +15,6 @@ export async function generateMetadata({ params }) {
   }
 
   try {
-    // Tìm ID từ slug và type
     const idResponse = await fetch(
       `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/client/find-id-by-slug?slug=${slug}&type=${categoryData.type}`
     );
@@ -31,7 +29,6 @@ export async function generateMetadata({ params }) {
       throw new Error('Article ID not found');
     }
 
-    // Lấy detail bằng ID
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/client/${idData.id}`);
 
     if (!response.ok) {
@@ -39,24 +36,25 @@ export async function generateMetadata({ params }) {
     }
 
     const data = await response.json();
+    console.log(data);
 
-    const { title: titleData, imagesUrl, description } = data || {};
+    const { title: titleData, title_meta, imagesUrl, description } = data || {};
     const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
-    const title = `${titleData}`;
+    const metaTitle = title_meta || titleData;
 
     return {
-      title,
+      title: metaTitle,
       description: description || META_DESCRIPTION,
       keywords: META_KEYWORDS,
       openGraph: {
-        title,
+        title: metaTitle,
         description: description || META_DESCRIPTION,
         images: [
           {
             url: imageUrl,
             width: 800,
             height: 600,
-            alt: title
+            alt: titleData
           }
         ],
         type: 'article',
@@ -64,7 +62,7 @@ export async function generateMetadata({ params }) {
       },
       twitter: {
         card: 'summary_large_image',
-        title: title,
+        title: metaTitle,
         description: description || META_DESCRIPTION,
         images: [imageUrl]
       },
@@ -75,23 +73,20 @@ export async function generateMetadata({ params }) {
   } catch (error) {
     console.error('Metadata generation error:', error);
     return {
-      title: 'Bài viết ',
+      title: 'Bài viết',
       description: META_DESCRIPTION
     };
   }
 }
 
-// MAIN COMPONENT - Server component chỉ validate và pass props
 const ArticleDetailPage = ({ params }) => {
   const { category, slug } = params;
 
-  // Validate category
   const categoryData = getArticleTypeBySlug(category);
   if (!categoryData) {
     notFound();
   }
 
-  // Pass props to client component
   return <ArticleDetailClient params={params} categoryData={categoryData} />;
 };
 

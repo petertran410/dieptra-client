@@ -22,7 +22,6 @@ export const useQueryArticlesList = () => {
   });
 };
 
-// THÊM MỚI: Service cho các trang con theo type
 export const useQueryArticlesByType = (articleType) => {
   const params = useGetParamsURL();
   const { page: pageNumber = 1, keyword } = params;
@@ -44,7 +43,6 @@ export const useQueryArticlesByType = (articleType) => {
   });
 };
 
-// Service cho video (giữ nguyên)
 export const useQueryVideoList = () => {
   const params = useGetParamsURL();
   const { page: pageNumber = 1, keyword } = params;
@@ -60,7 +58,6 @@ export const useQueryVideoList = () => {
   });
 };
 
-// Service cho culture/văn hóa (giữ nguyên)
 export const useQueryBlogCultureList = () => {
   const params = useGetParamsURL();
   const { page: pageNumber = 1, keyword } = params;
@@ -83,7 +80,6 @@ export const useQueryBlogCultureList = () => {
   });
 };
 
-// THÊM MỚI: Service tìm ID từ slug và type
 export const useQueryFindIdBySlug = (slug, type) => {
   const queryKey = ['FIND_ID_BY_SLUG', slug, type];
 
@@ -95,11 +91,10 @@ export const useQueryFindIdBySlug = (slug, type) => {
         params: { slug, type }
       }),
     enabled: !!(slug && type),
-    staleTime: 5 * 60 * 1000 // 5 minutes cache
+    staleTime: 5 * 60 * 1000
   });
 };
 
-// THÊM MỚI: Service tổng quát để lấy news theo type
 export const useQueryNewsByType = (type, options = {}) => {
   const params = useGetParamsURL();
   const { page: pageNumber = 1, keyword } = params;
@@ -123,7 +118,6 @@ export const useQueryNewsByType = (type, options = {}) => {
   });
 };
 
-// THÊM MỚI: Service cho featured articles
 export const useQueryFeaturedNews = (type, limit = 5) => {
   const queryKey = ['GET_FEATURED_NEWS', type, limit];
 
@@ -134,11 +128,10 @@ export const useQueryFeaturedNews = (type, limit = 5) => {
         url: '/api/news/client/featured',
         params: { limit, type }
       }),
-    staleTime: 5 * 60 * 1000 // 5 minutes
+    staleTime: 5 * 60 * 1000
   });
 };
 
-// THÊM MỚI: Service để lấy bài viết theo ID
 export const useQueryNewsDetail = (id) => {
   const queryKey = ['GET_NEWS_DETAIL_CLIENT', id];
 
@@ -152,7 +145,6 @@ export const useQueryNewsDetail = (id) => {
   });
 };
 
-// THÊM MỚI: Service cho main article page (6 sections)
 export const useQueryArticleSections = () => {
   const queryKey = ['GET_ARTICLE_SECTIONS'];
 
@@ -162,6 +154,6 @@ export const useQueryArticleSections = () => {
       API.request({
         url: '/api/news/client/article-sections'
       }),
-    staleTime: 10 * 60 * 1000 // 10 minutes cache
+    staleTime: 10 * 60 * 1000
   });
 };

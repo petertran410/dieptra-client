@@ -9,7 +9,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { API } from '../../../utils/API';
 
 const ArticleItem = ({ item, categorySlug }) => {
-  const { id, title, imagesUrl, createdDate, description } = item || {};
+  const { id, title, imagesUrl, createdDate, description, titleMeta } = item || {};
 
   return (
     <Flex direction="column" gap="16px" h="100%">

@@ -108,7 +108,6 @@ const SectionBlock = ({ section }) => {
         </Link>
       </Flex>
 
-      {/* Articles Grid */}
       <Grid templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap="24px" mb="48px">
         {articles.slice(0, 3).map((article) => (
           <ArticleItem key={article.id} item={article} />
