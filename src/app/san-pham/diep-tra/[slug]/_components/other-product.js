@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Grid, GridItem, Heading, IconButton } from '@chakra-ui/react';
+import { Box, Flex, Heading, IconButton } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useState, useRef } from 'react';
 import { useBreakpointValue } from '@chakra-ui/react';
@@ -44,8 +44,6 @@ const OtherProduct = ({ productList, productId }) => {
       }
     }
   };
-
-  const currentProducts = filteredProducts?.slice(currentIndex * itemsPerPage, (currentIndex + 1) * itemsPerPage) || [];
 
   return (
     <Box>
@@ -97,28 +95,43 @@ const OtherProduct = ({ productList, productId }) => {
         />
 
         <Box
+          display={{ base: 'block', lg: 'none' }}
+          overflow="hidden"
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           onTouchEnd={handleTouchEnd}
-          display={{ base: 'block', lg: 'none' }}
+          px={4}
         >
-          <Grid templateColumns="repeat(2, 1fr)" gap={6} px={4}>
-            {currentProducts.map((item) => (
-              <GridItem key={item.id}>
-                <ProductItem item={item} />
-              </GridItem>
+          <Flex
+            gap={6}
+            transition="transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+            transform={`translateX(-${currentIndex * 50}%)`}
+            style={{ transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 24}px))` }}
+          >
+            {filteredProducts?.map((item) => (
+              <Box key={item.id} minW="calc(50% - 12px)" maxW="calc(50% - 12px)" flexShrink={0} h="100%">
+                <Box h="100%" display="flex" flexDirection="column">
+                  <ProductItem item={item} />
+                </Box>
+              </Box>
             ))}
-          </Grid>
+          </Flex>
         </Box>
 
-        <Box display={{ base: 'none', lg: 'block' }}>
-          <Grid templateColumns="repeat(4, 1fr)" gap={6} px={4}>
-            {currentProducts.map((item) => (
-              <GridItem key={item.id}>
-                <ProductItem item={item} />
-              </GridItem>
+        <Box display={{ base: 'none', lg: 'block' }} overflow="hidden" px={4}>
+          <Flex
+            gap={6}
+            transition="transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)"
+            style={{ transform: `translateX(calc(-${currentIndex * 100}% - ${currentIndex * 24}px))` }}
+          >
+            {filteredProducts?.map((item) => (
+              <Box key={item.id} minW="calc(25% - 18px)" maxW="calc(25% - 18px)" flexShrink={0} h="100%">
+                <Box h="100%" display="flex" flexDirection="column">
+                  <ProductItem item={item} />
+                </Box>
+              </Box>
             ))}
-          </Grid>
+          </Flex>
         </Box>
       </Box>
     </Box>
