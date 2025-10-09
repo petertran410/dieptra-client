@@ -3,6 +3,8 @@ import { META_DESCRIPTION, META_KEYWORDS } from '../../../../utils/helper-server
 import { notFound } from 'next/navigation';
 import ArticleDetailClient from './article-detail-client';
 
+export const revalidate = 0;
+
 export async function generateMetadata({ params }) {
   const { category, slug } = params;
 
@@ -16,7 +18,8 @@ export async function generateMetadata({ params }) {
 
   try {
     const idResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/client/find-id-by-slug?slug=${slug}&type=${categoryData.type}`
+      `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/client/find-id-by-slug?slug=${slug}&type=${categoryData.type}`,
+      { cache: 'no-store' }
     );
 
     if (!idResponse.ok) {
@@ -29,7 +32,9 @@ export async function generateMetadata({ params }) {
       throw new Error('Article ID not found');
     }
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/client/${idData.id}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/client/${idData.id}`, {
+      cache: 'no-store'
+    });
 
     if (!response.ok) {
       throw new Error('Article not found');
