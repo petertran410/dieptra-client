@@ -2,6 +2,7 @@ import { getMetadata } from '../../utils/helper-server';
 import ProfileWrapper from './_components/profile-wrapper';
 import { PX_ALL } from '../../utils/const';
 import { Box, Flex } from '@chakra-ui/react';
+import { Suspense } from 'react';
 
 export const metadata = getMetadata({
   title: 'Thông tin cá nhân',
@@ -12,7 +13,9 @@ const ProfilePage = () => {
   return (
     <Flex direction="column" bgColor="#FFF" minH="100vh">
       <Box px={PX_ALL} py={{ xs: '80px', lg: '120px' }}>
-        <ProfileWrapper />
+        <Suspense fallback={<Box>Loading...</Box>}>
+          <ProfileWrapper />
+        </Suspense>
       </Box>
     </Flex>
   );
