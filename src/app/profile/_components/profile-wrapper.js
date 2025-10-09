@@ -1,42 +1,43 @@
 'use client';
 
+import { useEffect, useState, useCallback, useRef } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Box,
   Button,
+  Card,
+  CardBody,
+  CardHeader,
   FormControl,
-  FormLabel,
+  Heading,
+  HStack,
   Input,
   Select,
+  Spinner,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
   Textarea,
   VStack,
-  HStack,
-  Heading,
-  Text,
-  Spinner,
   Alert,
-  AlertIcon,
-  Card,
-  CardHeader,
-  CardBody,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel
+  AlertIcon
 } from '@chakra-ui/react';
-import { useEffect, useState, useRef, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import FormLabel from '../../../components/form/form-label';
+import OrderList from './order-list';
 import { authService } from '../../../services/auth.service';
 import { profileService } from '../../../services/profile.service';
 import { showToast } from '../../../utils/helper';
-import OrderList from './order-list';
 
 const ProfileWrapper = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirectUrl = searchParams.get('redirect');
+
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
   const [user, setUser] = useState(null);
-
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [wards, setWards] = useState([]);
@@ -61,7 +62,6 @@ const ProfileWrapper = () => {
         setProvinces(data);
       } catch (error) {
         console.error('Lỗi khi tải dữ liệu tỉnh/thành:', error);
-        showToast({ status: 'error', content: 'Lỗi khi tải dữ liệu địa chỉ' });
       }
     };
     loadProvinces();
@@ -222,6 +222,10 @@ const ProfileWrapper = () => {
           status: 'success',
           content: 'Cập nhật thông tin thành công!'
         });
+
+        if (redirectUrl) {
+          router.push(redirectUrl);
+        }
       } else {
         throw new Error(response.message || 'Cập nhật thất bại');
       }
@@ -326,7 +330,7 @@ const ProfileWrapper = () => {
                         <Select
                           value={selectedProvince}
                           onChange={(e) => handleProvinceChange(e.target.value)}
-                          placeholder="-- Chọn tỉnh/thành --"
+                          placeholder="-- Chọn tỉnh/thành phố --"
                         >
                           {provinces.map((province) => (
                             <option key={province.code} value={province.code}>
