@@ -3,6 +3,10 @@
   --foreground: #171717;
 }
 
+body {
+  font-family: var(--font-afacad), sans-serif;
+}
+
 .eb-garamond-font {
   font-family: 'EB Garamond', serif !important;
 }
