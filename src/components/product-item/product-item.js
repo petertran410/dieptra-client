@@ -102,7 +102,7 @@ const ProductItem = ({ item }) => {
             fontSize="16px"
             fontWeight={600}
             color="#333"
-            lineHeight="1.3"
+            lineHeight="1"
             minH="32px"
             display="-webkit-box"
             style={{
