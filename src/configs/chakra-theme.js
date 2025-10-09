@@ -2,11 +2,11 @@ import { extendTheme } from '@chakra-ui/react';
 
 const BreakpointConfig = {
   breakpoints: {
-    xs: '320px', // mobile
+    xs: '320px',
     sm: '480px',
-    md: '768px', // tablet
+    md: '768px',
     lg: '992px',
-    xl: '1280px', // desktop
+    xl: '1280px',
     '2xl': '1600px'
   }
 };
@@ -40,7 +40,9 @@ export const chakraTheme = extendTheme({
   ...ComponentsTheme,
   ...ColorConfig,
   ...BreakpointConfig,
+  fonts: {
+    body: `var(--font-afacad), system-ui, -apple-system, sans-serif`,
+    heading: `var(--font-afacad), system-ui, -apple-system, sans-serif`
+  },
   config
-  // ...MiscConfig,
-  // ...GlobalConfig
 });

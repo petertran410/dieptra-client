@@ -13,7 +13,9 @@ import { AuthProvider } from '../contexts/auth-context';
 const fontFamily = Afacad({
   subsets: ['latin', 'vietnamese'],
   variable: '--font-afacad',
-  display: 'swap'
+  display: 'swap',
+  fallback: ['system-ui', 'arial'],
+  adjustFontFallback: false
 });
 
 export const metadata = {
