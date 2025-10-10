@@ -1,6 +1,6 @@
 'use client';
 
-import { convertSlugURL, formatCurrency } from '../../utils/helper-server';
+import { formatCurrency } from '../../utils/helper-server';
 import { IMG_ALT } from '../../utils/const';
 import { AspectRatio, Box, Flex, Image, Text, Tag } from '@chakra-ui/react';
 import Link from 'next/link';

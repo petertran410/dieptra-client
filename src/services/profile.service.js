@@ -25,5 +25,12 @@ export const profileService = {
       method: 'GET',
       params
     });
+  },
+
+  cancelOrder: async (orderId) => {
+    return await API.request({
+      url: `/api/client-user/orders/${orderId}/cancel`,
+      method: 'DELETE'
+    });
   }
 };

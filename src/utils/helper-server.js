@@ -1,4 +1,3 @@
-// src/utils/helper-server.js
 import { Text } from '@chakra-ui/react';
 import { Montserrat } from 'next/font/google';
 

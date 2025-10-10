@@ -70,7 +70,7 @@ const ProductDetail = async ({ params }) => {
       const relatedProductsResponse = await API.request({
         url: '/api/product/client/get-all',
         params: {
-          pageSize: 8,
+          pageSize: 16,
           pageNumber: 0,
           categoryId: categoryId,
           excludeProductId: productDetail.id,
