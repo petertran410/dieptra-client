@@ -25,6 +25,7 @@ const OrderList = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [statusFilter, setStatusFilter] = useState('');
+  const [cancellingOrderId, setCancellingOrderId] = useState(null);
 
   const loadOrders = async () => {
     try {
@@ -32,7 +33,6 @@ const OrderList = () => {
       const response = await profileService.getMyOrders(page, 10, statusFilter);
       setOrders(response.orders || []);
       setTotalPages(response.pagination?.totalPages || 1);
-      console.log(response);
     } catch (error) {
       console.error('Error loading orders:', error);
       showToast({ status: 'error', content: 'Không thể tải đơn hàng' });
@@ -44,6 +44,31 @@ const OrderList = () => {
   useEffect(() => {
     loadOrders();
   }, [page, statusFilter]);
+
+  const handleCancelOrder = async (orderId) => {
+    if (!window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+      return;
+    }
+
+    try {
+      setCancellingOrderId(orderId);
+      await profileService.cancelOrder(orderId);
+      showToast({ status: 'success', content: 'Hủy đơn hàng thành công' });
+      loadOrders();
+    } catch (error) {
+      console.error('Error cancelling order:', error);
+      showToast({
+        status: 'error',
+        content: error.response?.data?.message || 'Không thể hủy đơn hàng'
+      });
+    } finally {
+      setCancellingOrderId(null);
+    }
+  };
+
+  const canCancelOrder = (order) => {
+    return order.status !== 'CANCELLED' && order.status !== 'DELIVERED';
+  };
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -171,13 +196,22 @@ const OrderList = () => {
                 Địa chỉ: {order.address}
               </Text>
             </VStack>
-            <VStack align="end" spacing={0}>
-              <Text fontSize="xl" color="gray.600">
-                Tổng tiền:
-              </Text>
-              <Text fontSize="lg" fontWeight="bold" color="#003366">
+            <VStack align="end" spacing={2}>
+              <Text fontSize="2xl" fontWeight="bold" color="#003366">
                 {formatPrice(order.total)}
               </Text>
+              {canCancelOrder(order) && (
+                <Button
+                  size="sm"
+                  colorScheme="red"
+                  variant="outline"
+                  onClick={() => handleCancelOrder(order.id)}
+                  isLoading={cancellingOrderId === order.id}
+                  loadingText="Đang hủy"
+                >
+                  Hủy đơn hàng
+                </Button>
+              )}
             </VStack>
           </HStack>
         </Box>
