@@ -34,7 +34,7 @@ const FilterSearch = () => {
             pos="absolute"
             top={2.5}
             right={2.5}
-            fontSize={16}
+            fontSize={18}
             color="#828282"
             onClick={() => {
               setKeywordText('');

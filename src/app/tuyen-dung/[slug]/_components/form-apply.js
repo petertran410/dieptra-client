@@ -99,7 +99,7 @@ const FormApply = ({ jobId }) => {
             Ứng tuyển ngay tại đây
           </Text>
           <Flex direction="column" gap="8px" w="full">
-            <Text fontSize={16}>Họ và tên</Text>
+            <Text fontSize={18}>Họ và tên</Text>
             <Input
               {...register('name', { required: 'Vui lòng nhập họ và tên' })}
               isDisabled={isPending}
@@ -124,7 +124,7 @@ const FormApply = ({ jobId }) => {
             {!!errors.name && <Text color="red.400">{errors.name.message}</Text>}
           </Flex>
           <Flex direction="column" gap="8px" w="full">
-            <Text fontSize={16}>Email</Text>
+            <Text fontSize={18}>Email</Text>
             <Input
               {...register('email', {
                 required: 'Vui lòng nhập email',
@@ -155,7 +155,7 @@ const FormApply = ({ jobId }) => {
             {!!errors.email && <Text color="red.400">{errors.email.message}</Text>}
           </Flex>
           <Flex direction="column" gap="8px" w="full">
-            <Text fontSize={16}>Số điện thoại</Text>
+            <Text fontSize={18}>Số điện thoại</Text>
             <Input
               {...register('phoneNumber', {
                 required: 'Vui lòng nhập số điện thoại',
@@ -187,7 +187,7 @@ const FormApply = ({ jobId }) => {
           </Flex>
 
           <Flex direction="column" gap="8px" w="full">
-            <Text fontSize={16}>Tải lên CV</Text>
+            <Text fontSize={18}>Tải lên CV</Text>
 
             <Flex
               align="center"
@@ -220,7 +220,7 @@ const FormApply = ({ jobId }) => {
                 <label style={{ display: 'block', width: '100%' }}>
                   <Flex {...getRootProps()} align="center" justify="center" gap="16px" cursor="default">
                     <Image src="/images/arrow-up-circle.webp" alt={IMG_ALT} w="32px" h="32px" />
-                    <Text fontSize={16}>Kéo thả tệp tại đây hoặc</Text>
+                    <Text fontSize={18}>Kéo thả tệp tại đây hoặc</Text>
                     <Flex
                       align="center"
                       justify="center"
@@ -231,7 +231,7 @@ const FormApply = ({ jobId }) => {
                       w="74px"
                       h="32px"
                       gap="4px"
-                      fontSize={16}
+                      fontSize={18}
                       borderRadius={8}
                       fontWeight={500}
                       transitionDuration="250ms"
@@ -253,7 +253,7 @@ const FormApply = ({ jobId }) => {
                 </label>
               )}
             </Flex>
-            <Text color="#71717A" fontSize={16}>
+            <Text color="#71717A" fontSize={18}>
               Định dạng file: .pdf (tối đa 10 MB)
             </Text>
             {!!errors.file && <Text color="red.400">{errors.file.message}</Text>}
@@ -272,7 +272,7 @@ const FormApply = ({ jobId }) => {
             w="full"
             h="40px"
             gap="4px"
-            fontSize={16}
+            fontSize={18}
             borderRadius={8}
             fontWeight={500}
             transitionDuration="250ms"

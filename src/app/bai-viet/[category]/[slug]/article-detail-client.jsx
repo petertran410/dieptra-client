@@ -152,7 +152,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
   if (loading) {
     return (
       <Box p="16px" bg="gray.50" borderRadius="8px">
-        <Text fontSize={16} fontWeight={500} mb="16px">
+        <Text fontSize={18} fontWeight={500} mb="16px">
           Đang tải...
         </Text>
       </Box>
@@ -162,7 +162,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
   if (!latestArticles.length) {
     return (
       <Box p="16px" bg="gray.50" borderRadius="8px">
-        <Text fontSize={16} fontWeight={500} mb="16px">
+        <Text fontSize={18} fontWeight={500} mb="16px">
           Bài viết mới nhất
         </Text>
         <Text fontSize={14} color="gray.500">
@@ -373,7 +373,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
           <Text as="h1" fontSize={28} fontWeight={600} mt="20px" lineHeight="30px">
             {title}
           </Text>
-          <Text mt="12px" color="#A1A1AA" fontSize={16}>
+          <Text mt="12px" color="#A1A1AA" fontSize={18}>
             Ngày đăng: {convertTimestamp(createdDate)}
           </Text>
           <Text mt="16px" fontWeight={500} fontSize={20}>
@@ -403,7 +403,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
           <Box
             mt="20px"
             className="html-content"
-            fontSize={16}
+            fontSize={18}
             lineHeight="20px"
             dangerouslySetInnerHTML={{
               __html: htmlContent

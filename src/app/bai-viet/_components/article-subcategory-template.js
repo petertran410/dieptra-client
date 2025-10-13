@@ -44,7 +44,7 @@ const ArticleItem = ({ item, categorySlug }) => {
           </Link>
 
           {description && (
-            <Text mt={1} fontSize={16} color="gray.600" lineHeight="20px" noOfLines={2}>
+            <Text mt={1} fontSize={18} color="gray.600" lineHeight="20px" noOfLines={2}>
               {description}
             </Text>
           )}

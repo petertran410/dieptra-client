@@ -25,7 +25,7 @@ const Benefit = () => {
               Diệp Trà
             </Text>
           </Text>
-          <Text fontSize={16} lineHeight="20px">
+          <Text fontSize={18} lineHeight="20px">
             Sự kiện team building dành cho CBNV Diệp Trà là một hoạt động thường niên đầy ý nghĩa, luôn mang lại những
             trải nghiệm tuyệt vời và gắn kết mạnh mẽ các thành viên trong công ty. Hàng năm, Diệp Trà tổ chức team
             building tại những địa điểm mới, với những hoạt động ngoài trời đầy thử thách, từ các trò chơi vận động đến
@@ -54,7 +54,7 @@ const Benefit = () => {
           <Text fontWeight={600} lineHeight="30px" fontSize={24}>
             CBNV tham gia Triển lãm Quốc tế Vietfood & Beverage - Propack 2024
           </Text>
-          <Text fontSize={16} lineHeight="20px">
+          <Text fontSize={18} lineHeight="20px">
             Cán bộ nhân viên Diệp Trà tham gia Triển lãm Quốc tế Vietfood & Beverage - Propack 2024, một sự kiện lớn
             trong ngành thực phẩm và đồ uống. Đây là cơ hội tuyệt vời để đội ngũ Diệp Trà không chỉ khám phá các sản
             phẩm, công nghệ mới mà còn giao lưu, học hỏi từ các thương hiệu lớn trong và ngoài nước. Các hoạt động tại

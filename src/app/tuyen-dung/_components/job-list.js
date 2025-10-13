@@ -51,11 +51,11 @@ const JobList = () => {
                   <Flex align="center" gap="24px">
                     <Flex align="center" gap="4px">
                       <Image src="/images/clock.webp" w="16px" h="16px" alt={IMG_ALT} />
-                      <Text fontSize={16}>{WORK_TYPE.find((i) => i.value === employmentType)?.label}</Text>
+                      <Text fontSize={18}>{WORK_TYPE.find((i) => i.value === employmentType)?.label}</Text>
                     </Flex>
                     <Flex align="center" gap="4px">
                       <Image src="/images/user.webp" w="16px" h="16px" alt={IMG_ALT} />
-                      <Text fontSize={16}>{vacancies} người</Text>
+                      <Text fontSize={18}>{vacancies} người</Text>
                     </Flex>
                   </Flex>
                 </Flex>
@@ -82,7 +82,7 @@ const JobList = () => {
                     w="132px"
                     h="32px"
                     gap="4px"
-                    fontSize={16}
+                    fontSize={18}
                     borderRadius={8}
                     fontWeight={500}
                     transitionDuration="250ms"

@@ -79,7 +79,7 @@ const RatingForm = ({ productId, setHasContent }) => {
       <Text fontSize={18} fontWeight={500}>
         Viết đánh giá của bạn
       </Text>
-      <Text mt="24px" fontSize={16} color="#71717A">
+      <Text mt="24px" fontSize={18} color="#71717A">
         Chất lượng sản phẩm
       </Text>
       <Flex align="center" gap="4px">
@@ -110,7 +110,7 @@ const RatingForm = ({ productId, setHasContent }) => {
       <Box mt="16px" borderRadius={16} w="full">
         <Flex gap="24px" direction="column" w="full">
           <Flex direction="column" gap="8px" w="full">
-            <Text fontSize={16}>Họ và tên</Text>
+            <Text fontSize={18}>Họ và tên</Text>
             <Input
               placeholder="Họ và tên"
               h="56px"
@@ -133,7 +133,7 @@ const RatingForm = ({ productId, setHasContent }) => {
             />
           </Flex>
           <Flex direction="column" gap="8px" w="full">
-            <Text fontSize={16}>Thêm đánh giá</Text>
+            <Text fontSize={18}>Thêm đánh giá</Text>
             <Input
               placeholder="Nhập nội dung"
               h="56px"
@@ -164,7 +164,7 @@ const RatingForm = ({ productId, setHasContent }) => {
             color="#FFF"
             w="full"
             h="40px"
-            fontSize={16}
+            fontSize={18}
             fontWeight={500}
             borderRadius={8}
             _hover={{ bgColor: '#5d97e3' }}
@@ -207,7 +207,7 @@ const ModalConfirmClose = ({ open, onCloseModal, onCloseRating }) => {
             Xác nhận huỷ đánh giá
           </AlertDialogHeader>
 
-          <AlertDialogBody fontSize={16}>Bạn có chắc chắn muốn huỷ đánh giá này?</AlertDialogBody>
+          <AlertDialogBody fontSize={18}>Bạn có chắc chắn muốn huỷ đánh giá này?</AlertDialogBody>
 
           <AlertDialogFooter>
             <Button
@@ -263,7 +263,7 @@ const Rating = ({ productId, rate }) => {
       <Flex align="center" flexWrap="wrap" mt="6px" gap="8px">
         {!!rate && rate > 0 && (
           <Flex align="center" gap="1px">
-            <Text fontWeight={500} fontSize={16}>
+            <Text fontWeight={500} fontSize={18}>
               {rate}
             </Text>
             <Image src="/images/star.webp" alt={IMG_ALT} w="16px" h="16px" mt="-2px" />
@@ -311,7 +311,7 @@ const Rating = ({ productId, rate }) => {
                   {ratingList?.map((item) => {
                     return (
                       <Flex key={item} direction="column" gap="8px" borderBottom="1px solid #F4F4F5" pb="16px">
-                        <Text fontSize={16} fontWeight={500}>
+                        <Text fontSize={18} fontWeight={500}>
                           Nguyễn Văn A
                         </Text>
                         <Flex align="center" gap="4px">
@@ -319,13 +319,13 @@ const Rating = ({ productId, rate }) => {
                             <Image key={i} src="/images/star.webp" w="16px" h="16px" alt={IMG_ALT} />
                           ))}
                         </Flex>
-                        <Text fontSize={16}>Giao hàng nhanh, sản phẩm đóng gói cẩn thận, chất lượng tốt</Text>
+                        <Text fontSize={18}>Giao hàng nhanh, sản phẩm đóng gói cẩn thận, chất lượng tốt</Text>
                       </Flex>
                     );
                   })}
                 </Flex>
               ) : (
-                <Text fontSize={16} fontWeight={500} pb="30px">
+                <Text fontSize={18} fontWeight={500} pb="30px">
                   Chưa có đánh giá.
                 </Text>
               )}

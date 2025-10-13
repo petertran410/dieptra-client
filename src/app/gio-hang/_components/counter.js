@@ -43,7 +43,7 @@ const Counter = ({ productSlug }) => {
         type="number"
         w="48px"
         h="36px"
-        fontSize={16}
+        fontSize={18}
         fontWeight={500}
         borderRadius={8}
         borderColor="#E4E4E7"

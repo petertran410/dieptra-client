@@ -140,7 +140,7 @@ const HomeIntro = () => {
 
       <Flex display={{ xs: 'none', lg: 'flex' }} align="center" pos="absolute" bottom="45px" right="40px" gap="12px">
         <Box w="100px" h="1px" bgColor="#1F445A" />
-        <Text color="#1F445A" fontSize={16} fontWeight={500}>
+        <Text color="#1F445A" fontSize={18} fontWeight={500}>
           Thành lập từ 2018
         </Text>
       </Flex>
@@ -157,7 +157,7 @@ const HomeIntro = () => {
       >
         <Text
           color="#1F445A"
-          fontSize={16}
+          fontSize={18}
           fontWeight={500}
           sx={{
             writingMode: 'vertical-lr'

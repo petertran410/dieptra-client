@@ -40,7 +40,7 @@ const TopProduct = () => {
             w="98px"
             h="40px"
             gap="4px"
-            fontSize={16}
+            fontSize={18}
             borderRadius={8}
             fontWeight={500}
             transitionDuration="250ms"

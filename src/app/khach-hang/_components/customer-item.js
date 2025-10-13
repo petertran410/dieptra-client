@@ -26,7 +26,7 @@ const CustomerItem = ({ item }) => {
       <Text fontSize={18} fontWeight={600} noOfLines={3}>
         {customer}
       </Text>
-      <Text fontSize={16} color="#27272A" lineHeight="20px" noOfLines={4}>
+      <Text fontSize={18} color="#27272A" lineHeight="20px" noOfLines={4}>
         {content}
       </Text>
 
@@ -35,7 +35,7 @@ const CustomerItem = ({ item }) => {
           bgColor="transparent"
           color="#065FD4"
           fontWeight={500}
-          fontSize={16}
+          fontSize={18}
           w="98px"
           h="32px"
           _hover={{ color: '#0F2C3D', bgColor: 'transparent' }}
@@ -70,7 +70,7 @@ const CustomerItem = ({ item }) => {
                   <Text fontSize={18} fontWeight={500}>
                     {customer}
                   </Text>
-                  <Text fontSize={16} lineHeight="20px">
+                  <Text fontSize={18} lineHeight="20px">
                     {content}
                   </Text>
                 </Flex>
@@ -83,7 +83,7 @@ const CustomerItem = ({ item }) => {
                     w="68px"
                     h="40px"
                     gap="4px"
-                    fontSize={16}
+                    fontSize={18}
                     borderRadius={8}
                     fontWeight={500}
                     transitionDuration="250ms"

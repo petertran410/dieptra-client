@@ -58,7 +58,7 @@ const HomeContact = (props) => {
       <Box mt="16px" borderRadius={16} py="24px">
         <form style={{ display: 'block' }} onSubmit={handleSubmit(onSubmit)}>
           <Flex flex={1} direction="column" gap="8px">
-            <Text fontSize={16}>Họ và tên</Text>
+            <Text fontSize={18}>Họ và tên</Text>
             <Input
               {...register('fullName')}
               placeholder="Nhập họ và tên"
@@ -82,7 +82,7 @@ const HomeContact = (props) => {
 
           <Flex gap="24px" direction={{ xs: 'column', md: 'row' }} mt="16px">
             <Flex flex={1} direction="column" gap="8px">
-              <Text fontSize={16}>
+              <Text fontSize={18}>
                 Số điện thoại{' '}
                 <Text as="span" color="red">
                   *
@@ -115,7 +115,7 @@ const HomeContact = (props) => {
               {!!errors.phoneNumber && <Text color="red.400">{errors.phoneNumber.message}</Text>}
             </Flex>
             <Flex flex={1} direction="column" gap="8px">
-              <Text fontSize={16}>
+              <Text fontSize={18}>
                 Email{' '}
                 <Text as="span" color="red">
                   *
@@ -150,7 +150,7 @@ const HomeContact = (props) => {
           </Flex>
 
           <Flex direction="column" gap="8px" mt="16px">
-            <Text fontSize={16}>
+            <Text fontSize={18}>
               Sản phẩm / Vấn đề mà bạn đang quan tâm{' '}
               <Text as="span" color="red">
                 *
@@ -176,7 +176,7 @@ const HomeContact = (props) => {
               }}
             />
             {!!errors.note && <Text color="red.400">{errors.note.message}</Text>}
-            <Text fontSize={16} color="#71717A" textAlign="right">
+            <Text fontSize={18} color="#71717A" textAlign="right">
               Tối đa 200 ký tự
             </Text>
           </Flex>
@@ -188,7 +188,7 @@ const HomeContact = (props) => {
               color="#FFF"
               w="500px"
               h="40px"
-              fontSize={16}
+              fontSize={18}
               fontWeight={500}
               borderRadius={8}
               _hover={{ bgColor: '#5d97e3' }}

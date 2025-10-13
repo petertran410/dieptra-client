@@ -85,7 +85,7 @@ const Feedback = () => {
                       <Text color="#71717A" textAlign="center">
                         {item.position}
                       </Text>
-                      <Text mt="4px" textAlign="center" fontSize={16}>
+                      <Text mt="4px" textAlign="center" fontSize={18}>
                         {item.content}
                       </Text>
                       <Image
@@ -131,7 +131,7 @@ const Feedback = () => {
                       <Text color="#71717A" textAlign="center">
                         {item.position}
                       </Text>
-                      <Text mt="20px" textAlign="center" fontSize={16}>
+                      <Text mt="20px" textAlign="center" fontSize={18}>
                         {item.content}
                       </Text>
                       <Image

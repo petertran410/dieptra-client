@@ -18,7 +18,7 @@ const Search = () => {
           h="32px"
           borderRadius={8}
           bgColor="#F4F4F5"
-          fontSize={16}
+          fontSize={18}
           fontWeight={500}
           pl="16px"
           pr="36px"
@@ -50,7 +50,7 @@ const Search = () => {
         w="90px"
         h="32px"
         gap="4px"
-        fontSize={16}
+        fontSize={18}
         borderRadius={8}
         fontWeight={500}
         transitionDuration="250ms"
