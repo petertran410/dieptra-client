@@ -33,7 +33,7 @@ const ArticleCard = ({ article, categorySlug }) => {
         <Box>
           <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
             <Text
-              fontSize={18}
+              fontSize={19}
               fontWeight={500}
               lineHeight="24px"
               noOfLines={2}
@@ -46,7 +46,7 @@ const ArticleCard = ({ article, categorySlug }) => {
           </Link>
 
           {description && (
-            <Text mt={1} fontSize={18} color="gray.600" lineHeight="20px" noOfLines={2}>
+            <Text mt={1} fontSize={19} color="gray.600" lineHeight="20px" noOfLines={2}>
               {description}
             </Text>
           )}
@@ -66,7 +66,7 @@ const ArticleCard = ({ article, categorySlug }) => {
             size="sm"
             bgColor="#065FD4"
             color="#FFF"
-            fontSize={14}
+            fontSize={15}
             fontWeight={500}
             px="16px"
             h="32px"
@@ -134,6 +134,7 @@ const ArticleSection = ({ section, articles, isLoading }) => {
             borderColor="#065FD4"
             color="#065FD4"
             size="md"
+            fontSize={18}
             _hover={{ bgColor: '#065FD4', color: 'white' }}
           >
             Xem tất cả
