@@ -67,8 +67,8 @@ const OrderTrackingPage = () => {
       active: ['CONFIRMED', 'SHIPPING', 'DELIVERED', 'CANCELLED'].includes(order.status)
     },
     {
-      label: order.status === 'CANCELLED' ? 'Đã hủy' : 'Đang giao hàng',
-      status: order.status === 'CANCELLED' ? 'CANCELLED' : 'SHIPPING',
+      label: order.status === 'CANCELLED' ? 'Đã hủy' : order.status === 'DELIVERED' ? 'Đã giao hàng' : 'Đang giao hàng',
+      status: order.status === 'CANCELLED' ? 'CANCELLED' : order.status === 'DELIVERED' ? 'DELIVERED' : 'SHIPPING',
       active: ['SHIPPING', 'DELIVERED', 'CANCELLED'].includes(order.status),
       isFinal: true
     }
