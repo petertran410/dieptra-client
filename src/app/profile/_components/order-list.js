@@ -53,8 +53,10 @@ const OrderList = () => {
     try {
       setCancellingOrderId(orderId);
       await profileService.cancelOrder(orderId);
+
+      setOrders(orders.map((order) => (order.id === orderId ? { ...order, status: 'CANCELLED' } : order)));
+
       showToast({ status: 'success', content: 'Hủy đơn hàng thành công' });
-      loadOrders();
     } catch (error) {
       console.error('Error cancelling order:', error);
       showToast({
@@ -184,35 +186,26 @@ const OrderList = () => {
 
           <Divider my={3} />
 
-          <HStack justify="space-between">
-            <VStack align="start" spacing={0}>
-              <Text fontSize="xl" color="gray.600">
-                Người nhận: {order.fullName}
-              </Text>
-              <Text fontSize="xl" color="gray.600">
-                SĐT: {order.phone}
-              </Text>
-              <Text fontSize="xl" color="gray.600" noOfLines={1}>
-                Địa chỉ: {order.address}
-              </Text>
-            </VStack>
-            <VStack align="end" spacing={2}>
-              <Text fontSize="2xl" fontWeight="bold" color="#003366">
-                {formatPrice(order.total)}
-              </Text>
-              {canCancelOrder(order) && (
-                <Button
-                  size="sm"
-                  colorScheme="red"
-                  variant="outline"
-                  onClick={() => handleCancelOrder(order.id)}
-                  isLoading={cancellingOrderId === order.id}
-                  loadingText="Đang hủy"
-                >
-                  Hủy đơn hàng
-                </Button>
-              )}
-            </VStack>
+          <HStack spacing={3} mt={3}>
+            <Button size="md" colorScheme="blue" onClick={() => router.push(`/profile/orders/${order.id}`)}>
+              Chi tiết
+            </Button>
+
+            {canCancelOrder(order) ? (
+              <Button
+                size="md"
+                colorScheme="red"
+                onClick={() => handleCancelOrder(order.id)}
+                isLoading={cancellingOrderId === order.id}
+                loadingText="Đang hủy..."
+              >
+                Hủy đơn hàng
+              </Button>
+            ) : order.status === 'CANCELLED' ? (
+              <Badge colorScheme="red" fontSize="md" px={4} py={2} borderRadius="5px">
+                Đã hủy đơn
+              </Badge>
+            ) : null}
           </HStack>
         </Box>
       ))}
