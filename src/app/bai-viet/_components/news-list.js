@@ -54,7 +54,7 @@ const ArticlesItem = ({ item }) => {
             w="86px"
             h="32px"
             gap="4px"
-            fontSize={16}
+            fontSize={18}
             borderRadius={8}
             fontWeight={500}
             transitionDuration="250ms"

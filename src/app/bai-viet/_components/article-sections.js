@@ -29,7 +29,7 @@ const ArticleItem = ({ item }) => {
         <Box>
           <Link href={`/bai-viet/${convertSlugURL(title)}.${id}`}>
             <Text
-              fontSize={16}
+              fontSize={18}
               fontWeight={500}
               lineHeight="22px"
               noOfLines={2}
@@ -124,7 +124,7 @@ const ArticleSections = () => {
   if (isLoading) {
     return (
       <Box textAlign="center" py="40px">
-        <Text fontSize={16} color="gray.500">
+        <Text fontSize={18} color="gray.500">
           Đang tải nội dung...
         </Text>
       </Box>
@@ -134,7 +134,7 @@ const ArticleSections = () => {
   if (error) {
     return (
       <Box textAlign="center" py="40px">
-        <Text fontSize={16} color="red.500">
+        <Text fontSize={18} color="red.500">
           Có lỗi xảy ra khi tải nội dung. Vui lòng thử lại sau.
         </Text>
       </Box>
@@ -144,7 +144,7 @@ const ArticleSections = () => {
   if (!sections || sections.length === 0) {
     return (
       <Box textAlign="center" py="40px">
-        <Text fontSize={16} color="gray.500">
+        <Text fontSize={18} color="gray.500">
           Chưa có nội dung nào.
         </Text>
       </Box>

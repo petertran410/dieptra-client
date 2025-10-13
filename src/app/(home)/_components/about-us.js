@@ -12,15 +12,15 @@ const AboutUs = () => {
       direction={{ xs: 'column', lg: 'row' }}
     >
       <Flex flex={1.1} direction="column" gap="16px">
-        <Text as="h2" fontSize={24} fontWeight={600} color="#1E96BC">
+        <Text as="h2" fontSize={26} fontWeight={600} color="#1E96BC">
           Về Diệp Trà
         </Text>
-        <Text fontSize={16} textAlign="justify">
+        <Text fontSize={18} textAlign="justify">
           Diệp Trà - Thương hiệu trực thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, ra đời năm 2018 với sứ mệnh
           tiên phong trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên cung cấp nguyên liệu pha chế nhập khẩu từ Đài
           Loan (Trung Quốc) và Trung Quốc, đáp ứng nhu cầu đa dạng của thị trường.
         </Text>
-        <Text fontSize={16} textAlign="justify">
+        <Text fontSize={18} textAlign="justify">
           Với chiến lược “Hợp tác chiến lược Toàn diện và Độc quyền” cùng các đối tác uy tín hàng đầu thế giới, Diệp Trà
           cam kết mang đến những sản phẩm chất lượng cao, đón đầu xu hướng, cùng mức giá hợp lý cho khách hàng tại Việt
           Nam.
@@ -37,7 +37,7 @@ const AboutUs = () => {
             w="108px"
             h="40px"
             gap="4px"
-            fontSize={16}
+            fontSize={18}
             borderRadius={8}
             fontWeight={500}
             transitionDuration="250ms"

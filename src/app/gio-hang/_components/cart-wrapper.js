@@ -150,7 +150,7 @@ const CartWrapper = () => {
             w="134px"
             h="32px"
             gap="4px"
-            fontSize={16}
+            fontSize={18}
             borderRadius={8}
             fontWeight={500}
             transitionDuration="250ms"
@@ -172,7 +172,7 @@ const CartWrapper = () => {
               });
             }}
           >
-            <Text fontSize={16} fontWeight={500} color="#EF4444">
+            <Text fontSize={18} fontWeight={500} color="#EF4444">
               Xoá tất cả
             </Text>
           </button>
@@ -288,7 +288,7 @@ const CartWrapper = () => {
           w={{ xs: 'full', lg: '500px' }}
           h={{ xs: '32px', lg: '40px' }}
           gap="4px"
-          fontSize={16}
+          fontSize={18}
           borderRadius={8}
           fontWeight={500}
           _hover={{ bgColor: '#5d97e3' }}

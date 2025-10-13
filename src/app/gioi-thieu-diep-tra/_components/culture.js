@@ -18,7 +18,7 @@ const Culture = () => {
       bgSize="cover"
     >
       <SectionBlockH2 title="Văn hoá diệp trà" isNormal />
-      <Text textAlign="center" fontSize={16}>
+      <Text textAlign="center" fontSize={18}>
         Diệp Trà là thương hiệu nhập khẩu & phân phối nguyên liệu pha chế cao cấp, hướng đến xây dựng hệ sinh thái đồ
         uống chất lượng và bền vững tại Việt Nam.
       </Text>
@@ -39,17 +39,17 @@ const Culture = () => {
               backdropFilter="blur(4px)"
             >
               <Image src="/images/intro-eye.webp" w="40px" h="40px" alt={IMG_ALT} />
-              <h3 style={{ fontSize: '18px', fontWeight: '500', color: '#1E96BC' }}>Tầm nhìn</h3>
-              <Text fontSize={16} lineHeight="20px" textAlign="justify">
+              <h3 style={{ fontSize: '20px', fontWeight: '500', color: '#1E96BC' }}>Tầm nhìn</h3>
+              <Text fontSize={18} lineHeight="20px" textAlign="justify">
                 -{' '}
-                <b style={{ fontSize: '16px' }}>
+                <b style={{ fontSize: '18px' }}>
                   Đến năm 2030, Diệp Trà đặt mục tiêu trở thành một trong 10 nhà nhập khẩu và phân phối nguyên liệu pha
                   chế toàn diện hàng đầu tại Việt Nam,
                 </b>{' '}
                 không chỉ về quy mô mà còn về chất lượng sản phẩm, độ uy tín thương hiệu và năng lực phục vụ khách hàng.
                 <br />
                 <br />- Diệp Trà hướng tới xây dựng{' '}
-                <b style={{ fontSize: '16px' }}>hệ sinh thái nguyên liệu pha chế chuẩn quốc tế</b>, với danh mục sản
+                <b style={{ fontSize: '18px' }}>hệ sinh thái nguyên liệu pha chế chuẩn quốc tế</b>, với danh mục sản
                 phẩm đa dạng, có nguồn gốc rõ ràng, đáp ứng mọi nhu cầu từ quán nhỏ khởi nghiệp đến chuỗi thương hiệu
                 lớn.
               </Text>
@@ -65,10 +65,10 @@ const Culture = () => {
               backdropFilter="blur(4px)"
             >
               <Image src="/images/intro-star.webp" w="40px" h="40px" alt={IMG_ALT} />
-              <h3 style={{ fontSize: '18px', fontWeight: '500', color: '#1E96BC' }}>Sứ mệnh</h3>
-              <Text fontSize={16} lineHeight="20px" textAlign="justify">
+              <h3 style={{ fontSize: '20px', fontWeight: '500', color: '#1E96BC' }}>Sứ mệnh</h3>
+              <Text fontSize={18} lineHeight="20px" textAlign="justify">
                 -{' '}
-                <b style={{ fontSize: '16px' }}>
+                <b style={{ fontSize: '18px' }}>
                   Với vai trò là một trong những nhà nhập khẩu nguyên liệu pha chế hàng đầu tại Việt Nam
                 </b>
                 , Diệp Trà không ngừng nâng cao tiêu chuẩn chất lượng, lựa chọn những sản phẩm có nguồn gốc rõ ràng,
@@ -77,7 +77,7 @@ const Culture = () => {
                 lưu.
                 <br />
                 <br />- Không chỉ cung cấp nguyên liệu, Diệp Trà còn hướng tới việc trở thành{' '}
-                <b style={{ fontSize: '16px' }}>
+                <b style={{ fontSize: '18px' }}>
                   đối tác chiến lược toàn diện cho các chủ quán, nhà sáng lập thương hiệu đồ uống
                 </b>
                 . Chúng tôi mang đến giải pháp trọn gói – từ tư vấn sản phẩm, định hướng menu, cho đến hỗ trợ kỹ thuật
@@ -90,9 +90,9 @@ const Culture = () => {
         <GridItem flex={1} direction="column" borderRadius={16} bgColor="#FFFFFF66" p="16px" backdropFilter="blur(4px)">
           <Flex h="full" direction="column" gap="8px">
             <Image src="/images/intro-key.webp" w="40px" h="40px" alt={IMG_ALT} />
-            <h3 style={{ fontSize: '18px', fontWeight: '500', color: '#1E96BC' }}>Giá trị cốt lõi</h3>
-            <Text fontSize={16} lineHeight="20px" textAlign="justify">
-              <Text as="span" fontSize={16} fontWeight={500}>
+            <h3 style={{ fontSize: '20px', fontWeight: '500', color: '#1E96BC' }}>Giá trị cốt lõi</h3>
+            <Text fontSize={18} lineHeight="20px" textAlign="justify">
+              <Text as="span" fontSize={18} fontWeight={500}>
                 1. Tập trung vào trải nghiệm khách hàng
               </Text>
               <br />
@@ -100,14 +100,14 @@ const Culture = () => {
               phẩm và dịch vụ.
               <br />
               <br />
-              <Text as="span" fontSize={16} fontWeight={500}>
+              <Text as="span" fontSize={18} fontWeight={500}>
                 2. Hợp tác cùng phát triển
               </Text>
               <br />
               {`"Thành công của khách hàng là tương lai của chúng tôi." Diệp Trà đồng hành và không ngừng tạo dựng niềm tin qua sự phát triển bền vững.`}
               <br />
               <br />
-              <Text as="span" fontSize={16} fontWeight={500}>
+              <Text as="span" fontSize={18} fontWeight={500}>
                 3. Học hỏi, sáng tạo và đổi mới
               </Text>
               <br />
@@ -115,7 +115,7 @@ const Culture = () => {
               tối đa của khách hàng.
               <br />
               <br />
-              <Text as="span" fontSize={16} fontWeight={500}>
+              <Text as="span" fontSize={18} fontWeight={500}>
                 4. Đoàn kết và tôn trọng con người
               </Text>
               <br />
@@ -123,7 +123,7 @@ const Culture = () => {
               mục tiêu chung.
               <br />
               <br />
-              <Text as="span" fontSize={16} fontWeight={500}>
+              <Text as="span" fontSize={18} fontWeight={500}>
                 5. Kỷ luật và cam kết
               </Text>
               <br />

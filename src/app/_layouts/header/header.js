@@ -222,7 +222,7 @@ const Header = () => {
                           <Box
                             px={4}
                             py={3}
-                            fontSize={16}
+                            fontSize={18}
                             fontWeight={400}
                             color="gray.700"
                             cursor="pointer"
@@ -368,7 +368,7 @@ const Header = () => {
                 <Box borderBottom="1px solid #e2e8f0" bg="#f7fafc">
                   <Flex px={6} py={4} align="center" gap="12px">
                     <UserIcon w="24px" h="24px" color="#065FD4" />
-                    <Text fontSize={16} fontWeight={600} color="#333">
+                    <Text fontSize={18} fontWeight={600} color="#333">
                       {user.full_name || user.fullName}
                     </Text>
                   </Flex>
@@ -409,7 +409,7 @@ const Header = () => {
                   <Box
                     px={6}
                     py={4}
-                    fontSize={16}
+                    fontSize={18}
                     fontWeight={500}
                     color="#065FD4"
                     bg="#f7fafc"
@@ -433,7 +433,7 @@ const Header = () => {
                       <Box
                         px={6}
                         py={4}
-                        fontSize={16}
+                        fontSize={18}
                         fontWeight={500}
                         color={isActive ? '#065FD4' : '#333'}
                         bg={isActive ? '#f7fafc' : 'transparent'}

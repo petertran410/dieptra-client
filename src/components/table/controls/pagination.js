@@ -31,7 +31,7 @@ const Pagination = (props) => {
           setParamsURL({ page: newPage });
         }}
       >
-        <Icon as={IoChevronBack} fontSize={16} />
+        <Icon as={IoChevronBack} fontSize={18} />
       </Button>
       {Array.from({ length: props.totalPages }, (_, index) => {
         const isActive = page === index + 1;
@@ -80,7 +80,7 @@ const Pagination = (props) => {
           setParamsURL({ page: newPage });
         }}
       >
-        <Icon as={IoChevronForward} fontSize={16} />
+        <Icon as={IoChevronForward} fontSize={18} />
       </Button>
     </Flex>
   );

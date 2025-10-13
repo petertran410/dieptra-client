@@ -81,7 +81,7 @@ const Strength = () => {
               >
                 {title}
               </Text>
-              <Text fontSize={16} lineHeight="20px" textAlign="justify">
+              <Text fontSize={18} lineHeight="20px" textAlign="justify">
                 {description}
               </Text>
             </Flex>

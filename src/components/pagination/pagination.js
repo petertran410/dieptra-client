@@ -43,7 +43,7 @@ const Pagination = (props) => {
               alignItems="center"
               justifyContent="center"
               borderRadius={8}
-              fontSize={16}
+              fontSize={18}
               fontWeight={500}
               bgColor={isActive ? '#d4d4d8' : '#F4F4F5'}
               color={isActive ? '#FFF' : undefined}

@@ -92,7 +92,7 @@ const CultureDetail = async ({ params }) => {
 
           <Box mt={{ xs: '24px', lg: '48px' }}>
             <Box
-              fontSize={16}
+              fontSize={18}
               lineHeight="20px"
               className="html-content html-content-16px"
               dangerouslySetInnerHTML={{

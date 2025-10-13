@@ -54,7 +54,7 @@ const CartHeader = ({ isScrolled, isTransparent }) => {
           _hover={{ opacity: 0.7 }}
           transitionDuration="250ms"
         >
-          <Text fontSize={16} fontWeight={500} color="#FFF">
+          <Text fontSize={18} fontWeight={500} color="#FFF">
             Mua hàng
           </Text>
         </Flex>

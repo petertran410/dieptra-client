@@ -98,25 +98,25 @@ const RecruitmentDetail = async ({ params }) => {
           <Flex flex={1 / 2} direction="column" gap="12px">
             <Flex align="flex-start" gap="4px">
               <Image mt="4px" src="/images/calendar.webp" w="16px" h="16px" alt={IMG_ALT} />
-              <Text fontSize={16}>Mức lương: {salary}</Text>
+              <Text fontSize={18}>Mức lương: {salary}</Text>
             </Flex>
             <Flex align="flex-start" gap="4px">
               <Image mt="4px" src="/images/calendar.webp" w="16px" h="16px" alt={IMG_ALT} />
-              <Text fontSize={16}>Thời hạn ứng tuyển: {dayjs(applicationDeadline).format('DD/MM/YYYY')}</Text>
+              <Text fontSize={18}>Thời hạn ứng tuyển: {dayjs(applicationDeadline).format('DD/MM/YYYY')}</Text>
             </Flex>
           </Flex>
           <Flex flex={1 / 2} direction="column" gap="12px">
             <Flex align="flex-start" gap="4px">
               <Image mt="4px" src="/images/user.webp" w="16px" h="16px" alt={IMG_ALT} />
-              <Text fontSize={16}>Số lượng: {vacancies} người</Text>
+              <Text fontSize={18}>Số lượng: {vacancies} người</Text>
             </Flex>
             <Flex align="flex-start" gap="4px">
               <Image mt="4px" src="/images/clock.webp" w="16px" h="16px" alt={IMG_ALT} />
-              <Text fontSize={16}>
+              <Text fontSize={18}>
                 Thời gian làm việc:{' '}
                 {!isEmpty(workingHours) ? workingHours?.map((i) => `${i.start} - ${i.end}`)?.join(', ') : 'Thoả thuận'}{' '}
                 {workingHours?.length > 1 && (
-                  <Text as="span" fontSize={16} color="#828282">
+                  <Text as="span" fontSize={18} color="#828282">
                     (nhiều ca linh hoạt)
                   </Text>
                 )}
@@ -135,9 +135,9 @@ const RecruitmentDetail = async ({ params }) => {
         </Flex>
 
         <Box mt="20px">
-          <Text fontSize={16} fontWeight={500}>
+          <Text fontSize={18} fontWeight={500}>
             Địa điểm làm việc:{' '}
-            <Text as="span" fontSize={16} fontWeight={400}>
+            <Text as="span" fontSize={18} fontWeight={400}>
               {location}
             </Text>
           </Text>
@@ -145,7 +145,7 @@ const RecruitmentDetail = async ({ params }) => {
 
         <Box
           mt="20px"
-          fontSize={16}
+          fontSize={18}
           whiteSpace="pre-line"
           className="html-content html-content-16px"
           dangerouslySetInnerHTML={{

@@ -30,7 +30,7 @@ const ActivityItem = ({ isMobile, item }) => {
             {title}
           </Text>
           {isMobile ? (
-            <Box fontSize={16} lineHeight="19px" noOfLines={5} dangerouslySetInnerHTML={{ __html: description }}></Box>
+            <Box fontSize={18} lineHeight="19px" noOfLines={5} dangerouslySetInnerHTML={{ __html: description }}></Box>
           ) : (
             <Flex align="center" gap="4px">
               <Image w="16px" h="16px" alt={IMG_ALT} src="/images/clock-outline.webp" />

@@ -90,7 +90,7 @@ const Footer = () => {
     >
       <Flex direction={{ xs: 'column', lg: 'row' }} align="flex-start" pos="relative" gap={{ xs: '12px', lg: '24px' }}>
         <Flex align="center" display={{ xs: 'flex', lg: 'none' }}>
-          <Text fontSize={16}>Fanpage:</Text>
+          <Text fontSize={18}>Fanpage:</Text>
           <Link href="/" target="_blank">
             <Image src="/images/facebook-black.webp" w="24px" h="24px" alt={IMG_ALT} />
           </Link>
@@ -103,7 +103,7 @@ const Footer = () => {
         </Flex>
 
         <Flex flex={{ xs: 'none', lg: 1 / 3 }} direction="column">
-          <Text fontSize={16} fontWeight={600}>
+          <Text fontSize={18} fontWeight={600}>
             Công ty TNHH XNK Hi Sweetie Việt Nam
           </Text>
 
@@ -164,9 +164,9 @@ const Footer = () => {
               </ChakraLink>
             </Flex>
 
-            <Text fontSize={16} fontWeight={500}>
+            <Text fontSize={18} fontWeight={500}>
               Giờ làm việc:{' '}
-              <Text fontSize={16} fontWeight={500}>
+              <Text fontSize={18} fontWeight={500}>
                 T2 - T7: 8h30 - 17h30
               </Text>
             </Text>
@@ -186,7 +186,7 @@ const Footer = () => {
                 return (
                   <Fragment key={title}>
                     <Link href={href}>
-                      <Text as="span" fontWeight={500} fontSize={16} py="6px" textAlign="center" h="32px">
+                      <Text as="span" fontWeight={500} fontSize={18} py="6px" textAlign="center" h="32px">
                         {title}
                       </Text>
                     </Link>
@@ -214,7 +214,7 @@ const Footer = () => {
                 const { title, href } = item;
                 return (
                   <Link href={href} key={title}>
-                    <Text as="span" fontWeight={500} fontSize={16} py="6px" textAlign="center" h="32px">
+                    <Text as="span" fontWeight={500} fontSize={18} py="6px" textAlign="center" h="32px">
                       {title}
                     </Text>
                   </Link>
@@ -226,7 +226,7 @@ const Footer = () => {
 
         <Flex flex={{ xs: 'none', lg: 1 / 3 }} direction="column" gap="24px" w="full">
           <Flex align="center" display={{ xs: 'none', lg: 'flex' }}>
-            <Text fontSize={16}>Fanpage:</Text>
+            <Text fontSize={18}>Fanpage:</Text>
             <Link href="https://www.facebook.com/dieptra.0788339379" target="_blank">
               <Image src="/images/facebook-black.webp" w="24px" h="24px" alt={IMG_ALT} />
             </Link>

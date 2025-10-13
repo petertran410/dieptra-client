@@ -59,16 +59,16 @@ const Contact = () => {
               Công ty TNHH XNK Hi Sweetie Việt Nam
             </Text>
             <Flex direction="column" gap="4px" w="full">
-              <Text fontSize={16} fontWeight={500}>
+              <Text fontSize={18} fontWeight={500}>
                 Địa chỉ:
               </Text>
-              <Text fontSize={16} lineHeight="19px">
+              <Text fontSize={18} lineHeight="19px">
                 - Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.
               </Text>
-              <Text fontSize={16} lineHeight="19px">
+              <Text fontSize={18} lineHeight="19px">
                 - Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.
               </Text>
-              <Text fontSize={16} lineHeight="19px">
+              <Text fontSize={18} lineHeight="19px">
                 - Cửa hàng: 42 Đường số 7, P.10, Q. Tân Bình, TP.HCM.
               </Text>
             </Flex>
@@ -76,13 +76,13 @@ const Contact = () => {
             <Flex align="center" w="full" gap="4px">
               <Flex align="left" w="full" gap="4px" flexDirection="column">
                 <Flex align="center" w="full" gap="4px">
-                  <Text fontSize={16} fontWeight={500}>
+                  <Text fontSize={18} fontWeight={500}>
                     Website:
                   </Text>
                   <Link
                     href="https://www.dieptra.com/"
                     _hover={{ textDecor: 'none' }}
-                    fontSize={16}
+                    fontSize={18}
                     lineHeight="19px"
                     target="_blank"
                   >
@@ -90,13 +90,13 @@ const Contact = () => {
                   </Link>
                 </Flex>
                 <Flex align="center" w="full" gap="4px">
-                  <Text fontSize={16} fontWeight={500}>
+                  <Text fontSize={18} fontWeight={500}>
                     Email:
                   </Text>
                   <Link
                     href="mailto:sales@hisweetievietnam.com"
                     _hover={{ textDecor: 'none' }}
-                    fontSize={16}
+                    fontSize={18}
                     lineHeight="19px"
                     target="_blank"
                   >
@@ -104,21 +104,21 @@ const Contact = () => {
                   </Link>
                 </Flex>
                 <Flex align="center" w="full" gap="4px">
-                  <Text fontSize={16} fontWeight={500}>
+                  <Text fontSize={18} fontWeight={500}>
                     Hotline:
                   </Text>
-                  <Link href="tel:0788339379" _hover={{ textDecor: 'none' }} fontSize={16} lineHeight="19px">
+                  <Link href="tel:0788339379" _hover={{ textDecor: 'none' }} fontSize={18} lineHeight="19px">
                     0788339379
                   </Link>
                 </Flex>
                 <Flex direction="column" gap="4px" w="full">
-                  <Text fontSize={16} fontWeight={500}>
+                  <Text fontSize={18} fontWeight={500}>
                     Fanpage:
                   </Text>
                   <Link
                     href="https://www.facebook.com/dieptra.0788339379"
                     target="_blank"
-                    fontSize={16}
+                    fontSize={18}
                     lineHeight="19px"
                     textDecor="underline"
                     rel="nofollow"
@@ -129,7 +129,7 @@ const Contact = () => {
                   <Link
                     href="https://www.facebook.com/lermao.sanhannhugau"
                     target="_blank"
-                    fontSize={16}
+                    fontSize={18}
                     lineHeight="19px"
                     textDecor="underline"
                     rel="nofollow"
@@ -140,7 +140,7 @@ const Contact = () => {
                   <Link
                     href="https://www.facebook.com/profile.php?id=61560842225802"
                     target="_blank"
-                    fontSize={16}
+                    fontSize={18}
                     lineHeight="19px"
                     textDecor="underline"
                     rel="nofollow"
