@@ -2,6 +2,7 @@
 
 import { Box, VStack, HStack, Text, Badge, Image, Divider, Spinner, Button, Select } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { profileService } from '../../../services/profile.service';
 import { showToast } from '../../../utils/helper';
 
@@ -20,6 +21,7 @@ const PAYMENT_STATUS = {
 };
 
 const OrderList = () => {
+  const router = useRouter();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
@@ -113,22 +115,6 @@ const OrderList = () => {
         <Text fontSize="xl" fontWeight="medium" color="gray.700">
           Tổng: {orders.length} đơn hàng
         </Text>
-        {/* <Select
-          w="200px"
-          size="lg"
-          value={statusFilter}
-          onChange={(e) => {
-            setStatusFilter(e.target.value);
-            setPage(1);
-          }}
-          placeholder="Tất cả đơn hàng"
-        >
-          {Object.entries(ORDER_STATUS).map(([key, { label }]) => (
-            <option key={key} value={key}>
-              {label}
-            </option>
-          ))}
-        </Select> */}
       </HStack>
 
       {orders.map((order) => (
@@ -151,14 +137,6 @@ const OrderList = () => {
                 {formatDate(order.createdDate)}
               </Text>
             </VStack>
-            {/* <VStack align="end" spacing={2}>
-              <Badge colorScheme={ORDER_STATUS[order.status]?.color || 'gray'} fontSize="xs" px={2} py={1}>
-                {ORDER_STATUS[order.status]?.label || order.status}
-              </Badge>
-              <Badge colorScheme={PAYMENT_STATUS[order.paymentStatus]?.color || 'gray'} fontSize="xs" px={2} py={1}>
-                {PAYMENT_STATUS[order.paymentStatus]?.label || order.paymentStatus}
-              </Badge>
-            </VStack> */}
           </HStack>
 
           <Divider my={3} />
@@ -202,39 +180,22 @@ const OrderList = () => {
                 Hủy đơn hàng
               </Button>
             ) : order.status === 'CANCELLED' ? (
-              <Badge colorScheme="red" fontSize="md" px={4} py={2} borderRadius="5px">
+              <Badge colorScheme="red" fontSize="md" px={3} py={1}>
                 Đã hủy đơn
               </Badge>
             ) : null}
           </HStack>
+
+          <HStack justify="space-between" mt={3}>
+            <Text fontSize="lg" fontWeight="bold">
+              Tổng tiền:
+            </Text>
+            <Text fontSize="lg" fontWeight="bold" color="red.500">
+              {formatPrice(order.total)}
+            </Text>
+          </HStack>
         </Box>
       ))}
-
-      {totalPages > 1 && (
-        <HStack justify="center" spacing={2} pt={4}>
-          <Button
-            size="sm"
-            isDisabled={page === 1}
-            onClick={() => setPage(page - 1)}
-            colorScheme="blue"
-            variant="outline"
-          >
-            Trước
-          </Button>
-          <Text fontSize="sm">
-            Trang {page} / {totalPages}
-          </Text>
-          <Button
-            size="sm"
-            isDisabled={page === totalPages}
-            onClick={() => setPage(page + 1)}
-            colorScheme="blue"
-            variant="outline"
-          >
-            Sau
-          </Button>
-        </HStack>
-      )}
     </VStack>
   );
 };
