@@ -99,7 +99,7 @@ const ProductItem = ({ item }) => {
 
         <Flex direction="column" p="12px" gap="6px">
           <Text
-            fontSize="16px"
+            fontSize="17px"
             fontWeight={600}
             color="#333"
             lineHeight="1"
