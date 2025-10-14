@@ -104,7 +104,7 @@ const ForgotPasswordWrapper = () => {
     } catch (error) {
       showToast({
         status: 'error',
-        content: error?.message || 'Email không tồn tại trong hệ thống'
+        content: 'Email không tồn tại' || error?.message
       });
     } finally {
       setIsLoading(false);
