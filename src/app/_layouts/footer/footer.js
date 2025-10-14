@@ -109,6 +109,16 @@ const Footer = () => {
 
           <Flex direction="column" mt="8px" gap="8px">
             <Flex align="flex-start" gap="8px">
+              <Image src="/images/certification.webp" alt={IMG_ALT} w="24px" h="24px" />
+              <Box>
+                <Text fontWeight={400} lineHeight="21px">
+                  Giấy phép Đăng kí kinh doanh số 0110211839 do Phòng Đăng ký kinh doanh – Sở Tài Chính cấp lần đầu ngày
+                  20/12/2022, đăng ký thay đổi lần thứ 1, ngày 19/11/12024.
+                </Text>
+              </Box>
+            </Flex>
+
+            <Flex align="flex-start" gap="8px">
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
