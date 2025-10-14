@@ -34,7 +34,7 @@ const Footer = () => {
           href: '/chinh-sach-diep-tra/chinh-sach-thanh-toan'
         },
         {
-          title: 'Chính Sách Giao Hàng',
+          title: 'Chính Sách Vận Chuyển Và Giao Nhận',
           href: '/chinh-sach-diep-tra/chinh-sach-giao-hang'
         },
         {
@@ -48,6 +48,14 @@ const Footer = () => {
         {
           title: 'Điều Khoản Sử Dụng',
           href: '/chinh-sach-diep-tra/dieu-khoan-su-dung'
+        },
+        {
+          title: 'Hướng Dẫn Tạo Tài Khoản',
+          href: '/chinh-sach-diep-tra/huong-dan-tao-tai-khoan'
+        },
+        {
+          title: 'Chính Sách Kiểm Hàng',
+          href: '/chinh-sach-diep-tra/chinh-sach-kiem-hang'
         }
       ]
     }
