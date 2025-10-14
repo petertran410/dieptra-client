@@ -1052,45 +1052,45 @@ const PaymentWrapper = () => {
                 </HStack>
 
                 <Box>
-                  <HStack mb={5} spacing={3}>
+                  {/* <HStack mb={5} spacing={3}>
                     <Icon as={FiCreditCard} boxSize={6} color="purple.500" />
                     <Heading size="md" color="gray.800">
                       Phương thức thanh toán
                     </Heading>
-                  </HStack>
+                  </HStack> */}
 
-                  <RadioGroup value={paymentMethod} onChange={setPaymentMethod}>
-                    <Stack spacing={4}>
-                      <Box
-                        p={4}
-                        border="2px"
-                        borderColor={paymentMethod === 'sepay_bank' ? 'blue.500' : 'gray.200'}
-                        borderRadius="lg"
-                        cursor="pointer"
-                        transition="all 0.3s"
-                        _hover={{
-                          borderColor: 'blue.400',
-                          transform: 'translateY(-2px)',
-                          boxShadow: 'md'
-                        }}
-                        bg={paymentMethod === 'sepay_bank' ? 'blue.50' : 'white'}
-                      >
-                        <Radio value="sepay_bank" colorScheme="blue" size="lg">
-                          <HStack spacing={3} ml={2}>
-                            <Icon as={BsBank} boxSize={6} color="blue.600" />
-                            <VStack align="start" spacing={0}>
-                              <Text fontWeight="semibold" fontSize="lg">
-                                Chuyển khoản ngân hàng
-                              </Text>
-                              <Text fontSize="sm" color="gray.600">
-                                Thanh toán qua QR Code hoặc tạo đơn COD
-                              </Text>
-                            </VStack>
-                          </HStack>
-                        </Radio>
-                      </Box>
-                    </Stack>
-                  </RadioGroup>
+                  {/* <RadioGroup value={paymentMethod} onChange={setPaymentMethod}> */}
+                  <Stack spacing={4}>
+                    <Box
+                    // p={4}
+                    // border="2px"
+                    // borderColor={paymentMethod === 'sepay_bank' ? 'green.500' : 'gray.200'}
+                    // borderRadius="lg"
+                    // cursor="pointer"
+                    // transition="all 0.3s"
+                    // _hover={{
+                    //   borderColor: 'blue.400',
+                    //   transform: 'translateY(-2px)',
+                    //   boxShadow: 'md'
+                    // }}
+                    // bg={paymentMethod === 'sepay_bank' ? 'green.50' : 'transparent'}
+                    >
+                      {/* <Radio value="sepay_bank" colorScheme="blue" size="lg"> */}
+                      <HStack spacing={3}>
+                        <Icon as={BsBank} boxSize={6} color="blue.600" />
+                        <VStack align="start" spacing={0}>
+                          <Text fontWeight="semibold" fontSize="lg">
+                            Chuyển khoản qua ngân hàng
+                          </Text>
+                          <Text fontSize="lg" color="gray.600">
+                            Quý Khách Vui Lòng Thanh Toán Qua QR Code Hoặc Tạo Đơn COD
+                          </Text>
+                        </VStack>
+                      </HStack>
+                      {/* </Radio> */}
+                    </Box>
+                  </Stack>
+                  {/* </RadioGroup> */}
                 </Box>
 
                 {/* Checkbox COD */}
@@ -1128,19 +1128,19 @@ const PaymentWrapper = () => {
                   p={4}
                   borderWidth="2px"
                   borderRadius="lg"
-                  borderColor={isPolicyAccepted ? 'blue.500' : 'gray.200'}
-                  bg={isPolicyAccepted ? 'blue.50' : 'transparent'}
+                  borderColor={isPolicyAccepted ? 'green.500' : 'gray.200'}
+                  bg={isPolicyAccepted ? 'green.50' : 'transparent'}
                   transition="all 0.3s"
                   _hover={{
-                    borderColor: isPolicyAccepted ? 'blue.600' : 'gray.300',
-                    bg: isPolicyAccepted ? 'blue.100' : 'gray.50'
+                    borderColor: isPolicyAccepted ? 'green.600' : 'gray.300',
+                    bg: isPolicyAccepted ? 'green.100' : 'gray.50'
                   }}
                 >
                   <HStack spacing={3}>
                     <Checkbox
                       isChecked={isPolicyAccepted}
                       onChange={(e) => setIsPolicyAccepted(e.target.checked)}
-                      colorScheme="blue"
+                      colorScheme="green"
                       size="lg"
                     />
                     <VStack
