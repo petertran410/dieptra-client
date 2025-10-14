@@ -135,17 +135,17 @@ const Header = () => {
   }, [pathname, setCart]);
 
   const handleLogout = async () => {
-    try {
-      await cartService.clearCart();
-    } catch (error) {
-      console.error('Failed to clear cart on server:', error);
-    }
+    // try {
+    //   await cartService.clearCart();
+    // } catch (error) {
+    //   console.error('Failed to clear cart on server:', error);
+    // }
 
     await authService.logout();
     setUser(null);
     setCart([]);
 
-    const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang', '/profile'];
+    const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang', '/profile', '/gio-hang'];
     const currentPath = window.location.pathname;
     const isOnProtectedPage = protectedPages.some((page) => currentPath.startsWith(page));
 
