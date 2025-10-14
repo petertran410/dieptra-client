@@ -229,7 +229,7 @@ const CartWrapper = () => {
 
       <Box my="24px" h="1px" w="full" bgColor="#F4F4F5" />
 
-      <CartProduct />
+      <CartProduct cartData={cartData} />
 
       {!!cart.length && (
         <Flex

@@ -91,7 +91,7 @@ const CartProduct = ({ cartData = [] }) => {
   return (
     <Flex direction="column" gap={{ base: 4, lg: 6 }} w="full">
       {cartData.map((item) => {
-        const price = item?.kiotViet?.basePrice || 0;
+        const price = item?.price || 0;
         const cartItem = cart.find((i) => i.slug === item.slug);
         const isLoading = loadingItems[item.slug];
 
