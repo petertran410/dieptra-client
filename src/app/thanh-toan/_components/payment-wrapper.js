@@ -945,7 +945,7 @@ const PaymentWrapper = () => {
                     _hover={{ borderColor: 'blue.300' }}
                     autoComplete="off"
                   />
-                  <Text fontSize="sm" color="gray.500" mt={2}>
+                  <Text fontSize="lg" color="gray.500" mt={2}>
                     Bạn có thể thêm ghi chú cho đơn hàng tại đây
                   </Text>
                 </FormControl>
@@ -966,7 +966,7 @@ const PaymentWrapper = () => {
             >
               <HStack mb={6} spacing={3}>
                 <Icon as={FiShoppingCart} boxSize={6} color="purple.500" />
-                <Heading size="md" color="gray.800">
+                <Heading size="lg" color="gray.800">
                   Thông tin đơn hàng
                 </Heading>
               </HStack>
@@ -1002,7 +1002,7 @@ const PaymentWrapper = () => {
                             {product.title}
                           </Text>
                           <HStack justify="space-between" w="full">
-                            <Badge colorScheme="blue" fontSize="md">
+                            <Badge colorScheme="blue" fontSize="lg">
                               x{quantity}
                             </Badge>
                             <Text fontWeight="bold" color="blue.600" fontSize="2xl">
@@ -1020,10 +1020,10 @@ const PaymentWrapper = () => {
 
               <VStack spacing={4} align="stretch">
                 <HStack justify="space-between">
-                  <Text color="gray.600" fontSize="lg">
+                  <Text color="gray.600" fontSize="2xl">
                     Tạm tính:
                   </Text>
-                  <Text fontWeight="bold" fontSize="lg" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text">
+                  <Text fontWeight="bold" fontSize="2xl" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text">
                     {formatCurrency(calculateSubtotal())}
                   </Text>
                 </HStack>
@@ -1031,11 +1031,11 @@ const PaymentWrapper = () => {
                 <HStack justify="space-between" fontSize="lg">
                   <HStack>
                     <Icon as={FiTruck} color="green.500" fontSize="lg" />
-                    <Text color="gray.600" fontSize="lg">
+                    <Text color="gray.600" fontSize="2xl">
                       Đơn vị vận chuyển:
                     </Text>
                   </HStack>
-                  <Badge fontSize="md" px={3} py={1}>
+                  <Badge fontSize="lg" px={3} py={1}>
                     Giao hàng nhanh
                   </Badge>
                 </HStack>
@@ -1113,11 +1113,11 @@ const PaymentWrapper = () => {
                     <VStack align="start" spacing={0} flex="1" cursor="pointer" onClick={() => setIsCOD(!isCOD)}>
                       <HStack>
                         <Icon as={FiTruck} color="green.500" boxSize={5} />
-                        <Text fontWeight="semibold" fontSize="md">
+                        <Text fontWeight="semibold" fontSize="lg">
                           Thanh toán khi nhận hàng (COD)
                         </Text>
                       </HStack>
-                      <Text fontSize="sm" color="gray.600">
+                      <Text fontSize="lg" color="gray.600">
                         Thanh toán bằng tiền mặt khi nhận hàng
                       </Text>
                     </VStack>
@@ -1150,10 +1150,10 @@ const PaymentWrapper = () => {
                       cursor="pointer"
                       onClick={() => setIsPolicyAccepted(!isPolicyAccepted)}
                     >
-                      <Text fontWeight="semibold" fontSize="md" color="gray.800">
+                      <Text fontWeight="semibold" fontSize="lg" color="gray.800">
                         Tôi đã đọc và đồng ý các điều khoản chính sách Diệp Trà
                       </Text>
-                      <Text fontSize="sm" color="gray.600">
+                      <Text fontSize="lg" color="gray.600">
                         Bạn cần đồng ý để có thể tiếp tục thanh toán
                       </Text>
                     </VStack>
@@ -1276,7 +1276,7 @@ const PaymentWrapper = () => {
                 <AlertIcon color="blue.500" boxSize={6} />
                 <Box>
                   <AlertTitle fontSize="lg">Đang chờ thanh toán!</AlertTitle>
-                  <AlertDescription fontSize="md">Vui lòng thực hiện thanh toán để hoàn tất đơn hàng.</AlertDescription>
+                  <AlertDescription fontSize="lg">Vui lòng thực hiện thanh toán để hoàn tất đơn hàng.</AlertDescription>
                 </Box>
               </Alert>
 
@@ -1289,7 +1289,7 @@ const PaymentWrapper = () => {
                     <Image src={qrCodeUrl} alt="QR Code thanh toán" maxW="280px" mx="auto" />
                   </Box>
                   <HStack justify="center" mt={4} spacing={2} p={3} bg="green.50" borderRadius="lg">
-                    <Text fontSize="md" color="gray.700">
+                    <Text fontSize="lg" color="gray.700">
                       Tổng tiền:
                     </Text>
                     <Text fontSize="2xl" fontWeight="bold" color="green.600">

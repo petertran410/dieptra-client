@@ -27,8 +27,7 @@ export const convertSlugURL = (text) => {
   return slug;
 };
 
-export const formatCurrency = (price = 0) =>
-  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Number(price));
+export const formatCurrency = (price = 0) => new Intl.NumberFormat('vi-VN').format(Number(price)) + ' VND';
 
 export const convertTimestamp = (timestamp) => {
   if (!timestamp) return '';
