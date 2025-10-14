@@ -2,44 +2,81 @@
 
 import { cartAtom } from '../../../states/common';
 import { IMG_ALT } from '../../../utils/const';
+import { showToast } from '../../../utils/helper';
 import { Flex, Image, Input } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { cartService } from '../../../services/cart.service';
 
 const Counter = ({ productSlug }) => {
   const [count, setCount] = useState(1);
   const [cart, setCart] = useRecoilState(cartAtom);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const setCountCart = (countData) => {
-    setCart(cart.map((i) => (i.slug === productSlug ? { ...i, quantity: countData } : i)));
-  };
+  const cartItem = cart.find((i) => i.slug === productSlug);
 
   useEffect(() => {
-    const currentCartItem = cart.find((i) => i.slug === productSlug);
-    if (currentCartItem) {
-      setCount(currentCartItem.quantity);
+    if (cartItem) {
+      setCount(cartItem.quantity);
     }
-  }, [cart, productSlug]);
+  }, [cartItem]);
+
+  const updateQuantity = async (newQuantity) => {
+    if (newQuantity < 1 || !cartItem || !cartItem.cartId || isUpdating) return;
+
+    setIsUpdating(true);
+    const previousCart = [...cart];
+
+    setCount(newQuantity);
+    setCart(cart.map((i) => (i.slug === productSlug ? { ...i, quantity: newQuantity } : i)));
+
+    try {
+      await cartService.updateCartItem(cartItem.cartId, newQuantity);
+    } catch (error) {
+      setCart(previousCart);
+      setCount(cartItem.quantity);
+      showToast({
+        status: 'error',
+        content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+      });
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleDecrease = () => {
+    if (count > 1) {
+      updateQuantity(count - 1);
+    }
+  };
+
+  const handleIncrease = () => {
+    updateQuantity(count + 1);
+  };
+
+  const handleInputChange = (e) => {
+    const value = parseInt(e.target.value) || 1;
+    const validValue = Math.max(1, value);
+    updateQuantity(validValue);
+  };
 
   return (
     <Flex align="center" gap="16px" display={{ xs: 'none', lg: 'flex' }}>
-      <button
-        type="button"
-        onClick={() => {
-          if (count === 1) {
-            return;
-          }
-          setCount(count - 1);
-          setCountCart(count - 1);
-        }}
-      >
-        <Image src="/images/minus.webp" w="24px" h="24px" alt={IMG_ALT} />
+      <button type="button" onClick={handleDecrease} disabled={count === 1 || isUpdating}>
+        <Image
+          src="/images/minus.webp"
+          w="24px"
+          h="24px"
+          alt={IMG_ALT}
+          opacity={count === 1 || isUpdating ? 0.5 : 1}
+          cursor={count === 1 || isUpdating ? 'not-allowed' : 'pointer'}
+        />
       </button>
 
       <Input
         textAlign="center"
         value={count}
-        onChange={(e) => setCount(Number(e.target.value))}
+        onChange={handleInputChange}
         type="number"
         w="48px"
         h="36px"
@@ -47,16 +84,19 @@ const Counter = ({ productSlug }) => {
         fontWeight={500}
         borderRadius={8}
         borderColor="#E4E4E7"
+        disabled={isUpdating}
+        opacity={isUpdating ? 0.6 : 1}
       />
 
-      <button
-        type="button"
-        onClick={() => {
-          setCount(count + 1);
-          setCountCart(count + 1);
-        }}
-      >
-        <Image src="/images/add.webp" w="24px" h="24px" alt={IMG_ALT} />
+      <button type="button" onClick={handleIncrease} disabled={isUpdating}>
+        <Image
+          src="/images/add.webp"
+          w="24px"
+          h="24px"
+          alt={IMG_ALT}
+          opacity={isUpdating ? 0.5 : 1}
+          cursor={isUpdating ? 'not-allowed' : 'pointer'}
+        />
       </button>
     </Flex>
   );
