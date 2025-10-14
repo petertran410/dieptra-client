@@ -1,74 +1,129 @@
 'use client';
 
-import { useQueryProductBySlugs } from '../../../services/product.service';
-import { cartAtom } from '../../../states/common';
+import OtherProduct from '../../san-pham/diep-tra/[slug]/_components/other-product';
 import { IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
 import { formatCurrency } from '../../../utils/helper-server';
-import { Flex, Image, Text } from '@chakra-ui/react';
-import Link from 'next/link';
+import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import { useRecoilState } from 'recoil';
+import { cartAtom } from '../../../states/common';
+import { cartService } from '../../../services/cart.service';
+import { useState } from 'react';
 import Counter from './counter';
-import { useMemo } from 'react';
 
-const CartProduct = () => {
+const CartProduct = ({ cartData = [] }) => {
   const [cart, setCart] = useRecoilState(cartAtom);
-  const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
-  const { data: cartQuery = [] } = useQueryProductBySlugs(cartSlugs);
-  const cartData = cartQuery.filter((cQ) => cart.map((i) => i.slug).includes(cQ.slug));
+  const [loadingItems, setLoadingItems] = useState({});
+
+  const handleRemoveItem = async (item) => {
+    const cartItem = cart.find((i) => i.slug === item.slug);
+    if (!cartItem || !cartItem.cartId) return;
+
+    setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
+
+    const optimisticCart = cart.filter((i) => i.slug !== item.slug);
+    setCart(optimisticCart);
+
+    try {
+      await cartService.removeFromCart(cartItem.cartId);
+      showToast({
+        status: 'success',
+        content: 'Đã xoá sản phẩm khỏi giỏ hàng',
+        icon: '/images/trash-green.webp'
+      });
+    } catch (error) {
+      setCart(cart);
+      showToast({
+        status: 'error',
+        content: 'Không thể xoá sản phẩm. Vui lòng thử lại'
+      });
+    } finally {
+      setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
+    }
+  };
+
+  const handleDecreaseQuantity = async (item) => {
+    const cartItem = cart.find((i) => i.slug === item.slug);
+    if (!cartItem || cartItem.quantity <= 1 || !cartItem.cartId) return;
+
+    setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
+
+    const newQuantity = cartItem.quantity - 1;
+    const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
+    setCart(optimisticCart);
+
+    try {
+      await cartService.updateCartItem(cartItem.cartId, newQuantity);
+    } catch (error) {
+      setCart(cart);
+      showToast({
+        status: 'error',
+        content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+      });
+    } finally {
+      setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
+    }
+  };
+
+  const handleIncreaseQuantity = async (item) => {
+    const cartItem = cart.find((i) => i.slug === item.slug);
+    if (!cartItem || !cartItem.cartId) return;
+
+    setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
+
+    const newQuantity = cartItem.quantity + 1;
+    const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
+    setCart(optimisticCart);
+
+    try {
+      await cartService.updateCartItem(cartItem.cartId, newQuantity);
+    } catch (error) {
+      setCart(cart);
+      showToast({
+        status: 'error',
+        content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+      });
+    } finally {
+      setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
+    }
+  };
 
   return (
-    <Flex direction="column" gap="24px">
-      {cartData?.map((item) => {
-        const cartItem = cart.find((c) => c.slug === item.slug);
-        const { title, id, price, ofCategories, kiotViet } = item;
-
-        const image_url = kiotViet.images?.[0]?.replace('http://', 'https://');
+    <Flex direction="column" gap={{ base: 4, lg: 6 }} w="full">
+      {cartData.map((item) => {
+        const price = item?.kiotViet?.basePrice || 0;
+        const cartItem = cart.find((i) => i.slug === item.slug);
+        const isLoading = loadingItems[item.slug];
 
         return (
           <Flex
-            key={id}
+            key={item.slug}
             direction={{ base: 'column', lg: 'row' }}
-            align={{ base: 'stretch', lg: 'center' }}
+            align={{ base: 'flex-start', lg: 'center' }}
             justify="space-between"
+            p={{ base: 4, lg: 6 }}
+            borderRadius="12px"
+            bg="white"
+            boxShadow="sm"
+            border="1px solid"
+            borderColor="gray.100"
             pos="relative"
-            p={{ base: 4, lg: 0 }}
-            border={{ base: '1px solid #E4E4E7', lg: 'none' }}
-            borderRadius={{ base: '12px', lg: '0' }}
+            opacity={isLoading ? 0.6 : 1}
+            pointerEvents={isLoading ? 'none' : 'auto'}
+            transition="opacity 0.2s"
           >
-            {/* Left side: Image + Info */}
-            <Flex align="center" gap={{ base: '12px', lg: '24px' }} flex={1}>
-              <Link href={`/san-pham/diep-tra/${cartItem.slug}`} target="_blank">
-                <Flex
-                  w={{ base: '80px', lg: '150px' }}
-                  h={{ base: '80px', lg: '150px' }}
-                  bgColor="#F4F4F5"
-                  align="center"
-                  justify="center"
-                  borderRadius={12}
-                  flexShrink={0}
-                >
-                  <Image
-                    h="90%"
-                    w="auto"
-                    fit="cover"
-                    alt={IMG_ALT}
-                    src={image_url || '/images/tra-phuong-hoang.webp'}
-                  />
-                </Flex>
-              </Link>
-
-              <Flex direction="column" gap="8px" flex={1}>
-                <Text fontWeight={500} fontSize={{ base: '16px', lg: '18px' }} noOfLines={2}>
-                  {title}
-                </Text>
-                <Text
-                  fontWeight={500}
-                  fontSize={{ base: '14px', lg: '16px' }}
-                  color="#A1A1AA"
-                  textTransform="uppercase"
-                >
-                  {ofCategories?.[0]?.name}
+            <Flex gap={{ base: 3, lg: 4 }} align="center" flex="1" w={{ base: 'full', lg: 'auto' }}>
+              <Image
+                src={item?.kiotViet?.images?.[0]}
+                w={{ base: '80px', lg: '100px' }}
+                h={{ base: '80px', lg: '100px' }}
+                objectFit="cover"
+                borderRadius="8px"
+                alt={IMG_ALT}
+              />
+              <Flex direction="column" gap={2} flex="1">
+                <Text fontSize={{ base: '16px', lg: '18px' }} fontWeight="500" noOfLines={2}>
+                  {item?.kiotViet?.categoryName?.[0]?.name}
                 </Text>
                 <Text
                   fontSize={{ base: '18px', lg: '20px' }}
@@ -80,41 +135,19 @@ const CartProduct = () => {
                 </Text>
               </Flex>
 
-              {/* Delete button mobile */}
               <Flex display={{ base: 'flex', lg: 'none' }} pos="absolute" top={4} right={2}>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCart(cart.filter((i) => i.slug !== item.slug));
-                    showToast({
-                      status: 'success',
-                      content: 'Đã xoá 01 sản phẩm khỏi giỏ hàng',
-                      icon: '/images/trash-green.webp'
-                    });
-                  }}
-                >
+                <button type="button" onClick={() => handleRemoveItem(item)} disabled={isLoading}>
                   <Image src="/images/trash.webp" w="24px" h="24px" alt={IMG_ALT} _hover={{ opacity: 0.8 }} />
                 </button>
               </Flex>
             </Flex>
 
-            {/* Right side: Price + Counter + Delete (Desktop) */}
             <Flex display={{ base: 'none', lg: 'flex' }} align="center" gap="80px">
               <Text fontSize="20px" fontWeight="600" minW="120px" textAlign="right">
                 {formatCurrency(price)}
               </Text>
               <Counter productSlug={item.slug} />
-              <button
-                type="button"
-                onClick={() => {
-                  setCart(cart.filter((i) => i.slug !== item.slug));
-                  showToast({
-                    status: 'success',
-                    content: 'Đã xoá 01 sản phẩm khỏi giỏ hàng',
-                    icon: '/images/trash-green.webp'
-                  });
-                }}
-              >
+              <button type="button" onClick={() => handleRemoveItem(item)} disabled={isLoading}>
                 <Image
                   src="/images/trash.webp"
                   w="32px"
@@ -126,17 +159,9 @@ const CartProduct = () => {
               </button>
             </Flex>
 
-            {/* Counter for mobile */}
             <Flex display={{ base: 'flex', lg: 'none' }} justify="center" mt={4} pb={2}>
               <Flex align="center" gap="16px">
-                <button
-                  type="button"
-                  onClick={() => {
-                    const currentItem = cart.find((i) => i.slug === item.slug);
-                    if (currentItem.quantity === 1) return;
-                    setCart(cart.map((i) => (i.slug === item.slug ? { ...i, quantity: i.quantity - 1 } : i)));
-                  }}
-                >
+                <button type="button" onClick={() => handleDecreaseQuantity(item)} disabled={isLoading}>
                   <Image src="/images/minus.webp" w="24px" h="24px" alt={IMG_ALT} />
                 </button>
 
@@ -144,12 +169,7 @@ const CartProduct = () => {
                   {cartItem?.quantity || 1}
                 </Text>
 
-                <button
-                  type="button"
-                  onClick={() => {
-                    setCart(cart.map((i) => (i.slug === item.slug ? { ...i, quantity: i.quantity + 1 } : i)));
-                  }}
-                >
+                <button type="button" onClick={() => handleIncreaseQuantity(item)} disabled={isLoading}>
                   <Image src="/images/add.webp" w="24px" h="24px" alt={IMG_ALT} />
                 </button>
               </Flex>

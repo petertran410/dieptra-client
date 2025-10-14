@@ -42,7 +42,8 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
       const formattedCart = serverCart.items.map((item) => ({
         slug: item.slug,
         id: Number(item.productId),
-        quantity: item.quantity
+        quantity: item.quantity,
+        cartId: item.id
       }));
       setCart(formattedCart);
 

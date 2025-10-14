@@ -16,6 +16,7 @@ import CartProduct from './cart-product';
 import Image from 'next/image';
 import { authService } from '../../../services/auth.service';
 import { profileService } from '../../../services/profile.service';
+import { cartService } from '../../../services/cart.service';
 
 const CartWrapper = () => {
   const [showContact, setShowContact] = useState(false);
@@ -27,8 +28,69 @@ const CartWrapper = () => {
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
-  const data_kiotviet = cartData.map((data) => data.kiotViet);
-  const image_url = data_kiotviet.map((image) => image.images[0]);
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  useEffect(() => {
+    const checkAuthAndLoadCart = async () => {
+      const currentUser = authService.getCurrentUser();
+
+      if (!currentUser || !currentUser.token) {
+        const authCheck = await authService.checkAuth();
+        if (!authCheck.isAuthenticated) {
+          showToast({
+            status: 'warning',
+            content: 'Vui lòng đăng nhập để xem giỏ hàng.'
+          });
+          router.push('/dang-nhap?redirect=/gio-hang');
+          return;
+        }
+      }
+
+      loadCartFromServer();
+    };
+
+    if (isClient) {
+      checkAuthAndLoadCart();
+    }
+  }, [isClient, router]);
+
+  const loadCartFromServer = async () => {
+    try {
+      const currentUser = authService.getCurrentUser();
+      if (!currentUser || !currentUser.token) return;
+
+      const serverCart = await cartService.getCart();
+      const formattedCart = serverCart.items.map((item) => ({
+        slug: item.slug,
+        id: Number(item.productId),
+        quantity: item.quantity,
+        cartId: item.id
+      }));
+      setCart(formattedCart);
+    } catch (error) {
+      console.error('Error loading cart:', error);
+    }
+  };
+
+  const handleClearCart = async () => {
+    try {
+      await cartService.clearCart();
+      setCart([]);
+      showToast({
+        status: 'success',
+        content: 'Đã xoá tất cả sản phẩm khỏi giỏ hàng',
+        icon: '/images/trash-green.webp'
+      });
+    } catch (error) {
+      console.error('Error clearing cart:', error);
+      showToast({
+        status: 'error',
+        content: 'Không thể xoá giỏ hàng. Vui lòng thử lại'
+      });
+    }
+  };
 
   const calculateTotal = () => {
     if (!cartData || cartData.length === 0) return 0;
@@ -115,31 +177,6 @@ const CartWrapper = () => {
     }
   };
 
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  useEffect(() => {
-    const checkAuthForCart = async () => {
-      const currentUser = authService.getCurrentUser();
-
-      if (!currentUser || !currentUser.token) {
-        const authCheck = await authService.checkAuth();
-        if (!authCheck.isAuthenticated) {
-          showToast({
-            status: 'warning',
-            content: 'Vui lòng đăng nhập để xem giỏ hàng.'
-          });
-          router.push('/dang-nhap?redirect=/gio-hang');
-        }
-      }
-    };
-
-    if (isClient) {
-      checkAuthForCart();
-    }
-  }, [isClient, router]);
-
   if (!isClient) {
     return null;
   }
@@ -182,17 +219,7 @@ const CartWrapper = () => {
         </Link>
 
         {!!cart.length && (
-          <button
-            type="button"
-            onClick={() => {
-              setCart([]);
-              showToast({
-                status: 'success',
-                content: 'Đã xoá tất cả sản phẩm khỏi giỏ hàng',
-                icon: '/images/trash-green.webp'
-              });
-            }}
-          >
+          <button type="button" onClick={handleClearCart}>
             <Text fontSize={18} fontWeight={500} color="#EF4444">
               Xoá tất cả
             </Text>
@@ -213,7 +240,6 @@ const CartWrapper = () => {
           direction={{ xs: 'column', lg: 'column' }}
           gap={{ xs: '16px', lg: '24px' }}
         >
-          {/* Order Summary */}
           <Box bg="gray.50" p="6" borderRadius="lg" w={{ xs: 'full', lg: '350px' }} border="1px" borderColor="gray.200">
             <Text fontSize="2xl" fontWeight="semibold" mb="4">
               Tóm tắt đơn hàng
@@ -226,26 +252,6 @@ const CartWrapper = () => {
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(calculateTotal())}
                 </Text>
               </Flex>
-
-              {/* <Flex justify="space-between">
-                <Text>Phí vận chuyển:</Text>
-                <Text fontWeight="medium" color={calculateShipping() === 0 ? 'green.500' : 'inherit'}>
-                  {calculateShipping() === 0
-                    ? 'Miễn phí'
-                    : new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(
-                        calculateShipping()
-                      )}
-                </Text>
-              </Flex> */}
-              {/* <Text fontWeight="medium" color="green.500">
-                Đơn vị vận chuyển: Giao hàng nhanh
-              </Text> */}
-
-              {/* {calculateShipping() === 0 && (
-                <Text fontSize="xs" color="green.600" fontStyle="italic">
-                  🎉 Miễn phí vận chuyển cho đơn hàng trên 500.000đ
-                </Text>
-              )} */}
 
               <Divider />
 
@@ -299,33 +305,6 @@ const CartWrapper = () => {
           </Stack>
         </Flex>
       )}
-
-      {/* <Flex justify="center" mt={{ xs: '16px', lg: '24px' }}>
-        <Button
-          align="center"
-          justify="center"
-          bgColor="#065FD4"
-          color="#FFF"
-          w={{ xs: 'full', lg: '500px' }}
-          h={{ xs: '32px', lg: '40px' }}
-          gap="4px"
-          fontSize={18}
-          borderRadius={8}
-          fontWeight={500}
-          _hover={{ bgColor: '#5d97e3' }}
-          _active={{ bgColor: '#5d97e3' }}
-          isDisabled={!cart.length}
-          onClick={() => setShowContact(true)}
-        >
-          Liên hệ tư vấn
-        </Button>
-      </Flex> */}
-
-      {/* <Divider display={{ xs: 'block', lg: 'none' }} mt="24px" />
-
-      <Box mt={{ xs: '24px', lg: '64px' }}>
-        <OtherProduct productList={productList} />
-      </Box> */}
 
       <ModalContact
         isOrder
