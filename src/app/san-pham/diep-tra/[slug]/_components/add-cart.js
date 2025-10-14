@@ -41,7 +41,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
       const serverCart = await cartService.getCart();
       const formattedCart = serverCart.items.map((item) => ({
         slug: item.slug,
-        id: item.productId,
+        id: Number(item.productId),
         quantity: item.quantity
       }));
       setCart(formattedCart);
@@ -51,9 +51,10 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
         content: 'Đã thêm vào giỏ hàng'
       });
     } catch (error) {
+      console.error('Add to cart error:', error);
       showToast({
         status: 'error',
-        content: 'Không thể thêm vào giỏ hàng'
+        content: error.message || 'Không thể thêm vào giỏ hàng'
       });
     } finally {
       setIsLoading(false);
