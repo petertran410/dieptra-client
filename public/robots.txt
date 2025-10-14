@@ -7,6 +7,9 @@ Disallow: /search
 Disallow: /search?
 Disallow: /search?keywords=
 Disallow: /search?keywords=category
+Disallow: /dang-ky/
+Disallow: /dang-nhap/
+Disallow: /profile/
 Disallow: *?s=
 Disallow: *?q=
 Disallow: *ref=
