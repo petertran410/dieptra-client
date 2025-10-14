@@ -2,26 +2,52 @@ import { cartAtom } from '../../../../states/common';
 import { IMG_ALT } from '../../../../utils/const';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { authService } from '../../../../services/auth.service';
+import { showToast } from '../../../../utils/helper';
 
 const CartHeaderMobile = ({ isTransparent, isScrolled }) => {
+  const router = useRouter();
   const cart = useRecoilValue(cartAtom);
   const [isClient, setIsClient] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   useEffect(() => {
     setIsClient(true);
+    const checkAuth = async () => {
+      const currentUser = authService.getCurrentUser();
+      if (currentUser && currentUser.token) {
+        setIsAuthenticated(true);
+      } else {
+        const authCheck = await authService.checkAuth();
+        setIsAuthenticated(authCheck.isAuthenticated);
+      }
+    };
+    checkAuth();
   }, []);
+
+  const handleCartClick = async (e) => {
+    if (!isAuthenticated) {
+      e.preventDefault();
+      showToast({
+        status: 'warning',
+        content: 'Vui lòng đăng nhập để xem giỏ hàng.'
+      });
+      router.push('/dang-nhap?redirect=/gio-hang');
+    }
+  };
 
   if (!isClient) {
     return null;
   }
 
   return (
-    <Link href="/gio-hang" title="Giỏ hàng">
+    <Link href="/gio-hang" title="Giỏ hàng" onClick={handleCartClick}>
       <Box pos="relative" transitionDuration="250ms" _hover={{ opacity: 0.8 }}>
         <Image src={'/images/cart-black.webp'} w="24px" h="24px" alt={IMG_ALT} />
-        {!!cart?.length && (
+        {isAuthenticated && !!cart?.length && (
           <Flex
             align="center"
             justify="center"

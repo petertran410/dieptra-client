@@ -2,6 +2,8 @@
 
 import { ARTICLE_SECTIONS } from '../../../utils/article-types';
 import { useProductCategories } from '../../../hooks/useProductCategories';
+import { useRecoilState } from 'recoil';
+import { cartAtom } from '../../../states/common';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import {
   Box,
@@ -45,6 +47,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(null);
   const [user, setUser] = useState(null);
+  const [cart, setCart] = useRecoilState(cartAtom);
   const isTransparent = pathname === '/' || pathname === '/lien-he';
 
   const { categories: productCategories } = useProductCategories();
@@ -108,6 +111,7 @@ const Header = () => {
   const handleLogout = async () => {
     await authService.logout();
     setUser(null);
+    setCart([]);
 
     const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang', '/profile'];
     const currentPath = window.location.pathname;
