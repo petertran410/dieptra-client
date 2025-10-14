@@ -8,6 +8,7 @@ import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { authService } from '../../../../../services/auth.service';
+import { cartService } from '../../../../../services/cart.service';
 import { useRouter } from 'next/navigation';
 
 const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
@@ -35,22 +36,15 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
         }
       }
 
-      const isExists = cart.find((item) => item.slug === productSlug);
+      await cartService.addToCart(Number(productId), quantity);
 
-      if (!isExists) {
-        setCart([
-          ...cart,
-          {
-            slug: productSlug,
-            id: Number(productId),
-            quantity: quantity
-          }
-        ]);
-      } else {
-        setCart(
-          cart.map((item) => (item.slug === productSlug ? { ...item, quantity: item.quantity + quantity } : item))
-        );
-      }
+      const serverCart = await cartService.getCart();
+      const formattedCart = serverCart.items.map((item) => ({
+        slug: item.slug,
+        id: item.productId,
+        quantity: item.quantity
+      }));
+      setCart(formattedCart);
 
       showToast({
         status: 'success',
@@ -59,7 +53,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
     } catch (error) {
       showToast({
         status: 'error',
-        content: 'Có lỗi xảy ra khi thêm vào giỏ hàng'
+        content: 'Không thể thêm vào giỏ hàng'
       });
     } finally {
       setIsLoading(false);

@@ -4,6 +4,7 @@ import { ARTICLE_SECTIONS } from '../../../utils/article-types';
 import { useProductCategories } from '../../../hooks/useProductCategories';
 import { useRecoilState } from 'recoil';
 import { cartAtom } from '../../../states/common';
+import { cartService } from '../../../services/cart.service';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import {
   Box,
@@ -97,25 +98,55 @@ const Header = () => {
       const currentUser = authService.getCurrentUser();
       if (currentUser) {
         setUser(currentUser.user);
+
+        try {
+          const serverCart = await cartService.getCart();
+          const formattedCart = serverCart.items.map((item) => ({
+            slug: item.slug,
+            id: item.productId,
+            quantity: item.quantity
+          }));
+          setCart(formattedCart);
+        } catch (error) {
+          console.error('Failed to load cart:', error);
+        }
       } else {
         const authCheck = await authService.checkAuth();
         if (authCheck.isAuthenticated) {
           setUser(authCheck.user);
+
+          // Sync cart từ server
+          try {
+            const serverCart = await cartService.getCart();
+            const formattedCart = serverCart.items.map((item) => ({
+              slug: item.slug,
+              id: item.productId,
+              quantity: item.quantity
+            }));
+            setCart(formattedCart);
+          } catch (error) {
+            console.error('Failed to load cart:', error);
+          }
         }
       }
     };
 
     checkAuth();
-  }, [pathname]);
+  }, [pathname, setCart]);
 
   const handleLogout = async () => {
+    try {
+      await cartService.clearCart();
+    } catch (error) {
+      console.error('Failed to clear cart on server:', error);
+    }
+
     await authService.logout();
     setUser(null);
     setCart([]);
 
     const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang', '/profile'];
     const currentPath = window.location.pathname;
-
     const isOnProtectedPage = protectedPages.some((page) => currentPath.startsWith(page));
 
     if (isOnProtectedPage) {
