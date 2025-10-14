@@ -123,7 +123,7 @@ const CartProduct = ({ cartData = [] }) => {
               />
               <Flex direction="column" gap={2} flex="1">
                 <Text fontSize={{ base: '16px', lg: '18px' }} fontWeight="500" noOfLines={2}>
-                  {item?.kiotViet?.categoryName?.[0]?.name}
+                  {item?.title ? item.title : item.kiotViet?.name}
                 </Text>
                 <Text
                   fontSize={{ base: '18px', lg: '20px' }}
