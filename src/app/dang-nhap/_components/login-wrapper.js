@@ -139,6 +139,14 @@ const LoginWrapper = () => {
                 <FormErrorMessage>{errors.pass_word}</FormErrorMessage>
               </FormControl>
 
+              <Flex justify="flex-end" w="full">
+                <Link href="/quen-mat-khau">
+                  <ChakraLink color="#065FD4" fontSize="14px" fontWeight={500}>
+                    Quên mật khẩu?
+                  </ChakraLink>
+                </Link>
+              </Flex>
+
               <Button
                 type="submit"
                 w="full"

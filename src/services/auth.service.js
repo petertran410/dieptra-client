@@ -90,5 +90,32 @@ export const authService = {
     const token = Cookies.get(CK_CLIENT_TOKEN);
     const user = Cookies.get(CK_CLIENT_USER);
     return token && user ? { token, user: JSON.parse(user) } : null;
+  },
+
+  forgotPasswordRequest: async (email) => {
+    const response = await API.request({
+      url: '/api/client-auth/forgot-password/request',
+      method: 'POST',
+      params: { email }
+    });
+    return response;
+  },
+
+  verifyForgotPasswordOtp: async (email, code) => {
+    const response = await API.request({
+      url: '/api/client-auth/forgot-password/verify-otp',
+      method: 'POST',
+      params: { email, code }
+    });
+    return response;
+  },
+
+  resetPassword: async (email, code, new_password) => {
+    const response = await API.request({
+      url: '/api/client-auth/forgot-password/reset',
+      method: 'POST',
+      params: { email, code, new_password }
+    });
+    return response;
   }
 };
