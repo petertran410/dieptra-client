@@ -36,13 +36,8 @@ export const POLICY_PAGES = {
       <p>Chính sách bảo mật cho bạn biết chúng tôi sử dụng thông tin cá nhân của bạn thu thập được tại trang web này như thế nào. Xin vui lòng đọc chính sách bảo mật trước khi sử dụng trang web hoặc gửi bất kỳ thông tin cá nhân nào.</p>
       
       <p>Khi sử dụng trang web, bạn đang chấp nhận những điều được mô tả trong chính sách bảo mật. Những điều này có thể thay đổi, nhưng bất kỳ thay đổi nào cũng đều sẽ được đăng lên và thay đổi sẽ chỉ áp dụng cho các hoạt động và thông tin trên cơ sở tịnh tiến, chứ không phải hồi tố. Bạn nên xem lại chính sách bảo mật bất cứ khi nào bạn truy cập trang web để đảm bảo rằng mình hiểu các thông tin cá nhân mà bạn cung cấp sẽ được sử dụng như thế nào. Chính sách của chúng tôi là giữ kín thông tin cá nhân nhận được từ trang web hoàn toàn bí mật và chỉ dùng cho mục đích nội bộ. Chúng tôi sẽ không chia sẻ thông tin cá nhân của bạn với bất kỳ bên nào khác. Hãy yên tâm rằng chúng tôi tôn trọng sự riêng tư của bạn và xử lý dữ liệu cá nhân của bạn với sự cẩn trọng tối đa.</p>
-      
-      <h3>THU THẬP THÔNG TIN CÁ NHÂN CỦA BẠN</h3>
-      
-      <p>Chúng tôi thu thập các thông tin định danh cá nhân như tên, địa chỉ bưu điện, địa chỉ email, số điện thoại, v.v… khi khách truy cập tự nguyện gửi cho chúng tôi. Thông tin này chỉ được sử dụng để đáp ứng yêu cầu cụ thể của bạn, trừ khi bạn cho phép sử dụng nó theo cách khác, ví dụ thêm bạn vào danh sách gửi email của chúng tôi. Thông tin chúng tôi thu thập có thể bao gồm tên, chức danh, tên công ty hay tổ chức, e-mail, điện thoại và ngày sinh nhật của bạn. Chúng tôi có thể thu thập một số thông tin nhất định về chuyến thăm của bạn, chẳng hạn như loại trình duyệt bạn sử dụng; ngày và thời gian bạn truy cập vào trang web; các trang bạn truy cập khi mở trang web và địa chỉ trang web mà từ đó bạn kết nối trực tiếp đến trang web của chúng tôi. Thông tin này được sử dụng để giúp cải thiện và quản lý trang web.</p>
-      
+
       <h3>COOKIE / CÔNG NGHỆ THEO DÕI</h3>
-      
       <p>Trang web có thể sử dụng cookie và công nghệ theo dõi tùy thuộc vào các tính năng được cung cấp. Cookie và công nghệ theo dõi rất hữu ích cho việc thu thập thông tin như loại trình duyệt và hệ điều hành, theo dõi số lượng khách truy cập vào trang web, và hiểu biết khách truy cập sử dụng trang web như thế nào. Cookie cũng có thể giúp tùy chỉnh trang web cho khách. Không thể thu thập được thông tin cá nhân thông qua cookie và công nghệ theo dõi khác, tuy nhiên, nếu trước đó bạn đã cung cấp thông tin cá nhân định danh, cookie có thể gắn với các thông tin đó. Cookie và thông tin theo dõi thu thập được có thể được chia sẻ với bên thứ ba. Chúng tôi cũng sử dụng mã tái tiếp thị đăng nhập khi khách truy cập xem các trang cụ thể, cho phép chúng tôi đưa ra các quảng cáo mục tiêu trong tương lai.</p>
       
       <h3>PHÂN PHỐI THÔNG TIN</h3>
@@ -60,6 +55,63 @@ export const POLICY_PAGES = {
       <h3>THỜI GIAN ÁP DỤNG</h3>
       
       <p>Chính sách này được áp dụng xuyên suốt thời gian trang web này hoạt động.</p>
+
+      <strong>
+        <ol>
+          <li>Mục đích và phạm vi thu thập thông tin cá nhân</li>
+        </ol>
+      </strong>
+      <p>Chúng tôi thu thập các thông tin định danh cá nhân như tên, địa chỉ bưu điện, địa chỉ email, số điện thoại, v.v… khi khách truy cập tự nguyện gửi cho chúng tôi. Thông tin này chỉ được sử dụng để đáp ứng yêu cầu cụ thể của bạn, trừ khi bạn cho phép sử dụng nó theo cách khác, ví dụ thêm bạn vào danh sách gửi email của chúng tôi. Thông tin chúng tôi thu thập có thể bao gồm tên, chức danh, tên công ty hay tổ chức, e-mail, điện thoại và ngày sinh nhật của bạn. Chúng tôi có thể thu thập một số thông tin nhất định về chuyến thăm của bạn, chẳng hạn như loại trình duyệt bạn sử dụng; ngày và thời gian bạn truy cập vào trang web; các trang bạn truy cập khi mở trang web và địa chỉ trang web mà từ đó bạn kết nối trực tiếp đến trang web của chúng tôi. Thông tin này được sử dụng để giúp cải thiện và quản lý trang web.</p>
+      <p>Khi cần thiết, chúng tôi có thể sử dụng những thông tin này để liên hệ trực tiếp với bạn dưới các hình thức như: gửi thư đơn đặt hàng, thư cảm ơn, đánh giá về dịch vụ tại Diệp Trà.</p>
+
+      <p><strong>Phạm vi sử dụng thông tin cá nhân</strong></p>
+      <p>Diệp Trà sử dụng thông tin thành viên cung cấp để:</p>
+      <ul>
+        <li>Cung cấp các dịch vụ, sản phẩm đến thành viên – khách hàng.</li>
+        <li>Gửi các thông báo về các hoạt động trao đổi thông tin giữa thành viên và website dieptra.com</li>
+        <li>Ngăn ngừa các hoạt động phá hủy tài khoản người dùng của thành viên hoặc các hoạt động giả mạo thành viên.</li>
+        <li>Không sử dụng thông tin cá nhân của thành viên ngoài mục đích xác nhận và liên hệ có liên quan đến giao dịch tại website dieptra.com.</li>
+      </ul>
+
+      <p><strong>Thời gian lưu trữ thông tin</strong></p>
+      <p>Dữ liệu cá nhân của khách hàng sẽ được lưu trữ cho đến khi có yêu cầu hủy bỏ hoặc tự khách hàng đăng nhập và thực hiện hủy bỏ. Còn lại trong mọi trường hợp thông tin cá nhân khách hàng sẽ được bảo mật trên máy chủ của website dieptra.com</p>
+      <p>Cam kết: Chúng tôi sẽ không thuê, bán hoặc tiết lộ thông tin cá nhân của quý khách cho bên thứ ba không liên quan mà không có sự đồng ý của quý khách, trừ những điều được nêu trong Điều khoản bảo mật cá nhân này.</p>
+
+      <p><strong>Những người hoặc tổ chức có thể được tiếp cận với thông tin đó</strong></p>
+      <p>Trong trường hợp có yêu cầu của pháp luật Công ty có trách nhiệm hợp tác cung cấp thông tin cá nhân khách hàng khi có yêu cầu từ cơ quan nhà nước có thẩm quyền liên quan đến hành vi vi phạm pháp luật nào đó của khách hàng. Ngoài ra, không ai có quyền xâm phạm vào thông tin cá nhân của thành viên.</p>
+      <ul>
+        <li>Trong những trường hợp còn lại, chúng tôi sẽ có thông báo cụ thể cho Quý Khách Hàng khi phải tiết lộ thông tin cho một bên thứ ba và thông tin này chỉ được cung cấp khi được sự phản hồi đồng ý từ phía Quý Khách Hàng (VD: các chương trình khuyến mãi có sự hợp tác, tài trợ với các đối tác của Diệp Trà ; cung cấp các thông tin giao nhận cần thiết cho các đơn vị vận chuyển).</li>
+      </ul>
+
+      <p><strong>Địa chỉ của đơn vị thu thập và quản lý thông tin cá nhân</strong> </br> <strong>CÔNG TY TNHH XNK HI SWEETIE VIỆT NAM</strong> </p>
+      <p>Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, phường Hà Đông, thành phố Hà Nội.</p>
+      <p>Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, phường Sơn Kỳ, TP.HCM.</p>
+      <p>Cửa hàng tại HCM: Số 42 Đường số 7, Phường Bảy Hiền, Thành phố Hồ Chí Minh</p>
+      <p>Email: sales@hisweetievietnam.com.vn</p>
+      <p>Điện thoại: 078 833 9379</p>
+      <p>Người tiêu dùng có thể hỏi về hoạt động thu thập, xử lý thông tin liên quan đến cá nhân mình, quý khách hàng vui lòng truy cập vào website dieptra.com với Tên người dùng/ email đăng nhập và mật khẩu đã đăng ký.</p>
+      <p>Để chỉnh sửa, thay đổi thông tin cá nhân, quý khách hàng vui lòng liên hệ số điện thoại: 078 833 9379.</p>
+
+      <p><strong>Phương tiện và công cụ để người dùng tiếp cận và chỉnh sửa dữ liệu cá nhân của mình</strong></p>
+      <p>Thành viên có thể kiểm tra, cập nhật, điều chỉnh hoặc hủy bỏ thông tin cá nhân của mình bằng cách yêu cầu Diệp Trà thực hiện việc này. Thành viên có quyền gửi khiếu nại về việc lộ thông tin các nhân cho bên thứ 3 đến email hello@dieptra.com, Diệp Trà sẽ xác nhận lại thông tin, phải có trách nhiệm trả lời lý do và hướng dẫn thành viên khôi phục và bảo mật lại thông tin.</p>
+
+      <p>Thông tin yêu cầu chỉnh sửa dữ liệu cá nhân: <strong>CÔNG TY TNHH XNK HI SWEETIE VIỆT NAM</strong></p>
+      <p>Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, phường Hà Đông, thành phố Hà Nội.</p>
+      <p>Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, phường Sơn Kỳ, TP.HCM.</p>
+      <p>Cửa hàng tại HCM: Số 42 Đường số 7, Phường Bảy Hiền, Thành phố Hồ Chí Minh</p>
+      <p>Email: sales@hisweetievietnam.com.vn</p>
+      <p>Điện thoại: 078 833 9379</p>
+
+      <p><strong>Cơ chế tiếp nhận và giải quyết khiếu nại của người tiêu dùng liên quan đến việc thông tin cá nhân bị sử dụng sai mục đích hoặc phạm vi đã thông báo.</strong></p>
+      <p>Tại Diệp Trà, việc bảo vệ thông tin cá nhân của Khách hàng là rất quan trọng, Khách hàng là được đảm bảo rằng thông tin cung cấp cho chúng tôi sẽ được mật Công ty cam kết không chia sẻ, bán hoặc cho thuê thông tin cá nhân của Khách hàng là cho bất kỳ người nào khác. Công ty cam kết chỉ sử dụng các thông tin của Khách hàng là vào các trường hợp sau:</p>
+
+      <ul>
+        <li>Nâng cao chất lượng dịch vụ dành cho khách hàng</li>
+        <li>Giải quyết các tranh chấp, khiếu nại</li>
+        <li>Khi cơ quan pháp luật có yêu cầu. </li>
+      </ul>
+
+      <p>Công ty hiểu rằng quyền lợi của Khách hàng là trong việc bảo vệ thông tin cá nhân cũng chính là trách nhiệm của chúng tôi nên trong bất kỳ trường hợp có thắc mắc, góp ý nào liên quan đến chính sách bảo mật của Công ty, và liên quan đến việc thông tin cá nhân bị sử dụng sai mục đích hoặc phạm vi đã thông báo vui lòng liên hệ qua số hotline 078 833 9379.</p>
     `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
@@ -147,14 +199,20 @@ export const POLICY_PAGES = {
       <p>Khách hàng có thể thanh toán trước thông qua chuyển khoản vào tài khoản ngân hàng của chúng tôi.</p>
       
       <p><strong>Thông tin tài khoản chuyển khoản:</strong></p>
-      <p><strong>Chủ tài khoản:</strong> Công ty TNHH xuất nhập khẩu Hi Sweetie Việt Nam.<br/>
-      <strong>Số tài khoản:</strong> 616233666<br/>
-      <strong>Ngân hàng:</strong> Ngân hàng ACB<br/>
-      <strong>Chi nhánh:</strong> Đông Đô<br/>
-      <strong>Nội dung chuyển khoản:</strong> [Tên khách hàng] + [Số điện thoại] + [Mã đơn hàng nếu có]</p>
+      <p><strong>Chủ tài khoản:</strong>CT TNHH XNK HI SWEETIE VN.<br/>
+      <strong>Số tài khoản:</strong>3095686868<br/>
+      <strong>Ngân hàng:</strong>Ngân hàng Bank<br/>
+      <strong>Chi nhánh:</strong>Sở Giao Dịch<br/>
+      <strong>Nội dung chuyển khoản:</strong>[Tên khách hàng] + [Số điện thoại] + [Mã đơn hàng nếu có] </br> Hoặc </br> <strong>Thanh toán qua mã QR</strong></p>
+      <img src="/images/QR-Website.webp" alt="QR Thanh Toán">
+
+      <p>Sau khi lựa chọn 1 trong 2 phương thức thanh toán, giao diện sẽ hiển thị đặt hàng thành công</p>
       
+      <img src="/images/thanh-toan-thanh-cong.webp" alt="Thanh Toán Thành Công">
+      <img src="/images/tao-don-hang-thanh-cong.webp" alt="Tạo Đơn Hàng Thành Công">
+
       <p>Sau khi chuyển khoản, quý khách vui lòng gửi <strong>ảnh xác nhận giao dịch</strong> qua Zalo/Fanpage hoặc Email để chúng tôi xử lý đơn hàng nhanh hơn.</p>
-      
+
       <h3>1.3. Thanh toán tại cửa hàng</h3>
       <ul>
         <li>Áp dụng cho khách mua trực tiếp tại showroom/cửa hàng.</li>
@@ -194,11 +252,11 @@ export const POLICY_PAGES = {
     display_order: 7
   },
 
-  'chinh-sach-giao-hang': {
-    id: 'chinh-sach-giao-hang',
-    slug: 'chinh-sach-giao-hang',
-    title: 'Chính Sách Giao Hàng',
-    meta_title: 'Chính Sách Giao Hàng - Diệp Trà',
+  'chinh-sach-van-chuyen-va-giao-nhan': {
+    id: 'chinh-sach-van-chuyen-va-giao-nhan',
+    slug: 'chinh-sach-van-chuyen-va-giao-nhan',
+    title: 'Chính Sách Vận Chuyển Và Giao Nhận',
+    meta_title: 'Chính Sách Vận Chuyển Và Giao Nhận - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách giao hàng tại Diệp Trà.',
     content: `
       <p>Chính sách giao hàng này được áp dụng cho tất cả các đơn hàng đặt tại trang <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a></strong>, qua Fanpage, Zalo hoặc trực tiếp tại cửa hàng. Mục tiêu của chúng tôi là giao hàng nhanh chóng, an toàn và đúng hẹn đến tay khách hàng trên toàn quốc.</p>
@@ -277,6 +335,54 @@ export const POLICY_PAGES = {
       <strong>Thời gian hỗ trợ:</strong> 8h30 – 17h30 (thứ 2 đến thứ 7)</p>
       
       <p><strong>Lưu ý quan trọng:</strong> Chính sách giao hàng có thể được cập nhật để phù hợp với điều kiện thực tế và các chương trình khuyến mãi. Vui lòng tham khảo phiên bản mới nhất trên website.</p>
+
+      <p><strong>Phân định trách nhiệm của thương nhân, tổ chức cung ứng dịch vụ logistics về cung cấp chứng từ hàng hóa trong quá trình giao nhận.</strong></p>
+
+      <p><strong>Nghĩa vụ của bên vận chuyển</strong></p>
+      <ul>
+        <li>Bảo đảm vận chuyển hàng hóa đầy đủ, an toàn đến địa điểm đã định, theo đúng thời hạn.</li>
+        <li>Giao hàng hóa cho người có quyền nhận.</li>
+        <li>Chịu chi phí liên quan đến việc chuyên chở hàng hóa, trừ trường hợp có thỏa thuận khác.</li>
+        <li>Bồi thường thiệt hại cho bên thuê vận chuyển trong trường hợp bên vận chuyển để mất, hư hỏng hàng hóa, trừ trường hợp có thỏa thuận khác hoặc pháp luật có quy định khác.</li>
+      </ul>
+
+      <p><strong>Quyền của bên vận chuyển</strong></p>
+      <ul>
+        <li>Kiểm tra sự xác thực của hàng hóa, của vận đơn hoặc chứng từ vận chuyển tương đương khác.</li>
+        <li>Từ chối vận chuyển hàng hóa không đúng với loại hàng hóa đã thỏa thuận trong hợp đồng.</li>
+        <li>Yêu cầu bên thuê vận chuyển thanh toán đủ cước phí vận chuyển đúng thời hạn.</li>
+        <li>Từ chối vận chuyển hàng hóa cấm giao dịch, hàng hóa có tính chất nguy hiểm, độc hại, nếu bên vận chuyển.</li>
+      </ul>
+
+      <p><strong>Nghĩa vụ của bên thuê vận chuyển</strong></p>
+      <p>Diệp Trà có trách nhiệm cung cấp đầy đủ chứng từ liên quan đến hàng hóa bao gồm:</p>
+      <ul>
+        <li>Hóa đơn mua hàng hoặc biên nhận thanh toán.</li>
+        <li>Phiếu giao hàng kèm thông tin sản phẩm và khách hàng.</li>
+        <li>Các tài liệu khác liên quan đến sản phẩm </li>
+      </ul>
+
+      <p>Diệp Trà sẽ gửi chứng từ hàng hóa cùng sản phẩm đến khách hàng thông qua:</p>
+      <ul>
+        <li>Nhân viên giao hàng nội bộ.</li>
+        <li>Đơn vị cung cấp dịch vụ vận chuyển (logistics) hợp tác.</li>
+        <li>Trả đủ tiền cước phí vận chuyển cho bên vận chuyển theo đúng thời hạn, phương thức đã thỏa thuận.</li>
+        <li>Cung cấp thông tin cần thiết liên quan đến hàng hóavận chuyển để bảo đảm an toàn cho hàng hóavận chuyển.</li>
+        <li>Trông coi hàng hóa trên đường vận chuyển, nếu có thỏa thuận. Trường hợp bên thuê vận chuyển trông coi hàng hóamà hàng hóabị mất, hư hỏng thì không được bồi thường.</li>
+      </ul>
+
+      <p><strong>Quyền của bên thuê vận chuyển</strong></p>
+      <ul>
+        <li>Yêu cầu bên vận chuyển chuyên chở hàng hóa đến đúng địa điểm, thời điểm đã thỏa thuận.</li>
+        <li>Trực tiếp hoặc chỉ định người thứ ba nhận lại hàng hóa đã thuê vận chuyển.</li>
+      </ul>
+
+      <p><strong>Trách nhiệm bồi thường thiệt hại.</strong></p>
+      <ul>
+        <li>Bên vận chuyển phải bồi thường thiệt hại cho bên thuê vận chuyển nếu để hàng hóa bị mất hoặc hư hỏng.</li>
+        <li>Bên thuê vận chuyển phải bồi thường thiệt hại cho bên vận chuyển và người thứ ba về thiệt hại do hàng hóavận chuyển có tính chất nguy hiểm, độc hại mà không có biện pháp đóng gói, bảo đảm an toàn trong quá trình vận chuyển.</li>
+        <li>Trường hợp bất khả kháng dẫn đến hàng hóa vận chuyển bị mất, hư hỏng hoặc bị hủy hoại trong quá trình vận chuyển thì bên vận chuyển không phải chịu trách nhiệm bồi thường thiệt hại, trừ trường hợp có thỏa thuận khác hoặc pháp luật có quy định khác. </li>
+      </ul>
     `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
@@ -418,20 +524,38 @@ export const POLICY_PAGES = {
       
       <p><strong><em>Lưu ý:</em></strong> Trong trường hợp trả hàng hoàn tiền, chúng tôi sẽ <strong>chuyển khoản lại giá trị đơn hàng (trừ phí ship nếu có)</strong> trong vòng 3–7 ngày làm việc sau khi xác minh hoàn tất.</p>
       
-      <h2>5/ Quy trình đổi/trả hàng</h2>
+      <h2>6/ Quy trình đổi/trả hàng</h2>
       <ul>
         <li><strong>Bước 1:</strong> Liên hệ hotline/Zalo/Fanpage để thông báo lý do đổi/trả hàng.</li>
         <li><strong>Bước 2:</strong> Gửi hình ảnh/video chứng minh sản phẩm lỗi hoặc sai.</li>
         <li><strong>Bước 3:</strong> Gửi hàng về theo hướng dẫn của nhân viên chăm sóc khách hàng.</li>
         <li><strong>Bước 4:</strong> Chúng tôi xác nhận, kiểm tra sản phẩm và tiến hành đổi mới / hoàn tiền theo thỏa thuận.</li>
       </ul>
-      
-      <h2>6/ Thông tin hỗ trợ</h2>
-      <p><strong>Hotline:</strong> Ms. Vân Anh 0973 123 230<br/>
-      <strong>Email:</strong> sales@hisweetievietnam.com.vn<br/>
-      <strong>Thời gian hỗ trợ:</strong> 8h30 – 17h30 (T2 – T7)</p>
-      
-      <p><strong>Ghi chú:</strong> Chính sách đổi/trả hàng có thể điều chỉnh theo từng loại sản phẩm và chương trình ưu đãi. Vui lòng liên hệ trực tiếp để được tư vấn cụ thể.</p>
+
+      <h2>7/ Quy trình và chính sách hoàn tiềnợ</h2>
+      <p>Diệp Trà sẽ tiến hành hoàn tiền theo các hình thức sau:</p>
+      <ul><li>Hoàn tiền mặt hoặc chuyển khoản tại cửa hàng</li></ul>
+      <p>Áp dụng cho khách hàng mua trực tiếp tại cửa hàng hoặc yêu cầu hoàn tiền trực tiếp.</p>
+      <ul><li>Hoàn tiền qua chuyển khoản ngân hàng</li></ul>
+      <p>Áp dụng cho khách hàng mua hàng online hoặc thanh toán bằng hình thức COD.</p>
+      <p>Khách hàng cung cấp thông tin tài khoản ngân hàng để Diệp Trà thực hiện hoàn tiền.</p>
+      <strong>Thời hạn hoàn tiền</strong>
+      <p>Thời gian xử lý hoàn tiền từ 05 ngày làm việc kể từ ngày Diệp Trà xác nhận sản phẩm đổi trả hợp lệ.</p>
+      <p>Với trường hợp hoàn tiền qua ngân hàng, thời gian nhận tiền có thể phụ thuộc vào hệ thống của ngân hàng.</p>
+
+      <h2>8/ Thông tin hỗ trợ</h2>
+      <p>Hotline: Ms. Vân Anh 0973 123 230</p>
+      <p>Email: sales@hisweetievietnam.com.vn</p>
+      <p>Thời gian hỗ trợ: 8h30 – 17h30 (T2 – T7)</p>
+      <p>Ghi chú: Chính sách đổi/trả hàng có thể điều chỉnh theo từng loại sản phẩm và chương trình ưu đãi. Vui lòng liên hệ trực tiếp để được tư vấn cụ thể.</p>
+      <ol>
+        <li>Trường hợp đổi/trả hàng Sản phẩm không đúng chủng loại đã ghi trong đơn hàng. Số lượng không đủ. Tình trạng bên ngoài bị ảnh hưởng, chẳng hạn như bao bì bị rách, bong tróc hoặc vỡ. <strong>Lưu ý: Vui lòng giữ lại hóa đơn kèm theo hàng hóa để đổi hàng.</strong></li>
+
+        <li>Quy định về thông báo và vận chuyển trả hàng
+        <p>Thời gian thông báo đổi/trả hàng: Trong vòng 48 giờ kể từ khi nhận được sản phẩm trong trường hợp sản phẩm bị thiếu, không đúng hoặc bị hỏng.</p>
+        <p>Thời gian vận chuyển trả hàng: Trong vòng 03 ngày kể từ khi yêu cầu xác nhận. Địa điểm đổi/trả hàng: Chúng tôi sẽ sắp xếp nhân viên giao sản phẩm mới và thu hồi sản phẩm để đổi/trả. Mọi phản hồi hoặc khiếu nại liên quan đến chất lượng sản phẩm, vui lòng liên hệ với chúng tôi trong giờ làm việc qua email </br>sales@hisweetievietnam.com.vn hoặc Hotline 0973 123 230.</p></li>
+      </ol>
+
     `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
@@ -531,6 +655,71 @@ export const POLICY_PAGES = {
     is_main_page: false,
     is_active: true,
     display_order: 11
+  },
+  'huong-dan-su-dung': {
+    id: 'huong-dan-su-dung',
+    slug: 'huong-dan-su-dung',
+    title: 'Hướng Dẫn Sử Dụng',
+    meta_title: 'Hướng Dẫn Sử Dụng - Diệp Trà',
+    meta_description: 'Tìm hiểu về hướng dẫn sử dụng tại Diệp Trà.',
+    content: `
+      <p>Bước 1. Truy cập website <a href="/" target="_blank" style="text-decoration: none">dieptra.com</a></p>
+      <img src="/images/site-login.webp" alt="Site Login">
+      
+      <p>Tại đây, Khách hàng bấm mục <a href="/dang-ky" target="_blank" style="text-decoration: none">"Đăng ký ngay"</a> để tiến hành đăng ký</p>
+      <img src="/images/dang-nhap.webp" alt="Đăng Nhập">
+
+      <p>Bước 2. Nhập thông tin theo yêu cầu => Bấm <a href="/dang-ky" target="_blank" style="text-decoration: none">"Đăng ký"</a></p>
+      <img src="/images/dang-ky.webp" alt="Đăng Ký">
+      <img src="/images/input-info-dang-ky-1.webp" alt="Đăng Ký">
+      <img src="/images/input-info-dang-ky-2.webp" alt="Đăng Ký">
+
+      <p>Bước 3. Hệ thống sẽ tự động gửi mã OTP đến email đã nhập. Điền mã OTP => Bấm “Xác nhận” để hoàn tất đăng ký tài khoản</p>
+      <img src="/images/otp-input.webp" alt="Đăng Ký">
+      <img src="/images/otp-confirm.webp" alt="Đăng Ký">
+    `,
+    parent_id: 'chinh-sach-diep-tra',
+    is_main_page: false,
+    is_active: true,
+    display_order: 12
+  },
+  'chinh-sach-kiem-hang': {
+    id: 'chinh-sach-kiem-hang',
+    slug: 'chinh-sach-kiem-hang',
+    title: 'Chính Sách Kiểm Hàng',
+    meta_title: 'Chính Sách Kiểm Hàng - Diệp Trà',
+    meta_description: 'Tìm hiểu về chính sách kiểm hàng tại Diệp Trà.',
+    content: `
+      <p>Diệp Trà luôn hướng tới việc cung cấp dịch vụ giao hàng tốt nhất cho tất cả các đơn hàng của bạn.</p>
+      <p><strong>Giao nhận hàng hóa -  Kiểm hàng trước khi thanh toán</strong></p>
+      <p>Trước khi nhận hàng và thanh toán, Quý Khách được quyền kiểm tra sản phẩm.</p>
+      <ul>
+        <li>Diệp Trà đảm bảo giao hàng nguyên đai, nguyên kiện cho khách hàng, giúp họ kiểm tra các yếu tố bên ngoài của gói hàng như phiếu giao hàng, tình trạng đóng gói, niêm phong các kiện hàng.</li>
+
+        <li>Khách hàng khi nhận hàng có quyền kiểm tra hàng và ký vào hóa đơn thanh toán, giữ lại một bản cho mình.</li>
+
+        <li>DIỆP TRÀ hỗ trợ kiểm tra các yếu tố bên ngoài của gói hàng nhưng không bao gồm việc mở seal hay kiểm tra sâu đối với từng kiện hàng, từng sản phẩm.</li>
+
+        <li>Quý Khách vui lòng kiểm tra để đảm bảo đơn hàng được giao đúng hàng hóa, mẫu mã, số lượng như đơn hàng đã đặt. Sau khi đồng ý với sản phẩm được giao đến, Quý Khách thanh toán với nhân viên giao hàng của cửa hàng và nhận hàng.</li>
+
+        <li>Trường hợp đơn hàng đặt mà bên bán giao không đúng loại sản phẩm quý khách có quyền trả hàng và không thanh toán tiền.</li>
+        
+        <li>Trường hợp quý khách đã thanh toán trước nhưng đơn hàng không đúng quý khách yêu cầu hoàn hàng hoặc giao lại đơn mới như đã đặt. Trong trường hợp yêu cầu hoàn tiền hoặc đổi đơn quý khách liên hệ qua số điện thoại 078 833 9379 chúng tôi cam kết sẽ giải quyết mọi yêu cầu của quý khách.</li>
+
+        <li>Trong trường hợp phát sinh vấn đề, khách hàng có thể liên hệ tổng đài chăm sóc khách hàng của Diệp Trà để được hỗ trợ.</li>
+      </ul>
+
+      <p style="text-decoration: underline">Lưu ý:</p>
+      <ul>
+        <li>Khi Quý Khách kiểm tra đơn hàng, nhân viên giao nhận buộc phải đợi Quý Khách kiểm tra sản phẩm. Trường hợp nhân viên từ chối cho Quý Khách kiểm tra hàng hóa, Quý Khách vui lòng liên hệ với Diệp Trà qua hotline: 0973 123 230 để được hỗ trợ.</li>
+        
+        <li>Đối với những trường hợp sản phẩm bị hư hỏng do lỗi từ phía Khách hàng, Diệp Trà rất tiếc không thể hỗ trợ Quý Khách đổi/trả sản phẩm.</li>
+      </ul>
+    `,
+    parent_id: 'chinh-sach-diep-tra',
+    is_main_page: false,
+    is_active: true,
+    display_order: 13
   }
 };
 
@@ -584,8 +773,8 @@ export const POLICY_SIDEBAR_ITEMS = [
     order: 7
   },
   {
-    slug: 'chinh-sach-giao-hang',
-    title: 'Chính Sách Giao Hàng',
+    slug: 'chinh-sach-van-chuyen-va-giao-nhan',
+    title: 'Chính Sách Vận Chuyển Và Giao Nhận',
     isMainPage: false,
     order: 8
   },
@@ -606,6 +795,18 @@ export const POLICY_SIDEBAR_ITEMS = [
     title: 'Điều Khoản Sử Dụng',
     isMainPage: false,
     order: 11
+  },
+  {
+    slug: 'huong-dan-su-dung',
+    title: 'Hướng Dẫn Sử Dụng',
+    isMainPage: false,
+    order: 12
+  },
+  {
+    slug: 'chinh-sach-kiem-hang',
+    title: 'Chính Sách Kiểm Hàng',
+    isMainPage: false,
+    order: 13
   }
 ];
 

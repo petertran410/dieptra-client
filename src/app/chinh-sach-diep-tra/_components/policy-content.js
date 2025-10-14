@@ -1,4 +1,3 @@
-// src/app/chinh-sach-diep-tra/_components/policy-content.js
 'use client';
 
 import { Box, Text, Heading } from '@chakra-ui/react';
@@ -35,7 +34,6 @@ const PolicyContent = ({ pageData, isLoading }) => {
       p={{ xs: '20px', lg: '32px' }}
       shadow="sm"
     >
-      {/* Title as H1 */}
       <Heading
         as="h1"
         fontSize={{ xs: '24px', lg: '32px' }}
@@ -48,7 +46,6 @@ const PolicyContent = ({ pageData, isLoading }) => {
         {title}
       </Heading>
 
-      {/* Content */}
       <Box
         fontSize={{ xs: '16px', lg: '18px' }}
         lineHeight="1.7"

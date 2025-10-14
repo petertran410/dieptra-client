@@ -1,4 +1,3 @@
-// src/app/chinh-sach-diep-tra/_components/policy-page-layout.js
 'use client';
 
 import { getPolicyPageBySlug, getSidebarItems, getMainPage } from '../../../utils/policy-data';
@@ -111,7 +110,7 @@ const PolicyPageLayout = ({ currentSlug }) => {
         gap={{ xs: '20px', lg: '40px' }}
         direction={{ xs: 'column', lg: 'row' }}
         flex={1}
-        maxW="1400px"
+        maxW="1700px"
         mx="auto"
         w="full"
       >
