@@ -7,8 +7,11 @@ import { showToast } from '../../../../../utils/helper';
 import { Button } from '@chakra-ui/react';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
+import { authService } from '../../../../../services/auth.service';
+import { useRouter } from 'next/navigation';
 
 const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
+  const router = useRouter();
   const [cart, setCart] = useRecoilState(cartAtom);
   const [showContact, setShowContact] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -17,6 +20,21 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
     setIsLoading(true);
 
     try {
+      const currentUser = authService.getCurrentUser();
+
+      if (!currentUser || !currentUser.token) {
+        const authCheck = await authService.checkAuth();
+        if (!authCheck.isAuthenticated) {
+          showToast({
+            status: 'warning',
+            content: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'
+          });
+          router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
+          setIsLoading(false);
+          return;
+        }
+      }
+
       const isExists = cart.find((item) => item.slug === productSlug);
 
       if (!isExists) {

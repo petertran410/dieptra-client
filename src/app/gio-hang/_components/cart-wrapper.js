@@ -119,6 +119,27 @@ const CartWrapper = () => {
     setIsClient(true);
   }, []);
 
+  useEffect(() => {
+    const checkAuthForCart = async () => {
+      const currentUser = authService.getCurrentUser();
+
+      if (!currentUser || !currentUser.token) {
+        const authCheck = await authService.checkAuth();
+        if (!authCheck.isAuthenticated) {
+          showToast({
+            status: 'warning',
+            content: 'Vui lòng đăng nhập để xem giỏ hàng.'
+          });
+          router.push('/dang-nhap?redirect=/gio-hang');
+        }
+      }
+    };
+
+    if (isClient) {
+      checkAuthForCart();
+    }
+  }, [isClient, router]);
+
   if (!isClient) {
     return null;
   }
