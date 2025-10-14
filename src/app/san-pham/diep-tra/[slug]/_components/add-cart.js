@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import ModalContact from '../../../../../components/modal-contact';
 import { cartAtom } from '../../../../../states/common';
 import { showToast } from '../../../../../utils/helper';

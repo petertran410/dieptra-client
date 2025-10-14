@@ -180,7 +180,7 @@ const OrderList = () => {
                 Hủy đơn hàng
               </Button>
             ) : order.status === 'CANCELLED' ? (
-              <Badge colorScheme="red" fontSize="md" px={3} py={1}>
+              <Badge colorScheme="red" fontSize="md" px={3} py={2} borderRadius="4px">
                 Đã hủy đơn
               </Badge>
             ) : null}
