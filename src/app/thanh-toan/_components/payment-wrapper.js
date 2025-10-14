@@ -94,6 +94,7 @@ const PaymentWrapper = () => {
   const [currentOrderId, setCurrentOrderId] = useState(null);
   const [paymentUrl, setPaymentUrl] = useState('');
   const [qrCodeUrl, setQrCodeUrl] = useState('');
+  const [isPolicyAccepted, setIsPolicyAccepted] = useState(false);
 
   const [debugInfo, setDebugInfo] = useState([]);
   const [pollCount, setPollCount] = useState(0);
@@ -394,6 +395,14 @@ const PaymentWrapper = () => {
     const phoneRegex = /^[0-9]{10}$/;
     if (!phoneRegex.test(phone.replace(/\s/g, ''))) {
       showToast({ status: 'error', content: 'Số điện thoại không hợp lệ (10 chữ số)' });
+      return false;
+    }
+
+    if (!isPolicyAccepted) {
+      showToast({
+        status: 'error',
+        content: 'Vui lòng đồng ý chính sách của Diệp Trà'
+      });
       return false;
     }
 
@@ -1042,7 +1051,7 @@ const PaymentWrapper = () => {
                   </Text>
                 </HStack>
 
-                <Box mb={4}>
+                <Box>
                   <HStack mb={5} spacing={3}>
                     <Icon as={FiCreditCard} boxSize={6} color="purple.500" />
                     <Heading size="md" color="gray.800">
@@ -1110,6 +1119,42 @@ const PaymentWrapper = () => {
                       </HStack>
                       <Text fontSize="sm" color="gray.600">
                         Thanh toán bằng tiền mặt khi nhận hàng
+                      </Text>
+                    </VStack>
+                  </HStack>
+                </Box>
+
+                <Box
+                  p={4}
+                  borderWidth="2px"
+                  borderRadius="lg"
+                  borderColor={isPolicyAccepted ? 'blue.500' : 'gray.200'}
+                  bg={isPolicyAccepted ? 'blue.50' : 'transparent'}
+                  transition="all 0.3s"
+                  _hover={{
+                    borderColor: isPolicyAccepted ? 'blue.600' : 'gray.300',
+                    bg: isPolicyAccepted ? 'blue.100' : 'gray.50'
+                  }}
+                >
+                  <HStack spacing={3}>
+                    <Checkbox
+                      isChecked={isPolicyAccepted}
+                      onChange={(e) => setIsPolicyAccepted(e.target.checked)}
+                      colorScheme="blue"
+                      size="lg"
+                    />
+                    <VStack
+                      align="start"
+                      spacing={0}
+                      flex="1"
+                      cursor="pointer"
+                      onClick={() => setIsPolicyAccepted(!isPolicyAccepted)}
+                    >
+                      <Text fontWeight="semibold" fontSize="md" color="gray.800">
+                        Tôi đã đọc và đồng ý các điều khoản chính sách Diệp Trà
+                      </Text>
+                      <Text fontSize="sm" color="gray.600">
+                        Bạn cần đồng ý để có thể tiếp tục thanh toán
                       </Text>
                     </VStack>
                   </HStack>
