@@ -81,7 +81,7 @@ const OrderTrackingPage = () => {
   };
 
   return (
-    <Container maxW="container.lg" py={10}>
+    <Container maxW="container.lg" py={125}>
       <VStack spacing={6} align="stretch">
         <Button leftIcon={<ArrowBackIcon />} variant="ghost" onClick={() => router.back()} w="fit-content">
           Quay lại
@@ -94,11 +94,13 @@ const OrderTrackingPage = () => {
                 <Text fontSize="2xl" fontWeight="bold" color="#003366">
                   {order.orderCode}
                 </Text>
-                <Text color="gray.500">{new Date(order.createdDate).toLocaleString('vi-VN')}</Text>
+                <Text fontSize="2xl" color="gray.500">
+                  {new Date(order.createdDate).toLocaleString('vi-VN')}
+                </Text>
               </Box>
 
               <Box>
-                <Text fontSize="lg" fontWeight="bold" mb={4}>
+                <Text fontSize="2xl" fontWeight="bold" mb={4}>
                   Trạng thái đơn hàng
                 </Text>
                 <HStack spacing={0} position="relative">
@@ -116,16 +118,17 @@ const OrderTrackingPage = () => {
                           color="white"
                           fontWeight="bold"
                           zIndex={2}
+                          fontSize="2xl"
                         >
                           {index + 1}
                         </Box>
                         {index < steps.length - 1 && (
-                          <Box flex={1} h="2px" bg={steps[index + 1].active ? 'green.500' : 'gray.300'} />
+                          <Box flex={1} mr="8px" h="3px" bg={steps[index + 1].active ? 'green.500' : 'gray.300'} />
                         )}
                       </HStack>
                       <Text
                         mt={2}
-                        fontSize="sm"
+                        fontSize="2xl"
                         fontWeight={step.active ? 'bold' : 'normal'}
                         color={step.active ? 'green.500' : 'gray.500'}
                       >
@@ -139,21 +142,31 @@ const OrderTrackingPage = () => {
               <Divider />
 
               <Box>
-                <Text fontSize="lg" fontWeight="bold" mb={3}>
+                <Text fontSize="2xl" fontWeight="bold" mb={3}>
                   Thông tin đơn hàng
                 </Text>
                 <VStack align="stretch" spacing={2}>
                   <HStack justify="space-between">
-                    <Text color="gray.600">Người nhận:</Text>
-                    <Text fontWeight="medium">{order.fullName}</Text>
+                    <Text fontSize="2xl" color="gray.600">
+                      Người nhận:
+                    </Text>
+                    <Text fontSize="2xl" fontWeight="medium">
+                      {order.fullName}
+                    </Text>
                   </HStack>
                   <HStack justify="space-between">
-                    <Text color="gray.600">Số điện thoại:</Text>
-                    <Text fontWeight="medium">{order.phone}</Text>
+                    <Text fontSize="2xl" color="gray.600">
+                      Số điện thoại:
+                    </Text>
+                    <Text fontSize="2xl" fontWeight="medium">
+                      {order.phone}
+                    </Text>
                   </HStack>
                   <HStack justify="space-between" align="start">
-                    <Text color="gray.600">Địa chỉ:</Text>
-                    <Text fontWeight="medium" textAlign="right" maxW="60%">
+                    <Text fontSize="2xl" color="gray.600">
+                      Địa chỉ:
+                    </Text>
+                    <Text fontSize="2xl" fontWeight="medium" textAlign="right" maxW="60%">
                       {order.address}
                     </Text>
                   </HStack>
@@ -163,7 +176,7 @@ const OrderTrackingPage = () => {
               <Divider />
 
               <Box>
-                <Text fontSize="lg" fontWeight="bold" mb={3}>
+                <Text fontSize="2xl" fontWeight="bold" mb={3}>
                   Sản phẩm
                 </Text>
                 <VStack spacing={3}>
@@ -173,18 +186,22 @@ const OrderTrackingPage = () => {
                         <Image
                           src={item.image}
                           alt={item.productName}
-                          boxSize="60px"
+                          boxSize="180px"
                           objectFit="cover"
                           borderRadius="md"
                         />
                       )}
                       <VStack align="start" flex={1} spacing={1}>
-                        <Text fontWeight="medium">{item.productName}</Text>
-                        <Text fontSize="sm" color="gray.600">
+                        <Text fontSize="2xl" fontWeight="medium">
+                          {item.productName}
+                        </Text>
+                        <Text fontSize="2xl" color="gray.600">
                           SL: {item.quantity}
                         </Text>
                       </VStack>
-                      <Text fontWeight="bold">{formatPrice(item.price)}</Text>
+                      <Text fontSize="2xl" fontWeight="bold">
+                        {formatPrice(item.price)}
+                      </Text>
                     </HStack>
                   ))}
                 </VStack>
