@@ -61,7 +61,7 @@ const Contact = () => {
           </Button>
         )}
 
-        <Link href="https://zalo.me/s/1428308065058357450/" target="_blank" _hover={{ textDecor: 'none' }}>
+        <Link href="https://zalo.me/4415290839928975010" target="_blank" _hover={{ textDecor: 'none' }}>
           <Image
             src="/images/zalo-contact.webp"
             alt={IMG_ALT}
