@@ -974,10 +974,11 @@ const PaymentWrapper = () => {
               <VStack spacing={4} align="stretch" mb={6}>
                 {cartData.map((product) => {
                   const cartItem = cart.find((item) => Number(item.id) === Number(product.id));
-                  const { kiotViet } = product;
+                  const { kiotViet, imagesUrl } = product;
+                  console.log(product);
                   const quantity = cartItem ? cartItem.quantity : 1;
                   const itemTotal = product.price * quantity;
-                  const image_url = kiotViet.images?.[0] || '';
+                  const image_url = imagesUrl ? imagesUrl : kiotViet.images?.[0] || '';
 
                   return (
                     <Box

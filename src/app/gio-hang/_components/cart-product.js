@@ -95,6 +95,16 @@ const CartProduct = ({ cartData = [] }) => {
         const cartItem = cart.find((i) => i.slug === item.slug);
         const isLoading = loadingItems[item.slug];
 
+        const getProductImage = () => {
+          if (Array.isArray(item.imagesUrl) && item.imagesUrl.length > 0) {
+            return item.imagesUrl[0]?.replace('http://', 'https://');
+          }
+          if (Array.isArray(item.kiotviet_images) && item.kiotviet_images.length > 0) {
+            return item.kiotviet_images[0]?.replace('http://', 'https://');
+          }
+          return '/images/tra-phuong-hoang.webp';
+        };
+
         return (
           <Flex
             key={item.slug}
@@ -114,7 +124,7 @@ const CartProduct = ({ cartData = [] }) => {
           >
             <Flex gap={{ base: 3, lg: 4 }} align="center" flex="1" w={{ base: 'full', lg: 'auto' }}>
               <Image
-                src={item?.kiotViet?.images?.[0]}
+                src={getProductImage()}
                 w={{ base: '80px', lg: '100px' }}
                 h={{ base: '80px', lg: '100px' }}
                 objectFit="cover"

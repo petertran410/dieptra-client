@@ -180,40 +180,43 @@ const OrderTrackingPage = () => {
                   Sản phẩm
                 </Text>
                 <VStack spacing={3}>
-                  {order.items.map((item, index) => (
-                    <HStack key={index} w="full" p={3} bg="gray.50" borderRadius="md">
-                      {item.image && (
-                        <Image
-                          src={item.image}
-                          alt={item.productName}
-                          boxSize="180px"
-                          objectFit="cover"
-                          borderRadius="md"
-                        />
-                      )}
-                      <VStack align="start" flex={1} spacing={1}>
-                        <Text fontSize="2xl" fontWeight="medium">
-                          {item.productName}
+                  {order.items.map((item, index) => {
+                    console.log(item);
+                    return (
+                      <HStack key={index} w="full" p={3} bg="gray.50" borderRadius="md">
+                        {item.image && (
+                          <Image
+                            src={item.image}
+                            alt={item.productName}
+                            boxSize="130px"
+                            objectFit="cover"
+                            borderRadius="md"
+                          />
+                        )}
+                        <VStack align="start" flex={1} spacing={1}>
+                          <Text fontSize="2xl" fontWeight="medium">
+                            {item.productName}
+                          </Text>
+                          <Text fontSize="2xl" color="gray.600">
+                            SL: {item.quantity}
+                          </Text>
+                        </VStack>
+                        <Text fontSize="2xl" fontWeight="bold">
+                          {formatPrice(item.price)}
                         </Text>
-                        <Text fontSize="2xl" color="gray.600">
-                          SL: {item.quantity}
-                        </Text>
-                      </VStack>
-                      <Text fontSize="2xl" fontWeight="bold">
-                        {formatPrice(item.price)}
-                      </Text>
-                    </HStack>
-                  ))}
+                      </HStack>
+                    );
+                  })}
                 </VStack>
               </Box>
 
               <Divider />
 
               <HStack justify="space-between">
-                <Text fontSize="xl" fontWeight="bold">
+                <Text fontSize="2xl" fontWeight="bold">
                   Tổng tiền:
                 </Text>
-                <Text fontSize="xl" fontWeight="bold" color="red.500">
+                <Text fontSize="2xl" fontWeight="bold" color="red.500">
                   {formatPrice(order.total)}
                 </Text>
               </HStack>
