@@ -1,4 +1,3 @@
-// src/utils/policy-data.js
 export const POLICY_PAGES = {
   'chinh-sach-diep-tra': {
     id: 'chinh-sach-diep-tra',
@@ -656,12 +655,12 @@ export const POLICY_PAGES = {
     is_active: true,
     display_order: 11
   },
-  'huong-dan-su-dung': {
-    id: 'huong-dan-su-dung',
-    slug: 'huong-dan-su-dung',
-    title: 'Hướng Dẫn Sử Dụng',
-    meta_title: 'Hướng Dẫn Sử Dụng - Diệp Trà',
-    meta_description: 'Tìm hiểu về hướng dẫn sử dụng tại Diệp Trà.',
+  'huong-dan-tao-tai-khoan': {
+    id: 'huong-dan-tao-tai-khoan',
+    slug: 'huong-dan-tao-tai-khoan',
+    title: 'Hướng Dẫn Tạo Tài Khoản',
+    meta_title: 'Hướng Dẫn Tạo Tài Khoản - Diệp Trà',
+    meta_description: 'Tìm hiểu về hướng dẫn tạo tài khoản tại Diệp Trà.',
     content: `
       <p>Bước 1. Truy cập website <a href="/" target="_blank" style="text-decoration: none">dieptra.com</a></p>
       <img src="/images/site-login.webp" alt="Site Login">
@@ -797,8 +796,8 @@ export const POLICY_SIDEBAR_ITEMS = [
     order: 11
   },
   {
-    slug: 'huong-dan-su-dung',
-    title: 'Hướng Dẫn Sử Dụng',
+    slug: 'huong-dan-tao-tai-khoan',
+    title: 'Hướng Dẫn Tạo Tài Khoản',
     isMainPage: false,
     order: 12
   },

@@ -221,7 +221,7 @@ const Header = () => {
                       cursor="pointer"
                     >
                       <Text
-                        fontSize={{ xs: '18px', lg: '18px' }}
+                        fontSize={{ xs: '18px', lg: '22px' }}
                         fontWeight={600}
                         color={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : '#333'}
                         _hover={{
@@ -290,7 +290,7 @@ const Header = () => {
                   cursor="pointer"
                 >
                   <Text
-                    fontSize={{ xs: '18px', lg: '18px' }}
+                    fontSize={{ xs: '18px', lg: '22px' }}
                     fontWeight={600}
                     color={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : '#333'}
                     _hover={{
@@ -318,23 +318,25 @@ const Header = () => {
               <MenuButton>
                 <Flex align="center" gap="8px" cursor="pointer" p="8px" borderRadius="8px" _hover={{ bg: 'gray.50' }}>
                   <UserIcon w="20px" h="20px" color="#065FD4" />
-                  <Text fontSize="14px" fontWeight={500} color="#333">
+                  <Text fontSize="16px" fontWeight={500} color="#333">
                     {user.full_name || user.fullName}
                   </Text>
                 </Flex>
               </MenuButton>
               <MenuList>
                 <Link href="/profile">
-                  <MenuItem>Thông tin</MenuItem>
+                  <MenuItem fontSize="17px">Thông tin đơn hàng</MenuItem>
                 </Link>
-                <MenuItem onClick={handleLogout}>Đăng xuất</MenuItem>
+                <MenuItem fontSize="17px" onClick={handleLogout}>
+                  Đăng xuất
+                </MenuItem>
               </MenuList>
             </Menu>
           ) : (
             <Link href="/dang-nhap">
               <Flex align="center" gap="8px" cursor="pointer" p="8px" borderRadius="8px" _hover={{ bg: 'gray.50' }}>
                 <UserIcon w="20px" h="20px" color="#065FD4" />
-                <Text fontSize="14px" fontWeight={500} color="#333">
+                <Text fontSize="17px" fontWeight={500} color="#333">
                   Đăng nhập
                 </Text>
               </Flex>

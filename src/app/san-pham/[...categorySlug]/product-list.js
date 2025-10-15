@@ -498,8 +498,9 @@ const ProductList = ({ categorySlug = [] }) => {
               <Select
                 value={selectedCategory}
                 onChange={(e) => handleCategoryChange(e.target.value)}
-                maxW="200px"
+                maxW="300px"
                 bg="white"
+                fontSize="xl"
                 border="1px solid #E2E8F0"
                 _focus={{ borderColor: '#003366', boxShadow: '0 0 0 1px #003366' }}
               >
@@ -515,6 +516,7 @@ const ProductList = ({ categorySlug = [] }) => {
                 value={currentSort}
                 onChange={(e) => handleSortChange(e.target.value)}
                 maxW="160px"
+                fontSize="xl"
                 bg="white"
                 border="1px solid #E2E8F0"
                 _focus={{ borderColor: '#003366', boxShadow: '0 0 0 1px #003366' }}

@@ -35,7 +35,7 @@ const Footer = () => {
         },
         {
           title: 'Chính Sách Vận Chuyển Và Giao Nhận',
-          href: '/chinh-sach-diep-tra/chinh-sach-giao-hang'
+          href: '/chinh-sach-diep-tra/chinh-sach-van-chuyen-va-giao-nhan'
         },
         {
           title: 'Chính Sách Bảo Hành',
