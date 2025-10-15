@@ -92,7 +92,7 @@ const Footer = () => {
       bgSize="cover"
       bgRepeat="no-repeat"
       px={PX_ALL}
-      pt={{ xs: '80px', md: '100px', lg: '150px', xl: '120px' }}
+      pt={{ xs: '80px', md: '100px', lg: '200px', xl: '200px' }}
       direction="column"
       mt={{ xs: '0px', md: '0px', lg: '-50px', xl: '0px' }}
     >
@@ -262,17 +262,41 @@ const Footer = () => {
             </Link>
           </Flex>
 
-          <Box h="165px" borderRadius={16} overflow="hidden" w="full">
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.2849207322743!2d105.76739007934567!3d20.981213000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313453c729c85a77%3A0xa04589e6754e1c77!2zRGnhu4dwIFRyw6Ag4oCTIENodXnDqm4gQ3VuZyBD4bqlcCBOZ3V5w6puIExp4buHdSBQaGEgQ2jhur8!5e0!3m2!1sen!2s!4v1756185273251!5m2!1sen!2s"
-              width="100%"
-              height="100%"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
-          </Box>
+          <Flex direction="column" gap="24px" w="full">
+            <Flex direction="column" gap="8px">
+              <Text fontSize={16} fontWeight={500}>
+                Diệp Trà - Hà Nội
+              </Text>
+              <Box h="165px" overflow="hidden" w="full">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3725.2849207322743!2d105.76739007934567!3d20.981213000000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313453c729c85a77%3A0xa04589e6754e1c77!2zRGnhu4dwIFRyw6Ag4oCTIENodXnDqm4gQ3VuZyBD4bqlcCBOZ3V5w6puIExp4buHdSBQaGEgQ2jhur8!5e0!3m2!1sen!2s!4v1756185273251!5m2!1sen!2s"
+                  width="80%"
+                  height="100%"
+                  style={{ borderRadius: 25 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </Box>
+            </Flex>
+
+            <Flex direction="column" gap="8px">
+              <Text fontSize={16} fontWeight={500}>
+                Diệp Trà - Sài Gòn
+              </Text>
+              <Box h="165px" overflow="hidden" w="full">
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62705.602970401866!2d106.53985024863282!3d10.803638400000015!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752b0003493a3d%3A0x47bdaef97eedf553!2zTmjDoCBDdW5nIEPhuqVwIE5ndXnDqm4gTGnhu4d1IFBoYSBDaOG6vyAtIERp4buHcCBUcsOgIFPDoGkgR8Oybg!5e0!3m2!1svi!2s!4v1760524572440!5m2!1svi!2s"
+                  width="80%"
+                  height="100%"
+                  style={{ borderRadius: 25 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
+              </Box>
+            </Flex>
+          </Flex>
         </Flex>
       </Flex>
 
