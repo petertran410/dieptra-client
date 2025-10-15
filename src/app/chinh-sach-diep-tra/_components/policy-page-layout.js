@@ -115,7 +115,7 @@ const PolicyPageLayout = ({ currentSlug }) => {
         w="full"
       >
         {/* Sidebar */}
-        <Box w={{ xs: 'full', lg: '300px' }} flexShrink={0}>
+        <Box w={{ xs: 'full', lg: '350px' }} flexShrink={0}>
           <PolicySidebar
             mainPageData={mainPageData}
             sidebarItems={sidebarItems}

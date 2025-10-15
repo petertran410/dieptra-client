@@ -36,7 +36,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
     >
       <Heading
         as="h1"
-        fontSize={{ xs: '24px', lg: '32px' }}
+        fontSize={{ xs: '24px', lg: '28px' }}
         fontWeight="700"
         color="#003366"
         mb={{ xs: '20px', lg: '32px' }}

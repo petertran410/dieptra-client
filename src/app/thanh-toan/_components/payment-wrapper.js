@@ -727,7 +727,7 @@ const PaymentWrapper = () => {
             >
               <HStack mb={6} spacing={3}>
                 <Icon as={FiUser} boxSize={6} color="blue.500" />
-                <Heading size="md" color="gray.800">
+                <Heading size="lg" color="gray.800">
                   Thông tin khách hàng
                 </Heading>
               </HStack>
@@ -737,7 +737,7 @@ const PaymentWrapper = () => {
                   <FormLabel fontWeight="medium" color="gray.700">
                     <HStack spacing={2}>
                       <Icon as={FiUser} />
-                      <Text>Họ và tên</Text>
+                      <Text fontSize="18px">Họ và tên</Text>
                     </HStack>
                   </FormLabel>
                   <Input
@@ -759,11 +759,11 @@ const PaymentWrapper = () => {
                   />
                 </FormControl>
 
-                <FormControl isRequired>
+                <FormControl>
                   <FormLabel fontWeight="medium" color="gray.700">
                     <HStack spacing={2}>
                       <Icon as={FiMail} />
-                      <Text>Email</Text>
+                      <Text fontSize="18px">Email</Text>
                     </HStack>
                   </FormLabel>
                   <Input
@@ -786,11 +786,11 @@ const PaymentWrapper = () => {
                   />
                 </FormControl>
 
-                <FormControl isRequired>
+                <FormControl>
                   <FormLabel fontWeight="medium" color="gray.700">
                     <HStack spacing={2}>
                       <Icon as={FiPhone} />
-                      <Text>Số điện thoại</Text>
+                      <Text fontSize="18px">Số điện thoại</Text>
                     </HStack>
                   </FormLabel>
                   <Input
@@ -813,11 +813,11 @@ const PaymentWrapper = () => {
                   />
                 </FormControl>
 
-                <FormControl isRequired>
+                <FormControl>
                   <FormLabel fontWeight="medium" color="gray.700">
                     <HStack spacing={2}>
                       <Icon as={FiMapPin} />
-                      <Text>Tỉnh/Thành phố</Text>
+                      <Text fontSize="18px">Tỉnh/Thành phố</Text>
                     </HStack>
                   </FormLabel>
                   <Select
@@ -844,11 +844,11 @@ const PaymentWrapper = () => {
                   </Select>
                 </FormControl>
 
-                <FormControl isRequired>
+                <FormControl>
                   <FormLabel fontWeight="medium" color="gray.700">
                     <HStack spacing={2}>
                       <Icon as={FiMapPin} />
-                      <Text>Quận/Huyện</Text>
+                      <Text fontSize="18px">Quận/Huyện</Text>
                     </HStack>
                   </FormLabel>
                   <Select
@@ -875,11 +875,11 @@ const PaymentWrapper = () => {
                   </Select>
                 </FormControl>
 
-                <FormControl isRequired>
+                <FormControl>
                   <FormLabel fontWeight="medium" color="gray.700">
                     <HStack spacing={2}>
                       <Icon as={FiMapPin} />
-                      <Text>Phường/Xã</Text>
+                      <Text fontSize="18px">Phường/Xã</Text>
                     </HStack>
                   </FormLabel>
                   <Select
@@ -906,11 +906,11 @@ const PaymentWrapper = () => {
                   </Select>
                 </FormControl>
 
-                <FormControl isRequired>
+                <FormControl>
                   <FormLabel fontWeight="medium" color="gray.700">
                     <HStack spacing={2}>
                       <Icon as={FiMapPin} />
-                      <Text>Địa chỉ cụ thể</Text>
+                      <Text fontSize="18px">Địa chỉ cụ thể</Text>
                     </HStack>
                   </FormLabel>
                   <Input
@@ -933,7 +933,7 @@ const PaymentWrapper = () => {
                 </FormControl>
 
                 <FormControl>
-                  <FormLabel fontWeight="medium" color="gray.700">
+                  <FormLabel fontSize="18px" fontWeight="medium" color="gray.700">
                     Ghi chú
                   </FormLabel>
                   <Textarea
@@ -945,7 +945,7 @@ const PaymentWrapper = () => {
                     _hover={{ borderColor: 'blue.300' }}
                     autoComplete="off"
                   />
-                  <Text fontSize="lg" color="gray.500" mt={2}>
+                  <Text fontSize="18px" color="gray.500" mt={2}>
                     Bạn có thể thêm ghi chú cho đơn hàng tại đây
                   </Text>
                 </FormControl>
