@@ -28,8 +28,6 @@ const CartWrapper = () => {
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
-  console.log(cartData);
-
   useEffect(() => {
     setIsClient(true);
   }, []);

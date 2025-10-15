@@ -195,7 +195,7 @@ const Footer = () => {
           <Flex direction="column" flex={1} align={{ xs: 'flex-start', lg: 'center' }}>
             <Flex
               direction="column"
-              align={{ xs: 'flex-start', lg: 'center' }}
+              // align={{ xs: 'flex-start', lg: 'center' }}
               gap="6px"
               px={{ xs: '12px', lg: 'center' }}
             >
@@ -204,13 +204,19 @@ const Footer = () => {
                 return (
                   <Fragment key={title}>
                     <Link href={href}>
-                      <Text as="span" fontWeight={500} fontSize={18} py="6px" textAlign="center" h="32px">
+                      <Text
+                        // as="span"
+                        fontWeight={500}
+                        fontSize={18}
+                        py="6px"
+                        h="32px"
+                      >
                         {title}
                       </Text>
                     </Link>
 
                     {!!children && (
-                      <Flex display={{ xs: 'none', lg: 'flex' }} direction="column" pl={{ xs: '20px', lg: 'center' }}>
+                      <Flex display={{ xs: 'none', lg: 'flex' }} direction="column">
                         {children.map((child) => {
                           return (
                             <Link href={child.href} key={child.title}>
