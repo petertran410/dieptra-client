@@ -9,25 +9,20 @@ const ProductItem = ({ item }) => {
   const { id, title, title_meta, kiotviet_name, kiotviet_price, ofCategories, imagesUrl, slug, kiotviet_images } =
     item || {};
 
-  const productSlug = slug;
+  console.log(item);
 
-  const getCategoryName = () => {
-    if (!Array.isArray(ofCategories) || ofCategories.length === 0) {
-      return 'SẢN PHẨM';
-    }
-    return ofCategories[0]?.name?.toUpperCase() || 'SẢN PHẨM';
-  };
+  const productSlug = slug;
 
   const showName = title ? title : kiotviet_name;
 
-  const getCategoryColor = () => {
-    const categoryName = getCategoryName();
-    if (categoryName.includes('TRÀ') || categoryName.includes('PHƯỢNG')) {
-      return '#FFF';
-    } else if (categoryName.includes('MỨT') || categoryName.includes('LERMAO')) {
-      return '#FFF';
+  const getProductImage = () => {
+    if (Array.isArray(imagesUrl) && imagesUrl.length > 0) {
+      return imagesUrl[0]?.replace('http://', 'https://');
     }
-    return '#FFF';
+    if (Array.isArray(kiotviet_images) && kiotviet_images.length > 0) {
+      return kiotviet_images[0]?.replace('http://', 'https://');
+    }
+    return '/images/tra-phuong-hoang.webp';
   };
 
   return (
@@ -80,11 +75,12 @@ const ProductItem = ({ item }) => {
             overflow="hidden"
           >
             <Image
-              src={
-                Array.isArray(kiotviet_images) && kiotviet_images.length > 0
-                  ? kiotviet_images[0]?.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
-                  : '/images/tra-phuong-hoang.webp'
-              }
+              // src={
+              //   Array.isArray(imagesUrl) && imagesUrl.length > 0
+              //     ? imagesUrl.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
+              //     : kiotviet_images[0]?.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
+              // }
+              src={getProductImage()}
               alt={title || IMG_ALT}
               maxW="full"
               maxH="full"
