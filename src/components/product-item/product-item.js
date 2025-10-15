@@ -9,8 +9,6 @@ const ProductItem = ({ item }) => {
   const { id, title, title_meta, kiotviet_name, kiotviet_price, ofCategories, imagesUrl, slug, kiotviet_images } =
     item || {};
 
-  console.log(item);
-
   const productSlug = slug;
 
   const showName = title ? title : kiotviet_name;
