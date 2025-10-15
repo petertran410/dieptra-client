@@ -248,7 +248,7 @@ const Footer = () => {
             <Link href="https://www.facebook.com/dieptra.0788339379" target="_blank">
               <Image src="/images/facebook-black.webp" w="24px" h="24px" alt={IMG_ALT} />
             </Link>
-            <Link href="https://zalo.me/s/1428308065058357450/" target="_blank">
+            <Link href="https://zalo.me/4415290839928975010" target="_blank">
               <Image src="/images/zalo-black.webp" w="24px" h="24px" alt={IMG_ALT} />
             </Link>
             <Link href="https://www.youtube.com/@Dieptra_Official" target="_blank">

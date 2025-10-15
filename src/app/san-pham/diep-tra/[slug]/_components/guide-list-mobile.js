@@ -101,8 +101,8 @@ const GuideListMobile = () => {
               Mini App Zalo:
             </Text>{' '}
             Gấu LerMao - Giải pháp toàn diện số 1 Việt Nam <br />
-            <Link fontSize={18} target="_blank" href="https://zalo.me/s/1428308065058357450">
-              https://zalo.me/s/1428308065058357450
+            <Link fontSize={18} target="_blank" href="https://zalo.me/4415290839928975010">
+              https://zalo.me/4415290839928975010
             </Link>
           </Box>
         </Box>
