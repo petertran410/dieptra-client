@@ -289,32 +289,35 @@ const ProfileWrapper = () => {
               <TabPanel px={0} pt={6}>
                 <VStack spacing={6} align="stretch">
                   <FormControl isRequired>
-                    <FormLabel>Họ và tên</FormLabel>
+                    <FormLabel fontSize="xl">Họ và tên</FormLabel>
                     <Input
                       defaultValue={user.full_name}
                       onChange={handleInputChange('full_name')}
                       placeholder="Nhập họ và tên"
+                      fontSize="xl"
                     />
                   </FormControl>
 
                   <HStack spacing={4}>
                     <FormControl isRequired flex={1}>
-                      <FormLabel>Số điện thoại</FormLabel>
+                      <FormLabel fontSize="xl">Số điện thoại</FormLabel>
                       <Input
                         defaultValue={user.phone}
                         onChange={handleInputChange('phone')}
                         placeholder="Nhập số điện thoại"
                         type="tel"
+                        fontSize="xl"
                       />
                     </FormControl>
 
                     <FormControl isRequired flex={1}>
-                      <FormLabel>Email</FormLabel>
+                      <FormLabel fontSize="xl">Email</FormLabel>
                       <Input
                         defaultValue={user.email}
                         onChange={handleInputChange('email')}
                         placeholder="Nhập email"
                         type="email"
+                        fontSize="xl"
                       />
                     </FormControl>
                   </HStack>
@@ -326,14 +329,15 @@ const ProfileWrapper = () => {
 
                     <VStack spacing={4} align="stretch">
                       <FormControl>
-                        <FormLabel>Tỉnh/Thành phố</FormLabel>
+                        <FormLabel fontSize="xl">Tỉnh/Thành phố</FormLabel>
                         <Select
                           value={selectedProvince}
                           onChange={(e) => handleProvinceChange(e.target.value)}
                           placeholder="-- Chọn tỉnh/thành phố --"
+                          fontSize="xl"
                         >
                           {provinces.map((province) => (
-                            <option key={province.code} value={province.code}>
+                            <option fontSize="xl" key={province.code} value={province.code}>
                               {province.name}
                             </option>
                           ))}
@@ -342,15 +346,16 @@ const ProfileWrapper = () => {
 
                       <HStack spacing={4}>
                         <FormControl flex={1}>
-                          <FormLabel>Quận/Huyện</FormLabel>
+                          <FormLabel fontSize="xl">Quận/Huyện</FormLabel>
                           <Select
                             value={selectedDistrict}
                             onChange={(e) => handleDistrictChange(e.target.value)}
                             placeholder="-- Chọn quận/huyện --"
                             disabled={!selectedProvince}
+                            fontSize="xl"
                           >
                             {districts.map((district) => (
-                              <option key={district.code} value={district.code}>
+                              <option fontSize="xl" key={district.code} value={district.code}>
                                 {district.name}
                               </option>
                             ))}
@@ -358,15 +363,16 @@ const ProfileWrapper = () => {
                         </FormControl>
 
                         <FormControl flex={1}>
-                          <FormLabel>Phường/Xã</FormLabel>
+                          <FormLabel fontSize="xl">Phường/Xã</FormLabel>
                           <Select
                             value={selectedWard}
                             onChange={(e) => setSelectedWard(parseInt(e.target.value))}
                             placeholder="-- Chọn phường/xã --"
                             disabled={!selectedDistrict}
+                            fontSize="xl"
                           >
                             {wards.map((ward) => (
-                              <option key={ward.code} value={ward.code}>
+                              <option fontSize="xl" key={ward.code} value={ward.code}>
                                 {ward.name}
                               </option>
                             ))}
@@ -375,12 +381,13 @@ const ProfileWrapper = () => {
                       </HStack>
 
                       <FormControl>
-                        <FormLabel>Địa chỉ chi tiết</FormLabel>
+                        <FormLabel fontSize="xl">Địa chỉ chi tiết</FormLabel>
                         <Textarea
                           defaultValue={user.detailed_address}
                           onChange={handleInputChange('detailed_address')}
                           placeholder="Số nhà, tên đường, ngõ/hẻm..."
                           rows={3}
+                          fontSize="xl"
                         />
                       </FormControl>
                     </VStack>
