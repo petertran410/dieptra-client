@@ -39,5 +39,12 @@ export const profileService = {
       url: `/api/client-user/orders/${orderId}`,
       method: 'GET'
     });
+  },
+
+  confirmOrderReceived: async (orderId) => {
+    return await API.request({
+      url: `/api/client-user/orders/${orderId}/confirm-received`,
+      method: 'POST'
+    });
   }
 };

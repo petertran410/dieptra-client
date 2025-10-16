@@ -11,6 +11,7 @@ const ORDER_STATUS = {
   CONFIRMED: { label: 'Đã xác nhận', color: 'blue' },
   SHIPPING: { label: 'Đang giao', color: 'purple' },
   DELIVERED: { label: 'Đã giao', color: 'green' },
+  CUSTOMER_RECEIVED: { label: 'Khách đã nhận', color: 'teal' },
   CANCELLED: { label: 'Đã hủy', color: 'red' }
 };
 
