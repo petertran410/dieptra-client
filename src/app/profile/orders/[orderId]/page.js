@@ -13,7 +13,8 @@ import {
   Divider,
   Image,
   Card,
-  CardBody
+  CardBody,
+  useToast
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { profileService } from '../../../../services/profile.service';
@@ -21,8 +22,10 @@ import { profileService } from '../../../../services/profile.service';
 const OrderTrackingPage = () => {
   const { orderId } = useParams();
   const router = useRouter();
+  const toast = useToast();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [confirming, setConfirming] = useState(false);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -40,6 +43,38 @@ const OrderTrackingPage = () => {
     const interval = setInterval(fetchOrder, 15000);
     return () => clearInterval(interval);
   }, [orderId]);
+
+  const handleConfirmReceived = async () => {
+    if (!window.confirm('Xác nhận bạn đã nhận được hàng?')) {
+      return;
+    }
+
+    try {
+      setConfirming(true);
+      await profileService.confirmOrderReceived(orderId);
+
+      setOrder((prev) => ({ ...prev, status: 'CUSTOMER_RECEIVED' }));
+
+      toast({
+        title: 'Thành công',
+        description: 'Đã xác nhận nhận hàng',
+        status: 'success',
+        duration: 3000,
+        isClosable: true
+      });
+    } catch (error) {
+      console.error('Error confirming order:', error);
+      toast({
+        title: 'Lỗi',
+        description: error.response?.data?.message || 'Không thể xác nhận nhận hàng',
+        status: 'error',
+        duration: 3000,
+        isClosable: true
+      });
+    } finally {
+      setConfirming(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -70,8 +105,15 @@ const OrderTrackingPage = () => {
       label: order.status === 'CANCELLED' ? 'Đã hủy' : order.status === 'DELIVERED' ? 'Đã giao hàng' : 'Đang giao hàng',
       status: order.status === 'CANCELLED' ? 'CANCELLED' : order.status === 'DELIVERED' ? 'DELIVERED' : 'SHIPPING',
       active: ['SHIPPING', 'DELIVERED', 'CANCELLED'].includes(order.status)
+    },
+    {
+      label: 'Khách đã nhận hàng',
+      status: 'CUSTOMER_RECEIVED',
+      active: order.status === 'CUSTOMER_RECEIVED'
     }
   ];
+
+  const canConfirmReceived = order.status === 'DELIVERED';
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -103,34 +145,54 @@ const OrderTrackingPage = () => {
                 <Text fontSize="2xl" fontWeight="bold" mb={4}>
                   Trạng thái đơn hàng
                 </Text>
-                <HStack spacing={0} position="relative">
+                <HStack spacing={0} justify="space-between" position="relative" w="full">
                   {steps.map((step, index) => (
-                    <Box key={index} flex={1} position="relative">
-                      <HStack>
+                    <Box
+                      key={index}
+                      flex={1}
+                      position="relative"
+                      display="flex"
+                      flexDirection="column"
+                      alignItems="center"
+                    >
+                      {index < steps.length - 1 && (
                         <Box
-                          w={10}
-                          h={10}
-                          borderRadius="full"
-                          bg={step.active ? 'green.500' : 'gray.300'}
-                          display="flex"
-                          alignItems="center"
-                          justifyContent="center"
-                          color="white"
-                          fontWeight="bold"
-                          zIndex={2}
-                          fontSize="2xl"
-                        >
-                          {index + 1}
-                        </Box>
-                        {index < steps.length - 1 && (
-                          <Box flex={1} mr="8px" h="3px" bg={steps[index + 1].active ? 'green.500' : 'gray.300'} />
-                        )}
-                      </HStack>
+                          position="absolute"
+                          left="calc(+50% + 20px)"
+                          right="calc(-50% + 20px)"
+                          top="20px"
+                          h="3px"
+                          bg={steps[index + 1].active ? 'green.500' : 'gray.300'}
+                          transform="translateY(-50%)"
+                          zIndex={1}
+                        />
+                      )}
+
+                      {/* Circle */}
+                      <Box
+                        w={10}
+                        h={10}
+                        borderRadius="full"
+                        bg={step.active ? 'green.500' : 'gray.300'}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        color="white"
+                        fontWeight="bold"
+                        position="relative"
+                        zIndex={2}
+                        fontSize="2xl"
+                      >
+                        {index + 1}
+                      </Box>
+
+                      {/* Label */}
                       <Text
                         mt={2}
                         fontSize="2xl"
                         fontWeight={step.active ? 'bold' : 'normal'}
                         color={step.active ? 'green.500' : 'gray.500'}
+                        textAlign="center"
                       >
                         {step.label}
                       </Text>

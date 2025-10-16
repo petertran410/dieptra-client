@@ -178,7 +178,7 @@ const Footer = () => {
             <Flex align="flex-start" gap="8px">
               <Image src="/images/phone.webp" alt={IMG_ALT} w="24px" h="24px" />
               <ChakraLink href="tel:+84788339379" fontWeight={400} _hover={{ textDecor: 'none' }}>
-                +84 78 833 9379
+                +84 799 861 862
               </ChakraLink>
             </Flex>
 
