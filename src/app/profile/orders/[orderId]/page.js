@@ -94,22 +94,31 @@ const OrderTrackingPage = () => {
     );
   }
 
+  const ORDER_STATUS = {
+    PENDING: { label: 'Chờ xác nhận', color: 'yellow' },
+    CONFIRMED: { label: 'Đã xác nhận', color: 'blue' },
+    SHIPPING: { label: 'Đang giao', color: 'purple' },
+    DELIVERED: { label: 'Đã giao', color: 'green' },
+    CUSTOMER_RECEIVED: { label: 'Khách đã nhận', color: 'teal' },
+    CANCELLED: { label: 'Đã hủy', color: 'red' }
+  };
+
   const steps = [
     { label: 'Đã tạo đơn', status: 'PENDING', active: true },
     {
       label: 'Đã nhận đơn',
       status: 'CONFIRMED',
-      active: ['CONFIRMED', 'SHIPPING', 'DELIVERED', 'CANCELLED'].includes(order.status)
+      active: ['CONFIRMED', 'SHIPPING', 'DELIVERED', 'CUSTOMER_RECEIVED', 'CANCELLED'].includes(order.status)
     },
     {
-      label: order.status === 'CANCELLED' ? 'Đã hủy' : order.status === 'DELIVERED' ? 'Đã giao hàng' : 'Đang giao hàng',
-      status: order.status === 'CANCELLED' ? 'CANCELLED' : order.status === 'DELIVERED' ? 'DELIVERED' : 'SHIPPING',
-      active: ['SHIPPING', 'DELIVERED', 'CANCELLED'].includes(order.status)
+      label: order.status === 'CANCELLED' ? 'Đã hủy' : 'Đang giao hàng',
+      status: order.status === 'CANCELLED' ? 'CANCELLED' : 'SHIPPING',
+      active: ['SHIPPING', 'DELIVERED', 'CUSTOMER_RECEIVED', 'CANCELLED'].includes(order.status)
     },
     {
-      label: 'Khách đã nhận hàng',
-      status: 'CUSTOMER_RECEIVED',
-      active: order.status === 'CUSTOMER_RECEIVED'
+      label: order.status === 'CUSTOMER_RECEIVED' ? 'Khách đã nhận hàng' : 'Đã giao hàng',
+      status: order.status === 'CUSTOMER_RECEIVED' ? 'CUSTOMER_RECEIVED' : 'DELIVERED',
+      active: ['DELIVERED', 'CUSTOMER_RECEIVED'].includes(order.status)
     }
   ];
 
