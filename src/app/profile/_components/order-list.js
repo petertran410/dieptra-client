@@ -48,7 +48,15 @@ const OrderList = () => {
     loadOrders();
   }, [page, statusFilter]);
 
-  const handleCancelOrder = async (orderId) => {
+  const handleCancelOrder = async (orderId, orderStatus) => {
+    if (orderStatus === 'SHIPPING') {
+      showToast({
+        status: 'warning',
+        content: 'Vui lòng liên hệ để được hủy'
+      });
+      return;
+    }
+
     if (!window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
       return;
     }
@@ -72,7 +80,41 @@ const OrderList = () => {
   };
 
   const canCancelOrder = (order) => {
-    return order.status !== 'CANCELLED' && order.status !== 'DELIVERED';
+    return order.status !== 'CANCELLED' && order.status !== 'DELIVERED' && order.status !== 'CUSTOMER_RECEIVED';
+  };
+
+  const renderActionButton = (order) => {
+    if (order.status === 'CUSTOMER_RECEIVED') {
+      return (
+        <Badge colorScheme="green" fontSize="md" px={3} py={2} borderRadius="4px">
+          Giao hàng thành công
+        </Badge>
+      );
+    }
+
+    if (order.status === 'CANCELLED') {
+      return (
+        <Badge colorScheme="red" fontSize="md" px={3} py={2} borderRadius="4px">
+          Đã hủy đơn
+        </Badge>
+      );
+    }
+
+    if (canCancelOrder(order)) {
+      return (
+        <Button
+          size="md"
+          colorScheme="red"
+          onClick={() => handleCancelOrder(order.id, order.status)}
+          isLoading={cancellingOrderId === order.id}
+          loadingText="Đang hủy..."
+        >
+          Hủy đơn hàng
+        </Button>
+      );
+    }
+
+    return null;
   };
 
   const formatPrice = (price) => {
@@ -170,21 +212,7 @@ const OrderList = () => {
               Chi tiết
             </Button>
 
-            {canCancelOrder(order) ? (
-              <Button
-                size="md"
-                colorScheme="red"
-                onClick={() => handleCancelOrder(order.id)}
-                isLoading={cancellingOrderId === order.id}
-                loadingText="Đang hủy..."
-              >
-                Hủy đơn hàng
-              </Button>
-            ) : order.status === 'CANCELLED' ? (
-              <Badge colorScheme="red" fontSize="md" px={3} py={2} borderRadius="4px">
-                Đã hủy đơn
-              </Badge>
-            ) : null}
+            {renderActionButton(order)}
           </HStack>
 
           <HStack justify="space-between" mt={3}>
