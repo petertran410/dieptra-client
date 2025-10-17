@@ -108,60 +108,77 @@ const OrderTrackingPage = () => {
                 <Text fontSize="2xl" fontWeight="bold" mb={4}>
                   Trạng thái đơn hàng
                 </Text>
-                <HStack spacing={0} justify="space-between" position="relative" w="full">
-                  {steps.map((step, index) => (
-                    <Box
-                      key={index}
-                      flex={1}
-                      position="relative"
-                      display="flex"
-                      flexDirection="column"
-                      alignItems="center"
-                    >
-                      {index < steps.length - 1 && (
-                        <Box
-                          position="absolute"
-                          left="calc(+50% + 20px)"
-                          right="calc(-50% + 20px)"
-                          top="20px"
-                          h="3px"
-                          bg={steps[index + 1].active ? 'green.500' : 'gray.300'}
-                          transform="translateY(-50%)"
-                          zIndex={1}
-                        />
-                      )}
-
-                      {/* Circle */}
+                <Box
+                  overflowX="auto"
+                  w="100%"
+                  sx={{
+                    '&::-webkit-scrollbar': {
+                      height: '6px'
+                    },
+                    '&::-webkit-scrollbar-thumb': {
+                      background: '#CBD5E0',
+                      borderRadius: '3px'
+                    }
+                  }}
+                >
+                  <HStack
+                    spacing={0}
+                    justify="space-between"
+                    position="relative"
+                    w={{ lg: 'full', md: 'full', s: 'full', xs: '350px' }}
+                  >
+                    {steps.map((step, index) => (
                       <Box
-                        w={10}
-                        h={10}
-                        borderRadius="full"
-                        bg={step.active ? 'green.500' : 'gray.300'}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        color="white"
-                        fontWeight="bold"
+                        key={index}
+                        flex={1}
                         position="relative"
-                        zIndex={2}
-                        fontSize="2xl"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
                       >
-                        {index + 1}
-                      </Box>
+                        {index < steps.length - 1 && (
+                          <Box
+                            position="absolute"
+                            left={{ lg: 'calc(+50% + 20px)', xs: 'calc(+50% + 20px)' }}
+                            right={{ lg: 'calc(-50% + 20px)', xs: 'calc(-50% + 20px)' }}
+                            top={{ lg: '20px', xs: '15px' }}
+                            h="3px"
+                            bg={steps[index + 1].active ? 'green.500' : 'gray.300'}
+                            transform="translateY(-50%)"
+                            zIndex={1}
+                          />
+                        )}
 
-                      {/* Label */}
-                      <Text
-                        mt={2}
-                        fontSize="2xl"
-                        fontWeight={step.active ? 'bold' : 'normal'}
-                        color={step.active ? 'green.500' : 'gray.500'}
-                        textAlign="center"
-                      >
-                        {step.label}
-                      </Text>
-                    </Box>
-                  ))}
-                </HStack>
+                        <Box
+                          w={{ lg: '10', xs: '8' }}
+                          h={{ lg: '10', xs: '8' }}
+                          borderRadius="full"
+                          bg={step.active ? 'green.500' : 'gray.300'}
+                          display="flex"
+                          alignItems="center"
+                          justifyContent="center"
+                          color="white"
+                          fontWeight="bold"
+                          position="relative"
+                          zIndex={2}
+                          fontSize="2xl"
+                        >
+                          {index + 1}
+                        </Box>
+
+                        <Text
+                          mt={2}
+                          fontSize={{ lg: '2xl', s: 'lg', xs: 'md' }}
+                          fontWeight={step.active ? 'bold' : 'normal'}
+                          color={step.active ? 'green.500' : 'gray.500'}
+                          textAlign="center"
+                        >
+                          {step.label}
+                        </Text>
+                      </Box>
+                    ))}
+                  </HStack>
+                </Box>
               </Box>
 
               <Divider />
@@ -205,10 +222,34 @@ const OrderTrackingPage = () => {
                   Sản phẩm
                 </Text>
                 <VStack spacing={3}>
-                  {order.items.map((item, index) => {
-                    console.log(item);
-                    return (
-                      <HStack key={index} w="full" p={3} bg="gray.50" borderRadius="md">
+                  {order.items.map((item, index) => (
+                    <Box key={index} w="full" p={3} bg="gray.50" borderRadius="md">
+                      <VStack spacing={3} align="stretch" display={{ base: 'flex', md: 'none' }}>
+                        {item.image && (
+                          <Image
+                            src={item.image}
+                            alt={item.productName}
+                            w="full"
+                            maxW="200px"
+                            mx="auto"
+                            objectFit="cover"
+                            borderRadius="md"
+                          />
+                        )}
+                        <VStack align="start" spacing={1} w="full">
+                          <Text fontSize="2xl" fontWeight="medium">
+                            {item.productName}
+                          </Text>
+                          <Text fontSize="2xl" color="gray.600">
+                            SL: {item.quantity}
+                          </Text>
+                          <Text fontSize="2xl" fontWeight="bold" color="red.500">
+                            {formatPrice(item.price)}
+                          </Text>
+                        </VStack>
+                      </VStack>
+
+                      <HStack spacing={3} display={{ base: 'none', md: 'flex' }}>
                         {item.image && (
                           <Image
                             src={item.image}
@@ -230,8 +271,8 @@ const OrderTrackingPage = () => {
                           {formatPrice(item.price)}
                         </Text>
                       </HStack>
-                    );
-                  })}
+                    </Box>
+                  ))}
                 </VStack>
               </Box>
 
