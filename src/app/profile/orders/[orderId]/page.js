@@ -13,8 +13,7 @@ import {
   Divider,
   Image,
   Card,
-  CardBody,
-  useToast
+  CardBody
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { profileService } from '../../../../services/profile.service';
@@ -22,10 +21,8 @@ import { profileService } from '../../../../services/profile.service';
 const OrderTrackingPage = () => {
   const { orderId } = useParams();
   const router = useRouter();
-  const toast = useToast();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [confirming, setConfirming] = useState(false);
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -40,41 +37,9 @@ const OrderTrackingPage = () => {
     };
 
     fetchOrder();
-    const interval = setInterval(fetchOrder, 15000);
+    const interval = setInterval(fetchOrder, 5000);
     return () => clearInterval(interval);
   }, [orderId]);
-
-  const handleConfirmReceived = async () => {
-    if (!window.confirm('Xác nhận bạn đã nhận được hàng?')) {
-      return;
-    }
-
-    try {
-      setConfirming(true);
-      await profileService.confirmOrderReceived(orderId);
-
-      setOrder((prev) => ({ ...prev, status: 'CUSTOMER_RECEIVED' }));
-
-      toast({
-        title: 'Thành công',
-        description: 'Đã xác nhận nhận hàng',
-        status: 'success',
-        duration: 3000,
-        isClosable: true
-      });
-    } catch (error) {
-      console.error('Error confirming order:', error);
-      toast({
-        title: 'Lỗi',
-        description: error.response?.data?.message || 'Không thể xác nhận nhận hàng',
-        status: 'error',
-        duration: 3000,
-        isClosable: true
-      });
-    } finally {
-      setConfirming(false);
-    }
-  };
 
   if (loading) {
     return (
@@ -94,15 +59,6 @@ const OrderTrackingPage = () => {
     );
   }
 
-  const ORDER_STATUS = {
-    PENDING: { label: 'Chờ xác nhận', color: 'yellow' },
-    CONFIRMED: { label: 'Đã xác nhận', color: 'blue' },
-    SHIPPING: { label: 'Đang giao', color: 'purple' },
-    DELIVERED: { label: 'Đã giao', color: 'green' },
-    CUSTOMER_RECEIVED: { label: 'Khách đã nhận', color: 'teal' },
-    CANCELLED: { label: 'Đã hủy', color: 'red' }
-  };
-
   const steps = [
     { label: 'Đã tạo đơn', status: 'PENDING', active: true },
     {
@@ -121,8 +77,6 @@ const OrderTrackingPage = () => {
       active: ['DELIVERED', 'CUSTOMER_RECEIVED'].includes(order.status)
     }
   ];
-
-  const canConfirmReceived = order.status === 'DELIVERED';
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {

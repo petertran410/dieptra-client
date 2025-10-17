@@ -6,21 +6,6 @@ import { useRouter } from 'next/navigation';
 import { profileService } from '../../../services/profile.service';
 import { showToast } from '../../../utils/helper';
 
-const ORDER_STATUS = {
-  PENDING: { label: 'Chờ xác nhận', color: 'yellow' },
-  CONFIRMED: { label: 'Đã xác nhận', color: 'blue' },
-  SHIPPING: { label: 'Đang giao', color: 'purple' },
-  DELIVERED: { label: 'Đã giao', color: 'green' },
-  CUSTOMER_RECEIVED: { label: 'Khách đã nhận', color: 'teal' },
-  CANCELLED: { label: 'Đã hủy', color: 'red' }
-};
-
-const PAYMENT_STATUS = {
-  PENDING: { label: 'Chưa thanh toán', color: 'orange' },
-  PAID: { label: 'Đã thanh toán', color: 'green' },
-  FAILED: { label: 'Thất bại', color: 'red' }
-};
-
 const OrderList = () => {
   const router = useRouter();
   const [orders, setOrders] = useState([]);
