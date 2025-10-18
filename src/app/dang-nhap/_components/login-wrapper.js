@@ -27,7 +27,7 @@ import { authService } from '../../../services/auth.service';
 import { showToast } from '../../../utils/helper';
 import { PX_ALL } from '../../../utils/const';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8084';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const LoginWrapper = () => {
   const searchParams = useSearchParams();
