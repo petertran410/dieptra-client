@@ -15,13 +15,19 @@ import {
   Link as ChakraLink,
   InputGroup,
   InputRightElement,
-  IconButton
+  IconButton,
+  Divider,
+  HStack
 } from '@chakra-ui/react';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from 'react-icons/fa';
 import Link from 'next/link';
 import { authService } from '../../../services/auth.service';
 import { showToast } from '../../../utils/helper';
 import { PX_ALL } from '../../../utils/const';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8084';
 
 const LoginWrapper = () => {
   const searchParams = useSearchParams();
@@ -84,6 +90,14 @@ const LoginWrapper = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleLogin = () => {
+    window.location.href = `${API_URL}/api/client-auth/google`;
+  };
+
+  const handleFacebookLogin = () => {
+    window.location.href = `${API_URL}/api/client-auth/facebook`;
   };
 
   return (
@@ -158,6 +172,38 @@ const LoginWrapper = () => {
               </Button>
             </VStack>
           </form>
+
+          <HStack w="full" spacing="16px">
+            <Divider />
+            <Text fontSize="14px" color="gray.500" whiteSpace="nowrap">
+              hoặc đăng nhập với
+            </Text>
+            <Divider />
+          </HStack>
+
+          <VStack w="full" spacing="12px">
+            <Button
+              w="full"
+              h="48px"
+              variant="outline"
+              leftIcon={<FcGoogle size={20} />}
+              onClick={handleGoogleLogin}
+              _hover={{ bg: 'gray.50' }}
+            >
+              Đăng nhập với Google
+            </Button>
+
+            <Button
+              w="full"
+              h="48px"
+              variant="outline"
+              leftIcon={<FaFacebook size={20} color="#1877F2" />}
+              onClick={handleFacebookLogin}
+              _hover={{ bg: 'gray.50' }}
+            >
+              Đăng nhập với Facebook
+            </Button>
+          </VStack>
 
           <Text textAlign="center">
             Chưa có tài khoản?{' '}

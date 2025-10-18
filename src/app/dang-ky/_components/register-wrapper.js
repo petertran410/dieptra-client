@@ -17,13 +17,18 @@ import {
   PinInputField,
   InputGroup,
   InputRightElement,
-  IconButton
+  IconButton,
+  Divider
 } from '@chakra-ui/react';
 import Link from 'next/link';
 import { authService } from '../../../services/auth.service';
 import { showToast } from '../../../utils/helper';
 import { PX_ALL } from '../../../utils/const';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { FcGoogle } from 'react-icons/fc';
+import { FaFacebook } from 'react-icons/fa';
+
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8084';
 
 const RegisterWrapper = () => {
   const [step, setStep] = useState('register');
@@ -162,9 +167,6 @@ const RegisterWrapper = () => {
       } else if (errorMessage.includes('Invalid verification code') || errorMessage.includes('không hợp lệ')) {
         toastContent = 'Mã xác thực không đúng. Vui lòng kiểm tra lại.';
       }
-      // else if (errorMessage.includes('No pending registration') || errorMessage.includes('không tìm thấy')) {
-      //   toastContent = 'Không tìm thấy yêu cầu đăng ký. Vui lòng đăng ký lại.';
-      // }
 
       showToast({
         status: 'error',
@@ -195,6 +197,14 @@ const RegisterWrapper = () => {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleRegister = () => {
+    window.location.href = `${API_URL}/api/client-auth/google`;
+  };
+
+  const handleFacebookRegister = () => {
+    window.location.href = `${API_URL}/api/client-auth/facebook`;
   };
 
   return (
@@ -306,6 +316,38 @@ const RegisterWrapper = () => {
                   </Button>
                 </VStack>
               </form>
+
+              <HStack w="full" spacing="16px">
+                <Divider />
+                <Text fontSize="14px" color="gray.500" whiteSpace="nowrap">
+                  hoặc đăng ký với
+                </Text>
+                <Divider />
+              </HStack>
+
+              <VStack w="full" spacing="12px">
+                <Button
+                  w="full"
+                  h="48px"
+                  variant="outline"
+                  leftIcon={<FcGoogle size={20} />}
+                  onClick={handleGoogleRegister}
+                  _hover={{ bg: 'gray.50' }}
+                >
+                  Đăng ký với Google
+                </Button>
+
+                <Button
+                  w="full"
+                  h="48px"
+                  variant="outline"
+                  leftIcon={<FaFacebook size={20} color="#1877F2" />}
+                  onClick={handleFacebookRegister}
+                  _hover={{ bg: 'gray.50' }}
+                >
+                  Đăng ký với Facebook
+                </Button>
+              </VStack>
 
               <Text textAlign="center">
                 Đã có tài khoản?{' '}
