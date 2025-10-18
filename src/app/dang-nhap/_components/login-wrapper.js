@@ -24,14 +24,14 @@ import { showToast } from '../../../utils/helper';
 import { PX_ALL } from '../../../utils/const';
 
 const LoginWrapper = () => {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || '/';
 
   const [formData, setFormData] = useState({
-    email: '',
+    emailOrPhone: '',
     pass_word: ''
   });
+
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -46,10 +46,8 @@ const LoginWrapper = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'Email không được để trống';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Email không hợp lệ';
+    if (!formData.emailOrPhone.trim()) {
+      newErrors.emailOrPhone = 'Email hoặc số điện thoại không được để trống';
     }
 
     if (!formData.pass_word) {
@@ -106,15 +104,14 @@ const LoginWrapper = () => {
 
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             <VStack spacing="16px">
-              <FormControl isInvalid={!!errors.email}>
-                <FormLabel>Email</FormLabel>
+              <FormControl isInvalid={!!errors.emailOrPhone}>
+                <FormLabel>Email hoặc số điện thoại</FormLabel>
                 <Input
-                  type="email"
-                  value={formData.email}
-                  onChange={(e) => handleChange('email', e.target.value)}
-                  placeholder="Nhập email"
+                  placeholder="Nhập email hoặc số điện thoại"
+                  value={formData.emailOrPhone}
+                  onChange={(e) => handleChange('emailOrPhone', e.target.value)}
                 />
-                <FormErrorMessage>{errors.email}</FormErrorMessage>
+                <FormErrorMessage>{errors.emailOrPhone}</FormErrorMessage>
               </FormControl>
 
               <FormControl isInvalid={!!errors.pass_word}>
