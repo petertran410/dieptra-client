@@ -193,7 +193,7 @@ const LoginWrapper = () => {
               Đăng nhập với Google
             </Button>
 
-            <Button
+            {/* <Button
               w="full"
               h="48px"
               variant="outline"
@@ -202,7 +202,7 @@ const LoginWrapper = () => {
               _hover={{ bg: 'gray.50' }}
             >
               Đăng nhập với Facebook
-            </Button>
+            </Button> */}
           </VStack>
 
           <Text textAlign="center">
