@@ -13,14 +13,15 @@ const ContactItem = ({ item }) => {
         fit="cover"
         borderRadius={16}
       />
-      <Text mt="16px" color="#09090B" textAlign="center" fontSize={18} fontWeight={500}>
+      <Text mt="16px" color="#09090B" textAlign="center" fontSize="xl" fontWeight={500}>
         {fullName}
       </Text>
       <Text
-        mt="9px"
+        mt="3px"
         color="#09090B"
         textAlign="center"
         fontWeight={500}
+        fontSize="xl"
         px="8px"
         py="1.5px"
         borderRadius="full"
@@ -28,10 +29,10 @@ const ContactItem = ({ item }) => {
       >
         {position}
       </Text>
-      <Text mt="8px" color="#09090B" textAlign="center">
+      <Text mt="3px" color="#09090B" fontSize="xl" textAlign="center">
         SĐT: {phone}
       </Text>
-      <Text mt="0px" color="#09090B" textAlign="center">
+      <Text mt="0px" fontSize="xl" color="#09090B" textAlign="center">
         Email: {email}
       </Text>
     </Flex>

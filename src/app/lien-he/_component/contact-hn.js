@@ -36,11 +36,11 @@ const ContactHN = () => {
       email: 'anhmtv@hisweetievietnam.com.vn'
     },
     {
-      fullName: 'Mr. Lê Xuân Tùng',
-      image: '/images/contact-user-4.webp',
+      fullName: 'Mrs. Nguyễn Thị Mai Phương',
+      image: '/images/maiphuong (1).webp',
       position: 'Nhân viên Kinh doanh',
-      phone: '+84 788 339 379',
-      email: 'tunglx@hisweetievietnam.com.vn'
+      phone: '+84 906 300 204',
+      email: 'phuongnt@hisweetievietnam.com.vn'
     },
     {
       fullName: 'Mrs. Tạ Thị Trang',

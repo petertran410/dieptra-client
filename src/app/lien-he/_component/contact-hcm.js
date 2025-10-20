@@ -4,17 +4,18 @@ import SectionBlock from '../../../components/section-block';
 import { PX_ALL } from '../../../utils/const';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 import ContactItem from './contact-item';
+import SectionBlockH2 from '../../../components/section-block/section-block-h2';
 
 const ContactHCM = () => {
-  const CONTACT_LIST = [
-    {
-      fullName: 'Mr. Tô Quang Duy',
-      image: '/images/contact-user-6.webp',
-      position: 'Trưởng phòng Kinh doanh 02',
-      phone: '+84 344 879 999',
-      email: 'duytq@hisweetievietnam.com.vn'
-    }
-  ];
+  // const CONTACT_LIST = [
+  //   {
+  //     fullName: 'Mr. Tô Quang Duy',
+  //     image: '/images/contact-user-6.webp',
+  //     position: 'Trưởng phòng Kinh doanh 02',
+  //     phone: '+84 344 879 999',
+  //     email: 'duytq@hisweetievietnam.com.vn'
+  //   }
+  // ];
 
   return (
     <Flex
@@ -22,10 +23,10 @@ const ContactHCM = () => {
       align="center"
       px={PX_ALL}
       pt={{ xs: '24px', lg: 0 }}
-      mt={{ xs: '24px', lg: '48px' }}
+      mt={{ xs: '24px', lg: '10px' }}
       borderTop={{ xs: '2px solid #e6e6e6', lg: 'none' }}
     >
-      <SectionBlock title="phòng kinh doanh tp.hcm" />
+      <SectionBlockH2 title="Chuyên Viên Tư Vấn Diệp Trà" />
 
       <Grid
         w="full"
@@ -35,13 +36,13 @@ const ContactHCM = () => {
         templateColumns={{ xs: 'repeat(1, 1fr)', lg: 'repeat(3, 1fr)' }}
       >
         <GridItem />
-        {CONTACT_LIST.map((item, index) => {
+        {/* {CONTACT_LIST.map((item, index) => {
           return (
             <GridItem key={index}>
               <ContactItem item={item} />
             </GridItem>
           );
-        })}
+        })} */}
         <GridItem />
       </Grid>
     </Flex>
