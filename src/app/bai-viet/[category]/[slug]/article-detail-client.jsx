@@ -400,14 +400,10 @@ const ArticleDetailClient = ({ params, categoryData }) => {
 
           <VideoEmbed embedUrl={embedUrl} />
 
-          <Box
-            mt="20px"
+          <div
             className="html-content"
-            fontSize={18}
-            lineHeight="20px"
-            dangerouslySetInnerHTML={{
-              __html: htmlContent
-            }}
+            style={{ marginTop: '20px', fontSize: '18px', lineHeight: '20px' }}
+            dangerouslySetInnerHTML={{ __html: htmlContent }}
           />
 
           {/* RELATED ARTICLES */}
