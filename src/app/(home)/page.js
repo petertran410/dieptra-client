@@ -2,10 +2,11 @@ import AboutUs from './_components/about-us';
 import HomeContact from './_components/contact';
 import Feedback from './_components/feedback';
 import HomeIntro from './_components/intro/intro';
-import TopProduct from './_components/top-product/top-product';
+// import TopProduct from './_components/top-product/top-product';
 import { getMetadata } from '../../utils/helper-server';
 import Statistic from '../gioi-thieu-diep-tra/_components/statistic';
 import FeaturedArticle from './_components/feature-article';
+import FeaturedProductsHome from './_components/featured-products-home';
 
 export const metadata = getMetadata({
   title: 'Diệp Trà | Chuyên Cung Cấp Nguyên Liệu Pha Chế',
@@ -23,6 +24,7 @@ export default function Home() {
       {/* <TopProduct /> */}
       {/* <VideoList /> */}
       <Statistic />
+      <FeaturedProductsHome />
       <Feedback />
       <FeaturedArticle />
       <HomeContact />

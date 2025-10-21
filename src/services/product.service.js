@@ -353,3 +353,14 @@ export const useQueryVisibleProductsCount = () => {
     staleTime: 10 * 60 * 1000
   });
 };
+
+export const useQueryFeaturedByCategories = () => {
+  return useQuery({
+    queryKey: ['GET_FEATURED_BY_CATEGORIES'],
+    queryFn: () =>
+      API.request({
+        url: '/api/product/client/featured-by-root-categories'
+      }),
+    staleTime: 5 * 60 * 1000
+  });
+};
