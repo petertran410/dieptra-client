@@ -43,8 +43,12 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
     kiotViet,
     general_description,
     categoryHierarchy = [],
-    slug
+    slug,
+    price_on
   } = productDetail;
+
+  console.log(productDetail);
+  console.log(price_on);
 
   const getProductImages = () => {
     const primaryImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : [];
@@ -150,7 +154,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                     min={1}
                     max={999}
                     flex={{ base: '0 0 auto', lg: '0 0 90px' }}
-                    w={{ base: '80px', lg: '90px' }}
+                    maxW={{ base: '20%', lg: '40%' }}
                     size="lg"
                   >
                     <NumberInputField />
@@ -159,18 +163,19 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                       <NumberDecrementStepper />
                     </NumberInputStepper>
                   </NumberInput>
+                  {price_on === false && (
+                    <Box flex="1" maxW="30%">
+                      <AddCart
+                        price={price}
+                        productSlug={slug}
+                        productId={productDetail.id}
+                        title={title}
+                        quantity={quantity}
+                      />
+                    </Box>
+                  )}
 
-                  <Box flex="1" minW="0">
-                    <AddCart
-                      price={price}
-                      productSlug={slug}
-                      productId={productDetail.id}
-                      title={title}
-                      quantity={quantity}
-                    />
-                  </Box>
-
-                  <Box flex="1" minW="0">
+                  <Box flex="1" maxW="30%">
                     <Link href="/lien-he">
                       <Button
                         size="lg"
