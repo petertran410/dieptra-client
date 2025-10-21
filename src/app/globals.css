@@ -432,3 +432,33 @@ a {
     display: block !important;
   } */
 }
+
+.html-content p > span.image,
+.html-content-16px p > span.image {
+  display: block !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.html-content p > span > span.image,
+.html-content-16px p > span > span.image {
+  display: block !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.html-content span.image img,
+.html-content-16px span.image img {
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+.html-content p[style*='text-align: justify'] > span.image,
+.html-content-16px p[style*='text-align: justify'] > span.image {
+  text-align: center !important;
+}
+
+.html-content p[style*='text-align: justify'] > span > span.image,
+.html-content-16px p[style*='text-align: justify'] > span > span.image {
+  text-align: center !important;
+}
