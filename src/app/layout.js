@@ -7,7 +7,6 @@ import Contact from './_layouts/contact';
 import Footer from './_layouts/footer';
 import Header from './_layouts/header';
 import './globals.css';
-import './quill-content.css';
 import { Providers } from './providers';
 import { AuthProvider } from '../contexts/auth-context';
 

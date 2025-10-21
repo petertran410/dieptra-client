@@ -36,7 +36,7 @@ body {
   padding: 0;
   margin: 0;
   font-size: 14px;
-  font-weight: 400;
+  /* font-weight: 400; */
 }
 
 a {
@@ -431,74 +431,46 @@ a {
     overflow-x: auto !important;
     display: block !important;
   } */
-
-  /* Quill Editor Content Styles */
-  .ql-align-center {
-    text-align: center !important;
-  }
-
-  .ql-align-right {
-    text-align: right !important;
-  }
-
-  .ql-align-left {
-    text-align: left !important;
-  }
-
-  .ql-align-justify {
-    text-align: justify !important;
-  }
-
-  .ql-indent-1 {
-    padding-left: 3em !important;
-  }
-
-  .ql-indent-2 {
-    padding-left: 6em !important;
-  }
-
-  .ql-indent-3 {
-    padding-left: 9em !important;
-  }
-
-  .ql-indent-4 {
-    padding-left: 12em !important;
-  }
-
-  .ql-indent-5 {
-    padding-left: 15em !important;
-  }
-
-  .ql-size-small {
-    font-size: 0.75em !important;
-  }
-
-  .ql-size-large {
-    font-size: 1.5em !important;
-  }
-
-  .ql-size-huge {
-    font-size: 2.5em !important;
-  }
-
-  .html-content p.ql-align-center,
-  .html-content-16px p.ql-align-center {
-    text-align: center !important;
-  }
-
-  .html-content p.ql-align-right,
-  .html-content-16px p.ql-align-right {
-    text-align: right !important;
-  }
-
-  .html-content p.ql-align-left,
-  .html-content-16px p.ql-align-left {
-    text-align: left !important;
-  }
-
-  .html-content img,
-  .html-content-16px img {
-    max-width: 100%;
-    height: auto;
-  }
 }
+
+.html-content p > span.image,
+.html-content-16px p > span.image {
+  display: block !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.html-content p > span > span.image,
+.html-content-16px p > span > span.image {
+  display: block !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.html-content span.image img,
+.html-content-16px span.image img {
+  display: block !important;
+  margin: 0 auto !important;
+}
+
+.html-content p[style*='text-align: justify'] > span.image,
+.html-content-16px p[style*='text-align: justify'] > span.image {
+  text-align: center !important;
+}
+
+.html-content p[style*='text-align: justify'] > span > span.image,
+.html-content-16px p[style*='text-align: justify'] > span > span.image {
+  text-align: center !important;
+}
+
+/* .html-content strong,
+.html-content b {
+  font-weight: 700 !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+.html-content em,
+.html-content i {
+  font-style: italic !important;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+} */
