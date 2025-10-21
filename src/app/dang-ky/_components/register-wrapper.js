@@ -337,7 +337,7 @@ const RegisterWrapper = () => {
                   Đăng ký với Google
                 </Button>
 
-                {/* <Button
+                <Button
                   w="full"
                   h="48px"
                   variant="outline"
@@ -346,7 +346,7 @@ const RegisterWrapper = () => {
                   _hover={{ bg: 'gray.50' }}
                 >
                   Đăng ký với Facebook
-                </Button> */}
+                </Button>
               </VStack>
 
               <Text textAlign="center">
