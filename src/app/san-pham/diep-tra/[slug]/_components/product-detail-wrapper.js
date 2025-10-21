@@ -47,9 +47,6 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
     price_on
   } = productDetail;
 
-  console.log(productDetail);
-  console.log(price_on);
-
   const getProductImages = () => {
     const primaryImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : [];
     const kiotVietImages = kiotViet?.images || [];

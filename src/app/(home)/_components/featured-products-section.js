@@ -2,44 +2,50 @@
 
 import { Box, Flex, Heading } from '@chakra-ui/react';
 import { useEffect, useRef, useState } from 'react';
-import ProductItem from '../../../components/product-item/product-item';
-import { PX_ALL } from '../../../utils/const';
+import ProductItemHome from '../../../components/product-item/product-item-home';
 
 const FeaturedProductsSection = ({ categoryName, products }) => {
-  const scrollRef = useRef(null);
+  const containerRef = useRef(null);
+  const scrollPositionRef = useRef(0);
   const [isPaused, setIsPaused] = useState(false);
+  const animationFrameRef = useRef(null);
 
   useEffect(() => {
-    const scrollContainer = scrollRef.current;
-    if (!scrollContainer || products.length === 0) return;
+    const container = containerRef.current;
+    if (!container || products.length === 0) return;
 
-    let animationId;
-    let scrollPosition = 0;
-    const scrollSpeed = 0.5;
+    const scrollSpeed = 0.7;
+    const itemWidth = 280 + 24;
+    const totalWidth = products.length * itemWidth;
 
-    const scroll = () => {
+    const animate = () => {
       if (!isPaused) {
-        scrollPosition += scrollSpeed;
+        scrollPositionRef.current += scrollSpeed;
 
-        if (scrollPosition >= scrollContainer.scrollWidth / 2) {
-          scrollPosition = 0;
+        if (scrollPositionRef.current >= totalWidth) {
+          scrollPositionRef.current = 0;
         }
 
-        scrollContainer.scrollLeft = scrollPosition;
+        if (container.firstChild) {
+          container.firstChild.style.transform = `translateX(-${scrollPositionRef.current}px)`;
+        }
       }
-      animationId = requestAnimationFrame(scroll);
+
+      animationFrameRef.current = requestAnimationFrame(animate);
     };
 
-    animationId = requestAnimationFrame(scroll);
+    animationFrameRef.current = requestAnimationFrame(animate);
 
     return () => {
-      if (animationId) cancelAnimationFrame(animationId);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
     };
   }, [products, isPaused]);
 
   if (products.length === 0) return null;
 
-  const duplicatedProducts = [...products, ...products];
+  const tripleProducts = [...products, ...products, ...products];
 
   return (
     <Box py={{ base: '24px', lg: '40px' }}>
@@ -55,22 +61,21 @@ const FeaturedProductsSection = ({ categoryName, products }) => {
       </Heading>
 
       <Box
-        ref={scrollRef}
+        ref={containerRef}
         overflow="hidden"
         position="relative"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
-        sx={{
-          '&::-webkit-scrollbar': { display: 'none' },
-          scrollbarWidth: 'none'
-        }}
       >
-        <Flex gap="24px" w="max-content">
-          {duplicatedProducts.map((product, index) => (
-            <Box key={`${product.id}-${index}`} minW="280px" maxW="280px">
-              <ProductItem item={product} />
-            </Box>
-          ))}
+        <Flex gap="24px" w="max-content" transition="none" style={{ willChange: 'transform' }}>
+          {tripleProducts.map((product, index) => {
+            console.log(product);
+            return (
+              <Box key={`${product.id}-${index}`} minW="280px" maxW="280px" flexShrink={0}>
+                <ProductItemHome item={product} />
+              </Box>
+            );
+          })}
         </Flex>
       </Box>
     </Box>
