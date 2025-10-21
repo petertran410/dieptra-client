@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Box,
@@ -41,6 +41,17 @@ const LoginWrapper = () => {
   const [errors, setErrors] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error === 'cancelled') {
+      showToast({
+        status: 'error',
+        content: 'Bạn đã hủy đăng nhập bằng Facebook'
+      });
+      window.history.replaceState({}, '', '/dang-nhap');
+    }
+  }, [searchParams]);
 
   const handleChange = (field, value) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

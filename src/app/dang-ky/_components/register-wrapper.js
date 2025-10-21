@@ -27,10 +27,13 @@ import { PX_ALL } from '../../../utils/const';
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
+import { useSearchParams } from 'next/navigation';
 
 const API_URL = process.env.NEXT_PUBLIC_API_DOMAIN;
 
 const RegisterWrapper = () => {
+  const searchParams = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/';
   const [step, setStep] = useState('register');
   const [formData, setFormData] = useState({
     fullName: '',
@@ -45,6 +48,17 @@ const RegisterWrapper = () => {
   const [countdown, setCountdown] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  useEffect(() => {
+    const error = searchParams.get('error');
+    if (error === 'cancelled') {
+      showToast({
+        status: 'error',
+        content: 'Bạn đã hủy đăng nhập bằng Facebook'
+      });
+      window.history.replaceState({}, '', '/dang-nhap');
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (countdown > 0) {
@@ -126,6 +140,7 @@ const RegisterWrapper = () => {
         content: 'Mã xác thực đã được gửi đến email của bạn!'
       });
 
+      window.location.href = redirectTo;
       setStep('verify');
       setCountdown(600);
     } catch (error) {
