@@ -1,6 +1,6 @@
 'use client';
 
-import { AspectRatio, Box, Flex, Heading, IconButton } from '@chakra-ui/react';
+import { Box, Flex, Heading, IconButton } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -79,106 +79,102 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
       >
         {categoryName}
       </Heading>
-
-      <Box position="relative" px={{ base: '40px', lg: '60px' }}>
-        <IconButton
-          icon={<ChevronLeftIcon boxSize={8} />}
-          aria-label="Previous products"
-          position="absolute"
-          left={{ base: '-10px', lg: '0' }}
-          top="50%"
-          transform="translateY(-50%)"
-          zIndex={2}
-          bg="white"
-          border="2px solid #003366"
-          borderRadius="full"
-          boxShadow="md"
-          color="#003366"
-          _hover={{ bg: '#003366', color: 'white' }}
-          onClick={handlePrev}
-          size={{ base: 'md', lg: 'lg' }}
-        />
-        <AspectRatio ratio={1 / 1} w="full">
-          <Box
-            w="full"
-            h="full"
-            bgColor="#FFF"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            overflow="hidden"
-          >
-            <Image
-              // src={
-              //   Array.isArray(imagesUrl) && imagesUrl.length > 0
-              //     ? imagesUrl.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
-              //     : kiotviet_images[0]?.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
-              // }
-              src={categoryImage}
-              alt={categoryName || IMG_ALT}
-              maxW="full"
-              maxH="full"
-              width={100}
-              height={100}
-              objectFit="contain"
-              loading="lazy"
-              onError={(e) => {
-                e.target.src = '/images/tra-phuong-hoang.webp';
-              }}
-            />
-          </Box>
-        </AspectRatio>
-        <Box position="relative" minH="500px">
-          <AnimatePresence initial={false} custom={direction} mode="wait">
-            <MotionFlex
-              key={currentIndex}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: 'spring', stiffness: 300, damping: 30 },
-                opacity: { duration: 0.3 },
-                scale: { duration: 0.3 }
-              }}
-              gap={{ base: '16px', lg: '24px' }}
-              justify="center"
-              align="stretch"
-              w="100%"
-            >
-              {displayProducts.map((product) => (
-                <Box
-                  key={product.id}
-                  flex="1"
-                  minW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
-                  maxW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
-                >
-                  <ProductItemHome item={product} />
-                </Box>
-              ))}
-            </MotionFlex>
-          </AnimatePresence>
+      <Flex>
+        <Box
+          w="20%"
+          h="50%"
+          bgColor="#FFF"
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          overflow="hidden"
+        >
+          <Image
+            src={categoryImage}
+            alt={categoryName || IMG_ALT}
+            maxW="full"
+            maxH="full"
+            width={100}
+            height={100}
+            objectFit="contain"
+            loading="lazy"
+            onError={(e) => {
+              e.target.src = '/images/tra-phuong-hoang.webp';
+            }}
+          />
         </Box>
 
-        <IconButton
-          icon={<ChevronRightIcon boxSize={8} />}
-          aria-label="Next products"
-          position="absolute"
-          right={{ base: '-10px', lg: '0' }}
-          top="50%"
-          transform="translateY(-50%)"
-          zIndex={2}
-          bg="white"
-          border="2px solid #003366"
-          borderRadius="full"
-          boxShadow="md"
-          color="#003366"
-          _hover={{ bg: '#003366', color: 'white' }}
-          onClick={handleNext}
-          size={{ base: 'md', lg: 'lg' }}
-        />
-      </Box>
+        <Box position="relative" px={{ base: '40px', lg: '60px' }}>
+          <IconButton
+            icon={<ChevronLeftIcon boxSize={8} />}
+            aria-label="Previous products"
+            position="absolute"
+            left={{ base: '-10px', lg: '0' }}
+            top="50%"
+            transform="translateY(-50%)"
+            zIndex={2}
+            bg="white"
+            border="2px solid #003366"
+            borderRadius="full"
+            boxShadow="md"
+            color="#003366"
+            _hover={{ bg: '#003366', color: 'white' }}
+            onClick={handlePrev}
+            size={{ base: 'md', lg: 'lg' }}
+          />
+
+          <Box position="relative" minH="500px">
+            <AnimatePresence initial={false} custom={direction} mode="wait">
+              <MotionFlex
+                key={currentIndex}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: 'spring', stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.3 },
+                  scale: { duration: 0.3 }
+                }}
+                gap={{ base: '16px', lg: '24px' }}
+                justify="center"
+                align="stretch"
+                w="100%"
+              >
+                {displayProducts.map((product) => (
+                  <Box
+                    key={product.id}
+                    flex="1"
+                    minW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
+                    maxW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
+                  >
+                    <ProductItemHome item={product} />
+                  </Box>
+                ))}
+              </MotionFlex>
+            </AnimatePresence>
+          </Box>
+
+          <IconButton
+            icon={<ChevronRightIcon boxSize={8} />}
+            aria-label="Next products"
+            position="absolute"
+            right={{ base: '-10px', lg: '0' }}
+            top="50%"
+            transform="translateY(-50%)"
+            zIndex={2}
+            bg="white"
+            border="2px solid #003366"
+            borderRadius="full"
+            boxShadow="md"
+            color="#003366"
+            _hover={{ bg: '#003366', color: 'white' }}
+            onClick={handleNext}
+            size={{ base: 'md', lg: 'lg' }}
+          />
+        </Box>
+      </Flex>
 
       {totalPages > 1 && (
         <Flex justify="center" gap={2} mt={6}>
