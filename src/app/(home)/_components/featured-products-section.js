@@ -59,14 +59,6 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
     })
   };
 
-  const getProductImage = () => {
-    if (Array.isArray(categoryImage) && categoryImage.length > 0) {
-      return categoryImage;
-    } else {
-      return '/images/tra-phuong-hoang.webp';
-    }
-  };
-
   return (
     <Box py={{ base: '24px', lg: '40px' }}>
       <Heading
@@ -80,12 +72,12 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
         {categoryName}
       </Heading>
 
-      <Flex align="center" gap={{ base: '12px', lg: '20px' }} h={{ base: '400px', lg: '500px' }}>
+      <Flex align="center" gap={{ base: '12px', lg: '20px' }}>
         <Box
-          w={{ base: '120px', lg: '180px' }}
+          w={{ base: '30%', lg: '26%' }}
           h="100%"
           flexShrink={0}
-          bgColor="#FFF"
+          // bgColor="#FFF"
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -95,18 +87,20 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           <Image
             src={categoryImage}
             alt={categoryName}
-            width={180}
-            height={180}
-            style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }}
+            width={300}
+            height={300}
+            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
             loading="lazy"
             onError={(e) => {
               e.target.src = '/images/tra-phuong-hoang.webp';
             }}
+            borderRadius="8px"
+            p={4}
           />
         </Box>
 
         <IconButton
-          icon={<ChevronLeftIcon boxSize={8} />}
+          icon={<ChevronLeftIcon />}
           aria-label="Previous products"
           flexShrink={0}
           bg="white"
@@ -116,10 +110,10 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           color="#003366"
           _hover={{ bg: '#003366', color: 'white' }}
           onClick={handlePrev}
-          size={{ base: 'md', lg: 'lg' }}
+          size={{ base: 'xs', lg: 'xs' }}
         />
 
-        <Box flex="1" h="100%" position="relative" overflow="hidden">
+        <Box w={{ base: '60%', lg: '50%' }} h="100%" flexShrink={0} position="relative" overflow="hidden">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <MotionFlex
               key={currentIndex}
@@ -133,7 +127,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
                 opacity: { duration: 0.3 },
                 scale: { duration: 0.3 }
               }}
-              gap={{ base: '16px', lg: '24px' }}
+              gap={{ base: '12px', lg: '16px' }}
               justify="center"
               align="stretch"
               w="100%"
@@ -143,8 +137,8 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
                 <Box
                   key={product.id}
                   flex="1"
-                  minW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
-                  maxW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
+                  minW={{ base: 'calc(33.33% - 8px)', lg: 'calc(33.33% - 11px)' }}
+                  maxW={{ base: 'calc(33.33% - 8px)', lg: 'calc(33.33% - 11px)' }}
                   h="100%"
                 >
                   <ProductItemHome item={product} />
@@ -155,7 +149,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
         </Box>
 
         <IconButton
-          icon={<ChevronRightIcon boxSize={8} />}
+          icon={<ChevronRightIcon />}
           aria-label="Next products"
           flexShrink={0}
           bg="white"
@@ -165,7 +159,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           color="#003366"
           _hover={{ bg: '#003366', color: 'white' }}
           onClick={handleNext}
-          size={{ base: 'md', lg: 'lg' }}
+          size={{ base: 'xs', lg: 'xs' }}
         />
       </Flex>
 
