@@ -72,11 +72,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
         {categoryName}
       </Heading>
 
-      <Flex
-        align="stretch"
-        gap={{ base: '12px', lg: '20px' }}
-        h={{ base: '320px', lg: '380px' }} // Thêm chiều cao cố định
-      >
+      <Flex align="stretch" gap={{ base: '12px', lg: '20px' }}>
         <Box
           w={{ base: '30%', lg: '24%' }}
           flexShrink={0}
@@ -91,12 +87,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
             alt={categoryName}
             width={500}
             height={500}
-            style={{
-              objectFit: 'contain',
-              width: '100%',
-              height: '100%',
-              borderRadius: '8px'
-            }}
+            style={{ objectFit: 'fill', width: '100%', height: '100%', borderRadius: '8px' }}
             loading="lazy"
             onError={(e) => {
               e.target.src = '/images/tra-phuong-hoang.webp';
@@ -111,9 +102,9 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           bg="white"
           border="2px solid #003366"
           borderRadius="full"
-          alignSelf="center"
           boxShadow="md"
           color="#003366"
+          alignSelf="center"
           _hover={{ bg: '#003366', color: 'white' }}
           onClick={handlePrev}
           size={{ base: 'xs', lg: 'xs' }}
@@ -161,9 +152,9 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           bg="white"
           border="2px solid #003366"
           borderRadius="full"
-          alignSelf="center"
           boxShadow="md"
           color="#003366"
+          alignSelf="center"
           _hover={{ bg: '#003366', color: 'white' }}
           onClick={handleNext}
           size={{ base: 'xs', lg: 'xs' }}
