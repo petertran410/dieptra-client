@@ -72,12 +72,10 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
         {categoryName}
       </Heading>
 
-      <Flex align="center" gap={{ base: '12px', lg: '20px' }}>
+      <Flex align="stretch" gap={{ base: '12px', lg: '20px' }}>
         <Box
-          w={{ base: '30%', lg: '26%' }}
-          h="100%"
+          w={{ base: '30%', lg: '24%' }}
           flexShrink={0}
-          // bgColor="#FFF"
           display="flex"
           alignItems="center"
           justifyContent="center"
@@ -87,15 +85,13 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           <Image
             src={categoryImage}
             alt={categoryName}
-            width={300}
-            height={300}
-            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+            width={500}
+            height={500}
+            style={{ objectFit: 'cover', width: '100%', height: '100%', borderRadius: '8px' }}
             loading="lazy"
             onError={(e) => {
               e.target.src = '/images/tra-phuong-hoang.webp';
             }}
-            borderRadius="8px"
-            p={4}
           />
         </Box>
 
@@ -113,7 +109,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           size={{ base: 'xs', lg: 'xs' }}
         />
 
-        <Box w={{ base: '60%', lg: '50%' }} h="100%" flexShrink={0} position="relative" overflow="hidden">
+        <Box w={{ base: '60%', lg: '64%' }} flexShrink={0} position="relative" overflow="hidden">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <MotionFlex
               key={currentIndex}
