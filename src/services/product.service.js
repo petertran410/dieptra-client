@@ -359,8 +359,9 @@ export const useQueryFeaturedByCategories = () => {
     queryKey: ['GET_FEATURED_BY_CATEGORIES'],
     queryFn: () =>
       API.request({
-        url: '/api/product/client/featured-by-root-categories'
+        url: '/api/product/client/featured-by-categories'
       }),
-    staleTime: 5 * 60 * 1000
+    staleTime: 5 * 60 * 1000,
+    cacheTime: 10 * 60 * 1000
   });
 };

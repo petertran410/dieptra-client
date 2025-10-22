@@ -103,6 +103,7 @@ const ProductItemHome = ({ item }) => {
               WebkitBoxOrient: 'vertical',
               overflow: 'hidden'
             }}
+            align="center"
           >
             {showName}
           </Text>

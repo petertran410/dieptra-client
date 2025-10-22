@@ -19,7 +19,7 @@ const HomeIntro = () => {
       bgGradient="linear(to-b, #a3dcf3 0%, #FFF 50%, #FFF 100%)"
     >
       <Flex flex={1 / 2} direction="column" pos="relative" zIndex={10} pl={{ xs: '4px', lg: 0 }}>
-        <Text
+        {/* <Text
           as="h1"
           className={`${fontGaramond.className} eb-garamond-font`}
           fontWeight={500}
@@ -34,14 +34,15 @@ const HomeIntro = () => {
         <Text display={{ xs: 'none', lg: 'block' }} mt="24px" fontSize={18} lineHeight="22px" textAlign="justify">
           Trà Việt Nam, với hương vị đặc trưng và phong phú, là một phần quan trọng trong văn hóa ẩm thực của đất nước.
           Nổi bật nhất là trà xanh, trà ô long và trà đen, mỗi loại đều mang đến những trải nghiệm khác nhau.
-        </Text>
+        </Text> */}
 
         <Flex
           direction={{ xs: 'column', lg: 'row' }}
           justify={{ xs: 'center', lg: 'flex-start' }}
-          mt="24px"
+          mt="500px"
           gap={{ xs: '12px', lg: '24px' }}
           align="center"
+          // lineHeight={{ xs: '33px', lg: '300px', xl: '300px' }}
         >
           <ButtonContactIntro />
 
@@ -68,7 +69,7 @@ const HomeIntro = () => {
         </Flex>
       </Flex>
 
-      <Flex flex={1 / 2} justify="flex-end" pos="relative" zIndex={10}>
+      {/* <Flex flex={1 / 2} justify="flex-end" pos="relative" zIndex={10}>
         <Flex
           direction="column"
           pos="relative"
@@ -125,14 +126,25 @@ const HomeIntro = () => {
             zIndex={1}
           />
         </Flex>
-      </Flex>
+      </Flex> */}
 
-      <Image
+      {/* <Image
         src="/images/bg-intro-home.webp"
         alt={IMG_ALT}
         w="full"
         h="auto"
         fit="cover"
+        pos="absolute"
+        bottom={0}
+        left={0}
+      /> */}
+
+      <Image
+        src="/images/dieptra-main.webp"
+        alt={IMG_ALT}
+        w="full"
+        h="auto"
+        fit={{ lg: 'full', xs: 'cover', md: 'cover' }}
         pos="absolute"
         bottom={0}
         left={0}

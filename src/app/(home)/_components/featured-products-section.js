@@ -1,54 +1,65 @@
 'use client';
 
-import { Box, Flex, Heading } from '@chakra-ui/react';
-import { useEffect, useRef, useState } from 'react';
+import { Box, Flex, Heading, IconButton } from '@chakra-ui/react';
+import { useState } from 'react';
+import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
+import { motion, AnimatePresence } from 'framer-motion';
 import ProductItemHome from '../../../components/product-item/product-item-home';
 
+const MotionFlex = motion(Flex);
+
 const FeaturedProductsSection = ({ categoryName, products }) => {
-  const containerRef = useRef(null);
-  const scrollPositionRef = useRef(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const animationFrameRef = useRef(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [direction, setDirection] = useState(0);
+  const itemsPerPage = 3;
+  const totalPages = Math.ceil(products.length / itemsPerPage);
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container || products.length === 0) return;
-
-    const scrollSpeed = 0.7;
-    const itemWidth = 280 + 24;
-    const totalWidth = products.length * itemWidth;
-
-    const animate = () => {
-      if (!isPaused) {
-        scrollPositionRef.current += scrollSpeed;
-
-        if (scrollPositionRef.current >= totalWidth) {
-          scrollPositionRef.current = 0;
-        }
-
-        if (container.firstChild) {
-          container.firstChild.style.transform = `translateX(-${scrollPositionRef.current}px)`;
-        }
+  const handlePrev = () => {
+    setDirection(-1);
+    setCurrentIndex((prev) => {
+      if (prev === 0) {
+        return totalPages - 1;
       }
+      return prev - 1;
+    });
+  };
 
-      animationFrameRef.current = requestAnimationFrame(animate);
-    };
-
-    animationFrameRef.current = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
+  const handleNext = () => {
+    setDirection(1);
+    setCurrentIndex((prev) => {
+      if (prev >= totalPages - 1) {
+        return 0;
       }
-    };
-  }, [products, isPaused]);
+      return prev + 1;
+    });
+  };
 
   if (products.length === 0) return null;
 
-  const tripleProducts = [...products, ...products, ...products];
+  const startIndex = currentIndex * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayProducts = products.slice(startIndex, endIndex);
+
+  const variants = {
+    enter: (direction) => ({
+      x: direction > 0 ? 300 : -300,
+      opacity: 0,
+      scale: 0.9
+    }),
+    center: {
+      x: 0,
+      opacity: 1,
+      scale: 1
+    },
+    exit: (direction) => ({
+      x: direction > 0 ? -300 : 300,
+      opacity: 0,
+      scale: 0.9
+    })
+  };
 
   return (
-    <Box py={{ base: '24px', lg: '40px' }}>
+    <Box py={{ base: '24px', lg: '40px' }} position="relative">
       <Heading
         as="h2"
         fontSize={{ base: '24px', lg: '32px' }}
@@ -60,24 +71,97 @@ const FeaturedProductsSection = ({ categoryName, products }) => {
         {categoryName}
       </Heading>
 
-      <Box
-        ref={containerRef}
-        overflow="hidden"
-        position="relative"
-        onMouseEnter={() => setIsPaused(true)}
-        onMouseLeave={() => setIsPaused(false)}
-      >
-        <Flex gap="24px" w="max-content" transition="none" style={{ willChange: 'transform' }}>
-          {tripleProducts.map((product, index) => {
-            console.log(product);
-            return (
-              <Box key={`${product.id}-${index}`} minW="280px" maxW="280px" flexShrink={0}>
-                <ProductItemHome item={product} />
-              </Box>
-            );
-          })}
-        </Flex>
+      <Box position="relative" px={{ base: '40px', lg: '60px' }}>
+        <IconButton
+          icon={<ChevronLeftIcon boxSize={8} />}
+          aria-label="Previous products"
+          position="absolute"
+          left={{ base: '-10px', lg: '0' }}
+          top="50%"
+          transform="translateY(-50%)"
+          zIndex={2}
+          bg="white"
+          border="2px solid #003366"
+          borderRadius="full"
+          boxShadow="md"
+          color="#003366"
+          _hover={{ bg: '#003366', color: 'white' }}
+          onClick={handlePrev}
+          size={{ base: 'md', lg: 'lg' }}
+        />
+
+        <Box position="relative" minH="500px">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <MotionFlex
+              key={currentIndex}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: 'spring', stiffness: 300, damping: 30 },
+                opacity: { duration: 0.3 },
+                scale: { duration: 0.3 }
+              }}
+              gap={{ base: '16px', lg: '24px' }}
+              justify="center"
+              align="stretch"
+              w="100%"
+            >
+              {displayProducts.map((product) => (
+                <Box
+                  key={product.id}
+                  flex="1"
+                  minW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
+                  maxW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
+                >
+                  <ProductItemHome item={product} />
+                </Box>
+              ))}
+            </MotionFlex>
+          </AnimatePresence>
+        </Box>
+
+        <IconButton
+          icon={<ChevronRightIcon boxSize={8} />}
+          aria-label="Next products"
+          position="absolute"
+          right={{ base: '-10px', lg: '0' }}
+          top="50%"
+          transform="translateY(-50%)"
+          zIndex={2}
+          bg="white"
+          border="2px solid #003366"
+          borderRadius="full"
+          boxShadow="md"
+          color="#003366"
+          _hover={{ bg: '#003366', color: 'white' }}
+          onClick={handleNext}
+          size={{ base: 'md', lg: 'lg' }}
+        />
       </Box>
+
+      {totalPages > 1 && (
+        <Flex justify="center" gap={2} mt={6}>
+          {Array.from({ length: totalPages }).map((_, idx) => (
+            <Box
+              key={idx}
+              w="10px"
+              h="10px"
+              borderRadius="full"
+              bg={idx === currentIndex ? '#003366' : '#d1d5db'}
+              cursor="pointer"
+              transition="all 0.3s"
+              onClick={() => {
+                setDirection(idx > currentIndex ? 1 : -1);
+                setCurrentIndex(idx);
+              }}
+              _hover={{ bg: '#003366' }}
+            />
+          ))}
+        </Flex>
+      )}
     </Box>
   );
 };
