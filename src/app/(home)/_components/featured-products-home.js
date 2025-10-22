@@ -20,13 +20,16 @@ const FeaturedProductsHome = () => {
 
   return (
     <Box bgColor="#f8f9fa" px={PX_ALL} py={{ base: '20px', lg: '40px' }}>
-      {categoriesData.map((category) => (
-        <FeaturedProductsSection
-          key={category.categoryId}
-          categoryName={category.categoryName}
-          products={category.products}
-        />
-      ))}
+      {categoriesData.map((category) => {
+        return (
+          <FeaturedProductsSection
+            key={category.categoryId}
+            categoryName={category.categoryName}
+            categoryImage={category.categoryImage}
+            products={category.products}
+          />
+        );
+      })}
     </Box>
   );
 };

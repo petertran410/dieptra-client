@@ -1,14 +1,15 @@
 'use client';
 
-import { Box, Flex, Heading, IconButton } from '@chakra-ui/react';
+import { AspectRatio, Box, Flex, Heading, IconButton } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductItemHome from '../../../components/product-item/product-item-home';
+import Image from 'next/image';
 
 const MotionFlex = motion(Flex);
 
-const FeaturedProductsSection = ({ categoryName, products }) => {
+const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const itemsPerPage = 3;
@@ -58,6 +59,14 @@ const FeaturedProductsSection = ({ categoryName, products }) => {
     })
   };
 
+  const getProductImage = () => {
+    if (Array.isArray(categoryImage) && categoryImage.length > 0) {
+      return categoryImage;
+    } else {
+      return '/images/tra-phuong-hoang.webp';
+    }
+  };
+
   return (
     <Box py={{ base: '24px', lg: '40px' }} position="relative">
       <Heading
@@ -89,7 +98,36 @@ const FeaturedProductsSection = ({ categoryName, products }) => {
           onClick={handlePrev}
           size={{ base: 'md', lg: 'lg' }}
         />
-
+        <AspectRatio ratio={1 / 1} w="full">
+          <Box
+            w="full"
+            h="full"
+            bgColor="#FFF"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            overflow="hidden"
+          >
+            <Image
+              // src={
+              //   Array.isArray(imagesUrl) && imagesUrl.length > 0
+              //     ? imagesUrl.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
+              //     : kiotviet_images[0]?.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
+              // }
+              src={categoryImage}
+              alt={categoryName || IMG_ALT}
+              maxW="full"
+              maxH="full"
+              width={100}
+              height={100}
+              objectFit="contain"
+              loading="lazy"
+              onError={(e) => {
+                e.target.src = '/images/tra-phuong-hoang.webp';
+              }}
+            />
+          </Box>
+        </AspectRatio>
         <Box position="relative" minH="500px">
           <AnimatePresence initial={false} custom={direction} mode="wait">
             <MotionFlex
