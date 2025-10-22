@@ -68,7 +68,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
   };
 
   return (
-    <Box py={{ base: '24px', lg: '40px' }} position="relative">
+    <Box py={{ base: '24px', lg: '40px' }}>
       <Heading
         as="h2"
         fontSize={{ base: '24px', lg: '32px' }}
@@ -79,24 +79,25 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
       >
         {categoryName}
       </Heading>
-      <Flex>
+
+      <Flex align="center" gap={{ base: '12px', lg: '20px' }} h={{ base: '400px', lg: '500px' }}>
         <Box
-          w="20%"
-          h="50%"
+          w={{ base: '120px', lg: '180px' }}
+          h="100%"
+          flexShrink={0}
           bgColor="#FFF"
           display="flex"
           alignItems="center"
           justifyContent="center"
           overflow="hidden"
+          borderRadius="8px"
         >
           <Image
             src={categoryImage}
-            alt={categoryName || IMG_ALT}
-            maxW="full"
-            maxH="full"
-            width={100}
-            height={100}
-            objectFit="contain"
+            alt={categoryName}
+            width={180}
+            height={180}
+            style={{ objectFit: 'contain', maxWidth: '100%', maxHeight: '100%' }}
             loading="lazy"
             onError={(e) => {
               e.target.src = '/images/tra-phuong-hoang.webp';
@@ -104,76 +105,68 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           />
         </Box>
 
-        <Box position="relative" px={{ base: '40px', lg: '60px' }}>
-          <IconButton
-            icon={<ChevronLeftIcon boxSize={8} />}
-            aria-label="Previous products"
-            position="absolute"
-            left={{ base: '-10px', lg: '0' }}
-            top="50%"
-            transform="translateY(-50%)"
-            zIndex={2}
-            bg="white"
-            border="2px solid #003366"
-            borderRadius="full"
-            boxShadow="md"
-            color="#003366"
-            _hover={{ bg: '#003366', color: 'white' }}
-            onClick={handlePrev}
-            size={{ base: 'md', lg: 'lg' }}
-          />
+        <IconButton
+          icon={<ChevronLeftIcon boxSize={8} />}
+          aria-label="Previous products"
+          flexShrink={0}
+          bg="white"
+          border="2px solid #003366"
+          borderRadius="full"
+          boxShadow="md"
+          color="#003366"
+          _hover={{ bg: '#003366', color: 'white' }}
+          onClick={handlePrev}
+          size={{ base: 'md', lg: 'lg' }}
+        />
 
-          <Box position="relative" minH="500px">
-            <AnimatePresence initial={false} custom={direction} mode="wait">
-              <MotionFlex
-                key={currentIndex}
-                custom={direction}
-                variants={variants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={{
-                  x: { type: 'spring', stiffness: 300, damping: 30 },
-                  opacity: { duration: 0.3 },
-                  scale: { duration: 0.3 }
-                }}
-                gap={{ base: '16px', lg: '24px' }}
-                justify="center"
-                align="stretch"
-                w="100%"
-              >
-                {displayProducts.map((product) => (
-                  <Box
-                    key={product.id}
-                    flex="1"
-                    minW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
-                    maxW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
-                  >
-                    <ProductItemHome item={product} />
-                  </Box>
-                ))}
-              </MotionFlex>
-            </AnimatePresence>
-          </Box>
-
-          <IconButton
-            icon={<ChevronRightIcon boxSize={8} />}
-            aria-label="Next products"
-            position="absolute"
-            right={{ base: '-10px', lg: '0' }}
-            top="50%"
-            transform="translateY(-50%)"
-            zIndex={2}
-            bg="white"
-            border="2px solid #003366"
-            borderRadius="full"
-            boxShadow="md"
-            color="#003366"
-            _hover={{ bg: '#003366', color: 'white' }}
-            onClick={handleNext}
-            size={{ base: 'md', lg: 'lg' }}
-          />
+        <Box flex="1" h="100%" position="relative" overflow="hidden">
+          <AnimatePresence initial={false} custom={direction} mode="wait">
+            <MotionFlex
+              key={currentIndex}
+              custom={direction}
+              variants={variants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{
+                x: { type: 'spring', stiffness: 300, damping: 30 },
+                opacity: { duration: 0.3 },
+                scale: { duration: 0.3 }
+              }}
+              gap={{ base: '16px', lg: '24px' }}
+              justify="center"
+              align="stretch"
+              w="100%"
+              h="100%"
+            >
+              {displayProducts.map((product) => (
+                <Box
+                  key={product.id}
+                  flex="1"
+                  minW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
+                  maxW={{ base: 'calc(33.33% - 11px)', lg: 'calc(33.33% - 16px)' }}
+                  h="100%"
+                >
+                  <ProductItemHome item={product} />
+                </Box>
+              ))}
+            </MotionFlex>
+          </AnimatePresence>
         </Box>
+
+        <IconButton
+          icon={<ChevronRightIcon boxSize={8} />}
+          aria-label="Next products"
+          flexShrink={0}
+          bg="white"
+          border="2px solid #003366"
+          borderRadius="full"
+          boxShadow="md"
+          color="#003366"
+          _hover={{ bg: '#003366', color: 'white' }}
+          onClick={handleNext}
+          size={{ base: 'md', lg: 'lg' }}
+        />
       </Flex>
 
       {totalPages > 1 && (
