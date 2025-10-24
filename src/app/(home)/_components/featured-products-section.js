@@ -78,12 +78,12 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
       <Flex direction={{ base: 'column', lg: 'row' }} align="stretch" gap={{ base: '16px', lg: '20px' }}>
         {/* Image Section */}
         <Box
-          w={{ base: '308px', lg: '24%' }}
-          h={{ base: '292px', lg: 'auto' }}
+          w={{ xs: '300px', lg: '350px' }}
+          h={{ xs: '343px', lg: '400px' }}
           flexShrink={0}
           display="flex"
           alignItems="center"
-          alignSelf="center"
+          alignSelf={{ xs: 'center', md: 'stretch', lg: 'stretch' }}
           justifyContent="center"
           overflow="hidden"
           borderRadius="8px"
@@ -120,7 +120,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
             h={{ base: '24px', lg: '32px' }}
           />
 
-          <Box flex={1} position="relative" overflow="hidden" minW={0}>
+          <Box flex={1} position="relative" overflow="hidden" minW={0} h={{ xs: '343px', lg: 'auto' }}>
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <MotionFlex
                 key={currentIndex}

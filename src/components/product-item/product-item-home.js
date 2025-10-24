@@ -24,10 +24,10 @@ const ProductItemHome = ({ item }) => {
 
   return (
     <Box
-      w="100%"
-      maxW="320px"
+      w={{ xs: '100%', lg: '260px' }}
+      // maxW="320px"
       mx="auto"
-      h="100%"
+      h={{ xs: '343px', lg: '400px' }}
       borderRadius={16}
       bgColor="#FFF"
       overflow="hidden"
@@ -41,29 +41,26 @@ const ProductItemHome = ({ item }) => {
       position="relative"
     >
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
-        <AspectRatio ratio={1 / 1} w="full">
-          <Box
+        <Box
+          w={{ lg: '260px' }}
+          h={{ xs: '180px', lg: '260px' }}
+          bgColor="#FFF"
+          display="flex"
+          // alignItems="center"
+          // justifyContent="center"
+          overflow="hidden"
+        >
+          <Image
+            src={getProductImage()}
+            alt={title || IMG_ALT}
+            // objectFit={{ base: 'fill', lg: 'fill' }}
             w="full"
-            h="full"
-            bgColor="#FFF"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            overflow="hidden"
-          >
-            <Image
-              src={getProductImage()}
-              alt={title || IMG_ALT}
-              maxW="full"
-              maxH="full"
-              // objectFit={{ base: 'fill', lg: 'fill' }}
-              loading="lazy"
-              onError={(e) => {
-                e.target.src = '/images/tra-phuong-hoang.webp';
-              }}
-            />
-          </Box>
-        </AspectRatio>
+            loading="lazy"
+            onError={(e) => {
+              e.target.src = '/images/tra-phuong-hoang.webp';
+            }}
+          />
+        </Box>
 
         <Flex direction="column" p="12px" gap="6px">
           <Text
