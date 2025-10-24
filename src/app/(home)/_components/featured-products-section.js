@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Heading, IconButton } from '@chakra-ui/react';
+import { Box, Flex, Heading, IconButton, useBreakpointValue } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -12,7 +12,8 @@ const MotionFlex = motion(Flex);
 const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
-  const itemsPerPage = 3;
+
+  const itemsPerPage = useBreakpointValue({ base: 2, lg: 3 }) || 3;
   const totalPages = Math.ceil(products.length / itemsPerPage);
 
   const handlePrev = () => {
@@ -74,12 +75,15 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
         {categoryName}
       </Heading>
 
-      <Flex align="stretch" gap={{ base: '12px', lg: '20px' }}>
+      <Flex direction={{ base: 'column', lg: 'row' }} align="stretch" gap={{ base: '16px', lg: '20px' }}>
+        {/* Image Section */}
         <Box
-          w={{ base: '30%', lg: '24%' }}
+          w={{ base: '308px', lg: '24%' }}
+          h={{ base: '292px', lg: 'auto' }}
           flexShrink={0}
           display="flex"
           alignItems="center"
+          alignSelf="center"
           justifyContent="center"
           overflow="hidden"
           borderRadius="8px"
@@ -97,70 +101,77 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           />
         </Box>
 
-        <IconButton
-          icon={<ChevronLeftIcon />}
-          aria-label="Previous products"
-          flexShrink={0}
-          bg="white"
-          border="2px solid #003366"
-          borderRadius="full"
-          boxShadow="md"
-          color="#003366"
-          alignSelf="center"
-          _hover={{ bg: '#003366', color: 'white' }}
-          onClick={handlePrev}
-          size={{ base: 'xs', lg: 'xs' }}
-        />
+        {/* Navigation & Products Container */}
+        <Flex align="stretch" gap={{ base: '8px', lg: '20px' }} flex={1} overflow="hidden">
+          <IconButton
+            icon={<ChevronLeftIcon />}
+            aria-label="Previous products"
+            flexShrink={0}
+            bg="white"
+            border="2px solid #003366"
+            borderRadius="full"
+            boxShadow="md"
+            color="#003366"
+            alignSelf="center"
+            _hover={{ bg: '#003366', color: 'white' }}
+            onClick={handlePrev}
+            size="xs"
+            minW={{ base: '24px', lg: '32px' }}
+            h={{ base: '24px', lg: '32px' }}
+          />
 
-        <Box w={{ base: '60%', lg: '64%' }} flexShrink={0} position="relative" overflow="hidden">
-          <AnimatePresence initial={false} custom={direction} mode="wait">
-            <MotionFlex
-              key={currentIndex}
-              custom={direction}
-              variants={variants}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={{
-                x: { type: 'spring', stiffness: 300, damping: 30 },
-                opacity: { duration: 0.3 },
-                scale: { duration: 0.3 }
-              }}
-              gap={{ base: '12px', lg: '16px' }}
-              justify="center"
-              align="stretch"
-              w="100%"
-              h="100%"
-            >
-              {displayProducts.map((product) => (
-                <Box
-                  key={product.id}
-                  flex="1"
-                  minW={{ base: 'calc(33.33% - 8px)', lg: 'calc(33.33% - 11px)' }}
-                  maxW={{ base: 'calc(33.33% - 8px)', lg: 'calc(33.33% - 11px)' }}
-                  h="100%"
-                >
-                  <ProductItemHome item={product} />
-                </Box>
-              ))}
-            </MotionFlex>
-          </AnimatePresence>
-        </Box>
+          <Box flex={1} position="relative" overflow="hidden" minW={0}>
+            <AnimatePresence initial={false} custom={direction} mode="wait">
+              <MotionFlex
+                key={currentIndex}
+                custom={direction}
+                variants={variants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{
+                  x: { type: 'spring', stiffness: 300, damping: 30 },
+                  opacity: { duration: 0.3 },
+                  scale: { duration: 0.3 }
+                }}
+                gap={{ base: '8px', lg: '16px' }}
+                justify="center"
+                align="stretch"
+                w="100%"
+                h="100%"
+              >
+                {displayProducts.map((product) => (
+                  <Box
+                    key={product.id}
+                    flex="1"
+                    minW={0}
+                    maxW={{ base: 'calc(50% - 4px)', lg: 'calc(33.33% - 11px)' }}
+                    h="100%"
+                  >
+                    <ProductItemHome item={product} />
+                  </Box>
+                ))}
+              </MotionFlex>
+            </AnimatePresence>
+          </Box>
 
-        <IconButton
-          icon={<ChevronRightIcon />}
-          aria-label="Next products"
-          flexShrink={0}
-          bg="white"
-          border="2px solid #003366"
-          borderRadius="full"
-          boxShadow="md"
-          color="#003366"
-          alignSelf="center"
-          _hover={{ bg: '#003366', color: 'white' }}
-          onClick={handleNext}
-          size={{ base: 'xs', lg: 'xs' }}
-        />
+          <IconButton
+            icon={<ChevronRightIcon />}
+            aria-label="Next products"
+            flexShrink={0}
+            bg="white"
+            border="2px solid #003366"
+            borderRadius="full"
+            boxShadow="md"
+            color="#003366"
+            alignSelf="center"
+            _hover={{ bg: '#003366', color: 'white' }}
+            onClick={handleNext}
+            size="xs"
+            minW={{ base: '24px', lg: '32px' }}
+            h={{ base: '24px', lg: '32px' }}
+          />
+        </Flex>
       </Flex>
 
       {totalPages > 1 && (
