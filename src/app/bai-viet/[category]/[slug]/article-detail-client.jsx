@@ -340,7 +340,22 @@ const ArticleDetailClient = ({ params, categoryData }) => {
     disambiguatingDescription: title,
     mainEntityOfPage: `${process.env.NEXT_PUBLIC_API_DOMAIN}/bai-viet/${category}/${slug}`,
     image: imagesUrl || [],
-    thumbnailUrl: imagesUrl?.[0]?.replace('http://', 'https://') || '',
+    thumbnailUrl: imagesUrl?.[0]?.replace('http://', 'https://') || '', // ✅ SỬA DÒNG NÀY
+    datePublished: createdDate || new Date().toISOString(),
+    dateModified: createdDate || new Date().toISOString(),
+    author: {
+      '@type': 'Organization',
+      name: 'Diệp Trà',
+      url: process.env.NEXT_PUBLIC_DOMAIN
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Diệp Trà',
+      logo: {
+        '@type': 'ImageObject',
+        url: `${process.env.NEXT_PUBLIC_DOMAIN}/images/logo.png`
+      }
+    },
     articleBody: description || '',
     genre: title,
     creativeWorkStatus: 'Published'

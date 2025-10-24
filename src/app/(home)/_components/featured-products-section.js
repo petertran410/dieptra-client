@@ -41,6 +41,8 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
   const endIndex = startIndex + itemsPerPage;
   const displayProducts = products.slice(startIndex, endIndex);
 
+  const imageSrc = categoryImage || '/images/tra-phuong-hoang.webp';
+
   const variants = {
     enter: (direction) => ({
       x: direction > 0 ? 300 : -300,
@@ -83,7 +85,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           borderRadius="8px"
         >
           <Image
-            src={categoryImage}
+            src={imageSrc}
             alt={categoryName}
             width={500}
             height={500}
