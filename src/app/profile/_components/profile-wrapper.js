@@ -382,7 +382,7 @@ const ProfileWrapper = () => {
 
                       <FormControl>
                         <FormLabel fontSize="xl">Địa chỉ chi tiết</FormLabel>
-                        <Textarea
+                        <Input
                           defaultValue={user.detailed_address}
                           onChange={handleInputChange('detailed_address')}
                           placeholder="Số nhà, tên đường, ngõ/hẻm..."
