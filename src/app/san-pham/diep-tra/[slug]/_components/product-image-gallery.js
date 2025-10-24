@@ -48,21 +48,13 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
   return (
     <VStack spacing={4}>
       <AspectRatio ratio={1} w="full" maxW="500px">
-        <Box
-          // bg="gray.100"
-          borderRadius="lg"
-          overflow="hidden"
-          // border="1px solid #E2E8F0"
-          position="relative"
-          cursor="pointer"
-          onClick={onOpen}
-        >
+        <Box borderRadius="lg" overflow="hidden" position="relative" cursor="pointer" onClick={onOpen}>
           <Image
             src={currentImage}
             alt={`${title} - Ảnh ${selectedImageIndex + 1}`}
             w="full"
             h="full"
-            objectFit="cover"
+            style={{ objectFit: 'fill' }}
             fallbackSrc="/images/placeholder-product.webp"
           />
 

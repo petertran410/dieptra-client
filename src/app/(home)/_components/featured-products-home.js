@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { useQueryFeaturedByCategories } from '../../../services/product.service';
 import { PX_ALL } from '../../../utils/const';
 import FeaturedProductsSection from './featured-products-section';
@@ -26,6 +26,7 @@ const FeaturedProductsHome = () => {
             key={category.categoryId}
             categoryName={category.categoryName}
             categoryImage={category.categoryImage}
+            categorySlugPath={category.categorySlugPath}
             products={category.products}
           />
         );

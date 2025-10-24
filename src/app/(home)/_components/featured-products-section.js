@@ -1,15 +1,16 @@
 'use client';
 
-import { Box, Flex, Heading, IconButton, useBreakpointValue } from '@chakra-ui/react';
+import { Box, Flex, Heading, IconButton, Button, useBreakpointValue } from '@chakra-ui/react';
 import { useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { motion, AnimatePresence } from 'framer-motion';
 import ProductItemHome from '../../../components/product-item/product-item-home';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const MotionFlex = motion(Flex);
 
-const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
+const FeaturedProductsSection = ({ categoryName, products, categoryImage, categorySlugPath }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
 
@@ -76,7 +77,6 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
       </Heading>
 
       <Flex direction={{ base: 'column', lg: 'row' }} align="stretch" gap={{ base: '16px', lg: '20px' }}>
-        {/* Image Section */}
         <Box
           w={{ xs: '300px', lg: '350px' }}
           h={{ xs: '343px', lg: '400px' }}
@@ -101,7 +101,6 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
           />
         </Box>
 
-        {/* Navigation & Products Container */}
         <Flex align="stretch" gap={{ base: '8px', lg: '20px' }} flex={1} overflow="hidden">
           <IconButton
             icon={<ChevronLeftIcon />}
@@ -192,6 +191,27 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage }) => {
               _hover={{ bg: '#003366' }}
             />
           ))}
+        </Flex>
+      )}
+      {categorySlugPath && (
+        <Flex justify="center" mt={6}>
+          <Link href={`/san-pham/${categorySlugPath}`}>
+            <Button
+              bgColor="transparent"
+              border="1px solid"
+              borderColor="#065FD4"
+              color="#065FD4"
+              w="120px"
+              h="40px"
+              fontSize={18}
+              borderRadius={8}
+              fontWeight={500}
+              transitionDuration="250ms"
+              _hover={{ bgColor: '#003366', borderColor: '#003366', color: '#FFF' }}
+            >
+              Xem thêm
+            </Button>
+          </Link>
         </Flex>
       )}
     </Box>
