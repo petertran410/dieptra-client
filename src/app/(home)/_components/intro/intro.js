@@ -5,10 +5,10 @@ import { EB_Garamond } from 'next/font/google';
 const HomeIntro = () => {
   return (
     <Flex
-      px={{ xs: '15px', md: '30px', lg: '160px', xl: '200px', '2xl': '250px' }}
+      // px={{ xs: '15px', md: '30px', lg: '160px', xl: '200px', '2xl': '250px' }}
       gap={{ xs: '36px', lg: '80px' }}
       align="center"
-      pt={{ xs: '100px', lg: '200px' }}
+      pt={{ xs: '200px', lg: '750px' }}
       pb={{ xs: '40px', lg: '100px' }}
       pos="relative"
       justify="space-between"
@@ -19,7 +19,8 @@ const HomeIntro = () => {
         alt={IMG_ALT}
         w="full"
         h="auto"
-        fit={{ lg: 'full', xs: 'cover', md: 'cover' }}
+        objectFit="contain"
+        objectPosition="bottom"
         pos="absolute"
         bottom={0}
         left={0}
