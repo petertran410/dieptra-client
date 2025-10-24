@@ -7,65 +7,93 @@ import {
   ModalContent,
   ModalHeader,
   ModalBody,
-  ModalFooter,
-  Button,
+  ModalCloseButton,
   FormControl,
   FormLabel,
   Input,
+  Button,
+  VStack,
   FormErrorMessage,
   Text
 } from '@chakra-ui/react';
+import Cookies from 'js-cookie';
+import { CK_CLIENT_TOKEN, CK_CLIENT_USER } from '../../../../utils/const';
 import { showToast } from '../../../../utils/helper';
 
 const API_URL = process.env.NEXT_PUBLIC_API_DOMAIN;
 
-export default function PhoneModal({ token, onSuccess }) {
+export default function PhoneModal({ tempToken, tempKey, onSuccess }) {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const validatePhone = (value) => {
-    const phoneRegex = /^(0[3|5|7|8|9])+([0-9]{8})$/;
-    return phoneRegex.test(value);
+    if (!value.trim()) {
+      return 'Số điện thoại không được để trống';
+    }
+    if (!/^0[0-9]{9}$/.test(value.replace(/\s/g, ''))) {
+      return 'Số điện thoại phải có 10 chữ số và bắt đầu bằng số 0';
+    }
+    return '';
   };
 
-  const handleSubmit = async () => {
-    if (!phone.trim()) {
-      setError('Số điện thoại không được để trống');
-      return;
-    }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    if (!validatePhone(phone)) {
-      setError('Số điện thoại không hợp lệ');
+    const validationError = validatePhone(phone);
+    if (validationError) {
+      setError(validationError);
       return;
     }
 
     setIsLoading(true);
+    setError('');
+
     try {
-      const response = await fetch(`${API_URL}/api/client-auth/update-phone`, {
+      const response = await fetch(`${API_URL}/api/client-auth/complete-oauth-registration`, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ phone })
+        credentials: 'include',
+        body: JSON.stringify({
+          tempKey: tempKey,
+          phone: phone.trim()
+        })
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const data = await response.json();
-        throw new Error(data.message || 'Cập nhật số điện thoại thất bại');
+        throw new Error(data.message || 'Không thể cập nhật số điện thoại');
       }
+
+      Cookies.set(CK_CLIENT_TOKEN, data.access_token, { expires: 7 });
+      Cookies.set(CK_CLIENT_USER, JSON.stringify(data.user), { expires: 7 });
 
       showToast({
         status: 'success',
-        content: 'Cập nhật số điện thoại thành công!'
+        content: 'Đăng ký thành công!'
       });
 
       onSuccess();
-    } catch (err) {
+    } catch (error) {
+      console.error('Phone submission error:', error);
+
+      let errorMessage = 'Có lỗi xảy ra. Vui lòng thử lại.';
+
+      if (error.message.includes('đã được sử dụng')) {
+        errorMessage = 'Số điện thoại này đã được đăng ký. Vui lòng sử dụng số khác.';
+      } else if (error.message.includes('KiotViet')) {
+        errorMessage = 'Số điện thoại đã tồn tại trên hệ thống. Vui lòng sử dụng số khác.';
+      } else if (error.message.includes('hết hạn')) {
+        errorMessage = 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.';
+      }
+
+      setError(errorMessage);
       showToast({
         status: 'error',
-        content: err.message || 'Có lỗi xảy ra, vui lòng thử lại'
+        content: errorMessage
       });
     } finally {
       setIsLoading(false);
@@ -73,33 +101,39 @@ export default function PhoneModal({ token, onSuccess }) {
   };
 
   return (
-    <Modal isOpen={true} onClose={() => {}} closeOnOverlayClick={false} isCentered>
+    <Modal isOpen={true} onClose={() => {}} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent mx="16px">
-        <ModalHeader>Cập nhật số điện thoại</ModalHeader>
-        <ModalBody>
-          <Text mb="16px" fontSize="14px" color="gray.600">
-            Vui lòng nhập số điện thoại để hoàn tất đăng ký
-          </Text>
-          <FormControl isInvalid={!!error}>
-            <FormLabel>Số điện thoại</FormLabel>
-            <Input
-              placeholder="Nhập số điện thoại"
-              value={phone}
-              onChange={(e) => {
-                setPhone(e.target.value);
-                setError('');
-              }}
-              maxLength={10}
-            />
-            <FormErrorMessage>{error}</FormErrorMessage>
-          </FormControl>
+        <ModalHeader>Hoàn tất đăng ký</ModalHeader>
+        <ModalCloseButton isDisabled={isLoading} />
+        <ModalBody pb={6}>
+          <form onSubmit={handleSubmit}>
+            <VStack spacing={4}>
+              <Text fontSize="sm" color="gray.600">
+                Để hoàn tất đăng ký, vui lòng nhập số điện thoại của bạn
+              </Text>
+
+              <FormControl isInvalid={!!error}>
+                <FormLabel>Số điện thoại</FormLabel>
+                <Input
+                  type="tel"
+                  placeholder="Nhập số điện thoại (VD: 0931566676)"
+                  value={phone}
+                  onChange={(e) => {
+                    setPhone(e.target.value);
+                    setError('');
+                  }}
+                  isDisabled={isLoading}
+                />
+                <FormErrorMessage>{error}</FormErrorMessage>
+              </FormControl>
+
+              <Button type="submit" colorScheme="blue" width="full" isLoading={isLoading} loadingText="Đang xử lý...">
+                Hoàn tất đăng ký
+              </Button>
+            </VStack>
+          </form>
         </ModalBody>
-        <ModalFooter>
-          <Button colorScheme="blue" w="full" onClick={handleSubmit} isLoading={isLoading}>
-            Xác nhận
-          </Button>
-        </ModalFooter>
       </ModalContent>
     </Modal>
   );

@@ -117,5 +117,24 @@ export const authService = {
       params: { email, code, new_password }
     });
     return response;
+  },
+
+  async completeOAuthRegistration(tempKey, phone) {
+    const response = await fetch(`${API_URL}/api/client-auth/complete-oauth-registration`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({ tempKey, phone })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Complete OAuth registration failed');
+    }
+
+    return data;
   }
 };

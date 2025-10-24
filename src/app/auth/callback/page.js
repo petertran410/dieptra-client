@@ -10,7 +10,8 @@ function AuthCallbackContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showPhoneModal, setShowPhoneModal] = useState(false);
-  const [token, setToken] = useState('');
+  const [tempToken, setTempToken] = useState('');
+  const [tempKey, setTempKey] = useState('');
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -18,6 +19,8 @@ function AuthCallbackContent() {
         const tokenParam = searchParams.get('token');
         const userParam = searchParams.get('user');
         const needsPhone = searchParams.get('needs_phone');
+        const isTemp = searchParams.get('is_temp');
+        const tempKeyParam = searchParams.get('temp_key');
 
         if (!tokenParam || !userParam) {
           router.push('/dang-nhap');
@@ -26,13 +29,14 @@ function AuthCallbackContent() {
 
         const user = JSON.parse(decodeURIComponent(userParam));
 
-        Cookies.set(CK_CLIENT_TOKEN, tokenParam, { expires: 7 });
-        Cookies.set(CK_CLIENT_USER, JSON.stringify(user), { expires: 7 });
-
-        if (needsPhone === 'true') {
-          setToken(tokenParam);
+        if (needsPhone === 'true' && isTemp === 'true' && tempKeyParam) {
+          setTempToken(tokenParam);
+          setTempKey(tempKeyParam);
           setShowPhoneModal(true);
         } else {
+          Cookies.set(CK_CLIENT_TOKEN, tokenParam, { expires: 7 });
+          Cookies.set(CK_CLIENT_USER, JSON.stringify(user), { expires: 7 });
+
           await new Promise((resolve) => setTimeout(resolve, 100));
           router.push('/');
         }
@@ -51,7 +55,7 @@ function AuthCallbackContent() {
   };
 
   if (showPhoneModal) {
-    return <PhoneModal token={token} onSuccess={handlePhoneSubmitted} />;
+    return <PhoneModal tempToken={tempToken} tempKey={tempKey} onSuccess={handlePhoneSubmitted} />;
   }
 
   return (
