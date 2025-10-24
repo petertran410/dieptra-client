@@ -80,7 +80,7 @@ export default function PhoneModal({ tempToken, tempKey, onSuccess }) {
     } catch (error) {
       console.error('Phone submission error:', error);
 
-      let errorMessage = 'Có lỗi xảy ra. Vui lòng thử lại.';
+      let errorMessage = 'Số điện thoại đã tồn tại.';
 
       if (error.message.includes('đã được sử dụng')) {
         errorMessage = 'Số điện thoại này đã được đăng ký. Vui lòng sử dụng số khác.';
