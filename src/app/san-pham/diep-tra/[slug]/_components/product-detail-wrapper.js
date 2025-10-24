@@ -161,7 +161,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                     </NumberInputStepper>
                   </NumberInput>
                   {price_on === false && (
-                    <Box flex="1" maxW="30%">
+                    <Box flex="1" maxW="35%">
                       <AddCart
                         price={price}
                         productSlug={slug}
@@ -172,7 +172,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                     </Box>
                   )}
 
-                  <Box flex="1" maxW="30%">
+                  <Box flex="1" maxW="35%">
                     <Link href="/lien-he">
                       <Button
                         size="lg"

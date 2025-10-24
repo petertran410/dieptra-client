@@ -77,7 +77,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
         loadingText="Đang thêm..."
         onClick={price ? onAddCart : () => setShowContact(true)}
       >
-        {price ? 'Thêm vào giỏ hàng' : 'Liên hệ'}
+        Thêm vào giỏ hàng
       </Button>
 
       <ModalContact open={showContact} onCloseModal={() => setShowContact(false)} defaultNote={title} />
