@@ -8,7 +8,7 @@ const HomeIntro = () => {
       // px={{ xs: '15px', md: '30px', lg: '160px', xl: '200px', '2xl': '250px' }}
       gap={{ xs: '36px', lg: '80px' }}
       align="center"
-      pt={{ xs: '200px', lg: '750px' }}
+      pt={{ xs: '200px', md: '450px', lg: '360px', xl: '750px' }}
       pb={{ xs: '40px', lg: '100px' }}
       pos="relative"
       justify="space-between"
