@@ -27,7 +27,7 @@ export default function Home() {
       <FeaturedProductsHome />
       <Feedback />
       <FeaturedArticle />
-      <HomeContact />
+      {/* <HomeContact /> */}
     </div>
   );
 }

@@ -13,7 +13,7 @@ const AboutUs = () => {
     >
       <Flex flex={1.1} direction="column" gap="16px">
         <Text as="h1" fontSize={26} fontWeight={600} color="#1E96BC">
-          Về Diệp Trà
+          Diệp Trà | Chuyên Cung Cấp Nguyên Liệu Pha Chế
         </Text>
         <Text fontSize={18} textAlign="justify">
           Diệp Trà - Thương hiệu trực thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, ra đời năm 2018 với sứ mệnh

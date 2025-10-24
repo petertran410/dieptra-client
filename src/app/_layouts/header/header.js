@@ -55,15 +55,15 @@ const Header = () => {
 
   const MENU_LIST = [
     {
-      title: 'Trang chủ',
+      title: 'Trang Chủ',
       href: '/'
     },
     {
-      title: 'Giới thiệu',
+      title: 'Giới Thiệu',
       href: '/gioi-thieu-diep-tra'
     },
     {
-      title: 'Sản phẩm',
+      title: 'Sản Phẩm',
       href: '/san-pham',
       hasDropdown: true,
       dropdownItems: productCategories
@@ -75,7 +75,11 @@ const Header = () => {
       dropdownItems: ARTICLE_SECTIONS
     },
     {
-      title: 'Tuyển dụng',
+      title: 'Liên Hệ',
+      href: '/lien-he'
+    },
+    {
+      title: 'Tuyển Dụng',
       href: '/tuyen-dung'
     }
   ];

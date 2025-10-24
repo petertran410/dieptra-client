@@ -44,7 +44,7 @@ const HomeIntro = () => {
           align="center"
           // lineHeight={{ xs: '33px', lg: '300px', xl: '300px' }}
         >
-          <ButtonContactIntro />
+          {/* <ButtonContactIntro />
 
           <Link href="/san-pham/nguyen-lieu-pha-che-lermao/mut-pha-che-lermao" target="_blank">
             <Flex
@@ -65,7 +65,7 @@ const HomeIntro = () => {
             >
               Sản Phẩm Lermao
             </Flex>
-          </Link>
+          </Link> */}
         </Flex>
       </Flex>
 
