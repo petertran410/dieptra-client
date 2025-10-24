@@ -150,14 +150,14 @@ const HomeIntro = () => {
         left={0}
       />
 
-      <Flex display={{ xs: 'none', lg: 'flex' }} align="center" pos="absolute" bottom="45px" right="40px" gap="12px">
+      {/* <Flex display={{ xs: 'none', lg: 'flex' }} align="center" pos="absolute" bottom="45px" right="40px" gap="12px">
         <Box w="100px" h="1px" bgColor="#1F445A" />
         <Text color="#1F445A" fontSize={18} fontWeight={500}>
           Thành lập từ 2018
         </Text>
-      </Flex>
+      </Flex> */}
 
-      <Flex
+      {/* <Flex
         display={{ xs: 'none', lg: 'flex' }}
         direction="column"
         justify="center"
@@ -179,8 +179,8 @@ const HomeIntro = () => {
         >
           Công ty TNHH Xuất nhập khẩu HI SWEETIE Việt Nam
         </Text>
-        <Box h="100px" w="1px" bgColor="#1F445A" />
-        {/* <Link href="/" target="_blank">
+        <Box h="100px" w="1px" bgColor="#1F445A" /> */}
+      {/* <Link href="/" target="_blank">
           <Image
             src="/images/facebook-black.webp"
             alt={IMG_ALT}
@@ -213,7 +213,7 @@ const HomeIntro = () => {
             _hover={{ transform: 'scale(1.1)' }}
           />
         </Link> */}
-      </Flex>
+      {/* </Flex> */}
     </Flex>
   );
 };

@@ -12,7 +12,7 @@ const AboutUs = () => {
       direction={{ xs: 'column', lg: 'row' }}
     >
       <Flex flex={1.1} direction="column" gap="16px">
-        <Text as="h2" fontSize={26} fontWeight={600} color="#1E96BC">
+        <Text as="h1" fontSize={26} fontWeight={600} color="#1E96BC">
           Về Diệp Trà
         </Text>
         <Text fontSize={18} textAlign="justify">
