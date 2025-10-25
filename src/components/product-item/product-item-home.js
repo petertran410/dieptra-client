@@ -24,8 +24,7 @@ const ProductItemHome = ({ item }) => {
 
   return (
     <Box
-      w={{ xs: '100%', lg: '260px' }}
-      // maxW="320px"
+      w={{ xl: 'auto', lg: '220px' }}
       mx="auto"
       h={{ xs: '343px', lg: '400px' }}
       borderRadius={16}
@@ -41,15 +40,7 @@ const ProductItemHome = ({ item }) => {
       position="relative"
     >
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
-        <Box
-          w={{ lg: '260px' }}
-          h={{ xs: '180px', lg: '260px' }}
-          bgColor="#FFF"
-          display="flex"
-          // alignItems="center"
-          // justifyContent="center"
-          overflow="hidden"
-        >
+        <Box w="auto" h={{ xs: '180px', lg: '260px' }} bgColor="#FFF" display="flex" overflow="hidden">
           <Image
             src={getProductImage()}
             alt={title || IMG_ALT}
