@@ -260,7 +260,7 @@ const CategorySidebar = ({ selectedCategory, selectedSubCategory, onSubCategoryS
 
   return (
     <Box
-      w="280px"
+      w={{ xs: '100%', sm: '100%', md: '280px', lg: '280px', xl: '280px', '2xl': '280px' }}
       bg="white"
       border="1px solid #E2E8F0"
       borderRadius="xl"

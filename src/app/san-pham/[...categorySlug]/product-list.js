@@ -547,7 +547,12 @@ const ProductList = ({ categorySlug = [] }) => {
 
         <Flex gap={6} align="flex-start" direction={{ base: 'column', lg: 'row' }}>
           {selectedCategory && selectedCategory !== 'all' && (
-            <Box display={{ base: 'column', lg: 'block' }} flexShrink={0}>
+            <Box
+              display={{ base: 'column', lg: 'block' }}
+              flexShrink={0}
+              alignSelf={{ xs: 'center', sm: 'center', md: 'normal', lg: 'normal' }}
+              w={{ xs: '100%', sm: '100%', md: 'auto', lg: 'auto' }}
+            >
               <CategorySidebar
                 selectedCategory={selectedCategory}
                 onSubCategorySelect={handleCategorySelect}
