@@ -10,7 +10,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 // Component cho related articles
 // const RelatedArticlesSection = ({ articleType, currentArticleId, category }) => {
@@ -116,7 +116,6 @@ const VideoEmbed = ({ embedUrl }) => {
   );
 };
 
-// Component cho sidebar latest articles
 const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
   const [latestArticles, setLatestArticles] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -127,16 +126,15 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
         const response = await API.request({
           url: '/api/news/client/get-all',
           params: {
-            pageSize: 7, // SỬA: Lấy 7 thay vì 3
+            pageSize: 7,
             pageNumber: 0,
             type: articleType
           }
         });
 
         const { content = [] } = response || {};
-        // Filter out current article
         const filtered = content.filter((article) => article.id !== currentArticleId);
-        setLatestArticles(filtered.slice(0, 6)); // SỬA: Lấy 6 thay vì 2
+        setLatestArticles(filtered.slice(0, 6));
       } catch (error) {
         console.error('Error fetching latest articles:', error);
       } finally {
@@ -216,7 +214,6 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
   );
 };
 
-// Helper function để tạo breadcrumb data
 const getBreadcrumbData = (categoryData, articleTitle) => {
   if (categoryData) {
     return [
@@ -227,7 +224,6 @@ const getBreadcrumbData = (categoryData, articleTitle) => {
     ];
   }
 
-  // Fallback
   return [
     { title: 'Trang chủ', href: '/' },
     { title: 'Bài Viết', href: '/bai-viet' },
@@ -235,20 +231,23 @@ const getBreadcrumbData = (categoryData, articleTitle) => {
   ];
 };
 
-// Main Client Component
 const ArticleDetailClient = ({ params, categoryData }) => {
   const { category, slug } = params;
   const [newsDetail, setNewsDetail] = useState(null);
   const [articleId, setArticleId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const hasIncrementedRef = useRef(false);
+
+  useEffect(() => {
+    hasIncrementedRef.current = false;
+  }, [slug]);
 
   useEffect(() => {
     const fetchArticleDetail = async () => {
       try {
         setLoading(true);
 
-        // Step 1: Tìm ID từ slug và type
         const idResponse = await API.request({
           url: '/api/news/client/find-id-by-slug',
           params: { slug, type: categoryData.type }
@@ -261,7 +260,6 @@ const ArticleDetailClient = ({ params, categoryData }) => {
 
         setArticleId(idResponse.id);
 
-        // Step 2: Lấy detail bằng ID
         const newsDetail = await API.request({
           url: `/api/news/client/${idResponse.id}`
         });
@@ -277,8 +275,26 @@ const ArticleDetailClient = ({ params, categoryData }) => {
         }
 
         setNewsDetail(newsDetail);
+
+        if (!hasIncrementedRef.current) {
+          hasIncrementedRef.current = true;
+
+          const incrementResult = await API.request({
+            url: `/api/news/client/increment-view/${idResponse.id}`,
+            method: 'POST'
+          });
+
+          if (incrementResult?.newView !== undefined) {
+            setNewsDetail((prev) => ({
+              ...prev,
+              viewCount: incrementResult.newView
+            }));
+          }
+        } else {
+          console.log('⏭️ Skip increment (already called)');
+        }
       } catch (error) {
-        console.error('Error fetching article:', error);
+        console.error('❌ Error:', error);
         setError('Failed to fetch article');
       } finally {
         setLoading(false);
@@ -287,6 +303,29 @@ const ArticleDetailClient = ({ params, categoryData }) => {
 
     fetchArticleDetail();
   }, [category, slug, categoryData]);
+
+  // const incrementViewWithTracking = async (articleId) => {
+  //   try {
+  //     const viewedArticles = JSON.parse(localStorage.getItem('viewedArticles') || '{}');
+  //     const articleKey = `article_${articleId}`;
+  //     const lastViewTime = viewedArticles[articleKey];
+  //     const now = Date.now();
+  //     const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+  //     if (!lastViewTime || now - lastViewTime > TWENTY_FOUR_HOURS) {
+  //       await API.request({
+  //         url: `/api/news/client/increment-view/${articleId}`,
+  //         method: 'POST'
+  //       });
+
+  //       // Lưu thời gian xem vào localStorage
+  //       viewedArticles[articleKey] = now;
+  //       localStorage.setItem('viewedArticles', JSON.stringify(viewedArticles));
+  //     }
+  //   } catch (error) {
+  //     console.error('Error incrementing view:', error);
+  //   }
+  // };
 
   if (loading) {
     return (

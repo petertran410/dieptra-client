@@ -41,7 +41,6 @@ export async function generateMetadata({ params }) {
     }
 
     const data = await response.json();
-    console.log(data);
 
     const { title: titleData, title_meta, imagesUrl, description } = data || {};
     const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
