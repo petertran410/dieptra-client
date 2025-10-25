@@ -35,15 +35,20 @@ const ProductItemHome = ({ item }) => {
         boxShadow: '0 4px 12px rgba(13,102,191,0.5)'
       }}
       position="relative"
-      h={{ md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
+      h={{ xs: '300px', md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
       w={{ md: '190px', lg: '200px', xl: '220px', '2xl': '270px' }}
     >
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
-        <Box display="flex" overflow="hidden" bgColor="#FFF" mb={{ md: '8px', lg: '8px', xl: '10px', '2xl': '25px' }}>
+        <Box
+          display="flex"
+          overflow="hidden"
+          bgColor="#FFF"
+          mb={{ xs: '8px', md: '8px', lg: '8px', xl: '10px', '2xl': '25px' }}
+        >
           <Image
             src={getProductImage()}
             alt={title || IMG_ALT}
-            h={{ md: '170px', lg: '170px', xl: '200px', '2xl': '250px' }}
+            h={{ xs: '170px', md: '170px', lg: '170px', xl: '200px', '2xl': '250px' }}
             w="100%"
             loading="lazy"
             onError={(e) => {

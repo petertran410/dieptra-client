@@ -66,7 +66,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
   return (
     <Box
       py={{ base: '24px', lg: '40px' }}
-      w={{ xs: '100%', s: '100%', md: '800px', lg: '900px', xl: '1100px', '2xl': '1400px' }}
+      w={{ xs: '100%', md: '800px', lg: '900px', xl: '1100px', '2xl': '1400px' }}
       align="center"
     >
       <Heading
@@ -81,13 +81,13 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
       </Heading>
 
       <Flex
-        direction={{ xs: 'column', s: 'column', md: 'row', lg: 'row', xl: 'row', '2xl': 'row' }}
+        direction={{ xs: 'column', md: 'row', lg: 'row', xl: 'row', '2xl': 'row' }}
         align="stretch"
         gap={{ base: '16px', lg: '20px' }}
       >
         <Box
-          w={{ xs: '100%', s: '100%', md: '250px', lg: '250px', xl: '250px', '2xl': '350px' }}
-          h={{ xs: '120px', s: '250px', md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
+          w={{ xs: '308px', md: '250px', lg: '250px', xl: '250px', '2xl': '350px' }}
+          h={{ xs: '320px', md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
           flexShrink={0}
           display="flex"
           alignItems="center"
@@ -114,7 +114,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
           gap={{ base: '8px', lg: '10px', xl: '20px' }}
           flex={1}
           overflow="hidden"
-          h={{ xs: '343px', lg: '300px', xl: '330px', '2xl': '400px' }}
+          h={{ xs: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
         >
           <IconButton
             icon={<ChevronLeftIcon />}
