@@ -66,7 +66,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
   return (
     <Box
       py={{ base: '24px', lg: '40px' }}
-      w={{ xs: '100%', md: '800px', lg: '900px', xl: '1100px', '2xl': '1400px' }}
+      w={{ xs: '100%', md: '750px', lg: '800px', xl: '1100px', '2xl': '1400px' }}
       align="center"
     >
       <Heading
@@ -81,13 +81,13 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
       </Heading>
 
       <Flex
-        direction={{ xs: 'column', md: 'row', lg: 'row', xl: 'row', '2xl': 'row' }}
+        direction={{ xs: 'column', sm: 'column', md: 'row', lg: 'row', xl: 'row', '2xl': 'row' }}
         align="stretch"
         gap={{ base: '16px', lg: '20px' }}
       >
         <Box
-          w={{ xs: '308px', md: '250px', lg: '250px', xl: '250px', '2xl': '350px' }}
-          h={{ xs: '320px', md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
+          w={{ xs: '308px', sm: '308px', md: '250px', lg: '250px', xl: '250px', '2xl': '350px' }}
+          h={{ xs: '320px', sm: '320px', md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
           flexShrink={0}
           display="flex"
           alignItems="center"
@@ -111,7 +111,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
 
         <Flex
           alignItems="center"
-          gap={{ base: '8px', lg: '10px', xl: '20px' }}
+          gap={{ xs: '5px', sm: '5px', md: '6px', lg: '10px', xl: '20px' }}
           flex={1}
           overflow="hidden"
           h={{ xs: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
@@ -147,12 +147,12 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
                   opacity: { duration: 0.3 },
                   scale: { duration: 0.3 }
                 }}
-                gap={{ base: '8px', lg: '20px' }}
+                gap={{ xs: '8px', sm: '8px', md: '8px', lg: '20px' }}
                 justify="center"
                 align="stretch"
               >
                 {displayProducts.map((product) => (
-                  <Box key={product.id} flex="1">
+                  <Box key={product.id} flex="1" w={{ md: '100px' }}>
                     <ProductItemHome item={product} />
                   </Box>
                 ))}

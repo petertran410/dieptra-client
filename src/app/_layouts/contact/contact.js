@@ -21,7 +21,12 @@ const Contact = () => {
   }, []);
 
   return (
-    <Box pos="fixed" top={{ xs: '75%', lg: '48%' }} right={{ xs: '20px', md: '44px' }} zIndex={1000}>
+    <Box
+      pos="fixed"
+      top={{ xs: '75%', md: '80%', lg: '80%', xl: '70%', '2xl': '70%' }}
+      right={{ xs: '20px', md: '44px' }}
+      zIndex={1000}
+    >
       <Flex
         direction="column"
         border="1px solid #E4E4E7"
@@ -33,6 +38,7 @@ const Contact = () => {
         gap="15px"
         bgColor="#FFF"
         pos="relative"
+        // display={{ xs: 'none', md: 'block' }}
       >
         {!!showScrollTop && (
           <Button

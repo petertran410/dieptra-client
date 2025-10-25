@@ -292,7 +292,7 @@ const Contact = () => {
           </Box>
         </GridItem>
       </Grid>
-      <HomeContact />
+      {/* <HomeContact /> */}
     </Flex>
   );
 };

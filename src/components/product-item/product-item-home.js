@@ -36,7 +36,7 @@ const ProductItemHome = ({ item }) => {
       }}
       position="relative"
       h={{ xs: '300px', md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
-      w={{ md: '190px', lg: '200px', xl: '220px', '2xl': '270px' }}
+      w={{ md: '100%', lg: '200px', xl: '220px', '2xl': '270px' }}
     >
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
         <Box

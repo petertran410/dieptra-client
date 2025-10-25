@@ -6,9 +6,10 @@ import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 const Feedback = () => {
   const breakpoints = {
-    1: { slidesPerView: 1 },
-    576: { slidesPerView: 2 },
-    992: { slidesPerView: 4 }
+    xs: { slidesPerView: 1 },
+    s: { slidesPerView: 2 },
+    md: { slidesPerView: 2 },
+    lg: { slidesPerView: 3 }
   };
 
   const FEEDBACK_LIST = [
@@ -62,7 +63,7 @@ const Feedback = () => {
         }}
         mt="64px"
       >
-        <Box w={{ xs: 'full', lg: '105%' }} ml={{ xs: 0, lg: '-2.5%' }}>
+        <Box w={{ xs: 'full', lg: '105%', xl: '105%', '2xl': '105%' }} ml={{ xs: 0, lg: '-2.5%' }}>
           <Box display={{ xs: 'none', lg: 'block' }}>
             <Carousel breakpoints={breakpoints} spaceBetween={24}>
               {FEEDBACK_LIST.map((item) => {
@@ -77,15 +78,20 @@ const Feedback = () => {
                       py="50px"
                       pos="relative"
                       bgColor="#f4f4f5"
-                      h="388px"
+                      h="500px"
                     >
-                      <Text fontSize={18} fontWeight={500} textAlign="center" mt={20}>
+                      <Text
+                        fontSize={{ lg: '30px', xl: '30px', '2xl': '30px' }}
+                        fontWeight={500}
+                        textAlign="center"
+                        mt={{ lg: '120px', xl: '120px', '2xl': '100px' }}
+                      >
                         {item.customer}
                       </Text>
-                      <Text color="#71717A" textAlign="center">
+                      <Text color="#71717A" textAlign="center" fontSize={{ lg: '14px', xl: '14px', '2xl': '15px' }}>
                         {item.position}
                       </Text>
-                      <Text mt="4px" textAlign="center" fontSize={18}>
+                      <Text mt="4px" textAlign="justify" fontSize={{ lg: '20px', xl: '20px', '2xl': '20px' }}>
                         {item.content}
                       </Text>
                       <Image
@@ -95,9 +101,9 @@ const Feedback = () => {
                         right={0}
                         mx="auto"
                         fit="cover"
-                        top="-42px"
-                        w="115px"
-                        h="115px"
+                        top="5px"
+                        w={{ lg: '140px', xl: '150px', '2xl': '150px' }}
+                        h={{ lg: '140px', xl: '150px', '2xl': '150px' }}
                         borderRadius="full"
                         alt={IMG_ALT}
                         border="6px solid #FFF"
