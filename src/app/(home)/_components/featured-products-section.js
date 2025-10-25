@@ -64,7 +64,11 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
   };
 
   return (
-    <Box py={{ base: '24px', lg: '40px' }} w={{ xs: '100%', md: '900px', lg: '950px', xl: '1200px' }} align="center">
+    <Box
+      py={{ base: '24px', lg: '40px' }}
+      w={{ xs: '100%', s: '100%', md: '800px', lg: '900px', xl: '1100px', '2xl': '1400px' }}
+      align="center"
+    >
       <Heading
         as="h2"
         fontSize={{ base: '24px', lg: '32px' }}
@@ -76,10 +80,14 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
         {categoryName}
       </Heading>
 
-      <Flex direction={{ base: 'column', lg: 'row' }} align="stretch" gap={{ base: '16px', lg: '20px' }}>
+      <Flex
+        direction={{ xs: 'column', s: 'column', md: 'row', lg: 'row', xl: 'row', '2xl': 'row' }}
+        align="stretch"
+        gap={{ base: '16px', lg: '20px' }}
+      >
         <Box
-          w={{ md: '500px', lg: '250px', xl: '250px' }}
-          h={{ md: '500px', lg: '350px', xl: '350px' }}
+          w={{ xs: '100%', s: '100%', md: '250px', lg: '250px', xl: '250px', '2xl': '350px' }}
+          h={{ xs: '120px', s: '250px', md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
           flexShrink={0}
           display="flex"
           alignItems="center"
@@ -101,7 +109,13 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
           />
         </Box>
 
-        <Flex alignItems="center" gap={{ base: '8px', lg: '0px', xl: '20px' }} flex={1} overflow="hidden">
+        <Flex
+          alignItems="center"
+          gap={{ base: '8px', lg: '10px', xl: '20px' }}
+          flex={1}
+          overflow="hidden"
+          h={{ xs: '343px', lg: '300px', xl: '330px', '2xl': '400px' }}
+        >
           <IconButton
             icon={<ChevronLeftIcon />}
             aria-label="Previous products"
@@ -119,7 +133,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
             h={{ base: '24px', lg: '32px' }}
           />
 
-          <Box flex={1} position="relative" overflow="hidden" h={{ xs: '343px', lg: '350px', xl: '350px' }}>
+          <Box flex={1} position="relative" overflow="hidden">
             <AnimatePresence initial={false} custom={direction} mode="wait">
               <MotionFlex
                 key={currentIndex}
@@ -138,7 +152,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
                 align="stretch"
               >
                 {displayProducts.map((product) => (
-                  <Box key={product.id} flex="1" h="100%">
+                  <Box key={product.id} flex="1">
                     <ProductItemHome item={product} />
                   </Box>
                 ))}

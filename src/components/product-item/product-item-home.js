@@ -24,10 +24,7 @@ const ProductItemHome = ({ item }) => {
 
   return (
     <Box
-      w={{ xl: 'auto', lg: '220px' }}
-      mx="auto"
-      h={{ xs: '343px', lg: '400px' }}
-      borderRadius={16}
+      borderRadius="16px"
       bgColor="#FFF"
       overflow="hidden"
       cursor="pointer"
@@ -38,14 +35,16 @@ const ProductItemHome = ({ item }) => {
         boxShadow: '0 4px 12px rgba(13,102,191,0.5)'
       }}
       position="relative"
+      h={{ md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
+      w={{ md: '190px', lg: '200px', xl: '220px', '2xl': '270px' }}
     >
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
-        <Box w="auto" h={{ xs: '180px', lg: '260px' }} bgColor="#FFF" display="flex" overflow="hidden">
+        <Box display="flex" overflow="hidden" bgColor="#FFF" mb={{ md: '8px', lg: '8px', xl: '10px', '2xl': '25px' }}>
           <Image
             src={getProductImage()}
             alt={title || IMG_ALT}
-            // objectFit={{ base: 'fill', lg: 'fill' }}
-            w="full"
+            h={{ md: '170px', lg: '170px', xl: '200px', '2xl': '250px' }}
+            w="100%"
             loading="lazy"
             onError={(e) => {
               e.target.src = '/images/tra-phuong-hoang.webp';
@@ -53,7 +52,7 @@ const ProductItemHome = ({ item }) => {
           />
         </Box>
 
-        <Flex direction="column" p="12px" gap="6px">
+        <Flex direction="column" gap="6px">
           <Text
             fontSize="17px"
             fontWeight={600}
@@ -71,7 +70,11 @@ const ProductItemHome = ({ item }) => {
             {showName}
           </Text>
 
-          <Flex justify="center" align="center" mt="6px">
+          <Flex
+            justify="center"
+            align="center"
+            // mt="6px"
+          >
             {!price || price === 0 ? (
               <Tag colorScheme="blue" size="sm" fontWeight="600">
                 Liên hệ
@@ -86,10 +89,11 @@ const ProductItemHome = ({ item }) => {
             mt="6px"
             bgColor="#53C1E7"
             color="white"
+            w="90%"
             py="6px"
             borderRadius="6px"
             justify="center"
-            align="center"
+            alignSelf="center"
             _hover={{ bgColor: '#3366ff' }}
             transitionDuration="200ms"
           >
