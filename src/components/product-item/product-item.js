@@ -26,7 +26,7 @@ const ProductItem = ({ item }) => {
   return (
     <Box
       w="100%"
-      maxW="320px"
+      maxW={{ xs: '100%', s: '100%', md: '320px', lg: '320px', xl: '320px', '2xl': '320px' }}
       mx="auto"
       h="100%"
       borderRadius={16}
@@ -96,6 +96,7 @@ const ProductItem = ({ item }) => {
             fontSize="17px"
             fontWeight={600}
             color="#333"
+            align="center"
             lineHeight="1"
             minH="32px"
             display="-webkit-box"

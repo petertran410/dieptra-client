@@ -599,8 +599,9 @@ const ProductList = ({ categorySlug = [] }) => {
                       base: 'repeat(1, 1fr)',
                       sm: 'repeat(2, 1fr)',
                       md: 'repeat(3, 1fr)',
-                      lg: selectedCategory !== 'all' ? 'repeat(3, 1fr)' : 'repeat(4, 1fr)',
-                      xl: selectedCategory !== 'all' ? 'repeat(5, 1fr)' : 'repeat(5, 1fr)'
+                      lg: selectedCategory !== 'all' ? 'repeat(3, 1fr)' : 'repeat(3, 1fr)',
+                      xl: selectedCategory !== 'all' ? 'repeat(3, 1fr)' : 'repeat(3, 1fr)',
+                      '2xl': selectedCategory !== 'all' ? 'repeat(5, 1fr)' : 'repeat(5, 1fr)'
                     }}
                     gap={6}
                     mb={10}
