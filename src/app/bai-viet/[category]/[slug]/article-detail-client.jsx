@@ -342,7 +342,6 @@ const ArticleDetailClient = ({ params, categoryData }) => {
 
   const { title, htmlContent, createdDate, imagesUrl, description, type, embedUrl, titleMeta } = newsDetail;
 
-  // Tạo breadcrumb data
   const breadcrumbData = getBreadcrumbData(categoryData, title);
 
   const schemaData = {
@@ -379,7 +378,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
     disambiguatingDescription: title,
     mainEntityOfPage: `${process.env.NEXT_PUBLIC_API_DOMAIN}/bai-viet/${category}/${slug}`,
     image: imagesUrl || [],
-    thumbnailUrl: imagesUrl?.[0]?.replace('http://', 'https://') || '', // ✅ SỬA DÒNG NÀY
+    thumbnailUrl: imagesUrl?.[0]?.replace('http://', 'https://') || '',
     datePublished: createdDate || new Date().toISOString(),
     dateModified: createdDate || new Date().toISOString(),
     author: {

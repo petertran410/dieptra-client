@@ -42,9 +42,10 @@ export async function generateMetadata({ params }) {
 
     const data = await response.json();
 
-    const { title: titleData, title_meta, imagesUrl, description } = data || {};
+    const { title: titleData, titleMeta, imagesUrl, description } = data || {};
+
     const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
-    const metaTitle = title_meta || titleData;
+    const metaTitle = titleMeta || titleData;
 
     return {
       title: metaTitle,
