@@ -340,7 +340,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
     return null;
   }
 
-  const { title, htmlContent, createdDate, imagesUrl, description, type, embedUrl } = newsDetail;
+  const { title, htmlContent, createdDate, imagesUrl, description, type, embedUrl, titleMeta } = newsDetail;
 
   // Tạo breadcrumb data
   const breadcrumbData = getBreadcrumbData(categoryData, title);
@@ -403,7 +403,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{titleMeta}</title>
         <meta name="description" content={description || META_DESCRIPTION} />
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/${category}/${slug}`} />
       </Head>
