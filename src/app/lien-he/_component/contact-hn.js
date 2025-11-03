@@ -37,10 +37,17 @@ const ContactHN = () => {
     },
     {
       fullName: 'Mrs. Nguyễn Thị Mai Phương',
-      image: '/images/maiphuong (1).webp',
+      image: '/images/maiphuong.webp',
       position: 'Nhân viên Kinh doanh',
       phone: '+84 906 300 204',
       email: 'phuongnt@hisweetievietnam.com.vn'
+    },
+    {
+      fullName: 'Mr. Bàng Anh Vũ',
+      image: '/images/vuba.webp',
+      position: 'Nhân viên Kinh doanh',
+      phone: '+84 392 682 088',
+      email: 'vuba@hisweetievietnam.com.vn'
     },
     {
       fullName: 'Mrs. Tạ Thị Trang',

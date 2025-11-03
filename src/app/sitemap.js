@@ -27,6 +27,84 @@ export default function sitemap() {
       priority: 0.9
     },
     {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/mut-pha-che-lermao`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-topping-tra-sua`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-topping-tra-sua/tran-chau-dong-lanh`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-topping-tra-sua/tran-chau-kho`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-topping-tra-sua/hat-no-thach-no`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-topping-tra-sua/topping-dong-san`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-bot-pha-che`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-bot-pha-che/bot-sua`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-bot-pha-che/bot-kem-bot-foam`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-bot-pha-che/bot-lam-thach`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/sua-pha-che`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/siro-pha-che-lermao`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
       url: `${domain}/san-pham/tra-phuong-hoang`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
