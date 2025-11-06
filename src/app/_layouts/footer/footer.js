@@ -188,6 +188,10 @@ const Footer = () => {
                 T2 - T7: 8h30 - 17h30
               </Text>
             </Text>
+
+            <Link href="http://online.gov.vn/Home/WebDetails/137384" target="">
+              <Image src="/images/bo-cong-thuong.webp " />
+            </Link>
           </Flex>
         </Flex>
 
