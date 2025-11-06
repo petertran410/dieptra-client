@@ -41,6 +41,20 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-S515RVWJQQ');
           `}
         </Script>
+
+        <Script id="chatbox-init" strategy="lazyOnload">
+          {`
+            window.smAsyncInit = function () {
+                    SM.init({
+                        page_pid: 'ctm690c1f1074e2da36510a857a',
+                        trigger_id: '690c2fb7c70d1e19fbf8dc27',
+                        chat_type: 'PLUGIN',
+                        env: 'prod'
+                    })
+            }
+          `}
+        </Script>
+        <Script src="https://chatbox.smax.ai/sdk.min.js" strategy="lazyOnload" />
         <AuthProvider>
           <Providers>
             <Box pos="relative">
