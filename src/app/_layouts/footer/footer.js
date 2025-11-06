@@ -189,8 +189,8 @@ const Footer = () => {
               </Text>
             </Text>
 
-            <Link href="http://online.gov.vn/Home/WebDetails/137384" target="">
-              <Image src="/images/bo-cong-thuong.webp " />
+            <Link href="http://online.gov.vn/Home/WebDetails/137384" target="_blank">
+              <Image src="/images/bo-cong-thuong.webp " w="30%" />
             </Link>
           </Flex>
         </Flex>
