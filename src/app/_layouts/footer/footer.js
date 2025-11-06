@@ -125,7 +125,6 @@ const Footer = () => {
                 </Text>
               </Box>
             </Flex>
-
             <Flex align="flex-start" gap="8px">
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
@@ -134,7 +133,6 @@ const Footer = () => {
                 </Text>
               </Box>
             </Flex>
-
             <Flex align="flex-start" gap="8px">
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
@@ -143,7 +141,6 @@ const Footer = () => {
                 </Text>
               </Box>
             </Flex>
-
             <Flex align="flex-start" gap="8px">
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
@@ -152,7 +149,6 @@ const Footer = () => {
                 </Text>
               </Box>
             </Flex>
-
             <Flex align="flex-start" gap="8px">
               <Image src="/images/email.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Flex>
@@ -167,31 +163,39 @@ const Footer = () => {
                 </ChakraLink>
               </Flex>
             </Flex>
-
             <Flex align="flex-start" gap="8px">
               <Image src="/images/email.webp" alt={IMG_ALT} w="24px" h="24px" />
               <ChakraLink href="mailto:sales@hisweetievietnam.com.vn" fontWeight={400} _hover={{ textDecor: 'none' }}>
                 sales@hisweetievietnam.com.vn
               </ChakraLink>
             </Flex>
-
             <Flex align="flex-start" gap="8px">
               <Image src="/images/phone.webp" alt={IMG_ALT} w="24px" h="24px" />
               <ChakraLink href="tel:+84788339379" fontWeight={400} _hover={{ textDecor: 'none' }}>
                 +84 799 861 862
               </ChakraLink>
             </Flex>
-
             <Text fontSize={18} fontWeight={500}>
               Giờ làm việc:{' '}
               <Text fontSize={18} fontWeight={500}>
                 T2 - T7: 8h30 - 17h30
               </Text>
             </Text>
-
             <Link href="http://online.gov.vn/Home/WebDetails/137384" target="_blank">
               <Image src="/images/bo-cong-thuong.webp " w="30%" />
             </Link>
+            <a
+              href="//www.dmca.com/Protection/Status.aspx?ID=3901c960-5f50-4f68-9991-0f3b096e7d45"
+              title="DMCA.com Protection Status"
+              class="dmca-badge"
+            >
+              {' '}
+              <img
+                src="https://images.dmca.com/Badges/dmca_protected_sml_120b.png?ID=3901c960-5f50-4f68-9991-0f3b096e7d45"
+                alt="DMCA.com Protection Status"
+              />
+            </a>{' '}
+            <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
           </Flex>
         </Flex>
 
