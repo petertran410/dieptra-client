@@ -2,6 +2,7 @@ import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { Box, Link as ChakraLink, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Fragment } from 'react';
+import Script from 'next/script';
 
 const Footer = () => {
   const MENU_LINKS_1 = [
@@ -181,22 +182,29 @@ const Footer = () => {
                 T2 - T7: 8h30 - 17h30
               </Text>
             </Text>
-            <Link href="http://online.gov.vn/Home/WebDetails/137384" target="_blank">
-              <Image src="/images/bo-cong-thuong.webp " w="30%" />
-            </Link>
-            <a
-              href="//www.dmca.com/Protection/Status.aspx?ID=3901c960-5f50-4f68-9991-0f3b096e7d45"
-              title="DMCA.com Protection Status"
-              class="dmca-badge"
-              target="_blank"
-            >
-              {' '}
-              <img
-                src="https://images.dmca.com/Badges/dmca_protected_sml_120b.png?ID=3901c960-5f50-4f68-9991-0f3b096e7d45"
-                alt="DMCA.com Protection Status"
-              />
-            </a>{' '}
-            <script src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"> </script>
+            <Flex align="center" gap="16px" mt="8px">
+              <Link href="http://online.gov.vn/Home/WebDetails/137384" target="_blank">
+                <Image src="/images/bo-cong-thuong.webp" w="120px" h="auto" alt="Bộ Công Thương" />
+              </Link>
+
+              <Link
+                href="//www.dmca.com/Protection/Status.aspx?ID=3901c960-5f50-4f68-9991-0f3b096e7d45"
+                target="_blank"
+              >
+                <Image
+                  src="https://images.dmca.com/Badges/dmca_protected_sml_120b.png?ID=3901c960-5f50-4f68-9991-0f3b096e7d45"
+                  alt="DMCA.com Protection Status"
+                  w="120px"
+                  h="auto"
+                />
+              </Link>
+            </Flex>
+
+            <Script
+              src="https://images.dmca.com/Badges/DMCABadgeHelper.min.js"
+              strategy="lazyOnload"
+              id="dmca-badge-helper"
+            />
           </Flex>
         </Flex>
 
