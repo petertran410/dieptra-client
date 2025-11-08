@@ -463,14 +463,65 @@ a {
   text-align: center !important;
 }
 
-/* .html-content strong,
-.html-content b {
-  font-weight: 700 !important;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+.html-content li,
+.html-content-16px li {
+  /* margin-bottom: 6px !important; */
+  margin-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: 1.6 !important;
 }
 
-.html-content em,
-.html-content i {
-  font-style: italic !important;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-} */
+/* Remove margin của li cuối cùng */
+.html-content li:last-child,
+.html-content-16px li:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Xử lý các empty elements BÊN TRONG li */
+.html-content li br,
+.html-content-16px li br {
+  display: none !important;
+}
+
+.html-content li p,
+.html-content-16px li p {
+  margin-bottom: 0 !important;
+  margin-top: 0 !important;
+  display: inline !important;
+}
+
+.html-content li p:empty,
+.html-content-16px li p:empty {
+  display: none !important;
+}
+
+/* Xử lý br và empty p SAU mỗi li */
+.html-content li + br,
+.html-content-16px li + br {
+  display: none !important;
+}
+
+/* Tăng specificity cho ul và ol lists */
+.html-content ul li,
+.html-content ol li,
+.html-content-16px ul li,
+.html-content-16px ol li {
+  /* margin-bottom: 6px !important; */
+  padding-bottom: 0 !important;
+}
+
+.html-content table,
+.html-content-16px table {
+  margin: 24px auto !important;
+  max-width: 90% !important;
+  width: auto !important;
+}
+
+@media (max-width: 768px) {
+  .html-content table,
+  .html-content-16px table {
+    max-width: 100% !important;
+    width: 100% !important;
+    margin: 16px auto !important;
+  }
+}
