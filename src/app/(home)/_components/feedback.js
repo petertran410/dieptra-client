@@ -6,10 +6,9 @@ import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 const Feedback = () => {
   const breakpoints = {
-    xs: { slidesPerView: 1 },
-    s: { slidesPerView: 2 },
-    md: { slidesPerView: 2 },
-    lg: { slidesPerView: 3 }
+    1: { slidesPerView: 1 },
+    576: { slidesPerView: 2 },
+    992: { slidesPerView: 3 }
   };
 
   const FEEDBACK_LIST = [
@@ -129,15 +128,14 @@ const Feedback = () => {
                       py="50px"
                       pos="relative"
                       bgColor="#f4f4f5"
-                      h="400px"
                     >
-                      <Text fontSize={18} fontWeight={500} textAlign="center">
+                      <Text fontSize={24} fontWeight={500} textAlign="center" mt="100px">
                         {item.customer}
                       </Text>
-                      <Text color="#71717A" textAlign="center">
+                      <Text color="#71717A" textAlign="center" fontSize={14}>
                         {item.position}
                       </Text>
-                      <Text mt="20px" textAlign="center" fontSize={18}>
+                      <Text mt="8px" textAlign="justify" fontSize={18}>
                         {item.content}
                       </Text>
                       <Image
@@ -147,9 +145,9 @@ const Feedback = () => {
                         right={0}
                         mx="auto"
                         fit="cover"
-                        top="-32px"
-                        w="70px"
-                        h="70px"
+                        top="5px"
+                        w="140px"
+                        h="140px"
                         borderRadius="full"
                         alt={IMG_ALT}
                         border="6px solid #FFF"
