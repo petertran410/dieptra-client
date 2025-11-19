@@ -57,7 +57,8 @@ const Footer = () => {
         {
           title: 'Chính Sách Kiểm Hàng',
           href: '/chinh-sach-diep-tra/chinh-sach-kiem-hang'
-        }
+        },
+        { title: 'Chính Sách Mẫu Thử', href: '/chinh-sach-diep-tra/chinh-sach-mau-thu' }
       ]
     }
   ];

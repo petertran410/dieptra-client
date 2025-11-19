@@ -719,6 +719,89 @@ export const POLICY_PAGES = {
     is_main_page: false,
     is_active: true,
     display_order: 13
+  },
+  'chinh-sach-mau-thu': {
+    id: 'chinh-sach-mau-thu',
+    slug: 'chinh-sach-mau-thu',
+    title: 'Chính Sách Mẫu Thử',
+    meta_title: 'Chính Sách Mẫu Thử - Diệp Trà',
+    meta_description: 'Tìm hiểu về chính sách mẫu thử sản phẩm dành cho khách hàng mới tại Diệp Trà.',
+    content: `
+    <p>Nhằm tạo điều kiện cho khách hàng trải nghiệm chất lượng sản phẩm và đưa ra quyết định mua hàng phù hợp, <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a></strong> triển khai chính sách mẫu thử với các điều khoản rõ ràng và minh bạch.</p>
+    
+    <h2>🎯 Mục đích</h2>
+    <ul>
+      <li>Tạo điều kiện cho khách hàng lần đầu trải nghiệm chất lượng sản phẩm.</li>
+      <li>Gia tăng chuyển đổi từ dùng thử sang mua hàng.</li>
+      <li>Hỗ trợ đội ngũ sale tiếp cận khách hàng mới hiệu quả.</li>
+    </ul>
+
+    <h2>✅ Phạm vi áp dụng</h2>
+    <ul>
+      <li>Áp dụng cho <strong>khách hàng mới lần đầu liên hệ</strong> và có nhu cầu test sản phẩm.</li>
+      <li>Áp dụng cho sản phẩm <strong>mút, bột Gấu LerMao và Trà Phương Hoàng</strong>.</li>
+    </ul>
+
+    <h2>🎁 Chính sách mẫu thử</h2>
+    
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; margin: 20px 0;">
+      <thead>
+        <tr style="background-color: #f5f5f5;">
+          <th style="border: 1px solid #ddd; padding: 12px; text-align: left; font-weight: bold;">Nội dung</th>
+          <th style="border: 1px solid #ddd; padding: 12px; text-align: left; font-weight: bold;">Chính sách</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 12px;">Số lượng mẫu thử hỗ trợ</td>
+          <td style="border: 1px solid #ddd; padding: 12px;">01 sản phẩm mẫu thử miễn phí/khách hàng mới</td>
+        </tr>
+        <tr style="background-color: #f9f9f9;">
+          <td style="border: 1px solid #ddd; padding: 12px;">Sản phẩm áp dụng</td>
+          <td style="border: 1px solid #ddd; padding: 12px;">Mút LerMao, Bột LerMao, Trà Phương Hoàng</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 12px;">Sản phẩm không áp dụng</td>
+          <td style="border: 1px solid #ddd; padding: 12px;"><strong>Topping LerMao không hỗ trợ mẫu thử</strong></td>
+        </tr>
+        <tr style="background-color: #f9f9f9;">
+          <td style="border: 1px solid #ddd; padding: 12px;">Mẫu thử 2 trở đi</td>
+          <td style="border: 1px solid #ddd; padding: 12px;">Áp dụng mua theo <strong>Bảng giá bán mẫu thử quy định</strong></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 12px;">Phí giao hàng</td>
+          <td style="border: 1px solid #ddd; padding: 12px;">Đối với khách hàng ko có đơn gửi kèm, khách hàng thanh toán phí giao hàng thực tế</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>📦 Quy định giao mẫu</h2>
+    <ul>
+      <li>Sale xác minh thông tin khách hàng và ghi nhận thông tin trên CRM.</li>
+      <li>Khách hàng thanh toán phí giao hàng (nếu có).</li>
+      <li>Mẫu thử giao theo quy cách đóng gói tiêu chuẩn của công ty.</li>
+    </ul>
+
+    <h2>📋 Điều kiện áp dụng</h2>
+    <p>Khách hàng cần cung cấp:</p>
+    <ul>
+      <li><strong>Thông tin của hàng/ cơ sở kinh doanh</strong></li>
+      <li><strong>Số điện thoại liên hệ</strong></li>
+      <li><strong>Địa chỉ nhận mẫu</strong></li>
+    </ul>
+
+    <h2>📞 Quy định chăm sóc khách sau khi gửi mẫu</h2>
+    <ul>
+      <li><strong>Sale liên hệ xác minh</strong> việc nhận mẫu của khách</li>
+      <li><strong>Gửi công thức ứng dụng/thông tin sản phẩm</strong></li>
+      <li><strong>Lấy Feedback khách hàng</strong></li>
+      <li><strong>Báo cáo</strong></li>
+    </ul>
+  `,
+    parent_id: 'chinh-sach-diep-tra',
+    is_main_page: false,
+    is_active: true,
+    display_order: 14
   }
 };
 
@@ -806,6 +889,12 @@ export const POLICY_SIDEBAR_ITEMS = [
     title: 'Chính Sách Kiểm Hàng',
     isMainPage: false,
     order: 13
+  },
+  {
+    slug: 'chinh-sach-mau-thu',
+    title: 'Chính Sách Mẫu Thử',
+    isMainPage: false,
+    order: 14
   }
 ];
 
