@@ -46,8 +46,8 @@ export default function RootLayout({ children }) {
           {`
              window.smAsyncInit = function () {
                 SM.init({
-                page_pid: 'ctm690c35ab3b2159e1ecd3be7f',
-                trigger_id: '690c369859f1a04a50576a42',
+                page_pid: 'ctm690c1f1074e2da36510a857a',
+                trigger_id: '690c2034739613e1d0479941',
                 chat_type: 'PLUGIN',
                 env: 'prod'
               })
