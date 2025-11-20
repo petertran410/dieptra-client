@@ -134,7 +134,7 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
           Cần hỗ trợ?
         </Text>
         <Text mb="4px">📧 sales@hisweetievietnam.com.vn</Text>
-        <Text>📞 Hotline: 078 833 9379</Text>
+        <Text>📞 Hotline: 0973 123 230</Text>
       </Box>
     </Box>
   );

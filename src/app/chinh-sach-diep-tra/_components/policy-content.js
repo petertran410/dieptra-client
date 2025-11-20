@@ -147,7 +147,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
           hoặc hotline:
           <Text as="span" color="#003366" fontWeight="500">
             {' '}
-            078 833 9379
+            0973 123 230
           </Text>
         </Text>
       </Box>

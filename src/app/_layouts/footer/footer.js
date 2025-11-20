@@ -58,7 +58,8 @@ const Footer = () => {
           title: 'Chính Sách Kiểm Hàng',
           href: '/chinh-sach-diep-tra/chinh-sach-kiem-hang'
         },
-        { title: 'Chính Sách Mẫu Thử', href: '/chinh-sach-diep-tra/chinh-sach-mau-thu' }
+        { title: 'Chính Sách Mẫu Thử', href: '/chinh-sach-diep-tra/chinh-sach-mau-thu' },
+        { title: 'Chính Sách Giao Hàng Đông Lạnh', href: '/chinh-sach-diep-tra/chinh-sach-giao-hang-dong-lanh' }
       ]
     }
   ];
@@ -174,7 +175,7 @@ const Footer = () => {
             <Flex align="flex-start" gap="8px">
               <Image src="/images/phone.webp" alt={IMG_ALT} w="24px" h="24px" />
               <ChakraLink href="tel:+84788339379" fontWeight={400} _hover={{ textDecor: 'none' }}>
-                +84 799 861 862
+                +84 973 123 230
               </ChakraLink>
             </Flex>
             <Text fontSize={18} fontWeight={500}>

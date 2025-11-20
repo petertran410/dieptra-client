@@ -802,6 +802,348 @@ export const POLICY_PAGES = {
     is_main_page: false,
     is_active: true,
     display_order: 14
+  },
+  'chinh-sach-giao-hang-dong-lanh': {
+    id: 'chinh-sach-giao-hang-dong-lanh',
+    title: 'Chính Sách Giao Hàng Đông Lạnh',
+    meta_title: 'Chính Sách Giao Hàng Đông Lạnh - Diệp Trà',
+    meta_description:
+      'Quy trình giao hàng đông lạnh chuyên nghiệp của Diệp Trà đảm bảo sản phẩm topping, trân châu, khoai môn nghiền được bảo quản đúng nhiệt độ, chất lượng.',
+    content: `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 1200px;">
+        
+        <div style="background: linear-gradient(135deg, #2980b9 0%, #3498db 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+          <h1 style="color: white; margin-bottom: 15px; font-size: 2.5em;">❄️ CHÍNH SÁCH GIAO HÀNG ĐÔNG LẠNH</h1>
+          <p style="font-size: 1.2em; margin: 0; opacity: 0.9;">Đảm bảo chất lượng sản phẩm đông lạnh đến tay khách hàng</p>
+        </div>
+
+        <!-- MỤC TIÊU -->
+        <section style="margin-bottom: 40px; background: #f8f9fa; padding: 25px; border-radius: 12px; border-left: 5px solid #28a745;">
+          <h2 style="color: #2c5e3f; margin-bottom: 20px; display: flex; align-items: center;">
+            🎯 <span style="margin-left: 10px;">I. MỤC TIÊU</span>
+          </h2>
+          <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <p style="font-size: 16px; margin-bottom: 15px; font-weight: 500;">
+              Đảm bảo sản phẩm hàng đông lạnh (topping, trân châu, khoai môn nghiền, kem, sữa chua...) được:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+              <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; border-left: 3px solid #28a745;">
+                <strong>✅ Bảo quản đúng nhiệt độ</strong><br>
+                <span style="color: #666; font-size: 14px;">Duy trì -18°C đến -25°C</span>
+              </div>
+              <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; border-left: 3px solid #007bff;">
+                <strong>⏰ Giao đúng thời gian</strong><br>
+                <span style="color: #666; font-size: 14px;">Không chậm trễ, đúng cam kết</span>
+              </div>
+              <div style="background: #fff3e0; padding: 15px; border-radius: 8px; border-left: 3px solid #ff9800;">
+                <strong>🏆 Đảm bảo chất lượng</strong><br>
+                <span style="color: #666; font-size: 14px;">Không rã đông, hư hỏng</span>
+              </div>
+              <div style="background: #fce4ec; padding: 15px; border-radius: 8px; border-left: 3px solid #e91e63;">
+                <strong>🛡️ Giảm thiểu rủi ro</strong><br>
+                <span style="color: #666; font-size: 14px;">Hạn chế thất thoát, khiếu nại</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- PHẠM VI ÁP DỤNG -->
+        <section style="margin-bottom: 40px; background: #fff3e0; padding: 25px; border-radius: 12px; border-left: 5px solid #ff9800;">
+          <h2 style="color: #e65100; margin-bottom: 20px; display: flex; align-items: center;">
+            📍 <span style="margin-left: 10px;">II. PHẠM VI ÁP DỤNG</span>
+          </h2>
+          <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+              <div style="background: #f5f5f5; padding: 15px; border-radius: 8px;">
+                <h4 style="color: #2c5e3f; margin-bottom: 10px;">🗺️ Khu vực áp dụng:</h4>
+                <ul style="margin: 0; padding-left: 20px;">
+                  <li>Toàn bộ đơn hàng có mặt hàng đông lạnh từ kho HCM</li>
+                  <li>Toàn bộ đơn hàng có mặt hàng đông lạnh từ kho Hà Nội</li>
+                  <li>Các đơn hàng giao nội thành và tỉnh</li>
+                </ul>
+              </div>
+              <div style="background: #f5f5f5; padding: 15px; border-radius: 8px;">
+                <h4 style="color: #2c5e3f; margin-bottom: 10px;">👥 Bộ phận liên quan:</h4>
+                <ul style="margin: 0; padding-left: 20px;">
+                  <li><strong>Sales</strong> - Tiếp nhận & xử lý đơn hàng</li>
+                  <li><strong>Kho</strong> - Chuẩn bị & đóng gói</li>
+                  <li><strong>Logistics</strong> - Vận chuyển & giao hàng</li>
+                  <li><strong>Kế toán/CSKH</strong> - Xác nhận & hậu kiểm</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- QUY TRÌNH CHI TIẾT -->
+        <section style="margin-bottom: 40px;">
+          <h2 style="color: #6c63ff; margin-bottom: 30px; display: flex; align-items: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px;">
+            ⚙️ <span style="margin-left: 10px;">III. QUY TRÌNH CHI TIẾT</span>
+          </h2>
+
+          <!-- Bước 1: Tiếp nhận đơn hàng -->
+          <div style="margin-bottom: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #11998e, #38ef7d); color: white; padding: 20px;">
+              <h3 style="margin: 0; display: flex; align-items: center; font-size: 1.3em;">
+                <span style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold;">1</span>
+                📞 TIẾP NHẬN ĐƠN HÀNG (Sales)
+              </h3>
+            </div>
+            <div style="padding: 25px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #28a745;">
+                  <h4 style="color: #2c5e3f; margin-bottom: 15px;">✅ Checklist bắt buộc:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Kiểm tra và xác định danh sách mặt hàng đông lạnh trong đơn</li>
+                    <li>Ghi rõ yêu cầu giao hàng lạnh và phương thức giao (xe lạnh/thùng xốp)</li>
+                    <li>Xác nhận địa chỉ giao hàng và thời gian mong muốn</li>
+                    <li>Thông báo cho kho và logistics trước 24 giờ</li>
+                    <li>Cập nhật trạng thái đơn hàng trên hệ thống</li>
+                  </ul>
+                </div>
+                <div style="background: #fff3e0; padding: 20px; border-radius: 8px; border-left: 4px solid #ff9800;">
+                  <h4 style="color: #e65100; margin-bottom: 15px;">⚠️ Lưu ý quan trọng:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Đơn hàng đông lạnh <strong>KHÔNG</strong> được gộp với hàng thường</li>
+                    <li>Thời gian giao hàng tối đa: <strong>4 giờ</strong> từ khi xuất kho</li>
+                    <li>Ưu tiên giao hàng sáng sớm hoặc chiều mát</li>
+                    <li>Tránh giao hàng vào thời điểm nắng gắt (11h-14h)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bước 2: Chuẩn bị hàng -->
+          <div style="margin-bottom: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px;">
+              <h3 style="margin: 0; display: flex; align-items: center; font-size: 1.3em;">
+                <span style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold;">2</span>
+                📦 CHUẨN BỊ HÀNG (Kho)
+              </h3>
+            </div>
+            <div style="padding: 25px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 20px;">
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 10px;">
+                  <h4 style="color: #1976d2; margin-bottom: 15px;">🌡️ Kiểm soát nhiệt độ:</h4>
+                  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <tr style="background: #bbdefb;">
+                      <td style="border: 1px solid #90caf9; padding: 10px; font-weight: bold;">Loại sản phẩm</td>
+                      <td style="border: 1px solid #90caf9; padding: 10px; font-weight: bold;">Nhiệt độ bảo quản</td>
+                    </tr>
+                    <tr>
+                      <td style="border: 1px solid #90caf9; padding: 8px;">Topping đông lạnh</td>
+                      <td style="border: 1px solid #90caf9; padding: 8px;"><strong>-18°C đến -25°C</strong></td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                      <td style="border: 1px solid #90caf9; padding: 8px;">Trân châu đông lạnh</td>
+                      <td style="border: 1px solid #90caf9; padding: 8px;"><strong>-18°C đến -25°C</strong></td>
+                    </tr>
+                    <tr>
+                      <td style="border: 1px solid #90caf9; padding: 8px;">Khoai môn nghiền</td>
+                      <td style="border: 1px solid #90caf9; padding: 8px;"><strong>-18°C đến -25°C</strong></td>
+                    </tr>
+                  </table>
+                </div>
+                <div style="background: #f3e5f5; padding: 20px; border-radius: 10px;">
+                  <h4 style="color: #7b1fa2; margin-bottom: 15px;">📋 Quy trình xuất hàng:</h4>
+                  <ol style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Kiểm tra tồn kho:</strong> Đảm bảo đủ số lượng theo đơn hàng</li>
+                    <li><strong>Áp dụng FIFO:</strong> Xuất hàng sản xuất trước, nhập trước</li>
+                    <li><strong>Kiểm tra nhiệt độ tủ đông:</strong> Đảm bảo -18°C đến -25°C</li>
+                    <li><strong>Đóng gói chuyên dụng:</strong> Thùng xốp + đá gel + bao bì cách nhiệt</li>
+                    <li><strong>Dán nhãn cảnh báo:</strong> "HÀNG ĐÔNG LẠNH - KHÔNG RÃ ĐÔNG"</li>
+                  </ol>
+                </div>
+              </div>
+              
+              <!-- Quy cách đóng gói chi tiết -->
+              <div style="background: #fff8e1; padding: 20px; border-radius: 10px; border-left: 5px solid #ffa000;">
+                <h4 style="color: #e65100; margin-bottom: 15px;">📦 Quy cách đóng gói chi tiết:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                  <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="background: #3f51b5; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">1</div>
+                    <strong>Thùng xốp chuyên dụng</strong><br>
+                    <small style="color: #666;">Dày ≥ 3cm, kích thước phù hợp</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="background: #00bcd4; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">2</div>
+                    <strong>Đá gel chất lượng cao</strong><br>
+                    <small style="color: #666;">Tỉ lệ 1:3 với sản phẩm</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="background: #4caf50; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">3</div>
+                    <strong>Nilon bọc sản phẩm</strong><br>
+                    <small style="color: #666;">Chống thấm, tránh nhiễm khuẩn</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="background: #ff5722; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">4</div>
+                    <strong>Nhãn cảnh báo</strong><br>
+                    <small style="color: #666;">Rõ ràng, dễ nhìn</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bước 3: Giao hàng -->
+          <div style="margin-bottom: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; padding: 20px;">
+              <h3 style="margin: 0; display: flex; align-items: center; font-size: 1.3em;">
+                <span style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold;">3</span>
+                🚚 GIAO HÀNG (Logistics)
+              </h3>
+            </div>
+            <div style="padding: 25px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px;">
+                  <h4 style="color: #2c5e3f; margin-bottom: 15px;">🚛 Yêu cầu phương tiện:</h4>
+                  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <tr style="background: #c8e6c9;">
+                      <td style="border: 1px solid #a5d6a7; padding: 10px; font-weight: bold;">Loại xe</td>
+                      <td style="border: 1px solid #a5d6a7; padding: 10px; font-weight: bold;">Yêu cầu</td>
+                    </tr>
+                    <tr>
+                      <td style="border: 1px solid #a5d6a7; padding: 8px;">Xe lạnh chuyên dụng</td>
+                      <td style="border: 1px solid #a5d6a7; padding: 8px;">Duy trì ≤ -15°C liên tục</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                      <td style="border: 1px solid #a5d6a7; padding: 8px;">Thùng xốp + đá gel</td>
+                      <td style="border: 1px solid #a5d6a7; padding: 8px;">Giao trong vòng 4h</td>
+                    </tr>
+                  </table>
+                </div>
+                <div style="background: #fff3e0; padding: 20px; border-radius: 10px;">
+                  <h4 style="color: #e65100; margin-bottom: 15px;">📝 Checklist giao hàng:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Kiểm tra nhiệt độ vận chuyển: <strong>≤ -15°C</strong></li>
+                    <li>Thời gian giao hàng: <strong>≤ 4 giờ</strong> từ xuất kho</li>
+                    <li>Không mở thùng quá <strong>2 phút</strong> khi bàn giao</li>
+                    <li>Kiểm tra tình trạng hàng trước khi giao</li>
+                    <li>Chụp ảnh xác nhận tình trạng khi bàn giao</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Biện pháp khẩn cấp -->
+              <div style="background: #ffebee; padding: 20px; border-radius: 10px; border-left: 5px solid #f44336;">
+                <h4 style="color: #c62828; margin-bottom: 15px;">🚨 Biện pháp khẩn cấp:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                  <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <strong style="color: #d32f2f;">Xe hỏng giữa đường:</strong><br>
+                    <small>Liên hệ ngay hotline, chuẩn bị xe dự phòng, thông báo khách hàng</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <strong style="color: #d32f2f;">Mất điện lạnh:</strong><br>
+                    <small>Dừng giao hàng, báo cáo ngay kho, thay thế đá gel khẩn cấp</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <strong style="color: #d32f2f;">Ùn tắc giao thông:</strong><br>
+                    <small>Tìm đường alternative, thông báo khách delay, kiểm tra nhiệt độ</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bước 4: Xác nhận và hậu kiểm -->
+          <div style="margin-bottom: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 20px;">
+              <h3 style="margin: 0; display: flex; align-items: center; font-size: 1.3em;">
+                <span style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold;">4</span>
+                ✅ XÁC NHẬN & HẬU KIỂM (Kế toán/CSKH)
+              </h3>
+            </div>
+            <div style="padding: 25px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 4px solid #28a745;">
+                  <h4 style="color: #2c5e3f; margin-bottom: 15px;">📞 Xác nhận với khách:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Gọi xác nhận khách hàng đã nhận hàng</li>
+                    <li>Hỏi về tình trạng hàng khi nhận</li>
+                    <li>Ghi nhận phản hồi và đánh giá</li>
+                    <li>Xử lý khiếu nại (nếu có)</li>
+                  </ul>
+                </div>
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; border-left: 4px solid #2196f3;">
+                  <h4 style="color: #1565c0; margin-bottom: 15px;">📊 Báo cáo & lưu trữ:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Kho kiểm tra báo cáo rã đông/hư hỏng</li>
+                    <li>Lưu hồ sơ kiểm tra và ảnh giao hàng</li>
+                    <li>Cập nhật dữ liệu chất lượng dịch vụ</li>
+                    <li>Báo cáo định kỳ cho leadership</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CÁC BIỂU MẪU -->
+        <section style="margin-bottom: 40px; background: #f8f9fa; padding: 25px; border-radius: 12px;">
+          <h2 style="color: #495057; margin-bottom: 25px; display: flex; align-items: center;">
+            📋 <span style="margin-left: 10px;">IV. CÁC BIỂU MẪU VÀ TÀI LIỆU</span>
+          </h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+            <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+              <h4 style="color: #6c63ff; margin-bottom: 15px;">📝 Biểu mẫu kiểm tra:</h4>
+              <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                <li>Phiếu kiểm tra giao hàng lạnh</li>
+                <li>Biên bản giao nhận hàng lạnh</li>
+                <li>Form đánh giá chất lượng dịch vụ</li>
+                <li>Checklist nhiệt độ vận chuyển</li>
+              </ul>
+            </div>
+            
+            <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+              <h4 style="color: #ff6b6b; margin-bottom: 15px;">🚨 Báo cáo sự cố:</h4>
+              <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                <li>Báo cáo sự cố chất lượng</li>
+                <li>Form khiếu nại khách hàng</li>
+                <li>Biên bản xử lý sự cố</li>
+                <li>Báo cáo định kỳ hiệu quả vận chuyển</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- CAM KẾT DỊCH VỤ -->
+        <section style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+          <h2 style="color: white; margin-bottom: 25px; font-size: 1.8em;">🤝 CAM KẾT DỊCH VỤ DIỆP TRÀ</h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 25px;">
+            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px);">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5em;">🌡️</div>
+              <h4 style="color: white; margin-bottom: 10px;">Nhiệt độ chuẩn</h4>
+              <p style="margin: 0; opacity: 0.9; font-size: 14px;">Đảm bảo nhiệt độ -18°C → -25°C suốt quá trình vận chuyển</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px);">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5em;">⏰</div>
+              <h4 style="color: white; margin-bottom: 10px;">Thời gian đúng hẹn</h4>
+              <p style="margin: 0; opacity: 0.9; font-size: 14px;">Giao hàng trong vòng 4 giờ, đúng khung giờ cam kết</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px);">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5em;">🏆</div>
+              <h4 style="color: white; margin-bottom: 10px;">Chất lượng cao</h4>
+              <p style="margin: 0; opacity: 0.9; font-size: 14px;">Sản phẩm không rã đông, không hư hỏng, đúng chất lượng</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px);">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5em;">📞</div>
+              <h4 style="color: white; margin-bottom: 10px;">Hỗ trợ 24/7</h4>
+              <p style="margin: 0; opacity: 0.9; font-size: 14px;">Đội ngũ CSKH sẵn sàng hỗ trợ mọi lúc, mọi nơi</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    `,
+    parent_id: 'chinh-sach-diep-tra',
+    is_main_page: false,
+    is_active: true,
+    display_order: 15
   }
 };
 
@@ -895,6 +1237,12 @@ export const POLICY_SIDEBAR_ITEMS = [
     title: 'Chính Sách Mẫu Thử',
     isMainPage: false,
     order: 14
+  },
+  {
+    slug: 'chinh-sach-giao-hang-dong-lanh',
+    title: 'Chính Sách Giao Hàng Đông Lạnh',
+    isMainPage: false,
+    order: 15
   }
 ];
 

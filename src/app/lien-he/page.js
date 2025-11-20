@@ -109,8 +109,8 @@ const Contact = () => {
                   <Text fontSize={18} fontWeight={500}>
                     Hotline:
                   </Text>
-                  <Link href="tel:0788339379" _hover={{ textDecor: 'none' }} fontSize={18} lineHeight="19px">
-                    0788339379
+                  <Link href="tel:0973123230" _hover={{ textDecor: 'none' }} fontSize={18} lineHeight="19px">
+                    0973123230
                   </Link>
                 </Flex>
                 <Flex direction="column" gap="4px" w="full">
@@ -118,7 +118,7 @@ const Contact = () => {
                     Fanpage:
                   </Text>
                   <Link
-                    href="https://www.facebook.com/dieptra.0788339379"
+                    href="https://www.facebook.com/dieptra.0973123230"
                     target="_blank"
                     fontSize={18}
                     lineHeight="19px"
@@ -233,8 +233,8 @@ const Contact = () => {
                   <Text fontSize={18} fontWeight={500}>
                     Hotline:
                   </Text>
-                  <Link href="tel:0788339379" _hover={{ textDecor: 'none' }} fontSize={18} lineHeight="19px">
-                    0788339379
+                  <Link href="tel:0973123230" _hover={{ textDecor: 'none' }} fontSize={18} lineHeight="19px">
+                    0973123230
                   </Link>
                 </Flex>
                 <Flex direction="column" gap="4px" w="full">
@@ -242,7 +242,7 @@ const Contact = () => {
                     Fanpage:
                   </Text>
                   {/* <Link
-                    href="https://www.facebook.com/dieptra.0788339379"
+                    href="https://www.facebook.com/dieptra.0973123230"
                     target="_blank"
                     fontSize={18}
                     lineHeight="19px"
