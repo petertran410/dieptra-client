@@ -1,12 +1,17 @@
-import Cookies from 'js-cookie';
-import { CK_CLIENT_TOKEN } from './const';
-
 const BASE_URL = process.env.NEXT_PUBLIC_API_DOMAIN || 'http://localhost:8084';
+
+let getAuthToken = null;
+let refreshAuthToken = null;
+
+export const setAuthFunctions = (getToken, refreshToken) => {
+  getAuthToken = getToken;
+  refreshAuthToken = refreshToken;
+};
 
 export const API = {
   request: async ({ url, method = 'GET', params = {} }) => {
     try {
-      const token = Cookies.get(CK_CLIENT_TOKEN);
+      let token = getAuthToken ? getAuthToken() : null;
 
       const config = {
         method,
@@ -34,7 +39,23 @@ export const API = {
         config.body = JSON.stringify(params);
       }
 
-      const response = await fetch(fullUrl, config);
+      let response = await fetch(fullUrl, config);
+
+      if (response.status === 401 && refreshAuthToken) {
+        console.log('Token expired, attempting refresh...');
+
+        const newToken = await refreshAuthToken();
+
+        if (newToken) {
+          console.log('Token refreshed successfully');
+          // Retry request với token mới
+          config.headers['Authorization'] = `Bearer ${newToken}`;
+          response = await fetch(fullUrl, config);
+        } else {
+          console.error('Token refresh failed');
+          throw new Error('Session expired. Please login again.');
+        }
+      }
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
