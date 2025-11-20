@@ -1237,13 +1237,13 @@ export const POLICY_SIDEBAR_ITEMS = [
     title: 'Chính Sách Mẫu Thử',
     isMainPage: false,
     order: 14
-  },
-  {
-    slug: 'chinh-sach-giao-hang-dong-lanh',
-    title: 'Chính Sách Giao Hàng Đông Lạnh',
-    isMainPage: false,
-    order: 15
   }
+  // {
+  //   slug: 'chinh-sach-giao-hang-dong-lanh',
+  //   title: 'Chính Sách Giao Hàng Đông Lạnh',
+  //   isMainPage: false,
+  //   order: 15
+  // }
 ];
 
 // Helper functions
