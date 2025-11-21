@@ -31,6 +31,7 @@ import CartHeader from './_components/cart-header';
 import CartHeaderMobile from './_components/cart-header-mobile';
 import { authService } from '../../../services/auth.service';
 import { showToast } from '../../../utils/helper';
+import { useAuth } from '../../../contexts/auth-context';
 
 const UserIcon = (props) => (
   <Icon viewBox="0 0 24 24" {...props}>
@@ -52,6 +53,8 @@ const Header = () => {
   const isTransparent = pathname === '/' || pathname === '/lien-he';
 
   const { categories: productCategories } = useProductCategories();
+
+  const { isAuthenticated } = useAuth();
 
   const MENU_LIST = [
     {
@@ -100,26 +103,28 @@ const Header = () => {
   useEffect(() => {
     const checkAuth = async () => {
       const currentUser = authService.getCurrentUser();
-      if (currentUser) {
-        setUser(currentUser.user);
 
-        try {
-          const serverCart = await cartService.getCart();
-          const formattedCart = serverCart.items.map((item) => ({
-            slug: item.slug,
-            id: item.productId,
-            quantity: item.quantity
-          }));
-          setCart(formattedCart);
-        } catch (error) {
-          console.error('Failed to load cart:', error);
+      if (currentUser) {
+        setUser(currentUser);
+
+        if (isAuthenticated) {
+          try {
+            const serverCart = await cartService.getCart();
+            const formattedCart = serverCart.items.map((item) => ({
+              slug: item.slug,
+              id: item.productId,
+              quantity: item.quantity
+            }));
+            setCart(formattedCart);
+          } catch (error) {
+            console.error('Failed to load cart:', error);
+          }
         }
       } else {
         const authCheck = await authService.checkAuth();
         if (authCheck.isAuthenticated) {
           setUser(authCheck.user);
 
-          // Sync cart từ server
           try {
             const serverCart = await cartService.getCart();
             const formattedCart = serverCart.items.map((item) => ({
@@ -136,7 +141,7 @@ const Header = () => {
     };
 
     checkAuth();
-  }, [pathname, setCart]);
+  }, [pathname, setCart, isAuthenticated]);
 
   const handleLogout = async () => {
     // try {

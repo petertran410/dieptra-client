@@ -48,7 +48,6 @@ export const API = {
 
         if (newToken) {
           console.log('Token refreshed successfully');
-          // Retry request với token mới
           config.headers['Authorization'] = `Bearer ${newToken}`;
           response = await fetch(fullUrl, config);
         } else {
