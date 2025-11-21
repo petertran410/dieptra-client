@@ -2,11 +2,18 @@ import { API } from '../utils/API';
 
 export const cartService = {
   getCart: async () => {
-    const response = await API.request({
-      url: '/api/cart',
-      method: 'GET'
-    });
-    return response;
+    try {
+      const response = await API.request({
+        url: '/api/cart',
+        method: 'GET'
+      });
+      return response;
+    } catch (error) {
+      if (error.message.includes('authentication') || error.message.includes('401')) {
+        return { items: [], totalItems: 0 };
+      }
+      throw error;
+    }
   },
 
   addToCart: async (productId, quantity = 1) => {

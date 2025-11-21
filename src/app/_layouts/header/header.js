@@ -48,13 +48,12 @@ const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(null);
-  const [user, setUser] = useState(null);
   const [cart, setCart] = useRecoilState(cartAtom);
   const isTransparent = pathname === '/' || pathname === '/lien-he';
 
   const { categories: productCategories } = useProductCategories();
 
-  const { isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isChecking, logout } = useAuth();
 
   const MENU_LIST = [
     {
@@ -101,57 +100,31 @@ const Header = () => {
   }, []);
 
   useEffect(() => {
-    const checkAuth = async () => {
-      const currentUser = authService.getCurrentUser();
-
-      if (currentUser) {
-        setUser(currentUser);
-
-        if (isAuthenticated) {
-          try {
-            const serverCart = await cartService.getCart();
-            const formattedCart = serverCart.items.map((item) => ({
-              slug: item.slug,
-              id: item.productId,
-              quantity: item.quantity
-            }));
-            setCart(formattedCart);
-          } catch (error) {
-            console.error('Failed to load cart:', error);
-          }
+    const loadCart = async () => {
+      if (!isChecking && isAuthenticated && user) {
+        try {
+          const serverCart = await cartService.getCart();
+          const formattedCart = serverCart.items.map((item) => ({
+            slug: item.slug,
+            id: item.productId,
+            quantity: item.quantity
+          }));
+          setCart(formattedCart);
+        } catch (error) {
+          console.error('Failed to load cart:', error);
+          // Chỉ log lỗi, không hiện toast để tránh spam user
         }
-      } else {
-        const authCheck = await authService.checkAuth();
-        if (authCheck.isAuthenticated) {
-          setUser(authCheck.user);
-
-          try {
-            const serverCart = await cartService.getCart();
-            const formattedCart = serverCart.items.map((item) => ({
-              slug: item.slug,
-              id: item.productId,
-              quantity: item.quantity
-            }));
-            setCart(formattedCart);
-          } catch (error) {
-            console.error('Failed to load cart:', error);
-          }
-        }
+      } else if (!isChecking && !isAuthenticated) {
+        // Clear cart nếu user không authenticate
+        setCart([]);
       }
     };
 
-    checkAuth();
-  }, [pathname, setCart, isAuthenticated]);
+    loadCart();
+  }, [isChecking, isAuthenticated, user, setCart]);
 
   const handleLogout = async () => {
-    // try {
-    //   await cartService.clearCart();
-    // } catch (error) {
-    //   console.error('Failed to clear cart on server:', error);
-    // }
-
-    await authService.logout();
-    setUser(null);
+    await logout();
     setCart([]);
 
     const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang', '/profile', '/gio-hang'];

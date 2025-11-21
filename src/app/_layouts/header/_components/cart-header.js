@@ -7,25 +7,17 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { authService } from '../../../../services/auth.service';
 import { showToast } from '../../../../utils/helper';
+import { useAuth } from '../../../../contexts/auth-context';
 
 const CartHeader = ({ isScrolled, isTransparent }) => {
   const router = useRouter();
   const cart = useRecoilValue(cartAtom);
   const [isClient, setIsClient] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  const { isAuthenticated, isChecking } = useAuth();
 
   useEffect(() => {
     setIsClient(true);
-    const checkAuth = async () => {
-      const currentUser = authService.getCurrentUser();
-      if (currentUser && currentUser.token) {
-        setIsAuthenticated(true);
-      } else {
-        const authCheck = await authService.checkAuth();
-        setIsAuthenticated(authCheck.isAuthenticated);
-      }
-    };
-    checkAuth();
   }, []);
 
   const handleCartClick = async (e) => {
