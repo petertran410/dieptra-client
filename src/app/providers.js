@@ -20,11 +20,20 @@ const queryClient = new QueryClient({
 });
 
 function APIIntegration({ children }) {
-  const { getAccessToken, refreshAccessToken } = useAuth();
+  const { getAccessToken, refreshAccessToken, accessToken } = useAuth();
 
   useEffect(() => {
+    console.log('Setting up auth functions in API...');
     setAuthFunctions(getAccessToken, refreshAccessToken);
   }, [getAccessToken, refreshAccessToken]);
+
+  useEffect(() => {
+    if (accessToken) {
+      console.log('Access token updated:', accessToken.substring(0, 20) + '...');
+    } else {
+      console.log('Access token cleared');
+    }
+  }, [accessToken]);
 
   return <>{children}</>;
 }

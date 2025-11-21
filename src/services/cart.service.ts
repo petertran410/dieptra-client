@@ -9,9 +9,16 @@ export const cartService = {
       });
       return response;
     } catch (error) {
-      if (error.message.includes('authentication') || error.message.includes('401')) {
+      console.error('Cart service error:', error.message);
+
+      if (
+        error.message.includes('authentication') ||
+        error.message.includes('401') ||
+        error.message.includes('Internal server error')
+      ) {
         return { items: [], totalItems: 0 };
       }
+
       throw error;
     }
   },

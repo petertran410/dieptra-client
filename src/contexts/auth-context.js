@@ -10,6 +10,7 @@ export const AuthProvider = ({ children }) => {
   const [isChecking, setIsChecking] = useState(true);
   const [user, setUser] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
+  const [isApiReady, setIsApiReady] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
 
@@ -24,12 +25,19 @@ export const AuthProvider = ({ children }) => {
       if (result.isAuthenticated && result.access_token) {
         setUser(result.user);
         setAccessToken(result.access_token);
+
+        // Đợi một chút để API setup hoàn tất
+        setTimeout(() => {
+          setIsApiReady(true);
+        }, 100);
       } else {
         clearAuthState();
+        setIsApiReady(true); // Vẫn set ready để app không bị hang
       }
     } catch (error) {
       console.error('Check auth error:', error);
       clearAuthState();
+      setIsApiReady(true);
     } finally {
       setIsChecking(false);
     }
@@ -42,6 +50,12 @@ export const AuthProvider = ({ children }) => {
       if (result.access_token) {
         setUser(result.user);
         setAccessToken(result.access_token);
+
+        // Đợi API setup
+        setTimeout(() => {
+          setIsApiReady(true);
+        }, 100);
+
         return result;
       } else {
         throw new Error('Login failed: No access token');
@@ -86,6 +100,7 @@ export const AuthProvider = ({ children }) => {
   const clearAuthState = useCallback(() => {
     setUser(null);
     setAccessToken(null);
+    setIsApiReady(false);
     authService.clearAuthData();
   }, []);
 
@@ -97,7 +112,9 @@ export const AuthProvider = ({ children }) => {
     user,
     isChecking,
     accessToken,
+    isApiReady, // EXPORT FLAG MỚI
     isAuthenticated: !!user && !!accessToken,
+    isFullyReady: !!user && !!accessToken && isApiReady, // FLAG TỔNG HỢP
     login,
     logout,
     checkAuth,

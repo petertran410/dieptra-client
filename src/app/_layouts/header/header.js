@@ -53,7 +53,7 @@ const Header = () => {
 
   const { categories: productCategories } = useProductCategories();
 
-  const { user, isAuthenticated, isChecking, logout } = useAuth();
+  const { user, isAuthenticated, isChecking, isFullyReady, logout } = useAuth();
 
   const MENU_LIST = [
     {
@@ -101,8 +101,9 @@ const Header = () => {
 
   useEffect(() => {
     const loadCart = async () => {
-      if (!isChecking && isAuthenticated && user) {
+      if (isFullyReady && isAuthenticated && user) {
         try {
+          console.log('Loading cart for authenticated user...');
           const serverCart = await cartService.getCart();
           const formattedCart = serverCart.items.map((item) => ({
             slug: item.slug,
@@ -110,18 +111,19 @@ const Header = () => {
             quantity: item.quantity
           }));
           setCart(formattedCart);
+          console.log('Cart loaded successfully:', formattedCart.length, 'items');
         } catch (error) {
           console.error('Failed to load cart:', error);
-          // Chỉ log lỗi, không hiện toast để tránh spam user
+          setCart([]);
         }
       } else if (!isChecking && !isAuthenticated) {
-        // Clear cart nếu user không authenticate
+        console.log('Clearing cart for unauthenticated user');
         setCart([]);
       }
     };
 
     loadCart();
-  }, [isChecking, isAuthenticated, user, setCart]);
+  }, [isFullyReady, isAuthenticated, user, setCart, isChecking]);
 
   const handleLogout = async () => {
     await logout();

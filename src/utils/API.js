@@ -4,6 +4,7 @@ let getAuthToken = null;
 let refreshAuthToken = null;
 
 export const setAuthFunctions = (getToken, refreshToken) => {
+  console.log('Auth functions set in API.js');
   getAuthToken = getToken;
   refreshAuthToken = refreshToken;
 };
@@ -12,6 +13,11 @@ export const API = {
   request: async ({ url, method = 'GET', params = {} }) => {
     try {
       let token = getAuthToken ? getAuthToken() : null;
+
+      console.log(`API ${method} ${url}`, {
+        hasToken: !!token,
+        tokenPrefix: token ? token.substring(0, 20) + '...' : 'none'
+      });
 
       const config = {
         method,
@@ -41,6 +47,11 @@ export const API = {
 
       let response = await fetch(fullUrl, config);
 
+      console.log(`API ${method} ${url} response:`, {
+        status: response.status,
+        statusText: response.statusText
+      });
+
       if (response.status === 401 && refreshAuthToken) {
         console.log('Token expired, attempting refresh...');
 
@@ -50,6 +61,11 @@ export const API = {
           console.log('Token refreshed successfully');
           config.headers['Authorization'] = `Bearer ${newToken}`;
           response = await fetch(fullUrl, config);
+
+          console.log(`API ${method} ${url} retry response:`, {
+            status: response.status,
+            statusText: response.statusText
+          });
         } else {
           console.error('Token refresh failed');
           throw new Error('Session expired. Please login again.');
@@ -58,12 +74,21 @@ export const API = {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+
+        if (response.status === 401) {
+          throw new Error('Authentication failed. Please login again.');
+        } else if (response.status === 403) {
+          throw new Error('Access denied.');
+        } else if (response.status >= 500) {
+          throw new Error('Internal server error');
+        } else {
+          throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+        }
       }
 
       return await response.json();
     } catch (error) {
-      console.error('API Error:', error);
+      console.error(`API Error for ${method} ${url}:`, error.message);
       throw error;
     }
   }
