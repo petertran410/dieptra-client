@@ -94,6 +94,8 @@ const RegisterWrapper = () => {
 
     if (!formData.fullName.trim()) {
       newErrors.fullName = 'Họ tên không được để trống';
+    } else if (!/\D+/.test(formData.fullName)) {
+      newErrors.fullName = 'Họ tên không hợp lệ';
     }
 
     if (!formData.email.trim()) {
@@ -112,6 +114,10 @@ const RegisterWrapper = () => {
       newErrors.pass_word = 'Mật khẩu không được để trống';
     } else if (formData.pass_word.length < 6) {
       newErrors.pass_word = 'Mật khẩu phải có ít nhất 6 ký tự';
+    } else if (!/[A-Z]/.test(formData.pass_word)) {
+      newErrors.pass_word = 'Mật khẩu phải có ít nhất 1 chữ cái in hoa';
+    } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.pass_word)) {
+      newErrors.pass_word = 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt';
     }
 
     if (formData.pass_word !== formData.confirmPassword) {
@@ -387,8 +393,10 @@ const RegisterWrapper = () => {
                   {formData.email}
                 </Text>
 
-                <FormControl>
-                  <FormLabel textAlign="center">Nhập mã OTP (6 số)</FormLabel>
+                <VStack spacing="8px" w="full">
+                  <Text textAlign="center" fontSize="14px" color="gray.700" fontWeight={500}>
+                    Nhập mã OTP (6 số)
+                  </Text>
                   <HStack justify="center">
                     <PinInput value={otp} onChange={setOtp} otp size="lg" manageFocus>
                       <PinInputField />
@@ -399,7 +407,7 @@ const RegisterWrapper = () => {
                       <PinInputField />
                     </PinInput>
                   </HStack>
-                </FormControl>
+                </VStack>
 
                 <Button
                   w="full"

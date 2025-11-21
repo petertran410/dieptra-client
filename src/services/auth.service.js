@@ -208,7 +208,7 @@ export const authService = {
   },
 
   verifyForgotPasswordOtp: async (email, code) => {
-    const response = await fetch(`${BASE_URL}/api/client-auth/forgot-password/verify`, {
+    const response = await fetch(`${BASE_URL}/api/client-auth/forgot-password/verify-otp`, {
       method: 'POST',
       credentials: 'include',
       headers: {

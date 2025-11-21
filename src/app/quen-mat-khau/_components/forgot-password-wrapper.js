@@ -72,14 +72,21 @@ const ForgotPasswordWrapper = () => {
 
   const validatePassword = () => {
     const newErrors = {};
+
     if (!newPassword) {
       newErrors.newPassword = 'Mật khẩu mới không được để trống';
     } else if (newPassword.length < 6) {
       newErrors.newPassword = 'Mật khẩu phải có ít nhất 6 ký tự';
+    } else if (!/[A-Z]/.test(newPassword)) {
+      newErrors.newPassword = 'Mật khẩu phải có ít nhất 1 chữ cái in hoa';
+    } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(newPassword)) {
+      newErrors.newPassword = 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt';
     }
+
     if (newPassword !== confirmPassword) {
       newErrors.confirmPassword = 'Mật khẩu không khớp';
     }
+
     return newErrors;
   };
 
@@ -273,8 +280,10 @@ const ForgotPasswordWrapper = () => {
                   {email}
                 </Text>
 
-                <FormControl>
-                  <FormLabel textAlign="center">Nhập mã OTP (6 số)</FormLabel>
+                <VStack spacing="8px" w="full">
+                  <Text textAlign="center" fontSize="14px" color="gray.700" fontWeight={500}>
+                    Nhập mã OTP (6 số)
+                  </Text>
                   <HStack justify="center">
                     <PinInput value={otp} onChange={setOtp} otp size="lg" manageFocus>
                       <PinInputField />
@@ -285,7 +294,7 @@ const ForgotPasswordWrapper = () => {
                       <PinInputField />
                     </PinInput>
                   </HStack>
-                </FormControl>
+                </VStack>
 
                 <Button
                   w="full"
