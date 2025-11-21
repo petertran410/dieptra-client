@@ -147,8 +147,21 @@ export const authService = {
     }
   },
 
-  logout: async (accessToken) => {
+  logout: async () => {
     try {
+      const checkAuthResponse = await fetch(`${BASE_URL}/api/client-auth/check-auth`, {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      let accessToken = null;
+      if (checkAuthResponse.ok) {
+        const authData = await checkAuthResponse.json();
+        if (authData.authenticated) {
+          accessToken = authData.access_token;
+        }
+      }
+
       const headers = {
         'Content-Type': 'application/json'
       };
