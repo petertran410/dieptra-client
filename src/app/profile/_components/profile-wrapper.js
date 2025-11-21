@@ -5,35 +5,37 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import {
   Box,
   Button,
-  Card,
-  CardBody,
-  CardHeader,
+  Flex,
   FormControl,
-  Heading,
-  HStack,
+  FormLabel as ChakraFormLabel,
   Input,
   Select,
-  Spinner,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  Textarea,
+  Stack,
+  Text as ChakraText,
   VStack,
+  Tabs,
+  TabList,
+  TabPanels,
+  Tab,
+  TabPanel,
+  Spinner,
+  Center,
   Alert,
   AlertIcon
 } from '@chakra-ui/react';
-import FormLabel from '../../../components/form/form-label';
+
 import OrderList from './order-list';
-import { authService } from '../../../services/auth.service';
 import { profileService } from '../../../services/profile.service';
 import { showToast } from '../../../utils/helper';
+import { useAuth } from '../../../contexts/auth-context';
+import { PX_ALL } from '../../../utils/const';
 
 const ProfileWrapper = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get('redirect');
+
+  const { user: authUser, isAuthenticated, isChecking, isFullyReady } = useAuth();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -53,13 +55,24 @@ const ProfileWrapper = () => {
   });
 
   useEffect(() => {
+    if (!isChecking) {
+      if (!isAuthenticated) {
+        router.replace('/dang-nhap?redirect=/profile');
+        return;
+      }
+    }
+  }, [isAuthenticated, isChecking, router]);
+
+  useEffect(() => {
     const loadProvinces = async () => {
       try {
         const response = await fetch(
           'https://raw.githubusercontent.com/giaodienblog/provinces/refs/heads/main/district.json'
         );
-        const data = await response.json();
-        setProvinces(data);
+        if (response.ok) {
+          const data = await response.json();
+          setProvinces(data);
+        }
       } catch (error) {
         console.error('Lỗi khi tải dữ liệu tỉnh/thành:', error);
       }
@@ -69,12 +82,13 @@ const ProfileWrapper = () => {
 
   useEffect(() => {
     const loadProfile = async () => {
+      if (!isFullyReady || !isAuthenticated) {
+        return;
+      }
+
       try {
-        const currentUser = authService.getCurrentUser();
-        if (!currentUser || !currentUser.token) {
-          router.replace('/dang-nhap?redirect=/profile');
-          return;
-        }
+        setIsLoading(true);
+        console.log('Loading profile...');
 
         const profileData = await profileService.getProfile();
         const userData = profileData.user;
@@ -114,8 +128,11 @@ const ProfileWrapper = () => {
           }
         }
       } catch (error) {
-        console.error('Lỗi khi tải thông tin profile:', error);
-        showToast({ status: 'error', content: 'Lỗi khi tải thông tin cá nhân' });
+        console.error('Error loading profile:', error);
+        showToast({
+          status: 'error',
+          content: 'Không thể tải thông tin cá nhân. Vui lòng thử lại.'
+        });
       } finally {
         setIsLoading(false);
       }
@@ -124,7 +141,7 @@ const ProfileWrapper = () => {
     if (provinces.length > 0) {
       loadProfile();
     }
-  }, [router, provinces]);
+  }, [isFullyReady, isAuthenticated, provinces]);
 
   const handleProvinceChange = useCallback(
     (provinceCode) => {
@@ -240,12 +257,19 @@ const ProfileWrapper = () => {
     }
   };
 
-  if (isLoading) {
+  if (isChecking || isLoading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minH="50vh">
-        <Spinner size="xl" color="blue.500" />
-      </Box>
+      <Center minH="50vh">
+        <VStack spacing={4}>
+          <Spinner size="lg" color="#065FD4" />
+          <ChakraText>Đang tải thông tin...</ChakraText>
+        </VStack>
+      </Center>
     );
+  }
+
+  if (!isAuthenticated) {
+    return null;
   }
 
   if (!user) {
@@ -258,160 +282,169 @@ const ProfileWrapper = () => {
   }
 
   return (
-    <Box maxW="1000px" mx="auto" pt={{ xs: '20px', lg: '30px' }} pb="50px">
-      <Card>
-        <CardHeader pb={0}>
-          <Heading size="lg" color="#003366" textAlign="center">
-            Tài khoản của tôi
-          </Heading>
-        </CardHeader>
+    <Box px={PX_ALL} py="40px">
+      <VStack spacing={8} align="stretch" maxW="800px" mx="auto">
+        <ChakraText fontSize="28px" fontWeight="700" color="#333" textAlign="center">
+          Thông tin cá nhân
+        </ChakraText>
 
-        <CardBody pt={4}>
-          <Tabs colorScheme="blue" variant="enclosed">
-            <TabList>
-              <Tab
-                fontWeight="semibold"
-                fontSize="xl"
-                _selected={{ color: 'white', bg: '#003366', borderColor: '#003366' }}
-              >
-                Thông tin cá nhân
-              </Tab>
-              <Tab
-                fontWeight="semibold"
-                fontSize="xl"
-                _selected={{ color: 'white', bg: '#003366', borderColor: '#003366' }}
-              >
-                Đơn hàng của tôi
-              </Tab>
-            </TabList>
-
-            <TabPanels>
-              <TabPanel px={0} pt={6}>
-                <VStack spacing={6} align="stretch">
-                  <FormControl isRequired>
-                    <FormLabel fontSize="xl">Họ và tên</FormLabel>
+        <Tabs isFitted variant="enclosed" colorScheme="blue">
+          <TabList mb="1em">
+            <Tab fontSize="20px">Thông tin tài khoản</Tab>
+            <Tab fontSize="20px">Lịch sử đơn hàng</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Box bg="white" p={8} borderRadius="12px" boxShadow="sm" border="1px solid #E2E8F0">
+                <Stack spacing={6}>
+                  <FormControl>
+                    <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
+                      Họ và tên *
+                    </ChakraFormLabel>
                     <Input
-                      defaultValue={user.full_name}
-                      onChange={handleInputChange('full_name')}
+                      defaultValue={user?.full_name || ''}
                       placeholder="Nhập họ và tên"
-                      fontSize="xl"
+                      bg="#F7FAFC"
+                      border="1px solid #E2E8F0"
+                      fontSize="18px"
+                      _focus={{ borderColor: '#065FD4', bg: 'white' }}
+                      onChange={handleInputChange('full_name')}
                     />
                   </FormControl>
 
-                  <HStack spacing={4}>
-                    <FormControl isRequired flex={1}>
-                      <FormLabel fontSize="xl">Số điện thoại</FormLabel>
-                      <Input
-                        defaultValue={user.phone}
-                        onChange={handleInputChange('phone')}
-                        placeholder="Nhập số điện thoại"
-                        type="tel"
-                        fontSize="xl"
-                      />
+                  <FormControl>
+                    <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
+                      Email *
+                    </ChakraFormLabel>
+                    <Input
+                      defaultValue={user?.email || ''}
+                      placeholder="Nhập email"
+                      fontSize="18px"
+                      bg="#F7FAFC"
+                      border="1px solid #E2E8F0"
+                      _focus={{ borderColor: '#065FD4', bg: 'white' }}
+                      onChange={handleInputChange('email')}
+                    />
+                  </FormControl>
+
+                  <FormControl>
+                    <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
+                      Số điện thoại *
+                    </ChakraFormLabel>
+                    <Input
+                      defaultValue={user?.phone || ''}
+                      placeholder="Nhập số điện thoại"
+                      bg="#F7FAFC"
+                      fontSize="18px"
+                      border="1px solid #E2E8F0"
+                      _focus={{ borderColor: '#065FD4', bg: 'white' }}
+                      onChange={handleInputChange('phone')}
+                    />
+                  </FormControl>
+
+                  <Flex gap={4} direction={{ base: 'column', md: 'row' }}>
+                    <FormControl flex={1}>
+                      <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
+                        Tỉnh/Thành phố
+                      </ChakraFormLabel>
+                      <Select
+                        value={selectedProvince}
+                        onChange={(e) => handleProvinceChange(e.target.value)}
+                        placeholder="Chọn tỉnh/thành phố"
+                        bg="#F7FAFC"
+                        fontSize="18px"
+                        border="1px solid #E2E8F0"
+                        _focus={{ borderColor: '#065FD4', bg: 'white' }}
+                      >
+                        {provinces.map((province) => (
+                          <option key={province.code} value={province.code}>
+                            {province.name}
+                          </option>
+                        ))}
+                      </Select>
                     </FormControl>
 
-                    <FormControl isRequired flex={1}>
-                      <FormLabel fontSize="xl">Email</FormLabel>
-                      <Input
-                        defaultValue={user.email}
-                        onChange={handleInputChange('email')}
-                        placeholder="Nhập email"
-                        type="email"
-                        fontSize="xl"
-                      />
+                    <FormControl flex={1}>
+                      <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
+                        Quận/Huyện
+                      </ChakraFormLabel>
+                      <Select
+                        value={selectedDistrict}
+                        onChange={(e) => handleDistrictChange(e.target.value)}
+                        placeholder="Chọn quận/huyện"
+                        bg="#F7FAFC"
+                        fontSize="18px"
+                        border="1px solid #E2E8F0"
+                        _focus={{ borderColor: '#065FD4', bg: 'white' }}
+                        disabled={!selectedProvince}
+                      >
+                        {districts.map((district) => (
+                          <option key={district.code} value={district.code}>
+                            {district.name}
+                          </option>
+                        ))}
+                      </Select>
                     </FormControl>
-                  </HStack>
+                  </Flex>
 
-                  <Box borderTop="2px solid" borderColor="gray.200" pt={6} mt={2}>
-                    <Heading size="md" color="#003366" mb={4}>
-                      Địa chỉ giao hàng
-                    </Heading>
+                  <FormControl>
+                    <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
+                      Phường/Xã
+                    </ChakraFormLabel>
+                    <Select
+                      value={selectedWard}
+                      onChange={(e) => setSelectedWard(parseInt(e.target.value))}
+                      fontSize="18px"
+                      placeholder="Chọn phường/xã"
+                      bg="#F7FAFC"
+                      border="1px solid #E2E8F0"
+                      _focus={{ borderColor: '#065FD4', bg: 'white' }}
+                      disabled={!selectedDistrict}
+                    >
+                      {wards.map((ward) => (
+                        <option key={ward.code} value={ward.code}>
+                          {ward.name}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                    <VStack spacing={4} align="stretch">
-                      <FormControl>
-                        <FormLabel fontSize="xl">Tỉnh/Thành phố</FormLabel>
-                        <Select
-                          value={selectedProvince}
-                          onChange={(e) => handleProvinceChange(e.target.value)}
-                          placeholder="-- Chọn tỉnh/thành phố --"
-                          fontSize="xl"
-                        >
-                          {provinces.map((province) => (
-                            <option fontSize="xl" key={province.code} value={province.code}>
-                              {province.name}
-                            </option>
-                          ))}
-                        </Select>
-                      </FormControl>
-
-                      <HStack spacing={4}>
-                        <FormControl flex={1}>
-                          <FormLabel fontSize="xl">Quận/Huyện</FormLabel>
-                          <Select
-                            value={selectedDistrict}
-                            onChange={(e) => handleDistrictChange(e.target.value)}
-                            placeholder="-- Chọn quận/huyện --"
-                            disabled={!selectedProvince}
-                            fontSize="xl"
-                          >
-                            {districts.map((district) => (
-                              <option fontSize="xl" key={district.code} value={district.code}>
-                                {district.name}
-                              </option>
-                            ))}
-                          </Select>
-                        </FormControl>
-
-                        <FormControl flex={1}>
-                          <FormLabel fontSize="xl">Phường/Xã</FormLabel>
-                          <Select
-                            value={selectedWard}
-                            onChange={(e) => setSelectedWard(parseInt(e.target.value))}
-                            placeholder="-- Chọn phường/xã --"
-                            disabled={!selectedDistrict}
-                            fontSize="xl"
-                          >
-                            {wards.map((ward) => (
-                              <option fontSize="xl" key={ward.code} value={ward.code}>
-                                {ward.name}
-                              </option>
-                            ))}
-                          </Select>
-                        </FormControl>
-                      </HStack>
-
-                      <FormControl>
-                        <FormLabel fontSize="xl">Địa chỉ chi tiết</FormLabel>
-                        <Input
-                          defaultValue={user.detailed_address}
-                          onChange={handleInputChange('detailed_address')}
-                          placeholder="Số nhà, tên đường, ngõ/hẻm..."
-                          rows={3}
-                          fontSize="xl"
-                        />
-                      </FormControl>
-                    </VStack>
-                  </Box>
+                  <FormControl>
+                    <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
+                      Địa chỉ cụ thể
+                    </ChakraFormLabel>
+                    <Input
+                      defaultValue={user?.detailed_address || ''}
+                      placeholder="Số nhà, tên đường..."
+                      bg="#F7FAFC"
+                      fontSize="18px"
+                      border="1px solid #E2E8F0"
+                      _focus={{ borderColor: '#065FD4', bg: 'white' }}
+                      onChange={handleInputChange('detailed_address')}
+                    />
+                  </FormControl>
 
                   <Button
-                    colorScheme="blue"
-                    size="lg"
                     onClick={handleUpdateProfile}
                     isLoading={isUpdating}
                     loadingText="Đang cập nhật..."
+                    bg="#065FD4"
+                    color="white"
+                    size="lg"
+                    _hover={{ bg: '#0052CC' }}
+                    _active={{ bg: '#003D99' }}
                   >
                     Cập nhật thông tin
                   </Button>
-                </VStack>
-              </TabPanel>
-
-              <TabPanel px={0} pt={6}>
-                <OrderList />
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </CardBody>
-      </Card>
+                </Stack>
+              </Box>
+            </TabPanel>
+            <TabPanel>
+              <OrderList />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </VStack>
     </Box>
   );
 };

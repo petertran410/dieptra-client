@@ -103,7 +103,6 @@ const Header = () => {
     const loadCart = async () => {
       if (isFullyReady && isAuthenticated && user) {
         try {
-          console.log('Loading cart for authenticated user...');
           const serverCart = await cartService.getCart();
           const formattedCart = serverCart.items.map((item) => ({
             slug: item.slug,
@@ -111,7 +110,6 @@ const Header = () => {
             quantity: item.quantity
           }));
           setCart(formattedCart);
-          console.log('Cart loaded successfully:', formattedCart.length, 'items');
         } catch (error) {
           console.error('Failed to load cart:', error);
           setCart([]);
