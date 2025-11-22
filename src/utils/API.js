@@ -8,6 +8,44 @@ export const setAuthFunctions = (getToken, refreshToken) => {
   refreshAuthToken = refreshToken;
 };
 
+const safeGetLocalStorage = (key) => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return localStorage.getItem(key);
+    }
+    return null;
+  } catch (error) {
+    console.warn('LocalStorage access failed:', error);
+    return null;
+  }
+};
+
+const safeSetLocalStorage = (key, value) => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.setItem(key, value);
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.warn('LocalStorage set failed:', error);
+    return false;
+  }
+};
+
+const safeRemoveLocalStorage = (key) => {
+  try {
+    if (typeof window !== 'undefined' && window.localStorage) {
+      localStorage.removeItem(key);
+      return true;
+    }
+    return false;
+  } catch (error) {
+    console.warn('LocalStorage remove failed:', error);
+    return false;
+  }
+};
+
 const sanitizeRequestBody = (data) => {
   if (typeof data !== 'object' || data === null) return data;
 
@@ -20,7 +58,6 @@ const sanitizeRequestBody = (data) => {
     if (typeof data[key] === 'string') {
       sanitized[key] = data[key].replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
     } else if (Array.isArray(data[key])) {
-      // ✅ Preserve arrays
       sanitized[key] = data[key].map((item) => sanitizeRequestBody(item));
     } else if (typeof data[key] === 'object' && data[key] !== null) {
       sanitized[key] = sanitizeRequestBody(data[key]);
@@ -59,7 +96,7 @@ const getCurrentToken = () => {
     if (token && token.length > 10) return token;
   }
 
-  const tempToken = localStorage.getItem('temp_token');
+  const tempToken = safeGetLocalStorage('temp_token');
   if (tempToken && tempToken.length > 10) return tempToken;
 
   return null;
@@ -68,9 +105,8 @@ const getCurrentToken = () => {
 export const API = {
   request: async ({ url, method = 'GET', params = {} }) => {
     try {
-      let token = getCurrentToken(); // ✅ Enhanced token handling
+      let token = getCurrentToken();
 
-      // ✅ Optional debug logs (only in development)
       if (process.env.NODE_ENV === 'development') {
         console.log('🔑 Using token for request:', !!token, 'URL:', url);
       }
@@ -84,7 +120,7 @@ export const API = {
         headers: {
           'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
-          Accept: 'application/json' // ✅ Enhanced headers
+          Accept: 'application/json'
         },
         credentials: 'include'
       };
@@ -102,14 +138,12 @@ export const API = {
         const searchParams = new URLSearchParams();
         Object.entries(params).forEach(([key, value]) => {
           if (value !== undefined && value !== null && typeof key === 'string') {
-            // ✅ KEEP sanitization for security
             const sanitizedValue = String(value).replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
             searchParams.append(key, sanitizedValue);
           }
         });
         fullUrl += `?${searchParams.toString()}`;
       } else if (method !== 'GET') {
-        // ✅ KEEP sanitization for security
         const sanitizedParams = sanitizeRequestBody(params);
         config.body = JSON.stringify(sanitizedParams);
       }
@@ -128,7 +162,6 @@ export const API = {
         throw new Error('Network error: No response received');
       }
 
-      // ✅ Enhanced token refresh handling
       if (response.status === 401 && refreshAuthToken) {
         if (process.env.NODE_ENV === 'development') {
           console.log('🔄 Attempting token refresh...');
@@ -136,7 +169,7 @@ export const API = {
 
         const newToken = await refreshAuthToken();
         if (newToken && typeof newToken === 'string' && newToken.length > 10) {
-          localStorage.setItem('temp_token', newToken);
+          safeSetLocalStorage('temp_token', newToken);
           config.headers['Authorization'] = `Bearer ${newToken}`;
 
           if (process.env.NODE_ENV === 'development') {
@@ -145,7 +178,7 @@ export const API = {
 
           response = await fetch(fullUrl, config);
         } else {
-          localStorage.removeItem('temp_token');
+          safeRemoveLocalStorage('temp_token');
           throw new Error('Authentication failed');
         }
       }
@@ -155,7 +188,7 @@ export const API = {
         try {
           errorData = await response.json();
         } catch (e) {
-          throw new Error(e);
+          // Response might not be JSON
         }
 
         if (process.env.NODE_ENV === 'development') {
@@ -163,7 +196,7 @@ export const API = {
         }
 
         if (response.status === 401) {
-          localStorage.removeItem('temp_token');
+          safeRemoveLocalStorage('temp_token');
           throw new Error('Authentication required');
         } else if (response.status === 403) {
           throw new Error('Access denied');
