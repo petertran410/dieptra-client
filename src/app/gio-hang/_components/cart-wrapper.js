@@ -9,7 +9,7 @@ import { showToast } from '../../../utils/helper';
 import { Box, Button, Divider, Flex, Stack, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { useRecoilState } from 'recoil';
 import CartProduct from './cart-product';
 import Image from 'next/image';
@@ -25,51 +25,11 @@ const CartWrapper = () => {
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
+  const hasSynced = useRef(false);
+
   useEffect(() => {
     setIsClient(true);
   }, []);
-
-  const syncMissingCartItems = async () => {
-    const itemsNeedSync = cart.filter((item) => !item.cartId);
-
-    if (itemsNeedSync.length === 0) return;
-
-    try {
-      for (const item of itemsNeedSync) {
-        await cartService.addToCart(item.id, item.quantity);
-      }
-
-      await loadCartFromServer();
-    } catch (error) {
-      console.error('Error syncing cart items:', error);
-    }
-  };
-
-  useEffect(() => {
-    const checkAuthAndLoadCart = async () => {
-      const currentUser = authService.getCurrentUser();
-
-      if (!currentUser || !currentUser.token) {
-        const authCheck = await authService.checkAuth();
-        if (!authCheck.isAuthenticated) {
-          showToast({
-            status: 'warning',
-            content: 'Vui lòng đăng nhập để xem giỏ hàng.'
-          });
-          router.push('/dang-nhap?redirect=/gio-hang');
-          return;
-        }
-      }
-
-      await loadCartFromServer();
-
-      await syncMissingCartItems();
-    };
-
-    if (isClient) {
-      checkAuthAndLoadCart();
-    }
-  }, [isClient, router, cart]);
 
   const loadCartFromServer = async () => {
     try {
@@ -96,6 +56,65 @@ const CartWrapper = () => {
       console.error('Error loading cart:', error);
     }
   };
+
+  const syncMissingCartItems = async (currentCart) => {
+    const itemsNeedSync = currentCart.filter((item) => !item.cartId);
+
+    if (itemsNeedSync.length === 0) return;
+
+    try {
+      // Sync từng item với quantity hiện tại
+      for (const item of itemsNeedSync) {
+        await cartService.addToCart(item.id, item.quantity);
+      }
+
+      // Reload cart sau khi sync
+      await loadCartFromServer();
+    } catch (error) {
+      console.error('Error syncing cart items:', error);
+    }
+  };
+
+  // useEffect chính - LOẠI BỎ cart khỏi dependency
+  useEffect(() => {
+    const checkAuthAndLoadCart = async () => {
+      if (hasSynced.current) return; // Tránh chạy lặp lại
+
+      const currentUser = authService.getCurrentUser();
+
+      if (!currentUser || !currentUser.token) {
+        const authCheck = await authService.checkAuth();
+        if (!authCheck.isAuthenticated) {
+          showToast({
+            status: 'warning',
+            content: 'Vui lòng đăng nhập để xem giỏ hàng.'
+          });
+          router.push('/dang-nhap?redirect=/gio-hang');
+          return;
+        }
+      }
+
+      await loadCartFromServer();
+      hasSynced.current = true;
+    };
+
+    if (isClient) {
+      checkAuthAndLoadCart();
+    }
+  }, [isClient, router]); // ❌ LOẠI BỎ cart khỏi dependency
+
+  // useEffect riêng để sync missing cartId CHỈ 1 LẦN sau khi load
+  useEffect(() => {
+    if (isClient && hasSynced.current && cart.length > 0) {
+      const itemsWithoutCartId = cart.filter((item) => !item.cartId);
+
+      if (itemsWithoutCartId.length > 0) {
+        // Chỉ sync 1 lần khi phát hiện có items thiếu cartId
+        syncMissingCartItems(cart);
+        hasSynced.current = true; // Đánh dấu đã sync
+      }
+    }
+  }, [isClient]); // Chỉ chạy khi component mounted
 
   const handleClearCart = async () => {
     try {

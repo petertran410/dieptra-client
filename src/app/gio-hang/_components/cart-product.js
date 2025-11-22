@@ -73,50 +73,31 @@ const CartProduct = ({ cartData = [] }) => {
     setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
     const newQuantity = cartItem.quantity + 1;
 
-    if (!cartItem.cartId) {
-      try {
-        await cartService.addToCart(cartItem.id, cartItem.quantity);
+    const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
+    setCart(optimisticCart);
+
+    try {
+      if (!cartItem.cartId) {
+        await cartService.addToCart(cartItem.id, newQuantity);
+
         const serverCart = await cartService.getCart();
         const syncedItem = serverCart.items.find((serverItem) => serverItem.slug === item.slug);
 
         if (syncedItem) {
-          setCart((prev) =>
-            prev.map((i) =>
-              i.slug === item.slug
-                ? {
-                    ...i,
-                    cartId: syncedItem.id,
-                    quantity: newQuantity
-                  }
-                : i
-            )
-          );
-
-          await cartService.updateCartItem(syncedItem.id, newQuantity);
+          setCart((prev) => prev.map((i) => (i.slug === item.slug ? { ...i, cartId: syncedItem.id } : i)));
         }
-      } catch (error) {
-        setCart(cart);
-        showToast({
-          status: 'error',
-          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
-        });
-      }
-    } else {
-      const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
-      setCart(optimisticCart);
-
-      try {
+      } else {
         await cartService.updateCartItem(cartItem.cartId, newQuantity);
-      } catch (error) {
-        setCart(cart);
-        showToast({
-          status: 'error',
-          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
-        });
       }
+    } catch (error) {
+      setCart(cart);
+      showToast({
+        status: 'error',
+        content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+      });
+    } finally {
+      setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
     }
-
-    setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
   };
 
   const handleDecreaseQuantity = async (item) => {
