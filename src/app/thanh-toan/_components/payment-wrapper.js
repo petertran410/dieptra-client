@@ -131,31 +131,24 @@ const PaymentWrapper = () => {
 
       try {
         const currentUser = authService.getCurrentUser();
-        console.log('👤 Current user from cookies:', !!currentUser);
 
         if (currentUser) {
           const authCheck = await authService.checkAuth();
-          console.log('✅ Auth check result:', authCheck);
 
           if (authCheck.isAuthenticated && authCheck.access_token) {
             setIsAuthenticated(true);
             setCurrentToken(authCheck.access_token);
-            console.log('🎉 Authentication successful');
           } else {
-            console.log('❌ Auth check failed, redirecting to login');
             router.replace('/dang-nhap?redirect=/thanh-toan');
             return;
           }
         } else {
-          console.log('🔍 No user in cookies, checking auth...');
           const authCheck = await authService.checkAuth();
 
           if (authCheck.isAuthenticated && authCheck.access_token) {
             setIsAuthenticated(true);
             setCurrentToken(authCheck.access_token);
-            console.log('🎉 Auth check successful');
           } else {
-            console.log('❌ No authentication found, redirecting');
             router.replace('/dang-nhap?redirect=/thanh-toan');
             return;
           }
@@ -200,7 +193,6 @@ const PaymentWrapper = () => {
 
         const data = await response.json();
         setProvinces(data);
-        console.log('✅ Provinces loaded:', data.length);
       } catch (error) {
         console.error('💥 Error loading provinces:', error);
         showToast({
@@ -282,27 +274,18 @@ const PaymentWrapper = () => {
 
   useEffect(() => {
     const loadProfile = async () => {
-      // Wait for auth to be ready and provinces to be loaded
       if (!isAuthenticated || !currentToken || provinces.length === 0) {
-        console.log('⏳ Waiting for auth and provinces...', {
-          isAuthenticated,
-          hasToken: !!currentToken,
-          provincesLoaded: provinces.length > 0
-        });
         return;
       }
 
       setProfileLoading(true);
-      console.log('📋 Loading profile with token...');
 
       try {
-        // Set token for API calls before making profile request
         if (currentToken) {
           localStorage.setItem('temp_token', currentToken);
         }
 
         const profileData = await profileService.getProfile();
-        console.log('✅ Profile loaded successfully:', profileData);
 
         const userData = profileData.user;
 
@@ -342,8 +325,6 @@ const PaymentWrapper = () => {
             }
           }
         }
-
-        console.log('✅ Profile and location data set successfully');
       } catch (error) {
         console.error('💥 Error loading profile:', error);
 

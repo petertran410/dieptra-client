@@ -24,48 +24,119 @@ export const cartService = {
   },
 
   addToCart: async (productId, quantity = 1) => {
-    const response = await API.request({
-      url: '/api/cart/add',
-      method: 'POST',
-      params: {
-        product_id: productId,
-        quantity: quantity
+    try {
+      const response = await API.request({
+        url: '/api/cart/add',
+        method: 'POST',
+        params: {
+          product_id: productId,
+          quantity: quantity
+        }
+      });
+      return response;
+    } catch (error) {
+      console.error('Add to cart error:', error.message);
+
+      if (
+        error.message.includes('authentication') ||
+        error.message.includes('401') ||
+        error.message.includes('Service temporarily unavailable') ||
+        error.message.includes('Access denied')
+      ) {
+        throw new Error('Vui lòng đăng nhập lại để thêm sản phẩm vào giỏ hàng');
       }
-    });
-    return response;
+
+      throw error;
+    }
   },
 
   updateCartItem: async (cartItemId, quantity) => {
-    const response = await API.request({
-      url: `/api/cart/${cartItemId}`,
-      method: 'PUT',
-      params: { quantity }
-    });
-    return response;
+    try {
+      const response = await API.request({
+        url: `/api/cart/${cartItemId}`,
+        method: 'PUT',
+        params: { quantity }
+      });
+      return response;
+    } catch (error) {
+      console.error('Update cart error:', error.message);
+
+      if (
+        error.message.includes('authentication') ||
+        error.message.includes('401') ||
+        error.message.includes('Service temporarily unavailable')
+      ) {
+        throw new Error('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
+      }
+
+      throw error;
+    }
   },
 
   removeFromCart: async (cartItemId) => {
-    const response = await API.request({
-      url: `/api/cart/${cartItemId}`,
-      method: 'DELETE'
-    });
-    return response;
+    try {
+      const response = await API.request({
+        url: `/api/cart/${cartItemId}`,
+        method: 'DELETE'
+      });
+      return response;
+    } catch (error) {
+      console.error('Remove from cart error:', error.message);
+
+      if (
+        error.message.includes('authentication') ||
+        error.message.includes('401') ||
+        error.message.includes('Service temporarily unavailable')
+      ) {
+        throw new Error('Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại');
+      }
+
+      throw error;
+    }
   },
 
   clearCart: async () => {
-    const response = await API.request({
-      url: '/api/cart',
-      method: 'DELETE'
-    });
-    return response;
+    try {
+      const response = await API.request({
+        url: '/api/cart',
+        method: 'DELETE'
+      });
+      return response;
+    } catch (error) {
+      console.error('Clear cart error:', error.message);
+
+      if (
+        error.message.includes('authentication') ||
+        error.message.includes('401') ||
+        error.message.includes('Service temporarily unavailable')
+      ) {
+        return { success: true };
+      }
+
+      throw error;
+    }
   },
 
   syncCart: async (localCart) => {
-    const response = await API.request({
-      url: '/api/cart/sync',
-      method: 'POST',
-      params: { cart: localCart }
-    });
-    return response;
+    try {
+      const response = await API.request({
+        url: '/api/cart/sync',
+        method: 'POST',
+        params: { cart: localCart }
+      });
+      return response;
+    } catch (error) {
+      console.error('Sync cart error:', error.message);
+
+      if (
+        error.message.includes('authentication') ||
+        error.message.includes('401') ||
+        error.message.includes('Service temporarily unavailable')
+      ) {
+        throw new Error('Không thể đồng bộ giỏ hàng, vui lòng đăng nhập lại');
+      }
+
+      throw error;
+    }
   }
 };

@@ -107,10 +107,6 @@ export const API = {
     try {
       let token = getCurrentToken();
 
-      if (process.env.NODE_ENV === 'development') {
-        console.log('🔑 Using token for request:', !!token, 'URL:', url);
-      }
-
       if (!url.startsWith('/api/')) {
         throw new Error('Invalid API endpoint');
       }
@@ -124,13 +120,6 @@ export const API = {
         },
         credentials: 'include'
       };
-
-      if (token) {
-        config.headers['Authorization'] = `Bearer ${token}`;
-        if (process.env.NODE_ENV === 'development') {
-          console.log('✅ Authorization header set');
-        }
-      }
 
       let fullUrl = `${BASE_URL}${url}`;
 
@@ -148,33 +137,17 @@ export const API = {
         config.body = JSON.stringify(sanitizedParams);
       }
 
-      if (process.env.NODE_ENV === 'development') {
-        console.log('📡 Making request to:', fullUrl);
-      }
-
       let response = await fetch(fullUrl, config);
-
-      if (process.env.NODE_ENV === 'development') {
-        console.log('📥 Response status:', response.status);
-      }
 
       if (!response) {
         throw new Error('Network error: No response received');
       }
 
       if (response.status === 401 && refreshAuthToken) {
-        if (process.env.NODE_ENV === 'development') {
-          console.log('🔄 Attempting token refresh...');
-        }
-
         const newToken = await refreshAuthToken();
         if (newToken && typeof newToken === 'string' && newToken.length > 10) {
           safeSetLocalStorage('temp_token', newToken);
           config.headers['Authorization'] = `Bearer ${newToken}`;
-
-          if (process.env.NODE_ENV === 'development') {
-            console.log('✅ Token refreshed, retrying request');
-          }
 
           response = await fetch(fullUrl, config);
         } else {
@@ -188,11 +161,7 @@ export const API = {
         try {
           errorData = await response.json();
         } catch (e) {
-          // Response might not be JSON
-        }
-
-        if (process.env.NODE_ENV === 'development') {
-          console.log('❌ Request failed:', response.status, errorData);
+          throw new Error(e);
         }
 
         if (response.status === 401) {
@@ -210,10 +179,6 @@ export const API = {
       }
 
       const responseData = await response.json();
-
-      if (process.env.NODE_ENV === 'development') {
-        console.log('✅ Request successful:', Object.keys(responseData));
-      }
 
       return sanitizeResponseData(responseData);
     } catch (error) {

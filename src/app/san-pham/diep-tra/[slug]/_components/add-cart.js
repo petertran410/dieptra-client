@@ -20,19 +20,20 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
     setIsLoading(true);
 
     try {
-      const currentUser = authService.getCurrentUser();
+      let authCheck = await authService.checkAuth();
 
-      if (!currentUser || !currentUser.token) {
-        const authCheck = await authService.checkAuth();
-        if (!authCheck.isAuthenticated) {
-          showToast({
-            status: 'warning',
-            content: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'
-          });
-          router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
-          setIsLoading(false);
-          return;
-        }
+      if (!authCheck.isAuthenticated) {
+        showToast({
+          status: 'warning',
+          content: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'
+        });
+        router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
+        setIsLoading(false);
+        return;
+      }
+
+      if (authCheck.access_token) {
+        authService.setCurrentToken(authCheck.access_token);
       }
 
       await cartService.addToCart(Number(productId), quantity);
@@ -52,10 +53,19 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
       });
     } catch (error) {
       console.error('Add to cart error:', error);
-      showToast({
-        status: 'error',
-        content: error.message || 'Không thể thêm vào giỏ hàng'
-      });
+
+      if (error.message && error.message.includes('đăng nhập')) {
+        showToast({
+          status: 'warning',
+          content: error.message
+        });
+        router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
+      } else {
+        showToast({
+          status: 'error',
+          content: error.message || 'Không thể thêm vào giỏ hàng'
+        });
+      }
     } finally {
       setIsLoading(false);
     }

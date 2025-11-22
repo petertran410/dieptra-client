@@ -134,7 +134,6 @@ export const authService = {
   checkAuth: async () => {
     try {
       if (process.env.NODE_ENV === 'development') {
-        console.log('🔍 Checking authentication...');
       }
 
       const response = await fetch(`${BASE_URL}/api/client-auth/check-auth`, {
@@ -148,30 +147,18 @@ export const authService = {
       });
 
       if (process.env.NODE_ENV === 'development') {
-        console.log('📥 Auth check response:', response.status, response.ok);
       }
 
       if (response.ok) {
         const data = await response.json();
 
         if (process.env.NODE_ENV === 'development') {
-          console.log('✅ Auth data received:', Object.keys(data));
         }
 
         if (data.authenticated && data.access_token) {
           if (data.user && (!data.user.email || typeof data.user.email !== 'string')) {
-            if (process.env.NODE_ENV === 'development') {
-              console.warn('⚠️ Invalid user data received');
-            }
             clearAuthData();
             return { isAuthenticated: false };
-          }
-
-          if (data.access_token && typeof data.access_token === 'string') {
-            safeSetLocalStorage('temp_token', data.access_token);
-            if (process.env.NODE_ENV === 'development') {
-              console.log('💾 Token stored in localStorage');
-            }
           }
 
           if (data.user && data.user.email) {
@@ -190,9 +177,6 @@ export const authService = {
             };
 
             Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
-            if (process.env.NODE_ENV === 'development') {
-              console.log('💾 User data stored in cookies');
-            }
           }
 
           return {
@@ -203,9 +187,6 @@ export const authService = {
         }
       }
 
-      if (process.env.NODE_ENV === 'development') {
-        console.log('❌ Authentication check failed');
-      }
       clearAuthData();
       return { isAuthenticated: false };
     } catch (error) {
@@ -349,5 +330,14 @@ export const authService = {
     }
 
     return await response.json();
+  },
+
+  setCurrentToken: (token) => {
+    if (token && typeof token === 'string' && token.length > 10) {
+      safeSetLocalStorage('temp_token', token);
+      if (process.env.NODE_ENV === 'development') {
+        console.log('✅ Current token updated');
+      }
+    }
   }
 };
