@@ -28,6 +28,8 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 import { useSearchParams } from 'next/navigation';
+import { CK_CLIENT_TOKEN, CK_CLIENT_USER } from '../../../utils/const';
+import Cookies from 'js-cookie';
 
 const API_URL = process.env.NEXT_PUBLIC_API_DOMAIN;
 
@@ -160,17 +162,17 @@ const RegisterWrapper = () => {
   };
 
   const handleVerifyOtp = async () => {
-    if (otp.length !== 6) {
-      showToast({
-        status: 'error',
-        content: 'Vui lòng nhập đủ 6 số mã OTP'
-      });
-      return;
-    }
-
     setIsLoading(true);
     try {
-      await authService.verifyEmail(formData.email, otp);
+      const result = await authService.verifyEmail(formData.email, otp);
+
+      if (result.access_token) {
+        Cookies.set(CK_CLIENT_TOKEN, result.access_token, { expires: 7 });
+      }
+
+      if (result.user) {
+        Cookies.set(CK_CLIENT_USER, JSON.stringify(result.user), { expires: 7 });
+      }
 
       showToast({
         status: 'success',
