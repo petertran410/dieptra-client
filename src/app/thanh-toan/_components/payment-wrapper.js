@@ -975,7 +975,6 @@ const PaymentWrapper = () => {
                 {cartData.map((product) => {
                   const cartItem = cart.find((item) => Number(item.id) === Number(product.id));
                   const { kiotViet, imagesUrl } = product;
-                  console.log(product);
                   const quantity = cartItem ? cartItem.quantity : 1;
                   const itemTotal = product.price * quantity;
                   const image_url = imagesUrl ? imagesUrl : kiotViet.images?.[0] || '';

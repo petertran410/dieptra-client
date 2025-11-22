@@ -111,11 +111,9 @@ const Header = () => {
           }));
           setCart(formattedCart);
         } catch (error) {
-          console.error('Failed to load cart:', error);
           setCart([]);
         }
       } else if (!isChecking && !isAuthenticated) {
-        console.log('Clearing cart for unauthenticated user');
         setCart([]);
       }
     };

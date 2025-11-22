@@ -33,7 +33,7 @@ export async function generateMetadata({ params }) {
         description: targetCategory.description || 'Khám phá nguyên liệu pha chế chất lượng cao từ Diệp Trà'
       });
     } else {
-      console.log('Target category not found for path:', categorySlug);
+      return;
     }
   } catch (error) {
     console.error('Meta generation error:', error);
@@ -50,23 +50,11 @@ function findCategoryBySlugPath(categories, slugPath) {
     return null;
   }
 
-  // console.log('🔍 Finding category for path:', slugPath);
-  // console.log(
-  //   '📂 Available categories:',
-  //   categories.map((c) => ({
-  //     id: c.id,
-  //     name: c.name,
-  //     slug: c.slug,
-  //     parent_id: c.parent_id
-  //   }))
-  // );
-
   const targetSlug = slugPath[slugPath.length - 1];
 
   const found = categories.find((cat) => cat.slug === targetSlug);
 
   if (found) {
-    // console.log('✅ Found category:', found.name);
     return found;
   } else {
     return null;

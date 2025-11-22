@@ -28,8 +28,6 @@ export async function POST(req) {
 
     const backendData = await backendResponse.text();
 
-    console.log('ducnh backendData', backendData);
-
     if (!backendResponse.ok) {
       return NextResponse.json({ error: backendData.message || 'Upload failed' }, { status: backendResponse.status });
     }

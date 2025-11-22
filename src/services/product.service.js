@@ -150,8 +150,6 @@ export const useQueryProductBySlugs = (slugs) => {
   return useQuery({
     queryKey,
     queryFn: async () => {
-      console.log('Fetching products by slugs:', slugs);
-
       const productPromises = slugs.map((slug) =>
         API.request({
           url: `/api/product/client/find-by-slug/${slug}`,

@@ -88,7 +88,6 @@ const ProfileWrapper = () => {
 
       try {
         setIsLoading(true);
-        console.log('Loading profile...');
 
         const profileData = await profileService.getProfile();
         const userData = profileData.user;

@@ -4,15 +4,12 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 export const useMutateCreatePayment = () => {
   return useMutation({
     mutationFn: async (paymentData) => {
-      console.log('Creating payment with data:', paymentData);
-
       const response = await API.request({
         url: '/api/payment/create',
         method: 'POST',
         params: paymentData
       });
 
-      console.log('Payment creation response:', response);
       return response;
     },
     onError: (error) => {
@@ -59,7 +56,7 @@ export const useQueryPaymentStatus = (orderId, enabled = false) => {
 
     onSuccess: (data) => {
       if (data?.status === 'SUCCESS' || data?.status === 'PAID') {
-        console.log(`🎉 PAYMENT SUCCESSFUL for order ${orderId}!`);
+        return true;
       }
     },
 

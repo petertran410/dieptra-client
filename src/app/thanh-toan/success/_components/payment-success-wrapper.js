@@ -42,9 +42,6 @@ const PaymentSuccessContent = () => {
 
   const { data: paymentStatus, isLoading } = useQueryPaymentStatus(orderId, !!orderId);
 
-  console.log(paymentStatus);
-  console.log(orderDetails);
-
   useEffect(() => {
     const fetchOrderDetails = async () => {
       if (!orderId) return;
