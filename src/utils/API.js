@@ -8,6 +8,51 @@ export const setAuthFunctions = (getToken, refreshToken) => {
   refreshAuthToken = refreshToken;
 };
 
+const sanitizeRequestBody = (data) => {
+  if (typeof data !== 'object' || data === null) return data;
+
+  if (Array.isArray(data)) {
+    return data.map((item) => sanitizeRequestBody(item));
+  }
+
+  const sanitized = {};
+  Object.keys(data).forEach((key) => {
+    if (typeof data[key] === 'string') {
+      sanitized[key] = data[key].replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    } else if (Array.isArray(data[key])) {
+      // ✅ Preserve arrays
+      sanitized[key] = data[key].map((item) => sanitizeRequestBody(item));
+    } else if (typeof data[key] === 'object' && data[key] !== null) {
+      sanitized[key] = sanitizeRequestBody(data[key]);
+    } else {
+      sanitized[key] = data[key];
+    }
+  });
+  return sanitized;
+};
+
+const sanitizeResponseData = (data) => {
+  if (typeof data !== 'object' || data === null) return data;
+
+  if (Array.isArray(data)) {
+    return data;
+  }
+
+  const sanitized = {};
+  Object.keys(data).forEach((key) => {
+    if (typeof data[key] === 'string') {
+      sanitized[key] = data[key].replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    } else if (Array.isArray(data[key])) {
+      sanitized[key] = data[key];
+    } else if (typeof data[key] === 'object' && data[key] !== null) {
+      sanitized[key] = sanitizeResponseData(data[key]);
+    } else {
+      sanitized[key] = data[key];
+    }
+  });
+  return sanitized;
+};
+
 export const API = {
   request: async ({ url, method = 'GET', params = {} }) => {
     try {
@@ -27,10 +72,9 @@ export const API = {
       };
 
       if (token) {
-        if (!/^[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+$/.test(token)) {
-          throw new Error('Invalid token format');
+        if (typeof token === 'string' && token.length > 10) {
+          config.headers['Authorization'] = `Bearer ${token}`;
         }
-        config.headers['Authorization'] = `Bearer ${token}`;
       }
 
       let fullUrl = `${BASE_URL}${url}`;
@@ -39,13 +83,13 @@ export const API = {
         const searchParams = new URLSearchParams();
         Object.entries(params).forEach(([key, value]) => {
           if (value !== undefined && value !== null && typeof key === 'string') {
-            const sanitizedValue = String(value).replace(/[<>"']/g, '');
+            const sanitizedValue = String(value).replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
             searchParams.append(key, sanitizedValue);
           }
         });
         fullUrl += `?${searchParams.toString()}`;
       } else if (method !== 'GET') {
-        const sanitizedParams = this.sanitizeRequestBody(params);
+        const sanitizedParams = sanitizeRequestBody(params);
         config.body = JSON.stringify(sanitizedParams);
       }
 
@@ -53,7 +97,7 @@ export const API = {
 
       if (response.status === 401 && refreshAuthToken) {
         const newToken = await refreshAuthToken();
-        if (newToken && /^[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+$/.test(newToken)) {
+        if (newToken && typeof newToken === 'string' && newToken.length > 10) {
           config.headers['Authorization'] = `Bearer ${newToken}`;
           response = await fetch(fullUrl, config);
         } else {
@@ -62,6 +106,8 @@ export const API = {
       }
 
       if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+
         if (response.status === 401) {
           throw new Error('Authentication required');
         } else if (response.status === 403) {
@@ -69,47 +115,15 @@ export const API = {
         } else if (response.status >= 500) {
           throw new Error('Service unavailable');
         } else {
-          throw new Error('Request failed');
+          throw new Error(errorData.message || 'Request failed');
         }
       }
 
       const responseData = await response.json();
 
-      return this.sanitizeResponseData(responseData);
+      return sanitizeResponseData(responseData);
     } catch (error) {
       throw error;
     }
-  },
-
-  sanitizeRequestBody: (data) => {
-    if (typeof data !== 'object' || data === null) return data;
-
-    const sanitized = {};
-    Object.keys(data).forEach((key) => {
-      if (typeof data[key] === 'string') {
-        sanitized[key] = data[key].replace(/[<>"'&]/g, '');
-      } else if (typeof data[key] === 'object' && data[key] !== null) {
-        sanitized[key] = API.sanitizeRequestBody(data[key]);
-      } else {
-        sanitized[key] = data[key];
-      }
-    });
-    return sanitized;
-  },
-
-  sanitizeResponseData: (data) => {
-    if (typeof data !== 'object' || data === null) return data;
-
-    const sanitized = {};
-    Object.keys(data).forEach((key) => {
-      if (typeof data[key] === 'string') {
-        sanitized[key] = data[key].replace(/[<>"']/g, '');
-      } else if (typeof data[key] === 'object' && data[key] !== null) {
-        sanitized[key] = API.sanitizeResponseData(data[key]);
-      } else {
-        sanitized[key] = data[key];
-      }
-    });
-    return sanitized;
   }
 };
