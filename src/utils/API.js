@@ -13,15 +13,23 @@ export const API = {
     try {
       let token = getAuthToken ? getAuthToken() : null;
 
+      if (!url.startsWith('/api/')) {
+        throw new Error('Invalid API endpoint');
+      }
+
       const config = {
         method,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-Requested-With': 'XMLHttpRequest'
         },
         credentials: 'include'
       };
 
       if (token) {
+        if (!/^[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+$/.test(token)) {
+          throw new Error('Invalid token format');
+        }
         config.headers['Authorization'] = `Bearer ${token}`;
       }
 
@@ -30,47 +38,78 @@ export const API = {
       if (method === 'GET' && Object.keys(params).length > 0) {
         const searchParams = new URLSearchParams();
         Object.entries(params).forEach(([key, value]) => {
-          if (value !== undefined && value !== null) {
-            searchParams.append(key, value);
+          if (value !== undefined && value !== null && typeof key === 'string') {
+            const sanitizedValue = String(value).replace(/[<>"']/g, '');
+            searchParams.append(key, sanitizedValue);
           }
         });
         fullUrl += `?${searchParams.toString()}`;
       } else if (method !== 'GET') {
-        config.body = JSON.stringify(params);
+        const sanitizedParams = this.sanitizeRequestBody(params);
+        config.body = JSON.stringify(sanitizedParams);
       }
 
       let response = await fetch(fullUrl, config);
 
       if (response.status === 401 && refreshAuthToken) {
         const newToken = await refreshAuthToken();
-
-        if (newToken) {
+        if (newToken && /^[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+$/.test(newToken)) {
           config.headers['Authorization'] = `Bearer ${newToken}`;
           response = await fetch(fullUrl, config);
         } else {
-          console.error('Token refresh failed');
-          throw new Error('Session expired. Please login again.');
+          throw new Error('Authentication failed');
         }
       }
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-
         if (response.status === 401) {
-          throw new Error('Authentication failed. Please login again.');
+          throw new Error('Authentication required');
         } else if (response.status === 403) {
-          throw new Error('Access denied.');
+          throw new Error('Access denied');
         } else if (response.status >= 500) {
-          throw new Error('Internal server error');
+          throw new Error('Service unavailable');
         } else {
-          throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
+          throw new Error('Request failed');
         }
       }
 
-      return await response.json();
+      const responseData = await response.json();
+
+      return this.sanitizeResponseData(responseData);
     } catch (error) {
-      console.error(`API Error for ${method} ${url}:`, error.message);
       throw error;
     }
+  },
+
+  sanitizeRequestBody: (data) => {
+    if (typeof data !== 'object' || data === null) return data;
+
+    const sanitized = {};
+    Object.keys(data).forEach((key) => {
+      if (typeof data[key] === 'string') {
+        sanitized[key] = data[key].replace(/[<>"'&]/g, '');
+      } else if (typeof data[key] === 'object' && data[key] !== null) {
+        sanitized[key] = API.sanitizeRequestBody(data[key]);
+      } else {
+        sanitized[key] = data[key];
+      }
+    });
+    return sanitized;
+  },
+
+  sanitizeResponseData: (data) => {
+    if (typeof data !== 'object' || data === null) return data;
+
+    const sanitized = {};
+    Object.keys(data).forEach((key) => {
+      if (typeof data[key] === 'string') {
+        sanitized[key] = data[key].replace(/[<>"']/g, '');
+      } else if (typeof data[key] === 'object' && data[key] !== null) {
+        sanitized[key] = API.sanitizeResponseData(data[key]);
+      } else {
+        sanitized[key] = data[key];
+      }
+    });
+    return sanitized;
   }
 };
