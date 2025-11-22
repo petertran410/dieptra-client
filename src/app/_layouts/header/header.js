@@ -103,6 +103,11 @@ const Header = () => {
     const loadCart = async () => {
       if (isFullyReady && isAuthenticated && user) {
         try {
+          const authCheck = await authService.checkAuth();
+          if (authCheck.isAuthenticated && authCheck.access_token) {
+            authService.setCurrentToken(authCheck.access_token);
+          }
+
           const serverCart = await cartService.getCart();
           const formattedCart = serverCart.items.map((item) => ({
             slug: item.slug,
@@ -111,6 +116,7 @@ const Header = () => {
           }));
           setCart(formattedCart);
         } catch (error) {
+          console.log('⚠️ Could not load cart:', error.message);
           setCart([]);
         }
       } else if (!isChecking && !isAuthenticated) {

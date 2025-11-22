@@ -19,6 +19,11 @@ export const cartService = {
         return { items: [], totalItems: 0 };
       }
 
+      if (error.message.includes('Service temporarily unavailable')) {
+        console.log('🔄 Cart service unavailable, returning empty cart');
+        return { items: [], totalItems: 0 };
+      }
+
       throw error;
     }
   },

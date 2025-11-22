@@ -20,6 +20,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
     setIsLoading(true);
 
     try {
+      // Kiểm tra authentication trước
       let authCheck = await authService.checkAuth();
 
       if (!authCheck.isAuthenticated) {
@@ -28,24 +29,81 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
           content: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'
         });
         router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
-        setIsLoading(false);
         return;
       }
 
+      // Cập nhật token nếu có
       if (authCheck.access_token) {
         authService.setCurrentToken(authCheck.access_token);
       }
 
-      await cartService.addToCart(Number(productId), quantity);
+      // Retry mechanism cho cart add
+      let retryCount = 0;
+      const maxRetries = 2;
 
-      const serverCart = await cartService.getCart();
-      const formattedCart = serverCart.items.map((item) => ({
-        slug: item.slug,
-        id: Number(item.productId),
-        quantity: item.quantity,
-        cartId: item.id
-      }));
-      setCart(formattedCart);
+      while (retryCount <= maxRetries) {
+        try {
+          await cartService.addToCart(Number(productId), quantity);
+          break; // Thành công thì thoát loop
+        } catch (cartError) {
+          console.log(`🔄 Add to cart attempt ${retryCount + 1} failed:`, cartError.message);
+
+          if (retryCount === maxRetries) {
+            // Lần cuối vẫn fail
+            if (
+              cartError.message.includes('Service temporarily unavailable') ||
+              cartError.message.includes('authentication') ||
+              cartError.message.includes('401')
+            ) {
+              // Thử refresh token một lần nữa
+              const refreshResult = await authService.refreshToken();
+              if (refreshResult && refreshResult.access_token) {
+                authService.setCurrentToken(refreshResult.access_token);
+
+                // Thử add cart một lần nữa với token mới
+                try {
+                  await cartService.addToCart(Number(productId), quantity);
+                  break;
+                } catch (finalError) {
+                  showToast({
+                    status: 'warning',
+                    content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'
+                  });
+                  router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
+                  return;
+                }
+              } else {
+                showToast({
+                  status: 'warning',
+                  content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'
+                });
+                router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
+                return;
+              }
+            } else {
+              throw cartError;
+            }
+          }
+
+          retryCount++;
+          // Đợi một chút trước khi retry
+          await new Promise((resolve) => setTimeout(resolve, 500));
+        }
+      }
+
+      // Load lại cart sau khi add thành công
+      try {
+        const serverCart = await cartService.getCart();
+        const formattedCart = serverCart.items.map((item) => ({
+          slug: item.slug,
+          id: Number(item.productId),
+          quantity: item.quantity,
+          cartId: item.id
+        }));
+        setCart(formattedCart);
+      } catch (getCartError) {
+        console.log('⚠️ Could not reload cart after add, but item was added');
+      }
 
       showToast({
         status: 'success',
@@ -53,19 +111,10 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
       });
     } catch (error) {
       console.error('Add to cart error:', error);
-
-      if (error.message && error.message.includes('đăng nhập')) {
-        showToast({
-          status: 'warning',
-          content: error.message
-        });
-        router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
-      } else {
-        showToast({
-          status: 'error',
-          content: error.message || 'Không thể thêm vào giỏ hàng'
-        });
-      }
+      showToast({
+        status: 'error',
+        content: 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.'
+      });
     } finally {
       setIsLoading(false);
     }
