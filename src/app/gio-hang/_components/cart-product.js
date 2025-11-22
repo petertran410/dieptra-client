@@ -1,6 +1,5 @@
 'use client';
 
-import OtherProduct from '../../san-pham/diep-tra/[slug]/_components/other-product';
 import { IMG_ALT } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
 import { formatCurrency } from '../../../utils/helper-server';
@@ -17,75 +16,158 @@ const CartProduct = ({ cartData = [] }) => {
 
   const handleRemoveItem = async (item) => {
     const cartItem = cart.find((i) => i.slug === item.slug);
-    if (!cartItem || !cartItem.cartId) return;
+    if (!cartItem) return;
 
+    // Nếu không có cartId, sync trước
+    if (!cartItem.cartId) {
+      try {
+        await cartService.addToCart(cartItem.id, cartItem.quantity);
+        const serverCart = await cartService.getCart();
+        const syncedItem = serverCart.items.find((serverItem) => serverItem.slug === item.slug);
+
+        if (syncedItem) {
+          // Update cart state với cartId mới
+          setCart((prev) => prev.map((i) => (i.slug === item.slug ? { ...i, cartId: syncedItem.id } : i)));
+
+          // Sau đó remove
+          await cartService.removeFromCart(syncedItem.id);
+        }
+      } catch (error) {
+        showToast({
+          status: 'error',
+          content: 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại'
+        });
+        return;
+      }
+    } else {
+      // Logic cũ
+      try {
+        await cartService.removeFromCart(cartItem.cartId);
+      } catch (error) {
+        showToast({
+          status: 'error',
+          content: 'Không thể xoá sản phẩm. Vui lòng thử lại'
+        });
+        return;
+      }
+    }
+
+    // Update UI
     setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
-
     const optimisticCart = cart.filter((i) => i.slug !== item.slug);
     setCart(optimisticCart);
 
-    try {
-      await cartService.removeFromCart(cartItem.cartId);
-      showToast({
-        status: 'success',
-        content: 'Đã xoá sản phẩm khỏi giỏ hàng',
-        icon: '/images/trash-green.webp'
-      });
-    } catch (error) {
-      setCart(cart);
-      showToast({
-        status: 'error',
-        content: 'Không thể xoá sản phẩm. Vui lòng thử lại'
-      });
-    } finally {
-      setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
-    }
-  };
+    showToast({
+      status: 'success',
+      content: 'Đã xoá sản phẩm khỏi giỏ hàng',
+      icon: '/images/trash-green.webp'
+    });
 
-  const handleDecreaseQuantity = async (item) => {
-    const cartItem = cart.find((i) => i.slug === item.slug);
-    if (!cartItem || cartItem.quantity <= 1 || !cartItem.cartId) return;
-
-    setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
-
-    const newQuantity = cartItem.quantity - 1;
-    const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
-    setCart(optimisticCart);
-
-    try {
-      await cartService.updateCartItem(cartItem.cartId, newQuantity);
-    } catch (error) {
-      setCart(cart);
-      showToast({
-        status: 'error',
-        content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
-      });
-    } finally {
-      setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
-    }
+    setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
   };
 
   const handleIncreaseQuantity = async (item) => {
     const cartItem = cart.find((i) => i.slug === item.slug);
-    if (!cartItem || !cartItem.cartId) return;
+    if (!cartItem) return;
 
     setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
 
-    const newQuantity = cartItem.quantity + 1;
-    const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
-    setCart(optimisticCart);
+    // Nếu không có cartId, sync trước
+    if (!cartItem.cartId) {
+      try {
+        await cartService.addToCart(cartItem.id, 1);
+        const serverCart = await cartService.getCart();
+        const syncedItem = serverCart.items.find((serverItem) => serverItem.slug === item.slug);
 
-    try {
-      await cartService.updateCartItem(cartItem.cartId, newQuantity);
-    } catch (error) {
-      setCart(cart);
-      showToast({
-        status: 'error',
-        content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
-      });
-    } finally {
-      setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
+        if (syncedItem) {
+          setCart((prev) =>
+            prev.map((i) =>
+              i.slug === item.slug
+                ? {
+                    ...i,
+                    cartId: syncedItem.id,
+                    quantity: syncedItem.quantity
+                  }
+                : i
+            )
+          );
+        }
+      } catch (error) {
+        showToast({
+          status: 'error',
+          content: 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại'
+        });
+      }
+    } else {
+      const newQuantity = cartItem.quantity + 1;
+      const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
+      setCart(optimisticCart);
+
+      try {
+        await cartService.updateCartItem(cartItem.cartId, newQuantity);
+      } catch (error) {
+        setCart(cart);
+        showToast({
+          status: 'error',
+          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+        });
+      }
     }
+
+    setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
+  };
+
+  const handleDecreaseQuantity = async (item) => {
+    const cartItem = cart.find((i) => i.slug === item.slug);
+    if (!cartItem || cartItem.quantity <= 1) return;
+
+    setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
+
+    // Nếu không có cartId, sync trước
+    if (!cartItem.cartId) {
+      try {
+        await cartService.addToCart(cartItem.id, cartItem.quantity);
+        const serverCart = await cartService.getCart();
+        const syncedItem = serverCart.items.find((serverItem) => serverItem.slug === item.slug);
+
+        if (syncedItem) {
+          setCart((prev) =>
+            prev.map((i) =>
+              i.slug === item.slug
+                ? {
+                    ...i,
+                    cartId: syncedItem.id,
+                    quantity: syncedItem.quantity - 1
+                  }
+                : i
+            )
+          );
+
+          await cartService.updateCartItem(syncedItem.id, syncedItem.quantity - 1);
+        }
+      } catch (error) {
+        showToast({
+          status: 'error',
+          content: 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại'
+        });
+      }
+    } else {
+      const newQuantity = cartItem.quantity - 1;
+      const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
+      setCart(optimisticCart);
+
+      try {
+        await cartService.updateCartItem(cartItem.cartId, newQuantity);
+      } catch (error) {
+        setCart(cart);
+        showToast({
+          status: 'error',
+          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+        });
+      }
+    }
+
+    setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
   };
 
   return (

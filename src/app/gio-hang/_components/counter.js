@@ -22,26 +22,57 @@ const Counter = ({ productSlug }) => {
   }, [cartItem]);
 
   const updateQuantity = async (newQuantity) => {
-    if (newQuantity < 1 || !cartItem || !cartItem.cartId || isUpdating) return;
+    if (newQuantity < 1 || !cartItem || isUpdating) return;
 
     setIsUpdating(true);
     const previousCart = [...cart];
 
-    setCount(newQuantity);
-    setCart(cart.map((i) => (i.slug === productSlug ? { ...i, quantity: newQuantity } : i)));
+    // Nếu không có cartId, sync trước
+    if (!cartItem.cartId) {
+      try {
+        await cartService.addToCart(cartItem.id, newQuantity);
+        const serverCart = await cartService.getCart();
+        const syncedItem = serverCart.items.find((serverItem) => serverItem.slug === productSlug);
 
-    try {
-      await cartService.updateCartItem(cartItem.cartId, newQuantity);
-    } catch (error) {
-      setCart(previousCart);
-      setCount(cartItem.quantity);
-      showToast({
-        status: 'error',
-        content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
-      });
-    } finally {
-      setIsUpdating(false);
+        if (syncedItem) {
+          setCount(syncedItem.quantity);
+          setCart(
+            cart.map((i) =>
+              i.slug === productSlug
+                ? {
+                    ...i,
+                    cartId: syncedItem.id,
+                    quantity: syncedItem.quantity
+                  }
+                : i
+            )
+          );
+        }
+      } catch (error) {
+        setCart(previousCart);
+        setCount(cartItem.quantity);
+        showToast({
+          status: 'error',
+          content: 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại'
+        });
+      }
+    } else {
+      setCount(newQuantity);
+      setCart(cart.map((i) => (i.slug === productSlug ? { ...i, quantity: newQuantity } : i)));
+
+      try {
+        await cartService.updateCartItem(cartItem.cartId, newQuantity);
+      } catch (error) {
+        setCart(previousCart);
+        setCount(cartItem.quantity);
+        showToast({
+          status: 'error',
+          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+        });
+      }
     }
+
+    setIsUpdating(false);
   };
 
   const handleDecrease = () => {

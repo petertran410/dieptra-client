@@ -1,6 +1,5 @@
 'use client';
 
-import OtherProduct from '../../san-pham/diep-tra/[slug]/_components/other-product';
 import ModalContact from '../../../components/modal-contact';
 import SectionBlock from '../../../components/section-block';
 import { useQueryProductBySlugs, useQueryProductListOther } from '../../../services/product.service';
@@ -23,14 +22,30 @@ const CartWrapper = () => {
   const [cart, setCart] = useRecoilState(cartAtom);
   const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
   const { data: cartData = [], isLoading } = useQueryProductBySlugs(cartSlugs);
-  const { data: productQuery } = useQueryProductListOther();
-  const { content: productList = [] } = productQuery || {};
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const syncMissingCartItems = async () => {
+    const itemsNeedSync = cart.filter((item) => !item.cartId);
+
+    if (itemsNeedSync.length === 0) return;
+
+    try {
+      // Sync từng item không có cartId
+      for (const item of itemsNeedSync) {
+        await cartService.addToCart(item.id, item.quantity);
+      }
+
+      // Reload cart sau khi sync
+      await loadCartFromServer();
+    } catch (error) {
+      console.error('Error syncing cart items:', error);
+    }
+  };
 
   useEffect(() => {
     const checkAuthAndLoadCart = async () => {
@@ -48,13 +63,15 @@ const CartWrapper = () => {
         }
       }
 
-      loadCartFromServer();
+      await loadCartFromServer();
+
+      await syncMissingCartItems();
     };
 
     if (isClient) {
       checkAuthAndLoadCart();
     }
-  }, [isClient, router]);
+  }, [isClient, router, cart]);
 
   const loadCartFromServer = async () => {
     try {

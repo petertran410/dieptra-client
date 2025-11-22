@@ -20,7 +20,6 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
     setIsLoading(true);
 
     try {
-      // Kiểm tra authentication trước
       let authCheck = await authService.checkAuth();
 
       if (!authCheck.isAuthenticated) {
@@ -32,12 +31,10 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
         return;
       }
 
-      // Cập nhật token nếu có
       if (authCheck.access_token) {
         authService.setCurrentToken(authCheck.access_token);
       }
 
-      // Retry mechanism cho cart add
       let retryCount = 0;
       const maxRetries = 2;
 
@@ -49,18 +46,15 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
           console.log(`🔄 Add to cart attempt ${retryCount + 1} failed:`, cartError.message);
 
           if (retryCount === maxRetries) {
-            // Lần cuối vẫn fail
             if (
               cartError.message.includes('Service temporarily unavailable') ||
               cartError.message.includes('authentication') ||
               cartError.message.includes('401')
             ) {
-              // Thử refresh token một lần nữa
               const refreshResult = await authService.refreshToken();
               if (refreshResult && refreshResult.access_token) {
                 authService.setCurrentToken(refreshResult.access_token);
 
-                // Thử add cart một lần nữa với token mới
                 try {
                   await cartService.addToCart(Number(productId), quantity);
                   break;
@@ -86,12 +80,10 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
           }
 
           retryCount++;
-          // Đợi một chút trước khi retry
           await new Promise((resolve) => setTimeout(resolve, 500));
         }
       }
 
-      // Load lại cart sau khi add thành công
       try {
         const serverCart = await cartService.getCart();
         const formattedCart = serverCart.items.map((item) => ({
