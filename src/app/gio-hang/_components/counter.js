@@ -26,34 +26,36 @@ const Counter = ({ productSlug }) => {
 
     setIsUpdating(true);
     const previousCart = [...cart];
+    const previousCount = count;
 
-    // Nếu không có cartId, sync trước
     if (!cartItem.cartId) {
       try {
-        await cartService.addToCart(cartItem.id, newQuantity);
+        await cartService.addToCart(cartItem.id, cartItem.quantity);
         const serverCart = await cartService.getCart();
         const syncedItem = serverCart.items.find((serverItem) => serverItem.slug === productSlug);
 
         if (syncedItem) {
-          setCount(syncedItem.quantity);
+          setCount(newQuantity);
           setCart(
             cart.map((i) =>
               i.slug === productSlug
                 ? {
                     ...i,
                     cartId: syncedItem.id,
-                    quantity: syncedItem.quantity
+                    quantity: newQuantity
                   }
                 : i
             )
           );
+
+          await cartService.updateCartItem(syncedItem.id, newQuantity);
         }
       } catch (error) {
         setCart(previousCart);
-        setCount(cartItem.quantity);
+        setCount(previousCount);
         showToast({
           status: 'error',
-          content: 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại'
+          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
         });
       }
     } else {
@@ -64,7 +66,7 @@ const Counter = ({ productSlug }) => {
         await cartService.updateCartItem(cartItem.cartId, newQuantity);
       } catch (error) {
         setCart(previousCart);
-        setCount(cartItem.quantity);
+        setCount(previousCount);
         showToast({
           status: 'error',
           content: 'Không thể cập nhật số lượng. Vui lòng thử lại'

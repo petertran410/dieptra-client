@@ -35,12 +35,10 @@ const CartWrapper = () => {
     if (itemsNeedSync.length === 0) return;
 
     try {
-      // Sync từng item không có cartId
       for (const item of itemsNeedSync) {
         await cartService.addToCart(item.id, item.quantity);
       }
 
-      // Reload cart sau khi sync
       await loadCartFromServer();
     } catch (error) {
       console.error('Error syncing cart items:', error);

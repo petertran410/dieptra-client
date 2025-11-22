@@ -71,11 +71,11 @@ const CartProduct = ({ cartData = [] }) => {
     if (!cartItem) return;
 
     setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
+    const newQuantity = cartItem.quantity + 1;
 
-    // Nếu không có cartId, sync trước
     if (!cartItem.cartId) {
       try {
-        await cartService.addToCart(cartItem.id, 1);
+        await cartService.addToCart(cartItem.id, cartItem.quantity);
         const serverCart = await cartService.getCart();
         const syncedItem = serverCart.items.find((serverItem) => serverItem.slug === item.slug);
 
@@ -86,20 +86,22 @@ const CartProduct = ({ cartData = [] }) => {
                 ? {
                     ...i,
                     cartId: syncedItem.id,
-                    quantity: syncedItem.quantity
+                    quantity: newQuantity
                   }
                 : i
             )
           );
+
+          await cartService.updateCartItem(syncedItem.id, newQuantity);
         }
       } catch (error) {
+        setCart(cart);
         showToast({
           status: 'error',
-          content: 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại'
+          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
         });
       }
     } else {
-      const newQuantity = cartItem.quantity + 1;
       const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
       setCart(optimisticCart);
 
@@ -122,8 +124,8 @@ const CartProduct = ({ cartData = [] }) => {
     if (!cartItem || cartItem.quantity <= 1) return;
 
     setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
+    const newQuantity = cartItem.quantity - 1;
 
-    // Nếu không có cartId, sync trước
     if (!cartItem.cartId) {
       try {
         await cartService.addToCart(cartItem.id, cartItem.quantity);
@@ -137,22 +139,22 @@ const CartProduct = ({ cartData = [] }) => {
                 ? {
                     ...i,
                     cartId: syncedItem.id,
-                    quantity: syncedItem.quantity - 1
+                    quantity: newQuantity
                   }
                 : i
             )
           );
 
-          await cartService.updateCartItem(syncedItem.id, syncedItem.quantity - 1);
+          await cartService.updateCartItem(syncedItem.id, newQuantity);
         }
       } catch (error) {
+        setCart(cart);
         showToast({
           status: 'error',
-          content: 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại'
+          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
         });
       }
     } else {
-      const newQuantity = cartItem.quantity - 1;
       const optimisticCart = cart.map((i) => (i.slug === item.slug ? { ...i, quantity: newQuantity } : i));
       setCart(optimisticCart);
 
