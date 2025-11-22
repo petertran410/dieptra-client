@@ -121,6 +121,10 @@ export const API = {
         credentials: 'include'
       };
 
+      if (token && typeof token === 'string' && token.length > 10) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+
       let fullUrl = `${BASE_URL}${url}`;
 
       if (method === 'GET' && Object.keys(params).length > 0) {
