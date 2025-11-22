@@ -43,7 +43,8 @@ import {
   Icon,
   Container,
   Heading,
-  Checkbox
+  Checkbox,
+  Center
 } from '@chakra-ui/react';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
@@ -72,6 +73,8 @@ const PaymentWrapper = () => {
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(false);
+  const [currentToken, setCurrentToken] = useState(null);
 
   const customerInfoRef = useRef({
     fullName: '',
@@ -126,25 +129,44 @@ const PaymentWrapper = () => {
     const checkAuthentication = async () => {
       setAuthLoading(true);
 
-      const currentUser = authService.getCurrentUser();
-      if (currentUser && currentUser.token) {
-        setIsAuthenticated(true);
-      } else {
-        try {
+      try {
+        const currentUser = authService.getCurrentUser();
+        console.log('👤 Current user from cookies:', !!currentUser);
+
+        if (currentUser) {
           const authCheck = await authService.checkAuth();
-          if (authCheck.isAuthenticated) {
+          console.log('✅ Auth check result:', authCheck);
+
+          if (authCheck.isAuthenticated && authCheck.access_token) {
             setIsAuthenticated(true);
+            setCurrentToken(authCheck.access_token);
+            console.log('🎉 Authentication successful');
           } else {
+            console.log('❌ Auth check failed, redirecting to login');
             router.replace('/dang-nhap?redirect=/thanh-toan');
             return;
           }
-        } catch (error) {
-          router.replace('/dang-nhap?redirect=/thanh-toan');
-          return;
-        }
-      }
+        } else {
+          console.log('🔍 No user in cookies, checking auth...');
+          const authCheck = await authService.checkAuth();
 
-      setAuthLoading(false);
+          if (authCheck.isAuthenticated && authCheck.access_token) {
+            setIsAuthenticated(true);
+            setCurrentToken(authCheck.access_token);
+            console.log('🎉 Auth check successful');
+          } else {
+            console.log('❌ No authentication found, redirecting');
+            router.replace('/dang-nhap?redirect=/thanh-toan');
+            return;
+          }
+        }
+      } catch (error) {
+        console.error('💥 Authentication error:', error);
+        router.replace('/dang-nhap?redirect=/thanh-toan');
+        return;
+      } finally {
+        setAuthLoading(false);
+      }
     };
 
     checkAuthentication();
@@ -171,10 +193,20 @@ const PaymentWrapper = () => {
         const response = await fetch(
           'https://raw.githubusercontent.com/giaodienblog/provinces/refs/heads/main/district.json'
         );
+
+        if (!response.ok) {
+          throw new Error('Failed to load provinces');
+        }
+
         const data = await response.json();
         setProvinces(data);
+        console.log('✅ Provinces loaded:', data.length);
       } catch (error) {
-        console.error('Lỗi khi tải dữ liệu tỉnh/thành:', error);
+        console.error('💥 Error loading provinces:', error);
+        showToast({
+          status: 'error',
+          content: 'Không thể tải dữ liệu tỉnh/thành. Vui lòng thử lại.'
+        });
       }
     };
     loadProvinces();
@@ -250,12 +282,31 @@ const PaymentWrapper = () => {
 
   useEffect(() => {
     const loadProfile = async () => {
-      if (!isAuthenticated || provinces.length === 0) return;
+      // Wait for auth to be ready and provinces to be loaded
+      if (!isAuthenticated || !currentToken || provinces.length === 0) {
+        console.log('⏳ Waiting for auth and provinces...', {
+          isAuthenticated,
+          hasToken: !!currentToken,
+          provincesLoaded: provinces.length > 0
+        });
+        return;
+      }
+
+      setProfileLoading(true);
+      console.log('📋 Loading profile with token...');
 
       try {
+        // Set token for API calls before making profile request
+        if (currentToken) {
+          localStorage.setItem('temp_token', currentToken);
+        }
+
         const profileData = await profileService.getProfile();
+        console.log('✅ Profile loaded successfully:', profileData);
+
         const userData = profileData.user;
 
+        // Update customer info
         customerInfoRef.current = {
           fullName: userData.full_name || '',
           email: userData.email || '',
@@ -264,6 +315,7 @@ const PaymentWrapper = () => {
           note: ''
         };
 
+        // Update location data
         if (userData.province && provinces.length > 0) {
           const province = provinces.find((p) => p.name === userData.province);
           if (province) {
@@ -290,13 +342,23 @@ const PaymentWrapper = () => {
             }
           }
         }
+
+        console.log('✅ Profile and location data set successfully');
       } catch (error) {
-        console.error('Lỗi khi tải thông tin profile:', error);
+        console.error('💥 Error loading profile:', error);
+
+        // Don't redirect on profile error, just show empty form
+        showToast({
+          status: 'warning',
+          content: 'Không thể tải thông tin cá nhân. Vui lòng nhập thủ công.'
+        });
+      } finally {
+        setProfileLoading(false);
       }
     };
 
     loadProfile();
-  }, [isAuthenticated, provinces]);
+  }, [isAuthenticated, currentToken, provinces]);
 
   const handleProvinceChange = useCallback(
     (provinceCode) => {
@@ -651,6 +713,19 @@ const PaymentWrapper = () => {
     );
   }
 
+  if (authLoading) {
+    return (
+      <Container maxW="container.lg" py={8}>
+        <Center h="400px">
+          <VStack spacing={4}>
+            <Spinner size="xl" />
+            <Text>Đang kiểm tra đăng nhập...</Text>
+          </VStack>
+        </Center>
+      </Container>
+    );
+  }
+
   if (cart.length === 0) {
     return (
       <Flex
@@ -725,231 +800,173 @@ const PaymentWrapper = () => {
               transition="all 0.3s"
               _hover={{ boxShadow: 'xl' }}
             >
-              <HStack mb={6} spacing={3}>
-                <Icon as={FiUser} boxSize={6} color="blue.500" />
-                <Heading size="lg" color="gray.800">
-                  Thông tin khách hàng
-                </Heading>
-              </HStack>
+              <Box bg="white" p={6} borderRadius="lg" boxShadow="sm" border="1px" borderColor="gray.100">
+                <HStack align="center" mb={4}>
+                  <Icon as={FiUser} color="blue.500" boxSize={6} />
+                  <Heading size="lg" fontWeight="semibold">
+                    Thông tin khách hàng
+                  </Heading>
+                  {profileLoading && <Spinner size="lg" />}
+                </HStack>
 
-              <VStack spacing={5}>
-                <FormControl>
-                  <FormLabel fontWeight="medium" color="gray.700">
-                    <HStack spacing={2}>
-                      <Icon as={FiUser} />
-                      <Text fontSize="18px">Họ và tên</Text>
-                    </HStack>
-                  </FormLabel>
-                  <Input
-                    value={customerInfoRef.current.fullName}
-                    placeholder="Nhập họ và tên"
-                    onChange={handleInputChange('fullName')}
-                    size="lg"
-                    borderRadius="lg"
-                    focusBorderColor="blue.400"
-                    _hover={{ borderColor: 'blue.300' }}
-                    autoComplete="off"
-                    cursor="not-allowed"
-                    isReadOnly
-                    isDisabled
-                    _disabled={{
-                      opacity: 1,
-                      cursor: 'not-allowed'
-                    }}
-                  />
-                </FormControl>
+                <VStack spacing={4} align="stretch">
+                  <FormControl isRequired>
+                    <FormLabel fontSize="2xl">Họ và tên</FormLabel>
+                    <Input
+                      defaultValue={customerInfoRef.current.fullName}
+                      placeholder="Nhập họ và tên"
+                      fontSize="2xl"
+                      onChange={(e) => (customerInfoRef.current.fullName = e.target.value)}
+                      isDisabled
+                      cursor="not-allowed"
+                      isReadOnly
+                      _disabled={{
+                        opacity: 1,
+                        cursor: 'not-allowed'
+                      }}
+                    />
+                  </FormControl>
 
-                <FormControl>
-                  <FormLabel fontWeight="medium" color="gray.700">
-                    <HStack spacing={2}>
-                      <Icon as={FiMail} />
-                      <Text fontSize="18px">Email</Text>
-                    </HStack>
-                  </FormLabel>
-                  <Input
-                    value={customerInfoRef.current.email}
-                    placeholder="Nhập email"
-                    onChange={handleInputChange('email')}
-                    type="email"
-                    size="lg"
-                    borderRadius="lg"
-                    focusBorderColor="blue.400"
-                    _hover={{ borderColor: 'blue.300' }}
-                    autoComplete="off"
-                    cursor="not-allowed"
-                    isReadOnly
-                    isDisabled
-                    _disabled={{
-                      opacity: 1,
-                      cursor: 'not-allowed'
-                    }}
-                  />
-                </FormControl>
+                  <FormControl isRequired>
+                    <FormLabel fontSize="2xl">Email</FormLabel>
+                    <Input
+                      type="email"
+                      defaultValue={customerInfoRef.current.email}
+                      placeholder="Nhập địa chỉ email"
+                      fontSize="2xl"
+                      onChange={(e) => (customerInfoRef.current.email = e.target.value)}
+                      isDisabled
+                      cursor="not-allowed"
+                      isReadOnly
+                      _disabled={{
+                        opacity: 1,
+                        cursor: 'not-allowed'
+                      }}
+                    />
+                  </FormControl>
 
-                <FormControl>
-                  <FormLabel fontWeight="medium" color="gray.700">
-                    <HStack spacing={2}>
-                      <Icon as={FiPhone} />
-                      <Text fontSize="18px">Số điện thoại</Text>
-                    </HStack>
-                  </FormLabel>
-                  <Input
-                    value={customerInfoRef.current.phone}
-                    placeholder="Nhập số điện thoại"
-                    onChange={handleInputChange('phone')}
-                    type="tel"
-                    size="lg"
-                    borderRadius="lg"
-                    focusBorderColor="blue.400"
-                    _hover={{ borderColor: 'blue.300' }}
-                    autoComplete="off"
-                    cursor="not-allowed"
-                    isReadOnly
-                    isDisabled
-                    _disabled={{
-                      opacity: 1,
-                      cursor: 'not-allowed'
-                    }}
-                  />
-                </FormControl>
+                  <FormControl isRequired>
+                    <FormLabel fontSize="2xl">Số điện thoại</FormLabel>
+                    <Input
+                      type="tel"
+                      defaultValue={customerInfoRef.current.phone}
+                      placeholder="Nhập số điện thoại"
+                      fontSize="2xl"
+                      onChange={(e) => (customerInfoRef.current.phone = e.target.value)}
+                      isDisabled
+                      cursor="not-allowed"
+                      isReadOnly
+                      _disabled={{
+                        opacity: 1,
+                        cursor: 'not-allowed'
+                      }}
+                    />
+                  </FormControl>
 
-                <FormControl>
-                  <FormLabel fontWeight="medium" color="gray.700">
-                    <HStack spacing={2}>
-                      <Icon as={FiMapPin} />
-                      <Text fontSize="18px">Tỉnh/Thành phố</Text>
-                    </HStack>
-                  </FormLabel>
-                  <Select
-                    placeholder="Chọn tỉnh/thành phố"
-                    value={selectedProvince}
-                    onChange={(e) => handleProvinceChange(e.target.value)}
-                    size="lg"
-                    borderRadius="lg"
-                    focusBorderColor="blue.400"
-                    _hover={{ borderColor: 'blue.300' }}
-                    cursor="not-allowed"
-                    isReadOnly
-                    isDisabled
-                    _disabled={{
-                      opacity: 1,
-                      cursor: 'not-allowed'
-                    }}
-                  >
-                    {provinces.map((province) => (
-                      <option key={province.code} value={province.code}>
-                        {province.name}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
+                  {/* Province/District/Ward selects */}
+                  <FormControl>
+                    <FormLabel fontSize="2xl">Tỉnh/Thành phố</FormLabel>
+                    <Select
+                      value={selectedProvince}
+                      onChange={(e) => handleProvinceChange(e.target.value)}
+                      fontSize="2xl"
+                      placeholder="Chọn tỉnh/thành phố"
+                      isDisabled
+                      cursor="not-allowed"
+                      isReadOnly
+                      _disabled={{
+                        opacity: 1,
+                        cursor: 'not-allowed'
+                      }}
+                    >
+                      {provinces.map((province) => (
+                        <option key={province.code} value={province.code}>
+                          {province.name}
+                        </option>
+                      ))}
+                    </Select>
+                  </FormControl>
 
-                <FormControl>
-                  <FormLabel fontWeight="medium" color="gray.700">
-                    <HStack spacing={2}>
-                      <Icon as={FiMapPin} />
-                      <Text fontSize="18px">Quận/Huyện</Text>
-                    </HStack>
-                  </FormLabel>
-                  <Select
-                    placeholder="Chọn quận/huyện"
-                    value={selectedDistrict}
-                    onChange={(e) => handleDistrictChange(e.target.value)}
-                    size="lg"
-                    borderRadius="lg"
-                    focusBorderColor="blue.400"
-                    _hover={{ borderColor: 'blue.300' }}
-                    cursor="not-allowed"
-                    isReadOnly
-                    isDisabled
-                    _disabled={{
-                      opacity: 1,
-                      cursor: 'not-allowed'
-                    }}
-                  >
-                    {districts.map((district) => (
-                      <option key={district.code} value={district.code}>
-                        {district.name}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
+                  {/* District select */}
+                  {districts.length > 0 && (
+                    <FormControl>
+                      <FormLabel fontSize="2xl">Quận/Huyện</FormLabel>
+                      <Select
+                        value={selectedDistrict}
+                        onChange={(e) => handleDistrictChange(e.target.value)}
+                        fontSize="2xl"
+                        placeholder="Chọn quận/huyện"
+                        isDisabled
+                        cursor="not-allowed"
+                        isReadOnly
+                        _disabled={{
+                          opacity: 1,
+                          cursor: 'not-allowed'
+                        }}
+                      >
+                        {districts.map((district) => (
+                          <option key={district.code} value={district.code}>
+                            {district.name}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
 
-                <FormControl>
-                  <FormLabel fontWeight="medium" color="gray.700">
-                    <HStack spacing={2}>
-                      <Icon as={FiMapPin} />
-                      <Text fontSize="18px">Phường/Xã</Text>
-                    </HStack>
-                  </FormLabel>
-                  <Select
-                    placeholder="Chọn phường/xã"
-                    value={selectedWard}
-                    onChange={(e) => setSelectedWard(parseInt(e.target.value))}
-                    size="lg"
-                    borderRadius="lg"
-                    focusBorderColor="blue.400"
-                    _hover={{ borderColor: 'blue.300' }}
-                    cursor="not-allowed"
-                    isReadOnly
-                    isDisabled
-                    _disabled={{
-                      opacity: 1,
-                      cursor: 'not-allowed'
-                    }}
-                  >
-                    {wards.map((ward) => (
-                      <option key={ward.code} value={ward.code}>
-                        {ward.name}
-                      </option>
-                    ))}
-                  </Select>
-                </FormControl>
+                  {/* Ward select */}
+                  {wards.length > 0 && (
+                    <FormControl>
+                      <FormLabel fontSize="2xl">Phường/Xã</FormLabel>
+                      <Select
+                        value={selectedWard}
+                        onChange={(e) => setSelectedWard(e.target.value)}
+                        fontSize="2xl"
+                        placeholder="Chọn phường/xã"
+                        isDisabled
+                        cursor="not-allowed"
+                        isReadOnly
+                        _disabled={{
+                          opacity: 1,
+                          cursor: 'not-allowed'
+                        }}
+                      >
+                        {wards.map((ward) => (
+                          <option key={ward.code} value={ward.code}>
+                            {ward.name}
+                          </option>
+                        ))}
+                      </Select>
+                    </FormControl>
+                  )}
 
-                <FormControl>
-                  <FormLabel fontWeight="medium" color="gray.700">
-                    <HStack spacing={2}>
-                      <Icon as={FiMapPin} />
-                      <Text fontSize="18px">Địa chỉ cụ thể</Text>
-                    </HStack>
-                  </FormLabel>
-                  <Input
-                    value={customerInfoRef.current.address}
-                    placeholder="Nhập địa chỉ cụ thể"
-                    onChange={handleInputChange('address')}
-                    size="lg"
-                    borderRadius="lg"
-                    focusBorderColor="blue.400"
-                    _hover={{ borderColor: 'blue.300' }}
-                    autoComplete="off"
-                    cursor="not-allowed"
-                    isReadOnly
-                    isDisabled
-                    _disabled={{
-                      opacity: 1,
-                      cursor: 'not-allowed'
-                    }}
-                  />
-                </FormControl>
+                  <FormControl>
+                    <FormLabel fontSize="2xl">Địa chỉ cụ thể</FormLabel>
+                    <Input
+                      defaultValue={customerInfoRef.current.address}
+                      placeholder="Số nhà, tên đường..."
+                      fontSize="2xl"
+                      onChange={(e) => (customerInfoRef.current.address = e.target.value)}
+                      isDisabled
+                      cursor="not-allowed"
+                      isReadOnly
+                      _disabled={{
+                        opacity: 1,
+                        cursor: 'not-allowed'
+                      }}
+                    />
+                  </FormControl>
 
-                <FormControl>
-                  <FormLabel fontSize="18px" fontWeight="medium" color="gray.700">
-                    Ghi chú
-                  </FormLabel>
-                  <Textarea
-                    onChange={handleInputChange('note')}
-                    placeholder="Ghi chú đặc biệt (không bắt buộc)"
-                    rows="2"
-                    borderRadius="lg"
-                    focusBorderColor="blue.400"
-                    _hover={{ borderColor: 'blue.300' }}
-                    autoComplete="off"
-                  />
-                  <Text fontSize="18px" color="gray.500" mt={2}>
-                    Bạn có thể thêm ghi chú cho đơn hàng tại đây
-                  </Text>
-                </FormControl>
-              </VStack>
+                  <FormControl>
+                    <FormLabel fontSize="2xl">Ghi chú đơn hàng</FormLabel>
+                    <Textarea
+                      defaultValue={customerInfoRef.current.note}
+                      placeholder="Ghi chú cho đơn hàng (tùy chọn)"
+                      onChange={(e) => (customerInfoRef.current.note = e.target.value)}
+                      fontSize="2xl"
+                    />
+                  </FormControl>
+                </VStack>
+              </Box>
             </Box>
 
             <Box
