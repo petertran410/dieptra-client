@@ -47,7 +47,7 @@ const LoginWrapper = () => {
     if (error === 'cancelled') {
       showToast({
         status: 'error',
-        content: 'Bạn đã hủy đăng nhập bằng Facebook'
+        content: 'Bạn đã hủy đăng nhập'
       });
       window.history.replaceState({}, '', '/dang-nhap');
     }
