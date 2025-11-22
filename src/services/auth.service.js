@@ -335,9 +335,6 @@ export const authService = {
   setCurrentToken: (token) => {
     if (token && typeof token === 'string' && token.length > 10) {
       safeSetLocalStorage('temp_token', token);
-      if (process.env.NODE_ENV === 'development') {
-        console.log('✅ Current token updated');
-      }
     }
   }
 };

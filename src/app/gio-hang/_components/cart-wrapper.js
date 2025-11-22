@@ -62,12 +62,20 @@ const CartWrapper = () => {
       if (!currentUser || !currentUser.token) return;
 
       const serverCart = await cartService.getCart();
-      const formattedCart = serverCart.items.map((item) => ({
-        slug: item.slug,
-        id: Number(item.productId),
-        quantity: item.quantity,
-        cartId: item.id
-      }));
+      if (!serverCart || !serverCart.items) {
+        setCart([]);
+        return;
+      }
+
+      const formattedCart = serverCart.items.map((item) => {
+        return {
+          slug: item.slug,
+          id: Number(item.productId),
+          quantity: item.quantity,
+          cartId: item.id
+        };
+      });
+
       setCart(formattedCart);
     } catch (error) {
       console.error('Error loading cart:', error);
