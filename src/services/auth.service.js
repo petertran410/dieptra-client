@@ -26,8 +26,13 @@ const clearAccessToken = () => {
 };
 
 const clearAuthData = () => {
-  Cookies.remove(CK_CLIENT_USER, COOKIE_CONFIG);
-  Cookies.remove('csrf_token', COOKIE_CONFIG);
+  const cookiesToClear = [CK_CLIENT_USER, 'csrf_token', 'dieptra_client_token', 'refresh_token'];
+
+  cookiesToClear.forEach((cookieName) => {
+    Cookies.remove(cookieName, COOKIE_CONFIG);
+    Cookies.remove(cookieName);
+  });
+
   clearAccessToken();
 };
 
@@ -100,6 +105,8 @@ export const authService = {
   },
 
   login: async (data) => {
+    clearAuthData();
+
     const response = await fetch(`${BASE_URL}/api/client-auth/login`, {
       method: 'POST',
       credentials: 'include',

@@ -32,7 +32,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
       }
 
       if (authCheck.access_token) {
-        authService.setCurrentToken(authCheck.access_token);
+        authService.getCurrentToken(authCheck.access_token);
       }
 
       let retryCount = 0;
@@ -41,7 +41,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
       while (retryCount <= maxRetries) {
         try {
           await cartService.addToCart(Number(productId), quantity);
-          break; // Thành công thì thoát loop
+          break;
         } catch (cartError) {
           console.log(`🔄 Add to cart attempt ${retryCount + 1} failed:`, cartError.message);
 
@@ -53,7 +53,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
             ) {
               const refreshResult = await authService.refreshToken();
               if (refreshResult && refreshResult.access_token) {
-                authService.setCurrentToken(refreshResult.access_token);
+                authService.getCurrentToken(refreshResult.access_token);
 
                 try {
                   await cartService.addToCart(Number(productId), quantity);

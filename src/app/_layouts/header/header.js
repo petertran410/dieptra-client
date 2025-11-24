@@ -105,7 +105,7 @@ const Header = () => {
         try {
           const authCheck = await authService.checkAuth();
           if (authCheck.isAuthenticated && authCheck.access_token) {
-            authService.setCurrentToken(authCheck.access_token);
+            authService.getCurrentToken(authCheck.access_token);
           }
 
           const serverCart = await cartService.getCart();
