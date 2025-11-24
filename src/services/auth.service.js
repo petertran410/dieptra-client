@@ -3,41 +3,6 @@ import { CK_CLIENT_USER } from '../utils/const';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_DOMAIN || 'http://localhost:8084';
 
-const safeGetLocalStorage = (key) => {
-  try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem(key);
-    }
-    return null;
-  } catch (error) {
-    return null;
-  }
-};
-
-const safeSetLocalStorage = (key, value) => {
-  try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.setItem(key, value);
-      return true;
-    }
-    return false;
-  } catch (error) {
-    return false;
-  }
-};
-
-const safeRemoveLocalStorage = (key) => {
-  try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.removeItem(key);
-      return true;
-    }
-    return false;
-  } catch (error) {
-    return false;
-  }
-};
-
 const COOKIE_CONFIG = {
   expires: 7,
   secure: process.env.NODE_ENV === 'production',
@@ -47,8 +12,35 @@ const COOKIE_CONFIG = {
 
 const clearAuthData = () => {
   Cookies.remove(CK_CLIENT_USER, COOKIE_CONFIG);
-  Cookies.remove('csrf_public', COOKIE_CONFIG);
-  safeRemoveLocalStorage('temp_token');
+  Cookies.remove('csrf_token', COOKIE_CONFIG);
+  // Clear in-memory token
+  setAccessToken(null);
+};
+
+// In-memory token storage (secure from XSS)
+let currentAccessToken = null;
+
+const setAccessToken = (token) => {
+  currentAccessToken = token;
+};
+
+const getAccessToken = () => {
+  return currentAccessToken;
+};
+
+const sanitizeUserData = (user) => {
+  if (!user || typeof user !== 'object') return user;
+
+  return {
+    client_id: user.client_id,
+    full_name: (user.full_name || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+    email: (user.email || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+    phone: (user.phone || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+    detailed_address: (user.detailed_address || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+    province: (user.province || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+    district: (user.district || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+    ward: (user.ward || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+  };
 };
 
 export const authService = {
@@ -92,25 +84,29 @@ export const authService = {
 
     const data = await response.json();
 
+    if (data.access_token) {
+      setAccessToken(data.access_token);
+    }
+
     if (data.user) {
-      Cookies.set(CK_CLIENT_USER, JSON.stringify(data.user), {
-        expires: 7,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
-      });
+      const sanitizedUser = sanitizeUserData(data.user);
+      Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
     }
 
     return data;
   },
 
-  login: async (credentials) => {
+  login: async (data) => {
     const response = await fetch(`${BASE_URL}/api/client-auth/login`, {
       method: 'POST',
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(credentials)
+      body: JSON.stringify({
+        emailOrPhone: data.emailOrPhone,
+        pass_word: data.pass_word
+      })
     });
 
     if (!response.ok) {
@@ -118,96 +114,18 @@ export const authService = {
       throw new Error(error.message || 'Login failed');
     }
 
-    const data = await response.json();
+    const result = await response.json();
 
-    if (data.user) {
-      Cookies.set(CK_CLIENT_USER, JSON.stringify(data.user), {
-        expires: 7,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'strict'
-      });
+    if (result.access_token) {
+      setAccessToken(result.access_token);
     }
 
-    return data;
-  },
-
-  checkAuth: async () => {
-    try {
-      if (process.env.NODE_ENV === 'development') {
-      }
-
-      const response = await fetch(`${BASE_URL}/api/client-auth/check-auth`, {
-        method: 'GET',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Requested-With': 'XMLHttpRequest',
-          Accept: 'application/json'
-        }
-      });
-
-      if (process.env.NODE_ENV === 'development') {
-      }
-
-      if (response.ok) {
-        const data = await response.json();
-
-        if (process.env.NODE_ENV === 'development') {
-        }
-
-        if (data.authenticated && data.access_token) {
-          if (data.user && (!data.user.email || typeof data.user.email !== 'string')) {
-            clearAuthData();
-            return { isAuthenticated: false };
-          }
-
-          if (data.user && data.user.email) {
-            const sanitizedUser = {
-              client_id: data.user.client_id,
-              full_name: (data.user.full_name || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              email: data.user.email.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              phone: (data.user.phone || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              detailed_address: (data.user.detailed_address || '').replace(
-                /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-                ''
-              ),
-              province: (data.user.province || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              district: (data.user.district || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              ward: (data.user.ward || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-            };
-
-            Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
-          }
-
-          return {
-            isAuthenticated: true,
-            user: data.user,
-            access_token: data.access_token
-          };
-        }
-      }
-
-      clearAuthData();
-      return { isAuthenticated: false };
-    } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('💥 Check auth error:', error);
-      }
-      clearAuthData();
-      return { isAuthenticated: false };
+    if (result.user) {
+      const sanitizedUser = sanitizeUserData(result.user);
+      Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
     }
-  },
 
-  getCurrentToken: () => {
-    const token = safeGetLocalStorage('temp_token');
-    if (token && typeof token === 'string' && token.length > 10) {
-      return token;
-    }
-    return null;
-  },
-
-  clearCurrentToken: () => {
-    safeRemoveLocalStorage('temp_token');
+    return result;
   },
 
   refreshToken: async () => {
@@ -222,6 +140,9 @@ export const authService = {
 
       if (response.ok) {
         const data = await response.json();
+        if (data.access_token) {
+          setAccessToken(data.access_token);
+        }
         return data;
       }
 
@@ -232,27 +153,51 @@ export const authService = {
     }
   },
 
-  logout: async () => {
+  checkAuth: async () => {
     try {
-      const checkAuthResponse = await fetch(`${BASE_URL}/api/client-auth/check-auth`, {
+      const response = await fetch(`${BASE_URL}/api/client-auth/check-auth`, {
         method: 'GET',
         credentials: 'include'
       });
 
-      let accessToken = null;
-      if (checkAuthResponse.ok) {
-        const authData = await checkAuthResponse.json();
-        if (authData.authenticated) {
-          accessToken = authData.access_token;
+      if (response.ok) {
+        const data = await response.json();
+        if (data.authenticated) {
+          if (data.access_token) {
+            setAccessToken(data.access_token);
+          }
+
+          if (data.user) {
+            const sanitizedUser = sanitizeUserData(data.user);
+            Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
+          }
+
+          return {
+            isAuthenticated: true,
+            user: data.user,
+            access_token: data.access_token
+          };
         }
       }
 
+      clearAuthData();
+      return { isAuthenticated: false };
+    } catch (error) {
+      console.error('Check auth error:', error);
+      clearAuthData();
+      return { isAuthenticated: false };
+    }
+  },
+
+  logout: async () => {
+    try {
+      const token = getAccessToken();
       const headers = {
         'Content-Type': 'application/json'
       };
 
-      if (accessToken) {
-        headers['Authorization'] = `Bearer ${accessToken}`;
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
       }
 
       await fetch(`${BASE_URL}/api/client-auth/logout`, {
@@ -267,11 +212,80 @@ export const authService = {
     }
   },
 
-  clearAuthData,
+  logoutAllSessions: async () => {
+    try {
+      const token = getAccessToken();
+      const headers = {
+        'Content-Type': 'application/json'
+      };
+
+      if (token) {
+        headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      await fetch(`${BASE_URL}/api/client-auth/logout-all`, {
+        method: 'POST',
+        credentials: 'include',
+        headers
+      });
+    } catch (error) {
+      console.error('Logout all sessions error:', error);
+    } finally {
+      clearAuthData();
+    }
+  },
 
   getCurrentUser: () => {
     const user = Cookies.get(CK_CLIENT_USER);
     return user ? JSON.parse(user) : null;
+  },
+
+  getSessions: async () => {
+    try {
+      const token = getAccessToken();
+      if (!token) return [];
+
+      const response = await fetch(`${BASE_URL}/api/client-auth/sessions`, {
+        method: 'GET',
+        credentials: 'include',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        return await response.json();
+      }
+      return [];
+    } catch (error) {
+      console.error('Get sessions error:', error);
+      return [];
+    }
+  },
+
+  revokeSession: async (sessionId) => {
+    try {
+      const token = getAccessToken();
+      if (!token) throw new Error('No access token');
+
+      const response = await fetch(`${BASE_URL}/api/client-auth/sessions/${sessionId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        return await response.json();
+      }
+      throw new Error('Failed to revoke session');
+    } catch (error) {
+      console.error('Revoke session error:', error);
+      throw error;
+    }
   },
 
   forgotPasswordRequest: async (email) => {
@@ -329,12 +343,40 @@ export const authService = {
       throw new Error(error.message || 'Password reset failed');
     }
 
+    // Clear all auth data since password was reset
+    clearAuthData();
     return await response.json();
   },
 
-  setCurrentToken: (token) => {
-    if (token && typeof token === 'string' && token.length > 10) {
-      safeSetLocalStorage('temp_token', token);
+  completeOAuthRegistration: async (tempKey, phone) => {
+    const response = await fetch(`${BASE_URL}/api/client-auth/complete-oauth-registration`, {
+      method: 'POST',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ tempKey, phone })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'OAuth registration failed');
     }
+
+    const result = await response.json();
+
+    if (result.access_token) {
+      setAccessToken(result.access_token);
+    }
+
+    if (result.user) {
+      const sanitizedUser = sanitizeUserData(result.user);
+      Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
+    }
+
+    return result;
   }
 };
+
+// Export token functions for API usage
+export { getAccessToken, setAccessToken };
