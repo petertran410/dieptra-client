@@ -1,56 +1,46 @@
 'use client';
 
-import React from 'react';
+import { chakraTheme } from '../configs/chakra-theme';
+import { ChakraProvider } from '@chakra-ui/react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
-import { ToastContainer } from 'react-toastify';
-import { AuthProvider } from '../contexts/auth-context';
-import 'react-toastify/dist/ReactToastify.css';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { useAuth } from '../contexts/auth-context';
+import { setAuthFunctions } from '../utils/API';
+import { useEffect } from 'react';
 
-// Cart Provider (if needed)
-export const CartProvider = ({ children }) => {
-  // Cart logic can be implemented here if not using Recoil
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: false
+    }
+  }
+});
+
+function APIIntegration({ children }) {
+  const { getAccessToken, refreshAccessToken, accessToken } = useAuth();
+
+  useEffect(() => {
+    setAuthFunctions(getAccessToken, refreshAccessToken);
+  }, [getAccessToken, refreshAccessToken]);
+
   return <>{children}</>;
-};
+}
 
-// Theme Provider (if needed)
-export const ThemeProvider = ({ children }) => {
-  // Theme logic can be implemented here
-  return <>{children}</>;
-};
-
-// Main Providers component that wraps the entire app
-export const Providers = ({ children }) => {
+export function Providers({ children }) {
   return (
-    <RecoilRoot>
-      <AuthProvider>
-        <CartProvider>
-          <ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <RecoilRoot>
+        <APIIntegration>
+          <ChakraProvider theme={chakraTheme}>
             {children}
-            <ToastContainer
-              position="top-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="light"
-              toastStyle={{
-                fontSize: '14px',
-                borderRadius: '8px'
-              }}
-            />
-          </ThemeProvider>
-        </CartProvider>
-      </AuthProvider>
-    </RecoilRoot>
+            <Analytics />
+            <SpeedInsights />
+          </ChakraProvider>
+        </APIIntegration>
+      </RecoilRoot>
+    </QueryClientProvider>
   );
-};
-
-// Export individual providers for flexibility
-export { AuthProvider } from '../contexts/auth-context';
-
-// Default export
-export default Providers;
+}
