@@ -29,8 +29,15 @@ const clearAuthData = () => {
   const cookiesToClear = [CK_CLIENT_USER, 'csrf_token', 'dieptra_client_token', 'refresh_token'];
 
   cookiesToClear.forEach((cookieName) => {
-    Cookies.remove(cookieName, COOKIE_CONFIG);
-    Cookies.remove(cookieName);
+    if (cookieName && typeof cookieName === 'string') {
+      try {
+        Cookies.remove(cookieName, COOKIE_CONFIG);
+        Cookies.remove(cookieName, { path: '/' });
+        Cookies.remove(cookieName);
+      } catch (error) {
+        console.warn(`Failed to remove cookie ${cookieName}:`, error);
+      }
+    }
   });
 
   clearAccessToken();

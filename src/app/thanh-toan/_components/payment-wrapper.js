@@ -167,7 +167,7 @@ const PaymentWrapper = () => {
 
   useEffect(() => {
     const handleStorageChange = (e) => {
-      if (e.key === 'CK_CLIENT_TOKEN' && !e.newValue) {
+      if (e.key === 'CK_CLIENT_USER' && !e.newValue) {
         showToast({
           status: 'warning',
           content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'

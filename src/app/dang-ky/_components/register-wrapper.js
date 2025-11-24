@@ -28,7 +28,7 @@ import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 import { useSearchParams } from 'next/navigation';
-import { CK_CLIENT_TOKEN, CK_CLIENT_USER } from '../../../utils/const';
+import { CK_CLIENT_USER } from '../../../utils/const';
 import Cookies from 'js-cookie';
 
 const API_URL = process.env.NEXT_PUBLIC_API_DOMAIN;
@@ -167,7 +167,7 @@ const RegisterWrapper = () => {
       const result = await authService.verifyEmail(formData.email, otp);
 
       if (result.access_token) {
-        Cookies.set(CK_CLIENT_TOKEN, result.access_token, { expires: 7 });
+        Cookies.set(CK_CLIENT_USER, result.access_token, { expires: 7 });
       }
 
       if (result.user) {

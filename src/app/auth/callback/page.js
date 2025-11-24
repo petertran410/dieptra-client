@@ -2,8 +2,6 @@
 
 import { useEffect, useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import Cookies from 'js-cookie';
-import { CK_CLIENT_TOKEN, CK_CLIENT_USER } from '../../../utils/const';
 import PhoneModal from './_components/phone-modal';
 
 function AuthCallbackContent() {
@@ -34,8 +32,38 @@ function AuthCallbackContent() {
           setTempKey(tempKeyParam);
           setShowPhoneModal(true);
         } else {
-          Cookies.set(CK_CLIENT_TOKEN, tokenParam, { expires: 7 });
-          Cookies.set(CK_CLIENT_USER, JSON.stringify(user), { expires: 7 });
+          // Use the new auth service instead of direct cookie setting
+          if (tokenParam) {
+            // Set access token in memory
+            const { setAccessToken } = await import('../../../services/auth.service');
+            setAccessToken(tokenParam);
+          }
+
+          // Set user info in cookie using auth service method
+          if (user) {
+            const sanitizedUser = {
+              client_id: user.client_id,
+              full_name: (user.full_name || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+              email: (user.email || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+              phone: (user.phone || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+              detailed_address: (user.detailed_address || '').replace(
+                /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
+                ''
+              ),
+              province: (user.province || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+              district: (user.district || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
+              ward: (user.ward || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
+            };
+
+            const Cookies = (await import('js-cookie')).default;
+            const { CK_CLIENT_USER } = await import('../../../utils/const');
+
+            Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), {
+              expires: 7,
+              secure: process.env.NODE_ENV === 'production',
+              sameSite: 'strict'
+            });
+          }
 
           await new Promise((resolve) => setTimeout(resolve, 100));
           router.push('/');

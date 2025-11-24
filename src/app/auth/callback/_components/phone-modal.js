@@ -16,11 +16,8 @@ import {
   FormErrorMessage,
   Text
 } from '@chakra-ui/react';
-import Cookies from 'js-cookie';
-import { CK_CLIENT_TOKEN, CK_CLIENT_USER } from '../../../../utils/const';
+import { authService } from '../../../../services/auth.service';
 import { showToast } from '../../../../utils/helper';
-
-const API_URL = process.env.NEXT_PUBLIC_API_DOMAIN;
 
 export default function PhoneModal({ tempToken, tempKey, onSuccess }) {
   const [phone, setPhone] = useState('');
@@ -50,26 +47,7 @@ export default function PhoneModal({ tempToken, tempKey, onSuccess }) {
     setError('');
 
     try {
-      const response = await fetch(`${API_URL}/api/client-auth/complete-oauth-registration`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          tempKey: tempKey,
-          phone: phone.trim()
-        })
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Không thể cập nhật số điện thoại');
-      }
-
-      Cookies.set(CK_CLIENT_TOKEN, data.access_token, { expires: 7 });
-      Cookies.set(CK_CLIENT_USER, JSON.stringify(data.user), { expires: 7 });
+      const result = await authService.completeOAuthRegistration(tempKey, phone.trim());
 
       showToast({
         status: 'success',
@@ -88,9 +66,12 @@ export default function PhoneModal({ tempToken, tempKey, onSuccess }) {
         errorMessage = 'Số điện thoại đã tồn tại trên hệ thống. Vui lòng sử dụng số khác.';
       } else if (error.message.includes('hết hạn')) {
         errorMessage = 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.';
+      } else if (error.message.includes('already registered')) {
+        errorMessage = 'Số điện thoại đã được đăng ký. Vui lòng sử dụng số khác.';
       }
 
       setError(errorMessage);
+
       showToast({
         status: 'error',
         content: errorMessage
@@ -103,29 +84,28 @@ export default function PhoneModal({ tempToken, tempKey, onSuccess }) {
   return (
     <Modal isOpen={true} onClose={() => {}} closeOnOverlayClick={false}>
       <ModalOverlay />
-      <ModalContent mx="16px">
+      <ModalContent>
         <ModalHeader>Hoàn tất đăng ký</ModalHeader>
-        <ModalCloseButton isDisabled={isLoading} />
+        <ModalCloseButton />
         <ModalBody pb={6}>
+          <Text mb={4} color="gray.600">
+            Để hoàn tất quá trình đăng ký, vui lòng cung cấp số điện thoại của bạn.
+          </Text>
           <form onSubmit={handleSubmit}>
             <VStack spacing={4}>
-              <Text fontSize="sm" color="gray.600">
-                Để hoàn tất đăng ký, vui lòng nhập số điện thoại của bạn
-              </Text>
-
               <FormControl isInvalid={!!error}>
-                <FormLabel>Số điện thoại</FormLabel>
+                <FormLabel>Số điện thoại *</FormLabel>
                 <Input
                   type="tel"
                   placeholder="Nhập số điện thoại (VD: 0931566676)"
                   value={phone}
                   onChange={(e) => {
                     setPhone(e.target.value);
-                    setError('');
+                    if (error) setError('');
                   }}
-                  isDisabled={isLoading}
+                  disabled={isLoading}
                 />
-                <FormErrorMessage>{error}</FormErrorMessage>
+                {error && <FormErrorMessage>{error}</FormErrorMessage>}
               </FormControl>
 
               <Button type="submit" colorScheme="blue" width="full" isLoading={isLoading} loadingText="Đang xử lý...">
