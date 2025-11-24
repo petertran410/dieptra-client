@@ -1,50 +1,6 @@
+import { getAccessToken } from '../services/auth.service';
+
 const BASE_URL = process.env.NEXT_PUBLIC_API_DOMAIN || 'http://localhost:8084';
-
-let getAuthToken = null;
-let refreshAuthToken = null;
-
-export const setAuthFunctions = (getToken, refreshToken) => {
-  getAuthToken = getToken;
-  refreshAuthToken = refreshToken;
-};
-
-const safeGetLocalStorage = (key) => {
-  try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return localStorage.getItem(key);
-    }
-    return null;
-  } catch (error) {
-    console.warn('LocalStorage access failed:', error);
-    return null;
-  }
-};
-
-const safeSetLocalStorage = (key, value) => {
-  try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.setItem(key, value);
-      return true;
-    }
-    return false;
-  } catch (error) {
-    console.warn('LocalStorage set failed:', error);
-    return false;
-  }
-};
-
-const safeRemoveLocalStorage = (key) => {
-  try {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      localStorage.removeItem(key);
-      return true;
-    }
-    return false;
-  } catch (error) {
-    console.warn('LocalStorage remove failed:', error);
-    return false;
-  }
-};
 
 const sanitizeRequestBody = (data) => {
   if (typeof data !== 'object' || data === null) return data;
@@ -90,23 +46,9 @@ const sanitizeResponseData = (data) => {
   return sanitized;
 };
 
-const getCurrentToken = () => {
-  if (getAuthToken) {
-    const token = getAuthToken();
-    if (token && token.length > 10) return token;
-  }
-
-  const tempToken = safeGetLocalStorage('temp_token');
-  if (tempToken && tempToken.length > 10) return tempToken;
-
-  return null;
-};
-
 export const API = {
   request: async ({ url, method = 'GET', params = {} }) => {
     try {
-      let token = getCurrentToken();
-
       if (!url.startsWith('/api/')) {
         throw new Error('Invalid API endpoint');
       }
@@ -121,6 +63,8 @@ export const API = {
         credentials: 'include'
       };
 
+      // Get token from memory (secure approach)
+      const token = getAccessToken();
       if (token && typeof token === 'string' && token.length > 10) {
         config.headers['Authorization'] = `Bearer ${token}`;
       }
@@ -135,65 +79,68 @@ export const API = {
             searchParams.append(key, sanitizedValue);
           }
         });
-        fullUrl += `?${searchParams.toString()}`;
-      } else if (method !== 'GET') {
-        const sanitizedParams = sanitizeRequestBody(params);
-        config.body = JSON.stringify(sanitizedParams);
+        fullUrl += '?' + searchParams.toString();
+      } else if (method !== 'GET' && Object.keys(params).length > 0) {
+        config.body = JSON.stringify(sanitizeRequestBody(params));
       }
 
-      let response = await fetch(fullUrl, config);
+      const response = await fetch(fullUrl, config);
 
-      if (!response) {
-        throw new Error('Network error: No response received');
-      }
+      if (response.status === 401) {
+        // Token expired, try to refresh
+        const { authService } = await import('../services/auth.service');
+        const refreshResult = await authService.refreshToken();
 
-      if (response.status === 401 && refreshAuthToken) {
-        const newToken = await refreshAuthToken();
-        if (newToken && typeof newToken === 'string' && newToken.length > 10) {
-          safeSetLocalStorage('temp_token', newToken);
-          config.headers['Authorization'] = `Bearer ${newToken}`;
+        if (refreshResult && refreshResult.access_token) {
+          // Retry original request with new token
+          config.headers['Authorization'] = `Bearer ${refreshResult.access_token}`;
+          const retryResponse = await fetch(fullUrl, config);
 
-          response = await fetch(fullUrl, config);
+          if (!retryResponse.ok) {
+            const errorData = await retryResponse.json().catch(() => ({}));
+            throw new Error(errorData.message || `HTTP ${retryResponse.status}`);
+          }
+
+          const data = await retryResponse.json();
+          return sanitizeResponseData(data);
         } else {
-          safeRemoveLocalStorage('temp_token');
-          throw new Error('Authentication failed');
+          // Refresh failed, redirect to login
+          if (typeof window !== 'undefined') {
+            window.location.href = '/dang-nhap';
+          }
+          return null;
         }
       }
 
       if (!response.ok) {
-        let errorData = {};
-        try {
-          errorData = await response.json();
-        } catch (e) {
-          throw new Error(e);
-        }
-
-        if (response.status === 401) {
-          safeRemoveLocalStorage('temp_token');
-          throw new Error('Authentication required');
-        } else if (response.status === 403) {
-          throw new Error('Access denied');
-        } else if (response.status === 404) {
-          throw new Error('Resource not found');
-        } else if (response.status >= 500) {
-          throw new Error('Service temporarily unavailable');
-        } else {
-          throw new Error(errorData.message || `Request failed with status ${response.status}`);
-        }
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP ${response.status}`);
       }
 
-      const responseData = await response.json();
-
-      return sanitizeResponseData(responseData);
+      const data = await response.json();
+      return sanitizeResponseData(data);
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
-        console.error('💥 API Request failed:', {
-          url,
-          method,
-          error: error.message
-        });
+        console.error('API Error:', error);
       }
       throw error;
     }
-  }
+  },
+
+  get: (url, params = {}) => API.request({ url, method: 'GET', params }),
+  post: (url, params = {}) => API.request({ url, method: 'POST', params }),
+  put: (url, params = {}) => API.request({ url, method: 'PUT', params }),
+  patch: (url, params = {}) => API.request({ url, method: 'PATCH', params }),
+  delete: (url, params = {}) => API.request({ url, method: 'DELETE', params })
+};
+
+// Keep this for backward compatibility but mark as deprecated
+export const setAuthFunctions = (getToken, refreshToken) => {
+  console.warn('setAuthFunctions is deprecated. Token management is now handled automatically.');
+  // Do nothing - function kept for compatibility
+};
+
+// Legacy function for backward compatibility
+export const getCurrentToken = () => {
+  return getAccessToken();
 };

@@ -1,35 +1,10 @@
-import { CK_TOKEN } from '../utils/const';
+import { CK_CLIENT_USER } from '../utils/const';
 import Cookies from 'js-cookie';
-import { atom, selector } from 'recoil';
+import { atom } from 'recoil';
 
 export const userInfoAtom = atom({
   key: 'userInfoAtom',
   default: undefined
-});
-
-const tokenAtom = atom({
-  key: 'tokenAtom',
-  default: new Promise((resolve) => {
-    if (typeof window === 'undefined') {
-      resolve(null);
-      return;
-    }
-    const token = Cookies.get(CK_TOKEN) || '';
-    resolve(token);
-  })
-});
-
-export const tokenState = selector({
-  key: 'tokenSelector',
-  get: ({ get }) => get(tokenAtom),
-  set: ({ set }, newValue) => {
-    set(tokenAtom, newValue);
-    if (!newValue) {
-      Cookies.remove(CK_TOKEN);
-      return;
-    }
-    Cookies.set(CK_TOKEN, newValue, { secure: true });
-  }
 });
 
 const LS_CART = 'cart';
@@ -45,10 +20,12 @@ export const cartAtom = atom({
           if (typeof localCart === 'string') {
             setSelf(JSON.parse(localCart) || []);
           }
-        } catch (error) {}
+        } catch (error) {
+          console.error('Failed to parse cart from localStorage:', error);
+        }
 
         onSet((newData) => {
-          if (newData) {
+          if (newData && newData.length > 0) {
             localStorage.setItem(LS_CART, JSON.stringify(newData));
           } else {
             localStorage.removeItem(LS_CART);
@@ -57,4 +34,10 @@ export const cartAtom = atom({
       }
     }
   ]
+});
+
+// Add user atom for easier state management if needed
+export const authUserAtom = atom({
+  key: 'authUserAtom',
+  default: null
 });

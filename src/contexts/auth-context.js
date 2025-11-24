@@ -1,86 +1,53 @@
 'use client';
 
 import { createContext, useContext, useEffect, useState, useCallback } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { authService } from '../services/auth.service';
-import { setAuthFunctions } from '../utils/API';
+import { useRouter } from 'next/navigation';
+import { authService, getAccessToken } from '../services/auth.service';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [isChecking, setIsChecking] = useState(true);
   const [user, setUser] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
+  const [accessToken, setAccessTokenState] = useState(null);
+  const [isChecking, setIsChecking] = useState(true);
   const [isApiReady, setIsApiReady] = useState(false);
-  const pathname = usePathname();
   const router = useRouter();
-
-  // Setup auth functions cho API utility
-  useEffect(() => {
-    setAuthFunctions(
-      () => accessToken, // getAuthToken function
-      async () => {
-        // refreshAuthToken function
-        try {
-          const result = await authService.refreshToken();
-          if (result && result.access_token) {
-            setAccessToken(result.access_token);
-            return result.access_token;
-          }
-          return null;
-        } catch (error) {
-          console.error('Refresh token error:', error);
-          clearAuthState();
-          return null;
-        }
-      }
-    );
-  }, [accessToken]);
-
-  useEffect(() => {
-    checkAuth();
-  }, [pathname]);
 
   const checkAuth = useCallback(async () => {
     try {
+      setIsChecking(true);
       const result = await authService.checkAuth();
 
-      if (result.isAuthenticated && result.access_token) {
+      if (result.isAuthenticated) {
         setUser(result.user);
-        setAccessToken(result.access_token);
-
-        setTimeout(() => {
-          setIsApiReady(true);
-        }, 100);
-      } else {
-        clearAuthState();
+        setAccessTokenState(result.access_token);
         setIsApiReady(true);
+      } else {
+        setUser(null);
+        setAccessTokenState(null);
+        setIsApiReady(false);
       }
     } catch (error) {
-      console.error('Check auth error:', error);
-      clearAuthState();
-      setIsApiReady(true);
+      console.error('Auth check failed:', error);
+      setUser(null);
+      setAccessTokenState(null);
+      setIsApiReady(false);
     } finally {
       setIsChecking(false);
     }
   }, []);
 
-  const login = useCallback(async (credentials) => {
+  const login = useCallback(async (loginData) => {
     try {
-      const result = await authService.login(credentials);
+      const result = await authService.login(loginData);
 
-      if (result.access_token) {
+      if (result.user) {
         setUser(result.user);
-        setAccessToken(result.access_token);
-
-        setTimeout(() => {
-          setIsApiReady(true);
-        }, 100);
-
-        return result;
-      } else {
-        throw new Error('Login failed: No access token');
+        setAccessTokenState(result.access_token);
+        setIsApiReady(true);
       }
+
+      return result;
     } catch (error) {
       clearAuthState();
       throw error;
@@ -89,23 +56,21 @@ export const AuthProvider = ({ children }) => {
 
   const logout = useCallback(async () => {
     try {
-      if (accessToken) {
-        await authService.logout(accessToken);
-      }
+      await authService.logout();
     } catch (error) {
       console.error('Logout error:', error);
     } finally {
       clearAuthState();
       router.push('/');
     }
-  }, [accessToken, router]);
+  }, [router]);
 
   const refreshAccessToken = useCallback(async () => {
     try {
       const result = await authService.refreshToken();
 
       if (result && result.access_token) {
-        setAccessToken(result.access_token);
+        setAccessTokenState(result.access_token);
         return result.access_token;
       } else {
         clearAuthState();
@@ -120,14 +85,18 @@ export const AuthProvider = ({ children }) => {
 
   const clearAuthState = useCallback(() => {
     setUser(null);
-    setAccessToken(null);
+    setAccessTokenState(null);
     setIsApiReady(false);
     authService.clearAuthData();
   }, []);
 
-  const getAccessToken = useCallback(() => {
-    return accessToken;
-  }, [accessToken]);
+  const getAccessTokenFromMemory = useCallback(() => {
+    return getAccessToken(); // Get from in-memory storage
+  }, []);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const value = {
     user,
@@ -139,7 +108,7 @@ export const AuthProvider = ({ children }) => {
     login,
     logout,
     refreshAccessToken,
-    getAccessToken,
+    getAccessToken: getAccessTokenFromMemory,
     clearAuthState,
     checkAuth
   };
