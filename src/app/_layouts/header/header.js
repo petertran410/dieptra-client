@@ -32,7 +32,6 @@ import CartHeaderMobile from './_components/cart-header-mobile';
 import { authService } from '../../../services/auth.service';
 import { showToast } from '../../../utils/helper';
 import { useAuth } from '../../../contexts/auth-context';
-// import SimpleTranslateToggle from './_components/simple-translate-toggle';
 
 const UserIcon = (props) => (
   <Icon viewBox="0 0 24 24" {...props}>
@@ -297,7 +296,6 @@ const Header = () => {
 
         {/* RIGHT SECTION - Cart + Auth */}
         <Flex align="center" gap="16px">
-          {/* <SimpleTranslateToggle /> */}
           <CartHeader />
 
           {/* Auth Section */}
@@ -353,7 +351,6 @@ const Header = () => {
         </Link>
 
         <Flex align="center" gap="16px">
-          {/* <SimpleTranslateToggle /> */}
           <CartHeaderMobile />
 
           {user ? (
