@@ -24,30 +24,71 @@ const SimpleTranslateToggle = () => {
     }
   }, []);
 
+  // Check if current environment is development
+  const isDevelopment = () => {
+    return window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  };
+
+  // Get production URL for translation
+  const getTranslationUrl = () => {
+    const currentUrl = window.location.href;
+
+    if (isDevelopment()) {
+      // Replace localhost với production domain
+      const productionDomain = process.env.NEXT_PUBLIC_DOMAIN || 'https://www.dieptra.com';
+      const currentPath = window.location.pathname + window.location.search;
+      return productionDomain + currentPath;
+    }
+
+    return currentUrl;
+  };
+
   const handleToggle = () => {
     const targetLang = currentLang === 'vi' ? 'en' : 'vi';
 
     if (targetLang === 'en') {
-      // Translate to English using Google Translate URL
-      const currentUrl = window.location.href;
-
-      // Preserve essential query parameters and clean properly
-      let cleanUrl = currentUrl;
-
-      // Only remove specific problematic parameters, keep others
-      const urlObj = new URL(currentUrl);
-      const paramsToRemove = ['fbclid', 'gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
-
-      paramsToRemove.forEach((param) => {
-        urlObj.searchParams.delete(param);
-      });
-
-      // Remove hash only if it's empty or contains tracking info
-      if (urlObj.hash === '' || urlObj.hash.includes('utm_') || urlObj.hash.includes('fbclid')) {
-        urlObj.hash = '';
+      // Check if in development environment
+      if (isDevelopment()) {
+        toast({
+          title: 'Chức năng dịch không khả dụng',
+          description: 'Chức năng dịch chỉ hoạt động trên môi trường production',
+          status: 'warning',
+          duration: 3000
+        });
+        return;
       }
 
-      cleanUrl = urlObj.toString();
+      // Translate to English using Google Translate URL
+      const translationUrl = getTranslationUrl();
+
+      // Clean URL logic (giữ nguyên như trước)
+      let cleanUrl = translationUrl;
+
+      try {
+        const urlObj = new URL(translationUrl);
+        const paramsToRemove = [
+          'fbclid',
+          'gclid',
+          'utm_source',
+          'utm_medium',
+          'utm_campaign',
+          'utm_term',
+          'utm_content'
+        ];
+
+        paramsToRemove.forEach((param) => {
+          urlObj.searchParams.delete(param);
+        });
+
+        if (urlObj.hash === '' || urlObj.hash.includes('utm_') || urlObj.hash.includes('fbclid')) {
+          urlObj.hash = '';
+        }
+
+        cleanUrl = urlObj.toString();
+      } catch (error) {
+        console.warn('URL parsing error:', error);
+        // Fallback to original URL if parsing fails
+      }
 
       toast({
         title: 'Đang chuyển sang tiếng Anh...',
@@ -80,15 +121,19 @@ const SimpleTranslateToggle = () => {
           if (match) {
             originalUrl = decodeURIComponent(match[1]);
           } else {
-            // Fallback to homepage if can't extract original URL
-            originalUrl = window.location.origin;
+            // Fallback to production domain if can't extract original URL
+            originalUrl = process.env.NEXT_PUBLIC_DOMAIN || 'https://hisweetievietnam.com';
           }
         }
 
         // Clean up any translate parameters
-        const urlObj = new URL(originalUrl);
-        urlObj.searchParams.delete('translate');
-        originalUrl = urlObj.toString();
+        try {
+          const urlObj = new URL(originalUrl);
+          urlObj.searchParams.delete('translate');
+          originalUrl = urlObj.toString();
+        } catch (error) {
+          console.warn('URL parsing error:', error);
+        }
 
         window.location.href = originalUrl;
       }, 500);
