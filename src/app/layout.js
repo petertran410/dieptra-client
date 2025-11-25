@@ -9,6 +9,7 @@ import Header from './_layouts/header';
 import './globals.css';
 import { Providers } from './providers';
 import { AuthProvider } from '../contexts/auth-context';
+import { LanguageProvider } from '../contexts/language-context';
 
 const fontFamily = Afacad({
   subsets: ['latin', 'vietnamese'],
@@ -56,14 +57,16 @@ export default function RootLayout({ children }) {
         </Script>
         <Script src="https://chatbox.smax.ai/sdk.min.js" strategy="lazyOnload" />
         <AuthProvider>
-          <Providers>
-            <Box pos="relative">
-              <Contact />
-              <Header />
-              <Box minH="100vh">{children}</Box>
-              <Footer />
-            </Box>
-          </Providers>
+          <LanguageProvider>
+            <Providers>
+              <Box pos="relative">
+                <Contact />
+                <Header />
+                <Box minH="100vh">{children}</Box>
+                <Footer />
+              </Box>
+            </Providers>
+          </LanguageProvider>
         </AuthProvider>
       </body>
     </html>
