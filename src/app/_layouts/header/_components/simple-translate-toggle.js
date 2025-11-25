@@ -30,7 +30,24 @@ const SimpleTranslateToggle = () => {
     if (targetLang === 'en') {
       // Translate to English using Google Translate URL
       const currentUrl = window.location.href;
-      const cleanUrl = currentUrl.split('#')[0].split('?')[0]; // Remove hash and query params
+
+      // Preserve essential query parameters and clean properly
+      let cleanUrl = currentUrl;
+
+      // Only remove specific problematic parameters, keep others
+      const urlObj = new URL(currentUrl);
+      const paramsToRemove = ['fbclid', 'gclid', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+
+      paramsToRemove.forEach((param) => {
+        urlObj.searchParams.delete(param);
+      });
+
+      // Remove hash only if it's empty or contains tracking info
+      if (urlObj.hash === '' || urlObj.hash.includes('utm_') || urlObj.hash.includes('fbclid')) {
+        urlObj.hash = '';
+      }
+
+      cleanUrl = urlObj.toString();
 
       toast({
         title: 'Đang chuyển sang tiếng Anh...',
@@ -39,9 +56,10 @@ const SimpleTranslateToggle = () => {
         duration: 2000
       });
 
-      // Redirect to Google Translate
+      // Redirect to Google Translate with properly encoded URL
       setTimeout(() => {
-        window.location.href = `https://translate.google.com/translate?sl=vi&tl=en&u=${encodeURIComponent(cleanUrl)}`;
+        const translateUrl = `https://translate.google.com/translate?sl=vi&tl=en&u=${encodeURIComponent(cleanUrl)}`;
+        window.location.href = translateUrl;
       }, 500);
     } else {
       // Return to original Vietnamese site
@@ -61,11 +79,16 @@ const SimpleTranslateToggle = () => {
           const match = originalUrl.match(/u=([^&]+)/);
           if (match) {
             originalUrl = decodeURIComponent(match[1]);
+          } else {
+            // Fallback to homepage if can't extract original URL
+            originalUrl = window.location.origin;
           }
         }
 
         // Clean up any translate parameters
-        originalUrl = originalUrl.replace(/[?&]translate=[^&]*/g, '');
+        const urlObj = new URL(originalUrl);
+        urlObj.searchParams.delete('translate');
+        originalUrl = urlObj.toString();
 
         window.location.href = originalUrl;
       }, 500);
