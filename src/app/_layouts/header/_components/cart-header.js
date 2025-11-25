@@ -5,15 +5,14 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { authService } from '../../../../services/auth.service';
 import { showToast } from '../../../../utils/helper';
 import { useAuth } from '../../../../contexts/auth-context';
-import { useTranslation } from '../../../../utils/translations';
 
 const CartHeader = ({ isScrolled, isTransparent }) => {
   const router = useRouter();
   const cart = useRecoilValue(cartAtom);
   const [isClient, setIsClient] = useState(false);
-  const { t } = useTranslation();
 
   const { isAuthenticated, isChecking } = useAuth();
 
@@ -26,7 +25,7 @@ const CartHeader = ({ isScrolled, isTransparent }) => {
       e.preventDefault();
       showToast({
         status: 'warning',
-        content: t('login_required')
+        content: 'Vui lòng đăng nhập để xem giỏ hàng.'
       });
       router.push('/dang-nhap?redirect=/gio-hang');
     }
@@ -74,7 +73,7 @@ const CartHeader = ({ isScrolled, isTransparent }) => {
           transitionDuration="250ms"
         >
           <Text fontSize={18} fontWeight={500} color="#FFF">
-            {t('buy_now')}
+            Mua hàng
           </Text>
         </Flex>
       </Link>

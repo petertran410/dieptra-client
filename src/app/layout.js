@@ -9,7 +9,6 @@ import Header from './_layouts/header';
 import './globals.css';
 import { Providers } from './providers';
 import { AuthProvider } from '../contexts/auth-context';
-import { LanguageProvider } from '../contexts/language-context';
 
 const fontFamily = Afacad({
   subsets: ['latin', 'vietnamese'],
@@ -31,6 +30,9 @@ export default function RootLayout({ children }) {
     <html lang="vi" className={fontFamily.variable}>
       <Head>
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+        <link rel="preconnect" href="https://translate.google.com" />
+        <link rel="preconnect" href="https://translate.googleapis.com" />
+        <link rel="dns-prefetch" href="//translate.google.com" />
       </Head>
       <body>
         <Script src="https://www.googletagmanager.com/gtag/js?id=G-S515RVWJQQ" strategy="afterInteractive" />
@@ -57,16 +59,14 @@ export default function RootLayout({ children }) {
         </Script>
         <Script src="https://chatbox.smax.ai/sdk.min.js" strategy="lazyOnload" />
         <AuthProvider>
-          <LanguageProvider>
-            <Providers>
-              <Box pos="relative">
-                <Contact />
-                <Header />
-                <Box minH="100vh">{children}</Box>
-                <Footer />
-              </Box>
-            </Providers>
-          </LanguageProvider>
+          <Providers>
+            <Box pos="relative">
+              <Contact />
+              <Header />
+              <Box minH="100vh">{children}</Box>
+              <Footer />
+            </Box>
+          </Providers>
         </AuthProvider>
       </body>
     </html>
