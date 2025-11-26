@@ -39,7 +39,7 @@ import { useTranslation } from '../../../hooks/useTranslation';
 const PRODUCTS_PER_PAGE = 15;
 
 const ProductList = ({ categorySlug = [] }) => {
-  const { t } = useTranslation();
+  const { getLocalizedText, t } = useTranslation();
   const router = useRouter();
   const searchInputRef = useRef(null);
 
@@ -235,7 +235,7 @@ const ProductList = ({ categorySlug = [] }) => {
 
         for (const category of categories) {
           if (category.id.toString() === targetId.toString()) {
-            return category.name;
+            return getLocalizedText(category.name, category.name_en);
           }
 
           if (category.children && category.children.length > 0) {
@@ -253,7 +253,7 @@ const ProductList = ({ categorySlug = [] }) => {
     }
 
     const category = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
-    return category ? category.name : t('product.category.title');
+    return category ? getLocalizedText(category.name, category.name_en) : t('product.category.title');
   };
 
   const buildCategoryUrl = (categoryId) => {
@@ -437,7 +437,7 @@ const ProductList = ({ categorySlug = [] }) => {
 
       if (category) {
         baseBreadcrumb.push({
-          title: category.name,
+          title: getLocalizedText(category.name, category.name_en),
           href: index === categorySlug.length - 1 ? '#' : `/san-pham/${currentPath}`,
           isActive: index === categorySlug.length - 1
         });
@@ -448,9 +448,9 @@ const ProductList = ({ categorySlug = [] }) => {
   };
 
   const sortOptions = [
-    { value: 'name', label: 'Tên A-Z' },
-    { value: 'price-low', label: 'Giá thấp → cao' },
-    { value: 'price-high', label: 'Giá cao → thấp' }
+    { value: 'name', label: t('product.sorting.name') },
+    { value: 'price-low', label: t('product.sorting.price.low') },
+    { value: 'price-high', label: t('product.sorting.price.high') }
   ];
 
   return (
@@ -482,7 +482,7 @@ const ProductList = ({ categorySlug = [] }) => {
                 </InputLeftElement>
                 <Input
                   ref={searchInputRef}
-                  placeholder="Tìm kiếm sản phẩm..."
+                  placeholder={t('product.searching.placeholder')}
                   defaultValue={searchTerm}
                   onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   bg="white"
@@ -492,7 +492,7 @@ const ProductList = ({ categorySlug = [] }) => {
               </InputGroup>
 
               <Button onClick={handleSearch} colorScheme="blue" bg="#3366ff" _hover={{ bg: '#3366ff' }} fontSize="18px">
-                Tìm
+                {t('product.searching.name')}
               </Button>
             </HStack>
 
@@ -506,10 +506,10 @@ const ProductList = ({ categorySlug = [] }) => {
                 border="1px solid #E2E8F0"
                 _focus={{ borderColor: '#003366', boxShadow: '0 0 0 1px #003366' }}
               >
-                <option value="all">Tất cả danh mục</option>
+                <option value="all">{t('product.all.product')}</option>
                 {topCategories.map((category) => (
                   <option key={category.id} value={category.id}>
-                    {category.name}
+                    {getLocalizedText(category.name, category.name_en)}
                   </option>
                 ))}
               </Select>
@@ -618,9 +618,9 @@ const ProductList = ({ categorySlug = [] }) => {
                   <Center py={20}>
                     <VStack spacing={4}>
                       <Text fontSize="xl" fontWeight="500" color="gray.600">
-                        Không tìm thấy sản phẩm nào
+                        {t('product.not.found')}
                       </Text>
-                      <Text color="gray.500">Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm</Text>
+                      <Text color="gray.500">{t('product.reset.filter')}</Text>
                       <Button
                         onClick={() => {
                           setSearchTerm('');
@@ -632,7 +632,7 @@ const ProductList = ({ categorySlug = [] }) => {
                         color="#003366"
                         _hover={{ bg: '#003366', color: 'white' }}
                       >
-                        Xóa bộ lọc
+                        {t('product.reset.search')}
                       </Button>
                     </VStack>
                   </Center>

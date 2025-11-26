@@ -7,6 +7,7 @@ import { ChevronDownIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useQueryCategoryHierarchy } from '../../../services/category.service';
 import { useQuery } from '@tanstack/react-query';
 import { API } from '../../../utils/API';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const SIDEBAR_EXPANSION_KEY = 'category_sidebar_expansion';
 
@@ -31,6 +32,8 @@ const CategoryItem = ({
     e.stopPropagation();
     onToggleExpand(category.id);
   };
+
+  const { t, getLocalizedText } = useTranslation();
 
   return (
     <Box>
@@ -70,7 +73,7 @@ const CategoryItem = ({
             color={isSelected ? '#003366' : 'gray.700'}
             flex={1}
           >
-            {category.name}
+            {getLocalizedText(category.name, category.name_en)}
           </Text>
         </HStack>
       </HStack>
@@ -99,6 +102,8 @@ const CategoryItem = ({
 
 const CategorySidebar = ({ selectedCategory, selectedSubCategory, onSubCategorySelect }) => {
   const [expandedCategories, setExpandedCategories] = useState(new Set());
+
+  const { t, getLocalizedText } = useTranslation();
 
   const { data: fullCategories = [], isLoading: fullCategoriesLoading } = useQuery({
     queryKey: ['GET_FULL_CATEGORIES'],
@@ -271,10 +276,10 @@ const CategorySidebar = ({ selectedCategory, selectedSubCategory, onSubCategoryS
     >
       <Box p={4} borderBottom="1px solid #E2E8F0">
         <Text fontSize="xl" fontWeight="600" color="#003366">
-          Danh mục
+          {t('category.title')}
         </Text>
         <Text fontSize="xl" color="gray.600" mt={1}>
-          {categoryHierarchy.name}
+          {getLocalizedText(categoryHierarchy.name, categoryHierarchy.name_en)}
         </Text>
       </Box>
 

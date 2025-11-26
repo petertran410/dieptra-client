@@ -75,6 +75,7 @@ export const useQueryTopLevelCategories = () => {
         .map((cat) => ({
           id: cat.id,
           name: cat.name,
+          name_en: cat.name_en,
           displayName: cat.displayName || cat.name,
           path: cat.path,
           slug: cat.slug
@@ -148,6 +149,7 @@ export const useQueryCategoryHierarchy = (parentCategoryId) => {
         return children.map((child) => ({
           id: child.id,
           name: child.name,
+          name_en: child.name_en,
           level: level,
           title_meta: child.title_meta,
           description: child.description,
@@ -161,6 +163,7 @@ export const useQueryCategoryHierarchy = (parentCategoryId) => {
       const hierarchy = {
         id: parentCategory.id,
         name: parentCategory.name,
+        name_en: parentCategory.name_en,
         level: 0,
         parent_id: parentCategory.parent_id,
         title_meta: parentCategory.title_meta,

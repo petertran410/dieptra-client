@@ -134,7 +134,21 @@ export const translations = {
     'product.title': 'Tất Cả Sản Phẩm',
     'product.breadcrumb.title.home': 'Trang chủ',
     'product.breadcrumb.title.product': 'Sản Phẩm',
-    'product.category.title': 'Danh Mục'
+    'product.category.title': 'Danh Mục',
+    'product.sorting.name': 'Tên A-Z',
+    'product.sorting.price.low': 'Giá thấp → cao',
+    'product.sorting.price.high': 'Giá cao → thấp',
+    'product.searching.placeholder': 'Tìm kiếm sản phẩm...',
+    'product.searching.name': 'Tìm',
+    'product.all.product': 'Tất cả danh mục',
+    'product.not.found': 'Không tìm thấy sản phẩm nào',
+    'product.reset.filter': 'Thử thay đổi bộ lọc hoặc từ khóa tìm kiếm',
+    'product.reset.search': 'Xóa bộ lọc',
+    'product.contact': 'Liên hệ',
+    'product.buy.button': 'Mua hàng',
+
+    // CATEGORY
+    'category.title': 'Danh mục'
   },
 
   en: {
@@ -278,6 +292,20 @@ export const translations = {
     'product.title': 'All Products',
     'product.breadcrumb.title.home': 'Home',
     'product.breadcrumb.title.product': 'Product',
-    'product.category.title': 'Category'
+    'product.category.title': 'Category',
+    'product.sorting.name': 'Name A-Z',
+    'product.sorting.price.low': 'Price low → high',
+    'product.sorting.price.high': 'Price High → Low',
+    'product.searching.placeholder': 'Search to find products...',
+    'product.searching.name': 'Find',
+    'product.all.product': 'All Categories',
+    'product.not.found': 'Not Found Any Products',
+    'product.reset.filter': 'Please Reset Filter',
+    'product.reset.search': 'Please Reset Search',
+    'product.contact': 'Contact',
+    'product.buy.button': 'Purchase',
+
+    // CATEGORY
+    'category.title': 'Categories'
   }
 };

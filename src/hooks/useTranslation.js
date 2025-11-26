@@ -12,5 +12,9 @@ export const useTranslation = () => {
     return translations[language]?.[key] || key;
   };
 
-  return { t, language };
+  const getLocalizedText = (viText, enText) => {
+    return language === 'en' && enText ? enText : viText;
+  };
+
+  return { t, language, getLocalizedText };
 };
