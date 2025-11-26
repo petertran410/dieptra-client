@@ -17,7 +17,8 @@ const Feedback = () => {
       position: 'Đại diện Nguyên liệu pha chế Hưng Sao Hà Đông',
       content:
         'Tôi vô cùng ấn tượng với sản phẩm Khoai Môn tươi Nghiền thuộc Dòng Sản phẩm Đông lạnh của Thương hiệu Gấu LerMao. Với vị ngọt, béo, ngậy, mình cảm thấy rất phù hợp với các món trà sữa, và tôi tin sẽ trở thành xu hướng mới trong mùa thu đông năm nay.',
-      image: '/images/feedback-1.webp'
+      // image: '/images/feedback-1.webp'
+      image: '/images/mrkhoiminh.webp'
     },
     {
       customer: 'Chị Thùy Linh',
