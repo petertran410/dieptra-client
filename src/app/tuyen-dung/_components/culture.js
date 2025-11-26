@@ -53,7 +53,6 @@ const Culture = () => {
                       zIndex={2}
                     >
                       <Text
-                        className={fontFamily.className}
                         fontSize={{ xs: 56, lg: 120 }}
                         fontWeight={900}
                         color="#ffffff85"
