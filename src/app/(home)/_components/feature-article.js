@@ -4,11 +4,14 @@ import { Flex, Image } from '@chakra-ui/react';
 import Link from 'next/link';
 import { PX_ALL } from '../../../utils/const';
 import SectionBlockH3 from '../../../components/section-block/section-block-h3';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const FeaturedArticle = () => {
+  const { t } = useTranslation();
+
   return (
     <Flex pt={{ xs: '70px', lg: '0' }} px={PX_ALL} pb="100px" direction="column" gap={4}>
-      <SectionBlockH3 title="Bài Viết" />
+      <SectionBlockH3 title={t('home.article.title')} />
       <Flex pt={{ xs: '70px', lg: '10px' }} direction={{ xs: 'column', md: 'row' }} gap={{ xs: 6, md: 4 }}>
         <Link href={`/bai-viet/kien-thuc-nguyen-lieu-pha-che`}>
           <Image

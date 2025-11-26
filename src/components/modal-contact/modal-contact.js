@@ -21,8 +21,10 @@ import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 import SectionBlock from '../section-block';
+import { useTranslation } from '../../hooks/useTranslation';
 
 const ModalContact = (props) => {
+  const { t } = useTranslation();
   const [cart, setCart] = useRecoilState(cartAtom);
   const { open, onCloseModal, defaultNote, onSuccess, isOrder, cartData } = props;
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -135,7 +137,7 @@ const ModalContact = (props) => {
         <ModalCloseButton />
         <ModalBody>
           <Flex my="25px" id="contact-form" direction="column" pos="relative" zIndex={10}>
-            <SectionBlock title="Liên hệ tư vấn" />
+            <SectionBlock title={t('home.contact.title')} />
 
             <Box mt="16px" borderRadius={16} py="24px">
               <form style={{ display: 'block' }} onSubmit={handleSubmit(onSubmit)}>

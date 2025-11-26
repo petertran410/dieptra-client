@@ -7,9 +7,11 @@ import Link from 'next/link';
 import { Suspense } from 'react';
 import ProductList from './product-list';
 import SectionBlockH2 from '../../../../components/section-block/section-block-h2';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const TopProduct = () => {
   const { data: categoryList = [] } = useQueryCategoryList();
+  const { t } = useTranslation();
 
   return (
     <Flex
@@ -46,7 +48,7 @@ const TopProduct = () => {
             transitionDuration="250ms"
             _hover={{ bgColor: '#0f2c3d', borderColor: '#0f2c3d', color: '#FFF' }}
           >
-            Xem thêm
+            {t('home.product.detail')}
           </Flex>
         </Link>
       </Flex>

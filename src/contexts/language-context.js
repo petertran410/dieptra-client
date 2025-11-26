@@ -6,8 +6,10 @@ const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
   const [language, setLanguage] = useState('vi');
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    setIsHydrated(true);
     const saved = localStorage.getItem('dieptra_language') || 'vi';
     setLanguage(saved);
   }, []);
@@ -17,13 +19,23 @@ export const LanguageProvider = ({ children }) => {
     localStorage.setItem('dieptra_language', lang);
   };
 
+  if (!isHydrated) {
+    return <>{children}</>; // Render children without context during SSR
+  }
+
   return <LanguageContext.Provider value={{ language, switchLanguage }}>{children}</LanguageContext.Provider>;
 };
 
 export const useLanguage = () => {
   const context = useContext(LanguageContext);
+
+  // Return default values if context is not available
   if (!context) {
-    throw new Error('useLanguage must be used within LanguageProvider');
+    return {
+      language: 'vi',
+      switchLanguage: () => {}
+    };
   }
+
   return context;
 };

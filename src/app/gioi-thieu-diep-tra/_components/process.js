@@ -1,13 +1,14 @@
-// src/app/gioi-thieu-diep-tra/_components/process.js
 'use client';
 
 import CarouselMobile from '../../../components/carousel/carousel-mobile';
 import SectionBlockH2 from '../../../components/section-block/section-block-h2';
+import { useTranslation } from '../../../hooks/useTranslation';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { AspectRatio, Box, Flex, Grid, Image } from '@chakra-ui/react';
 
 const Process = () => {
-  // Dữ liệu gốc với title, description và image_url
+  const { t } = useTranslation();
+
   const PROCESS_ALL = [
     {
       type: 'block',
@@ -43,13 +44,11 @@ Triển khai các mã hàng lạnh đầu tiên`,
     }
   ];
 
-  // Function để lấy image_url dựa vào title
   const getImageByTitle = (title) => {
     const item = PROCESS_ALL.find((item) => item.title === title);
     return item ? item.image_url : '/images/default-image.webp';
   };
 
-  // Cấu trúc layout cho desktop - chỉ cần empty/block type
   const PROCESS_TOP = [
     { type: 'empty' },
     { type: 'block', title: '2020' },
@@ -68,7 +67,7 @@ Triển khai các mã hàng lạnh đầu tiên`,
 
   return (
     <Flex direction="column" align="center" mt={{ xs: '16px', lg: '48px' }} gap="24px" px={PX_ALL}>
-      <SectionBlockH2 title="Quá trình phát triển" isNormal isActiveMobile />
+      <SectionBlockH2 title={t('process.title')} isNormal isActiveMobile />
 
       {/* Desktop Layout - Top Row */}
       <Grid

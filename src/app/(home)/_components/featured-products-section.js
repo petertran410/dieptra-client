@@ -7,12 +7,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ProductItemHome from '../../../components/product-item/product-item-home';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const MotionFlex = motion(Flex);
 
 const FeaturedProductsSection = ({ categoryName, products, categoryImage, categorySlugPath }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
+  const { t } = useTranslation();
 
   const itemsPerPage = useBreakpointValue({ xs: 2, md: 2, lg: 2, xl: 3 }) || 3;
   const totalPages = Math.ceil(products.length / itemsPerPage);
@@ -215,7 +217,7 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
               transitionDuration="250ms"
               _hover={{ bgColor: '#003366', borderColor: '#003366', color: '#FFF' }}
             >
-              Xem thêm
+              {t('home.product.detail')}
             </Button>
           </Link>
         </Flex>

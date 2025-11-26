@@ -34,10 +34,12 @@ import {
   useQueryAllCategories
 } from '../../../services/category.service';
 import Head from 'next/head';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const PRODUCTS_PER_PAGE = 15;
 
 const ProductList = ({ categorySlug = [] }) => {
+  const { t } = useTranslation();
   const router = useRouter();
   const searchInputRef = useRef(null);
 
@@ -224,7 +226,7 @@ const ProductList = ({ categorySlug = [] }) => {
 
   const getCategoryDisplayName = () => {
     if (selectedCategory === 'all') {
-      return 'Tất Cả Sản Phẩm';
+      return t('product.title');
     }
 
     if (subCategoryId && categoryHierarchy) {
@@ -251,7 +253,7 @@ const ProductList = ({ categorySlug = [] }) => {
     }
 
     const category = topCategories.find((cat) => cat.id.toString() === selectedCategory.toString());
-    return category ? category.name : 'Danh Mục';
+    return category ? category.name : t('product.category.title');
   };
 
   const buildCategoryUrl = (categoryId) => {
@@ -419,8 +421,8 @@ const ProductList = ({ categorySlug = [] }) => {
 
   const getBreadcrumbData = () => {
     const baseBreadcrumb = [
-      { title: 'Trang chủ', href: '/' },
-      { title: 'Sản Phẩm', href: '/san-pham' }
+      { title: t('product.breadcrumb.title.home'), href: '/' },
+      { title: t('product.breadcrumb.title.product'), href: '/san-pham' }
     ];
 
     if (selectedCategory === 'all' || categorySlug.length === 0) {

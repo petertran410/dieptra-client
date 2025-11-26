@@ -1,10 +1,15 @@
+'use client';
+
 import Carousel from '../../../components/carousel';
 import CarouselMobile from '../../../components/carousel/carousel-mobile';
 import SectionBlockH3 from '../../../components/section-block/section-block-h3';
+import { useTranslation } from '../../../hooks/useTranslation';
 import { IMG_ALT } from '../../../utils/const';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 const Feedback = () => {
+  const { t } = useTranslation();
+
   const breakpoints = {
     1: { slidesPerView: 1 },
     576: { slidesPerView: 2 },
@@ -13,32 +18,27 @@ const Feedback = () => {
 
   const FEEDBACK_LIST = [
     {
-      customer: 'Chị Kim Dung',
-      position: 'Đại diện Nguyên liệu pha chế Hưng Sao Hà Đông',
-      content:
-        'Tôi vô cùng ấn tượng với sản phẩm Khoai Môn tươi Nghiền thuộc Dòng Sản phẩm Đông lạnh của Thương hiệu Gấu LerMao. Với vị ngọt, béo, ngậy, mình cảm thấy rất phù hợp với các món trà sữa, và tôi tin sẽ trở thành xu hướng mới trong mùa thu đông năm nay.',
-      // image: '/images/feedback-1.webp'
-      image: '/images/mrkhoiminh.webp'
+      customer: t('home.feedback.customer1'),
+      position: t('home.feedback.position1'),
+      content: t('home.feedback.content1'),
+      image: '/images/feedback-1.webp'
     },
     {
-      customer: 'Chị Thùy Linh',
-      position: 'Đại diện Nguyên liệu Pha chế Đức Linh Hà Đông',
-      content:
-        'Sản phẩm của thương hiệu Gấu LerMao vô cùng đa dạng, với các khẩu vị vô cùng mới lạ, tươi ngon, đặc biệt hấp dẫn. Hiện nay thị trường Việt Nam có rất nhiều sản phẩm, tuy nhiên để được đa dạng và chất lượng như sản phẩm của công ty HI SWEETIE VIỆT NAM hiếm bên nào có thể làm được.',
+      customer: t('home.feedback.customer3'),
+      position: t('home.feedback.position3'),
+      content: t('home.feedback.content3'),
       image: '/images/feedback-2.webp'
     },
     {
-      customer: 'Anh Quyết',
-      position: 'Founder Chuỗi Trà sữa Son La - Vùng di sản Trà Ô Long',
-      content:
-        'Sản phẩm có gần như 9 trên 10 mẫu mã mà doanh nghiệp em có thể ứng dụng được để cân nhắc thay thế các loại nguyên liệu đang dùng bây giờ. Sản phẩm thuộc thương hiệu Gấu LerMao của công ty hoàn toàn đáp ứng được mọi nhu cầu và xu hướng hot hiện nay.',
+      customer: t('home.feedback.customer2'),
+      position: t('home.feedback.position2'),
+      content: t('home.feedback.content2'),
       image: '/images/feedback-3.webp'
     },
     {
-      customer: 'Anh Đông',
-      position: 'Đại diện BID Cần Thơ',
-      content:
-        'Khách hàng đều phản hồi rất tích cực về sản phẩm Lermao và trà Phượng Hoàng. Khi khách hàng hài lòng, BID cũng cảm thấy hoàn toàn tin tưởng vào chất lượng sản phẩm. Cảm ơn Diệp Trà đã mang đến những hương vị thơm ngon, chất lượng cho người tiêu dùng Việt Nam.',
+      customer: t('home.feedback.customer4'),
+      position: t('home.feedback.position4'),
+      content: t('home.feedback.content4'),
       image: '/images/feedback-4.webp'
     }
   ];
@@ -51,7 +51,7 @@ const Feedback = () => {
       w="full"
       py={{ xs: '36px', lg: '75px' }}
     >
-      <SectionBlockH3 title="Khách hàng nói gì về Diệp Trà" />
+      <SectionBlockH3 title={t('home.feedback.title')} />
 
       <Box
         w={{

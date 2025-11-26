@@ -1,5 +1,6 @@
 'use client';
 
+import { useTranslation } from '@/hooks/useTranslation';
 import { Button } from '@chakra-ui/react';
 import Link from 'next/link';
 
@@ -14,6 +15,7 @@ const ButtonContactIntro = () => {
   //     });
   //   }
   // };
+  const { t } = useTranslation();
 
   return (
     <Link href={'/lien-he'} target="_blank">
@@ -32,7 +34,7 @@ const ButtonContactIntro = () => {
         _hover={{ bgColor: '#5d97e3' }}
         _active={{ bgColor: '#5d97e3' }}
       >
-        Liên hệ tư vấn
+        {t('home.contact.title')}
       </Button>
     </Link>
   );

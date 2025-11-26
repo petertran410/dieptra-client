@@ -28,7 +28,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="vi" className={fontFamily.variable}>
+    <html lang="en" className={fontFamily.variable}>
       <Head>
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <link rel="preconnect" href="https://translate.google.com" />

@@ -342,7 +342,7 @@ const CartWrapper = () => {
               isDisabled={!cart.length}
               onClick={() => setShowContact(true)}
             >
-              Liên hệ tư vấn
+              {this('home.contact.submit')}
             </Button>
           </Stack>
         </Flex>

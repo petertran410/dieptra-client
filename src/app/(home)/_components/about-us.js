@@ -1,3 +1,5 @@
+'use client';
+
 import { IMG_ALT, PX_ALL, ABOUT_US } from '../../../utils/const';
 import { Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
@@ -42,7 +44,7 @@ const AboutUs = () => {
             transitionDuration="250ms"
             _hover={{ bgColor: '#0f2c3d', borderColor: '#0f2c3d', color: '#FFF' }}
           >
-            Xem chi tiết
+            {t('home.about.viewDetail')}
           </Flex>
         </Link>
       </Flex>

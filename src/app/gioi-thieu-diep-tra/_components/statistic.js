@@ -1,9 +1,14 @@
+'use client';
+
 import { Flex, Text } from '@chakra-ui/react';
 import { Inter } from 'next/font/google';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const fontInter = Inter({ subsets: ['latin', 'vietnamese'] });
 
 const Statistic = ({ mt = { xs: '20px', lg: '20px' } }) => {
+  const { t } = useTranslation();
+
   return (
     <Flex
       h={{ xs: '78px', lg: '250px' }}
@@ -28,7 +33,7 @@ const Statistic = ({ mt = { xs: '20px', lg: '20px' } }) => {
           fontWeight={500}
           textTransform="uppercase"
         >
-          tỉnh thành
+          {t('home.statistic.province')}
         </Text>
       </Flex>
       <Flex direction="column" gap={{ xs: '12px', lg: '16px' }} align="center">
@@ -42,7 +47,7 @@ const Statistic = ({ mt = { xs: '20px', lg: '20px' } }) => {
           fontWeight={500}
           textTransform="uppercase"
         >
-          đối tác đồng hành
+          {t('home.statistic.coop')}
         </Text>
       </Flex>
     </Flex>
