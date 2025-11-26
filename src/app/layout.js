@@ -10,13 +10,13 @@ import './globals.css';
 import { Providers } from './providers';
 import { AuthProvider } from '../contexts/auth-context';
 
-const fontFamily = Afacad({
-  subsets: ['latin', 'vietnamese'],
-  variable: '--font-afacad',
-  display: 'swap',
-  fallback: ['system-ui', 'arial'],
-  adjustFontFallback: false
-});
+// const fontFamily = Afacad({
+//   subsets: ['latin', 'vietnamese'],
+//   variable: '--font-afacad',
+//   display: 'swap',
+//   fallback: ['system-ui', 'arial'],
+//   adjustFontFallback: false
+// });
 
 export const metadata = {
   ...getMetadata(),
@@ -27,7 +27,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="vi" className={fontFamily.variable}>
+    // <html lang="vi" className={fontFamily.variable}>
+    <html lang="vi">
       <Head>
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
         <link rel="preconnect" href="https://translate.google.com" />
