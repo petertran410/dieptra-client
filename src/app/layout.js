@@ -28,7 +28,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     // <html lang="vi" className={fontFamily.variable}>
-    <html lang="vi">
+    <html lang="en">
       <Head>
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
       </Head>
