@@ -1,8 +1,11 @@
 import { IMG_ALT, PX_ALL, ABOUT_US } from '../../../utils/const';
 import { Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const AboutUs = () => {
+  const { t } = useTranslation();
+
   return (
     <Flex
       mt={{ xs: '30px', lg: '50px' }}
@@ -13,17 +16,13 @@ const AboutUs = () => {
     >
       <Flex flex={1.1} direction="column" gap="16px">
         <Text as="h1" fontSize={26} fontWeight={600} color="#1E96BC">
-          Diệp Trà | Chuyên Cung Cấp Nguyên Liệu Pha Chế
+          {t('home.about.title')}
         </Text>
         <Text fontSize={18} textAlign="justify">
-          Diệp Trà - Thương hiệu trực thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, ra đời năm 2018 với sứ mệnh
-          tiên phong trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên cung cấp nguyên liệu pha chế nhập khẩu từ Đài
-          Loan (Trung Quốc) và Trung Quốc, đáp ứng nhu cầu đa dạng của thị trường.
+          {t('home.about.desc1')}
         </Text>
         <Text fontSize={18} textAlign="justify">
-          Với chiến lược “Hợp tác chiến lược Toàn diện và Độc quyền” cùng các đối tác uy tín hàng đầu thế giới, Diệp Trà
-          cam kết mang đến những sản phẩm chất lượng cao, đón đầu xu hướng, cùng mức giá hợp lý cho khách hàng tại Việt
-          Nam.
+          {t('home.about.desc2')}
         </Text>
 
         <Link href="/gioi-thieu-diep-tra" target="_blank">

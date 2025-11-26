@@ -32,6 +32,8 @@ import CartHeaderMobile from './_components/cart-header-mobile';
 import { authService } from '../../../services/auth.service';
 import { showToast } from '../../../utils/helper';
 import { useAuth } from '../../../contexts/auth-context';
+import { useTranslation } from '../../../hooks/useTranslation';
+import LanguageSwitcher from '../../../components/language-switcher';
 
 const UserIcon = (props) => (
   <Icon viewBox="0 0 24 24" {...props}>
@@ -43,6 +45,7 @@ const UserIcon = (props) => (
 );
 
 const Header = () => {
+  const { t } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -57,31 +60,31 @@ const Header = () => {
 
   const MENU_LIST = [
     {
-      title: 'Trang Chủ',
+      title: t('nav.home'),
       href: '/'
     },
     {
-      title: 'Giới Thiệu',
+      title: t('nav.about'),
       href: '/gioi-thieu-diep-tra'
     },
     {
-      title: 'Sản Phẩm',
+      title: t('nav.products'),
       href: '/san-pham',
       hasDropdown: true,
       dropdownItems: productCategories
     },
     {
-      title: 'Bài Viết',
+      title: t('nav.articles'),
       href: '/bai-viet',
       hasDropdown: true,
       dropdownItems: ARTICLE_SECTIONS
     },
     {
-      title: 'Liên Hệ',
+      title: t('nav.contact'),
       href: '/lien-he'
     },
     {
-      title: 'Tuyển Dụng',
+      title: t('nav.recruitment'),
       href: '/tuyen-dung'
     }
   ];
@@ -152,7 +155,6 @@ const Header = () => {
 
   return (
     <Box>
-      {/* DESKTOP HEADER */}
       <Flex
         display={{ xs: 'none', lg: 'flex' }}
         zIndex={1000}
@@ -297,6 +299,7 @@ const Header = () => {
         {/* RIGHT SECTION - Cart + Auth */}
         <Flex align="center" gap="16px">
           <CartHeader />
+          <LanguageSwitcher />
 
           {/* Auth Section */}
           {user ? (
@@ -311,10 +314,10 @@ const Header = () => {
               </MenuButton>
               <MenuList>
                 <Link href="/profile">
-                  <MenuItem fontSize="17px">Thông tin đơn hàng</MenuItem>
+                  <MenuItem fontSize="17px">{t('nav.products-information')}</MenuItem>
                 </Link>
                 <MenuItem fontSize="17px" onClick={handleLogout}>
-                  Đăng xuất
+                  {t('nav.logout')}
                 </MenuItem>
               </MenuList>
             </Menu>
@@ -323,7 +326,7 @@ const Header = () => {
               <Flex align="center" gap="8px" cursor="pointer" p="8px" borderRadius="8px" _hover={{ bg: 'gray.50' }}>
                 <UserIcon w="20px" h="20px" color="#065FD4" />
                 <Text fontSize="17px" fontWeight={500} color="#333">
-                  Đăng nhập
+                  {t('nav.login')}
                 </Text>
               </Flex>
             </Link>
@@ -352,6 +355,7 @@ const Header = () => {
 
         <Flex align="center" gap="16px">
           <CartHeaderMobile />
+          <LanguageSwitcher />
 
           {user ? (
             <Link href="/profile">
