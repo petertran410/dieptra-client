@@ -164,9 +164,10 @@ export const translations = {
     'cart.expire.session': 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.',
     'cart.add': 'Thêm vào giỏ hàng',
     'cart.added': 'Đã thêm vào giỏ hàng',
-    'cart.error': 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.'
+    'cart.error': 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.',
 
     // BAI-VIET TIN TUC
+    'tin_tuc.title': 'Tin Tức'
   },
   en: {
     'nav.home': 'Home',
@@ -339,6 +340,9 @@ export const translations = {
     'cart.expire.session': 'Your session has expired. Please log in again.',
     'cart.add': 'Add to cart',
     'cart.added': 'Added to cart',
-    'cart.error': 'The product could not be added to the cart. Please try again.'
+    'cart.error': 'The product could not be added to the cart. Please try again.',
+
+    // BAI-VIET TIN TUC
+    'tin_tuc.title': 'NEWS'
   }
 };

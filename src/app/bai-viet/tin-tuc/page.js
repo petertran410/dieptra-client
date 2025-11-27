@@ -1,7 +1,10 @@
+'use client';
+
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
 import Head from 'next/head';
 import { getMetadata } from '../../../utils/helper-server';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 export const metadata = getMetadata({
   title: 'Tin Tức Diệp Trà',
@@ -10,10 +13,11 @@ export const metadata = getMetadata({
 });
 
 const TinTuc = () => {
+  const { t } = useTranslation();
   return (
     <>
       <Head>
-        <title>Tin Tức</title>
+        <title>{t('tin_tuc.title')}</title>
         <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/tin-tuc`} />
         <meta name="robots" content="index, follow" />
       </Head>
