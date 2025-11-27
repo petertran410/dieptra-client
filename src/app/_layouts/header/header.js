@@ -45,7 +45,7 @@ const UserIcon = (props) => (
 );
 
 const Header = () => {
-  const { t } = useTranslation();
+  const { t, getLocalizedText } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -188,7 +188,6 @@ const Header = () => {
               isActive = pathname.includes(href);
             }
 
-            // Menu item with dropdown (only for "Bài Viết")
             if (hasDropdown && dropdownItems) {
               return (
                 <Box
@@ -255,7 +254,7 @@ const Header = () => {
                             }}
                             transition="all 0.2s ease"
                           >
-                            {dropdownItem.label || dropdownItem.name}
+                            {getLocalizedText(dropdownItem.name, dropdownItem.name_en) || dropdownItem.label}
                           </Box>
                         </Link>
                       ))}
@@ -409,7 +408,7 @@ const Header = () => {
                         _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
                         borderBottom="1px solid #e2e8f0"
                       >
-                        Thông tin
+                        {t('nav.home.mobile.info')}
                       </Box>
                     </Link>
                     <Box
@@ -425,7 +424,7 @@ const Header = () => {
                         onClose();
                       }}
                     >
-                      Đăng xuất
+                      {t('nav.home.mobile.logout')}
                     </Box>
                   </VStack>
                 </Box>
@@ -444,7 +443,7 @@ const Header = () => {
                   >
                     <Flex align="center" gap="12px">
                       <UserIcon w="24px" h="24px" />
-                      <Text>Đăng nhập</Text>
+                      <Text>{t('nav.login')}</Text>
                     </Flex>
                   </Box>
                 </Link>
@@ -483,7 +482,7 @@ const Header = () => {
                               _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
                               borderBottom="1px solid #e2e8f0"
                             >
-                              {item.label}
+                              {getLocalizedText(item.name, item.name_en)}
                             </Box>
                           </Link>
                         ))}

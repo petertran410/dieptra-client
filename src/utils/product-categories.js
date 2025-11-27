@@ -16,6 +16,7 @@ export const fetchRootCategories = async () => {
       .map((cat) => ({
         id: cat.id,
         name: cat.name,
+        name_en: cat.name_en,
         slug: cat.slug,
         href: `/san-pham/${cat.slug}`,
         label: cat.name
@@ -30,6 +31,7 @@ export const PRODUCT_SECTIONS_FALLBACK = [
   {
     id: 'all',
     name: 'Tất cả sản phẩm',
+    name_en: 'All Products',
     slug: '',
     href: '/san-pham',
     label: 'Tất cả sản phẩm'

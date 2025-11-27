@@ -328,7 +328,7 @@ const ProductList = ({ categorySlug = [] }) => {
             _hover={{ bg: '#003366', color: 'white' }}
             _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
           >
-            ‹ Trước
+            ‹ {t('product.before.button')}
           </Button>
 
           {Array.from({ length: Math.min(5, totalPages) }, (_, i) => {
@@ -374,7 +374,7 @@ const ProductList = ({ categorySlug = [] }) => {
             _hover={{ bg: '#003366', color: 'white' }}
             _disabled={{ opacity: 0.5, cursor: 'not-allowed' }}
           >
-            Sau ›
+            {t('product.after.button')} ›
           </Button>
         </HStack>
       </Flex>
@@ -531,20 +531,6 @@ const ProductList = ({ categorySlug = [] }) => {
               </Select>
             </HStack>
           </Flex>
-
-          {/* <Text color="gray.600" fontSize="sm">
-            {isLoading
-              ? 'Đang tải...'
-              : `Hiển thị ${startIndex + 1}-${Math.min(
-                  startIndex + PRODUCTS_PER_PAGE,
-                  totalElements
-                )} của ${totalElements} kết quả`}
-            {selectedCategory !== 'all' && (
-              <Text as="span" ml={2} fontWeight="500" color="#003366">
-                • {topCategories.find((cat) => cat.id.toString() === selectedCategory)?.name}
-              </Text>
-            )}
-          </Text> */}
         </VStack>
 
         <Flex gap={6} align="flex-start" direction={{ base: 'column', lg: 'row' }}>

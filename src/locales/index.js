@@ -10,6 +10,8 @@ export const translations = {
     'nav.recruitment': 'Tuyển Dụng',
     'nav.articles': 'Bài Viết',
     'nav.products-information': 'Thông tin đơn hàng',
+    'nav.home.mobile.info': 'Thông tin',
+    'nav.home.mobile.logout': 'Đăng xuất',
     'home.about.title': 'Diệp Trà | Chuyên Cung Cấp Nguyên Liệu Pha Chế',
     'home.about.desc1':
       ' Diệp Trà - Thương hiệu trực thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, ra đời năm 2018 với sứ mệnh tiên phong trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên cung cấp nguyên liệu pha chế nhập khẩu từ Đài Loan (Trung Quốc) và Trung Quốc, đáp ứng nhu cầu đa dạng của thị trường.',
@@ -146,11 +148,23 @@ export const translations = {
     'product.reset.search': 'Xóa bộ lọc',
     'product.contact': 'Liên hệ',
     'product.buy.button': 'Mua hàng',
+    'product.before.button': 'Trước',
+    'product.after.button': 'Sau',
+    'product.information.title': 'Thông Tin Sản Phẩm',
+
+    //OTHER PRODUCT
+    'other.product.title': 'Sản Phẩm Liên Quan',
 
     // CATEGORY
-    'category.title': 'Danh mục'
-  },
+    'category.title': 'Danh mục',
 
+    // CART
+    'cart.login': 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.',
+    'cart.expire.session': 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.',
+    'cart.add': 'Thêm vào giỏ hàng',
+    'cart.added': 'Đã thêm vào giỏ hàng',
+    'cart.error': 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.'
+  },
   en: {
     'nav.home': 'Home',
     'nav.about': 'About Us',
@@ -162,6 +176,8 @@ export const translations = {
     'nav.cart': 'Cart',
     'nav.recruitment': 'Recruitment',
     'nav.articles': 'Articles',
+    'nav.home.mobile.info': 'Information',
+    'nav.home.mobile.logout': 'Logout',
     'home.about.title': 'Diep Tra | Specializing in Providing Beverage Ingredients',
     'home.about.desc1':
       'Diep Tra - A brand under Hi Sweetie Vietnam Import Export Company Limited, established in 2018 with the mission of pioneering in the beverage industry in Vietnam. We specialize in providing imported beverage ingredients from Taiwan (China) and China, meeting the diverse needs of the market.',
@@ -304,8 +320,21 @@ export const translations = {
     'product.reset.search': 'Please Reset Search',
     'product.contact': 'Contact',
     'product.buy.button': 'Purchase',
+    'product.before.button': 'Prev',
+    'product.after.button': 'Next',
+    'product.information.title': 'Product Information',
+
+    //OTHER PRODUCT
+    'other.product.title': 'Related Products',
 
     // CATEGORY
-    'category.title': 'Categories'
+    'category.title': 'Categories',
+
+    // CART
+    'cart.login': 'Please login to add products to cart.',
+    'cart.expire.session': 'Your session has expired. Please log in again.',
+    'cart.add': 'Add to cart',
+    'cart.added': 'Added to cart',
+    'cart.error': 'The product could not be added to the cart. Please try again.'
   }
 };

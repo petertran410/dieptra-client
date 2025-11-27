@@ -9,12 +9,14 @@ import { useRecoilState } from 'recoil';
 import { authService } from '../../../../../services/auth.service';
 import { cartService } from '../../../../../services/cart.service';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from '../../../../../hooks/useTranslation';
 
 const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
   const router = useRouter();
   const [cart, setCart] = useRecoilState(cartAtom);
   const [showContact, setShowContact] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const { t, getLocalizedText } = useTranslation();
 
   const onAddCart = async () => {
     setIsLoading(true);
@@ -25,7 +27,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
       if (!authCheck.isAuthenticated) {
         showToast({
           status: 'warning',
-          content: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'
+          content: t('cart.login')
         });
         router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
         return;
@@ -43,8 +45,6 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
           await cartService.addToCart(Number(productId), quantity);
           break;
         } catch (cartError) {
-          console.log(`🔄 Add to cart attempt ${retryCount + 1} failed:`, cartError.message);
-
           if (retryCount === maxRetries) {
             if (
               cartError.message.includes('Service temporarily unavailable') ||
@@ -61,7 +61,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
                 } catch (finalError) {
                   showToast({
                     status: 'warning',
-                    content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'
+                    content: t('cart.expire.session')
                   });
                   router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
                   return;
@@ -69,7 +69,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
               } else {
                 showToast({
                   status: 'warning',
-                  content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'
+                  content: t('cart.expire.session')
                 });
                 router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
                 return;
@@ -99,13 +99,13 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
 
       showToast({
         status: 'success',
-        content: 'Đã thêm vào giỏ hàng'
+        content: t('cart.added')
       });
     } catch (error) {
       console.error('Add to cart error:', error);
       showToast({
         status: 'error',
-        content: 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.'
+        content: t('cart.error')
       });
     } finally {
       setIsLoading(false);
@@ -128,7 +128,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
         loadingText="Đang thêm..."
         onClick={price ? onAddCart : () => setShowContact(true)}
       >
-        Thêm vào giỏ hàng
+        {t('cart.add')}
       </Button>
 
       <ModalContact open={showContact} onCloseModal={() => setShowContact(false)} defaultNote={title} />

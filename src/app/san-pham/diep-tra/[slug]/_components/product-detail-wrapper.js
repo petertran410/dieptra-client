@@ -27,15 +27,20 @@ import { PX_ALL } from '../../../../../utils/const';
 import OtherProduct from './other-product';
 import AddCart from './add-cart';
 import ProductImageGallery from './product-image-gallery';
+import { useTranslation } from '../../../../../hooks/useTranslation';
 
 const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
+  const { t, getLocalizedText } = useTranslation();
   const [quantity, setQuantity] = useState(1);
 
   const {
     title,
+    title_en,
     title_meta,
     description,
     instruction,
+    description_en,
+    instruction_en,
     imagesUrl = [],
     price,
     rate,
@@ -73,21 +78,21 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
 
   const buildBreadcrumbData = () => {
     const baseBreadcrumb = [
-      { title: 'Trang chủ', href: '/' },
-      { title: 'Sản Phẩm', href: '/san-pham' }
+      { title: t('product.breadcrumb.title.home'), href: '/' },
+      { title: t('product.breadcrumb.title.product'), href: '/san-pham' }
     ];
 
     if (categoryHierarchy && categoryHierarchy.length > 0) {
       categoryHierarchy.forEach((cat) => {
         baseBreadcrumb.push({
-          title: cat.name,
+          title: getLocalizedText(cat.name, cat.name_en),
           href: cat.href
         });
       });
     }
 
     baseBreadcrumb.push({
-      title: title,
+      title: getLocalizedText(title, title_en),
       href: '#',
       isActive: true
     });
@@ -113,13 +118,13 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
             <GridItem>
               <VStack align="start" spacing={6}>
                 <Heading as="h1" fontSize="28px" fontWeight="600" color="#003366">
-                  {title}
+                  {getLocalizedText(title, title_en)}
                 </Heading>
 
                 {description && (
                   <Box>
                     <div
-                      dangerouslySetInnerHTML={{ __html: description }}
+                      dangerouslySetInnerHTML={{ __html: getLocalizedText(description, description_en) }}
                       style={{
                         textAlign: 'justify',
                         lineHeight: '1.6'
@@ -141,7 +146,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                 )} */}
 
                 <Text fontSize="32px" fontWeight="700" color="#d63384">
-                  {price ? formatCurrency(price) : 'Liên hệ'}
+                  {price ? formatCurrency(price) : t('product.contact')}
                 </Text>
 
                 <Flex direction="row" gap={4} align="stretch" w="full">
@@ -183,7 +188,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                         _hover={{ bg: '#3970A7', color: 'white' }}
                         fontWeight="600"
                       >
-                        Liên Hệ
+                        {t('product.contact')}
                       </Button>
                     </Link>
                   </Box>
@@ -194,13 +199,13 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
 
           <Box>
             <Heading as="p" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
-              Thông Tin Sản Phẩm
+              {t('product.information.title')}
             </Heading>
 
             {instruction && (
               <Box>
                 <div
-                  dangerouslySetInnerHTML={{ __html: instruction }}
+                  dangerouslySetInnerHTML={{ __html: getLocalizedText(instruction, instruction_en) }}
                   style={{
                     textAlign: 'justify',
                     lineHeight: '1.6'
