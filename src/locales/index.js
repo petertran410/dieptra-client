@@ -166,7 +166,15 @@ export const translations = {
     'cart.added': 'Đã thêm vào giỏ hàng',
     'cart.error': 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.',
 
-    // BAI-VIET TIN TUC
+    // BAI-VIET
+    'article.title': 'Bài Viết',
+    'article.title.des':
+      'Khám phá kho kiến thức phong phú về pha chế, nguyên liệu, xu hướng và những câu chuyện thú vị trong thế giới đồ uống. Từ những bí quyết pha chế đến các review sản phẩm chi tiết, tất cả đều được cập nhật liên tục tại Diệp Trà.',
+    'article.breadcrumb.title.home': 'Trang chủ',
+    'article.breadcrumb.title.article': 'Bài Viết',
+    'article.total': 'Xem tất cả',
+    'article.read.on': 'Đọc tiếp',
+    'article.no.article': 'Chưa có bài viết trong mục này',
     'tin_tuc.title': 'Tin Tức'
   },
   en: {
@@ -342,7 +350,15 @@ export const translations = {
     'cart.added': 'Added to cart',
     'cart.error': 'The product could not be added to the cart. Please try again.',
 
-    // BAI-VIET TIN TUC
-    'tin_tuc.title': 'NEWS'
+    // BAI-VIET
+    'article.title': 'Articles',
+    'article.title.des':
+      'Explore a wealth of knowledge about mixology, ingredients, trends and interesting stories in the world of drinks. From mixing tips to detailed product reviews, all are constantly updated at Diep Tra.',
+    'article.breadcrumb.title.home': 'Home',
+    'article.breadcrumb.title.article': 'Article',
+    'article.total': 'See all',
+    'article.read.on': 'Read On',
+    'article.no.article': 'There are no posts in this section yet.',
+    'tin_tuc.title': 'News'
   }
 };

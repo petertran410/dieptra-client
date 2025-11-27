@@ -1,6 +1,7 @@
 'use client';
 
 import Breadcrumb from '../../../components/breadcrumb';
+import { useTranslation } from '../../../hooks/useTranslation';
 import { API } from '../../../utils/API';
 import { ARTICLE_SECTIONS, ARTICLE_TYPE_LABELS } from '../../../utils/article-types';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
@@ -11,7 +12,10 @@ import Link from 'next/link';
 import { useEffect, useState, Suspense } from 'react';
 
 const ArticleCard = ({ article, categorySlug }) => {
-  const { id, title, description, imagesUrl, createdDate } = article;
+  const { id, title, title_en, description, description_en, imagesUrl, createdDate } = article;
+  const { t, getLocalizedText } = useTranslation();
+
+  console.log(description_en);
 
   return (
     <Flex direction="column" gap="16px" h="100%">
@@ -41,13 +45,13 @@ const ArticleCard = ({ article, categorySlug }) => {
               _hover={{ color: '#065FD4' }}
               transition="color 0.2s ease"
             >
-              {title}
+              {getLocalizedText(title, title_en)}
             </Text>
           </Link>
 
           {description && (
             <Text mt={1} fontSize={19} color="gray.600" lineHeight="20px" noOfLines={2}>
-              {description}
+              {getLocalizedText(description, description_en)}
             </Text>
           )}
 
@@ -76,7 +80,7 @@ const ArticleCard = ({ article, categorySlug }) => {
             _active={{ bgColor: '#5d97e3' }}
             w="fit-content"
           >
-            Đọc tiếp
+            {t('article.read.on')}
           </Button>
         </Link>
       </Flex>
@@ -85,14 +89,15 @@ const ArticleCard = ({ article, categorySlug }) => {
 };
 
 const ArticleSection = ({ section, articles, isLoading }) => {
-  const { label, slug, href } = section;
+  const { label, name, name_en, slug, href } = section;
+  const { t, getLocalizedText } = useTranslation();
 
   if (isLoading) {
     return (
       <Box mb="50px">
         <Flex justify="space-between" align="center" mb="24px">
           <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
-            {label}
+            {getLocalizedText(name, name_en)}
           </Heading>
         </Flex>
         <Flex justify="center" py="40px">
@@ -107,16 +112,16 @@ const ArticleSection = ({ section, articles, isLoading }) => {
       <Box mb="50px">
         <Flex justify="space-between" align="center" mb="24px">
           <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
-            {label}
+            {getLocalizedText(name, name_en)}
           </Heading>
           <Link href={href}>
             <Button variant="outline" borderColor="#065FD4" color="#065FD4" size="md">
-              Xem tất cả
+              {t('article.read.on')}
             </Button>
           </Link>
         </Flex>
         <Text color="gray.500" textAlign="center" py="20px">
-          Chưa có bài viết trong mục này
+          {t('article.no.article')}
         </Text>
       </Box>
     );
@@ -126,7 +131,7 @@ const ArticleSection = ({ section, articles, isLoading }) => {
     <Box mb="50px">
       <Flex justify="space-between" align="center" mb="24px">
         <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
-          {label}
+          {getLocalizedText(name, name_en)}
         </Heading>
         <Link href={href}>
           <Button
@@ -137,7 +142,7 @@ const ArticleSection = ({ section, articles, isLoading }) => {
             fontSize={18}
             _hover={{ bgColor: '#065FD4', color: 'white' }}
           >
-            Xem tất cả
+            {t('article.total')}
           </Button>
         </Link>
       </Flex>
@@ -248,9 +253,10 @@ const SectionsContent = () => {
 };
 
 const ArticleMainWrapper = () => {
+  const { t } = useTranslation();
   const breadcrumbData = [
-    { title: 'Trang chủ', href: '/' },
-    { title: 'Bài Viết', href: '/bai-viet', isActive: true }
+    { title: t('article.breadcrumb.title.home'), href: '/' },
+    { title: t('article.breadcrumb.title.article'), href: '/bai-viet', isActive: true }
   ];
 
   return (
@@ -266,12 +272,10 @@ const ArticleMainWrapper = () => {
 
         <VStack align="start" spacing="16px" mt="20px" mb="40px">
           <Heading as="h1" fontSize={{ xs: '28px', lg: '36px' }} fontWeight={700} color="#003366">
-            Bài Viết
+            {t('article.title')}
           </Heading>
           <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6" maxW="full">
-            Khám phá kho kiến thức phong phú về pha chế, nguyên liệu, xu hướng và những câu chuyện thú vị trong thế giới
-            đồ uống. Từ những bí quyết pha chế đến các review sản phẩm chi tiết, tất cả đều được cập nhật liên tục tại
-            Diệp Trà.
+            {t('article.title.des')}
           </Text>
         </VStack>
 
