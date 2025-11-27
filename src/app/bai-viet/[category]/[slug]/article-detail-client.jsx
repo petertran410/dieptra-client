@@ -291,7 +291,6 @@ const ArticleDetailClient = ({ params, categoryData }) => {
             }));
           }
         } else {
-          console.log('⏭️ Skip increment (already called)');
         }
       } catch (error) {
         console.error('❌ Error:', error);

@@ -6,6 +6,7 @@ export const translations = {
     'nav.contact': 'Liên Hệ',
     'nav.login': 'Đăng nhập',
     'nav.logout': 'Đăng xuất',
+    'nav.logout.success': 'Đã đăng xuất thành công.',
     'nav.cart': 'Giỏ hàng',
     'nav.recruitment': 'Tuyển Dụng',
     'nav.articles': 'Bài Viết',
@@ -164,6 +165,8 @@ export const translations = {
     'cart.add': 'Thêm vào giỏ hàng',
     'cart.added': 'Đã thêm vào giỏ hàng',
     'cart.error': 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.'
+
+    // BAI-VIET TIN TUC
   },
   en: {
     'nav.home': 'Home',
@@ -172,6 +175,7 @@ export const translations = {
     'nav.contact': 'Contact',
     'nav.login': 'Login',
     'nav.logout': 'Logout',
+    'nav.logout.success': 'Logout successully',
     'nav.products-information': 'Information',
     'nav.cart': 'Cart',
     'nav.recruitment': 'Recruitment',

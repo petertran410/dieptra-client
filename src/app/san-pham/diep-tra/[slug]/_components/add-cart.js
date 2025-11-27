@@ -94,7 +94,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
         }));
         setCart(formattedCart);
       } catch (getCartError) {
-        console.log('⚠️ Could not reload cart after add, but item was added');
+        throw new Error(getCartError);
       }
 
       showToast({

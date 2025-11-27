@@ -20,7 +20,6 @@ export const cartService = {
       }
 
       if (error.message.includes('Service temporarily unavailable')) {
-        console.log('🔄 Cart service unavailable, returning empty cart');
         return { items: [], totalItems: 0 };
       }
 

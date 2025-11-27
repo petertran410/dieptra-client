@@ -119,7 +119,6 @@ const Header = () => {
           }));
           setCart(formattedCart);
         } catch (error) {
-          console.log('⚠️ Could not load cart:', error.message);
           setCart([]);
         }
       } else if (!isChecking && !isAuthenticated) {
@@ -141,13 +140,13 @@ const Header = () => {
     if (isOnProtectedPage) {
       showToast({
         status: 'info',
-        content: 'Đã đăng xuất thành công.'
+        content: t('nav.logout.success')
       });
       router.push('/');
     } else {
       showToast({
         status: 'info',
-        content: 'Đã đăng xuất thành công.'
+        content: t('nav.logout.success')
       });
       router.refresh();
     }
@@ -254,7 +253,7 @@ const Header = () => {
                             }}
                             transition="all 0.2s ease"
                           >
-                            {getLocalizedText(dropdownItem.name, dropdownItem.name_en) || dropdownItem.label}
+                            {getLocalizedText(dropdownItem.name, dropdownItem.name_en)}
                           </Box>
                         </Link>
                       ))}
