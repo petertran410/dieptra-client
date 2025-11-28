@@ -1,15 +1,13 @@
+'use client';
+
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
 import Head from 'next/head';
-import { getMetadata } from '../../../utils/helper-server';
-
-export const metadata = getMetadata({
-  title: 'Kiến Thức Nguyên Liệu Pha Chế',
-  description:
-    'Kiến thức nguyên liệu pha chế là chuyên mục dành riêng cho những ai yêu thích và hoạt động trong lĩnh vực đồ uống, chủ quán café – trà sữa chuyên nghiệp. Diệp Trà sẽ cập nhật thông tin chi tiết và hữu ích về các loại nguyên liệu phổ biến như: Syrup, topping, mứt trái cây, bột, trà nguyên chất...'
-});
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const KienThucNguyenLieuPhaChe = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <Head>
@@ -19,9 +17,9 @@ const KienThucNguyenLieuPhaChe = () => {
       </Head>
       <ArticleSubcategoryTemplate
         articleType={ARTICLE_TYPES.KIEN_THUC_NGUYEN_LIEU}
-        title="Kiến Thức Nguyên Liệu Pha Chế"
-        breadcrumbLabel="Kiến Thức Nguyên Liệu Pha Chế"
-        description="Khám phá những kiến thức bổ ích về nguyên liệu pha chế đồ uống. Từ cách chọn lựa, bảo quản đến ứng dụng trong các công thức pha chế độc đáo."
+        title={t('kien_thuc_nguyen_lieu.title')}
+        breadcrumbLabel={t('kien_thuc_nguyen_lieu.title')}
+        description={t('kien_thuc_nguyen_lieu.desc')}
         categorySlug="kien-thuc-nguyen-lieu-pha-che"
       />
     </>

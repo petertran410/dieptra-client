@@ -7,9 +7,11 @@ import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, Spinner, VS
 import Link from 'next/link';
 import { Suspense, useEffect, useState } from 'react';
 import { API } from '../../../utils/API';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const ArticleItem = ({ item, categorySlug }) => {
-  const { id, title, imagesUrl, createdDate, description, titleMeta } = item || {};
+  const { id, title, title_en, imagesUrl, createdDate, description, titleMeta, description_en } = item || {};
+  const { t, getLocalizedText } = useTranslation();
 
   return (
     <Flex direction="column" gap="16px" h="100%">
@@ -39,13 +41,13 @@ const ArticleItem = ({ item, categorySlug }) => {
               _hover={{ color: '#065FD4' }}
               transition="color 0.2s ease"
             >
-              {title}
+              {getLocalizedText(title, title_en)}
             </Text>
           </Link>
 
           {description && (
             <Text mt={1} fontSize={18} color="gray.600" lineHeight="20px" noOfLines={2}>
-              {description}
+              {getLocalizedText(description, description_en)}
             </Text>
           )}
 
@@ -72,7 +74,7 @@ const ArticleItem = ({ item, categorySlug }) => {
             _active={{ bgColor: '#5d97e3' }}
             w="fit-content"
           >
-            Đọc tiếp
+            {t('article.read.on')}
           </Button>
         </Link>
       </Flex>
@@ -80,7 +82,6 @@ const ArticleItem = ({ item, categorySlug }) => {
   );
 };
 
-// 🚨 NEW: Pagination Component với Suspense-safe implementation
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
@@ -181,7 +182,6 @@ const ArticlesContent = ({ articleType, categorySlug }) => {
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
-    // Scroll to top when page changes
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -226,9 +226,11 @@ const ArticlesContent = ({ articleType, categorySlug }) => {
 };
 
 const ArticleSubcategoryTemplate = ({ articleType, title, breadcrumbLabel, description, categorySlug }) => {
+  const { t } = useTranslation();
+
   const breadcrumbData = [
-    { title: 'Trang chủ', href: '/' },
-    { title: 'Bài Viết', href: '/bai-viet' },
+    { title: t('article.breadcrumb.title.home'), href: '/' },
+    { title: t('article.breadcrumb.title.article'), href: '/bai-viet' },
     { title: breadcrumbLabel, href: '#', isActive: true }
   ];
 

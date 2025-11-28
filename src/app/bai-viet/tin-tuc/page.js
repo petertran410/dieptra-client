@@ -10,7 +10,7 @@ const TinTuc = () => {
   return (
     <>
       <Head>
-        <title>{t('tin_tuc.title')}</title>
+        <title>Tin Tức</title>
         <meta
           name="description"
           content="Cập nhật Tin tức mới nhất từ Diệp Trà: Sản phẩm mới, chương trình khuyến mãi, sự kiện ngành pha chế và hoạt động thương hiệu nổi bật. Thông tin workshop các khu vực."
@@ -21,8 +21,8 @@ const TinTuc = () => {
       <ArticleSubcategoryTemplate
         articleType={ARTICLE_TYPES.NEWS}
         title={t('tin_tuc.title')}
-        breadcrumbLabel="Tin Tức"
-        description="Cập nhật những tin tức mới nhất về ngành F&B, hoạt động của Diệp Trà và các sự kiện quan trọng trong cộng đồng pha chế."
+        breadcrumbLabel={t('tin_tuc.title')}
+        description={t('tin_tuc.desc')}
         categorySlug="tin-tuc"
       />
     </>

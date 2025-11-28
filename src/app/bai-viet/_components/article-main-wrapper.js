@@ -15,8 +15,6 @@ const ArticleCard = ({ article, categorySlug }) => {
   const { id, title, title_en, description, description_en, imagesUrl, createdDate } = article;
   const { t, getLocalizedText } = useTranslation();
 
-  console.log(description_en);
-
   return (
     <Flex direction="column" gap="16px" h="100%">
       <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>

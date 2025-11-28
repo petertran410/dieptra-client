@@ -175,7 +175,12 @@ export const translations = {
     'article.total': 'Xem tất cả',
     'article.read.on': 'Đọc tiếp',
     'article.no.article': 'Chưa có bài viết trong mục này',
-    'tin_tuc.title': 'Tin Tức'
+    'tin_tuc.title': 'Tin Tức',
+    'tin_tuc.desc':
+      'Cập nhật những tin tức mới nhất về ngành F&B, hoạt động của Diệp Trà và các sự kiện quan trọng trong cộng đồng pha chế.',
+    'kien_thuc_nguyen_lieu.title': 'Kiến Thức Nguyên Liệu Pha Chế',
+    'kien_thuc_nguyen_lieu.desc':
+      'Khám phá những kiến thức bổ ích về nguyên liệu pha chế đồ uống. Từ cách chọn lựa, bảo quản đến ứng dụng trong các công thức pha chế độc đáo.'
   },
   en: {
     'nav.home': 'Home',
@@ -359,6 +364,11 @@ export const translations = {
     'article.total': 'See all',
     'article.read.on': 'Read On',
     'article.no.article': 'There are no posts in this section yet.',
-    'tin_tuc.title': 'News'
+    'tin_tuc.title': 'News',
+    'tin_tuc.desc':
+      "Provide the latest updates on the food and beverage industry, Diep Tra's initiatives, and significant developments within the bartending community.",
+    'kien_thuc_nguyen_lieu.title': 'Knowledge of Ingredients for Mixing',
+    'kien_thuc_nguyen_lieu.desc':
+      'Discover useful knowledge about beverage ingredients. From selection, preservation to application in unique recipes.'
   }
 };
