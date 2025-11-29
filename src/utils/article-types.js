@@ -62,14 +62,7 @@ export const ARTICLE_SECTIONS = [
   //   slug: 'trend-pha-che',
   //   href: '/bai-viet/trend-pha-che'
   // },
-  {
-    type: ARTICLE_TYPES.REVIEW_SAN_PHAM,
-    label: ARTICLE_TYPE_LABELS[ARTICLE_TYPES.REVIEW_SAN_PHAM],
-    name: ARTICLE_TYPE_LABELS[ARTICLE_TYPES.REVIEW_SAN_PHAM],
-    name_en: ARTICLE_TYPE_LABELS[ARTICLE_TYPES.REVIEW_SAN_PHAM_EN],
-    slug: 'review-danh-gia-san-pham',
-    href: '/bai-viet/review-danh-gia-san-pham'
-  },
+
   {
     type: ARTICLE_TYPES.CONG_THUC_PHA_CHE,
     label: ARTICLE_TYPE_LABELS[ARTICLE_TYPES.CONG_THUC_PHA_CHE],
@@ -85,6 +78,14 @@ export const ARTICLE_SECTIONS = [
     name_en: ARTICLE_TYPE_LABELS[ARTICLE_TYPES.NEWS_EN],
     slug: 'tin-tuc',
     href: '/bai-viet/tin-tuc'
+  },
+  {
+    type: ARTICLE_TYPES.REVIEW_SAN_PHAM,
+    label: ARTICLE_TYPE_LABELS[ARTICLE_TYPES.REVIEW_SAN_PHAM],
+    name: ARTICLE_TYPE_LABELS[ARTICLE_TYPES.REVIEW_SAN_PHAM],
+    name_en: ARTICLE_TYPE_LABELS[ARTICLE_TYPES.REVIEW_SAN_PHAM_EN],
+    slug: 'review-danh-gia-san-pham',
+    href: '/bai-viet/review-danh-gia-san-pham'
   }
 ];
 
