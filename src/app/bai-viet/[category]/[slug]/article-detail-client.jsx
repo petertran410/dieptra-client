@@ -11,93 +11,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { notFound } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
-
-// Component cho related articles
-// const RelatedArticlesSection = ({ articleType, currentArticleId, category }) => {
-//   const [latestArticles, setLatestArticles] = useState([]);
-//   const [loading, setLoading] = useState(true);
-
-//   useEffect(() => {
-//     const fetchLatestArticles = async () => {
-//       try {
-//         const response = await API.request({
-//           url: '/api/news/client/get-all',
-//           params: {
-//             pageNumber: 0,
-//             pageSize: 7,
-//             type: articleType
-//           }
-//         });
-
-//         if (response?.content && Array.isArray(response.content)) {
-//           // Loại trừ bài viết hiện tại và chỉ lấy 6 bài
-//           const filtered = response.content.filter((article) => article.id !== currentArticleId).slice(0, 6);
-//           setLatestArticles(filtered);
-//         }
-//       } catch (error) {
-//         console.error('Error fetching latest articles:', error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     if (articleType && currentArticleId) {
-//       fetchLatestArticles();
-//     }
-//   }, [articleType, currentArticleId]);
-
-//   if (loading) {
-//     return (
-//       <Box mt="40px">
-//         <Text fontSize={20} fontWeight={600} mb="20px">
-//           Bài viết mới nhất
-//         </Text>
-//         <Flex justify="center" py="20px">
-//           <Spinner size="md" color="#065FD4" />
-//         </Flex>
-//       </Box>
-//     );
-//   }
-
-//   if (!latestArticles.length) {
-//     return null;
-//   }
-
-//   return (
-//     <Box mt="40px">
-//       <Text fontSize={20} fontWeight={600} mb="20px">
-//         Bài viết mới nhất
-//       </Text>
-//       <Grid templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap="24px">
-//         {latestArticles.map((article) => (
-//           <Flex direction="column" gap="12px" key={article.id}>
-//             <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
-//               <AspectRatio ratio={16 / 9}>
-//                 <Image
-//                   src={article.imagesUrl?.[0]?.replace('http://', 'https://') || '/images/news.webp'}
-//                   alt={article.title}
-//                   objectFit="cover"
-//                   borderRadius="8px"
-//                   _hover={{ transform: 'scale(1.05)', transition: 'transform 0.2s' }}
-//                 />
-//               </AspectRatio>
-//             </Link>
-//             <Box>
-//               <Link href={`/bai-viet/${category}/${convertSlugURL(article.title)}`}>
-//                 <Text fontSize="14px" fontWeight={600} lineHeight="20px" _hover={{ color: '#065FD4' }} noOfLines={2}>
-//                   {article.title}
-//                 </Text>
-//               </Link>
-//               <Text fontSize="12px" color="gray.500" mt="4px">
-//                 {convertTimestamp(article.createdDate)}
-//               </Text>
-//             </Box>
-//           </Flex>
-//         ))}
-//       </Grid>
-//     </Box>
-//   );
-// };
+import { useTranslation } from '../../../../hooks/useTranslation';
 
 const VideoEmbed = ({ embedUrl }) => {
   if (!embedUrl) return null;
@@ -119,6 +33,7 @@ const VideoEmbed = ({ embedUrl }) => {
 const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
   const [latestArticles, setLatestArticles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t, getLocalizedText } = useTranslation();
 
   useEffect(() => {
     const fetchLatestArticles = async () => {
@@ -151,7 +66,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
     return (
       <Box p="16px" bg="gray.50" borderRadius="8px">
         <Text fontSize={18} fontWeight={500} mb="16px">
-          Đang tải...
+          {t('article.loading')}
         </Text>
       </Box>
     );
@@ -161,10 +76,10 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
     return (
       <Box p="16px" bg="gray.50" borderRadius="8px">
         <Text fontSize={18} fontWeight={500} mb="16px">
-          Bài viết mới nhất
+          {t('article.newest')}
         </Text>
         <Text fontSize={14} color="gray.500">
-          Chưa có bài viết mới
+          {t('article.no.newest')}
         </Text>
       </Box>
     );
@@ -173,7 +88,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
   return (
     <Box>
       <Text fontSize={20} fontWeight={500} mb="16px">
-        Bài viết mới nhất
+        {t('article.newest')}
       </Text>
       <Flex direction="column" gap="16px">
         {latestArticles.map((article) => (
@@ -199,7 +114,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
                   _hover={{ color: '#065FD4' }}
                   transition="color 0.2s"
                 >
-                  {article.title}
+                  {getLocalizedText(article.title, article.title_en)}
                 </Text>
               </Link>
 
@@ -215,18 +130,20 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
 };
 
 const getBreadcrumbData = (categoryData, articleTitle) => {
+  const { t, getLocalizedText } = useTranslation();
+
   if (categoryData) {
     return [
-      { title: 'Trang chủ', href: '/' },
-      { title: 'Bài Viết', href: '/bai-viet' },
-      { title: categoryData.label, href: categoryData.href },
+      { title: t('article.breadcrumb.title.home'), href: '/' },
+      { title: t('article.breadcrumb.title.article'), href: '/bai-viet' },
+      { title: getLocalizedText(categoryData.name, categoryData.name_en), href: categoryData.href },
       { title: articleTitle, href: '#', isActive: true }
     ];
   }
 
   return [
-    { title: 'Trang chủ', href: '/' },
-    { title: 'Bài Viết', href: '/bai-viet' },
+    { title: t('article.breadcrumb.title.home'), href: '/' },
+    { title: t('article.breadcrumb.title.article'), href: '/bai-viet' },
     { title: articleTitle, href: '#', isActive: true }
   ];
 };
@@ -238,6 +155,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const hasIncrementedRef = useRef(false);
+  const { t, getLocalizedText } = useTranslation();
 
   useEffect(() => {
     hasIncrementedRef.current = false;
@@ -303,29 +221,6 @@ const ArticleDetailClient = ({ params, categoryData }) => {
     fetchArticleDetail();
   }, [category, slug, categoryData]);
 
-  // const incrementViewWithTracking = async (articleId) => {
-  //   try {
-  //     const viewedArticles = JSON.parse(localStorage.getItem('viewedArticles') || '{}');
-  //     const articleKey = `article_${articleId}`;
-  //     const lastViewTime = viewedArticles[articleKey];
-  //     const now = Date.now();
-  //     const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
-
-  //     if (!lastViewTime || now - lastViewTime > TWENTY_FOUR_HOURS) {
-  //       await API.request({
-  //         url: `/api/news/client/increment-view/${articleId}`,
-  //         method: 'POST'
-  //       });
-
-  //       // Lưu thời gian xem vào localStorage
-  //       viewedArticles[articleKey] = now;
-  //       localStorage.setItem('viewedArticles', JSON.stringify(viewedArticles));
-  //     }
-  //   } catch (error) {
-  //     console.error('Error incrementing view:', error);
-  //   }
-  // };
-
   if (loading) {
     return (
       <Flex pt={{ xs: '70px', lg: '162px' }} px={PX_ALL} justify="center" align="center" minH="400px">
@@ -339,9 +234,23 @@ const ArticleDetailClient = ({ params, categoryData }) => {
     return null;
   }
 
-  const { title, htmlContent, createdDate, imagesUrl, description, type, embedUrl, titleMeta } = newsDetail;
+  const {
+    title,
+    title_en,
+    htmlContent,
+    html_content_en,
+    createdDate,
+    imagesUrl,
+    description,
+    description_en,
+    type,
+    embedUrl,
+    titleMeta
+  } = newsDetail;
 
-  const breadcrumbData = getBreadcrumbData(categoryData, title);
+  console.log(newsDetail);
+
+  const breadcrumbData = getBreadcrumbData(categoryData, getLocalizedText(title, title_en));
 
   const schemaData = {
     '@context': 'https://schema.org',
@@ -369,11 +278,11 @@ const ArticleDetailClient = ({ params, categoryData }) => {
       'https://shopee.vn/nguyenlieu.royaltea'
     ],
     abstract: title,
-    name: title,
+    name: getLocalizedText(title, title_en),
     alternativeHeadline: title,
     headline: title,
     url: `${process.env.NEXT_PUBLIC_API_DOMAIN}/bai-viet/${category}/${slug}`,
-    description: description || '',
+    description: getLocalizedText(description, description_en) || '',
     disambiguatingDescription: title,
     mainEntityOfPage: `${process.env.NEXT_PUBLIC_API_DOMAIN}/bai-viet/${category}/${slug}`,
     image: imagesUrl || [],
@@ -418,26 +327,25 @@ const ArticleDetailClient = ({ params, categoryData }) => {
         pb="50px"
         direction={{ xs: 'column', lg: 'row' }}
       >
-        {/* MAIN CONTENT */}
         <Flex flex={2 / 3} direction="column">
           <Breadcrumb data={breadcrumbData} />
 
           <Text as="h1" fontSize={28} fontWeight={600} mt="20px" lineHeight="30px">
-            {title}
+            {getLocalizedText(title, title_en)}
           </Text>
           <Text mt="12px" color="#A1A1AA" fontSize={18}>
-            Ngày đăng: {convertTimestamp(createdDate)}
+            {t('article.time.article')}: {convertTimestamp(createdDate)}
           </Text>
           <Text mt="16px" fontWeight={500} fontSize={20}>
-            {description}
+            {getLocalizedText(description, description_en)}
           </Text>
 
           {htmlContent && !htmlContent.startsWith('<toc></toc>') && (
             <Box my="24px" borderRadius={8} border="1px solid #CCC" px="16px" py="12px">
               <Text fontWeight={700} fontSize={20}>
-                Mục lục
+                {t('article.catalogue')}
               </Text>
-              <TableOfContents html={htmlContent} />
+              <TableOfContents html={getLocalizedText(htmlContent, html_content_en)} />
             </Box>
           )}
 
@@ -455,14 +363,10 @@ const ArticleDetailClient = ({ params, categoryData }) => {
           <div
             className="html-content"
             style={{ marginTop: '20px', fontSize: '18px', lineHeight: '20px' }}
-            dangerouslySetInnerHTML={{ __html: htmlContent }}
+            dangerouslySetInnerHTML={{ __html: getLocalizedText(htmlContent, html_content_en) }}
           />
-
-          {/* RELATED ARTICLES */}
-          {/* {articleId && <RelatedArticlesSection articleType={type} currentArticleId={articleId} category={category} />} */}
         </Flex>
 
-        {/* SIDEBAR */}
         <Flex flex={1 / 3} direction="column">
           {articleId && <LatestArticlesSidebar articleType={type} currentArticleId={articleId} category={category} />}
         </Flex>

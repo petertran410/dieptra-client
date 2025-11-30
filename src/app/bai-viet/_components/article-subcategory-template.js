@@ -150,6 +150,7 @@ const ArticlesContent = ({ articleType, categorySlug }) => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const { t } = useTranslation();
 
   const fetchArticles = async (page = 1) => {
     try {
@@ -197,7 +198,7 @@ const ArticlesContent = ({ articleType, categorySlug }) => {
     return (
       <Flex justify="center" py="60px">
         <Text fontSize={18} color="gray.500">
-          Chưa có bài viết nào trong mục này
+          {t('article.no.article')}
         </Text>
       </Flex>
     );

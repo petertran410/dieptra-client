@@ -175,12 +175,26 @@ export const translations = {
     'article.total': 'Xem tất cả',
     'article.read.on': 'Đọc tiếp',
     'article.no.article': 'Chưa có bài viết trong mục này',
+    'article.time.article': 'Ngày đăng',
+    'article.catalogue': 'Mục lục',
     'tin_tuc.title': 'Tin Tức',
     'tin_tuc.desc':
       'Cập nhật những tin tức mới nhất về ngành F&B, hoạt động của Diệp Trà và các sự kiện quan trọng trong cộng đồng pha chế.',
     'kien_thuc_nguyen_lieu.title': 'Kiến Thức Nguyên Liệu Pha Chế',
     'kien_thuc_nguyen_lieu.desc':
-      'Khám phá những kiến thức bổ ích về nguyên liệu pha chế đồ uống. Từ cách chọn lựa, bảo quản đến ứng dụng trong các công thức pha chế độc đáo.'
+      'Khám phá những kiến thức bổ ích về nguyên liệu pha chế đồ uống. Từ cách chọn lựa, bảo quản đến ứng dụng trong các công thức pha chế độc đáo.',
+    'kien_thuc_ve_tra.title': 'Kiến Thức Về Trà',
+    'kien_thuc_ve_tra.desc':
+      'Tìm hiểu sâu về thế giới trà từ các loại trà truyền thống đến các blend hiện đại. Học cách pha trà đúng cách để có được hương vị hoàn hảo.',
+    'review_danh_gia_san_pham.title': 'Review - Đánh Giá Sản Phẩm',
+    'review_danh_gia_san_pham.desc':
+      'Đánh giá chi tiết các sản phẩm nguyên liệu pha chế, máy móc thiết bị và các thương hiệu uy tín trong ngành F&B.',
+    'cong_thuc_pha_che.title': 'Công Thức Pha Chế',
+    'cong_thuc_pha_che.desc':
+      'Khám phá kho tàng công thức pha chế đa dạng từ các món đồ uống cổ điển đến những sáng tạo mới lạ. Hướng dẫn chi tiết từng bước thực hiện.',
+    'article.newest': 'Bài viết mới nhất',
+    'article.no.newest': 'Chưa có bài viết mới',
+    'article.loading': 'Đang tải...'
   },
   en: {
     'nav.home': 'Home',
@@ -364,11 +378,25 @@ export const translations = {
     'article.total': 'See all',
     'article.read.on': 'Read On',
     'article.no.article': 'There are no posts in this section yet.',
+    'article.time.article': 'Posting date',
+    'article.catalogue': 'Catalogue',
     'tin_tuc.title': 'News',
     'tin_tuc.desc':
       "Provide the latest updates on the food and beverage industry, Diep Tra's initiatives, and significant developments within the bartending community.",
     'kien_thuc_nguyen_lieu.title': 'Knowledge of Ingredients for Mixing',
     'kien_thuc_nguyen_lieu.desc':
-      'Discover useful knowledge about beverage ingredients. From selection, preservation to application in unique recipes.'
+      'Discover useful knowledge about beverage ingredients. From selection, preservation to application in unique recipes.',
+    'kien_thuc_ve_tra.title': 'Knowledge About Tea',
+    'kien_thuc_ve_tra.desc':
+      'Delve into the world of tea from traditional teas to modern blends. Learn how to brew tea properly for the perfect taste.',
+    'review_danh_gia_san_pham.title': 'Review - Product Review',
+    'review_danh_gia_san_pham.desc':
+      'Detailed review of beverage ingredients, machinery and equipment, and reputable brands in the F&B industry.',
+    'cong_thuc_pha_che.title': 'Cong Thuc Pha Che',
+    'cong_thuc_pha_che.desc':
+      'Explore a treasure trove of recipes ranging from classic drinks to new creations. Detailed step-by-step instructions.',
+    'article.newest': 'Latest article',
+    'article.no.newest': 'No new article yet',
+    'article.loading': 'Loading...'
   }
 };

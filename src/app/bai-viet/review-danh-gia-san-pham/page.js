@@ -1,15 +1,13 @@
+'use client';
+
 import ArticleSubcategoryTemplate from '../_components/article-subcategory-template';
 import { ARTICLE_TYPES } from '../../../utils/article-types';
 import Head from 'next/head';
-import { getMetadata } from '../../../utils/helper-server';
-
-export const metadata = getMetadata({
-  title: 'Review - Đánh Giá Sản Phẩm',
-  description:
-    'Khách hàng Review, đánh giá sản phẩm thực tế về các nguyên liệu pha chế: syrup, topping, mứt, trà… Giúp bạn lựa chọn đúng sản phẩm ngon, dễ dùng, đáng mua. Có được trải nghiệm tốt.'
-});
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const ReviewDanhGiaSanPham = () => {
+  const { t } = useTranslation();
+
   return (
     <>
       <Head>
@@ -19,9 +17,9 @@ const ReviewDanhGiaSanPham = () => {
       </Head>
       <ArticleSubcategoryTemplate
         articleType={ARTICLE_TYPES.REVIEW_SAN_PHAM}
-        title="Review - Đánh Giá Sản Phẩm"
-        breadcrumbLabel="Review - Đánh Giá Sản Phẩm"
-        description="Đánh giá chi tiết các sản phẩm nguyên liệu pha chế, máy móc thiết bị và các thương hiệu uy tín trong ngành F&B."
+        title={t('review_danh_gia_san_pham.title')}
+        breadcrumbLabel={t('review_danh_gia_san_pham.title')}
+        description={t('review_danh_gia_san_pham.desc')}
         categorySlug="review-danh-gia-san-pham"
       />
     </>
