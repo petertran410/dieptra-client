@@ -129,9 +129,7 @@ const LatestArticlesSidebar = ({ articleType, currentArticleId, category }) => {
   );
 };
 
-const getBreadcrumbData = (categoryData, articleTitle) => {
-  const { t, getLocalizedText } = useTranslation();
-
+const getBreadcrumbData = (categoryData, articleTitle, t, getLocalizedText) => {
   if (categoryData) {
     return [
       { title: t('article.breadcrumb.title.home'), href: '/' },
@@ -250,7 +248,7 @@ const ArticleDetailClient = ({ params, categoryData }) => {
 
   console.log(newsDetail);
 
-  const breadcrumbData = getBreadcrumbData(categoryData, getLocalizedText(title, title_en));
+  const breadcrumbData = getBreadcrumbData(categoryData, getLocalizedText(title, title_en), t, getLocalizedText);
 
   const schemaData = {
     '@context': 'https://schema.org',
