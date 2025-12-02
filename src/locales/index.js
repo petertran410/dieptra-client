@@ -316,7 +316,18 @@ export const translations = {
     'recruit.culture.53': '2.7. CBNV tham gia Triển lãm Quốc tế Vietfood & Beverage - Propack 2024',
     'recruit.culture.54':
       'Cán bộ nhân viên Diệp Trà tham gia Triển lãm Quốc tế Vietfood & Beverage - Propack 2024, một sự kiện lớn trong ngành thực phẩm và đồ uống. Đây là cơ hội tuyệt vời để đội ngũ Diệp Trà không chỉ khám phá các sản phẩm, công nghệ mới mà còn giao lưu, học hỏi từ các thương hiệu lớn trong và ngoài nước. Các hoạt động tại triển lãm đã giúp các thành viên trong công ty mở rộng kiến thức, trau dồi kỹ năng và cập nhật những xu hướng mới nhất của ngành. Tham quan các gian hàng, trao đổi với đối tác và chuyên gia, đội ngũ Diệp Trà đã thu về những ý tưởng sáng tạo và chiến lược phát triển mới, sẵn sàng áp dụng vào công việc để nâng cao chất lượng và hiệu quả công ty trong thời gian tới. Sự kiện này không chỉ là cơ hội để học hỏi mà còn là bước đệm quan trọng trong quá trình phát triển nghề nghiệp của từng cá nhân.',
-    'recruit.list': 'danh sách tuyển dụng'
+    'recruit.list': 'danh sách tuyển dụng',
+
+    // FOOTER
+    'footer.title': 'Công ty TNHH XNK Hi Sweetie Việt Nam',
+    'footer.license.business':
+      ' Giấy phép Đăng kí kinh doanh số 0110211839 do Phòng Đăng ký kinh doanh – Sở Tài Chính cấp lần đầu ngày 20/12/2022, đăng ký thay đổi lần thứ 1, ngày 19/11/12024.',
+    'footer.header.quarters.bac': 'Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.',
+    'footer.header.quarters.nam':
+      'Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.',
+    'footer.shop': 'Cửa hàng tại HCM: Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh',
+    'footer.workingtime': 'Giờ làm việc:',
+    'footer.copyright': 'Copyright © 2024 Công ty TNHH Xuất Nhập Khẩu HI SWEETIE Việt Nam. All rights reserved.'
   },
   en: {
     'nav.home': 'Home',
@@ -643,6 +654,17 @@ export const translations = {
       '2.7. Employees Participating in the Vietfood & Beverage – Propack 2024 International Exhibition',
     'recruit.culture.54':
       'Diệp Trà employees participated in the Vietfood & Beverage – Propack 2024 International Exhibition, a major event in the food and beverage industry. This was an excellent opportunity for the team to explore new products and technologies, connect with leading domestic and international brands, and expand their knowledge. By visiting booths and engaging with partners and experts, the Diệp Trà team gained valuable insights, creative ideas, and new development strategies ready to be applied to future work to enhance the company’s quality and efficiency. The event served not only as a learning opportunity but also as an important stepping stone in each employee’s professional development.',
-    'recruit.list': 'recruitment list'
+    'recruit.list': 'recruitment list',
+
+    // FOOTER
+    'footer.title': 'Hi Sweetie Vietnam Import-Export Company Limited',
+    'footer.license.business':
+      'Business Registration Certificate No. 0110211839 issued by the Business Registration Office - Department of Finance for the first time on December 20, 2022, registered for the first change on November 19, 2024.',
+    'footer.header.quarters.bac': 'Head office: B-TT10-4 Him Lam Van Phuc, To Huu, Ha Dong, Hanoi.',
+    'footer.header.quarters.nam':
+      'Southern office: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tan Phu, Ho Chi Minh City.',
+    'footer.shop': 'Store in HCM: No. 42, Street No. 7, Ward 10, Tan Binh District, Ho Chi Minh City',
+    'footer.workingtime': 'Business hours',
+    'footer.copyright': 'Copyright © 2024 HI SWEETIE Vietnam Import Export Company Limited. All rights reserved.'
   }
 };

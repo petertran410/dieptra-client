@@ -1,64 +1,86 @@
+'use client';
+
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { Box, Link as ChakraLink, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Fragment } from 'react';
 import Script from 'next/script';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const Footer = () => {
+  const { t, getLocalizedText } = useTranslation();
+
   const MENU_LINKS_1 = [
     {
       title: 'Chính Sách Diệp Trà',
+      title_en: 'Diep Tra Policy',
       href: '/chinh-sach-diep-tra',
       children: [
         {
           title: 'Giới Thiệu Diệp Trà',
+          title_en: 'Introducing Diep Tra',
           href: '/gioi-thieu-diep-tra'
         },
         {
           title: 'Liên Hệ',
+          title_en: 'Contact',
           href: '/lien-he'
         },
         {
           title: 'Sản Phẩm',
+          title_en: 'Product',
           href: '/san-pham'
         },
         {
           title: 'Chính Sách Bảo Mật',
+          title_en: 'Privacy Policy',
           href: '/chinh-sach-diep-tra/chinh-sach-bao-mat'
         },
         {
           title: 'Chính Sách Mua Hàng',
+          title_en: 'Purchase Policy',
           href: '/chinh-sach-diep-tra/chinh-sach-mua-hang'
         },
         {
           title: 'Chính Sách Thanh Toán',
+          title_en: 'Payment Policy',
           href: '/chinh-sach-diep-tra/chinh-sach-thanh-toan'
         },
         {
           title: 'Chính Sách Vận Chuyển Và Giao Nhận',
+          title_en: 'Shipping and Delivery Policy',
           href: '/chinh-sach-diep-tra/chinh-sach-van-chuyen-va-giao-nhan'
         },
         {
           title: 'Chính Sách Bảo Hành',
+          title_en: 'Warranty Policy',
           href: '/chinh-sach-diep-tra/chinh-sach-bao-hanh'
         },
         {
           title: 'Chính Sách Đổi/Trả Hàng',
+          title_en: 'Return/Exchange Policy',
           href: '/chinh-sach-diep-tra/chinh-sach-doi-hang-tra-hang'
         },
         {
           title: 'Điều Khoản Sử Dụng',
+          title_en: 'Terms of Use',
           href: '/chinh-sach-diep-tra/dieu-khoan-su-dung'
         },
         {
           title: 'Hướng Dẫn Tạo Tài Khoản',
+          title_en: 'Account Creation Guide',
           href: '/chinh-sach-diep-tra/huong-dan-tao-tai-khoan'
         },
         {
           title: 'Chính Sách Kiểm Hàng',
+          title_en: 'Inspection Policy',
           href: '/chinh-sach-diep-tra/chinh-sach-kiem-hang'
         },
-        { title: 'Chính Sách Mẫu Thử', href: '/chinh-sach-diep-tra/chinh-sach-mau-thu' }
+        {
+          title: 'Chính Sách Mẫu Thử',
+          title_en: 'Sample Policy',
+          href: '/chinh-sach-diep-tra/chinh-sach-mau-thu'
+        }
         // { title: 'Chính Sách Giao Hàng Đông Lạnh', href: '/chinh-sach-diep-tra/chinh-sach-giao-hang-dong-lanh' }
       ]
     }
@@ -77,16 +99,6 @@ const Footer = () => {
     //   title: 'Tuyển dụng',
     //   href: '/tuyen-dung'
     // }
-  ];
-
-  const MENU_LINK_3 = [
-    {
-      title: 'Chính Sách Diệp Trà',
-      href: '/chinh-sach-diep-tra'
-    },
-    {
-      title: ''
-    }
   ];
 
   return (
@@ -115,7 +127,7 @@ const Footer = () => {
 
         <Flex flex={{ xs: 'none', lg: 1 / 3 }} direction="column">
           <Text fontSize={18} fontWeight={600}>
-            Công ty TNHH XNK Hi Sweetie Việt Nam
+            {t('footer.title')}
           </Text>
 
           <Flex direction="column" mt="8px" gap="8px">
@@ -123,8 +135,7 @@ const Footer = () => {
               <Image src="/images/certification.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  Giấy phép Đăng kí kinh doanh số 0110211839 do Phòng Đăng ký kinh doanh – Sở Tài Chính cấp lần đầu ngày
-                  20/12/2022, đăng ký thay đổi lần thứ 1, ngày 19/11/12024.
+                  {t('footer.license.business')}
                 </Text>
               </Box>
             </Flex>
@@ -132,7 +143,7 @@ const Footer = () => {
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.
+                  {t('footer.header.quarters.bac')}
                 </Text>
               </Box>
             </Flex>
@@ -140,7 +151,7 @@ const Footer = () => {
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.
+                  {t('footer.header.quarters.nam')}
                 </Text>
               </Box>
             </Flex>
@@ -148,7 +159,7 @@ const Footer = () => {
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  Cửa hàng tại HCM: Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh
+                  {t('footer.shop')}
                 </Text>
               </Box>
             </Flex>
@@ -179,7 +190,7 @@ const Footer = () => {
               </ChakraLink>
             </Flex>
             <Text fontSize={18} fontWeight={500}>
-              Giờ làm việc:{' '}
+              {t('footer.workingtime')}{' '}
               <Text fontSize={18} fontWeight={500}>
                 T2 - T7: 8h30 - 17h30
               </Text>
@@ -212,25 +223,14 @@ const Footer = () => {
 
         <Flex flex={{ xs: 'none', lg: 1 / 3 }} w={{ xs: 'full', lg: 'auto' }} justify="space-between">
           <Flex direction="column" flex={1} align={{ xs: 'flex-start', lg: 'center' }}>
-            <Flex
-              direction="column"
-              // align={{ xs: 'flex-start', lg: 'center' }}
-              gap="6px"
-              px={{ xs: '12px', lg: 'center' }}
-            >
+            <Flex direction="column" gap="6px" px={{ xs: '12px', lg: 'center' }}>
               {MENU_LINKS_1.map((item) => {
-                const { title, href, children } = item;
+                const { title, title_en, href, children } = item;
                 return (
                   <Fragment key={title}>
                     <Link href={href}>
-                      <Text
-                        // as="span"
-                        fontWeight={500}
-                        fontSize={18}
-                        py="6px"
-                        h="32px"
-                      >
-                        {title}
+                      <Text fontWeight={500} fontSize={18} py="6px" h="32px">
+                        {getLocalizedText(title, title_en)}
                       </Text>
                     </Link>
 
@@ -239,7 +239,7 @@ const Footer = () => {
                         {children.map((child) => {
                           return (
                             <Link href={child.href} key={child.title}>
-                              <Text py="4px">{child.title}</Text>
+                              <Text py="4px">{getLocalizedText(child.title, child.title_en)}</Text>
                             </Link>
                           );
                         })}
@@ -319,7 +319,7 @@ const Footer = () => {
         </Flex>
       </Flex>
 
-      <Text my="24px">Copyright © 2024 Công ty TNHH Xuất Nhập Khẩu HI SWEETIE Việt Nam. All rights reserved.</Text>
+      <Text my="24px">{t('footer.copyright')}</Text>
     </Flex>
   );
 };
