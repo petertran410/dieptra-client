@@ -1,3 +1,5 @@
+'use client';
+
 import { PX_ALL } from '../../utils/const';
 import { getMetadata } from '../../utils/helper-server';
 import { Box, Flex, Text } from '@chakra-ui/react';
