@@ -113,7 +113,8 @@ const VanHoaTuyenDung = () => {
             </Text>
 
             <Text fontWeight={400} fontSize={18} lineHeight="19px" mt="12px">
-              {t('recruit.culture.23')} {t('recruit.culture.24')}
+              {t('recruit.culture.23')}
+              {t('recruit.culture.24')}
             </Text>
 
             <Flex pl={{ xs: '20px', lg: '40px' }} mt="8px">
@@ -140,7 +141,6 @@ const VanHoaTuyenDung = () => {
               </Text>
             </Flex>
 
-            {/* 2.4 */}
             <Text mt="20px" fontWeight={600} fontSize={18} lineHeight="19px">
               {t('recruit.culture.32')}
             </Text>
@@ -177,7 +177,6 @@ const VanHoaTuyenDung = () => {
               </Text>
             </Flex>
 
-            {/* 2.5 */}
             <Text mt="20px" fontWeight={600} fontSize={18} lineHeight="19px">
               {t('recruit.culture.41')}
             </Text>
@@ -198,7 +197,6 @@ const VanHoaTuyenDung = () => {
               {t('recruit.culture.47')} {t('recruit.culture.48')}
             </Text>
 
-            {/* 2.6 */}
             <Text mt="20px" fontWeight={600} fontSize={18} lineHeight="19px">
               {t('recruit.culture.49')}
             </Text>
@@ -217,7 +215,6 @@ const VanHoaTuyenDung = () => {
               <Image src="/images/image-recruitment-1.webp" w="full" h="full" alt={IMG_ALT} />
             </AspectRatio>
 
-            {/* 2.7 */}
             <Text mt="20px" fontWeight={600} fontSize={18} lineHeight="19px">
               {t('recruit.culture.53')}
             </Text>

@@ -6,7 +6,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { AuthProvider } from '../contexts/auth-context';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,13 +20,11 @@ export function Providers({ children }) {
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>
-        <AuthProvider>
-          <ChakraProvider theme={chakraTheme}>
-            {children}
-            <Analytics />
-            <SpeedInsights />
-          </ChakraProvider>
-        </AuthProvider>
+        <ChakraProvider theme={chakraTheme}>
+          {children}
+          <Analytics />
+          <SpeedInsights />
+        </ChakraProvider>
       </RecoilRoot>
     </QueryClientProvider>
   );
