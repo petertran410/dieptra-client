@@ -1,17 +1,14 @@
+'use client';
+
 import { IMG_ALT, PX_ALL } from '../../utils/const';
-import { getMetadata } from '../../utils/helper-server';
 import { Box, Flex, Grid, GridItem, Image, Link, Text } from '@chakra-ui/react';
-import HomeContact from '../(home)/_components/contact';
 import ContactHCM from './_component/contact-hcm';
 import ContactHN from './_component/contact-hn';
-
-export const metadata = getMetadata({
-  title: 'Nhận Tư Vấn Chuyên Sâu | Liên Hệ Ngay Diệp Trà',
-  description:
-    'Hãy liên hệ ngay với chúng tôi để nhận được giải pháp tối ưu, phù hợp nhất với nhu cầu của bạn. Với đội ngũ chuyên viên giàu kinh nghiệm, tận tâm và am hiểu sâu sắc thị trường, chúng tôi cam kết mang đến cho bạn sự hỗ trợ chuyên nghiệp, hiệu quả nhất.'
-});
+import { useTranslation } from '../../hooks/useTranslation';
 
 const Contact = () => {
+  const { t } = useTranslation();
+
   return (
     <Flex
       direction="column"
@@ -35,8 +32,6 @@ const Contact = () => {
       <ContactHN />
       <ContactHCM />
 
-      {/* <Text as="h2">Chuyên Viên Tư Vấn Diệp Trà</Text> */}
-
       <Grid
         templateColumns={{ xs: 'repeat(1, 1fr)', lg: 'repeat(2, 1fr)' }}
         mb={{ xs: '24px', lg: '48px' }}
@@ -58,21 +53,12 @@ const Contact = () => {
             boxShadow="lg"
           >
             <Text fontSize={24} fontWeight={600} textAlign="center">
-              Công ty TNHH XNK Hi Sweetie Việt Nam (Miền Bắc)
+              {t('contact.company.name.bac')}
             </Text>
             <Flex direction="column" gap="4px" w="full">
               <Text fontSize={18} fontWeight={500}>
-                Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.
+                {t('contact.head.quarter.bac')}
               </Text>
-              {/* <Text fontSize={18} lineHeight="19px">
-                - Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.
-              </Text> */}
-              {/* <Text fontSize={18} lineHeight="19px">
-                - Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.
-              </Text> */}
-              {/* <Text fontSize={18} lineHeight="19px">
-                - Cửa hàng: 42 Đường số 7, P.10, Q. Tân Bình, TP.HCM.
-              </Text> */}
             </Flex>
 
             <Flex align="center" w="full" gap="4px">
@@ -125,19 +111,8 @@ const Contact = () => {
                     textDecor="underline"
                     rel="nofollow"
                   >
-                    Diệp Trà - Nguyên Liệu Trà Sữa
+                    {t('contact.fanpage.1')}
                   </Link>
-
-                  {/* <Link
-                    href="https://www.facebook.com/lermao.sanhannhugau"
-                    target="_blank"
-                    fontSize={18}
-                    lineHeight="19px"
-                    textDecor="underline"
-                    rel="nofollow"
-                  >
-                    Lermao - Sành ăn như gấu
-                  </Link> */}
 
                   <Link
                     href="https://www.facebook.com/profile.php?id=61560842225802"
@@ -147,7 +122,7 @@ const Contact = () => {
                     textDecor="underline"
                     rel="nofollow"
                   >
-                    Trà Phượng Hoàng - Hương vị hoàn hảo
+                    {t('contact.fanpage.2')}
                   </Link>
                 </Flex>
               </Flex>
@@ -182,20 +157,14 @@ const Contact = () => {
             boxShadow="lg"
           >
             <Text fontSize={24} fontWeight={600} textAlign="center">
-              Công ty TNHH XNK Hi Sweetie Việt Nam (Miền Nam)
+              {t('contact.company.name.nam')}
             </Text>
             <Flex direction="column" gap="4px" w="full">
               <Text fontSize={18} fontWeight={500}>
-                Trụ sở chính: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.
+                {t('contact.head.quarter.nam')}
               </Text>
-              {/* <Text fontSize={18} lineHeight="19px">
-                Trụ sở chính: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.
-              </Text> */}
-              {/* <Text fontSize={18} lineHeight="19px">
-                - Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.
-              </Text> */}
               <Text fontSize={18} fontWeight={500}>
-                Cửa hàng: 42 Đường số 7, P.10, Q. Tân Bình, TP.HCM.
+                {t('contact.shop')}
               </Text>
             </Flex>
 
@@ -205,13 +174,7 @@ const Contact = () => {
                   <Text fontSize={18} fontWeight={500}>
                     Website:
                   </Text>
-                  <Text
-                    // href="https://www.dieptra.com/"
-                    // _hover={{ textDecor: 'none' }}
-                    fontSize={18}
-                    lineHeight="19px"
-                    // target="_blank"
-                  >
+                  <Text fontSize={18} lineHeight="19px">
                     https://www.dieptra.com
                   </Text>
                 </Flex>
@@ -241,16 +204,6 @@ const Contact = () => {
                   <Text fontSize={18} fontWeight={500}>
                     Fanpage:
                   </Text>
-                  {/* <Link
-                    href="https://www.facebook.com/dieptra.0973123230"
-                    target="_blank"
-                    fontSize={18}
-                    lineHeight="19px"
-                    textDecor="underline"
-                    rel="nofollow"
-                  >
-                    Diệp Trà
-                  </Link> */}
 
                   <Link
                     href="https://www.facebook.com/lermao.sanhannhugau"
@@ -260,19 +213,8 @@ const Contact = () => {
                     textDecor="underline"
                     rel="nofollow"
                   >
-                    LerMao - Sành Ăn Như Gấu
+                    {t('contact.fanpage.3')}
                   </Link>
-
-                  {/* <Link
-                    href="https://www.facebook.com/profile.php?id=61560842225802"
-                    target="_blank"
-                    fontSize={18}
-                    lineHeight="19px"
-                    textDecor="underline"
-                    rel="nofollow"
-                  >
-                    Trà Phượng Hoàng - Hương vị hoàn hảo
-                  </Link> */}
                 </Flex>
               </Flex>
             </Flex>
@@ -292,7 +234,6 @@ const Contact = () => {
           </Box>
         </GridItem>
       </Grid>
-      {/* <HomeContact /> */}
     </Flex>
   );
 };

@@ -1,21 +1,12 @@
 'use client';
 
-import SectionBlock from '../../../components/section-block';
 import { PX_ALL } from '../../../utils/const';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
-import ContactItem from './contact-item';
 import SectionBlockH2 from '../../../components/section-block/section-block-h2';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const ContactHCM = () => {
-  // const CONTACT_LIST = [
-  //   {
-  //     fullName: 'Mr. Tô Quang Duy',
-  //     image: '/images/contact-user-6.webp',
-  //     position: 'Trưởng phòng Kinh doanh 02',
-  //     phone: '+84 344 879 999',
-  //     email: 'duytq@hisweetievietnam.com.vn'
-  //   }
-  // ];
+  const { t } = useTranslation();
 
   return (
     <Flex
@@ -26,7 +17,7 @@ const ContactHCM = () => {
       mt={{ xs: '24px', lg: '10px' }}
       borderTop={{ xs: '2px solid #e6e6e6', lg: 'none' }}
     >
-      <SectionBlockH2 title="Chuyên Viên Tư Vấn Diệp Trà" />
+      <SectionBlockH2 title={t('contact.title.hcm')} />
 
       <Grid
         w="full"

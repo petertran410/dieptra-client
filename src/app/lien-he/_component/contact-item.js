@@ -1,7 +1,9 @@
 import { Flex, Image, Text } from '@chakra-ui/react';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const ContactItem = ({ item }) => {
-  const { fullName, image, position, phone, email } = item;
+  const { fullName, fullName_en, image, position, position_en, phone, email } = item;
+  const { t, getLocalizedText } = useTranslation();
 
   return (
     <Flex direction="column" align="center">
@@ -14,7 +16,7 @@ const ContactItem = ({ item }) => {
         borderRadius={16}
       />
       <Text mt="16px" color="#09090B" textAlign="center" fontSize="xl" fontWeight={500}>
-        {fullName}
+        {getLocalizedText(fullName, fullName_en)}
       </Text>
       <Text
         mt="3px"
@@ -27,7 +29,7 @@ const ContactItem = ({ item }) => {
         borderRadius="full"
         bgColor="#D4F1F9"
       >
-        {position}
+        {getLocalizedText(position, position_en)}
       </Text>
       <Text mt="3px" color="#09090B" fontSize="xl" textAlign="center">
         SĐT: {phone}

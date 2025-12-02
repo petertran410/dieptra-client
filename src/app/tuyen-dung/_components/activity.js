@@ -1,6 +1,7 @@
 'use client';
 
 import Carousel from '../../../components/carousel';
+import { useTranslation } from '../../../hooks/useTranslation';
 import { useQueryBlogCultureList } from '../../../services/culture.service';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { convertSlugURL } from '../../../utils/helper-server';
@@ -9,7 +10,8 @@ import dayjs from 'dayjs';
 import Link from 'next/link';
 
 const ActivityItem = ({ isMobile, item }) => {
-  const { imagesUrl, id, title, description, createdDate } = item;
+  const { imagesUrl, id, title, title_en, description, description_en, createdDate } = item;
+  const { t, getLocalizedText } = useTranslation();
 
   return (
     <Link href={`/van-hoa/${convertSlugURL(title)}.${id}`} style={{ display: 'block', width: '100%' }}>
@@ -27,10 +29,15 @@ const ActivityItem = ({ isMobile, item }) => {
 
         <Flex direction="column" gap="4px">
           <Text fontSize={{ xs: 24, lg: 18 }} fontWeight={{ xs: 600, lg: 500 }} lineHeight="30px">
-            {title}
+            {getLocalizedText(title, title_en)}
           </Text>
           {isMobile ? (
-            <Box fontSize={18} lineHeight="19px" noOfLines={5} dangerouslySetInnerHTML={{ __html: description }}></Box>
+            <Box
+              fontSize={18}
+              lineHeight="19px"
+              noOfLines={5}
+              dangerouslySetInnerHTML={{ __html: getLocalizedText(description, description_en) }}
+            ></Box>
           ) : (
             <Flex align="center" gap="4px">
               <Image w="16px" h="16px" alt={IMG_ALT} src="/images/clock-outline.webp" />

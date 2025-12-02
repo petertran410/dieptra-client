@@ -8,17 +8,19 @@ import { Flex, Image, Text } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import Link from 'next/link';
 import { WORK_TYPE } from './data';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const JobList = () => {
   const { data: dataQuery } = useQueryJobList();
   const { content = [], pageable, totalPages } = dataQuery || {};
   const { pageNumber } = pageable || {};
+  const { t, getLocalizedText } = useTranslation();
 
   return (
     <>
       <Flex mt="24px" direction="column" gap="16px">
         {content?.map((item) => {
-          const { title, id, employmentType, vacancies, applicationDeadline, salaryRanges } = item;
+          const { title, title_en, id, employmentType, vacancies, applicationDeadline, salaryRanges } = item;
           let salary = '';
           if (!salaryRanges) {
             salary = 'Thoả thuận';
@@ -45,7 +47,7 @@ const JobList = () => {
                       HOT
                     </Text>
                     <Text fontSize={18} fontWeight={500} noOfLines={2} mt="-2px">
-                      {title}
+                      {getLocalizedText(title, title_en)}
                     </Text>
                   </Flex>
                   <Flex align="center" gap="24px">
@@ -88,7 +90,7 @@ const JobList = () => {
                     transitionDuration="250ms"
                     _hover={{ bgColor: '#0f2c3d', borderColor: '#0f2c3d', color: '#FFF' }}
                   >
-                    Ứng tuyển ngay
+                    {t('recruit.now')}
                   </Flex>
                 </Flex>
               </Flex>

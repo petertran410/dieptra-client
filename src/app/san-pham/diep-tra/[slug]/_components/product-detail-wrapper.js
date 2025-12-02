@@ -5,13 +5,10 @@ import {
   Grid,
   GridItem,
   VStack,
-  HStack,
   Box,
   Text,
   Button,
   Heading,
-  Image,
-  AspectRatio,
   NumberInput,
   NumberInputField,
   NumberInputStepper,
@@ -36,45 +33,17 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
   const {
     title,
     title_en,
-    title_meta,
     description,
     instruction,
     description_en,
     instruction_en,
     imagesUrl = [],
     price,
-    rate,
-    category,
     kiotViet,
-    general_description,
     categoryHierarchy = [],
     slug,
     price_on
   } = productDetail;
-
-  const getProductImages = () => {
-    const primaryImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : [];
-    const kiotVietImages = kiotViet?.images || [];
-
-    if (primaryImages.length > 0) {
-      return {
-        mainImage: primaryImages[0],
-        thumbnails: [...primaryImages.slice(1), ...kiotVietImages].slice(0, 4)
-      };
-    }
-
-    if (kiotVietImages.length > 0) {
-      return {
-        mainImage: kiotVietImages[0],
-        thumbnails: kiotVietImages.slice(1, 7)
-      };
-    }
-
-    return {
-      mainImage: null,
-      thumbnails: []
-    };
-  };
 
   const buildBreadcrumbData = () => {
     const baseBreadcrumb = [

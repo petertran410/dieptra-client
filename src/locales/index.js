@@ -42,7 +42,7 @@ export const translations = {
     // ARTICLE
     'home.article.title': 'Bài Viết',
 
-    // CONTACT
+    // HOME CONTACT
     'home.contact.title': 'Liên hệ tư vấn',
     'home.contact.fullName': 'Họ và tên',
     'home.contact.email': 'Email',
@@ -194,7 +194,129 @@ export const translations = {
       'Khám phá kho tàng công thức pha chế đa dạng từ các món đồ uống cổ điển đến những sáng tạo mới lạ. Hướng dẫn chi tiết từng bước thực hiện.',
     'article.newest': 'Bài viết mới nhất',
     'article.no.newest': 'Chưa có bài viết mới',
-    'article.loading': 'Đang tải...'
+    'article.loading': 'Đang tải...',
+
+    // CONTACT
+    'contact.title': 'liên hệ Diệp Trà',
+    'contact.title.hcm': 'Chuyên Viên Tư Vấn Diệp Trà',
+    'contact.desc': 'Liên hệ ngay chúng tôi để được tư vấn tốt nhất',
+    'contact.company.name.bac': 'Công ty TNHH XNK Hi Sweetie Việt Nam (Miền Bắc)',
+    'contact.head.quarter.bac': 'Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.',
+    'contact.fanpage.1': 'Diệp Trà - Nguyên Liệu Trà Sữa',
+    'contact.fanpage.2': 'Trà Phượng Hoàng - Hương vị hoàn hảo',
+    'contact.fanpage.3': 'LerMao - Sành Ăn Như Gấu',
+    'contact.company.name.nam': 'Công ty TNHH XNK Hi Sweetie Việt Nam (Miền Nam)',
+    'contact.head.quarter.nam': 'Trụ sở chính: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.',
+    'contact.shop': 'Cửa hàng: 42 Đường số 7, P.10, Q. Tân Bình, TP.HCM.',
+
+    // RECRUITMENT
+    'recruit.recruit': 'Tuyển dụng',
+    'recruit.decan.title.1': '“CÙNG CHIA SẺ,',
+    'recruit.decan.title.2': 'CÙNG PHÁT TRIỂN”',
+    'recruit.button': 'Vị trí tuyển dụng',
+    'recruit.popular.activity': 'CÁC HOẠT ĐỘNG NỔI BẬT',
+    'recruit.section.1': ' TỔ CHỨC TEAM BUILDING DÀNH CHO CBNV',
+    'recruit.company.name': 'Diệp Trà',
+    'recruit.section.1.desc.1':
+      'Sự kiện team building dành cho CBNV Diệp Trà là một hoạt động thường niên đầy ý nghĩa, luôn mang lại những trải nghiệm tuyệt vời và gắn kết mạnh mẽ các thành viên trong công ty. Hàng năm, Diệp Trà tổ chức team building tại những địa điểm mới, với những hoạt động ngoài trời đầy thử thách, từ các trò chơi vận động đến các bài tập nhóm sáng tạo, nhằm nâng cao tinh thần đồng đội và sự gắn kết giữa các CBNV.',
+    'recruit.section.1.desc.2':
+      'Năm 2023, sự kiện team building dành cho CBNV Diệp Trà tại Hạ Long thành công tốt đẹp, mang lại những trải nghiệm tuyệt vời và ý nghĩa. Các thành viên trong công ty đã cùng nhau tham gia vào các hoạt động ngoài trời đầy thử thách, từ những trò chơi vận động đến các bài tập nhóm, giúp tăng cường sự gắn kết và tinh thần đồng đội. Mỗi thử thách đều là cơ hội để các CBNV phát huy khả năng làm việc nhóm, cải thiện kỹ năng giao tiếp và giải quyết vấn đề. Sự kiện không chỉ giúp các thành viên thư giãn, giảm stress mà còn tạo ra những kỷ niệm đáng nhớ và củng cố thêm tình đoàn kết trong công ty.  Hy vọng sau sự kiện, tất cả mọi người đều cảm thấy hứng khởi và tràn đầy năng lượng để tiếp tục công việc và cống hiến cho sự phát triển của Diệp Trà.',
+    'recruit.section.2': 'CBNV tham gia Triển lãm Quốc tế Vietfood & Beverage - Propack 2024',
+    'recruit.section.2.desc.1':
+      'Cán bộ nhân viên Diệp Trà tham gia Triển lãm Quốc tế Vietfood & Beverage - Propack 2024, một sự kiện lớn trong ngành thực phẩm và đồ uống. Đây là cơ hội tuyệt vời để đội ngũ Diệp Trà không chỉ khám phá các sản phẩm, công nghệ mới mà còn giao lưu, học hỏi từ các thương hiệu lớn trong và ngoài nước. Các hoạt động tại triển lãm đã giúp các thành viên trong công ty mở rộng kiến thức, trau dồi kỹ năng và cập nhật những xu hướng mới nhất của ngành. Tham quan các gian hàng, trao đổi với đối tác và chuyên gia, đội ngũ Diệp Trà đã thu về những ý tưởng sáng tạo và chiến lược phát triển mới, sẵn sàng áp dụng vào công việc để nâng cao chất lượng và hiệu quả công ty trong thời gian tới. Sự kiện này không chỉ là cơ hội để học hỏi mà còn là bước đệm quan trọng trong quá trình phát triển nghề nghiệp của từng cá nhân.',
+    'recruit.culture': 'Văn hoá diệp trà',
+    'recruit.position': 'Vị trí tuyển dụng',
+    'recruit.slogan': 'VĂN HÓA - HOẠT động nổi bật tại',
+    'recruit.company.upperkey': 'DIỆP TRÀ',
+    'recruit.now': ' Ứng tuyển ngay',
+    'recruit.search': 'Tìm kiếm',
+    'recruit.culture.slogan': 'Văn hóa việc làm Diệp Trà: "Cùng Chia Sẻ, Cùng Phát Triển"',
+    'recruit.culture.1': '1. Tầm nhìn về văn hóa việc làm',
+    'recruit.culture.2':
+      'Diệp Trà không chỉ là nơi làm việc, mà còn là một môi trường để phát triển cá nhân và cống hiến giá trị. Chúng tôi xây dựng một môi trường nơi nhân sự không ngừng học hỏi, cập nhật và sáng tạo, đồng thời lan tỏa giá trị đến cộng đồng F&B và ngành đồ uống.',
+    'recruit.culture.3': '2. Giá trị cốt lõi trong văn hóa việc làm',
+    'recruit.culture.4': '2.1. Tập trung vào sự phát triển cá nhân và đội nhóm',
+    'recruit.culture.5': '- Chương trình đào tạo và học tập liên tục:',
+    'recruit.culture.6':
+      'Diệp Trà tạo điều kiện để nhân viên tham gia các khóa học, hội thảo chuyên môn cả trong nước và quốc tế. Từ đó, nhân sự không chỉ phát triển kỹ năng công việc mà còn mở rộng tư duy sáng tạo và hiểu biết ngành.',
+    'recruit.culture.7':
+      '+ Hỗ trợ một phần chi phí cho nhân viên tham gia các khóa học, chứng chỉ chuyên môn trong các lĩnh vực như marketing, bán hàng, quản lý chuỗi cung ứng, và công nghệ.',
+    'recruit.culture.8':
+      '+ Tổ chức các buổi đào tạo nội bộ định kỳ theo tháng với sự tham gia của các chuyên gia ngành hàng đầu trong nước và quốc tế.',
+    'recruit.culture.9':
+      '+ Tạo điều kiện cho nhân viên tham gia hội thảo, triển lãm chuyên ngành để cập nhật xu hướng và học hỏi từ các thương hiệu lớn và thị trường lớn trên thế giới.',
+    'recruit.culture.10': '- Đánh giá sự tiến bộ cá nhân:',
+    'recruit.culture.11':
+      'Thành công của nhân viên không chỉ dựa trên kết quả công việc mà còn được đo lường qua sự tiến bộ cá nhân, khả năng vượt qua thử thách, và cách họ hỗ trợ đồng đội.',
+    'recruit.culture.12':
+      '+ Đặt các tiêu chí đánh giá hiệu suất không chỉ dựa trên doanh số hay kết quả công việc, mà còn qua cách nhân viên học hỏi, phát triển kỹ năng mới, và đóng góp cho đồng đội.',
+    'recruit.culture.13':
+      '+ Áp dụng hệ thống mentoring (hướng dẫn) trong nội bộ, nơi các nhân viên giàu kinh nghiệm hỗ trợ, dẫn dắt các nhân viên mới hoặc trẻ hơn.',
+    'recruit.culture.14':
+      '+ Xây dựng lộ trình phát triển nghề nghiệp rõ ràng cho từng vị trí, giúp nhân viên định hình hướng đi trong sự nghiệp.',
+    'recruit.culture.15': '2.2. Tôn trọng sự khác biệt và đoàn kết',
+    'recruit.culture.16': '- Đội ngũ đa dạng và tôn trọng lẫn nhau:',
+    'recruit.culture.17':
+      'Diệp Trà tự hào sở hữu một đội ngũ nhân sự đa dạng về kinh nghiệm, góc nhìn, và văn hóa. Nhân viên được khuyến khích học hỏi từ nhau để phát triển cả về cá nhân lẫn tập thể.',
+    'recruit.culture.18':
+      '+ Tập trung thúc đẩy, đề cao tính sáng tạo trong công việc của mỗi cá nhân, từ đó tạo ra sự đa dạng, nhiều sắc màu trong văn hóa công ty, văn hóa đội nhóm.',
+    'recruit.culture.19': '+ Phối hợp liên phòng ban, đoàn kết vì mục tiêu và sứ mệnh chung của công ty.',
+    'recruit.culture.20': '- Tôn vinh mọi ý tưởng:',
+    'recruit.culture.21':
+      'Mọi thành viên, dù ở bất kỳ vị trí nào, đều được khuyến khích chia sẻ ý tưởng. Diệp Trà lắng nghe và đánh giá cao những đóng góp này như một phần của quá trình cải tiến.',
+    'recruit.culture.22': '2.3. Học hỏi không ngừng',
+    'recruit.culture.23': '- Văn hóa "learning mindset":',
+    'recruit.culture.24':
+      'Tại Diệp Trà, việc không ngừng học hỏi được xem là giá trị cốt lõi giúp công ty đổi mới và dẫn đầu thị trường. Mọi nhân viên đều được khuyến khích cập nhật kiến thức chuyên môn, công nghệ mới, và các xu hướng thị trường để nâng cao hiệu quả công việc.',
+    'recruit.culture.25':
+      '+ Mỗi nhân viên được yêu cầu dành ít nhất 10% thời gian làm việc để học hỏi kiến thức mới, từ các tài liệu ngành, khóa học trực tuyến, hoặc buổi chia sẻ nội bộ.',
+    'recruit.culture.26':
+      '+ Áp dụng KPI khuyến khích học tập như “10 sách hay nhất của năm,” nơi nhân viên cùng đọc và thảo luận để mở rộng tư duy.',
+    'recruit.culture.27': '- Chương trình động viên học tập:',
+    'recruit.culture.28':
+      'Công ty xây dựng các chính sách thưởng khuyến khích việc học tập như hỗ trợ chi phí khóa học, tạo cơ hội thực hành tại chỗ, và tổ chức các buổi chia sẻ kinh nghiệm.',
+    'recruit.culture.29': '- Cập nhật xu hướng công nghệ và thị trường:',
+    'recruit.culture.30':
+      '+ Đưa nhân sự tiếp cận các công cụ công nghệ mới, tiết kiệm thời gian trong công việc và nâng cao hiệu quất.',
+    'recruit.culture.31':
+      '+ Hàng quý, tổ chức các buổi hội thảo cập nhật xu hướng thị trường đồ uống, giúp nhân viên hiểu rõ nhu cầu và thị hiếu khách hàng.',
+    'recruit.culture.32': '2.4. Tôn vinh sự sáng tạo',
+    'recruit.culture.33': 'Khuyến khích nhân sự đề xuất ý tưởng mới cho sản phẩm, quy trình và hoạt động nội bộ.',
+    'recruit.culture.34': '- Không gian cho ý tưởng:',
+    'recruit.culture.35':
+      'Diệp Trà khuyến khích nhân sự đề xuất ý tưởng mới, từ sản phẩm đến quy trình làm việc hay các hoạt động nội bộ. Mọi ý tưởng đều được xem xét, thảo luận và triển khai nếu phù hợp.',
+    'recruit.culture.36':
+      '+ Mỗi nhân viên được yêu cầu dành ít nhất 10% thời gian làm việc để học hỏi kiến thức mới, từ các tài liệu ngành, khóa học trực tuyến, hoặc buổi chia sẻ nội bộ.',
+    'recruit.culture.37':
+      '+ Áp dụng KPI khuyến khích học tập như “10 sách hay nhất của năm,” nơi nhân viên cùng đọc và thảo luận để mở rộng tư duy.',
+    'recruit.culture.38': '- Khuyến khích đổi mới trong sản phẩm và quy trình:',
+    'recruit.culture.39':
+      '+ Giải thưởng sáng tạo: Công ty tổ chức các cuộc thi nội bộ nhằm khích lệ sự sáng tạo, với các phần thưởng hấp dẫn cho những ý tưởng được ứng dụng thực tiễn.',
+    'recruit.culture.40':
+      '+ Không gian sáng tạo: Cung cấp không gian làm việc mở, linh hoạt, với bảng ý tưởng và khu vực trao đổi để nhân viên có thể thảo luận và sáng tạo bất cứ lúc nào. Hỗ trợ ngân sách để nhân viên thực hiện các dự án cá nhân có tiềm năng áp dụng vào công việc.',
+    'recruit.culture.41': '2.5. Chia sẻ giá trị và trách nhiệm xã hội',
+    'recruit.culture.42':
+      'Xây dựng các chương trình kết nối với khách hàng, cộng đồng, góp phần nâng cao chất lượng ngành đồ uống.',
+    'recruit.culture.43': '- Kết nối cộng đồng:',
+    'recruit.culture.44':
+      'Diệp Trà tổ chức các chương trình hỗ trợ khách hàng và cộng đồng, như hội thảo chia sẻ kiến thức ngành đồ uống, chiến dịch nâng cao nhận thức về nguyên liệu chất lượng, và các sự kiện từ thiện.',
+    'recruit.culture.45': '- Chương trình kết nối cộng đồng:',
+    'recruit.culture.46':
+      'Phối hợp với các quán cà phê, trà sữa và doanh nghiệp nhỏ để tổ chức các hội thảo, workshop hàng tuần, hàng tháng nâng cao chất lượng đồ uống, đồng thời giới thiệu sản phẩm của Diệp Trà.',
+    'recruit.culture.47': '- Trách nhiệm xã hội:',
+    'recruit.culture.48':
+      'Công ty không chỉ tập trung vào kinh doanh mà còn cam kết đóng góp vào sự phát triển bền vững của xã hội thông qua các hoạt động thiện nguyện và các sáng kiến bảo vệ môi trường.',
+    'recruit.culture.49': '2.6. Tổ chức team building dành cho CBNV Diệp Trà',
+    'recruit.culture.50':
+      'Sự kiện team building dành cho CBNV Diệp Trà là một hoạt động thường niên đầy ý nghĩa, luôn mang lại những trải nghiệm tuyệt vời và gắn kết mạnh mẽ các thành viên trong công ty. Hàng năm, Diệp Trà tổ chức team building tại những địa điểm mới, với những hoạt động ngoài trời đầy thử thách, từ các trò chơi vận động đến các bài tập nhóm sáng tạo, nhằm nâng cao tinh thần đồng đội và sự gắn kết giữa các CBNV.',
+    'recruit.culture.51':
+      'Năm 2023, sự kiện team building dành cho CBNV Diệp Trà tại Hạ Long thành công tốt đẹp, mang lại những trải nghiệm tuyệt vời và ý nghĩa. Các thành viên trong công ty đã cùng nhau tham gia vào các hoạt động ngoài trời đầy thử thách, từ những trò chơi vận động đến các bài tập nhóm, giúp tăng cường sự gắn kết và tinh thần đồng đội. Mỗi thử thách đều là cơ hội để các CBNV phát huy khả năng làm việc nhóm, cải thiện kỹ năng giao tiếp và giải quyết vấn đề. Sự kiện không chỉ giúp các thành viên thư giãn, giảm stress mà còn tạo ra những kỷ niệm đáng nhớ và củng cố thêm tình đoàn kết trong công ty.',
+    'recruit.culture.52':
+      'Hy vọng sau sự kiện, tất cả mọi người đều cảm thấy hứng khởi và tràn đầy năng lượng để tiếp tục công việc và cống hiến cho sự phát triển của Diệp Trà.',
+    'recruit.culture.53': '2.7. CBNV tham gia Triển lãm Quốc tế Vietfood & Beverage - Propack 2024',
+    'recruit.culture.54':
+      'Cán bộ nhân viên Diệp Trà tham gia Triển lãm Quốc tế Vietfood & Beverage - Propack 2024, một sự kiện lớn trong ngành thực phẩm và đồ uống. Đây là cơ hội tuyệt vời để đội ngũ Diệp Trà không chỉ khám phá các sản phẩm, công nghệ mới mà còn giao lưu, học hỏi từ các thương hiệu lớn trong và ngoài nước. Các hoạt động tại triển lãm đã giúp các thành viên trong công ty mở rộng kiến thức, trau dồi kỹ năng và cập nhật những xu hướng mới nhất của ngành. Tham quan các gian hàng, trao đổi với đối tác và chuyên gia, đội ngũ Diệp Trà đã thu về những ý tưởng sáng tạo và chiến lược phát triển mới, sẵn sàng áp dụng vào công việc để nâng cao chất lượng và hiệu quả công ty trong thời gian tới. Sự kiện này không chỉ là cơ hội để học hỏi mà còn là bước đệm quan trọng trong quá trình phát triển nghề nghiệp của từng cá nhân.',
+    'recruit.list': 'danh sách tuyển dụng'
   },
   en: {
     'nav.home': 'Home',
@@ -239,7 +361,7 @@ export const translations = {
     // ARTICLE
     'home.article.title': 'Article',
 
-    //CONTACT
+    // HOME CONTACT
     'home.contact.title': 'Contact for Consultation',
     'home.contact.fullName': 'Full Name',
     'home.contact.fullName.input': 'Please enter Full Name',
@@ -397,6 +519,130 @@ export const translations = {
       'Explore a treasure trove of recipes ranging from classic drinks to new creations. Detailed step-by-step instructions.',
     'article.newest': 'Latest article',
     'article.no.newest': 'No new article yet',
-    'article.loading': 'Loading...'
+    'article.loading': 'Loading...',
+
+    // CONTACT
+    'contact.title': 'contact Diep Tra',
+    'contact.title.hcm': 'Consultant Diep Tra',
+    'contact.desc': 'Contact us now for the best advice',
+    'contact.company.name.bac': 'Hi Sweetie Vietnam Import Export Co., Ltd. (North)',
+    'contact.head.quarter.bac': 'Head office: B-TT10-4 Him Lam Van Phuc, To Huu, Ha Dong, Hanoi.',
+    'contact.fanpage.1': 'Diep Tra - Milk Tea Ingredients',
+    'contact.fanpage.2': 'Phoenix Tea - Perfect Flavor',
+    'contact.fanpage.3': 'LerMao - Sophisticated As A Bear',
+    'contact.company.name.nam': 'Hi Sweetie Vietnam Import Export Co., Ltd. (South)',
+    'contact.head.quarter.nam': 'Head office: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tan Phu, HCMC.',
+    'contact.shop': 'Store: 42 Street No. 7, Ward 10, Tan Binh District, Ho Chi Minh City.',
+
+    // RECRUITMENT
+    'recruit.recruit': 'Recruitment',
+    'recruit.decan.title.1': '“SHARE TOGETHER,',
+    'recruit.decan.title.2': 'DEVELOP TOGETHER”',
+    'recruit.button': 'Recruit position',
+    'recruit.popular.activity': 'OUTSTANDING ACTIVITIES',
+    'recruit.section.1': 'ORGANIZING TEAM BUILDING FOR EMPLOYEES',
+    'recruit.company.name': 'Diep Tra',
+    'recruit.section.1.desc.1':
+      'The team building event for Diep Tra employees is a meaningful annual activity, always bringing great experiences and strong bonds among company members. Every year, Diep Tra organizes team building at new locations, with challenging outdoor activities, from physical games to creative group exercises, to enhance team spirit and cohesion among employees.',
+    'recruit.section.1.desc.2':
+      'In 2023, Diệp Trà’s team-building event in Hạ Long was a great success, bringing memorable and meaningful experiences to all employees. Team members participated in various outdoor activities and challenges — from physical games to group exercises — helping strengthen teamwork and connection across the company. Each challenge was an opportunity for employees to showcase their collaboration skills, improve communication, and enhance problem-solving abilities. The event not only provided relaxation and stress relief but also created lasting memories and reinforced unity within the organization. We hope that after the event, everyone feels inspired and energized to continue their work and contribute to the ongoing growth of Diệp Trà.',
+    'recruit.section.2': 'Employees participating in Vietfood & Beverage - Propack 2024 International Exhibition',
+    'recruit.section.2.desc.1':
+      'Diệp Trà employees participated in the Vietfood & Beverage – Propack 2024 International Exhibition, one of the major events in the food and beverage industry. This was an excellent opportunity for the Diệp Trà team not only to explore new products and technologies but also to connect and learn from leading domestic and international brands. Activities throughout the exhibition helped team members broaden their knowledge, sharpen their skills, and stay updated on the latest industry trends. By visiting booths, engaging in discussions with partners and experts, the Diệp Trà team gained valuable insights, creative ideas, and new development strategies that can be applied to future work to improve the company’s quality and efficiency. This event was not only a chance to learn but also an important stepping stone in the professional development of each individual.',
+    'recruit.culture': 'Diep Tra Culture',
+    'recruit.position': 'Recruitment Position',
+    'recruit.slogan': 'CULTURE - OUTSTANDING ACTIVITIES AT',
+    'recruit.company.upperkey': 'DIEP TRA',
+    'recruit.now': 'Recruit now',
+    'recruit.search': 'Search',
+    'recruit.culture.slogan': 'Diep Tra Work Culture: "Sharing Together, Growing Together"',
+    'recruit.culture.1': '1. Vision for the Work Culture',
+    'recruit.culture.2':
+      'Diệp Trà is not just a workplace but also an environment for personal growth and meaningful contribution. We build a culture where employees continuously learn, update their knowledge, and create, while spreading value to the F&B community and the beverage industry.',
+    'recruit.culture.3': '2. Core Values of the Work Culture',
+    'recruit.culture.4': '2.1. Focus on Personal and Team Development',
+    'recruit.culture.5': '- Continuous learning and training programs:',
+    'recruit.culture.6':
+      'Diệp Trà enables employees to join courses and professional workshops both domestically and internationally. This helps them develop job-related skills, expand creative thinking, and deepen industry understanding.',
+    'recruit.culture.7':
+      '+ Partial financial support for employees to attend courses or obtain professional certificates in marketing, sales, supply chain management, and technology.',
+    'recruit.culture.8':
+      '+ Monthly internal training sessions with participation from top domestic and international industry experts.',
+    'recruit.culture.9':
+      '+ Opportunities for employees to attend conferences and trade exhibitions to update trends and learn from major brands and large global markets.',
+    'recruit.culture.10': '- Evaluating personal progress:',
+    'recruit.culture.11':
+      'Employee success is measured not only by work results but also through personal growth, ability to overcome challenges, and how they support their teammates.',
+    'recruit.culture.12':
+      '+ Performance evaluation criteria are based not just on sales or results but also on how employees learn, develop new skills, and contribute to their team.',
+    'recruit.culture.13':
+      '+ Implementing an internal mentoring system, where experienced employees guide and support new or junior staff.',
+    'recruit.culture.14':
+      '+ Establishing a clear career development roadmap for every position, helping employees shape long-term career directions.',
+    'recruit.culture.15': '2.2. Respect for Diversity and Unity',
+    'recruit.culture.16': '- A diverse and respectful team:',
+    'recruit.culture.17':
+      'Diệp Trà proudly fosters a diverse team in terms of experience, perspectives, and culture. Employees are encouraged to learn from one another to grow both individually and collectively.',
+    'recruit.culture.18':
+      '+ Promoting creativity in every individual’s work, fostering diversity and richness in company and team culture.',
+    'recruit.culture.19': '+ Cross-department collaboration, united by shared company goals and mission.',
+    'recruit.culture.20': '- Honoring every idea:',
+    'recruit.culture.21':
+      'Every member, regardless of position, is encouraged to share ideas. Diệp Trà listens to and values all contributions as part of continuous improvement.',
+    'recruit.culture.22': '2.3. Continuous Learning',
+    'recruit.culture.23': '- A “learning mindset” culture:',
+    'recruit.culture.24':
+      'At Diệp Trà, continuous learning is considered a core value that drives innovation and market leadership. Employees are encouraged to update their professional knowledge, new technologies, and market trends to enhance work efficiency.',
+    'recruit.culture.25':
+      '+ Each employee is required to dedicate at least 10% of working time to learning new knowledge — from industry materials, online courses, or internal sharing sessions.',
+    'recruit.culture.26':
+      '+ Implementing learning KPIs such as “Top 10 Best Books of the Year,” where employees read and discuss to expand their mindset.',
+    'recruit.culture.27': '- Learning motivation programs:',
+    'recruit.culture.28':
+      'The company provides incentives such as supporting course fees, offering hands-on practice opportunities, and organizing experience-sharing sessions.',
+    'recruit.culture.29': '- Updating technology and market trends:',
+    'recruit.culture.30':
+      '+ Introducing employees to new technological tools that save time and improve work efficiency.',
+    'recruit.culture.31':
+      '+ Quarterly seminars to update beverage market trends, helping employees better understand customer needs and preferences.',
+    'recruit.culture.32': '2.4. Celebrating Creativity',
+    'recruit.culture.33':
+      'Encouraging employees to propose new ideas for products, processes, and internal activities.',
+    'recruit.culture.34': '- A space for ideas:',
+    'recruit.culture.35':
+      'Diệp Trà encourages employees to propose new ideas — from products to workflows or internal activities. All ideas are reviewed, discussed, and implemented when appropriate.',
+    'recruit.culture.36':
+      '+ Each employee is required to spend at least 10% of working time learning new knowledge — from industry materials, online courses, or internal sharing sessions.',
+    'recruit.culture.37':
+      '+ Implementing learning KPIs such as “Top 10 Best Books of the Year,” where employees read and discuss to broaden their thinking.',
+    'recruit.culture.38': '- Encouraging innovation in products and processes:',
+    'recruit.culture.39':
+      '+ Innovation awards: The company organizes internal competitions to foster creativity, with attractive rewards for ideas that are practically applicable.',
+    'recruit.culture.40':
+      '+ Creative space: Providing an open, flexible workspace with idea boards and discussion zones, allowing employees to brainstorm anytime. Budget support is also available for employees to pursue personal projects with potential business application.',
+    'recruit.culture.41': '2.5. Sharing Values and Social Responsibility',
+    'recruit.culture.42':
+      'Building programs that connect with customers and the community, contributing to the improvement of the beverage industry.',
+    'recruit.culture.43': '- Community engagement:',
+    'recruit.culture.44':
+      'Diệp Trà organizes programs supporting customers and the community, such as knowledge-sharing workshops on the beverage industry, campaigns promoting quality ingredients, and charity events.',
+    'recruit.culture.45': '- Community connection programs:',
+    'recruit.culture.46':
+      'Collaborating with cafés, milk-tea shops, and small businesses to organize weekly or monthly workshops that enhance beverage quality while introducing Diệp Trà’s products.',
+    'recruit.culture.47': '- Social responsibility:',
+    'recruit.culture.48':
+      'Beyond business goals, the company is committed to sustainable social development through charitable activities and environmental initiatives.',
+    'recruit.culture.49': '2.6. Team Building for Diệp Trà Employees',
+    'recruit.culture.50':
+      'The annual team-building event for Diệp Trà employees is a meaningful activity that consistently brings exciting experiences and strengthens company-wide connection. Every year, Diệp Trà chooses new destinations with challenging outdoor activities — from physical games to creative group exercises — to enhance teamwork and unity among employees.',
+    'recruit.culture.51':
+      'In 2023, the team-building event held in Hạ Long was a great success, delivering meaningful and memorable experiences. Employees participated in outdoor challenges, from physical activities to group tasks, strengthening teamwork, communication, and problem-solving skills. The event not only offered relaxation and stress relief but also created lasting memories and reinforced company unity.',
+    'recruit.culture.52':
+      'We hope that after the event, everyone feels inspired and energized to continue their work and contribute to the growth of Diệp Trà.',
+    'recruit.culture.53':
+      '2.7. Employees Participating in the Vietfood & Beverage – Propack 2024 International Exhibition',
+    'recruit.culture.54':
+      'Diệp Trà employees participated in the Vietfood & Beverage – Propack 2024 International Exhibition, a major event in the food and beverage industry. This was an excellent opportunity for the team to explore new products and technologies, connect with leading domestic and international brands, and expand their knowledge. By visiting booths and engaging with partners and experts, the Diệp Trà team gained valuable insights, creative ideas, and new development strategies ready to be applied to future work to enhance the company’s quality and efficiency. The event served not only as a learning opportunity but also as an important stepping stone in each employee’s professional development.',
+    'recruit.list': 'recruitment list'
   }
 };
