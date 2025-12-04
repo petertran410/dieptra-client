@@ -3,9 +3,11 @@
 import { Box, VStack, Text, Button, Heading } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
+  const { t, getLocalizedText } = useTranslation();
 
   const handleItemClick = (slug, isExternal) => {
     if (isExternal || ['gioi-thieu-diep-tra', 'lien-he', 'san-pham'].includes(slug)) {
@@ -40,10 +42,6 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
       position="sticky"
       top="120px"
     >
-      {/* <h1 fontSize={{ xs: '18px', lg: '20px' }} fontWeight="600" color="#003366" mb="20px" textAlign="left">
-        Chính Sách Diệp Trà
-      </h1> */}
-
       <Heading
         as="h1"
         fontSize={{ xs: '24px', lg: '28px' }}
@@ -53,7 +51,7 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
         lineHeight="1.3"
         textAlign={{ xs: 'center', lg: 'left' }}
       >
-        Chính Sách Diệp Trà
+        {t('policy.sidebar.title')}
       </Heading>
 
       <VStack spacing="8px" align="stretch">
@@ -93,11 +91,10 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
 
           const ButtonContent = (
             <Text as="span" flex={1}>
-              {item.title}
+              {getLocalizedText(item.title, item.title_en)}
             </Text>
           );
 
-          // Nếu có href, sử dụng Link với prefetch
           if (href) {
             return (
               <Link
@@ -115,7 +112,6 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
             );
           }
 
-          // Nếu không có href, sử dụng onClick
           return (
             <Button
               key={`button-${item.slug}`}
@@ -128,10 +124,9 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
         })}
       </VStack>
 
-      {/* Thông tin liên hệ */}
       <Box mt="30px" p="16px" bg="gray.50" borderRadius="8px" fontSize="13px" color="gray.600">
         <Text fontWeight="600" mb="8px">
-          Cần hỗ trợ?
+          {t('policy.support')}
         </Text>
         <Text mb="4px">📧 sales@hisweetievietnam.com.vn</Text>
         <Text>📞 Hotline: 0973 123 230</Text>

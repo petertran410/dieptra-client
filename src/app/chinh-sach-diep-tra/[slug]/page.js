@@ -1,10 +1,7 @@
-// src/app/chinh-sach-diep-tra/[slug]/page.js
-import { API } from '../../../utils/API';
 import { getMetadata } from '../../../utils/helper-server';
 import { getPolicyPageBySlug } from '../../../utils/policy-data';
 import PolicyPageLayout from '../_components/policy-page-layout';
 
-// Generate metadata cho từng trang con
 export async function generateMetadata({ params }) {
   const { slug } = params;
 

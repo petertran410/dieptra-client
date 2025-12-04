@@ -1,13 +1,16 @@
 'use client';
 
 import { Box, Text, Heading } from '@chakra-ui/react';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const PolicyContent = ({ pageData, isLoading }) => {
+  const { t, getLocalizedText } = useTranslation();
+
   if (isLoading) {
     return (
       <Box p="20px" textAlign="center">
         <Text color="gray.500" fontSize="16px">
-          Đang tải nội dung...
+          {t('policy.loading')}
         </Text>
       </Box>
     );
@@ -17,13 +20,13 @@ const PolicyContent = ({ pageData, isLoading }) => {
     return (
       <Box p="20px" textAlign="center">
         <Text color="gray.500" fontSize="16px">
-          Không tìm thấy nội dung.
+          {t('policy.content.not.found')}
         </Text>
       </Box>
     );
   }
 
-  const { meta_title, title, content } = pageData;
+  const { title, title_en, content, content_en } = pageData;
 
   return (
     <Box
@@ -43,7 +46,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
         lineHeight="1.3"
         textAlign={{ xs: 'center', lg: 'left' }}
       >
-        {title}
+        {getLocalizedText(title, title_en)}
       </Heading>
 
       <Box
@@ -128,23 +131,22 @@ const PolicyContent = ({ pageData, isLoading }) => {
         }}
       >
         {content ? (
-          <div dangerouslySetInnerHTML={{ __html: content }} />
+          <div dangerouslySetInnerHTML={{ __html: getLocalizedText(content, content_en) }} />
         ) : (
           <Text color="gray.500" fontSize="16px" textAlign="center" py="40px">
-            Nội dung đang được cập nhật.
+            {t('policy.content.updating')}
           </Text>
         )}
       </Box>
 
-      {/* Footer info */}
       <Box mt="40px" pt="20px" borderTop="1px solid" borderColor="gray.200">
         <Text fontSize="13px" color="gray.500" textAlign="center">
-          Nếu bạn có thắc mắc về nội dung này, vui lòng liên hệ với chúng tôi qua email:
+          {t('policy.question.contact')}
           <Text as="span" color="#003366" fontWeight="500">
             {' '}
             sales@hisweetievietnam.com.vn {''}
           </Text>
-          hoặc hotline:
+          {t('policy.hotline')}
           <Text as="span" color="#003366" fontWeight="500">
             {' '}
             0973 123 230

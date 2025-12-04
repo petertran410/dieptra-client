@@ -170,24 +170,26 @@ const OrderList = () => {
           <Divider my={3} />
 
           <VStack align="stretch" spacing={3}>
-            {order.items.map((item, index) => (
-              <HStack key={index} spacing={3}>
-                {item.image && (
-                  <Image src={item.image} alt={item.productName} boxSize="60px" objectFit="cover" borderRadius="md" />
-                )}
-                <VStack align="start" flex={1} spacing={0}>
-                  <Text fontWeight="medium" fontSize="xl">
-                    {item.productName}
+            {order.items.map((item, index) => {
+              return (
+                <HStack key={index} spacing={3}>
+                  {item.image && (
+                    <Image src={item.image} alt={item.productName} boxSize="60px" objectFit="cover" borderRadius="md" />
+                  )}
+                  <VStack align="start" flex={1} spacing={0}>
+                    <Text fontWeight="medium" fontSize="xl">
+                      {item.productName}
+                    </Text>
+                    <Text fontSize="xl" color="gray.600">
+                      {formatPrice(item.price)} x {item.quantity}
+                    </Text>
+                  </VStack>
+                  <Text fontWeight="semibold" color="#003366" fontSize="xl">
+                    {formatPrice(item.price * item.quantity)}
                   </Text>
-                  <Text fontSize="xl" color="gray.600">
-                    {formatPrice(item.price)} x {item.quantity}
-                  </Text>
-                </VStack>
-                <Text fontWeight="semibold" color="#003366" fontSize="xl">
-                  {formatPrice(item.price * item.quantity)}
-                </Text>
-              </HStack>
-            ))}
+                </HStack>
+              );
+            })}
           </VStack>
 
           <Divider my={3} />

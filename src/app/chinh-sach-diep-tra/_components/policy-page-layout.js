@@ -22,15 +22,12 @@ const PolicyPageLayout = ({ currentSlug }) => {
         setIsLoading(true);
         setError(null);
 
-        // Lấy dữ liệu sidebar items
         const sidebarData = getSidebarItems();
         setSidebarItems(sidebarData);
 
-        // Lấy dữ liệu trang chính
         const mainPage = getMainPage();
         setMainPageData(mainPage);
 
-        // Lấy dữ liệu trang hiện tại
         const currentPage = getPolicyPageBySlug(currentSlug);
 
         if (!currentPage) {
@@ -50,7 +47,6 @@ const PolicyPageLayout = ({ currentSlug }) => {
     loadPageData();
   }, [currentSlug]);
 
-  // Handle navigation
   const handlePageChange = (slug) => {
     if (slug === 'gioi-thieu-diep-tra') {
       router.push('/gioi-thieu-diep-tra');
@@ -74,7 +70,6 @@ const PolicyPageLayout = ({ currentSlug }) => {
     }
   };
 
-  // Loading state
   if (isLoading) {
     return (
       <Flex direction="column" bgColor="#FFF" minH="100vh" align="center" justify="center">
@@ -85,7 +80,6 @@ const PolicyPageLayout = ({ currentSlug }) => {
     );
   }
 
-  // Error state
   if (error) {
     return (
       <Flex direction="column" bgColor="#FFF" px={PX_ALL} py="80px">
@@ -97,13 +91,10 @@ const PolicyPageLayout = ({ currentSlug }) => {
     );
   }
 
-  // Main render
   return (
     <Flex direction="column" bgColor="#FFF" minH="100vh">
-      {/* Header space */}
       <Box h={{ xs: '70px', lg: '100px' }} />
 
-      {/* Main content */}
       <Flex
         px={PX_ALL}
         py={{ xs: '20px', lg: '40px' }}
@@ -114,7 +105,6 @@ const PolicyPageLayout = ({ currentSlug }) => {
         mx="auto"
         w="full"
       >
-        {/* Sidebar */}
         <Box w={{ xs: 'full', lg: '350px' }} flexShrink={0}>
           <PolicySidebar
             mainPageData={mainPageData}
@@ -124,7 +114,6 @@ const PolicyPageLayout = ({ currentSlug }) => {
           />
         </Box>
 
-        {/* Content */}
         <Box flex={1} minW={0}>
           <PolicyContent pageData={currentPageData} isLoading={false} />
         </Box>

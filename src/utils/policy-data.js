@@ -3,6 +3,7 @@ export const POLICY_PAGES = {
     id: 'chinh-sach-diep-tra',
     slug: 'chinh-sach-diep-tra',
     title: 'Chính Sách Diệp Trà',
+    title_en: 'Diep Tra Policy',
     meta_title: 'Chính Sách Diệp Trà',
     meta_description:
       'Tìm hiểu về các chính sách bảo mật, mua hàng, thanh toán, giao hàng và các quy định khác của Diệp Trà.',
@@ -15,6 +16,15 @@ export const POLICY_PAGES = {
       
       <p>Diệp Trà không ngừng hoàn thiện chính sách và quy trình vận hành, để mỗi đơn hàng không chỉ là giao dịch, mà còn là sự khẳng định niềm tin và đẳng cấp dịch vụ từ một thương hiệu dẫn đầu xu hướng nguyên liệu pha chế tại Việt Nam.</p>
     `,
+    content_en: `
+      <p>Positioned as a brand providing premium beverage ingredients, <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a> commits to building a transparent, meticulous and synchronized policy system to ensure absolutely secure shopping experience for customers and partners.</p>
+      
+      <p>All products distributed by Diep Tra are carefully selected from reputable manufacturers with certified origin, food safety hygiene and compliance with professional beverage industry standards. Diep Tra policies: purchasing, payment, delivery, exchange and warranty are designed clearly, accessible and always prioritize consumer interests.</p>
+      
+      <p>We understand that in the beverage ingredient field – where quality directly affects taste and end customer experience – consistency, honesty and professionalism in every service aspect is the core value.</p>
+      
+      <p>Diep Tra continuously improves policies and operational processes, so that each order is not only a transaction, but also an affirmation of trust and service quality from a leading brand in beverage ingredient trends in Vietnam.</p>
+    `,
     is_main_page: true,
     is_active: true,
     display_order: 1
@@ -24,6 +34,7 @@ export const POLICY_PAGES = {
     id: 'chinh-sach-bao-mat',
     slug: 'chinh-sach-bao-mat',
     title: 'Chính Sách Bảo Mật',
+    title_en: 'Privacy Policy',
     meta_title: 'Chính Sách Bảo Mật - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách bảo mật thông tin cá nhân tại Diệp Trà.',
     content: `
@@ -112,6 +123,92 @@ export const POLICY_PAGES = {
 
       <p>Công ty hiểu rằng quyền lợi của Khách hàng là trong việc bảo vệ thông tin cá nhân cũng chính là trách nhiệm của chúng tôi nên trong bất kỳ trường hợp có thắc mắc, góp ý nào liên quan đến chính sách bảo mật của Công ty, và liên quan đến việc thông tin cá nhân bị sử dụng sai mục đích hoặc phạm vi đã thông báo vui lòng liên hệ qua số hotline 078 833 9379.</p>
     `,
+    content_en: `
+      <p><strong>We are:</strong><br/>
+      Diep Tra has website address: <a href="https://www.dieptra.com/" target="_blank" background-color="#003366">https://www.dieptra.com/</a></p>
+      
+      <h2>PRIVACY POLICY</h2>
+      
+      <p>The privacy policy tells you how we use your personal information collected on this website. Please read the privacy policy before using the website or sending any personal information.</p>
+      
+      <p>By using the website, you accept what is described in the privacy policy. These may change, but any changes will be posted and changes will only apply to activities and information on a progressive basis, not retroactively. You should review the privacy policy whenever you access the website to ensure you understand how the personal information you provide will be used. Our policy is to keep personal information received from the website completely confidential and use it only for internal purposes. We will not share your personal information with any other party. Please be assured that we respect your privacy and handle your personal data with maximum care.</p>
+
+      <h3>COOKIE / TRACKING TECHNOLOGY</h3>
+      <p>The website may use cookies and tracking technology depending on the features provided. Cookies and tracking technology are useful for collecting information such as browser type and operating system, tracking the number of visitors to the website, and understanding how visitors use the website. Cookies can also help customize the website for visitors. Personal information cannot be collected through cookies and other tracking technologies, however, if you have previously provided personally identifiable information, cookies may be linked to that information. Cookies and tracking information collected may be shared with third parties. We also use remarketing login code when visitors view specific pages, allowing us to deliver targeted ads in the future.</p>
+      
+      <h3>INFORMATION DISTRIBUTION</h3>
+      
+      <p>We process all customer data in compliance with Personal Data (Privacy) Ordinance in Vietnam. We will never sell, share or use any personal information you provide to us for any purpose other than communicating with you about our products, reservations or invitations to our events. We may share information with government agencies or other companies that assist us in fraud prevention or investigation.</p>
+      
+      <p>We may do so when: (1) permitted by law or required by law; (2) attempting to protect against or prevent actual or potential fraud or unauthorized transactions; (3) investigating fraud that has occurred. Information is not provided to these companies for marketing purposes.</p>
+      
+      <p>Your personal information is kept secure. Only authorized employees, agents and contractors (who have agreed to keep information safe and confidential) have access to this information. All emails and newsletters from this website allow you to opt out of continuing to receive mail.</p>
+      
+      <h3>QUESTIONS</h3>
+      
+      <p>If you have any questions, concerns, or comments about our privacy policy, please contact us through the Contact Us form. We reserve the right to make changes to this policy. All changes will be reflected on this website.</p>
+      
+      <h3>APPLICATION TIME</h3>
+      
+      <p>This policy applies throughout the time this website operates.</p>
+
+      <strong>
+        <ol>
+          <li>Purpose and scope of personal information collection</li>
+        </ol>
+      </strong>
+      <p>We collect personally identifiable information such as name, postal address, email address, phone number, etc... when visitors voluntarily send it to us. This information is only used to meet your specific requests, unless you allow it to be used otherwise, for example adding you to our email list. Information we may collect includes your name, title, company or organization name, email, phone and birthday. We may collect certain information about your visit, such as the type of browser you use; the date and time you access the website; the pages you access when opening the website and the website address from which you directly connect to our website. This information is used to help improve and manage the website.</p>
+      <p>When necessary, we may use this information to contact you directly in forms such as: sending order letters, thank you letters, service reviews at Diep Tra.</p>
+
+      <p><strong>Scope of personal information use</strong></p>
+      <p>Diep Tra uses member information provided to:</p>
+      <ul>
+        <li>Provide services and products to members - customers.</li>
+        <li>Send notifications about information exchange activities between members and dieptra.com website</li>
+        <li>Prevent activities that destroy member user accounts or member impersonation activities.</li>
+        <li>Not use members' personal information outside the purpose of confirmation and contact related to transactions at dieptra.com website.</li>
+      </ul>
+
+      <p><strong>Information storage time</strong></p>
+      <p>Customer personal data will be stored until there is a cancellation request or customers log in and perform cancellation themselves. In all other cases, customer personal information will be kept confidential on dieptra.com website servers</p>
+      <p>Commitment: We will not rent, sell or disclose your personal information to unrelated third parties without your consent, except as stated in this Personal Privacy Terms.</p>
+
+      <p><strong>People or organizations that may have access to that information</strong></p>
+      <p>In case of legal requirements, the Company has the responsibility to cooperate in providing customer personal information when requested by competent state agencies related to any legal violations by customers. Otherwise, no one has the right to invade members' personal information.</p>
+      <ul>
+        <li>In other cases, we will specifically notify Customers when we must disclose information to a third party and this information is only provided with consent response from Customers (e.g. promotional programs with cooperation and sponsorship from Diep Tra partners; providing necessary delivery information to shipping units).</li>
+      </ul>
+
+      <p><strong>Address of the unit that collects and manages personal information</strong> </br> <strong>HI SWEETIE VIETNAM IMPORT EXPORT CO., LTD</strong> </p>
+      <p>Head office: B-TT10-4 Him Lam Van Phuc, Ha Dong ward, Hanoi city.</p>
+      <p>Southern office: P1.2.24 Diamond Alnata, Block A3, Celadon City, Son Ky ward, Ho Chi Minh City.</p>
+      <p>Store in HCM: No. 42 Street 7, Bay Hien Ward, Ho Chi Minh City</p>
+      <p>Email: sales@hisweetievietnam.com.vn</p>
+      <p>Phone: 078 833 9379</p>
+      <p>Consumers can ask about the collection and processing of information related to themselves, customers please access dieptra.com website with registered Username/email and password.</p>
+      <p>To edit or change personal information, customers please contact phone number: 078 833 9379.</p>
+
+      <p><strong>Means and tools for users to access and edit their personal data</strong></p>
+      <p>Members can check, update, adjust or cancel their personal information by requesting Diep Tra to do this. Members have the right to send complaints about personal information disclosure to third parties to hello@dieptra.com, Diep Tra will confirm the information, must be responsible for answering the reason and guiding members to restore and secure information again.</p>
+
+      <p>Information requesting personal data editing: <strong>HI SWEETIE VIETNAM IMPORT EXPORT CO., LTD</strong></p>
+      <p>Head office: B-TT10-4 Him Lam Van Phuc, Ha Dong ward, Hanoi city.</p>
+      <p>Southern office: P1.2.24 Diamond Alnata, Block A3, Celadon City, Son Ky ward, Ho Chi Minh City.</p>
+      <p>Store in HCM: No. 42 Street 7, Bay Hien Ward, Ho Chi Minh City</p>
+      <p>Email: sales@hisweetievietnam.com.vn</p>
+      <p>Phone: 078 833 9379</p>
+
+      <p><strong>Mechanism for receiving and resolving consumer complaints related to personal information being used for wrong purposes or beyond the notified scope.</strong></p>
+      <p>At Diep Tra, protecting customers' personal information is very important, customers are assured that information provided to us will be kept confidential. The company commits not to share, sell or rent customers' personal information to anyone else. The company commits to only use customer information in the following cases:</p>
+
+      <ul>
+        <li>Improve service quality for customers</li>
+        <li>Resolve disputes and complaints</li>
+        <li>When law enforcement agencies request. </li>
+      </ul>
+
+      <p>The company understands that customers' rights in protecting personal information is also our responsibility, so in any case of questions or comments related to the company's privacy policy, and related to personal information being used for wrong purposes or beyond the notified scope, please contact hotline 078 833 9379.</p>
+    `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
     is_active: true,
@@ -122,6 +219,7 @@ export const POLICY_PAGES = {
     id: 'chinh-sach-mua-hang',
     slug: 'chinh-sach-mua-hang',
     title: 'Chính Sách Mua Hàng',
+    title_en: 'Purchase Policy',
     meta_title: 'Chính Sách Mua Hàng - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách mua hàng tại Diệp Trà.',
     content: `
@@ -168,6 +266,50 @@ export const POLICY_PAGES = {
       </ul>
       <p>Nếu sau <strong>24 giờ</strong> mà không thể liên hệ xác nhận, đơn hàng sẽ <strong>tạm hoãn xử lý</strong>.</p>
     `,
+    content_en: `
+      <p>Thank you for trusting and choosing products/services from <strong>Diep Tra - Professional Beverage Ingredient Supplier</strong>. To help customers better understand the shopping, payment and order receiving process, we provide detailed purchasing policy as follows:</p>
+      
+      <h2>1/ Scope of application</h2>
+      <p>This policy applies to all customers purchasing products/services from:</p>
+      <ul>
+        <li><strong>Website:</strong> Dieptra.com</li>
+        <li><strong>Official store:</strong> No. 42 Street 7, Ward 10, Tan Binh District, Ho Chi Minh City</li>
+        <li><strong>Head office:</strong> B-TT10-4 Him Lam Van Phuc, To Huu Street, Van Phuc Ward, Ha Dong District, Hanoi City</li>
+        <li>Official online sales channel: Fanpage: <strong>DIEP TRA - Milk Tea Ingredients Royaltea Gongcha</strong></li>
+      </ul>
+      
+      <h2>2/ Shopping guide</h2>
+      <p>Customers can choose one of the following ways to place orders:</p>
+      
+      <h3>2.1 Direct purchase at store</h3>
+      <p>Customers can come directly to showroom/store to view, try and purchase products. Staff team will support consultation and on-site payment.</p>
+      
+      <h3>2.2 Online shopping via website</h3>
+      <p>Online shopping steps:</p>
+      <ol>
+        <li>Visit website: <a href="https://www.dieptra.com/" target="_blank">https://www.dieptra.com/</a></li>
+        <li>Select product to buy, choose quantity, click <strong>"Add to cart"</strong> button</li>
+        <li>Check cart and click <strong>"Checkout"</strong></li>
+        <li>Fill in complete delivery information, select payment method</li>
+        <li>Click <strong>"Place order"</strong> to complete order</li>
+        <li>We will contact to confirm order within 24 hours</li>
+      </ol>
+      
+      <h3>2.3 Shopping through other channels</h3>
+      <ul>
+        <li><strong>By phone:</strong> Call Ms Thanh: 078 833 9379 for consultation and direct ordering.</li>
+        <li><strong>Via Fanpage/Zalo:</strong> Message Ms Thanh <a style="text-decoration: none" href="https://zalo.me/0788339379" target="_blank" rel="noopener">078 833 9379</a> or Ms. Van Anh <a style="text-decoration: none" href="https://zalo.me/0973123230" target="_blank" rel="noopener">0973 123 230</a> for quick consultation and ordering.</li>
+      </ul>
+      
+      <h2>3/ Order confirmation</h2>
+      <p>After receiving order from customer, we will contact via phone/Zalo to:</p>
+      <ul>
+        <li>Verify order information</li>
+        <li>Further negotiate delivery time (if needed)</li>
+        <li>Confirm payment method</li>
+      </ul>
+      <p>If after <strong>24 hours</strong> we cannot contact for confirmation, order will be <strong>temporarily suspended for processing</strong>.</p>
+    `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
     is_active: true,
@@ -178,6 +320,7 @@ export const POLICY_PAGES = {
     id: 'chinh-sach-thanh-toan',
     slug: 'chinh-sach-thanh-toan',
     title: 'Chính Sách Thanh Toán',
+    title_en: 'Payment Policy',
     meta_title: 'Chính Sách Thanh Toán - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách thanh toán tại Diệp Trà.',
     content: `
@@ -245,6 +388,71 @@ export const POLICY_PAGES = {
       
       <p>Chính sách thanh toán có thể được cập nhật tùy theo từng thời điểm và chương trình khuyến mãi. Vui lòng theo dõi website để biết thông tin mới nhất.</p>
     `,
+    content_en: `
+      <p>Payment policy applies to all orders placed via <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a> website, Fanpage, Zalo or purchased directly at <em>Diep Tra</em> store</p>
+      
+      <h2>1/ Payment methods</h2>
+      <p>We support flexible and convenient payment methods as follows:</p>
+      
+      <h3>1.1. Cash on delivery (COD – Cash On Delivery)</h3>
+      <ul>
+        <li>Applies to customers nationwide.</li>
+        <li>Customers pay cash directly to delivery staff after checking goods.</li>
+      </ul>
+      <p><strong>Advantages:</strong> Simple, safe, no need for advance transfer.</p>
+      <p><strong><em>Note:</em></strong> Please keep delivery receipt for verification when needed.</p>
+      
+      <h3>1.2. Bank transfer payment</h3>
+      <p>Customers can pay in advance through bank transfer to our bank account.</p>
+      
+      <p><strong>Bank transfer account information:</strong></p>
+      <p><strong>Account holder:</strong>HI SWEETIE VN IMPORT EXPORT CO LTD.<br/>
+      <strong>Account number:</strong>3095686868<br/>
+      <strong>Bank:</strong>Bank<br/>
+      <strong>Branch:</strong>Transaction Office<br/>
+      <strong>Transfer content:</strong>[Customer name] + [Phone number] + [Order code if any] </br> Or </br> <strong>Payment via QR code</strong></p>
+      <img src="/images/QR-Website.webp" alt="Payment QR">
+
+      <p>After selecting 1 of 2 payment methods, interface will display successful order placement</p>
+      
+      <img src="/images/thanh-toan-thanh-cong.webp" alt="Payment Successful">
+      <img src="/images/tao-don-hang-thanh-cong.webp" alt="Order Created Successfully">
+
+      <p>After bank transfer, please send <strong>transaction confirmation image</strong> via Zalo/Fanpage or Email so we can process order faster.</p>
+
+      <h3>1.3. Payment at store</h3>
+      <ul>
+        <li>Applies to customers buying directly at showroom/store.</li>
+        <li>Accept payment by cash or bank transfer.</li>
+        <li>In the future, may additionally support <strong>QR code or POS card swipe</strong> (if available).</li>
+      </ul>
+      
+      <h2>2/ Payment confirmation regulations</h2>
+      <ul>
+        <li>For <strong>bank transfers</strong>, we will only process orders after receiving payment.</li>
+        <li>If within <strong>24 hours</strong> from order placement we have not received payment (for orders requiring advance transfer), order will be <strong>automatically cancelled</strong>.</li>
+        <li>We are not responsible in case customers <strong>transfer to wrong account information</strong> or <strong>transfer wrong content</strong>, so please check carefully before making transaction.</li>
+      </ul>
+      
+      <h2>3/ Payment information security</h2>
+      <p>All customer payment information will be kept <strong>absolutely confidential</strong> by us.</p>
+      <p>Will not share with third parties without customer consent, except when requested by competent authorities.</p>
+      
+      <h2>4/ Important notes</h2>
+      <ul>
+        <li>Please <strong>do not transfer</strong> to unknown personal accounts not belonging to information system published on website.</li>
+        <li>If you receive payment notification different from official information, please <strong>contact hotline immediately</strong> for verification.</li>
+      </ul>
+      
+      <h2>5/ Support contact</h2>
+      <p>If you encounter difficulties during payment process, please contact:</p>
+      <p><strong>Hotline:</strong> 078 833 9379<br/>
+      <strong>Email:</strong> sales@hisweetievietnam.com.vn<br/>
+      <strong>Fanpage/Zalo:</strong> Ms Thanh - Diep Tra:  <a style="text-decoration: none" href="https://zalo.me/0788339379" target="_blank" rel="noopener">078 833 9379</a><br/>
+      <strong>Support hours:</strong> 8:30 AM – 5:30 PM (Monday to Saturday)</p>
+      
+      <p>Payment policy may be updated according to time periods and promotional programs. Please follow website for latest information.</p>
+    `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
     is_active: true,
@@ -255,6 +463,7 @@ export const POLICY_PAGES = {
     id: 'chinh-sach-van-chuyen-va-giao-nhan',
     slug: 'chinh-sach-van-chuyen-va-giao-nhan',
     title: 'Chính Sách Vận Chuyển Và Giao Nhận',
+    title_en: 'Shipping and Delivery Policy',
     meta_title: 'Chính Sách Vận Chuyển Và Giao Nhận - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách giao hàng tại Diệp Trà.',
     content: `
@@ -383,6 +592,132 @@ export const POLICY_PAGES = {
         <li>Trường hợp bất khả kháng dẫn đến hàng hóa vận chuyển bị mất, hư hỏng hoặc bị hủy hoại trong quá trình vận chuyển thì bên vận chuyển không phải chịu trách nhiệm bồi thường thiệt hại, trừ trường hợp có thỏa thuận khác hoặc pháp luật có quy định khác. </li>
       </ul>
     `,
+    content_en: `
+      <p>This delivery policy applies to all orders placed at <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a></strong> website, via Fanpage, Zalo or directly at store. Our goal is to deliver quickly, safely and on time to customers nationwide.</p>
+      
+      <h2>1/ Delivery coverage</h2>
+      <p>We deliver <strong>nationwide</strong>, including:</p>
+      <ul>
+        <li>Inner city and suburbs in major provinces/cities</li>
+        <li>Districts, communes, remote areas (may take longer)</li>
+      </ul>
+      
+      <h2>2/ Shipping partners</h2>
+      <p>We partner with reputable delivery services such as <strong>Giao Hang Nhanh (GHN), Giao Hang Tiet Kiem (GHTK), Viettel Post, J&T Express</strong>,... and other shipping partners depending on area.</p>
+      <p>In some cases, may use <strong>private delivery vehicles</strong> (if inner city delivery or large quantities).</p>
+      
+      <h2>3/ Delivery time</h2>
+      <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #f0f0f0;">
+            <th><strong>Delivery area</strong></th>
+            <th><strong>Estimated time</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Inner HCM/HN</td>
+            <td>1 – 2 business days</td>
+          </tr>
+          <tr>
+            <td>Other provinces</td>
+            <td>2 – 5 business days</td>
+          </tr>
+          <tr>
+            <td>Remote areas, islands</td>
+            <td>4 – 7 business days</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p><em>Note:</em> Delivery time may change due to weather conditions, natural disasters, holidays or force majeure from shipping partners.</p>
+      
+      <h2>4/ Shipping fees</h2>
+      <p>Shipping fees are calculated based on:</p>
+      <ul>
+        <li><strong>Distance</strong></li>
+        <li><strong>Weight – dimensions</strong></li>
+        <li><strong>Shipping partner rate table</strong></li>
+      </ul>
+      <p>Shipping fees will be displayed specifically at checkout step, or notified directly when ordering via Fanpage/Zalo.</p>
+      
+      <h2>5/ Package inspection policy</h2>
+      <p><strong>Customers have the right to inspect goods before payment</strong> (applies to COD payment method).</p>
+      <p>Encourage customers to <strong>record video when opening package</strong> as evidence in case of defective products, wrong samples, missing items, damage during shipping.</p>
+      
+      <h2>6/ Failed delivery cases</h2>
+      <p>Orders may be cancelled or delayed in following cases:</p>
+      <ul>
+        <li>Customer provides <strong>incorrect or incomplete delivery information</strong></li>
+        <li>Cannot contact for order confirmation or not answering phone during delivery</li>
+        <li>No one to receive goods at scheduled address</li>
+        <li>Bad weather, natural disasters, or epidemic situation in locality</li>
+      </ul>
+      <p>In case of unsuccessful delivery, we will contact again to arrange re-delivery or cancel order depending on specific situation.</p>
+      
+      <h2>7/ Multiple deliveries – special delivery</h2>
+      <ul>
+        <li>For large quantity, bulky orders requiring loading/unloading or multiple delivery locations, please contact in advance to negotiate suitable solutions.</li>
+        <li>We can support <strong>delivery at requested time slots</strong> in inner HCM/HN (if there are special needs and confirmed in advance).</li>
+      </ul>
+      
+      <h2>8/ Support contact</h2>
+      <p>If you have any issues related to delivery, please contact:</p>
+      <p><strong>Hotline:</strong> 078 833 9379<br/>
+      <strong>Email:</strong> sales@hisweetievietnam.com.vn<br/>
+      <strong>Fanpage/Zalo:</strong> Ms Thanh - Diep Tra:  <a style="text-decoration: none" href="https://zalo.me/0788339379" target="_blank" rel="noopener">078 833 9379</a><br/>
+      <strong>Support hours:</strong> 8:30 AM – 5:30 PM (Monday to Saturday)</p>
+      
+      <p><strong>Important note:</strong> Delivery policy may be updated to suit actual conditions and promotional programs. Please refer to latest version on website.</p>
+
+      <p><strong>Responsibility definition of merchants, logistics service organizations regarding provision of goods documents during delivery process.</strong></p>
+
+      <p><strong>Carrier obligations</strong></p>
+      <ul>
+        <li>Ensure complete and safe transportation of goods to designated location, on time.</li>
+        <li>Deliver goods to authorized recipient.</li>
+        <li>Bear costs related to goods transportation, except when otherwise agreed.</li>
+        <li>Compensate damages to shipping client in case carrier loses or damages goods, except when otherwise agreed or law provides otherwise.</li>
+      </ul>
+
+      <p><strong>Carrier rights</strong></p>
+      <ul>
+        <li>Check authenticity of goods, waybill or equivalent transportation documents.</li>
+        <li>Refuse to transport goods not matching agreed goods type in contract.</li>
+        <li>Request shipping client to pay full shipping charges on time.</li>
+        <li>Refuse to transport prohibited goods, dangerous or toxic goods, if carrier.</li>
+      </ul>
+
+      <p><strong>Shipping client obligations</strong></p>
+      <p>Diep Tra is responsible for providing complete goods-related documents including:</p>
+      <ul>
+        <li>Purchase invoice or payment receipt.</li>
+        <li>Delivery note with product and customer information.</li>
+        <li>Other documents related to products </li>
+      </ul>
+
+      <p>Diep Tra will send goods documents along with products to customers through:</p>
+      <ul>
+        <li>Internal delivery staff.</li>
+        <li>Partner logistics service providers.</li>
+        <li>Pay full shipping charges to carrier on time, according to agreed method.</li>
+        <li>Provide necessary information related to transported goods to ensure safety for transported goods.</li>
+        <li>Guard goods during transportation, if agreed. If shipping client guards goods and goods are lost or damaged, no compensation will be provided.</li>
+      </ul>
+
+      <p><strong>Shipping client rights</strong></p>
+      <ul>
+        <li>Request carrier to transport goods to correct location, time as agreed.</li>
+        <li>Directly or designate third party to receive back hired transported goods.</li>
+      </ul>
+
+      <p><strong>Damage compensation responsibility.</strong></p>
+      <ul>
+        <li>Carrier must compensate damages to shipping client if goods are lost or damaged.</li>
+        <li>Shipping client must compensate damages to carrier and third parties for damages caused by transported goods having dangerous, toxic nature without proper packaging, safety measures during transportation.</li>
+        <li>In case of force majeure leading to transported goods being lost, damaged or destroyed during transportation, carrier is not responsible for damage compensation, except when otherwise agreed or law provides otherwise. </li>
+      </ul>
+    `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
     is_active: true,
@@ -393,6 +728,7 @@ export const POLICY_PAGES = {
     id: 'chinh-sach-bao-hanh',
     slug: 'chinh-sach-bao-hanh',
     title: 'Chính Sách Bảo Hành',
+    title_en: 'Warranty Policy',
     meta_title: 'Chính Sách Bảo Hành - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách bảo hành tại Diệp Trà.',
     content: `
@@ -462,6 +798,73 @@ export const POLICY_PAGES = {
       
       <p><strong>Ghi chú:</strong> Chính sách bảo hành có thể thay đổi để phù hợp với từng sản phẩm, chương trình khuyến mãi hoặc điều kiện thị trường. Vui lòng liên hệ trực tiếp để được cập nhật thông tin mới nhất.</p>
     `,
+    content_en: `
+      <p>We commit to providing quality products and clear, transparent warranty service, aiming to ensure the best benefits for customers when shopping at <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a></p>
+      
+      <h2>1/ Warranty coverage</h2>
+      <p>Warranty policy applies to:</p>
+      <ul>
+        <li>Products with warranty stickers or warranty cards from manufacturers/distributors.</li>
+        <li>Products with technical defects from manufacturers during warranty period.</li>
+        <li>Products purchased at <em>Diep Tra website</em>, store or our official channels.</li>
+      </ul>
+      
+      <h2>2/ Warranty period</h2>
+      <p>Warranty period is calculated from the date customer receives goods or according to date written on warranty card, specifically:</p>
+      <p>If no separate note, default warranty period is 7 days from receipt date (unless otherwise specified by manufacturer).</p>
+      
+      <h2>3/ Warranty conditions</h2>
+      <p>Products receive free warranty when meeting all following conditions:</p>
+      <ul>
+        <li>Product is still within warranty period.</li>
+        <li>Has warranty sticker, warranty card or purchase invoice from <strong>Diep Tra</strong> store.</li>
+        <li>Product has technical defect from <strong>manufacturer</strong> (functionality...).</li>
+        <li>Product has not been intervened, disassembled, repaired by third parties.</li>
+      </ul>
+      
+      <h2>4/ Cases not covered by warranty</h2>
+      <p>We reserve the right to refuse warranty in following cases:</p>
+      <ul>
+        <li>Product is beyond warranty period.</li>
+        <li>Errors caused by <strong>users</strong>: drops, impacts, water damage, fire/explosion, mold, insect intrusion,...</li>
+        <li>Actions causing warranty seal to tear/disappear.</li>
+        <li>Cannot provide warranty card or related purchase information.</li>
+      </ul>
+      
+      <h2>5/ Warranty process</h2>
+      <ul>
+        <li><strong>Contact warranty</strong> via Hotline/Zalo/Fanpage to describe error.</li>
+        <li><strong>Send product to</strong> warranty center or store (if required).</li>
+        <li>We will <strong>check error</strong> and notify handling direction within <strong>1–3 business days</strong>.</li>
+        <li>Warranty completion time typically: <strong>5–10 business days</strong> (depending on product and error level).</li>
+        <li>If cannot repair or replace, we will <strong>exchange equivalent product or refund</strong> according to policy.</li>
+      </ul>
+      
+      <p><strong><em>Shipping costs during warranty process:</em></strong></p>
+      <ul>
+        <li><strong>Free</strong> if error is from our side or manufacturer.</li>
+        <li>If error is from user, inspection/repair and shipping fees will be notified in advance.</li>
+      </ul>
+      
+      <h2>6/ Warranty centers and reception channels</h2>
+      <p><strong>- Head office:</strong> B-TT10-4 Him Lam Van Phuc, To Huu Street, Van Phuc Ward, Ha Dong District, Hanoi City</p>
+      <p><strong>- Store:</strong> No. 42 Street 7, Ward 10, Tan Binh District, Ho Chi Minh City</p>
+      <ul>
+        <li><strong>Warranty hotline:</strong>
+        Ms. Van Anh 0973 123 230</li>
+        <li><strong>Support email:</strong> sales@hisweetievietnam.com.vn</li>
+        <li><strong>Working hours:</strong> 8:30 AM – 5:30 PM (Mon – Sat)</li>
+      </ul>
+      
+      <h2>7/ Our commitment</h2>
+      <ul>
+        <li>Always transparent, support customer rights properly.</li>
+        <li>Warranty according to timeframe, no responsibility shifting.</li>
+        <li>Have professional technical staff to check and handle quickly.</li>
+      </ul>
+      
+      <p><strong>Note:</strong> Warranty policy may change to suit each product, promotional programs or market conditions. Please contact directly for latest information updates.</p>
+    `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
     is_active: true,
@@ -472,6 +875,7 @@ export const POLICY_PAGES = {
     id: 'chinh-sach-doi-hang-tra-hang',
     slug: 'chinh-sach-doi-hang-tra-hang',
     title: 'Chính Sách Đổi/Trả Hàng',
+    title_en: 'Return/Exchange Policy',
     meta_title: 'Chính Sách Đổi/Trả Hàng - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách đổi/trả hàng tại Diệp Trà.',
     content: `
@@ -554,7 +958,87 @@ export const POLICY_PAGES = {
         <p>Thời gian thông báo đổi/trả hàng: Trong vòng 48 giờ kể từ khi nhận được sản phẩm trong trường hợp sản phẩm bị thiếu, không đúng hoặc bị hỏng.</p>
         <p>Thời gian vận chuyển trả hàng: Trong vòng 03 ngày kể từ khi yêu cầu xác nhận. Địa điểm đổi/trả hàng: Chúng tôi sẽ sắp xếp nhân viên giao sản phẩm mới và thu hồi sản phẩm để đổi/trả. Mọi phản hồi hoặc khiếu nại liên quan đến chất lượng sản phẩm, vui lòng liên hệ với chúng tôi trong giờ làm việc qua email </br>sales@hisweetievietnam.com.vn hoặc Hotline 0973 123 230.</p></li>
       </ol>
+    `,
+    content_en: `
+      <p>We commit to providing quality products and transparent, clear after-sales service. Therefore, <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a></strong> return/exchange policy is built to ensure maximum benefits for customers.</p>
+      
+      <h2>1/ Return/exchange conditions</h2>
+      <p>Customers have the right to request product exchange or return in following cases:</p>
+      <p>Products with technical defects from manufacturer (peeling, products showing signs of moisture/mold...)</p>
+      
+      <h2>2/ Return/exchange timeframe</h2>
+      <p><strong>Exchange:</strong> Within <strong>03 - 07 days</strong> from receipt date.</p>
+      <p><strong>Return/Refund:</strong> Within <strong>03 days</strong> from receipt date (only applies to defects from manufacturer or shipping).</p>
+      <p><strong><em>Note:</em></strong> Beyond above timeframe, we decline to support exchange/return.</p>
+      
+      <h2>3/ Conditions for exchangeable/returnable goods</h2>
+      <p>Products requesting exchange/return must ensure:</p>
+      <ul>
+        <li>Original condition as when delivered: unused, not dirty, not damaged...</li>
+        <li>Complete with packaging, seals, labels, accessories, free gifts (if any).</li>
+        <li>Have invoice, delivery note or order code related to product.</li>
+      </ul>
+      
+      <h2>4/ Cases not applicable for exchange/return</h2>
+      <p>We <strong>refuse exchange/return</strong> in following cases:</p>
+      <p>❌ Products used, torn, dirty, damaged by users.</p>
+      <p>❌ Products without seals, without original packaging.</p>
+      <p>❌ Customers not providing sufficient information, purchase evidence.</p>
+      <p>❌ Products in category not supporting exchange/return for safety/specific standard reasons (e.g. food, single-use items...)</p>
+      
+      <h2>5/ Exchange/return fees</h2>
+      <table border="1" cellpadding="8" cellspacing="0" style="width: 100%; border-collapse: collapse;">
+        <thead>
+          <tr style="background-color: #f0f0f0;">
+            <th><strong>Case</strong></th>
+            <th><strong>Exchange/return fee</strong></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Manufacturer defect / wrong delivery / shipping damage</td>
+            <td>100% free</td>
+          </tr>
+          <tr>
+            <td>Customer wants to change model, size, color...</td>
+            <td>Customer bears two-way shipping fee</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p><strong><em>Note:</em></strong> In case of product return refund, we will <strong>transfer back order value (minus shipping fee if any)</strong> within 3–7 business days after verification completion.</p>
+      
+      <h2>6/ Exchange/return process</h2>
+      <ul>
+        <li><strong>Step 1:</strong> Contact hotline/Zalo/Fanpage to report exchange/return reason.</li>
+        <li><strong>Step 2:</strong> Send photos/videos proving defective or wrong product.</li>
+        <li><strong>Step 3:</strong> Send goods back following customer service staff guidance.</li>
+        <li><strong>Step 4:</strong> We confirm, check product and proceed with replacement / refund according to agreement.</li>
+      </ul>
 
+      <h2>7/ Refund process and policy</h2>
+      <p>Diep Tra will proceed with refunds in following forms:</p>
+      <ul><li>Cash refund or bank transfer at store</li></ul>
+      <p>Applies to customers buying directly at store or requesting direct refund.</p>
+      <ul><li>Refund via bank transfer</li></ul>
+      <p>Applies to customers buying online or paying by COD method.</p>
+      <p>Customers provide bank account information for Diep Tra to process refund.</p>
+      <strong>Refund timeframe</strong>
+      <p>Refund processing time from 05 business days from date Diep Tra confirms valid exchange return product.</p>
+      <p>For bank refund cases, receipt time may depend on bank system.</p>
+
+      <h2>8/ Support information</h2>
+      <p>Hotline: Ms. Van Anh 0973 123 230</p>
+      <p>Email: sales@hisweetievietnam.com.vn</p>
+      <p>Support hours: 8:30 AM – 5:30 PM (Mon – Sat)</p>
+      <p>Note: Exchange/return policy may be adjusted according to each product type and promotional program. Please contact directly for specific consultation.</p>
+      <ol>
+        <li>Exchange/return cases Product not correct type as written in order. Insufficient quantity. External condition affected, such as packaging torn, peeled or broken. <strong>Note: Please keep invoice accompanying goods for exchange.</strong></li>
+
+        <li>Regulations on notification and return shipping
+        <p>Exchange/return notification time: Within 48 hours from receiving product in case product is missing, incorrect or damaged.</p>
+        <p>Return shipping time: Within 03 days from confirmation request. Exchange/return location: We will arrange staff to deliver new product and collect product for exchange/return. Any feedback or complaints related to product quality, please contact us during working hours via email </br>sales@hisweetievietnam.com.vn or Hotline 0973 123 230.</p></li>
+      </ol>
     `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
@@ -566,6 +1050,7 @@ export const POLICY_PAGES = {
     id: 'dieu-khoan-su-dung',
     slug: 'dieu-khoan-su-dung',
     title: 'Điều Khoản Sử Dụng',
+    title_en: 'Terms of Use',
     meta_title: 'Điều Khoản Sử Dụng - Diệp Trà',
     meta_description: 'Tìm hiểu về điều khoản sử dụng tại Diệp Trà.',
     content: `
@@ -650,6 +1135,88 @@ export const POLICY_PAGES = {
         <li><strong>Địa chỉ:</strong> B-TT10-4 Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông, Thành phố Hà Nội</li>
       </ul>
     `,
+    content: `
+      <p>Welcome to <strong>Diep Tra</strong> website – under management and operation of Hi Sweetie Vietnam Import Export Co., Ltd, specialized unit providing <strong>beverage ingredients:</strong> syrups, jams, powder bases, toppings, tea, flavorings,...</p>
+      <p>Accessing and purchasing on this website means you <strong>agree to comply with the terms below</strong>.</p>
+      
+      <h2>1/ Terminology</h2>
+      <ul>
+        <li><strong>Website:</strong> E-commerce site at address <a href="https://www.dieptra.com/" target="_blank">https://www.dieptra.com/</a></li>
+        <li><strong>Users/Customers:</strong> Individuals, organizations accessing, referring to information or making purchase transactions</li>
+        <li><strong>We:</strong> Diep Tra - Professional Beverage Ingredient Supplier, unit owning and operating website</li>
+      </ul>
+      
+      <h2>2/ Website usage regulations</h2>
+      <ul>
+        <li>Website provides product information, pricing, usage instructions and supports online ordering of beverage ingredients.</li>
+        <li>Users are not permitted to:
+          <ul>
+            <li>Use website for illegal purposes, fraud, spreading false information.</li>
+            <li>Copy, reuse website content without written permission.</li>
+            <li>Interfere with, affect technical system, database, website servers.</li>
+          </ul>
+        </li>
+      </ul>
+      
+      <h2>3/ User rights and responsibilities</h2>
+      <ul>
+        <li>Responsible for personal information provided when purchasing (name, phone number, address...)</li>
+        <li>Carefully check product information before ordering and confirming order.</li>
+        <li>Comply with payment, exchange return, warranty, shipping policies published on website.</li>
+        <li>Have right to feedback, complain if received goods do not match commitments.</li>
+      </ul>
+      
+      <h2>4/ Our rights and responsibilities</h2>
+      <ul>
+        <li>Provide complete, transparent product information: origin, source, price, storage/usage instructions.</li>
+        <li>Secure customer personal information according to <strong>Privacy Policy</strong>.</li>
+        <li>Have right to change content, prices, promotional programs... without prior notice. However, changes will <strong>not affect confirmed orders</strong>.</li>
+        <li>Have right to <strong>refuse transactions</strong> if discovering buyer information is false, suspected fraud or violating terms.</li>
+      </ul>
+      
+      <h2>5/ Product & service policy</h2>
+      <ul>
+        <li>Beverage ingredient products are guaranteed <strong>within expiry date, clear origin</strong>, may include CO/CQ documents or food safety certificates as required.</li>
+        <li>Each product may have separate storage instructions. Customers need to follow to ensure quality after opening.</li>
+        <li>Some products only sold by batch or with accompanying conditions (minimum quantity, pre-order...), clearly stated in product description.</li>
+      </ul>
+      
+      <h2>6/ Copyright terms</h2>
+      <ul>
+        <li>All content: text, images, videos, design... on website belongs to <em>Diep Tra</em></li>
+        <li>Strictly prohibit copying, exploiting for commercial purposes without written consent.</li>
+      </ul>
+      
+      <h2>7/ Liability limitations</h2>
+      <p>We are not responsible in following cases:</p>
+      <ul>
+        <li>Customers use incorrectly leading to product damage.</li>
+        <li>Shipping partners deliver late due to natural disasters, epidemics or force majeure causes.</li>
+        <li>Any indirect, intangible damage or business opportunity losses arising from website use.</li>
+      </ul>
+      
+      <h2>8/ Terms modification</h2>
+      <ul>
+        <li>We may update usage terms without prior notice.</li>
+        <li>When terms change, latest update date will be displayed at top of page.</li>
+        <li>Continuing to use website after terms are updated means you <strong>accept new content</strong>.</li>
+      </ul>
+      
+      <h2>9/ Applicable law and dispute resolution</h2>
+      <ul>
+        <li>These terms are governed and interpreted according to laws of Socialist Republic of Vietnam.</li>
+        <li>Any arising disputes will be prioritized for resolution through negotiation. If no agreement reached, disputes will be brought to <strong>competent Court at business registration location</strong> for resolution.</li>
+      </ul>
+      
+      <h2>Contact information</h2>
+      <ul>
+        <li><strong>Business unit name:</strong> Hi Sweetie Vietnam Import Export Co., Ltd</li>
+        <li><strong>Tax code:</strong> 0110211839</li>
+        <li><strong>Hotline:</strong> 0931 566 676</li>
+        <li><strong>Email:</strong> hisweetievietnam@gmail.com</li>
+        <li><strong>Address:</strong> B-TT10-4 Him Lam Van Phuc, To Huu Street, Van Phuc Ward, Ha Dong District, Hanoi City</li>
+      </ul>
+    `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
     is_active: true,
@@ -659,6 +1226,7 @@ export const POLICY_PAGES = {
     id: 'huong-dan-tao-tai-khoan',
     slug: 'huong-dan-tao-tai-khoan',
     title: 'Hướng Dẫn Tạo Tài Khoản',
+    title_en: 'Account Creation Guide',
     meta_title: 'Hướng Dẫn Tạo Tài Khoản - Diệp Trà',
     meta_description: 'Tìm hiểu về hướng dẫn tạo tài khoản tại Diệp Trà.',
     content: `
@@ -677,6 +1245,22 @@ export const POLICY_PAGES = {
       <img src="/images/otp-input.webp" alt="Đăng Ký">
       <img src="/images/otp-confirm.webp" alt="Đăng Ký">
     `,
+    content_en: `
+      <p>Step 1. Access website <a href="/" target="_blank" style="text-decoration: none">dieptra.com</a></p>
+      <img src="/images/site-login.webp" alt="Site Login">
+      
+      <p>Here, Customer clicks <a href="/dang-ky" target="_blank" style="text-decoration: none">"Register now"</a> section to proceed with registration</p>
+      <img src="/images/dang-nhap.webp" alt="Login">
+
+      <p>Step 2. Enter required information => Click <a href="/dang-ky" target="_blank" style="text-decoration: none">"Register"</a></p>
+      <img src="/images/dang-ky.webp" alt="Register">
+      <img src="/images/input-info-dang-ky-1.webp" alt="Register">
+      <img src="/images/input-info-dang-ky-2.webp" alt="Register">
+
+      <p>Step 3. System will automatically send OTP code to entered email. Enter OTP code => Click "Confirm" to complete account registration</p>
+      <img src="/images/otp-input.webp" alt="Register">
+      <img src="/images/otp-confirm.webp" alt="Register">
+    `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
     is_active: true,
@@ -686,6 +1270,7 @@ export const POLICY_PAGES = {
     id: 'chinh-sach-kiem-hang',
     slug: 'chinh-sach-kiem-hang',
     title: 'Chính Sách Kiểm Hàng',
+    title_en: 'Inspection Policy',
     meta_title: 'Chính Sách Kiểm Hàng - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách kiểm hàng tại Diệp Trà.',
     content: `
@@ -715,6 +1300,33 @@ export const POLICY_PAGES = {
         <li>Đối với những trường hợp sản phẩm bị hư hỏng do lỗi từ phía Khách hàng, Diệp Trà rất tiếc không thể hỗ trợ Quý Khách đổi/trả sản phẩm.</li>
       </ul>
     `,
+    content_en: `
+      <p>Diep Tra always aims to provide the best delivery service for all your orders.</p>
+      <p><strong>Goods delivery and receipt - Inspection before payment</strong></p>
+      <p>Before receiving goods and payment, Customers have the right to inspect products.</p>
+      <ul>
+        <li>Diep Tra ensures original packaging delivery to customers, helping them check external factors of packages such as delivery notes, packaging condition, sealing of packages.</li>
+
+        <li>Customers when receiving goods have the right to inspect goods and sign payment invoice, keep one copy for themselves.</li>
+
+        <li>DIEP TRA supports checking external factors of packages but does not include opening seals or deep inspection of each package, each product.</li>
+
+        <li>Please check to ensure order is delivered with correct goods, models, quantities as ordered. After agreeing with delivered products, Customers pay store delivery staff and receive goods.</li>
+
+        <li>In case ordered items are not delivered correctly, customers have the right to return goods and not pay.</li>
+        
+        <li>In case customers have paid in advance but order is not correct, customers request return or re-delivery of new order as placed. In case of refund request or order change, customers contact phone number 078 833 9379, we commit to resolve all customer requests.</li>
+
+        <li>In case of issues, customers can contact Diep Tra customer care hotline for support.</li>
+      </ul>
+
+      <p style="text-decoration: underline">Note:</p>
+      <ul>
+        <li>When Customers inspect orders, delivery staff must wait for Customers to check products. If staff refuses to let Customers inspect goods, please contact Diep Tra via hotline: 0973 123 230 for support.</li>
+        
+        <li>For cases where products are damaged due to Customer error, Diep Tra unfortunately cannot support Customer exchange/return of products.</li>
+      </ul>
+    `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
     is_active: true,
@@ -724,6 +1336,7 @@ export const POLICY_PAGES = {
     id: 'chinh-sach-mau-thu',
     slug: 'chinh-sach-mau-thu',
     title: 'Chính Sách Mẫu Thử',
+    title_en: 'Sample Policy',
     meta_title: 'Chính Sách Mẫu Thử - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách mẫu thử sản phẩm dành cho khách hàng mới tại Diệp Trà.',
     content: `
@@ -798,6 +1411,78 @@ export const POLICY_PAGES = {
       <li><strong>Báo cáo</strong></li>
     </ul>
   `,
+    content_en: `
+    <p>To facilitate customers experiencing product quality and making appropriate purchasing decisions, <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a></strong> implements sample policy with clear and transparent terms.</p>
+    
+    <h2>🎯 Purpose</h2>
+    <ul>
+      <li>Enable first-time customers to experience product quality.</li>
+      <li>Increase conversion from trial to purchase.</li>
+      <li>Support sales team to effectively approach new customers.</li>
+    </ul>
+
+    <h2>✅ Scope of application</h2>
+    <ul>
+      <li>Applies to <strong>new customers first-time contact</strong> with product testing needs.</li>
+      <li>Applies to <strong>foam, LerMao bear powder and Phuong Hoang tea</strong> products.</li>
+    </ul>
+
+    <h2>🎁 Sample policy</h2>
+    
+    <table style="width: 100%; border-collapse: collapse; border: 1px solid #ddd; margin: 20px 0;">
+      <thead>
+        <tr style="background-color: #f5f5f5;">
+          <th style="border: 1px solid #ddd; padding: 12px; text-align: left; font-weight: bold;">Content</th>
+          <th style="border: 1px solid #ddd; padding: 12px; text-align: left; font-weight: bold;">Policy</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 12px;">Supported sample quantity</td>
+          <td style="border: 1px solid #ddd; padding: 12px;">01 free sample product/new customer</td>
+        </tr>
+        <tr style="background-color: #f9f9f9;">
+          <td style="border: 1px solid #ddd; padding: 12px;">Applicable products</td>
+          <td style="border: 1px solid #ddd; padding: 12px;">LerMao foam, LerMao powder, Phuong Hoang tea</td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 12px;">Non-applicable products</td>
+          <td style="border: 1px solid #ddd; padding: 12px;"><strong>LerMao topping does not support samples</strong></td>
+        </tr>
+        <tr style="background-color: #f9f9f9;">
+          <td style="border: 1px solid #ddd; padding: 12px;">2nd sample onwards</td>
+          <td style="border: 1px solid #ddd; padding: 12px;">Apply purchase according to <strong>regulated sample price list</strong></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #ddd; padding: 12px;">Shipping fee</td>
+          <td style="border: 1px solid #ddd; padding: 12px;">For customers without accompanying orders, customers pay actual shipping fee</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>📦 Sample delivery regulations</h2>
+    <ul>
+      <li>Sales verify customer information and record information in CRM.</li>
+      <li>Customers pay shipping fee (if applicable).</li>
+      <li>Samples delivered according to company standard packaging specifications.</li>
+    </ul>
+
+    <h2>📋 Application conditions</h2>
+    <p>Customers need to provide:</p>
+    <ul>
+      <li><strong>Store/business establishment information</strong></li>
+      <li><strong>Contact phone number</strong></li>
+      <li><strong>Sample receiving address</strong></li>
+    </ul>
+
+    <h2>📞 Customer care regulations after sending samples</h2>
+    <ul>
+      <li><strong>Sales contact to verify</strong> customer's sample receipt</li>
+      <li><strong>Send application formula/product information</strong></li>
+      <li><strong>Collect customer feedback</strong></li>
+      <li><strong>Report</strong></li>
+    </ul>
+  `,
     parent_id: 'chinh-sach-diep-tra',
     is_main_page: false,
     is_active: true,
@@ -806,6 +1491,7 @@ export const POLICY_PAGES = {
   'chinh-sach-giao-hang-dong-lanh': {
     id: 'chinh-sach-giao-hang-dong-lanh',
     title: 'Chính Sách Giao Hàng Đông Lạnh',
+    title_en: 'Frozen Delivery Policy',
     meta_title: 'Chính Sách Giao Hàng Đông Lạnh - Diệp Trà',
     meta_description:
       'Quy trình giao hàng đông lạnh chuyên nghiệp của Diệp Trà đảm bảo sản phẩm topping, trân châu, khoai môn nghiền được bảo quản đúng nhiệt độ, chất lượng.',
@@ -1130,11 +1816,342 @@ export const POLICY_PAGES = {
               <h4 style="color: white; margin-bottom: 10px;">Chất lượng cao</h4>
               <p style="margin: 0; opacity: 0.9; font-size: 14px;">Sản phẩm không rã đông, không hư hỏng, đúng chất lượng</p>
             </div>
-            
+
             <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px);">
               <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5em;">📞</div>
               <h4 style="color: white; margin-bottom: 10px;">Hỗ trợ 24/7</h4>
               <p style="margin: 0; opacity: 0.9; font-size: 14px;">Đội ngũ CSKH sẵn sàng hỗ trợ mọi lúc, mọi nơi</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    `,
+    content_en: `
+      <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; max-width: 1200px;">
+        
+        <div style="background: linear-gradient(135deg, #2980b9 0%, #3498db 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+          <h1 style="color: white; margin-bottom: 15px; font-size: 2.5em;">❄️ FROZEN GOODS DELIVERY POLICY</h1>
+          <p style="font-size: 1.2em; margin: 0; opacity: 0.9;">Ensuring frozen product quality delivery to customers</p>
+        </div>
+
+        <!-- OBJECTIVES -->
+        <section style="margin-bottom: 40px; background: #f8f9fa; padding: 25px; border-radius: 12px; border-left: 5px solid #28a745;">
+          <h2 style="color: #2c5e3f; margin-bottom: 20px; display: flex; align-items: center;">
+            🎯 <span style="margin-left: 10px;">I. OBJECTIVES</span>
+          </h2>
+          <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <p style="font-size: 16px; margin-bottom: 15px; font-weight: 500;">
+              Ensure frozen goods (toppings, pearls, mashed taro, ice cream, yogurt...) are:
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 20px;">
+              <div style="background: #e8f5e8; padding: 15px; border-radius: 8px; border-left: 3px solid #28a745;">
+                <strong>✅ Properly temperature controlled</strong><br>
+                <span style="color: #666; font-size: 14px;">Maintain -18°C to -25°C</span>
+              </div>
+              <div style="background: #e8f4f8; padding: 15px; border-radius: 8px; border-left: 3px solid #007bff;">
+                <strong>⏰ On-time delivery</strong><br>
+                <span style="color: #666; font-size: 14px;">No delays, meet commitments</span>
+              </div>
+              <div style="background: #fff3e0; padding: 15px; border-radius: 8px; border-left: 3px solid #ff9800;">
+                <strong>🏆 Quality assured</strong><br>
+                <span style="color: #666; font-size: 14px;">No thawing, no damage</span>
+              </div>
+              <div style="background: #fce4ec; padding: 15px; border-radius: 8px; border-left: 3px solid #e91e63;">
+                <strong>🛡️ Risk minimized</strong><br>
+                <span style="color: #666; font-size: 14px;">Reduce loss and complaints</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCOPE OF APPLICATION -->
+        <section style="margin-bottom: 40px; background: #fff3e0; padding: 25px; border-radius: 12px; border-left: 5px solid #ff9800;">
+          <h2 style="color: #e65100; margin-bottom: 20px; display: flex; align-items: center;">
+            📍 <span style="margin-left: 10px;">II. SCOPE OF APPLICATION</span>
+          </h2>
+          <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+              <div style="background: #f5f5f5; padding: 15px; border-radius: 8px;">
+                <h4 style="color: #2c5e3f; margin-bottom: 10px;">🗺️ Application areas:</h4>
+                <ul style="margin: 0; padding-left: 20px;">
+                  <li>All orders with frozen goods from HCM warehouse</li>
+                  <li>All orders with frozen goods from Hanoi warehouse</li>
+                  <li>Orders for inner city and provincial delivery</li>
+                </ul>
+              </div>
+              <div style="background: #f5f5f5; padding: 15px; border-radius: 8px;">
+                <h4 style="color: #2c5e3f; margin-bottom: 10px;">👥 Related departments:</h4>
+                <ul style="margin: 0; padding-left: 20px;">
+                  <li><strong>Sales</strong> - Order reception & processing</li>
+                  <li><strong>Warehouse</strong> - Preparation & packaging</li>
+                  <li><strong>Logistics</strong> - Transportation & delivery</li>
+                  <li><strong>Accounting/Customer Service</strong> - Confirmation & follow-up</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- DETAILED PROCESS -->
+        <section style="margin-bottom: 40px;">
+          <h2 style="color: #6c63ff; margin-bottom: 30px; display: flex; align-items: center; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 10px;">
+            ⚙️ <span style="margin-left: 10px;">III. DETAILED PROCESS</span>
+          </h2>
+
+          <!-- Step 1: Order Reception -->
+          <div style="margin-bottom: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #11998e, #38ef7d); color: white; padding: 20px;">
+              <h3 style="margin: 0; display: flex; align-items: center; font-size: 1.3em;">
+                <span style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold;">1</span>
+                📞 ORDER RECEPTION (Sales)
+              </h3>
+            </div>
+            <div style="padding: 25px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; border-left: 4px solid #28a745;">
+                  <h4 style="color: #2c5e3f; margin-bottom: 15px;">✅ Mandatory checklist:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Check and identify frozen goods list in order</li>
+                    <li>Clearly note cold delivery requirements and method (cold truck/foam box)</li>
+                    <li>Confirm delivery address and desired time</li>
+                    <li>Notify warehouse and logistics 24 hours in advance</li>
+                    <li>Update order status in system</li>
+                  </ul>
+                </div>
+                <div style="background: #fff3e0; padding: 20px; border-radius: 8px; border-left: 4px solid #ff9800;">
+                  <h4 style="color: #e65100; margin-bottom: 15px;">⚠️ Important notes:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Frozen orders <strong>CANNOT</strong> be combined with regular goods</li>
+                    <li>Maximum delivery time: <strong>4 hours</strong> from warehouse departure</li>
+                    <li>Prioritize early morning or cool afternoon delivery</li>
+                    <li>Avoid delivery during hot hours (11am-2pm)</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2: Goods Preparation -->
+          <div style="margin-bottom: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px;">
+              <h3 style="margin: 0; display: flex; align-items: center; font-size: 1.3em;">
+                <span style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold;">2</span>
+                📦 GOODS PREPARATION (Warehouse)
+              </h3>
+            </div>
+            <div style="padding: 25px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-bottom: 20px;">
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 10px;">
+                  <h4 style="color: #1976d2; margin-bottom: 15px;">🌡️ Temperature control:</h4>
+                  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <tr style="background: #bbdefb;">
+                      <td style="border: 1px solid #90caf9; padding: 10px; font-weight: bold;">Product type</td>
+                      <td style="border: 1px solid #90caf9; padding: 10px; font-weight: bold;">Storage temperature</td>
+                    </tr>
+                    <tr>
+                      <td style="border: 1px solid #90caf9; padding: 8px;">Frozen toppings</td>
+                      <td style="border: 1px solid #90caf9; padding: 8px;"><strong>-18°C to -25°C</strong></td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                      <td style="border: 1px solid #90caf9; padding: 8px;">Frozen pearls</td>
+                      <td style="border: 1px solid #90caf9; padding: 8px;"><strong>-18°C to -25°C</strong></td>
+                    </tr>
+                    <tr>
+                      <td style="border: 1px solid #90caf9; padding: 8px;">Mashed taro</td>
+                      <td style="border: 1px solid #90caf9; padding: 8px;"><strong>-18°C to -25°C</strong></td>
+                    </tr>
+                  </table>
+                </div>
+                <div style="background: #f3e5f5; padding: 20px; border-radius: 10px;">
+                  <h4 style="color: #7b1fa2; margin-bottom: 15px;">📋 Dispatch process:</h4>
+                  <ol style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li><strong>Check inventory:</strong> Ensure sufficient quantity per order</li>
+                    <li><strong>Apply FIFO:</strong> Dispatch first produced, first received</li>
+                    <li><strong>Check freezer temperature:</strong> Ensure -18°C to -25°C</li>
+                    <li><strong>Specialized packaging:</strong> Foam box + gel ice + thermal packaging</li>
+                    <li><strong>Apply warning labels:</strong> "FROZEN GOODS - DO NOT THAW"</li>
+                  </ol>
+                </div>
+              </div>
+              
+              <!-- Detailed packaging specifications -->
+              <div style="background: #fff8e1; padding: 20px; border-radius: 10px; border-left: 5px solid #ffa000;">
+                <h4 style="color: #e65100; margin-bottom: 15px;">📦 Detailed packaging specifications:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                  <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="background: #3f51b5; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">1</div>
+                    <strong>Specialized foam box</strong><br>
+                    <small style="color: #666;">Thickness ≥ 3cm, appropriate size</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="background: #00bcd4; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">2</div>
+                    <strong>High-quality gel ice</strong><br>
+                    <small style="color: #666;">1:3 ratio with product</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="background: #4caf50; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">3</div>
+                    <strong>Product plastic wrap</strong><br>
+                    <small style="color: #666;">Waterproof, contamination prevention</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px; text-align: center;">
+                    <div style="background: #ff5722; color: white; border-radius: 50%; width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-weight: bold;">4</div>
+                    <strong>Warning labels</strong><br>
+                    <small style="color: #666;">Clear, visible</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 3: Delivery -->
+          <div style="margin-bottom: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #ff6b6b, #ee5a24); color: white; padding: 20px;">
+              <h3 style="margin: 0; display: flex; align-items: center; font-size: 1.3em;">
+                <span style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold;">3</span>
+                🚚 DELIVERY (Logistics)
+              </h3>
+            </div>
+            <div style="padding: 25px;">
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px;">
+                  <h4 style="color: #2c5e3f; margin-bottom: 15px;">🚛 Vehicle requirements:</h4>
+                  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <tr style="background: #c8e6c9;">
+                      <td style="border: 1px solid #a5d6a7; padding: 10px; font-weight: bold;">Vehicle type</td>
+                      <td style="border: 1px solid #a5d6a7; padding: 10px; font-weight: bold;">Requirement</td>
+                    </tr>
+                    <tr>
+                      <td style="border: 1px solid #a5d6a7; padding: 8px;">Specialized cold truck</td>
+                      <td style="border: 1px solid #a5d6a7; padding: 8px;">Maintain ≤ -15°C continuously</td>
+                    </tr>
+                    <tr style="background: #f5f5f5;">
+                      <td style="border: 1px solid #a5d6a7; padding: 8px;">Foam box + gel ice</td>
+                      <td style="border: 1px solid #a5d6a7; padding: 8px;">Deliver within 4 hours</td>
+                    </tr>
+                  </table>
+                </div>
+                <div style="background: #fff3e0; padding: 20px; border-radius: 10px;">
+                  <h4 style="color: #e65100; margin-bottom: 15px;">📝 Delivery checklist:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Check transport temperature: <strong>≤ -15°C</strong></li>
+                    <li>Delivery time: <strong>≤ 4 hours</strong> from warehouse departure</li>
+                    <li>Do not open box for more than <strong>2 minutes</strong> during handover</li>
+                    <li>Check goods condition before delivery</li>
+                    <li>Take photos to confirm condition during handover</li>
+                  </ul>
+                </div>
+              </div>
+
+              <!-- Emergency measures -->
+              <div style="background: #ffebee; padding: 20px; border-radius: 10px; border-left: 5px solid #f44336;">
+                <h4 style="color: #c62828; margin-bottom: 15px;">🚨 Emergency measures:</h4>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                  <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <strong style="color: #d32f2f;">Vehicle breakdown:</strong><br>
+                    <small>Contact hotline immediately, prepare backup vehicle, notify customer</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <strong style="color: #d32f2f;">Cooling system failure:</strong><br>
+                    <small>Stop delivery, report to warehouse immediately, emergency gel ice replacement</small>
+                  </div>
+                  <div style="background: white; padding: 15px; border-radius: 8px;">
+                    <strong style="color: #d32f2f;">Traffic jam:</strong><br>
+                    <small>Find alternative route, notify customer of delay, check temperature</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4: Confirmation and follow-up -->
+          <div style="margin-bottom: 30px; background: white; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden;">
+            <div style="background: linear-gradient(135deg, #f093fb, #f5576c); color: white; padding: 20px;">
+              <h3 style="margin: 0; display: flex; align-items: center; font-size: 1.3em;">
+                <span style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-weight: bold;">4</span>
+                ✅ CONFIRMATION & FOLLOW-UP (Accounting/Customer Service)
+              </h3>
+            </div>
+            <div style="padding: 25px;">
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                <div style="background: #e8f5e8; padding: 20px; border-radius: 10px; border-left: 4px solid #28a745;">
+                  <h4 style="color: #2c5e3f; margin-bottom: 15px;">📞 Customer confirmation:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Call to confirm customer received goods</li>
+                    <li>Ask about goods condition upon receipt</li>
+                    <li>Record feedback and evaluation</li>
+                    <li>Handle complaints (if any)</li>
+                  </ul>
+                </div>
+                <div style="background: #e3f2fd; padding: 20px; border-radius: 10px; border-left: 4px solid #2196f3;">
+                  <h4 style="color: #1565c0; margin-bottom: 15px;">📊 Reporting & storage:</h4>
+                  <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                    <li>Warehouse checks thawing/damage reports</li>
+                    <li>Store inspection records and delivery photos</li>
+                    <li>Update service quality data</li>
+                    <li>Regular reports to leadership</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- FORMS AND DOCUMENTS -->
+        <section style="margin-bottom: 40px; background: #f8f9fa; padding: 25px; border-radius: 12px;">
+          <h2 style="color: #495057; margin-bottom: 25px; display: flex; align-items: center;">
+            📋 <span style="margin-left: 10px;">IV. FORMS AND DOCUMENTS</span>
+          </h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+            <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+              <h4 style="color: #6c63ff; margin-bottom: 15px;">📝 Inspection forms:</h4>
+              <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                <li>Cold delivery inspection form</li>
+                <li>Cold goods handover report</li>
+                <li>Service quality evaluation form</li>
+                <li>Transport temperature checklist</li>
+              </ul>
+            </div>
+            
+            <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+              <h4 style="color: #ff6b6b; margin-bottom: 15px;">🚨 Incident reports:</h4>
+              <ul style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                <li>Quality incident report</li>
+                <li>Customer complaint form</li>
+                <li>Incident handling report</li>
+                <li>Transport efficiency periodic report</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- SERVICE COMMITMENT -->
+        <section style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 15px; margin-bottom: 30px; text-align: center;">
+          <h2 style="color: white; margin-bottom: 25px; font-size: 1.8em;">🤝 DIEP TRA SERVICE COMMITMENT</h2>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 25px;">
+            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px);">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5em;">🌡️</div>
+              <h4 style="color: white; margin-bottom: 10px;">Standard temperature</h4>
+              <p style="margin: 0; opacity: 0.9; font-size: 14px;">Ensure -18°C → -25°C temperature throughout transport</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px);">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5em;">⏰</div>
+              <h4 style="color: white; margin-bottom: 10px;">On-time delivery</h4>
+              <p style="margin: 0; opacity: 0.9; font-size: 14px;">Delivery within 4 hours, according to committed timeframe</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px);">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5em;">🏆</div>
+              <h4 style="color: white; margin-bottom: 10px;">High quality</h4>
+              <p style="margin: 0; opacity: 0.9; font-size: 14px;">Products not thawed, not damaged, correct quality</p>
+            </div>
+            
+            <div style="background: rgba(255,255,255,0.15); padding: 20px; border-radius: 10px; backdrop-filter: blur(10px);">
+              <div style="background: rgba(255,255,255,0.2); border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px; font-size: 1.5em;">📞</div>
+              <h4 style="color: white; margin-bottom: 10px;">24/7 support</h4>
+              <p style="margin: 0; opacity: 0.9; font-size: 14px;">Customer service team ready to support anytime, anywhere</p>
             </div>
           </div>
         </section>
@@ -1147,12 +2164,12 @@ export const POLICY_PAGES = {
   }
 };
 
-// Sidebar menu structure với các trang đặc biệt
 export const POLICY_SIDEBAR_ITEMS = [
   // Trang chính
   {
     slug: 'chinh-sach-diep-tra',
     title: 'Chính Sách Diệp Trà',
+    title_en: 'Diep Tra Policy',
     isMainPage: true,
     order: 1
   },
@@ -1161,18 +2178,21 @@ export const POLICY_SIDEBAR_ITEMS = [
   {
     slug: 'gioi-thieu-diep-tra',
     title: 'Giới Thiệu Diệp Trà',
+    title_en: 'Introducing to Diep Tra',
     isExternal: true,
     order: 2
   },
   {
     slug: 'lien-he',
     title: 'Liên Hệ',
+    title_en: 'Contact',
     isExternal: true,
     order: 3
   },
   {
     slug: 'san-pham',
     title: 'Sản Phẩm',
+    title_en: 'Product',
     isExternal: true,
     order: 4
   },
@@ -1181,60 +2201,70 @@ export const POLICY_SIDEBAR_ITEMS = [
   {
     slug: 'chinh-sach-bao-mat',
     title: 'Chính Sách Bảo Mật',
+    title_en: 'Privacy Policy',
     isMainPage: false,
     order: 5
   },
   {
     slug: 'chinh-sach-mua-hang',
     title: 'Chính Sách Mua Hàng',
+    title_en: 'Purchase Policy',
     isMainPage: false,
     order: 6
   },
   {
     slug: 'chinh-sach-thanh-toan',
     title: 'Chính Sách Thanh Toán',
+    title_en: 'Payment Policy',
     isMainPage: false,
     order: 7
   },
   {
     slug: 'chinh-sach-van-chuyen-va-giao-nhan',
     title: 'Chính Sách Vận Chuyển Và Giao Nhận',
+    title_en: 'Shipping and Delivery Policy',
     isMainPage: false,
     order: 8
   },
   {
     slug: 'chinh-sach-bao-hanh',
     title: 'Chính Sách Bảo Hành',
+    title_en: 'Warranty Policy',
     isMainPage: false,
     order: 9
   },
   {
     slug: 'chinh-sach-doi-hang-tra-hang',
     title: 'Chính Sách Đổi/Trả Hàng',
+    title_en: 'Return/Exchange Policy',
     isMainPage: false,
     order: 10
   },
   {
     slug: 'dieu-khoan-su-dung',
     title: 'Điều Khoản Sử Dụng',
+    title_en: 'Terms of Use',
     isMainPage: false,
     order: 11
   },
   {
     slug: 'huong-dan-tao-tai-khoan',
     title: 'Hướng Dẫn Tạo Tài Khoản',
+    title_en: 'Account Creation Guide',
     isMainPage: false,
     order: 12
   },
   {
     slug: 'chinh-sach-kiem-hang',
     title: 'Chính Sách Kiểm Hàng',
+    title_en: 'Inspection Policy',
     isMainPage: false,
     order: 13
   },
   {
     slug: 'chinh-sach-mau-thu',
     title: 'Chính Sách Mẫu Thử',
+    title_en: 'Sample Policy',
     isMainPage: false,
     order: 14
   }
