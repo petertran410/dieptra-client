@@ -2,7 +2,7 @@
 
 import ModalContact from '../../../components/modal-contact';
 import SectionBlock from '../../../components/section-block';
-import { useQueryProductBySlugs, useQueryProductListOther } from '../../../services/product.service';
+import { useQueryProductBySlugs } from '../../../services/product.service';
 import { cartAtom } from '../../../states/common';
 import { PX_ALL } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -16,6 +16,7 @@ import Image from 'next/image';
 import { authService } from '../../../services/auth.service';
 import { profileService } from '../../../services/profile.service';
 import { cartService } from '../../../services/cart.service';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const CartWrapper = () => {
   const [showContact, setShowContact] = useState(false);
@@ -24,6 +25,7 @@ const CartWrapper = () => {
   const { data: cartData = [], isLoading } = useQueryProductBySlugs(cartSlugs);
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
+  const { t, getLocalizedText } = useTranslation();
 
   const hasSynced = useRef(false);
 
@@ -63,22 +65,19 @@ const CartWrapper = () => {
     if (itemsNeedSync.length === 0) return;
 
     try {
-      // Sync từng item với quantity hiện tại
       for (const item of itemsNeedSync) {
         await cartService.addToCart(item.id, item.quantity);
       }
 
-      // Reload cart sau khi sync
       await loadCartFromServer();
     } catch (error) {
       console.error('Error syncing cart items:', error);
     }
   };
 
-  // useEffect chính - LOẠI BỎ cart khỏi dependency
   useEffect(() => {
     const checkAuthAndLoadCart = async () => {
-      if (hasSynced.current) return; // Tránh chạy lặp lại
+      if (hasSynced.current) return;
 
       const currentUser = authService.getCurrentUser();
 
@@ -101,20 +100,18 @@ const CartWrapper = () => {
     if (isClient) {
       checkAuthAndLoadCart();
     }
-  }, [isClient, router]); // ❌ LOẠI BỎ cart khỏi dependency
+  }, [isClient, router]);
 
-  // useEffect riêng để sync missing cartId CHỈ 1 LẦN sau khi load
   useEffect(() => {
     if (isClient && hasSynced.current && cart.length > 0) {
       const itemsWithoutCartId = cart.filter((item) => !item.cartId);
 
       if (itemsWithoutCartId.length > 0) {
-        // Chỉ sync 1 lần khi phát hiện có items thiếu cartId
         syncMissingCartItems(cart);
-        hasSynced.current = true; // Đánh dấu đã sync
+        hasSynced.current = true;
       }
     }
-  }, [isClient]); // Chỉ chạy khi component mounted
+  }, [isClient]);
 
   const handleClearCart = async () => {
     try {
@@ -122,14 +119,13 @@ const CartWrapper = () => {
       setCart([]);
       showToast({
         status: 'success',
-        content: 'Đã xoá tất cả sản phẩm khỏi giỏ hàng',
+        content: 'Đã xoá tất cả sản phẩm khỏi giỏ hàng.',
         icon: '/images/trash-green.webp'
       });
     } catch (error) {
-      console.error('Error clearing cart:', error);
       showToast({
         status: 'error',
-        content: 'Không thể xoá giỏ hàng. Vui lòng thử lại'
+        content: 'Không thể xoá giỏ hàng. Vui lòng thử lại.'
       });
     }
   };
@@ -186,7 +182,6 @@ const CartWrapper = () => {
           return;
         }
       } catch (error) {
-        console.error('Auth check failed:', error);
         showToast({
           status: 'warning',
           content: 'Vui lòng đăng nhập để tiếp tục thanh toán.'
@@ -211,7 +206,6 @@ const CartWrapper = () => {
 
       router.push('/thanh-toan');
     } catch (error) {
-      console.error('Failed to get profile:', error);
       showToast({
         status: 'error',
         content: 'Không thể kiểm tra thông tin cá nhân. Vui lòng thử lại.'
@@ -342,7 +336,7 @@ const CartWrapper = () => {
               isDisabled={!cart.length}
               onClick={() => setShowContact(true)}
             >
-              {this('home.contact.submit')}
+              {t('home.contact.submit')}
             </Button>
           </Stack>
         </Flex>

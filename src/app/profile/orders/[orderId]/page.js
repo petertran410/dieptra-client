@@ -17,12 +17,14 @@ import {
 } from '@chakra-ui/react';
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { profileService } from '../../../../services/profile.service';
+import { useTranslation } from '../../../../hooks/useTranslation';
 
 const OrderTrackingPage = () => {
   const { orderId } = useParams();
   const router = useRouter();
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { t, getLocalizedText } = useTranslation();
 
   useEffect(() => {
     const fetchOrder = async () => {
@@ -54,25 +56,28 @@ const OrderTrackingPage = () => {
   if (!order) {
     return (
       <Container maxW="container.lg" py={10}>
-        <Text textAlign="center">Không tìm thấy đơn hàng</Text>
+        <Text textAlign="center">{t('profile.order.not.found')}</Text>
       </Container>
     );
   }
 
   const steps = [
-    { label: 'Đã tạo đơn', status: 'PENDING', active: true },
+    { label: 'Đã tạo đơn', label_en: 'Order Created', status: 'PENDING', active: true },
     {
       label: 'Đã nhận đơn',
+      label_en: 'Order Confirmed',
       status: 'CONFIRMED',
       active: ['CONFIRMED', 'SHIPPING', 'DELIVERED', 'CUSTOMER_RECEIVED', 'CANCELLED'].includes(order.status)
     },
     {
       label: order.status === 'CANCELLED' ? 'Đã hủy' : 'Đang giao hàng',
+      label_en: order.status === 'CANCELLED' ? 'Order Cancelled' : 'Order Delivering',
       status: order.status === 'CANCELLED' ? 'CANCELLED' : 'SHIPPING',
       active: ['SHIPPING', 'DELIVERED', 'CUSTOMER_RECEIVED', 'CANCELLED'].includes(order.status)
     },
     {
       label: order.status === 'CUSTOMER_RECEIVED' ? 'Khách đã nhận hàng' : 'Đã giao hàng',
+      label_en: order.status === 'CUSTOMER_RECEIVED' ? 'Customer Received Order' : 'Delivered',
       status: order.status === 'CUSTOMER_RECEIVED' ? 'CUSTOMER_RECEIVED' : 'DELIVERED',
       active: ['DELIVERED', 'CUSTOMER_RECEIVED'].includes(order.status)
     }
@@ -89,7 +94,7 @@ const OrderTrackingPage = () => {
     <Container maxW="container.lg" py={125}>
       <VStack spacing={6} align="stretch">
         <Button leftIcon={<ArrowBackIcon />} variant="ghost" onClick={() => router.back()} w="fit-content">
-          Quay lại
+          {t('profile.go.back.button')}
         </Button>
 
         <Card>
@@ -106,7 +111,7 @@ const OrderTrackingPage = () => {
 
               <Box>
                 <Text fontSize="2xl" fontWeight="bold" mb={4}>
-                  Trạng thái đơn hàng
+                  {t('profile.order.status')}
                 </Text>
                 <Box
                   overflowX="auto"
@@ -173,7 +178,7 @@ const OrderTrackingPage = () => {
                           color={step.active ? 'green.500' : 'gray.500'}
                           textAlign="center"
                         >
-                          {step.label}
+                          {getLocalizedText(step.label, step.label_en)}
                         </Text>
                       </Box>
                     ))}
@@ -185,12 +190,12 @@ const OrderTrackingPage = () => {
 
               <Box>
                 <Text fontSize="2xl" fontWeight="bold" mb={3}>
-                  Thông tin đơn hàng
+                  {t('profile.order.information')}
                 </Text>
                 <VStack align="stretch" spacing={2}>
                   <HStack justify="space-between">
                     <Text fontSize="2xl" color="gray.600">
-                      Người nhận:
+                      {t('profile.receiver')}
                     </Text>
                     <Text fontSize="2xl" fontWeight="medium">
                       {order.fullName}
@@ -198,7 +203,7 @@ const OrderTrackingPage = () => {
                   </HStack>
                   <HStack justify="space-between">
                     <Text fontSize="2xl" color="gray.600">
-                      Số điện thoại:
+                      {t('profile.receiver.phone')}
                     </Text>
                     <Text fontSize="2xl" fontWeight="medium">
                       {order.phone}
@@ -206,7 +211,7 @@ const OrderTrackingPage = () => {
                   </HStack>
                   <HStack justify="space-between" align="start">
                     <Text fontSize="2xl" color="gray.600">
-                      Địa chỉ:
+                      {t('profile.recevier.address')}
                     </Text>
                     <Text fontSize="2xl" fontWeight="medium" textAlign="right" maxW="60%">
                       {order.address}
@@ -219,7 +224,7 @@ const OrderTrackingPage = () => {
 
               <Box>
                 <Text fontSize="2xl" fontWeight="bold" mb={3}>
-                  Sản phẩm
+                  {t('profile.product')}
                 </Text>
                 <VStack spacing={3}>
                   {order.items.map((item, index) => (
@@ -238,10 +243,10 @@ const OrderTrackingPage = () => {
                         )}
                         <VStack align="start" spacing={1} w="full">
                           <Text fontSize="2xl" fontWeight="medium">
-                            {item.productName}
+                            {getLocalizedText(item.productName, item.productNameEn)}
                           </Text>
                           <Text fontSize="2xl" color="gray.600">
-                            SL: {item.quantity}
+                            {t('profile.quantity')} {item.quantity}
                           </Text>
                           <Text fontSize="2xl" fontWeight="bold" color="red.500">
                             {formatPrice(item.price)}
@@ -261,10 +266,10 @@ const OrderTrackingPage = () => {
                         )}
                         <VStack align="start" flex={1} spacing={1}>
                           <Text fontSize="2xl" fontWeight="medium">
-                            {item.productName}
+                            {getLocalizedText(item.productName, item.productNameEn)}
                           </Text>
                           <Text fontSize="2xl" color="gray.600">
-                            SL: {item.quantity}
+                            {t('profile.quantity')} {item.quantity}
                           </Text>
                         </VStack>
                         <Text fontSize="2xl" fontWeight="bold">
@@ -280,7 +285,7 @@ const OrderTrackingPage = () => {
 
               <HStack justify="space-between">
                 <Text fontSize="2xl" fontWeight="bold">
-                  Tổng tiền:
+                  {t('profile.total.price')}
                 </Text>
                 <Text fontSize="2xl" fontWeight="bold" color="red.500">
                   {formatPrice(order.total)}

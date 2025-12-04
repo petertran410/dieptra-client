@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { profileService } from '../../../services/profile.service';
 import { showToast } from '../../../utils/helper';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const OrderList = () => {
   const router = useRouter();
@@ -14,6 +15,9 @@ const OrderList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [statusFilter, setStatusFilter] = useState('');
   const [cancellingOrderId, setCancellingOrderId] = useState(null);
+  const { t, getLocalizedText } = useTranslation();
+
+  console.log(orders);
 
   const loadOrders = async () => {
     try {
@@ -23,7 +27,7 @@ const OrderList = () => {
       setTotalPages(response.pagination?.totalPages || 1);
     } catch (error) {
       console.error('Error loading orders:', error);
-      showToast({ status: 'error', content: 'Không thể tải đơn hàng' });
+      showToast({ status: 'error', content: t('profile.cannot.load.order') });
     } finally {
       setLoading(false);
     }
@@ -37,12 +41,12 @@ const OrderList = () => {
     if (orderStatus === 'SHIPPING') {
       showToast({
         status: 'warning',
-        content: 'Vui lòng liên hệ để được hủy'
+        content: t('profile.cancel.contact')
       });
       return;
     }
 
-    if (!window.confirm('Bạn có chắc chắn muốn hủy đơn hàng này?')) {
+    if (!window.confirm(t('profile.question.cancel'))) {
       return;
     }
 
@@ -52,12 +56,12 @@ const OrderList = () => {
 
       setOrders(orders.map((order) => (order.id === orderId ? { ...order, status: 'CANCELLED' } : order)));
 
-      showToast({ status: 'success', content: 'Hủy đơn hàng thành công' });
+      showToast({ status: 'success', content: t('profile.cancel.success') });
     } catch (error) {
       console.error('Error cancelling order:', error);
       showToast({
         status: 'error',
-        content: error.response?.data?.message || 'Không thể hủy đơn hàng'
+        content: error.response?.data?.message || t('profile.cancel.error')
       });
     } finally {
       setCancellingOrderId(null);
@@ -72,7 +76,7 @@ const OrderList = () => {
     if (order.status === 'CUSTOMER_RECEIVED') {
       return (
         <Badge colorScheme="green" fontSize="md" px={3} py={2} borderRadius="4px">
-          Giao hàng thành công
+          {t('profile.delivered')}
         </Badge>
       );
     }
@@ -80,7 +84,7 @@ const OrderList = () => {
     if (order.status === 'CANCELLED') {
       return (
         <Badge colorScheme="red" fontSize="md" px={3} py={2} borderRadius="4px">
-          Đã hủy đơn
+          {t('profile.canceled.order')}
         </Badge>
       );
     }
@@ -92,9 +96,9 @@ const OrderList = () => {
           colorScheme="red"
           onClick={() => handleCancelOrder(order.id, order.status)}
           isLoading={cancellingOrderId === order.id}
-          loadingText="Đang hủy..."
+          loadingText={t('profile.loading.cancel')}
         >
-          Hủy đơn hàng
+          {t('profile.canceling.order')}
         </Button>
       );
     }
@@ -131,7 +135,7 @@ const OrderList = () => {
     return (
       <Box textAlign="center" py={10}>
         <Text fontSize="lg" color="gray.500">
-          {statusFilter ? 'Không có đơn hàng nào' : 'Bạn chưa có đơn hàng nào'}
+          {statusFilter ? t('profile.no.order') : t('profile.you.no.order')}
         </Text>
       </Box>
     );
@@ -141,7 +145,7 @@ const OrderList = () => {
     <VStack spacing={4} align="stretch">
       <HStack justify="space-between" mb={2}>
         <Text fontSize="xl" fontWeight="medium" color="gray.700">
-          Tổng: {orders.length} đơn hàng
+          {t('profile.total')} {orders.length} {t('profile.order.lowercase')}
         </Text>
       </HStack>
 
@@ -178,7 +182,7 @@ const OrderList = () => {
                   )}
                   <VStack align="start" flex={1} spacing={0}>
                     <Text fontWeight="medium" fontSize="xl">
-                      {item.productName}
+                      {getLocalizedText(item.productName, item.productNameEn)}
                     </Text>
                     <Text fontSize="xl" color="gray.600">
                       {formatPrice(item.price)} x {item.quantity}
@@ -196,7 +200,7 @@ const OrderList = () => {
 
           <HStack spacing={3} mt={3}>
             <Button size="md" colorScheme="blue" onClick={() => router.push(`/profile/orders/${order.id}`)}>
-              Chi tiết
+              {t('profile.detail.button')}
             </Button>
 
             {renderActionButton(order)}
@@ -204,7 +208,7 @@ const OrderList = () => {
 
           <HStack justify="space-between" mt={3}>
             <Text fontSize="lg" fontWeight="bold">
-              Tổng tiền:
+              {t('profile.total.price')}
             </Text>
             <Text fontSize="lg" fontWeight="bold" color="red.500">
               {formatPrice(order.total)}

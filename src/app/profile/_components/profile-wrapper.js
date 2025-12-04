@@ -248,10 +248,9 @@ const ProfileWrapper = () => {
         throw new Error(response.message || 'Cập nhật thất bại');
       }
     } catch (error) {
-      console.error('Lỗi khi cập nhật profile:', error);
       showToast({
         status: 'error',
-        content: error.message || 'Có lỗi xảy ra khi cập nhật thông tin'
+        content: error.message || t('profile.error.updates.information')
       });
     } finally {
       setIsUpdating(false);
