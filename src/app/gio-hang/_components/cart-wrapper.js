@@ -321,7 +321,7 @@ const CartWrapper = () => {
               {t('cart.payment.now')}
             </Button>
 
-            <Button
+            {/* <Button
               bgColor="#065FD4"
               color="#FFF"
               h="60px"
@@ -339,7 +339,7 @@ const CartWrapper = () => {
               onClick={() => setShowContact(true)}
             >
               {t('home.contact.submit')}
-            </Button>
+            </Button> */}
           </Stack>
         </Flex>
       )}

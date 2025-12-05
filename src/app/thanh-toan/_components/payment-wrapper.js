@@ -35,8 +35,6 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
-  Radio,
-  RadioGroup,
   Stack,
   Select,
   Badge,
@@ -51,18 +49,9 @@ import { useEffect, useState, useRef, useMemo, useCallback } from 'react';
 import { useRecoilState } from 'recoil';
 import { authService } from '../../../services/auth.service';
 import { profileService } from '../../../services/profile.service';
-import {
-  FiUser,
-  FiMail,
-  FiPhone,
-  FiMapPin,
-  FiCreditCard,
-  FiShoppingCart,
-  FiCheckCircle,
-  FiPackage,
-  FiTruck
-} from 'react-icons/fi';
+import { FiUser, FiShoppingCart, FiCheckCircle, FiPackage, FiTruck } from 'react-icons/fi';
 import { BsBank } from 'react-icons/bs';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const PaymentWrapper = () => {
   const router = useRouter();
@@ -70,6 +59,8 @@ const PaymentWrapper = () => {
   const cartSlugs = useMemo(() => cart?.map((i) => i.slug).filter(Boolean) || [], [cart]);
   const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
   const { mutateAsync: createCODOrder, isPending: creatingCODOrder } = useMutateCreateCODOrder();
+
+  const { t, getLocalizedText } = useTranslation();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
@@ -170,7 +161,7 @@ const PaymentWrapper = () => {
       if (e.key === 'CK_CLIENT_USER' && !e.newValue) {
         showToast({
           status: 'warning',
-          content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'
+          content: t('payment.login.outof.time')
         });
         router.replace('/dang-nhap?redirect=/thanh-toan');
       }
@@ -194,10 +185,9 @@ const PaymentWrapper = () => {
         const data = await response.json();
         setProvinces(data);
       } catch (error) {
-        console.error('💥 Error loading provinces:', error);
         showToast({
           status: 'error',
-          content: 'Không thể tải dữ liệu tỉnh/thành. Vui lòng thử lại.'
+          content: t('payment.cannot.load.district')
         });
       }
     };
@@ -252,7 +242,7 @@ const PaymentWrapper = () => {
 
         showToast({
           status: 'success',
-          content: 'Thanh toán thành công! Cảm ơn bạn đã mua hàng.'
+          content: t('payment.success')
         });
       } else if (paymentStatus.status === 'FAILED' || paymentStatus.status === 'CANCELLED') {
         addDebugLog('❌ PAYMENT FAILED', paymentStatus);
@@ -262,7 +252,7 @@ const PaymentWrapper = () => {
 
         showToast({
           status: 'error',
-          content: 'Thanh toán thất bại. Vui lòng thử lại.'
+          content: t('payment.failed')
         });
       }
     }
@@ -289,7 +279,6 @@ const PaymentWrapper = () => {
 
         const userData = profileData.user;
 
-        // Update customer info
         customerInfoRef.current = {
           fullName: userData.full_name || '',
           email: userData.email || '',
@@ -298,7 +287,6 @@ const PaymentWrapper = () => {
           note: ''
         };
 
-        // Update location data
         if (userData.province && provinces.length > 0) {
           const province = provinces.find((p) => p.name === userData.province);
           if (province) {
@@ -326,12 +314,9 @@ const PaymentWrapper = () => {
           }
         }
       } catch (error) {
-        console.error('💥 Error loading profile:', error);
-
-        // Don't redirect on profile error, just show empty form
         showToast({
           status: 'warning',
-          content: 'Không thể tải thông tin cá nhân. Vui lòng nhập thủ công.'
+          content: t('payment.cannot.load.information')
         });
       } finally {
         setProfileLoading(false);
@@ -393,14 +378,6 @@ const PaymentWrapper = () => {
     return calculateSubtotal() + calculateShipping();
   };
 
-  const handleInputChange = useCallback(
-    (field) => (e) => {
-      const value = e.target.value;
-      customerInfoRef.current[field] = value;
-    },
-    []
-  );
-
   const validateForm = () => {
     const { fullName, email, phone, address } = customerInfoRef.current;
 
@@ -452,12 +429,6 @@ const PaymentWrapper = () => {
     return true;
   };
 
-  const cannotPay = async () =>
-    showToast({
-      status: 'error',
-      content: 'Chức Năng Còn Phát Triển'
-    });
-
   const handlePayment = async () => {
     if (!validateForm()) {
       return;
@@ -468,7 +439,6 @@ const PaymentWrapper = () => {
         .map((item) => {
           const product = cartData.find((p) => p.slug === item.slug);
           if (!product) {
-            console.warn(`Product not found for slug: ${item.slug}`);
             return null;
           }
           return {
@@ -483,7 +453,7 @@ const PaymentWrapper = () => {
       if (cartItems.length === 0) {
         showToast({
           status: 'error',
-          content: 'Không có sản phẩm hợp lệ trong giỏ hàng'
+          content: t('payment.invalid.product')
         });
         return;
       }
@@ -492,7 +462,7 @@ const PaymentWrapper = () => {
       if (invalidItems.length > 0) {
         showToast({
           status: 'error',
-          content: 'Một số sản phẩm không có mã sản phẩm hợp lệ'
+          content: t('payment.some.productcode.invalid')
         });
         return;
       }
@@ -502,7 +472,7 @@ const PaymentWrapper = () => {
         if (invalidProducts.length > 0) {
           showToast({
             status: 'error',
-            content: 'Một số sản phẩm cần liên hệ để báo giá. Vui lòng chọn thanh toán COD hoặc liên hệ trực tiếp.'
+            content: t('payment.contact.to.buy')
           });
           return;
         }
@@ -562,7 +532,7 @@ const PaymentWrapper = () => {
 
         showToast({
           status: 'success',
-          content: 'Đơn hàng đã được tạo thành công!'
+          content: t('payment.order.created.completed')
         });
 
         if (paymentMethod === 'sepay_bank' && response.qrCodeUrl) {
@@ -606,7 +576,7 @@ const PaymentWrapper = () => {
       if (cartItems.length === 0) {
         showToast({
           status: 'error',
-          content: 'Không có sản phẩm hợp lệ trong giỏ hàng'
+          content: t('payment.invalid.product')
         });
         return;
       }
@@ -615,7 +585,7 @@ const PaymentWrapper = () => {
       if (invalidItems.length > 0) {
         showToast({
           status: 'error',
-          content: 'Một số sản phẩm không có mã sản phẩm hợp lệ'
+          content: t('payment.some.productcode.invalid')
         });
         return;
       }
@@ -665,7 +635,7 @@ const PaymentWrapper = () => {
 
         showToast({
           status: 'success',
-          content: 'Đơn hàng COD đã được tạo thành công!'
+          content: t('payment.order.COD.created.completed')
         });
 
         setCart([]);
@@ -687,7 +657,7 @@ const PaymentWrapper = () => {
         <VStack spacing={4}>
           <Spinner size="xl" color="blue.500" thickness="4px" />
           <Text fontSize="lg" fontWeight="medium" color="gray.700">
-            Đang tải thông tin sản phẩm...
+            {t('payment.loading.order')}
           </Text>
         </VStack>
       </Flex>
@@ -700,7 +670,7 @@ const PaymentWrapper = () => {
         <Center h="400px">
           <VStack spacing={4}>
             <Spinner size="xl" />
-            <Text>Đang kiểm tra đăng nhập...</Text>
+            <Text>{t('payment.checking.login')}</Text>
           </VStack>
         </Center>
       </Container>
@@ -719,13 +689,13 @@ const PaymentWrapper = () => {
         <Box bg="white" p={8} borderRadius="xl" boxShadow="xl" textAlign="center" maxW="400px">
           <Icon as={FiShoppingCart} boxSize={16} color="gray.400" mb={4} />
           <Text fontSize="2xl" fontWeight="bold" mb={2} color="gray.700">
-            Giỏ hàng trống
+            {t('payment.empty.cart')}
           </Text>
           <Text color="gray.600" mb={6}>
-            Bạn chưa có sản phẩm nào trong giỏ hàng
+            {t('payment.no.product.in.cart')}
           </Text>
           <Button colorScheme="blue" size="lg" onClick={() => router.push('/san-pham')} leftIcon={<FiPackage />}>
-            Khám phá sản phẩm
+            {t('payment.explore')}
           </Button>
         </Box>
       </Flex>
@@ -743,7 +713,7 @@ const PaymentWrapper = () => {
       >
         <VStack spacing={4}>
           <Spinner size="lg" color="blue.500" thickness="4px" />
-          <Text color="gray.700">Đang kiểm tra đăng nhập...</Text>
+          <Text color="gray.700">{t('payment.checking.login')}</Text>
         </VStack>
       </Flex>
     );
@@ -764,10 +734,10 @@ const PaymentWrapper = () => {
         <VStack spacing={8} align="stretch">
           <Box textAlign="center">
             <Heading as="h1" size="xl" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" mb={2}>
-              Hoàn tất đơn hàng
+              {t('payment.complete.title')}
             </Heading>
             <Text color="gray.600" fontSize="lg">
-              Vui lòng kiểm tra thông tin
+              {t('payment.check.information')}
             </Text>
           </Box>
 
@@ -844,7 +814,6 @@ const PaymentWrapper = () => {
                     />
                   </FormControl>
 
-                  {/* Province/District/Ward selects */}
                   <FormControl>
                     <FormLabel fontSize="2xl">Tỉnh/Thành phố</FormLabel>
                     <Select
@@ -868,7 +837,6 @@ const PaymentWrapper = () => {
                     </Select>
                   </FormControl>
 
-                  {/* District select */}
                   {districts.length > 0 && (
                     <FormControl>
                       <FormLabel fontSize="2xl">Quận/Huyện</FormLabel>
@@ -894,7 +862,6 @@ const PaymentWrapper = () => {
                     </FormControl>
                   )}
 
-                  {/* Ward select */}
                   {wards.length > 0 && (
                     <FormControl>
                       <FormLabel fontSize="2xl">Phường/Xã</FormLabel>
@@ -1050,30 +1017,8 @@ const PaymentWrapper = () => {
                 </HStack>
 
                 <Box>
-                  {/* <HStack mb={5} spacing={3}>
-                    <Icon as={FiCreditCard} boxSize={6} color="purple.500" />
-                    <Heading size="md" color="gray.800">
-                      Phương thức thanh toán
-                    </Heading>
-                  </HStack> */}
-
-                  {/* <RadioGroup value={paymentMethod} onChange={setPaymentMethod}> */}
                   <Stack spacing={4}>
-                    <Box
-                    // p={4}
-                    // border="2px"
-                    // borderColor={paymentMethod === 'sepay_bank' ? 'green.500' : 'gray.200'}
-                    // borderRadius="lg"
-                    // cursor="pointer"
-                    // transition="all 0.3s"
-                    // _hover={{
-                    //   borderColor: 'blue.400',
-                    //   transform: 'translateY(-2px)',
-                    //   boxShadow: 'md'
-                    // }}
-                    // bg={paymentMethod === 'sepay_bank' ? 'green.50' : 'transparent'}
-                    >
-                      {/* <Radio value="sepay_bank" colorScheme="blue" size="lg"> */}
+                    <Box>
                       <HStack spacing={3}>
                         <Icon as={BsBank} boxSize={6} color="blue.600" />
                         <VStack align="start" spacing={0}>
@@ -1085,13 +1030,10 @@ const PaymentWrapper = () => {
                           </Text>
                         </VStack>
                       </HStack>
-                      {/* </Radio> */}
                     </Box>
                   </Stack>
-                  {/* </RadioGroup> */}
                 </Box>
 
-                {/* Checkbox COD */}
                 <Box
                   p={4}
                   borderWidth="2px"
@@ -1167,7 +1109,6 @@ const PaymentWrapper = () => {
                       fontSize="18px"
                       fontWeight="600"
                       onClick={isCOD ? handleCODPayment : handlePayment}
-                      // onClick={isCOD ? handleCODPayment : cannotPay}
                       isLoading={isCOD ? creatingCODOrder : creatingPayment}
                       _hover={{
                         transform: 'translateY(-2px)',
@@ -1200,56 +1141,6 @@ const PaymentWrapper = () => {
                   </Stack>
                 </Flex>
               </VStack>
-
-              {/* <VStack spacing={4} mt={8}>
-                <Button
-                  colorScheme="blue"
-                  size="lg"
-                  width="100%"
-                  height="60px"
-                  fontSize="lg"
-                  onClick={handlePayment}
-                  isLoading={creatingPayment}
-                  bgGradient="linear(to-r, blue.500, purple.500)"
-                  _hover={{
-                    bgGradient: 'linear(to-r, blue.600, purple.600)',
-                    transform: 'translateY(-2px)',
-                    boxShadow: 'xl'
-                  }}
-                  leftIcon={<Icon as={FiCheckCircle} boxSize={6} />}
-                  transition="all 0.3s"
-                >
-                  {paymentMethod === 'cod' ? 'Đặt hàng COD' : 'Thanh toán ngay'}
-                </Button>
-
-                <Button
-                  variant="outline"
-                  size="lg"
-                  width="100%"
-                  height="50px"
-                  onClick={() => router.push('/gio-hang')}
-                  leftIcon={<FiShoppingCart />}
-                  _hover={{
-                    bg: 'gray.50',
-                    transform: 'translateY(-2px)'
-                  }}
-                  transition="all 0.3s"
-                >
-                  Quay lại giỏ hàng
-                </Button>
-              </VStack> */}
-
-              {/* <Alert status="info" mt={6} borderRadius="lg" bg="blue.50" border="1px" borderColor="blue.200">
-                <AlertIcon color="blue.500" />
-                <Box fontSize="sm">
-                  <Text fontWeight="semibold" color="blue.800">
-                    Thanh toán an toàn & bảo mật
-                  </Text>
-                  <Text color="blue.700" fontSize="xs">
-                    Thông tin của bạn được mã hóa và bảo vệ
-                  </Text>
-                </Box>
-              </Alert> */}
             </Box>
           </Flex>
         </VStack>
