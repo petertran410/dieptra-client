@@ -30,6 +30,7 @@ import { FaFacebook } from 'react-icons/fa';
 import { useSearchParams } from 'next/navigation';
 import { CK_CLIENT_USER } from '../../../utils/const';
 import Cookies from 'js-cookie';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const API_URL = process.env.NEXT_PUBLIC_API_DOMAIN;
 
@@ -50,13 +51,14 @@ const RegisterWrapper = () => {
   const [countdown, setCountdown] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const error = searchParams.get('error');
     if (error === 'cancelled') {
       showToast({
         status: 'error',
-        content: 'Bạn đã hủy đăng nhập bằng Facebook'
+        content: t('register.cancel.facebook')
       });
       window.history.replaceState({}, '', '/dang-nhap');
     }
@@ -95,35 +97,35 @@ const RegisterWrapper = () => {
     const newErrors = {};
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Họ tên không được để trống';
+      newErrors.fullName = t('register.no.empty.name');
     } else if (!/\D+/.test(formData.fullName)) {
-      newErrors.fullName = 'Họ tên không hợp lệ';
+      newErrors.fullName = t('register.invalid.name');
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email không được để trống';
+      newErrors.email = t('register.no.empty.email');
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Email không hợp lệ';
+      newErrors.email = t('register.invalid.email');
     }
 
     if (!formData.phone.trim()) {
-      newErrors.phone = 'Số điện thoại không được để trống';
+      newErrors.phone = t('register.no.empty.phone');
     } else if (!/^[0-9]{10,11}$/.test(formData.phone.replace(/\s/g, ''))) {
-      newErrors.phone = 'Số điện thoại không hợp lệ (10-11 số)';
+      newErrors.phone = t('register.invalid.phone');
     }
 
     if (!formData.pass_word) {
-      newErrors.pass_word = 'Mật khẩu không được để trống';
+      newErrors.pass_word = t('register.no.empty.password');
     } else if (formData.pass_word.length < 6) {
-      newErrors.pass_word = 'Mật khẩu phải có ít nhất 6 ký tự';
+      newErrors.pass_word = t('register.require.password.6char');
     } else if (!/[A-Z]/.test(formData.pass_word)) {
-      newErrors.pass_word = 'Mật khẩu phải có ít nhất 1 chữ cái in hoa';
+      newErrors.pass_word = t('register.require.password.1uppercase');
     } else if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.pass_word)) {
-      newErrors.pass_word = 'Mật khẩu phải có ít nhất 1 ký tự đặc biệt';
+      newErrors.pass_word = t('register.require.password.1spec');
     }
 
     if (formData.pass_word !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Mật khẩu không khớp';
+      newErrors.confirmPassword = t('register.password.no.match');
     }
 
     return newErrors;
@@ -145,7 +147,7 @@ const RegisterWrapper = () => {
 
       showToast({
         status: 'success',
-        content: 'Mã xác thực đã được gửi đến email của bạn!'
+        content: t('register.code.verify.sent.mail')
       });
 
       window.location.href = redirectTo;
@@ -154,7 +156,7 @@ const RegisterWrapper = () => {
     } catch (error) {
       showToast({
         status: 'error',
-        content: error?.message || 'Đăng ký thất bại. Vui lòng thử lại.'
+        content: error?.message || t('register.verification.error')
       });
     } finally {
       setIsLoading(false);
@@ -176,19 +178,19 @@ const RegisterWrapper = () => {
 
       showToast({
         status: 'success',
-        content: 'Đăng ký thành công!'
+        content: t('register.register.success')
       });
 
       window.location.href = '/';
     } catch (error) {
       const errorMessage = error?.message || '';
 
-      let toastContent = 'Mã OTP không hợp lệ. Vui lòng thử lại.';
+      let toastContent = t('register.OTP.incorrect');
 
       if (errorMessage.includes('expired') || errorMessage.includes('hết hạn')) {
-        toastContent = 'Mã xác thực đã hết hạn. Vui lòng gửi lại mã mới.';
+        toastContent = t('register.OTP.expire');
       } else if (errorMessage.includes('Invalid verification code') || errorMessage.includes('không hợp lệ')) {
-        toastContent = 'Mã xác thực không đúng. Vui lòng kiểm tra lại.';
+        toastContent = t('register.OTP.error');
       }
 
       showToast({
@@ -208,14 +210,14 @@ const RegisterWrapper = () => {
 
       showToast({
         status: 'success',
-        content: 'Mã xác thực mới đã được gửi đến email của bạn!'
+        content: t('register.new.OTP.sent.mail')
       });
       setOtp('');
       setCountdown(600);
     } catch (error) {
       showToast({
         status: 'error',
-        content: 'Không thể gửi lại mã. Vui lòng thử lại.'
+        content: t('register.cannot.resent')
       });
     } finally {
       setIsLoading(false);
@@ -245,17 +247,17 @@ const RegisterWrapper = () => {
           {step === 'register' ? (
             <>
               <Text fontSize="24px" fontWeight={600} textAlign="center">
-                Đăng ký tài khoản
+                {t('register.register.account')}
               </Text>
 
               <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                 <VStack spacing="16px">
                   <FormControl isInvalid={!!errors.fullName}>
-                    <FormLabel>Họ tên</FormLabel>
+                    <FormLabel>{t('register.name')}</FormLabel>
                     <Input
                       value={formData.fullName}
                       onChange={(e) => handleChange('fullName', e.target.value)}
-                      placeholder="Nhập họ tên"
+                      placeholder={t('register.input.name')}
                     />
                     <FormErrorMessage>{errors.fullName}</FormErrorMessage>
                   </FormControl>
@@ -266,33 +268,33 @@ const RegisterWrapper = () => {
                       type="email"
                       value={formData.email}
                       onChange={(e) => handleChange('email', e.target.value)}
-                      placeholder="Nhập email"
+                      placeholder={t('register.input.mail')}
                     />
                     <FormErrorMessage>{errors.email}</FormErrorMessage>
                   </FormControl>
 
                   <FormControl isInvalid={!!errors.phone}>
-                    <FormLabel>Số điện thoại</FormLabel>
+                    <FormLabel>{t('register.phone')}</FormLabel>
                     <Input
                       value={formData.phone}
                       onChange={(e) => handleChange('phone', e.target.value)}
-                      placeholder="Nhập số điện thoại"
+                      placeholder={t('register.input.phone')}
                     />
                     <FormErrorMessage>{errors.phone}</FormErrorMessage>
                   </FormControl>
 
                   <FormControl isInvalid={!!errors.pass_word}>
-                    <FormLabel>Mật khẩu</FormLabel>
+                    <FormLabel>{t('register.password')}</FormLabel>
                     <InputGroup>
                       <Input
                         type={showPassword ? 'text' : 'password'}
                         value={formData.pass_word}
                         onChange={(e) => handleChange('pass_word', e.target.value)}
-                        placeholder="Nhập mật khẩu"
+                        placeholder={t('register.input.password')}
                       />
                       <InputRightElement>
                         <IconButton
-                          aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                          aria-label={showPassword ? t('register.hide.password') : t('register.open.password')}
                           icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
                           onClick={() => setShowPassword(!showPassword)}
                           variant="ghost"
@@ -304,17 +306,19 @@ const RegisterWrapper = () => {
                   </FormControl>
 
                   <FormControl isInvalid={!!errors.confirmPassword}>
-                    <FormLabel>Xác nhận mật khẩu</FormLabel>
+                    <FormLabel>{t('register.confirm.password')}</FormLabel>
                     <InputGroup>
                       <Input
                         type={showConfirmPassword ? 'text' : 'password'}
                         value={formData.confirmPassword}
                         onChange={(e) => handleChange('confirmPassword', e.target.value)}
-                        placeholder="Nhập lại mật khẩu"
+                        placeholder={t('register.input.password.again')}
                       />
                       <InputRightElement>
                         <IconButton
-                          aria-label={showConfirmPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
+                          aria-label={
+                            showConfirmPassword ? t('register.hide.password.again') : t('register.open.password.again')
+                          }
                           icon={showConfirmPassword ? <ViewOffIcon /> : <ViewIcon />}
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                           variant="ghost"
@@ -335,7 +339,7 @@ const RegisterWrapper = () => {
                     isLoading={isLoading}
                     _hover={{ bg: '#0052B8' }}
                   >
-                    Đăng ký
+                    {t('register.butto')}
                   </Button>
                 </VStack>
               </form>
@@ -343,7 +347,7 @@ const RegisterWrapper = () => {
               <HStack w="full" spacing="16px">
                 <Divider />
                 <Text fontSize="14px" color="gray.500" whiteSpace="nowrap">
-                  hoặc đăng ký với
+                  {t('register.register.with')}
                 </Text>
                 <Divider />
               </HStack>
@@ -357,7 +361,7 @@ const RegisterWrapper = () => {
                   onClick={handleGoogleRegister}
                   _hover={{ bg: 'gray.50' }}
                 >
-                  Đăng ký với Google
+                  {t('register.with.google')}
                 </Button>
 
                 <Button
@@ -368,15 +372,15 @@ const RegisterWrapper = () => {
                   onClick={handleFacebookRegister}
                   _hover={{ bg: 'gray.50' }}
                 >
-                  Đăng ký với Facebook
+                  {t('register.with.facebook')}
                 </Button>
               </VStack>
 
               <Text textAlign="center">
-                Đã có tài khoản?{' '}
+                {t('register.account.existed')}{' '}
                 <Link href="/dang-nhap">
                   <ChakraLink color="#065FD4" fontWeight={500}>
-                    Đăng nhập
+                    {t('register.login')}
                   </ChakraLink>
                 </Link>
               </Text>
@@ -384,12 +388,12 @@ const RegisterWrapper = () => {
           ) : (
             <>
               <Text fontSize="24px" fontWeight={600} textAlign="center">
-                Xác thực email
+                {t('register.verify.email')}
               </Text>
 
               <VStack spacing="16px" w="full">
                 <Text textAlign="center" color="gray.600">
-                  Mã xác thực đã được gửi đến
+                  {t('register.OTP.sent.to.you')}
                 </Text>
                 <Text fontWeight={600} color="#065FD4">
                   {formData.email}
@@ -397,7 +401,7 @@ const RegisterWrapper = () => {
 
                 <VStack spacing="8px" w="full">
                   <Text textAlign="center" fontSize="14px" color="gray.700" fontWeight={500}>
-                    Nhập mã OTP (6 số)
+                    {t('register.input.6')}
                   </Text>
                   <HStack justify="center">
                     <PinInput value={otp} onChange={setOtp} otp size="lg" manageFocus>
@@ -421,7 +425,7 @@ const RegisterWrapper = () => {
                   onClick={handleVerifyOtp}
                   _hover={{ bg: '#0052B8' }}
                 >
-                  Xác nhận
+                  {t('register.OTP.confirm')}
                 </Button>
 
                 <Button
@@ -433,11 +437,13 @@ const RegisterWrapper = () => {
                   cursor={countdown > 0 ? 'not-allowed' : 'pointer'}
                   _hover={countdown > 0 ? {} : { bg: 'gray.100' }}
                 >
-                  {countdown > 0 ? `Gửi lại mã (${formatCountdown(countdown)})` : 'Gửi lại mã'}
+                  {countdown > 0
+                    ? `${t('register.resent.OTP.again')} (${formatCountdown(countdown)})`
+                    : t('register.resent.OTP.again')}
                 </Button>
 
                 <Button variant="ghost" onClick={() => setStep('register')} isDisabled={isLoading}>
-                  Quay lại
+                  {t('register.go.back')}
                 </Button>
               </VStack>
             </>

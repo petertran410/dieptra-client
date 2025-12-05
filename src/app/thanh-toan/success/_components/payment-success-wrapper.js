@@ -26,11 +26,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import { useRecoilState } from 'recoil';
 import { API } from '../../../../utils/API';
+import { useTranslation } from '../../../../hooks/useTranslation';
 
 const PaymentSuccessContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [cart, setCart] = useRecoilState(cartAtom);
+
+  const { t } = useTranslation();
 
   const orderId = searchParams.get('orderId');
   const status = searchParams.get('status');
@@ -71,7 +74,7 @@ const PaymentSuccessContent = () => {
       setCartCleared(true);
       showToast({
         status: 'success',
-        content: 'Thanh toán thành công! Giỏ hàng đã được xóa.'
+        content: t('payment-success.success')
       });
     }
   }, [paymentStatus, cart, setCart, cartCleared]);
@@ -84,7 +87,7 @@ const PaymentSuccessContent = () => {
     if (isClient && !orderId) {
       showToast({
         status: 'error',
-        content: 'Không tìm thấy thông tin đơn hàng. Chuyển về trang chủ...'
+        content: t('payment-success.no.order.found')
       });
       setTimeout(() => router.push('/'), 3000);
     }
@@ -100,8 +103,8 @@ const PaymentSuccessContent = () => {
         <Alert status="error" borderRadius="md" maxW="500px">
           <AlertIcon />
           <Box>
-            <AlertTitle>Lỗi!</AlertTitle>
-            <AlertDescription>Không tìm thấy thông tin đơn hàng. Đang chuyển về trang chủ...</AlertDescription>
+            <AlertTitle>{t('payment-success.error.title')}</AlertTitle>
+            <AlertDescription>{t('payment-success.no.order.information')}</AlertDescription>
           </Box>
         </Alert>
       </Flex>
@@ -112,7 +115,7 @@ const PaymentSuccessContent = () => {
     return (
       <Flex justify="center" align="center" minH="60vh" direction="column">
         <Spinner size="xl" color="blue.500" mb="4" />
-        <Text>Đang kiểm tra trạng thái thanh toán...</Text>
+        <Text>{t('payment-success.loading.payment')}</Text>
       </Flex>
     );
   }
@@ -137,12 +140,10 @@ const PaymentSuccessContent = () => {
                 {isSuccess ? <Text fontSize="4xl">✓</Text> : <Text fontSize="4xl">✗</Text>}
               </Box>
               <Text fontSize="2xl" fontWeight="bold" color={isSuccess ? 'green.600' : 'red.600'}>
-                {isSuccess ? 'Thanh toán thành công!' : 'Thanh toán thất bại'}
+                {isSuccess ? t('payment-success.payment.success') : t('payment-success.payment.fail')}
               </Text>
               <Text color="gray.600" textAlign="center">
-                {isSuccess
-                  ? 'Cảm ơn bạn đã mua hàng. Đơn hàng của bạn đang được xử lý.'
-                  : 'Có lỗi xảy ra trong quá trình thanh toán. Vui lòng thử lại.'}
+                {isSuccess ? t('payment-success.thank.you') : t('payment-success.error.while.payment')}
               </Text>
             </VStack>
           </CardHeader>
@@ -153,13 +154,13 @@ const PaymentSuccessContent = () => {
 
               <Box>
                 <Text fontWeight="semibold" mb="3" fontSize="2xl" align="center">
-                  Thông tin đơn hàng
+                  {t('payment-success.order.information')}
                 </Text>
                 <VStack spacing="3" align="stretch">
                   {orderDetails?.fullName && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        Tên khách hàng:
+                        {t('payment-success.customer.name')}
                       </Text>
                       <Text fontWeight="medium" fontSize="lg">
                         {orderDetails.fullName}
@@ -170,7 +171,7 @@ const PaymentSuccessContent = () => {
                   {paymentStatus?.orderId && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        Đơn Hàng:
+                        {t('payment-success.orderId')}
                       </Text>
                       <Badge colorScheme="blue" px="3" py="1" fontSize="lg">
                         {paymentStatus.orderId}
@@ -181,7 +182,7 @@ const PaymentSuccessContent = () => {
                   {paymentStatus?.orderKiotCode && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        Mã đơn hàng:
+                        {t('payment-success.orderCode')}
                       </Text>
                       <Badge colorScheme="blue" fontSize="lg" px="3" py="1">
                         {paymentStatus.orderKiotCode}
@@ -192,7 +193,7 @@ const PaymentSuccessContent = () => {
                   {paymentStatus?.amount && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        Số tiền:
+                        {t('payment-success.total.cost')}
                       </Text>
                       <Text fontWeight="medium" color="green.600" fontSize="lg">
                         {paymentStatus.amount.toLocaleString('vi-VN')}đ
@@ -203,7 +204,7 @@ const PaymentSuccessContent = () => {
                   {orderDetails?.transactionDate && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        Ngày mua hàng:
+                        {t('payment-success.purchaseDate')}
                       </Text>
                       <Text fontWeight="medium" fontSize="lg">
                         {new Date(orderDetails.transactionDate).toLocaleString('vi-VN')}
@@ -214,7 +215,7 @@ const PaymentSuccessContent = () => {
                   {orderDetails?.transactionContent && (
                     <Box>
                       <Text color="gray.600" mb="1" fontSize="lg">
-                        Nội dung giao dịch:
+                        {t('payment-success.transactionContent')}
                       </Text>
                       <Text fontWeight="medium" fontSize="lg" color="gray.700">
                         {orderDetails.transactionContent}
@@ -228,10 +229,10 @@ const PaymentSuccessContent = () => {
 
               <HStack spacing="4" pt="4">
                 <Button flex="1" colorScheme="blue" onClick={() => router.push('/san-pham')}>
-                  Tiếp tục mua hàng
+                  {t('payment-success.continue.ordering')}
                 </Button>
                 <Button flex="1" variant="outline" colorScheme="blue" onClick={() => router.push('/')}>
-                  Về trang chủ
+                  {t('payment-success.back.home')}
                 </Button>
               </HStack>
             </VStack>
@@ -242,12 +243,16 @@ const PaymentSuccessContent = () => {
   );
 };
 
-const PaymentSuccessLoading = () => (
-  <Flex justify="center" align="center" minH="60vh" direction="column">
-    <Spinner size="lg" color="blue.500" mb="4" />
-    <Text>Đang tải thông tin thanh toán...</Text>
-  </Flex>
-);
+const PaymentSuccessLoading = () => {
+  const { t } = useTranslation();
+
+  return (
+    <Flex justify="center" align="center" minH="60vh" direction="column">
+      <Spinner size="lg" color="blue.500" mb="4" />
+      <Text>{t('payment-success.loading.order.payment')}</Text>
+    </Flex>
+  );
+};
 
 const PaymentSuccessWrapper = () => {
   return (
