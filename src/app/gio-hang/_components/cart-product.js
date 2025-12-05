@@ -9,16 +9,17 @@ import { cartAtom } from '../../../states/common';
 import { cartService } from '../../../services/cart.service';
 import { useState } from 'react';
 import Counter from './counter';
+import { useTranslation } from '../../../hooks/useTranslation';
 
 const CartProduct = ({ cartData = [] }) => {
   const [cart, setCart] = useRecoilState(cartAtom);
   const [loadingItems, setLoadingItems] = useState({});
+  const { t, getLocalizedText } = useTranslation();
 
   const handleRemoveItem = async (item) => {
     const cartItem = cart.find((i) => i.slug === item.slug);
     if (!cartItem) return;
 
-    // Nếu không có cartId, sync trước
     if (!cartItem.cartId) {
       try {
         await cartService.addToCart(cartItem.id, cartItem.quantity);
@@ -26,40 +27,36 @@ const CartProduct = ({ cartData = [] }) => {
         const syncedItem = serverCart.items.find((serverItem) => serverItem.slug === item.slug);
 
         if (syncedItem) {
-          // Update cart state với cartId mới
           setCart((prev) => prev.map((i) => (i.slug === item.slug ? { ...i, cartId: syncedItem.id } : i)));
 
-          // Sau đó remove
           await cartService.removeFromCart(syncedItem.id);
         }
       } catch (error) {
         showToast({
           status: 'error',
-          content: 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại'
+          content: t('cart.cannot.sync.cart')
         });
         return;
       }
     } else {
-      // Logic cũ
       try {
         await cartService.removeFromCart(cartItem.cartId);
       } catch (error) {
         showToast({
           status: 'error',
-          content: 'Không thể xoá sản phẩm. Vui lòng thử lại'
+          content: t('cart.cannot.delete.cart')
         });
         return;
       }
     }
 
-    // Update UI
     setLoadingItems((prev) => ({ ...prev, [item.slug]: true }));
     const optimisticCart = cart.filter((i) => i.slug !== item.slug);
     setCart(optimisticCart);
 
     showToast({
       status: 'success',
-      content: 'Đã xoá sản phẩm khỏi giỏ hàng',
+      content: t('cart.delete.product.outof.cart'),
       icon: '/images/trash-green.webp'
     });
 
@@ -93,7 +90,7 @@ const CartProduct = ({ cartData = [] }) => {
       setCart(cart);
       showToast({
         status: 'error',
-        content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+        content: t('cart.cannot.update.quantity')
       });
     } finally {
       setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
@@ -132,7 +129,7 @@ const CartProduct = ({ cartData = [] }) => {
         setCart(cart);
         showToast({
           status: 'error',
-          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+          content: t('cart.cannot.update.quantity')
         });
       }
     } else {
@@ -145,7 +142,7 @@ const CartProduct = ({ cartData = [] }) => {
         setCart(cart);
         showToast({
           status: 'error',
-          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
+          content: t('cart.cannot.update.quantity')
         });
       }
     }
@@ -198,7 +195,7 @@ const CartProduct = ({ cartData = [] }) => {
               />
               <Flex direction="column" gap={2} flex="1">
                 <Text fontSize={{ base: '16px', lg: '18px' }} fontWeight="500" noOfLines={2}>
-                  {item?.title ? item.title : item.kiotViet?.name}
+                  {item?.title ? getLocalizedText(item.title, item.title_en) : item.kiotViet?.name}
                 </Text>
                 <Text
                   fontSize={{ base: '18px', lg: '20px' }}

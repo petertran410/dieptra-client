@@ -404,7 +404,15 @@ export const translations = {
     'cart.product': 'sản phẩm',
     'cart.cart': 'Giỏ hàng',
     'cart.add.product': 'Thêm sản phẩm',
-    'cart.delete.all.product': 'Xoá tất cả'
+    'cart.delete.all.product': 'Xoá tất cả',
+    'cart.summary.order': 'Tóm tắt đơn hàng',
+    'cart.provisional': 'Tạm tính:',
+    'cart.total': 'Tổng cộng:',
+    'cart.payment.now': 'Thanh toán ngay',
+    'cart.cannot.sync.cart': 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại',
+    'cart.cannot.delete.cart': 'Không thể xoá sản phẩm. Vui lòng thử lại',
+    'cart.delete.product.outof.cart': 'Đã xoá sản phẩm khỏi giỏ hàng',
+    'cart.cannot.update.quantity': 'Không thể cập nhật số lượng. Vui lòng thử lại'
   },
   en: {
     'nav.home': 'Home',
@@ -804,6 +812,29 @@ export const translations = {
     'profile.recevier.address': 'Address:',
     'profile.product': 'Product',
     'profile.quantity': 'Quantity:',
-    'profile.error.updates.information': 'There may have been an error updating information'
+    'profile.error.updates.information': 'There may have been an error updating information',
+
+    // CART
+    'cart.login.see': 'Please log in to view your cart.',
+    'cart.delete.product': 'All items have been removed from your cart.',
+    'cart.delete.product.error': 'Unable to delete your cart. Please try again.',
+    'cart.empty.cart': 'Your cart is empty. Please add more items before checkout.',
+    'cart.product.inside.empty': 'Some items in your cart are no longer available.',
+    'cart.login.payment': 'Please log in to continue checkout.',
+    'cart.update.all.information': 'Please update your shipping address before checkout.',
+    'cart.error.checking.personal.information': 'Unable to check personal information. Please try again.',
+    'cart.loading': 'Loading cart...',
+    'cart.product': 'product',
+    'cart.cart': 'Cart',
+    'cart.add.product': 'Add product',
+    'cart.delete.all.product': 'Delete all',
+    'cart.summary.order': 'Order summary',
+    'cart.provisional': 'Provisional:',
+    'cart.total': 'Total:',
+    'cart.payment.now': 'Pay now',
+    'cart.cannot.sync.cart': 'Could not sync cart. Please try again',
+    'cart.cannot.delete.cart': 'Could not delete product. Please try again',
+    'cart.delete.product.outof.cart': 'Product removed from cart',
+    'cart.cannot.update.quantity': 'Could not update quantity. Please try again'
   }
 };
