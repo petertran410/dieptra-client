@@ -230,9 +230,9 @@ const CartWrapper = () => {
       <Box mb={{ xs: '8px', lg: '16px' }}>
         <SectionBlock title={t('cart.cart')} />
       </Box>
-      <Text textAlign="center">
+      {/* <Text textAlign="center">
         {cart.length || 0} {t('cart.product')}
-      </Text>
+      </Text> */}
 
       <Flex align="center" justify="space-between" mt="24px">
         <Link href="/san-pham">
