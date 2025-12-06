@@ -25,10 +25,19 @@ import OtherProduct from './other-product';
 import AddCart from './add-cart';
 import ProductImageGallery from './product-image-gallery';
 import { useTranslation } from '../../../../../hooks/useTranslation';
+import { useRecoilState } from 'recoil';
+import { cartAtom } from '../../../../../states/common';
+import { authService } from '../../../../../services/auth.service';
+import { cartService } from '../../../../../services/cart.service';
+import { showToast } from '../../../../../utils/helper';
+import { useEffect } from 'react';
 
 const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
   const { t, getLocalizedText } = useTranslation();
   const [quantity, setQuantity] = useState(1);
+  const [isAutoAdding, setIsAutoAdding] = useState(false);
+
+  const [cart, setCart] = useRecoilState(cartAtom);
 
   const {
     title,
@@ -71,9 +80,75 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
 
   const breadcrumbData = buildBreadcrumbData();
 
+  useEffect(() => {
+    const handlePendingAddToCart = async () => {
+      try {
+        const pendingAddToCart = sessionStorage.getItem('pending_add_to_cart');
+
+        if (!pendingAddToCart) return;
+
+        const pendingData = JSON.parse(pendingAddToCart);
+
+        if (pendingData.productId !== productDetail.id) return;
+
+        const authCheck = await authService.checkAuth();
+        if (!authCheck.isAuthenticated || !authCheck.access_token) return;
+
+        setIsAutoAdding(true);
+
+        sessionStorage.removeItem('pending_add_to_cart');
+
+        await cartService.addToCart(pendingData.productId, pendingData.quantity);
+
+        const serverCart = await cartService.getCart();
+        const formattedCart = serverCart.items.map((item) => ({
+          slug: item.slug,
+          id: Number(item.productId),
+          quantity: item.quantity,
+          cartId: item.id
+        }));
+        setCart(formattedCart);
+
+        showToast({
+          status: 'success',
+          content: t('cart.added')
+        });
+      } catch (error) {
+        console.error('Auto add to cart error:', error);
+        sessionStorage.removeItem('pending_add_to_cart');
+
+        showToast({
+          status: 'error',
+          content: t('cart.error')
+        });
+      } finally {
+        setIsAutoAdding(false);
+      }
+    };
+
+    const timer = setTimeout(handlePendingAddToCart, 1000);
+    return () => clearTimeout(timer);
+  }, [productDetail.id, setCart, t]);
+
   return (
     <>
       <Container maxW="auto" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
+        {isAutoAdding && (
+          <Box
+            position="fixed"
+            top="80px"
+            left="50%"
+            transform="translateX(-50%)"
+            zIndex={1000}
+            bg="blue.500"
+            color="white"
+            p={3}
+            borderRadius="md"
+          >
+            Đang thêm sản phẩm vào giỏ hàng...
+          </Box>
+        )}
+
         <VStack spacing={8} align="stretch">
           <Box>
             <Breadcrumb data={breadcrumbData} />

@@ -25,6 +25,19 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
       let authCheck = await authService.checkAuth();
 
       if (!authCheck.isAuthenticated) {
+        // Lưu thông tin sản phẩm cần add vào sessionStorage
+        sessionStorage.setItem(
+          'pending_add_to_cart',
+          JSON.stringify({
+            productId: Number(productId),
+            quantity: quantity,
+            productSlug: productSlug,
+            title: title,
+            price: price
+          })
+        );
+        sessionStorage.setItem('auth_redirect', `/san-pham/diep-tra/${productSlug}`);
+
         showToast({
           status: 'warning',
           content: t('cart.login')
@@ -33,6 +46,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
         return;
       }
 
+      // Logic add to cart hiện tại giữ nguyên...
       if (authCheck.access_token) {
         authService.getCurrentToken(authCheck.access_token);
       }
@@ -59,6 +73,18 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
                   await cartService.addToCart(Number(productId), quantity);
                   break;
                 } catch (finalError) {
+                  sessionStorage.setItem(
+                    'pending_add_to_cart',
+                    JSON.stringify({
+                      productId: Number(productId),
+                      quantity: quantity,
+                      productSlug: productSlug,
+                      title: title,
+                      price: price
+                    })
+                  );
+                  sessionStorage.setItem('auth_redirect', `/san-pham/diep-tra/${productSlug}`);
+
                   showToast({
                     status: 'warning',
                     content: t('cart.expire.session')
@@ -67,6 +93,18 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
                   return;
                 }
               } else {
+                sessionStorage.setItem(
+                  'pending_add_to_cart',
+                  JSON.stringify({
+                    productId: Number(productId),
+                    quantity: quantity,
+                    productSlug: productSlug,
+                    title: title,
+                    price: price
+                  })
+                );
+                sessionStorage.setItem('auth_redirect', `/san-pham/diep-tra/${productSlug}`);
+
                 showToast({
                   status: 'warning',
                   content: t('cart.expire.session')
