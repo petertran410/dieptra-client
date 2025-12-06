@@ -82,8 +82,20 @@ function AuthCallbackContent() {
     router.push('/');
   };
 
+  const handlePhoneCancelled = () => {
+    setShowPhoneModal(false);
+    router.push('/dang-nhap');
+  };
+
   if (showPhoneModal) {
-    return <PhoneModal tempToken={tempToken} tempKey={tempKey} onSuccess={handlePhoneSubmitted} />;
+    return (
+      <PhoneModal
+        tempToken={tempToken}
+        tempKey={tempKey}
+        onSuccess={handlePhoneSubmitted}
+        onCancel={handlePhoneCancelled}
+      />
+    );
   }
 
   return (

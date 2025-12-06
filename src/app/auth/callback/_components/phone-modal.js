@@ -19,7 +19,7 @@ import {
 import { authService } from '../../../../services/auth.service';
 import { showToast } from '../../../../utils/helper';
 
-export default function PhoneModal({ tempToken, tempKey, onSuccess }) {
+export default function PhoneModal({ tempToken, tempKey, onSuccess, onCancel }) {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -81,8 +81,14 @@ export default function PhoneModal({ tempToken, tempKey, onSuccess }) {
     }
   };
 
+  const handleClose = () => {
+    if (onCancel) {
+      onCancel();
+    }
+  };
+
   return (
-    <Modal isOpen={true} onClose={() => {}} closeOnOverlayClick={false}>
+    <Modal isOpen={true} onClose={handleClose} closeOnOverlayClick={true}>
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>Hoàn tất đăng ký</ModalHeader>
