@@ -107,10 +107,12 @@ const LoginWrapper = () => {
   };
 
   const handleGoogleLogin = () => {
+    sessionStorage.setItem('auth_redirect', redirectTo);
     window.location.href = `${API_URL}/api/client-auth/google`;
   };
 
   const handleFacebookLogin = () => {
+    sessionStorage.setItem('auth_redirect', redirectTo);
     window.location.href = `${API_URL}/api/client-auth/facebook`;
   };
 

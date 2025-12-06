@@ -181,7 +181,7 @@ const RegisterWrapper = () => {
         content: t('register.register.success')
       });
 
-      window.location.href = '/';
+      window.location.href = redirectTo;
     } catch (error) {
       const errorMessage = error?.message || '';
 
@@ -225,10 +225,12 @@ const RegisterWrapper = () => {
   };
 
   const handleGoogleRegister = () => {
+    sessionStorage.setItem('auth_redirect', redirectTo);
     window.location.href = `${API_URL}/api/client-auth/google`;
   };
 
   const handleFacebookRegister = () => {
+    sessionStorage.setItem('auth_redirect', redirectTo);
     window.location.href = `${API_URL}/api/client-auth/facebook`;
   };
 
