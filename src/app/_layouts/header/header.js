@@ -300,7 +300,9 @@ const Header = () => {
           <LanguageSwitcher />
 
           {/* Auth Section */}
-          {user ? (
+          {isChecking ? (
+            <Box w="142px" />
+          ) : user ? (
             <Menu>
               <MenuButton>
                 <Flex align="center" gap="8px" cursor="pointer" p="8px" borderRadius="8px" _hover={{ bg: 'gray.50' }}>
@@ -355,13 +357,25 @@ const Header = () => {
           <CartHeaderMobile />
           <LanguageSwitcher />
 
-          {user ? (
-            <Link href="/profile">
-              <UserIcon w="24px" h="24px" color="#065FD4" cursor="pointer" />
-            </Link>
+          {isChecking ? (
+            <Box w="24px" />
+          ) : user ? (
+            <Menu>
+              <MenuButton>
+                <UserIcon w="24px" h="24px" color="#065FD4" />
+              </MenuButton>
+              <MenuList>
+                <Link href="/profile">
+                  <MenuItem fontSize="17px">{t('nav.products-information')}</MenuItem>
+                </Link>
+                <MenuItem fontSize="17px" onClick={handleLogout}>
+                  {t('nav.logout')}
+                </MenuItem>
+              </MenuList>
+            </Menu>
           ) : (
             <Link href="/dang-nhap">
-              <UserIcon w="24px" h="24px" color="#065FD4" cursor="pointer" />
+              <UserIcon w="24px" h="24px" color="#065FD4" />
             </Link>
           )}
 
@@ -379,7 +393,7 @@ const Header = () => {
         <DrawerContent>
           <DrawerHeader borderBottomWidth="1px">
             <Flex justify="space-between" align="center">
-              <Text fontSize={18} fontWeight={600}>
+              <Text fontSize={20} fontWeight={600}>
                 Menu
               </Text>
               <Box onClick={onClose} cursor="pointer" fontSize={24}>
@@ -389,47 +403,39 @@ const Header = () => {
           </DrawerHeader>
           <DrawerBody p={0}>
             <VStack spacing={0} align="stretch">
-              {user && (
-                <Box borderBottom="1px solid #e2e8f0" bg="#f7fafc">
-                  <Flex px={6} py={4} align="center" gap="12px">
-                    <UserIcon w="24px" h="24px" color="#065FD4" />
-                    <Text fontSize={18} fontWeight={600} color="#333">
-                      {user.full_name || user.fullName}
-                    </Text>
-                  </Flex>
-                  <VStack spacing={0} align="stretch">
-                    <Link href="/profile" onClick={onClose}>
-                      <Box
-                        px={8}
-                        py={3}
-                        fontSize={15}
-                        color="#666"
-                        _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
-                        borderBottom="1px solid #e2e8f0"
-                      >
-                        {t('nav.home.mobile.info')}
-                      </Box>
-                    </Link>
+              {/* {isChecking ? (
+                <Box h="70px" />
+              ) : user ? (
+                <Box
+                  px={6}
+                  py={4}
+                  fontSize={18}
+                  fontWeight={500}
+                  color="#065FD4"
+                  bg="#f7fafc"
+                  borderBottom="1px solid #e2e8f0"
+                >
+                  <VStack align="start" spacing={2}>
+                    <Flex align="center" gap="12px">
+                      <UserIcon w="24px" h="24px" />
+                      <Text>{user.full_name || user.fullName}</Text>
+                    </Flex>
+                    <Link href="/profile">{t('nav.products-information')}</Link>
                     <Box
-                      px={8}
-                      py={3}
+                      w="full"
+                      mt={2}
+                      pt={2}
+                      borderTop="1px solid #e2e8f0"
                       fontSize={15}
                       color="#666"
-                      _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
-                      borderBottom="1px solid #e2e8f0"
                       cursor="pointer"
-                      onClick={() => {
-                        handleLogout();
-                        onClose();
-                      }}
+                      onClick={handleLogout}
                     >
                       {t('nav.home.mobile.logout')}
                     </Box>
                   </VStack>
                 </Box>
-              )}
-
-              {!user && (
+              ) : (
                 <Link href="/dang-nhap" onClick={onClose}>
                   <Box
                     px={6}
@@ -446,7 +452,26 @@ const Header = () => {
                     </Flex>
                   </Box>
                 </Link>
-              )}
+              )} */}
+
+              {/* {!user && (
+                <Link href="/dang-nhap" onClick={onClose}>
+                  <Box
+                    px={6}
+                    py={4}
+                    fontSize={18}
+                    fontWeight={500}
+                    color="#065FD4"
+                    bg="#f7fafc"
+                    borderBottom="1px solid #e2e8f0"
+                  >
+                    <Flex align="center" gap="12px">
+                      <UserIcon w="24px" h="24px" />
+                      <Text>{t('nav.login')}</Text>
+                    </Flex>
+                  </Box>
+                </Link>
+              )} */}
 
               {MENU_LIST.map((menu, index) => {
                 const { title, href, hasDropdown, dropdownItems } = menu;

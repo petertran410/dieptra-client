@@ -17,8 +17,6 @@ const OrderList = () => {
   const [cancellingOrderId, setCancellingOrderId] = useState(null);
   const { t, getLocalizedText } = useTranslation();
 
-  console.log(orders);
-
   const loadOrders = async () => {
     try {
       setLoading(true);

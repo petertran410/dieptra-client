@@ -246,8 +246,6 @@ const ArticleDetailClient = ({ params, categoryData }) => {
     titleMeta
   } = newsDetail;
 
-  console.log(newsDetail);
-
   const breadcrumbData = getBreadcrumbData(categoryData, getLocalizedText(title, title_en), t, getLocalizedText);
 
   const schemaData = {

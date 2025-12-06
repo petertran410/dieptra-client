@@ -108,9 +108,6 @@ const LoginWrapper = () => {
 
   const handleGoogleLogin = () => {
     const state = encodeURIComponent(redirectTo);
-    console.log('🔍 redirectTo:', redirectTo);
-    console.log('🔍 state:', state);
-    console.log('🔍 Full URL:', `${API_URL}/api/client-auth/google?state=${state}`);
     window.location.href = `${API_URL}/api/client-auth/google?state=${state}`;
   };
 
