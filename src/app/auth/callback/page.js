@@ -63,7 +63,7 @@ function AuthCallbackContent() {
           }
 
           await new Promise((resolve) => setTimeout(resolve, 100));
-          const redirectTo = sessionStorage.getItem('auth_redirect') || '/';
+          const redirectTo = searchParams.get('redirect') || '/';
           sessionStorage.removeItem('auth_redirect');
           router.push(redirectTo);
         }
@@ -78,7 +78,7 @@ function AuthCallbackContent() {
 
   const handlePhoneSubmitted = () => {
     setShowPhoneModal(false);
-    const redirectTo = sessionStorage.getItem('auth_redirect') || '/';
+    const redirectTo = searchParams.get('redirect') || '/';
     sessionStorage.removeItem('auth_redirect');
     router.push(redirectTo);
   };
