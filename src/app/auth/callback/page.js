@@ -32,14 +32,11 @@ function AuthCallbackContent() {
           setTempKey(tempKeyParam);
           setShowPhoneModal(true);
         } else {
-          // Use the new auth service instead of direct cookie setting
           if (tokenParam) {
-            // Set access token in memory
             const { setAccessToken } = await import('../../../services/auth.service');
             setAccessToken(tokenParam);
           }
 
-          // Set user info in cookie using auth service method
           if (user) {
             const sanitizedUser = {
               client_id: user.client_id,
@@ -66,7 +63,9 @@ function AuthCallbackContent() {
           }
 
           await new Promise((resolve) => setTimeout(resolve, 100));
-          router.push('/');
+          const redirectTo = sessionStorage.getItem('auth_redirect') || '/';
+          sessionStorage.removeItem('auth_redirect');
+          router.push(redirectTo);
         }
       } catch (error) {
         console.error('OAuth callback error:', error);
@@ -79,11 +78,14 @@ function AuthCallbackContent() {
 
   const handlePhoneSubmitted = () => {
     setShowPhoneModal(false);
-    router.push('/');
+    const redirectTo = sessionStorage.getItem('auth_redirect') || '/';
+    sessionStorage.removeItem('auth_redirect');
+    router.push(redirectTo);
   };
 
   const handlePhoneCancelled = () => {
     setShowPhoneModal(false);
+    sessionStorage.removeItem('auth_redirect');
     router.push('/dang-nhap');
   };
 
