@@ -942,7 +942,7 @@ const PaymentWrapper = () => {
                   const { kiotViet, imagesUrl } = product;
                   const quantity = cartItem ? cartItem.quantity : 1;
                   const itemTotal = product.price * quantity;
-                  const image_url = imagesUrl ? imagesUrl : kiotViet.images?.[0] || '';
+                  const image_url = imagesUrl ? imagesUrl[0] : kiotViet.images?.[0] || '';
 
                   return (
                     <Box
@@ -1004,6 +1004,12 @@ const PaymentWrapper = () => {
                     {t('payment.fast.delivery')}
                   </Badge>
                 </HStack>
+                <Text color="gray.600" fontSize="xl">
+                  <Text color="gray.600" fontSize="2xl" fontWeight="bold">
+                    {t('payment.note')}
+                  </Text>{' '}
+                  {t('payment.sale.information')}
+                </Text>
 
                 <Divider />
 

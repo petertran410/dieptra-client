@@ -452,6 +452,9 @@ export const translations = {
     'payemnt.order.information': 'Thông tin đơn hàng',
     'payment.provisional.calculation': 'Tạm tính:',
     'payment.shipping.unit': 'Shipping unit:',
+    'payment.note': 'Ghi chú:',
+    'payment.sale.information':
+      'Đơn hàng chưa bao gồm phí ship. CSKH sẽ gọi điện xác nhận đơn. Xin chân thành cảm ơn quý khách.',
     'payment.fast.delivery': 'Giao hàng nhanh',
     'payment.total.payment': 'Tổng cộng:',
     'payment.bank': 'Chuyển khoản qua ngân hàng',
@@ -1042,6 +1045,9 @@ export const translations = {
     'payemnt.order.information': 'Order information',
     'payment.provisional.calculation': 'Provisional:',
     'payment.shipping.unit': 'Shipping unit:',
+    'payment.note': 'Note:',
+    'payment.sale.information':
+      'The order does not include shipping fees. Customer service will call to confirm the order. Thank you for your understanding.',
     'payment.fast.delivery': 'Fast delivery',
     'payment.total.payment': 'Total:',
     'payment.bank': 'Bank transfer',
