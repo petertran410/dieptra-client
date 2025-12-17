@@ -201,7 +201,7 @@ const Footer = () => {
               </Link>
 
               <Link
-                href="//www.dmca.com/Protection/Status.aspx?ID=3901c960-5f50-4f68-9991-0f3b096e7d45"
+                href="https://www.dmca.com/Protection/Status.aspx?ID=3901c960-5f50-4f68-9991-0f3b096e7d45&refurl=https://www.dieptra.com/"
                 target="_blank"
               >
                 <Image
