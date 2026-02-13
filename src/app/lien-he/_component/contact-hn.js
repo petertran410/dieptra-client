@@ -53,15 +53,15 @@ const ContactHN = () => {
       phone: '+84 906 300 204',
       email: 'phuongnt@hisweetievietnam.com.vn'
     },
-    {
-      fullName: 'Mr. Bàng Anh Vũ',
-      fullName_en: 'Mr. Bang Anh Vu',
-      image: '/images/vuba.webp',
-      position: 'Nhân viên Kinh doanh',
-      position_en: 'Saler Officer',
-      phone: '+84 392 682 088',
-      email: 'vuba@hisweetievietnam.com.vn'
-    },
+    // {
+    //   fullName: 'Mr. Bàng Anh Vũ',
+    //   fullName_en: 'Mr. Bang Anh Vu',
+    //   image: '/images/vuba.webp',
+    //   position: 'Nhân viên Kinh doanh',
+    //   position_en: 'Saler Officer',
+    //   phone: '+84 392 682 088',
+    //   email: 'vuba@hisweetievietnam.com.vn'
+    // },
     {
       fullName: 'Mrs. Tạ Thị Trang',
       fullName_en: 'Mrs. Ta Thi Trang',
