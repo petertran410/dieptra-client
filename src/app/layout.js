@@ -25,9 +25,136 @@ export const metadata = {
   }
 };
 
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': ['Organization', 'LocalBusiness'],
+      '@id': 'https://www.dieptra.com/#org',
+      name: 'Diệp Trà',
+      legalName: 'Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam',
+      url: 'https://www.dieptra.com/',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.dieptra.com/images/logo-black.webp'
+      },
+      image: 'https://www.dieptra.com/images/logo-black.webp',
+      description:
+        'Diệp Trà chuyên cung cấp nguyên liệu pha chế nhập khẩu chính hãng tại Việt Nam, phục vụ quán cà phê, trà sữa và chuỗi F&B.',
+      foundingDate: '2018',
+      email: 'sales@hisweetievietnam.com.vn',
+      telephone: '+84 788 339 379',
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          contactType: 'sales',
+          telephone: '+84 973 123 230',
+          availableLanguage: ['vi-VN']
+        },
+        {
+          '@type': 'ContactPoint',
+          contactType: 'sales',
+          telephone: '+84 788 339 379',
+          availableLanguage: ['vi-VN']
+        }
+      ],
+      areaServed: { '@type': 'Country', name: 'Vietnam' },
+      sameAs: ['https://www.facebook.com/dieptra.0788339379', 'https://www.youtube.com/@Dieptra_Official'],
+      department: [
+        {
+          '@type': 'LocalBusiness',
+          '@id': 'https://www.dieptra.com/#hn',
+          name: 'Diệp Trà - Hà Nội',
+          parentOrganization: { '@id': 'https://www.dieptra.com/#org' },
+          hasMap: 'https://maps.app.goo.gl/KLHjTrcfPfmkwFXP7',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông',
+            addressLocality: 'Hà Nội',
+            addressCountry: 'VN'
+          },
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+              opens: '08:30',
+              closes: '17:30'
+            }
+          ]
+        },
+        {
+          '@type': 'LocalBusiness',
+          '@id': 'https://www.dieptra.com/#hcm-office',
+          name: 'Diệp Trà - Văn phòng miền Nam',
+          parentOrganization: { '@id': 'https://www.dieptra.com/#org' },
+          hasMap: 'https://maps.app.goo.gl/2QdJ6f7fRo6hhs7x9',
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú',
+            addressLocality: 'TP.HCM',
+            addressCountry: 'VN'
+          },
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+              opens: '08:30',
+              closes: '17:30'
+            }
+          ]
+        },
+        {
+          '@type': 'Store',
+          '@id': 'https://www.dieptra.com/#hcm-store',
+          name: 'Cửa hàng Diệp Trà - TP.HCM',
+          parentOrganization: { '@id': 'https://www.dieptra.com/#org' },
+          address: {
+            '@type': 'PostalAddress',
+            streetAddress: 'Số 42 Đường số 7, Phường 10, Quận Tân Bình',
+            addressLocality: 'TP.HCM',
+            addressCountry: 'VN'
+          },
+          openingHoursSpecification: [
+            {
+              '@type': 'OpeningHoursSpecification',
+              dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+              opens: '08:30',
+              closes: '17:30'
+            }
+          ]
+        }
+      ]
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://www.dieptra.com/#website',
+      url: 'https://www.dieptra.com/',
+      name: 'Diệp Trà',
+      publisher: { '@id': 'https://www.dieptra.com/#org' },
+      inLanguage: 'vi-VN'
+    },
+    {
+      '@type': 'WebPage',
+      '@id': 'https://www.dieptra.com/#webpage',
+      url: 'https://www.dieptra.com/',
+      name: 'Diệp Trà | Chuyên Cung Cấp Nguyên Liệu Pha Chế',
+      isPartOf: { '@id': 'https://www.dieptra.com/#website' },
+      about: { '@id': 'https://www.dieptra.com/#org' },
+      inLanguage: 'vi-VN',
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: 'https://www.dieptra.com/images/logo-black.webp'
+      }
+    }
+  ]
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="vi" className={fontFamily.variable}>
+      <head>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
+      </head>
       <body>
         <Script
           id="meta-pixel"
@@ -79,6 +206,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
         <Script src="https://chatbox.smax.ai/sdk.min.js" strategy="lazyOnload" />
+
         <LanguageProvider>
           <AuthProvider>
             <Providers>
