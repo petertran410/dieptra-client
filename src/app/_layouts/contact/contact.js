@@ -81,7 +81,7 @@ const Contact = () => {
             _hover={{ transform: 'scale(1.1)' }}
           />
         </Link>
-        <Link href="tel:+84799861862" _hover={{ textDecor: 'none' }}>
+        <Link href="tel:+84973123230" _hover={{ textDecor: 'none' }}>
           <Image
             src="/images/phone-contact.webp"
             alt={IMG_ALT}

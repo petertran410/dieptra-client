@@ -5,7 +5,7 @@ const HomeIntro = () => {
   return (
     <Flex bgGradient="linear(to-b, #a3dcf3 0%, #FFF 50%, #FFF 100%)">
       <Image
-        src="/images/127248.webp"
+        src="/images/hinh-trang-chu.webp"
         alt={IMG_ALT}
         w="full"
         h="auto"

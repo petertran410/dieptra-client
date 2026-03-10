@@ -183,11 +183,16 @@ const Footer = () => {
                 sales@hisweetievietnam.com.vn
               </ChakraLink>
             </Flex>
-            <Flex align="flex-start" gap="8px">
+            <Flex align="flex-start" gap="8px" alignItems="center">
               <Image src="/images/phone.webp" alt={IMG_ALT} w="24px" h="24px" />
-              <ChakraLink href="tel:+84788339379" fontWeight={400} _hover={{ textDecor: 'none' }}>
-                +84 973 123 230
-              </ChakraLink>
+              <Flex direction="column">
+                <ChakraLink href="tel:+84788339379" fontWeight={400} _hover={{ textDecor: 'none' }}>
+                  +84 973 123 230
+                </ChakraLink>
+                <ChakraLink href="tel:+84788339379" fontWeight={400} _hover={{ textDecor: 'none' }}>
+                  +84 788 339 379
+                </ChakraLink>
+              </Flex>
             </Flex>
             <Text fontSize={18} fontWeight={500}>
               {t('footer.workingtime')}{' '}

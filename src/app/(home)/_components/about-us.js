@@ -50,7 +50,7 @@ const AboutUs = () => {
       </Flex>
       <Flex flex={0.9}>
         <Image
-          src="/images/about-us-2.webp"
+          src="/images/about-us-3.webp"
           w={{ lg: 'full', xs: 'full', md: 'full' }}
           h="full"
           fit="cover"

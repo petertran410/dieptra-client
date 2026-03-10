@@ -27,7 +27,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={fontFamily.variable}>
+    <html lang="vi" className={fontFamily.variable}>
       <body>
         <Script
           id="meta-pixel"
