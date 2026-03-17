@@ -1135,7 +1135,7 @@ export const POLICY_PAGES = {
         <li><strong>Địa chỉ:</strong> B-TT10-4 Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông, Thành phố Hà Nội</li>
       </ul>
     `,
-    content: `
+    content_en: `
       <p>Welcome to <strong>Diep Tra</strong> website – under management and operation of Hi Sweetie Vietnam Import Export Co., Ltd, specialized unit providing <strong>beverage ingredients:</strong> syrups, jams, powder bases, toppings, tea, flavorings,...</p>
       <p>Accessing and purchasing on this website means you <strong>agree to comply with the terms below</strong>.</p>
       
