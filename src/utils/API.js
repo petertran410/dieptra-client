@@ -1,6 +1,7 @@
 import { getAccessToken } from '../services/auth.service';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_DOMAIN || 'http://localhost:8084';
+const SITE_CODE = 'dieptra';
 
 const sanitizeRequestBody = (data) => {
   if (typeof data !== 'object' || data === null) return data;
@@ -47,7 +48,7 @@ const sanitizeResponseData = (data) => {
 };
 
 export const API = {
-  request: async ({ url, method = 'GET', params = {} }) => {
+  request: async ({ url, method = 'GET', params = {}, cache }) => {
     try {
       if (!url.startsWith('/api/')) {
         throw new Error('Invalid API endpoint');
@@ -58,12 +59,12 @@ export const API = {
         headers: {
           'Content-Type': 'application/json',
           'X-Requested-With': 'XMLHttpRequest',
+          'X-Site-Code': SITE_CODE,
           Accept: 'application/json'
         },
         credentials: 'include'
       };
 
-      // Get token from memory (secure approach)
       const token = getAccessToken();
       if (token && typeof token === 'string' && token.length > 10) {
         config.headers['Authorization'] = `Bearer ${token}`;
@@ -87,12 +88,10 @@ export const API = {
       const response = await fetch(fullUrl, config);
 
       if (response.status === 401) {
-        // Token expired, try to refresh
         const { authService } = await import('../services/auth.service');
         const refreshResult = await authService.refreshToken();
 
         if (refreshResult && refreshResult.access_token) {
-          // Retry original request with new token
           config.headers['Authorization'] = `Bearer ${refreshResult.access_token}`;
           const retryResponse = await fetch(fullUrl, config);
 
@@ -104,7 +103,6 @@ export const API = {
           const data = await retryResponse.json();
           return sanitizeResponseData(data);
         } else {
-          // Refresh failed, redirect to login
           if (typeof window !== 'undefined') {
             window.location.href = '/dang-nhap';
           }
@@ -134,13 +132,10 @@ export const API = {
   delete: (url, params = {}) => API.request({ url, method: 'DELETE', params })
 };
 
-// Keep this for backward compatibility but mark as deprecated
 export const setAuthFunctions = (getToken, refreshToken) => {
-  console.warn('setAuthFunctions is deprecated. Token management is now handled automatically.');
-  // Do nothing - function kept for compatibility
+  console.warn('setAuthFunctions is deprecated.');
 };
 
-// Legacy function for backward compatibility
 export const getCurrentToken = () => {
   return getAccessToken();
 };

@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import { CK_CLIENT_USER } from '../utils/const';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_DOMAIN || 'http://localhost:8084';
+const SITE_CODE = 'dieptra';
 
 const COOKIE_CONFIG = {
   expires: 7,
@@ -10,24 +11,20 @@ const COOKIE_CONFIG = {
   domain: process.env.NODE_ENV === 'production' ? '.hisweetievietnam.com' : undefined
 };
 
-// In-memory token storage (secure from XSS)
 let currentAccessToken = null;
 
 const setAccessToken = (token) => {
   currentAccessToken = token;
 };
-
 const getAccessToken = () => {
   return currentAccessToken;
 };
-
 const clearAccessToken = () => {
   currentAccessToken = null;
 };
 
 const clearAuthData = () => {
   const cookiesToClear = [CK_CLIENT_USER, 'csrf_token', 'dieptra_client_token', 'refresh_token'];
-
   cookiesToClear.forEach((cookieName) => {
     if (cookieName && typeof cookieName === 'string') {
       try {
@@ -39,13 +36,11 @@ const clearAuthData = () => {
       }
     }
   });
-
   clearAccessToken();
 };
 
 const sanitizeUserData = (user) => {
   if (!user || typeof user !== 'object') return user;
-
   return {
     client_id: user.client_id,
     full_name: (user.full_name || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
@@ -58,14 +53,18 @@ const sanitizeUserData = (user) => {
   };
 };
 
+const baseHeaders = (extraHeaders = {}) => ({
+  'Content-Type': 'application/json',
+  'X-Site-Code': SITE_CODE,
+  ...extraHeaders
+});
+
 export const authService = {
   register: async (data) => {
     const response = await fetch(`${BASE_URL}/api/client-auth/register`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: baseHeaders(),
       body: JSON.stringify({
         full_name: data.fullName,
         email: data.email,
@@ -86,9 +85,7 @@ export const authService = {
     const response = await fetch(`${BASE_URL}/api/client-auth/verify-email`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: baseHeaders(),
       body: JSON.stringify({ email, code })
     });
 
@@ -102,10 +99,8 @@ export const authService = {
     if (data.access_token) {
       setAccessToken(data.access_token);
     }
-
     if (data.user) {
-      const sanitizedUser = sanitizeUserData(data.user);
-      Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
+      Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizeUserData(data.user)), COOKIE_CONFIG);
     }
 
     return data;
@@ -117,9 +112,7 @@ export const authService = {
     const response = await fetch(`${BASE_URL}/api/client-auth/login`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: baseHeaders(),
       body: JSON.stringify({
         emailOrPhone: data.emailOrPhone,
         pass_word: data.pass_word
@@ -136,10 +129,8 @@ export const authService = {
     if (result.access_token) {
       setAccessToken(result.access_token);
     }
-
     if (result.user) {
-      const sanitizedUser = sanitizeUserData(result.user);
-      Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
+      Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizeUserData(result.user)), COOKIE_CONFIG);
     }
 
     return result;
@@ -150,9 +141,7 @@ export const authService = {
       const response = await fetch(`${BASE_URL}/api/client-auth/refresh`, {
         method: 'POST',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        headers: baseHeaders()
       });
 
       if (response.ok) {
@@ -174,7 +163,8 @@ export const authService = {
     try {
       const response = await fetch(`${BASE_URL}/api/client-auth/check-auth`, {
         method: 'GET',
-        credentials: 'include'
+        credentials: 'include',
+        headers: baseHeaders()
       });
 
       if (response.ok) {
@@ -183,17 +173,10 @@ export const authService = {
           if (data.access_token) {
             setAccessToken(data.access_token);
           }
-
           if (data.user) {
-            const sanitizedUser = sanitizeUserData(data.user);
-            Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
+            Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizeUserData(data.user)), COOKIE_CONFIG);
           }
-
-          return {
-            isAuthenticated: true,
-            user: data.user,
-            access_token: data.access_token
-          };
+          return { isAuthenticated: true, user: data.user, access_token: data.access_token };
         }
       }
 
@@ -201,30 +184,20 @@ export const authService = {
       return { isAuthenticated: false };
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
-        console.error('💥 Check auth error:', error);
+        console.error('Check auth error:', error);
       }
       clearAuthData();
       return { isAuthenticated: false };
     }
   },
 
-  // Legacy method for compatibility - now returns in-memory token
-  getCurrentToken: () => {
-    return getAccessToken();
-  },
-
-  // Legacy method for compatibility
-  clearCurrentToken: () => {
-    clearAccessToken();
-  },
+  getCurrentToken: () => getAccessToken(),
+  clearCurrentToken: () => clearAccessToken(),
 
   logout: async () => {
     try {
       const token = getAccessToken();
-      const headers = {
-        'Content-Type': 'application/json'
-      };
-
+      const headers = baseHeaders();
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
       }
@@ -244,10 +217,7 @@ export const authService = {
   logoutAllSessions: async () => {
     try {
       const token = getAccessToken();
-      const headers = {
-        'Content-Type': 'application/json'
-      };
-
+      const headers = baseHeaders();
       if (token) {
         headers['Authorization'] = `Bearer ${token}`;
       }
@@ -273,9 +243,7 @@ export const authService = {
     const response = await fetch(`${BASE_URL}/api/client-auth/forgot-password/request`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: baseHeaders(),
       body: JSON.stringify({ email })
     });
 
@@ -291,9 +259,7 @@ export const authService = {
     const response = await fetch(`${BASE_URL}/api/client-auth/forgot-password/verify-otp`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: baseHeaders(),
       body: JSON.stringify({ email, code })
     });
 
@@ -309,14 +275,8 @@ export const authService = {
     const response = await fetch(`${BASE_URL}/api/client-auth/forgot-password/reset`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        email,
-        code,
-        new_password: newPassword
-      })
+      headers: baseHeaders(),
+      body: JSON.stringify({ email, code, new_password: newPassword })
     });
 
     if (!response.ok) {
@@ -324,7 +284,6 @@ export const authService = {
       throw new Error(error.message || 'Password reset failed');
     }
 
-    // Clear all auth data since password was reset
     clearAuthData();
     return await response.json();
   },
@@ -333,9 +292,7 @@ export const authService = {
     const response = await fetch(`${BASE_URL}/api/client-auth/complete-oauth-registration`, {
       method: 'POST',
       credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+      headers: baseHeaders(),
       body: JSON.stringify({ tempKey, phone })
     });
 
@@ -349,10 +306,8 @@ export const authService = {
     if (result.access_token) {
       setAccessToken(result.access_token);
     }
-
     if (result.user) {
-      const sanitizedUser = sanitizeUserData(result.user);
-      Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), COOKIE_CONFIG);
+      Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizeUserData(result.user)), COOKIE_CONFIG);
     }
 
     return result;
@@ -361,5 +316,4 @@ export const authService = {
   clearAuthData
 };
 
-// Export token functions for API usage
 export { getAccessToken, setAccessToken };

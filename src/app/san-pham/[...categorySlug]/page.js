@@ -1,24 +1,14 @@
 import { getMetadata } from '../../../utils/helper-server';
 import ProductList from './product-list';
+import { serverFetchJSON } from '../../../utils/server-fetch';
 
 export async function generateMetadata({ params }) {
   const { categorySlug } = params;
 
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_DOMAIN;
-    const response = await fetch(`${apiUrl}/api/category/for-cms`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      },
+    const data = await serverFetchJSON('/api/category/for-cms', {
       next: { revalidate: 300 }
     });
-
-    if (!response.ok) {
-      throw new Error(`API response not ok: ${response.status}`);
-    }
-
-    const data = await response.json();
 
     if (!data?.success || !data?.data) {
       throw new Error('Invalid API response structure');
@@ -32,8 +22,6 @@ export async function generateMetadata({ params }) {
         title: `${targetCategory.title_meta || targetCategory.name}`,
         description: targetCategory.description || 'Khám phá nguyên liệu pha chế chất lượng cao từ Diệp Trà'
       });
-    } else {
-      return;
     }
   } catch (error) {
     console.error('Meta generation error:', error);
@@ -49,16 +37,8 @@ function findCategoryBySlugPath(categories, slugPath) {
   if (!categories || !Array.isArray(categories) || !slugPath || slugPath.length === 0) {
     return null;
   }
-
   const targetSlug = slugPath[slugPath.length - 1];
-
-  const found = categories.find((cat) => cat.slug === targetSlug);
-
-  if (found) {
-    return found;
-  } else {
-    return null;
-  }
+  return categories.find((cat) => cat.slug === targetSlug) || null;
 }
 
 const CategoryProductsPage = ({ params }) => {

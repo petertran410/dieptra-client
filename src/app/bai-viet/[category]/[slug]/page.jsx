@@ -2,6 +2,7 @@ import { getArticleTypeBySlug } from '../../../../utils/article-types';
 import { META_DESCRIPTION, META_KEYWORDS } from '../../../../utils/helper-server';
 import { notFound } from 'next/navigation';
 import ArticleDetailClient from './article-detail-client';
+import { serverFetch } from '../../../../utils/server-fetch';
 
 export const revalidate = 0;
 
@@ -10,40 +11,27 @@ export async function generateMetadata({ params }) {
 
   const categoryData = getArticleTypeBySlug(category);
   if (!categoryData) {
-    return {
-      title: 'Không tìm thấy trang',
-      description: META_DESCRIPTION
-    };
+    return { title: 'Không tìm thấy trang', description: META_DESCRIPTION };
   }
 
   try {
-    const idResponse = await fetch(
-      `${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/client/find-id-by-slug?slug=${slug}&type=${categoryData.type}`,
-      { cache: 'no-store' }
-    );
-
-    if (!idResponse.ok) {
-      throw new Error('ID not found');
-    }
-
-    const idData = await idResponse.json();
-
-    if (!idData?.id) {
-      throw new Error('Article ID not found');
-    }
-
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/client/${idData.id}`, {
+    const idResponse = await serverFetch(`/api/news/client/find-id-by-slug?slug=${slug}&type=${categoryData.type}`, {
       cache: 'no-store'
     });
 
-    if (!response.ok) {
-      throw new Error('Article not found');
-    }
+    if (!idResponse.ok) throw new Error('ID not found');
+
+    const idData = await idResponse.json();
+    if (!idData?.id) throw new Error('Article ID not found');
+
+    const response = await serverFetch(`/api/news/client/${idData.id}`, {
+      cache: 'no-store'
+    });
+
+    if (!response.ok) throw new Error('Article not found');
 
     const data = await response.json();
-
     const { title: titleData, titleMeta, imagesUrl, description } = data || {};
-
     const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
     const metaTitle = titleMeta || titleData;
 
@@ -54,14 +42,7 @@ export async function generateMetadata({ params }) {
       openGraph: {
         title: metaTitle,
         description: description || META_DESCRIPTION,
-        images: [
-          {
-            url: imageUrl,
-            width: 800,
-            height: 600,
-            alt: titleData
-          }
-        ],
+        images: [{ url: imageUrl, width: 800, height: 600, alt: titleData }],
         type: 'article',
         siteName: 'Diệp Trà'
       },
@@ -77,21 +58,14 @@ export async function generateMetadata({ params }) {
     };
   } catch (error) {
     console.error('Metadata generation error:', error);
-    return {
-      title: 'Bài viết',
-      description: META_DESCRIPTION
-    };
+    return { title: 'Bài viết', description: META_DESCRIPTION };
   }
 }
 
 const ArticleDetailPage = ({ params }) => {
   const { category, slug } = params;
-
   const categoryData = getArticleTypeBySlug(category);
-  if (!categoryData) {
-    notFound();
-  }
-
+  if (!categoryData) notFound();
   return <ArticleDetailClient params={params} categoryData={categoryData} />;
 };
 
