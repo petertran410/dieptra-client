@@ -20,8 +20,8 @@ const Breadcrumb = (props) => {
         const { title, href, isActive } = item;
 
         return (
-          <Fragment key={href}>
-            <Link href={href}>
+          <Fragment key={`${index}-${href || title}`}>
+            <Link href={href || '#'}>
               <Text
                 fontWeight={500}
                 fontSize={18}
