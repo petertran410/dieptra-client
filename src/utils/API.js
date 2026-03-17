@@ -48,7 +48,7 @@ const sanitizeResponseData = (data) => {
 };
 
 export const API = {
-  request: async ({ url, method = 'GET', params = {}, cache }) => {
+  request: async ({ url, method = 'GET', params = {}, cache = undefined }) => {
     try {
       if (!url.startsWith('/api/')) {
         throw new Error('Invalid API endpoint');
