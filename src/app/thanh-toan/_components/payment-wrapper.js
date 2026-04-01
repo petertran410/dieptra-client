@@ -174,9 +174,7 @@ const PaymentWrapper = () => {
   useEffect(() => {
     const loadProvinces = async () => {
       try {
-        const response = await fetch(
-          'https://raw.githubusercontent.com/giaodienblog/provinces/refs/heads/main/district.json'
-        );
+        const response = await fetch('/data/old-location.json');
 
         if (!response.ok) {
           throw new Error('Failed to load provinces');
