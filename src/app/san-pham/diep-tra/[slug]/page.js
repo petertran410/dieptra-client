@@ -29,15 +29,24 @@ export async function generateMetadata({ params }) {
       (typeof imagesUrl === 'string' ? imagesUrl : null) ||
       kiotviet_images?.[0];
     const imageUrl = rawImage?.replace('http://', 'https://') || '/images/preview.webp';
-    const title = `${title_meta}`;
+    const title = title_meta || titleData || 'Sản phẩm';
 
     return {
       title,
-      description: meta_description,
+      description: meta_description || META_DESCRIPTION,
+      alternates: {
+        canonical: `https://dieptra.com/san-pham/diep-tra/${slug}`
+      },
       openGraph: {
         title,
-        description: meta_description,
+        description: meta_description || META_DESCRIPTION,
         images: [{ url: imageUrl, width: 800, height: 600, alt: title }]
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description: meta_description || META_DESCRIPTION,
+        images: [imageUrl]
       }
     };
   } catch (error) {

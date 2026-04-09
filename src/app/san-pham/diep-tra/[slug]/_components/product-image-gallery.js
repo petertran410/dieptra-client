@@ -9,13 +9,8 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const getAllImages = () => {
-    const primaryImages = imagesUrl && imagesUrl.length > 0 ? imagesUrl : [];
-    const kiotVietImages = kiotViet?.images || [];
-
-    if (primaryImages.length > 0) {
-      return [...primaryImages, ...kiotVietImages];
-    }
-    return kiotVietImages;
+    if (Array.isArray(imagesUrl) && imagesUrl.length > 0) return imagesUrl;
+    return kiotViet?.images || [];
   };
 
   const allImages = getAllImages();
