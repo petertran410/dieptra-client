@@ -17,12 +17,18 @@ export async function generateMetadata({ params }) {
 
     const {
       title: titleData,
+      imagesUrl,
       kiotviet_images,
       general_description: meta_description,
       title_meta: title_meta
     } = response;
 
-    const imageUrl = kiotviet_images?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
+    // Ưu tiên ảnh từ site_config (imagesUrl), fallback về kiotviet_images
+    const rawImage =
+      (Array.isArray(imagesUrl) ? imagesUrl[0] : null) ||
+      (typeof imagesUrl === 'string' ? imagesUrl : null) ||
+      kiotviet_images?.[0];
+    const imageUrl = rawImage?.replace('http://', 'https://') || '/images/preview.webp';
     const title = `${title_meta}`;
 
     return {
