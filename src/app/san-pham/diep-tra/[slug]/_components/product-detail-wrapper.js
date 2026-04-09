@@ -61,10 +61,15 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
     ];
 
     if (categoryHierarchy && categoryHierarchy.length > 0) {
-      categoryHierarchy.forEach((cat) => {
+      categoryHierarchy.forEach((cat, index) => {
+        const slugPath = categoryHierarchy
+          .slice(0, index + 1)
+          .map((c) => c.slug)
+          .join('/');
+
         baseBreadcrumb.push({
           title: getLocalizedText(cat.name, cat.name_en),
-          href: cat.href
+          href: `/san-pham/${slugPath}`
         });
       });
     }
