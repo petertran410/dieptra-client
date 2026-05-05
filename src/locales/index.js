@@ -324,7 +324,7 @@ export const translations = {
       ' Giấy phép Đăng kí kinh doanh số 0110211839 do Phòng Đăng ký kinh doanh – Sở Tài Chính cấp lần đầu ngày 20/12/2022, đăng ký thay đổi lần thứ 1, ngày 19/11/12024.',
     'footer.header.quarters.bac': 'Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.',
     'footer.header.quarters.nam':
-      'Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM.',
+      'Văn phòng miền Nam: Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh. P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Sơn Nhì, TP.HCM.',
     'footer.shop': 'Cửa hàng tại HCM: Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh',
     'footer.workingtime': 'Giờ làm việc:',
     'footer.copyright': 'Copyright © 2024 Công ty TNHH Xuất Nhập Khẩu HI SWEETIE Việt Nam. All rights reserved.',
