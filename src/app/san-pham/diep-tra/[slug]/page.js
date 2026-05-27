@@ -30,12 +30,11 @@ export async function generateMetadata({ params }) {
       kiotviet_images?.[0];
     const imageUrl = rawImage?.replace('http://', 'https://') || '/images/preview.webp';
     const title = title_meta || titleData || 'Sản phẩm';
-
     return {
       title,
       description: meta_description || META_DESCRIPTION,
       alternates: {
-        canonical: `https://dieptra.com/san-pham/diep-tra/${slug}`
+        canonical: `${process.env.NEXT_PUBLIC_DOMAIN}/san-pham/diep-tra/${slug}`
       },
       openGraph: {
         title,

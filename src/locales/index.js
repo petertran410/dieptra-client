@@ -321,7 +321,7 @@ export const translations = {
     // FOOTER
     'footer.title': 'Công ty TNHH XNK Hi Sweetie Việt Nam',
     'footer.license.business':
-      ' Giấy phép Đăng kí kinh doanh số 0110211839 do Phòng Đăng ký kinh doanh – Sở Tài Chính cấp lần đầu ngày 20/12/2022, đăng ký thay đổi lần thứ 1, ngày 19/11/12024.',
+      ' Giấy phép Đăng kí kinh doanh số 0110211839 do Phòng Đăng ký kinh doanh – Sở Tài Chính cấp lần đầu ngày 20/12/2022, đăng ký thay đổi lần thứ 1, ngày 19/11/2024.',
     'footer.header.quarters.bac': 'Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.',
     'footer.header.quarters.nam':
       'Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Sơn Nhì, TP.HCM.',
