@@ -2,23 +2,34 @@
 
 import { Button, Flex, HStack, Input, InputGroup, InputLeftElement, Select } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
-import { useRouter, usePathname, useSearchParams } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useTranslation } from '../../../hooks/useTranslation';
 
-export default function ProductListControls({ topCategories = [], selectedCategoryId, currentSort, currentKeyword }) {
+export default function ProductListControls({
+  topCategories = [],
+  selectedCategoryId,
+  currentSort,
+  currentKeyword,
+  basePath = '/san-pham'
+}) {
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const { t, getLocalizedText } = useTranslation();
   const [keyword, setKeyword] = useState(currentKeyword || '');
 
   const updateParam = (key, value) => {
     const params = new URLSearchParams(searchParams.toString());
-    if (value) params.set(key, value);
-    else params.delete(key);
+    if (key === 'sort' && value === 'name') {
+      params.delete(key);
+    } else if (value) {
+      params.set(key, value);
+    } else {
+      params.delete(key);
+    }
     params.delete('page');
-    router.push(`${pathname}?${params.toString()}`);
+    const qs = params.toString();
+    router.push(qs ? `${basePath}?${qs}` : basePath);
   };
 
   const handleSearch = () => updateParam('keyword', keyword.trim());

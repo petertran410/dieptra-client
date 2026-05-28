@@ -1,16 +1,12 @@
 import { notFound } from 'next/navigation';
-import { ARTICLE_SECTIONS, getArticleTypeBySlug } from '../../../utils/article-types';
-import { getMetadata, convertSlugURL } from '../../../utils/helper-server';
-import { serverFetch } from '../../../utils/server-fetch';
-import ArticleCategoryView from './_components/article-category-view';
+import { getArticleTypeBySlug } from '../../../../../utils/article-types';
+import { getMetadata, convertSlugURL } from '../../../../../utils/helper-server';
+import { serverFetch } from '../../../../../utils/server-fetch';
+import ArticleCategoryView from '../../_components/article-category-view';
 
 export const revalidate = 300;
 
 const PAGE_SIZE = 10;
-
-export async function generateStaticParams() {
-  return ARTICLE_SECTIONS.map((s) => ({ category: s.slug }));
-}
 
 export async function generateMetadata({ params }) {
   const section = getArticleTypeBySlug(params.category);
@@ -34,13 +30,20 @@ async function fetchArticles(type, page) {
   }
 }
 
-export default async function ArticleCategoryPage({ params }) {
+export default async function ArticleCategoryPagedPage({ params }) {
   const section = getArticleTypeBySlug(params.category);
   if (!section) notFound();
 
-  const data = await fetchArticles(section.type, 0);
+  const pageNum = parseInt(params.page, 10);
+  if (!pageNum || pageNum < 1) notFound();
+
+  // page=1 → redirect về URL canonical /bai-viet/<slug>
+  // hoặc đơn giản render page 1 với canonical về base
+  const data = await fetchArticles(section.type, pageNum - 1);
   const articles = data?.content || [];
   const totalPages = Math.ceil((data?.totalElements || 0) / PAGE_SIZE);
+
+  if (pageNum > totalPages && totalPages > 0) notFound();
 
   const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
   const basePath = `/bai-viet/${section.slug}`;
@@ -50,7 +53,7 @@ export default async function ArticleCategoryPage({ params }) {
     '@type': 'ItemList',
     itemListElement: articles.map((a, i) => ({
       '@type': 'ListItem',
-      position: i + 1,
+      position: (pageNum - 1) * PAGE_SIZE + i + 1,
       url: `${baseUrl}/bai-viet/${section.slug}/${convertSlugURL(a.title)}`,
       name: a.title
     }))
@@ -72,7 +75,7 @@ export default async function ArticleCategoryPage({ params }) {
       <ArticleCategoryView
         section={section}
         articles={articles}
-        currentPage={1}
+        currentPage={pageNum}
         totalPages={totalPages}
         basePath={basePath}
       />

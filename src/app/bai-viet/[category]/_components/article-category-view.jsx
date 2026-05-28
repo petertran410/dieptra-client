@@ -68,17 +68,19 @@ const Pagination = ({ currentPage, totalPages, basePath }) => {
   if (end - start < showPages - 1) start = Math.max(1, end - showPages + 1);
   for (let i = start; i <= end; i++) pages.push(i);
 
+  const buildHref = (page) => (page > 1 ? `${basePath}/page/${page}` : basePath);
+
   return (
     <Flex justify="center" mt="40px" gap="8px">
       {currentPage > 1 && (
-        <Link href={`${basePath}?page=${currentPage - 1}`}>
+        <Link href={buildHref(currentPage - 1)}>
           <Button size="sm" variant="outline" borderColor="#e2e8f0">
             Trước
           </Button>
         </Link>
       )}
       {pages.map((p) => (
-        <Link key={p} href={`${basePath}?page=${p}`}>
+        <Link key={p} href={buildHref(p)}>
           <Button
             size="sm"
             bgColor={p === currentPage ? '#065FD4' : 'transparent'}
@@ -91,7 +93,7 @@ const Pagination = ({ currentPage, totalPages, basePath }) => {
         </Link>
       ))}
       {currentPage < totalPages && (
-        <Link href={`${basePath}?page=${currentPage + 1}`}>
+        <Link href={buildHref(currentPage + 1)}>
           <Button size="sm" variant="outline" borderColor="#e2e8f0">
             Tiếp
           </Button>
@@ -101,7 +103,7 @@ const Pagination = ({ currentPage, totalPages, basePath }) => {
   );
 };
 
-export default function ArticleCategoryView({ section, articles, currentPage, totalPages }) {
+export default function ArticleCategoryView({ section, articles, currentPage, totalPages, basePath }) {
   const breadcrumbData = [
     { title: 'Trang chủ', href: '/' },
     { title: 'Bài viết', href: '/bai-viet' },
@@ -130,7 +132,11 @@ export default function ArticleCategoryView({ section, articles, currentPage, to
               <ArticleItem key={a.id} item={a} categorySlug={section.slug} />
             ))}
           </Grid>
-          <Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/bai-viet/${section.slug}`} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            basePath={basePath || `/bai-viet/${section.slug}`}
+          />
         </>
       )}
     </Flex>

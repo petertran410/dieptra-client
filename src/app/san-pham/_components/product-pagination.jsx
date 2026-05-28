@@ -16,13 +16,13 @@ export default function ProductPagination({ currentPage, totalPages, basePath, s
   }
 
   const buildHref = (page) => {
+    const path = page > 1 ? `${basePath}/page/${page}` : basePath;
     const params = new URLSearchParams();
     Object.entries(searchParams).forEach(([k, v]) => {
       if (v && k !== 'page') params.set(k, String(v));
     });
-    if (page > 1) params.set('page', String(page));
     const qs = params.toString();
-    return qs ? `${basePath}?${qs}` : basePath;
+    return qs ? `${path}?${qs}` : path;
   };
 
   return (

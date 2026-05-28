@@ -95,7 +95,7 @@ function getBreadcrumb(allCategories, slugPath) {
   return items;
 }
 
-export default async function ProductListPage({ slugPath = [], searchParams = {} }) {
+export default async function ProductListPage({ slugPath = [], pageNumber = 1, searchParams = {} }) {
   const allCategories = await fetchAllCategories();
   const topCategories = allCategories
     .filter((c) => !c.parent_id)
@@ -111,7 +111,7 @@ export default async function ProductListPage({ slugPath = [], searchParams = {}
 
   const keyword = searchParams.keyword || '';
   const sort = searchParams.sort || 'name';
-  const page = Math.max(1, Number(searchParams.page) || 1);
+  const page = Math.max(1, pageNumber);
 
   const productsData = await fetchProducts({ categoryIds, keyword, sort, page });
   const products = productsData.content || [];
@@ -164,6 +164,7 @@ export default async function ProductListPage({ slugPath = [], searchParams = {}
             selectedCategoryId={rootCategory?.id?.toString()}
             currentSort={sort}
             currentKeyword={keyword}
+            basePath={basePath}
           />
         </VStack>
 
@@ -211,7 +212,10 @@ export default async function ProductListPage({ slugPath = [], searchParams = {}
               currentPage={page}
               totalPages={totalPages}
               basePath={basePath}
-              searchParams={{ keyword, sort }}
+              searchParams={{
+                ...(keyword && { keyword }),
+                ...(sort && sort !== 'name' && { sort })
+              }}
             />
           </Box>
         </Flex>
