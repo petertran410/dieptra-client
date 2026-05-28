@@ -1,48 +1,38 @@
 import { getMetadata } from '../../../utils/helper-server';
-import ProductList from './product-list';
 import { serverFetchJSON } from '../../../utils/server-fetch';
+import ProductListPage from '../_components/product-list-page';
+
+export const revalidate = 300;
+
+async function findCategoryBySlugPath(slugPath = []) {
+  if (!slugPath.length) return null;
+  try {
+    const data = await serverFetchJSON('/api/category/for-cms', { next: { revalidate: 600 } });
+    const all = data?.data || [];
+    const buildPath = (id) => {
+      const c = all.find((x) => x.id === id);
+      if (!c) return '';
+      if (!c.parent_id) return c.slug;
+      return `${buildPath(c.parent_id)}/${c.slug}`;
+    };
+    const target = slugPath.join('/');
+    return all.find((c) => buildPath(c.id) === target) || null;
+  } catch {
+    return null;
+  }
+}
 
 export async function generateMetadata({ params }) {
-  const { categorySlug } = params;
-
-  try {
-    const data = await serverFetchJSON('/api/category/for-cms', {
-      next: { revalidate: 300 }
-    });
-
-    if (!data?.success || !data?.data) {
-      throw new Error('Invalid API response structure');
-    }
-
-    const categories = data.data;
-    const targetCategory = findCategoryBySlugPath(categories, categorySlug);
-
-    if (targetCategory) {
-      return getMetadata({
-        title: `${targetCategory.title_meta || targetCategory.name}`,
-        description: targetCategory.description || 'Khám phá nguyên liệu pha chế chất lượng cao từ Diệp Trà'
-      });
-    }
-  } catch (error) {
-    console.error('Meta generation error:', error);
+  const target = await findCategoryBySlugPath(params.categorySlug);
+  if (!target) {
+    return getMetadata({ title: 'Danh Mục Sản Phẩm' });
   }
-
   return getMetadata({
-    title: 'Danh Mục Sản Phẩm',
-    description: 'Khám phá các danh mục sản phẩm nguyên liệu pha chế từ Diệp Trà'
+    title: target.title_meta || target.name,
+    description: target.description || 'Khám phá nguyên liệu pha chế chất lượng cao từ Diệp Trà'
   });
 }
 
-function findCategoryBySlugPath(categories, slugPath) {
-  if (!categories || !Array.isArray(categories) || !slugPath || slugPath.length === 0) {
-    return null;
-  }
-  const targetSlug = slugPath[slugPath.length - 1];
-  return categories.find((cat) => cat.slug === targetSlug) || null;
+export default async function CategoryProductsPage({ params, searchParams }) {
+  return <ProductListPage slugPath={params.categorySlug || []} searchParams={searchParams || {}} />;
 }
-
-const CategoryProductsPage = ({ params }) => {
-  return <ProductList categorySlug={params.categorySlug} />;
-};
-
-export default CategoryProductsPage;

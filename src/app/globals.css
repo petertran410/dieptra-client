@@ -4,7 +4,11 @@
 }
 
 body {
-  font-family: var(--font-afacad), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-afacad),
+    system-ui,
+    -apple-system,
+    sans-serif;
 }
 
 .eb-garamond-font {
@@ -515,6 +519,12 @@ a {
   margin: 24px auto !important;
   max-width: 90% !important;
   width: auto !important;
+}
+
+.html-content a,
+.html-content-16px a {
+  color: #065fd4;
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {

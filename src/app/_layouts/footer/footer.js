@@ -196,7 +196,7 @@ const Footer = () => {
             </Flex>
             <Text fontSize={18} fontWeight={500}>
               {t('footer.workingtime')}{' '}
-              <Text fontSize={18} fontWeight={500}>
+              <Text as="span" fontSize={18} fontWeight={500}>
                 T2 - T7: 8h30 - 17h30
               </Text>
             </Text>

@@ -30,7 +30,6 @@ export const ARTICLE_TYPE_LABELS = {
   [ARTICLE_TYPES.KIEN_THUC_TRA]: 'Kiến Thức Về Trà',
   [ARTICLE_TYPES.KIEN_THUC_TRA_EN]: 'Knowledge About Tea',
   // [ARTICLE_TYPES.TREND_PHA_CHE]: 'Trend Pha Chế',
-  // [ARTICLE_TYPES.TREND_PHA_CHE_EN]: 'Trend Mixing',
   [ARTICLE_TYPES.REVIEW_SAN_PHAM]: 'Review - Đánh Giá Sản Phẩm',
   [ARTICLE_TYPES.REVIEW_SAN_PHAM_EN]: 'Review - Product Evaluation',
   [ARTICLE_TYPES.CONG_THUC_PHA_CHE]: 'Công thức pha chế',

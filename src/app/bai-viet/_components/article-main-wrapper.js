@@ -1,23 +1,16 @@
-'use client';
-
 import Breadcrumb from '../../../components/breadcrumb';
-import { useTranslation } from '../../../hooks/useTranslation';
-import { API } from '../../../utils/API';
-import { ARTICLE_SECTIONS, ARTICLE_TYPE_LABELS } from '../../../utils/article-types';
+import { ARTICLE_SECTIONS } from '../../../utils/article-types';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
-import { convertSlugURL, convertTimestamp } from '../../../utils/helper-server';
-import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, Spinner, VStack } from '@chakra-ui/react';
-import Head from 'next/head';
+import { convertSlugURL } from '../../../utils/helper-server';
+import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
-import { useEffect, useState, Suspense } from 'react';
 
 const ArticleCard = ({ article, categorySlug }) => {
-  const { id, title, title_en, description, description_en, imagesUrl, createdDate } = article;
-  const { t, getLocalizedText } = useTranslation();
-
+  const { title, description, imagesUrl } = article;
+  const href = `/bai-viet/${categorySlug}/${convertSlugURL(title)}`;
   return (
     <Flex direction="column" gap="16px" h="100%">
-      <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
+      <Link href={href}>
         <AspectRatio ratio={16 / 9} w="full">
           <Image
             src={imagesUrl?.[0]?.replace('http://', 'https://') || '/images/news.webp'}
@@ -25,45 +18,23 @@ const ArticleCard = ({ article, categorySlug }) => {
             h="full"
             alt={IMG_ALT}
             borderRadius={12}
-            transition="transform 0.3s ease"
-            _hover={{ transform: 'scale(1.05)' }}
           />
         </AspectRatio>
       </Link>
-
       <Flex direction="column" justify="space-between" gap="12px" flex={1}>
         <Box>
-          <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
-            <Text
-              fontSize={19}
-              fontWeight={500}
-              lineHeight="24px"
-              noOfLines={2}
-              // h="48px"
-              _hover={{ color: '#065FD4' }}
-              transition="color 0.2s ease"
-            >
-              {getLocalizedText(title, title_en)}
+          <Link href={href}>
+            <Text as="h3" fontSize={19} fontWeight={500} lineHeight="24px" noOfLines={2}>
+              {title}
             </Text>
           </Link>
-
           {description && (
             <Text mt={1} fontSize={19} color="gray.600" lineHeight="20px" noOfLines={2}>
-              {getLocalizedText(description, description_en)}
+              {description}
             </Text>
           )}
-
-          {/* {createdDate && (
-            <Flex mt="12px" align="center" gap="4px">
-              <Image src="/images/clock-outline.webp" w="14px" h="14px" alt={IMG_ALT} />
-              <Text color="#A1A1AA" fontSize={14}>
-                {convertTimestamp(createdDate)}
-              </Text>
-            </Flex>
-          )} */}
         </Box>
-
-        <Link href={`/bai-viet/${categorySlug}/${convertSlugURL(title)}`}>
+        <Link href={href}>
           <Button
             size="sm"
             bgColor="#065FD4"
@@ -73,12 +44,9 @@ const ArticleCard = ({ article, categorySlug }) => {
             px="16px"
             h="32px"
             borderRadius={8}
-            transition="all 0.2s ease"
-            _hover={{ bgColor: '#5d97e3', transform: 'translateY(-1px)' }}
-            _active={{ bgColor: '#5d97e3' }}
             w="fit-content"
           >
-            {t('article.read.on')}
+            Đọc tiếp
           </Button>
         </Link>
       </Flex>
@@ -86,209 +54,56 @@ const ArticleCard = ({ article, categorySlug }) => {
   );
 };
 
-const ArticleSection = ({ section, articles, isLoading }) => {
-  const { label, name, name_en, slug, href } = section;
-  const { t, getLocalizedText } = useTranslation();
+const ArticleSection = ({ section, articles }) => (
+  <Box mb="50px">
+    <Flex justify="space-between" align="center" mb="24px">
+      <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
+        {section.name}
+      </Heading>
+      <Link href={section.href}>
+        <Button variant="outline" borderColor="#065FD4" color="#065FD4" size="md" fontSize={18}>
+          Xem tất cả
+        </Button>
+      </Link>
+    </Flex>
 
-  if (isLoading) {
-    return (
-      <Box mb="50px">
-        <Flex justify="space-between" align="center" mb="24px">
-          <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
-            {getLocalizedText(name, name_en)}
-          </Heading>
-        </Flex>
-        <Flex justify="center" py="40px">
-          <Spinner size="lg" color="#065FD4" />
-        </Flex>
-      </Box>
-    );
-  }
-
-  if (!articles?.length) {
-    return (
-      <Box mb="50px">
-        <Flex justify="space-between" align="center" mb="24px">
-          <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
-            {getLocalizedText(name, name_en)}
-          </Heading>
-          <Link href={href}>
-            <Button variant="outline" borderColor="#065FD4" color="#065FD4" size="md">
-              {t('article.read.on')}
-            </Button>
-          </Link>
-        </Flex>
-        <Text color="gray.500" textAlign="center" py="20px">
-          {t('article.no.article')}
-        </Text>
-      </Box>
-    );
-  }
-
-  return (
-    <Box mb="50px">
-      <Flex justify="space-between" align="center" mb="24px">
-        <Heading as="h2" fontSize={24} fontWeight={600} color="#003366">
-          {getLocalizedText(name, name_en)}
-        </Heading>
-        <Link href={href}>
-          <Button
-            variant="outline"
-            borderColor="#065FD4"
-            color="#065FD4"
-            size="md"
-            fontSize={18}
-            _hover={{ bgColor: '#065FD4', color: 'white' }}
-          >
-            {t('article.total')}
-          </Button>
-        </Link>
-      </Flex>
-
-      <Grid
-        templateColumns={{
-          xs: '1fr',
-          md: 'repeat(2, 1fr)',
-          lg: 'repeat(3, 1fr)'
-        }}
-        gap="24px"
-      >
-        {articles.map((article) => (
-          <ArticleCard key={article.id} article={article} categorySlug={slug} />
+    {articles?.length ? (
+      <Grid templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap="24px">
+        {articles.map((a) => (
+          <ArticleCard key={a.id} article={a} categorySlug={section.slug} />
         ))}
       </Grid>
-    </Box>
-  );
-};
+    ) : (
+      <Text color="gray.500" textAlign="center" py="20px">
+        Chưa có bài viết
+      </Text>
+    )}
+  </Box>
+);
 
-const SectionsContent = () => {
-  const [sectionsData, setSectionsData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchArticleSections = async () => {
-      try {
-        setLoading(true);
-
-        const response = await API.request({ url: '/api/news/client/article-sections' });
-
-        if (response && Array.isArray(response)) {
-          const validatedSections = response.map((section) => {
-            const { type, articles = [] } = section;
-
-            const validatedArticles = articles.map((article) => {
-              const isValidTimestamp = (timestamp) => {
-                if (!timestamp) return false;
-                if (typeof timestamp === 'object' && !(timestamp instanceof Date)) return false;
-                if (typeof timestamp === 'string' && timestamp.trim() === '') return false;
-
-                try {
-                  const date = new Date(timestamp);
-                  return !isNaN(date.getTime());
-                } catch {
-                  return false;
-                }
-              };
-
-              const validCreatedDate = isValidTimestamp(article.createdDate)
-                ? article.createdDate
-                : isValidTimestamp(article.created_date)
-                ? article.created_date
-                : isValidTimestamp(article.createdAt)
-                ? article.createdAt
-                : null;
-
-              return {
-                ...article,
-                id: Number(article.id),
-                createdDate: validCreatedDate,
-                imagesUrl: Array.isArray(article.imagesUrl)
-                  ? article.imagesUrl
-                  : article.images_url
-                  ? JSON.parse(article.images_url)
-                  : []
-              };
-            });
-
-            return {
-              type,
-              articles: validatedArticles
-            };
-          });
-
-          setSectionsData(validatedSections);
-        } else {
-          console.warn('⚠️ Invalid API response format:', response);
-          setSectionsData([]);
-        }
-      } catch (error) {
-        console.error('❌ Error fetching article sections:', error);
-        setSectionsData([]);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticleSections();
-  }, []);
-
-  return (
-    <>
-      {ARTICLE_SECTIONS.map((section) => {
-        const sectionData = sectionsData.find((data) => data.type === section.type);
-
-        return (
-          <ArticleSection
-            key={section.type}
-            section={section}
-            articles={sectionData?.articles || []}
-            isLoading={loading}
-          />
-        );
-      })}
-    </>
-  );
-};
-
-const ArticleMainWrapper = () => {
-  const { t } = useTranslation();
+export default function ArticleMainWrapper({ sectionsData = [] }) {
   const breadcrumbData = [
-    { title: t('article.breadcrumb.title.home'), href: '/' },
-    { title: t('article.breadcrumb.title.article'), href: '/bai-viet', isActive: true }
+    { title: 'Trang chủ', href: '/' },
+    { title: 'Bài viết', href: '/bai-viet', isActive: true }
   ];
 
   return (
-    <>
-      <Head>
-        <title>Bài Viết</title>
-        <link rel="canonical" href={`${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet`} />
-        <meta name="robots" content="index, follow" />
-      </Head>
+    <Flex pt={{ xs: '70px', lg: '162px' }} px={PX_ALL} pb="50px" direction="column">
+      <Breadcrumb data={breadcrumbData} />
+      <VStack align="start" spacing="16px" mt="20px" mb="40px">
+        <Heading as="h1" fontSize={{ xs: '28px', lg: '36px' }} fontWeight={700} color="#003366">
+          Bài Viết
+        </Heading>
+        <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6">
+          Khám phá kho kiến thức phong phú về pha chế, nguyên liệu, xu hướng và những câu chuyện thú vị trong thế giới
+          đồ uống tại Diệp Trà.
+        </Text>
+      </VStack>
 
-      <Flex pt={{ xs: '70px', lg: '162px' }} px={PX_ALL} pb="50px" direction="column">
-        <Breadcrumb data={breadcrumbData} />
-
-        <VStack align="start" spacing="16px" mt="20px" mb="40px">
-          <Heading as="h1" fontSize={{ xs: '28px', lg: '36px' }} fontWeight={700} color="#003366">
-            {t('article.title')}
-          </Heading>
-          <Text fontSize={{ xs: '16px', lg: '18px' }} color="gray.600" lineHeight="1.6" maxW="full">
-            {t('article.title.des')}
-          </Text>
-        </VStack>
-
-        <Suspense
-          fallback={
-            <Flex justify="center" py="60px">
-              <Spinner size="lg" color="#065FD4" />
-            </Flex>
-          }
-        >
-          <SectionsContent />
-        </Suspense>
-      </Flex>
-    </>
+      {ARTICLE_SECTIONS.map((section) => {
+        const sectionData = sectionsData.find((d) => d.type === section.type);
+        return <ArticleSection key={section.type} section={section} articles={sectionData?.articles || []} />;
+      })}
+    </Flex>
   );
-};
-
-export default ArticleMainWrapper;
+}
