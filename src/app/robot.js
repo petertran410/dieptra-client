@@ -33,7 +33,10 @@ export default function robots() {
           '*utm_medium',
           '*utm_campaign',
           '*utm_term',
-          '*utm_content'
+          '*utm_content',
+          '/wp-admin/',
+          '/_vercel/insights/',
+          '/_vercel/speed-insights/'
         ]
       }
     ],

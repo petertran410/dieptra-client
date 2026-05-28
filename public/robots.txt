@@ -23,5 +23,8 @@ Disallow: *utm_medium
 Disallow: *utm_campaign
 Disallow: *utm_term
 Disallow: *utm_content
+Disallow: /wp-admin/
+Disallow: /_vercel/insights/
+Disallow: /_vercel/speed-insights/
 
 Sitemap: https://www.dieptra.com/sitemap.xml
