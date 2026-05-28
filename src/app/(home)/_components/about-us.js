@@ -52,10 +52,12 @@ const AboutUs = () => {
         <Image
           src="/images/about-us-3.webp"
           w={{ lg: 'full', xs: 'full', md: 'full' }}
-          h="full"
+          h="auto"
           fit="cover"
           alt={IMG_ALT}
           borderRadius={16}
+          loading="lazy"
+          sx={{ aspectRatio: '4 / 3' }}
         />
       </Flex>
     </Flex>

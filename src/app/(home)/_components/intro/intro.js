@@ -1,19 +1,25 @@
 import { IMG_ALT } from '../../../../utils/const';
-import { Flex, Image } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
+import Image from 'next/image';
 
 const HomeIntro = () => {
   return (
-    <Flex bgGradient="linear(to-b, #a3dcf3 0%, #FFF 50%, #FFF 100%)">
+    <Box
+      bgGradient="linear(to-b, #a3dcf3 0%, #FFF 50%, #FFF 100%)"
+      pt={{ xs: '70px', md: '45px', lg: '0' }}
+      position="relative"
+      width="100%"
+    >
       <Image
         src="/images/hinh-trang-chu.webp"
         alt={IMG_ALT}
-        w="full"
-        h="auto"
-        pt={{ xs: '70px', md: '45px', lg: '0' }}
-        objectFit="contain"
-        objectPosition="bottom"
+        width={1920}
+        height={1080}
+        priority
+        sizes="100vw"
+        style={{ width: '100%', height: 'auto', objectFit: 'contain', objectPosition: 'bottom' }}
       />
-    </Flex>
+    </Box>
   );
 };
 

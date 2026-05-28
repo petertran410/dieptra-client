@@ -107,6 +107,7 @@ const Feedback = () => {
                         borderRadius="full"
                         alt={IMG_ALT}
                         border="6px solid #FFF"
+                        loading="lazy"
                       />
                     </Flex>
                   </Flex>
@@ -152,6 +153,7 @@ const Feedback = () => {
                         borderRadius="full"
                         alt={IMG_ALT}
                         border="6px solid #FFF"
+                        loading="lazy"
                       />
                     </Flex>
                   </Flex>
