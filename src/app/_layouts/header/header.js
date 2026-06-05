@@ -2,9 +2,10 @@
 
 import { ARTICLE_SECTIONS } from '../../../utils/article-types';
 import { useProductCategories } from '../../../hooks/useProductCategories';
-import { useRecoilState } from 'recoil';
-import { cartAtom } from '../../../states/common';
-import { cartService } from '../../../services/cart.service';
+// ====== ĐÃ TẠM ẨN GIỎ HÀNG & ĐĂNG NHẬP ======
+// import { useRecoilState } from 'recoil';
+// import { cartAtom } from '../../../states/common';
+// import { cartService } from '../../../services/cart.service';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import {
   Box,
@@ -14,49 +15,51 @@ import {
   DrawerHeader,
   DrawerOverlay,
   Flex,
-  Icon,
+  // Icon,
   Image,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
+  // Menu,
+  // MenuButton,
+  // MenuItem,
+  // MenuList,
   Text,
   useDisclosure,
   VStack
 } from '@chakra-ui/react';
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import CartHeader from './_components/cart-header';
-import CartHeaderMobile from './_components/cart-header-mobile';
-import { authService } from '../../../services/auth.service';
-import { showToast } from '../../../utils/helper';
-import { useAuth } from '../../../contexts/auth-context';
+// import CartHeader from './_components/cart-header';
+// import CartHeaderMobile from './_components/cart-header-mobile';
+// import { authService } from '../../../services/auth.service';
+// import { showToast } from '../../../utils/helper';
+// import { useAuth } from '../../../contexts/auth-context';
 import { useTranslation } from '../../../hooks/useTranslation';
-import LanguageSwitcher from '../../../components/language-switcher';
+// ====== ĐÃ TẠM ẨN CHUYỂN ĐỔI NGÔN NGỮ ======
+// import LanguageSwitcher from '../../../components/language-switcher';
 
-const UserIcon = (props) => (
-  <Icon viewBox="0 0 24 24" {...props}>
-    <path
-      fill="currentColor"
-      d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-    />
-  </Icon>
-);
+// const UserIcon = (props) => (
+//   <Icon viewBox="0 0 24 24" {...props}>
+//     <path
+//       fill="currentColor"
+//       d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
+//     />
+//   </Icon>
+// );
 
 const Header = () => {
   const { t, getLocalizedText } = useTranslation();
   const pathname = usePathname();
-  const router = useRouter();
+  // const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(null);
-  const [cart, setCart] = useRecoilState(cartAtom);
+  // ====== ĐÃ TẠM ẨN GIỎ HÀNG & ĐĂNG NHẬP ======
+  // const [cart, setCart] = useRecoilState(cartAtom);
   const isTransparent = pathname === '/' || pathname === '/lien-he';
 
   const { categories: productCategories } = useProductCategories();
 
-  const { user, isAuthenticated, isChecking, isFullyReady, logout } = useAuth();
+  // const { user, isAuthenticated, isChecking, isFullyReady, logout } = useAuth();
 
   const MENU_LIST = [
     {
@@ -102,55 +105,56 @@ const Header = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => {
-    const loadCart = async () => {
-      if (isFullyReady && isAuthenticated && user) {
-        try {
-          const authCheck = await authService.checkAuth();
-          if (authCheck.isAuthenticated && authCheck.access_token) {
-            authService.getCurrentToken(authCheck.access_token);
-          }
-
-          const serverCart = await cartService.getCart();
-          const formattedCart = serverCart.items.map((item) => ({
-            slug: item.slug,
-            id: item.productId,
-            quantity: item.quantity
-          }));
-          setCart(formattedCart);
-        } catch (error) {
-          setCart([]);
-        }
-      } else if (!isChecking && !isAuthenticated) {
-        setCart([]);
-      }
-    };
-
-    loadCart();
-  }, [isFullyReady, isAuthenticated, user, setCart, isChecking]);
-
-  const handleLogout = async () => {
-    await logout();
-    setCart([]);
-
-    const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang', '/profile', '/gio-hang'];
-    const currentPath = window.location.pathname;
-    const isOnProtectedPage = protectedPages.some((page) => currentPath.startsWith(page));
-
-    if (isOnProtectedPage) {
-      showToast({
-        status: 'info',
-        content: t('nav.logout.success')
-      });
-      router.push('/');
-    } else {
-      showToast({
-        status: 'info',
-        content: t('nav.logout.success')
-      });
-      router.refresh();
-    }
-  };
+  // ====== ĐÃ TẠM ẨN ĐỒNG BỘ GIỎ HÀNG & ĐĂNG XUẤT ======
+  // useEffect(() => {
+  //   const loadCart = async () => {
+  //     if (isFullyReady && isAuthenticated && user) {
+  //       try {
+  //         const authCheck = await authService.checkAuth();
+  //         if (authCheck.isAuthenticated && authCheck.access_token) {
+  //           authService.getCurrentToken(authCheck.access_token);
+  //         }
+  //
+  //         const serverCart = await cartService.getCart();
+  //         const formattedCart = serverCart.items.map((item) => ({
+  //           slug: item.slug,
+  //           id: item.productId,
+  //           quantity: item.quantity
+  //         }));
+  //         setCart(formattedCart);
+  //       } catch (error) {
+  //         setCart([]);
+  //       }
+  //     } else if (!isChecking && !isAuthenticated) {
+  //       setCart([]);
+  //     }
+  //   };
+  //
+  //   loadCart();
+  // }, [isFullyReady, isAuthenticated, user, setCart, isChecking]);
+  //
+  // const handleLogout = async () => {
+  //   await logout();
+  //   setCart([]);
+  //
+  //   const protectedPages = ['/thanh-toan', '/tai-khoan', '/lich-su-don-hang', '/profile', '/gio-hang'];
+  //   const currentPath = window.location.pathname;
+  //   const isOnProtectedPage = protectedPages.some((page) => currentPath.startsWith(page));
+  //
+  //   if (isOnProtectedPage) {
+  //     showToast({
+  //       status: 'info',
+  //       content: t('nav.logout.success')
+  //     });
+  //     router.push('/');
+  //   } else {
+  //     showToast({
+  //       status: 'info',
+  //       content: t('nav.logout.success')
+  //     });
+  //     router.refresh();
+  //   }
+  // };
 
   return (
     <Box>
@@ -160,9 +164,9 @@ const Header = () => {
         as="header"
         align="center"
         h="114px"
-        px="48px"
+        px={{ lg: '24px', xl: '40px', '2xl': '48px' }}
         pt="24px"
-        gap="62px"
+        gap={{ lg: '16px', xl: '40px', '2xl': '62px' }}
         justify="space-between"
         bgColor={!isTransparent || isScrolled ? '#FFF' : 'transparent'}
         pos="fixed"
@@ -172,7 +176,7 @@ const Header = () => {
         boxShadow={isScrolled ? 'xs' : 'none'}
       >
         {/* LOGO */}
-        <Link href="/">
+        <Link href="/" style={{ flexShrink: 0 }}>
           <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
         </Link>
 
@@ -199,16 +203,17 @@ const Header = () => {
                   <Link href={href}>
                     <Flex
                       justify="center"
-                      px="16px"
+                      px={{ lg: '8px', xl: '12px' }}
                       py="10px"
-                      w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
+                      w={{ lg: '92px', xl: '108px', '2xl': '128px' }}
                       borderBottom="2px solid"
                       borderColor={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : 'transparent'}
                       cursor="pointer"
                     >
                       <Text
-                        fontSize={{ xs: '18px', lg: '22px' }}
+                        fontSize={{ lg: '15px', xl: '16px', '2xl': '18px' }}
                         fontWeight={600}
+                        whiteSpace="nowrap"
                         color={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : '#333'}
                         _hover={{
                           color: '#333',
@@ -243,7 +248,7 @@ const Header = () => {
                           <Box
                             px={4}
                             py={3}
-                            fontSize={18}
+                            fontSize={16}
                             fontWeight={400}
                             color="gray.700"
                             cursor="pointer"
@@ -268,16 +273,17 @@ const Header = () => {
               <Link href={href} key={title}>
                 <Flex
                   justify="center"
-                  px="16px"
+                  px={{ lg: '8px', xl: '12px' }}
                   py="10px"
-                  w={{ xs: '144px', lg: '120px', xl: '120px', '2xl': '144px' }}
+                  w={{ lg: '92px', xl: '108px', '2xl': '128px' }}
                   borderBottom="2px solid"
                   borderColor={isActive ? (!isTransparent || isScrolled ? '#003366' : '#333') : 'transparent'}
                   cursor="pointer"
                 >
                   <Text
-                    fontSize={{ xs: '18px', lg: '22px' }}
+                    fontSize={{ lg: '15px', xl: '16px', '2xl': '18px' }}
                     fontWeight={600}
+                    whiteSpace="nowrap"
                     color={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : '#333'}
                     _hover={{
                       color: '#333',
@@ -294,13 +300,32 @@ const Header = () => {
           })}
         </Flex>
 
-        {/* RIGHT SECTION - Cart + Auth */}
-        <Flex align="center" gap="16px">
-          <CartHeader />
-          <LanguageSwitcher />
+        {/* RIGHT SECTION - Liên hệ + Ngôn ngữ */}
+        <Flex align="center" gap="16px" flexShrink={0}>
+          {/* ====== ĐÃ TẠM ẨN GIỎ HÀNG & ĐĂNG NHẬP ====== */}
+          {/* <CartHeader /> */}
+          {/* ====== ĐÃ TẠM ẨN CHUYỂN ĐỔI NGÔN NGỮ ====== */}
+          {/* <LanguageSwitcher /> */}
+
+          <Link href="/lien-he">
+            <Flex
+              align="center"
+              justify="center"
+              borderRadius={8}
+              px={{ lg: '16px', xl: '20px' }}
+              h="40px"
+              bgColor="#0F2C3D"
+              _hover={{ opacity: 0.8 }}
+              transitionDuration="250ms"
+            >
+              <Text fontSize={{ lg: '16px', xl: '18px' }} fontWeight={500} color="#FFF" whiteSpace="nowrap">
+                {t('nav.contact')}
+              </Text>
+            </Flex>
+          </Link>
 
           {/* Auth Section */}
-          {isChecking ? (
+          {/* {isChecking ? (
             <Box w="142px" />
           ) : user ? (
             <Menu>
@@ -330,7 +355,7 @@ const Header = () => {
                 </Text>
               </Flex>
             </Link>
-          )}
+          )} */}
         </Flex>
       </Flex>
 
@@ -354,10 +379,12 @@ const Header = () => {
         </Link>
 
         <Flex align="center" gap="16px">
-          <CartHeaderMobile />
-          <LanguageSwitcher />
+          {/* ====== ĐÃ TẠM ẨN GIỎ HÀNG & ĐĂNG NHẬP ====== */}
+          {/* <CartHeaderMobile /> */}
+          {/* ====== ĐÃ TẠM ẨN CHUYỂN ĐỔI NGÔN NGỮ ====== */}
+          {/* <LanguageSwitcher /> */}
 
-          {isChecking ? (
+          {/* {isChecking ? (
             <Box w="24px" />
           ) : user ? (
             <Menu>
@@ -377,7 +404,7 @@ const Header = () => {
             <Link href="/dang-nhap">
               <UserIcon w="24px" h="24px" color="#065FD4" />
             </Link>
-          )}
+          )} */}
 
           <Box onClick={onOpen} cursor="pointer">
             <Box w="24px" h="2px" bg="#333" mb="6px" />

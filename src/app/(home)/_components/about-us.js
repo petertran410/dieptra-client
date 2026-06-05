@@ -12,9 +12,10 @@ const AboutUs = () => {
     <Flex
       mt={{ xs: '30px', lg: '50px' }}
       mb={{ xs: '40px', lg: '50px' }}
-      px={{ xs: '20px', lg: '400px', md: '200px' }}
+      px={{ xs: '20px', md: '30px', lg: '160px', xl: '200px', '2xl': '250px' }}
       gap="24px"
       direction={{ xs: 'column', lg: 'row' }}
+      align="center"
     >
       <Flex flex={1.1} direction="column" gap="16px">
         <Text as="h1" fontSize={26} fontWeight={600} color="#1E96BC">

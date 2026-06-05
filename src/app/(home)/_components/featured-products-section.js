@@ -68,8 +68,9 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
   return (
     <Box
       py={{ base: '24px', lg: '40px' }}
-      w={{ xs: '100%', md: '750px', lg: '800px', xl: '1100px', '2xl': '1400px' }}
-      align="center"
+      w="full"
+      maxW={{ xs: '500px', md: '100%', '2xl': '1400px' }}
+      mx="auto"
     >
       <Heading
         as="h2"
@@ -88,7 +89,8 @@ const FeaturedProductsSection = ({ categoryName, products, categoryImage, catego
         gap={{ base: '16px', lg: '20px' }}
       >
         <Box
-          w={{ xs: '308px', sm: '308px', md: '250px', lg: '250px', xl: '250px', '2xl': '350px' }}
+          w={{ xs: '100%', md: '250px', lg: '250px', xl: '250px', '2xl': '350px' }}
+          maxW={{ xs: '308px', md: 'none' }}
           h={{ xs: '320px', sm: '320px', md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
           flexShrink={0}
           display="flex"

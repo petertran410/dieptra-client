@@ -9,35 +9,37 @@ import {
   Text,
   Button,
   Heading,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
+  // NumberInput,
+  // NumberInputField,
+  // NumberInputStepper,
+  // NumberIncrementStepper,
+  // NumberDecrementStepper,
   Flex
 } from '@chakra-ui/react';
-import { useState } from 'react';
+// import { useState } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '../../../../../components/breadcrumb/breadcrumb';
 import { formatCurrency } from '../../../../../utils/helper-server';
 import { PX_ALL } from '../../../../../utils/const';
 import OtherProduct from './other-product';
-import AddCart from './add-cart';
+// ====== ĐÃ TẠM ẨN THÊM VÀO GIỎ HÀNG ======
+// import AddCart from './add-cart';
 import ProductImageGallery from './product-image-gallery';
 import { useTranslation } from '../../../../../hooks/useTranslation';
-import { useRecoilState } from 'recoil';
-import { cartAtom } from '../../../../../states/common';
-import { authService } from '../../../../../services/auth.service';
-import { cartService } from '../../../../../services/cart.service';
-import { showToast } from '../../../../../utils/helper';
-import { useEffect } from 'react';
+// import { useRecoilState } from 'recoil';
+// import { cartAtom } from '../../../../../states/common';
+// import { authService } from '../../../../../services/auth.service';
+// import { cartService } from '../../../../../services/cart.service';
+// import { showToast } from '../../../../../utils/helper';
+// import { useEffect } from 'react';
 
 const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
   const { t, getLocalizedText } = useTranslation();
-  const [quantity, setQuantity] = useState(1);
-  const [isAutoAdding, setIsAutoAdding] = useState(false);
+  // ====== ĐÃ TẠM ẨN SỐ LƯỢNG & GIỎ HÀNG ======
+  // const [quantity, setQuantity] = useState(1);
+  // const [isAutoAdding, setIsAutoAdding] = useState(false);
 
-  const [cart, setCart] = useRecoilState(cartAtom);
+  // const [cart, setCart] = useRecoilState(cartAtom);
 
   const {
     title,
@@ -85,60 +87,62 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
 
   const breadcrumbData = buildBreadcrumbData();
 
-  useEffect(() => {
-    const handlePendingAddToCart = async () => {
-      try {
-        const pendingAddToCart = sessionStorage.getItem('pending_add_to_cart');
-
-        if (!pendingAddToCart) return;
-
-        const pendingData = JSON.parse(pendingAddToCart);
-
-        if (pendingData.productId !== productDetail.id) return;
-
-        const authCheck = await authService.checkAuth();
-        if (!authCheck.isAuthenticated || !authCheck.access_token) return;
-
-        setIsAutoAdding(true);
-
-        sessionStorage.removeItem('pending_add_to_cart');
-
-        await cartService.addToCart(pendingData.productId, pendingData.quantity);
-
-        const serverCart = await cartService.getCart();
-        const formattedCart = serverCart.items.map((item) => ({
-          slug: item.slug,
-          id: Number(item.productId),
-          quantity: item.quantity,
-          cartId: item.id
-        }));
-        setCart(formattedCart);
-
-        showToast({
-          status: 'success',
-          content: t('cart.added')
-        });
-      } catch (error) {
-        console.error('Auto add to cart error:', error);
-        sessionStorage.removeItem('pending_add_to_cart');
-
-        showToast({
-          status: 'error',
-          content: t('cart.error')
-        });
-      } finally {
-        setIsAutoAdding(false);
-      }
-    };
-
-    const timer = setTimeout(handlePendingAddToCart, 1000);
-    return () => clearTimeout(timer);
-  }, [productDetail.id, setCart, t]);
+  // ====== ĐÃ TẠM ẨN TỰ ĐỘNG THÊM VÀO GIỎ HÀNG SAU ĐĂNG NHẬP ======
+  // useEffect(() => {
+  //   const handlePendingAddToCart = async () => {
+  //     try {
+  //       const pendingAddToCart = sessionStorage.getItem('pending_add_to_cart');
+  //
+  //       if (!pendingAddToCart) return;
+  //
+  //       const pendingData = JSON.parse(pendingAddToCart);
+  //
+  //       if (pendingData.productId !== productDetail.id) return;
+  //
+  //       const authCheck = await authService.checkAuth();
+  //       if (!authCheck.isAuthenticated || !authCheck.access_token) return;
+  //
+  //       setIsAutoAdding(true);
+  //
+  //       sessionStorage.removeItem('pending_add_to_cart');
+  //
+  //       await cartService.addToCart(pendingData.productId, pendingData.quantity);
+  //
+  //       const serverCart = await cartService.getCart();
+  //       const formattedCart = serverCart.items.map((item) => ({
+  //         slug: item.slug,
+  //         id: Number(item.productId),
+  //         quantity: item.quantity,
+  //         cartId: item.id
+  //       }));
+  //       setCart(formattedCart);
+  //
+  //       showToast({
+  //         status: 'success',
+  //         content: t('cart.added')
+  //       });
+  //     } catch (error) {
+  //       console.error('Auto add to cart error:', error);
+  //       sessionStorage.removeItem('pending_add_to_cart');
+  //
+  //       showToast({
+  //         status: 'error',
+  //         content: t('cart.error')
+  //       });
+  //     } finally {
+  //       setIsAutoAdding(false);
+  //     }
+  //   };
+  //
+  //   const timer = setTimeout(handlePendingAddToCart, 1000);
+  //   return () => clearTimeout(timer);
+  // }, [productDetail.id, setCart, t]);
 
   return (
     <>
       <Container maxW="auto" py={8} px={PX_ALL} pt={{ base: '80px', lg: '180px' }}>
-        {isAutoAdding && (
+        {/* ====== ĐÃ TẠM ẨN THÔNG BÁO ĐANG THÊM GIỎ HÀNG ====== */}
+        {/* {isAutoAdding && (
           <Box
             position="fixed"
             top="80px"
@@ -152,7 +156,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
           >
             Đang thêm sản phẩm vào giỏ hàng...
           </Box>
-        )}
+        )} */}
 
         <VStack spacing={8} align="stretch">
           <Box>
@@ -199,7 +203,8 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                 </Text>
 
                 <Flex direction="row" gap={4} align="stretch" w="full">
-                  <NumberInput
+                  {/* ====== ĐÃ TẠM ẨN SỐ LƯỢNG & THÊM VÀO GIỎ HÀNG ====== */}
+                  {/* <NumberInput
                     value={quantity}
                     onChange={(valueString, valueNumber) => setQuantity(valueNumber)}
                     min={1}
@@ -224,9 +229,9 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                         quantity={quantity}
                       />
                     </Box>
-                  )}
+                  )} */}
 
-                  <Box flex="1" maxW="35%">
+                  <Box flex="1">
                     <Link href="/lien-he">
                       <Button
                         size="lg"

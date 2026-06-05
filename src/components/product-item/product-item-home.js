@@ -36,7 +36,7 @@ const ProductItemHome = ({ item }) => {
       }}
       position="relative"
       h={{ xs: '300px', md: '300px', lg: '300px', xl: '330px', '2xl': '400px' }}
-      w={{ md: '100%', lg: '200px', xl: '220px', '2xl': '270px' }}
+      w="full"
     >
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
         <Box
@@ -103,7 +103,9 @@ const ProductItemHome = ({ item }) => {
             transitionDuration="200ms"
           >
             <Text fontSize="16px" fontWeight="600" color="white">
-              Mua hàng
+              {/* ====== ĐÃ ĐỔI "Mua hàng" THÀNH "Liên hệ" ====== */}
+              {/* Mua hàng */}
+              Liên hệ
             </Text>
           </Flex>
         </Flex>

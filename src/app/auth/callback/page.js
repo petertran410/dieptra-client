@@ -1,122 +1,57 @@
-'use client';
+import { redirect } from 'next/navigation';
 
-import { useEffect, useState, Suspense } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import PhoneModal from './_components/phone-modal';
-
-function AuthCallbackContent() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const [showPhoneModal, setShowPhoneModal] = useState(false);
-  const [tempToken, setTempToken] = useState('');
-  const [tempKey, setTempKey] = useState('');
-
-  useEffect(() => {
-    const handleCallback = async () => {
-      try {
-        const tokenParam = searchParams.get('token');
-        const userParam = searchParams.get('user');
-        const needsPhone = searchParams.get('needs_phone');
-        const isTemp = searchParams.get('is_temp');
-        const tempKeyParam = searchParams.get('temp_key');
-
-        if (!tokenParam || !userParam) {
-          router.push('/dang-nhap');
-          return;
-        }
-
-        const user = JSON.parse(decodeURIComponent(userParam));
-
-        if (needsPhone === 'true' && isTemp === 'true' && tempKeyParam) {
-          setTempToken(tokenParam);
-          setTempKey(tempKeyParam);
-          setShowPhoneModal(true);
-        } else {
-          if (tokenParam) {
-            const { setAccessToken } = await import('../../../services/auth.service');
-            setAccessToken(tokenParam);
-          }
-
-          if (user) {
-            const sanitizedUser = {
-              client_id: user.client_id,
-              full_name: (user.full_name || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              email: (user.email || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              phone: (user.phone || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              detailed_address: (user.detailed_address || '').replace(
-                /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-                ''
-              ),
-              province: (user.province || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              district: (user.district || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ''),
-              ward: (user.ward || '').replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '')
-            };
-
-            const Cookies = (await import('js-cookie')).default;
-            const { CK_CLIENT_USER } = await import('../../../utils/const');
-
-            Cookies.set(CK_CLIENT_USER, JSON.stringify(sanitizedUser), {
-              expires: 7,
-              secure: process.env.NODE_ENV === 'production',
-              sameSite: 'strict'
-            });
-          }
-
-          await new Promise((resolve) => setTimeout(resolve, 100));
-          const redirectTo = searchParams.get('redirect') || '/';
-          sessionStorage.removeItem('auth_redirect');
-          router.push(redirectTo);
-        }
-      } catch (error) {
-        console.error('OAuth callback error:', error);
-        router.push('/dang-nhap');
-      }
-    };
-
-    handleCallback();
-  }, [searchParams, router]);
-
-  const handlePhoneSubmitted = () => {
-    setShowPhoneModal(false);
-    const redirectTo = searchParams.get('redirect') || '/';
-    sessionStorage.removeItem('auth_redirect');
-    router.push(redirectTo);
-  };
-
-  const handlePhoneCancelled = () => {
-    setShowPhoneModal(false);
-    sessionStorage.removeItem('auth_redirect');
-    router.push('/dang-nhap');
-  };
-
-  if (showPhoneModal) {
-    return (
-      <PhoneModal
-        tempToken={tempToken}
-        tempKey={tempKey}
-        onSuccess={handlePhoneSubmitted}
-        onCancel={handlePhoneCancelled}
-      />
-    );
-  }
-
-  return (
-    <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      Đang xử lý đăng nhập...
-    </div>
-  );
-}
+// ====== ĐÃ TẠM ẨN CHỨC NĂNG CALLBACK ĐĂNG NHẬP ======
+// Toàn bộ logic xử lý OAuth callback được giữ lại (comment) để có thể khôi phục sau.
+// Hiện tại route này tự động chuyển hướng về trang chủ.
+//
+// 'use client';
+//
+// import { useEffect, useState, Suspense } from 'react';
+// import { useRouter, useSearchParams } from 'next/navigation';
+// import PhoneModal from './_components/phone-modal';
+//
+// function AuthCallbackContent() {
+//   const router = useRouter();
+//   const searchParams = useSearchParams();
+//   const [showPhoneModal, setShowPhoneModal] = useState(false);
+//   const [tempToken, setTempToken] = useState('');
+//   const [tempKey, setTempKey] = useState('');
+//
+//   useEffect(() => {
+//     const handleCallback = async () => {
+//       try {
+//         const tokenParam = searchParams.get('token');
+//         const userParam = searchParams.get('user');
+//         const needsPhone = searchParams.get('needs_phone');
+//         const isTemp = searchParams.get('is_temp');
+//         const tempKeyParam = searchParams.get('temp_key');
+//
+//         if (!tokenParam || !userParam) {
+//           router.push('/dang-nhap');
+//           return;
+//         }
+//
+//         ... (phần xử lý token/cookie/redirect giữ nguyên trong lịch sử git)
+//       } catch (error) {
+//         console.error('OAuth callback error:', error);
+//         router.push('/dang-nhap');
+//       }
+//     };
+//
+//     handleCallback();
+//   }, [searchParams, router]);
+//
+//   ... (phần render PhoneModal giữ nguyên trong lịch sử git)
+// }
+//
+// export default function AuthCallback() {
+//   return (
+//     <Suspense fallback={<div>Đang xử lý đăng nhập...</div>}>
+//       <AuthCallbackContent />
+//     </Suspense>
+//   );
+// }
 
 export default function AuthCallback() {
-  return (
-    <Suspense
-      fallback={
-        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          Đang xử lý đăng nhập...
-        </div>
-      }
-    >
-      <AuthCallbackContent />
-    </Suspense>
-  );
+  redirect('/');
 }

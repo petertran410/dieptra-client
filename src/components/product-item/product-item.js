@@ -145,7 +145,9 @@ const ProductItem = ({ item }) => {
             transitionDuration="200ms"
           >
             <Text fontSize="16px" fontWeight="600" color="white">
-              {t('product.buy.button')}
+              {/* ====== ĐÃ ĐỔI "Mua hàng" THÀNH "Liên hệ" ====== */}
+              {/* {t('product.buy.button')} */}
+              {t('product.contact')}
             </Text>
           </Flex>
         </Flex>

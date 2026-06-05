@@ -53,17 +53,8 @@ const Feedback = () => {
     >
       <SectionBlockH3 title={t('home.feedback.title')} />
 
-      <Box
-        w={{
-          xs: 'full',
-          md: 'calc(100vw - 80px)',
-          lg: 'calc(100vw - 320px)',
-          xl: 'calc(100vw - 400px)',
-          '2xl': 'calc(100vw - 500px)'
-        }}
-        mt="64px"
-      >
-        <Box w={{ xs: 'full', lg: '105%', xl: '105%', '2xl': '105%' }} ml={{ xs: 0, lg: '-2.5%' }}>
+      <Box w="full" maxW="1400px" mt="64px">
+        <Box w="full">
           <Box display={{ xs: 'none', lg: 'block' }}>
             <Carousel breakpoints={breakpoints} spaceBetween={24}>
               {FEEDBACK_LIST.map((item) => {
