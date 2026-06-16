@@ -21,7 +21,7 @@ function parseSegments(segments = []) {
 async function findCategoryBySlugPath(slugPath = []) {
   if (!slugPath.length) return null;
   try {
-    const data = await serverFetchJSON('/api/category/for-cms', { next: { revalidate: 600 } });
+    const data = await serverFetchJSON('/api/category/client/list', { next: { revalidate: 600 } });
     const all = data?.data || [];
     const buildPath = (id) => {
       const c = all.find((x) => x.id === id);

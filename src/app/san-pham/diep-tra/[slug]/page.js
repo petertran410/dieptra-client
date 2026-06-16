@@ -45,7 +45,7 @@ async function fetchRelated(categoryId, excludeId) {
 async function fetchCategoryPath(categoryId) {
   if (!categoryId) return [];
   try {
-    const data = await serverFetchJSON('/api/category/for-cms', { next: { revalidate: 600 } });
+    const data = await serverFetchJSON('/api/category/client/list', { next: { revalidate: 600 } });
     const all = data?.data || [];
     const path = [];
     let current = all.find((c) => c.id === categoryId);

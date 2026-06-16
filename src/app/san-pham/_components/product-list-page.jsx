@@ -19,7 +19,7 @@ const SORT_MAP = {
 
 async function fetchAllCategories() {
   try {
-    const data = await serverFetchJSON('/api/category/for-cms', { next: { revalidate: 600 } });
+    const data = await serverFetchJSON('/api/category/client/list', { next: { revalidate: 600 } });
     return data?.data || [];
   } catch {
     return [];

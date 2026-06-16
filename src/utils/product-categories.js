@@ -3,7 +3,7 @@ import { API } from './API';
 export const fetchRootCategories = async () => {
   try {
     const response = await API.request({
-      url: '/api/category/for-cms',
+      url: '/api/category/client/list',
       method: 'GET'
     });
 
