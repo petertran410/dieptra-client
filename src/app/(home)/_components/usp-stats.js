@@ -40,6 +40,7 @@ const UspStats = () => {
             py="8px"
             borderRight={{ lg: idx === items.length - 1 ? 'none' : '1px solid' }}
             borderColor={{ lg: HC.border }}
+            gridColumn={{ base: idx === items.length - 1 && items.length % 2 === 1 ? '1 / -1' : 'auto', md: 'auto' }}
           >
             <Text fontFamily={FONT_DISPLAY} fontSize={{ base: '26px', lg: '32px' }} fontWeight={900} color={HC.accent} lineHeight={1}>
               {it.num}

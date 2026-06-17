@@ -54,7 +54,7 @@ const Hero = () => {
         w="full"
         h="full"
         align={{ base: 'flex-start', md: 'center' }}
-        pt={{ base: '70px', md: 0 }}
+        pt={{ base: '100px', md: 0 }}
         zIndex={2}
         pointerEvents="none"
       >
