@@ -1,14 +1,24 @@
 'use client';
 
-import Carousel from '../../../components/carousel';
-import CarouselMobile from '../../../components/carousel/carousel-mobile';
-import SectionBlockH3 from '../../../components/section-block/section-block-h3';
+import { Box, Text } from '@chakra-ui/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 import { useTranslation } from '../../../hooks/useTranslation';
-import { IMG_ALT } from '../../../utils/const';
-import { Box, Flex, Image, Text } from '@chakra-ui/react';
+import SecHead from './sec-head';
+import { HC, FONT_DISPLAY, HOME_PX } from './home-theme';
 
 const Feedback = () => {
   const { t } = useTranslation();
+
+  const LIST = [
+    { image: '/images/feedback-1.webp', name: t('home.feedback.customer1'), role: t('home.feedback.position1'), content: t('home.feedback.content1') },
+    { image: '/images/feedback-2.webp', name: t('home.feedback.customer2'), role: t('home.feedback.position2'), content: t('home.feedback.content2') },
+    { image: '/images/feedback-3.webp', name: t('home.feedback.customer3'), role: t('home.feedback.position3'), content: t('home.feedback.content3') },
+    { image: '/images/feedback-4.webp', name: t('home.feedback.customer4'), role: t('home.feedback.position4'), content: t('home.feedback.content4') }
+  ];
 
   const breakpoints = {
     1: { slidesPerView: 1 },
@@ -16,145 +26,74 @@ const Feedback = () => {
     992: { slidesPerView: 3 }
   };
 
-  const FEEDBACK_LIST = [
-    {
-      customer: t('home.feedback.customer1'),
-      position: t('home.feedback.position1'),
-      content: t('home.feedback.content1'),
-      image: '/images/feedback-1.webp'
-    },
-    {
-      customer: t('home.feedback.customer3'),
-      position: t('home.feedback.position3'),
-      content: t('home.feedback.content3'),
-      image: '/images/feedback-2.webp'
-    },
-    {
-      customer: t('home.feedback.customer2'),
-      position: t('home.feedback.position2'),
-      content: t('home.feedback.content2'),
-      image: '/images/feedback-3.webp'
-    },
-    {
-      customer: t('home.feedback.customer4'),
-      position: t('home.feedback.position4'),
-      content: t('home.feedback.content4'),
-      image: '/images/feedback-4.webp'
-    }
-  ];
-
   return (
-    <Flex
-      px={{ xs: '0px', md: '30px', lg: '160px', xl: '200px', '2xl': '250px' }}
-      direction="column"
-      align="center"
-      w="full"
-      py={{ xs: '36px', lg: '75px' }}
-    >
-      <SectionBlockH3 title={t('home.feedback.title')} />
+    <Box as="section" px={HOME_PX} py={{ base: '56px', lg: '96px' }} bg={HC.cyanBg}>
+      <Box maxW="1200px" mx="auto">
+        <SecHead eyebrow={t('home.feedback.eyebrow')} title={t('home.feedback.title')} />
 
-      <Box w="full" maxW="1400px" mt="64px">
-        <Box w="full">
-          <Box display={{ xs: 'none', lg: 'block' }}>
-            <Carousel breakpoints={breakpoints} spaceBetween={24}>
-              {FEEDBACK_LIST.map((item) => {
-                return (
-                  <Flex direction="column" key={item.customer} pt="50px">
-                    <Flex
-                      direction="column"
-                      align="center"
-                      justify="center"
-                      borderRadius={16}
-                      px="12px"
-                      py="50px"
-                      pos="relative"
-                      bgColor="#f4f4f5"
-                      h="500px"
-                    >
-                      <Text
-                        fontSize={{ lg: '30px', xl: '30px', '2xl': '30px' }}
-                        fontWeight={500}
-                        textAlign="center"
-                        mt={{ lg: '120px', xl: '120px', '2xl': '100px' }}
-                      >
-                        {item.customer}
-                      </Text>
-                      <Text color="#71717A" textAlign="center" fontSize={{ lg: '14px', xl: '14px', '2xl': '15px' }}>
-                        {item.position}
-                      </Text>
-                      <Text mt="4px" textAlign="justify" fontSize={{ lg: '20px', xl: '20px', '2xl': '20px' }}>
-                        {item.content}
-                      </Text>
-                      <Image
-                        src={item.image}
-                        pos="absolute"
-                        left={0}
-                        right={0}
-                        mx="auto"
-                        fit="cover"
-                        top="5px"
-                        w={{ lg: '140px', xl: '150px', '2xl': '150px' }}
-                        h={{ lg: '140px', xl: '150px', '2xl': '150px' }}
-                        borderRadius="full"
-                        alt={IMG_ALT}
-                        border="6px solid #FFF"
-                        loading="lazy"
-                      />
-                    </Flex>
-                  </Flex>
-                );
-              })}
-            </Carousel>
-          </Box>
-
-          <Box display={{ xs: 'block', lg: 'none' }} className="home-feedback">
-            <CarouselMobile spaceBetween={24} showPagination>
-              {FEEDBACK_LIST.map((item) => {
-                return (
-                  <Flex direction="column" key={item.customer} pt="32px">
-                    <Flex
-                      direction="column"
-                      align="center"
-                      justify="center"
-                      borderRadius={16}
-                      px="12px"
-                      py="50px"
-                      pos="relative"
-                      bgColor="#f4f4f5"
-                    >
-                      <Text fontSize={24} fontWeight={500} textAlign="center" mt="100px">
-                        {item.customer}
-                      </Text>
-                      <Text color="#71717A" textAlign="center" fontSize={14}>
-                        {item.position}
-                      </Text>
-                      <Text mt="8px" textAlign="justify" fontSize={18}>
-                        {item.content}
-                      </Text>
-                      <Image
-                        src={item.image}
-                        pos="absolute"
-                        left={0}
-                        right={0}
-                        mx="auto"
-                        fit="cover"
-                        top="5px"
-                        w="140px"
-                        h="140px"
-                        borderRadius="full"
-                        alt={IMG_ALT}
-                        border="6px solid #FFF"
-                        loading="lazy"
-                      />
-                    </Flex>
-                  </Flex>
-                );
-              })}
-            </CarouselMobile>
-          </Box>
+        <Box className="home-feedback-swiper" pt="70px">
+          <Swiper
+            modules={[Navigation, Autoplay, Pagination]}
+            breakpoints={breakpoints}
+            spaceBetween={24}
+            autoplay={{ delay: 4500, disableOnInteraction: false }}
+            navigation
+            pagination={{ clickable: true }}
+          >
+            {LIST.map((item) => (
+              <SwiperSlide key={item.name} style={{ height: 'auto' }}>
+                <Box
+                  pos="relative"
+                  bg="#f4f4f5"
+                  border="1px solid #e4e7e9"
+                  borderRadius="16px"
+                  p="84px 26px 30px"
+                  mt="60px"
+                  mb="20px"
+                  textAlign="center"
+                  h="calc(100% - 80px)"
+                >
+                  <Box
+                    pos="absolute"
+                    top="-60px"
+                    left="50%"
+                    transform="translateX(-50%)"
+                    w="120px"
+                    h="120px"
+                    borderRadius="18px"
+                    border="5px solid #fff"
+                    overflow="hidden"
+                    boxShadow="0 8px 20px rgba(13,59,66,.2)"
+                  >
+                    <Box
+                      as="img"
+                      src={item.image}
+                      alt={item.name}
+                      loading="lazy"
+                      w="100%"
+                      h="100%"
+                      objectFit="cover"
+                    />
+                  </Box>
+                  <Text color={HC.gold} fontSize="14px" letterSpacing="2px" mb="10px">
+                    ★★★★★
+                  </Text>
+                  <Text fontSize="14px" color={HC.textSecondary} lineHeight={1.6} mb="16px" textAlign="justify">
+                    {item.content}
+                  </Text>
+                  <Text fontFamily={FONT_DISPLAY} fontWeight={800} fontSize="16px" color={HC.primaryDark}>
+                    {item.name}
+                  </Text>
+                  <Text fontSize="12.5px" color="#71717A" mt="2px">
+                    {item.role}
+                  </Text>
+                </Box>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </Box>
       </Box>
-    </Flex>
+    </Box>
   );
 };
 

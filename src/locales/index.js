@@ -55,6 +55,127 @@ export const translations = {
     'home.statistic.coop': 'đối tác đồng hành',
     'home.product.detail': 'Xem thêm',
 
+    // HOME V2 — HERO
+    'home.hero.eyebrow': 'Nguyên liệu pha chế',
+    'home.hero.brand': 'Diệp Trà',
+    'home.hero.sub': 'Đồng hành cùng F&B',
+    'home.hero.desc':
+      'Nhà cung cấp nguyên liệu pha chế hàng đầu Việt Nam — hơn 500 sản phẩm, phủ sóng 60+ tỉnh thành, đồng hành cùng 30.000+ đối tác.',
+
+    // HOME V2 — USP
+    'home.usp.1.num': '60+',
+    'home.usp.1.label': 'Tỉnh thành phủ sóng',
+    'home.usp.1.desc': 'Giao hàng nhanh chóng trên toàn quốc',
+    'home.usp.2.num': '30.000+',
+    'home.usp.2.label': 'Đối tác đồng hành',
+    'home.usp.2.desc': 'Quán, chuỗi F&B, đại lý & nhà phân phối',
+    'home.usp.3.num': '500+',
+    'home.usp.3.label': 'Danh mục đa dạng',
+    'home.usp.3.desc': 'Hơn 500 sản phẩm nguyên liệu pha chế',
+    'home.usp.4.num': '★',
+    'home.usp.4.label': 'Hỗ trợ công thức & xu hướng',
+    'home.usp.4.desc': 'Cập nhật trend, menu mới, công thức độc quyền',
+    'home.usp.5.num': '✓',
+    'home.usp.5.label': 'Chất lượng ổn định',
+    'home.usp.5.desc': 'Kiểm soát chất lượng, nguồn uy tín',
+
+    // HOME V2 — CATEGORIES
+    'home.cat.eyebrow': 'Danh mục sản phẩm',
+    'home.cat.title': 'Hệ sinh thái nguyên liệu pha chế đầy đủ',
+    'home.cat.desc': 'Từ nguyên liệu nền đến topping và trà chuyên dụng — tất cả trong một nhà cung cấp.',
+    'home.cat.more': 'Xem thêm',
+    'home.cat.1.name': 'Mứt Pha Chế',
+    'home.cat.1.desc': 'Đa dạng hương vị, ngon tự nhiên',
+    'home.cat.2.name': 'Topping Trà Sữa',
+    'home.cat.2.desc': 'Trân châu, thạch, pudding, kem...',
+    'home.cat.3.name': 'Siro Pha Chế',
+    'home.cat.3.desc': 'Siro trái cây, siro hương vị',
+    'home.cat.4.name': 'Bột Pha Chế',
+    'home.cat.4.desc': 'Bột sữa, bột kem, bột matcha...',
+    'home.cat.5.name': 'Sữa / Kem Béo Pha Chế',
+    'home.cat.5.desc': 'Sữa đặc, kem béo, topping base...',
+    'home.cat.6.name': 'Hồng Trà',
+    'home.cat.6.desc': 'Hồng trà đậm vị, ủ trà sữa',
+    'home.cat.7.name': 'Trà Xanh',
+    'home.cat.7.desc': 'Trà xanh thơm dịu, chát thanh',
+    'home.cat.8.name': 'Ô Long & Trà Hương Hoa',
+    'home.cat.8.desc': 'Ô long, ô nhài, hoa hồng...',
+
+    // HOME V2 — SPLIT 60/40
+    'home.split.trade.pct': '60%',
+    'home.split.trade.title': 'Hàng thương mại',
+    'home.split.trade.sub': 'Nguồn hàng đa dạng — Giá tốt — Linh hoạt cho mọi mô hình',
+    'home.split.trade.li1': 'Danh mục sản phẩm phong phú',
+    'home.split.trade.li2': 'Nhiều phân khúc giá',
+    'home.split.trade.li3': 'Dễ thay thế nguyên liệu',
+    'home.split.trade.li4': 'Phù hợp nhập sỉ / phân phối',
+    'home.split.trade.cta': 'Xem danh mục thương mại',
+    'home.split.brand.pct': '40%',
+    'home.split.brand.title': 'Hàng thương hiệu',
+    'home.split.brand.sub': 'Sản phẩm chiến lược — Chất lượng ổn định — Hỗ trợ menu',
+    'home.split.brand.li1': 'Sản phẩm chủ lực LerMao, Trà Phượng Hoàng',
+    'home.split.brand.li2': 'Chất lượng đồng nhất',
+    'home.split.brand.li3': 'Xu hướng mới — sản phẩm khác biệt',
+    'home.split.brand.li4': 'Phù hợp xây dựng menu signature',
+    'home.split.brand.cta': 'Khám phá thương hiệu',
+
+    // HOME V2 — FEATURED
+    'home.featured.eyebrow': 'Sản phẩm nổi bật',
+    'home.featured.title': 'Best-seller được hàng nghìn quán tin dùng',
+    'home.featured.detail': 'Xem chi tiết',
+    'home.featured.contact': 'Liên hệ',
+
+    // HOME V2 — FEEDBACK
+    'home.feedback.eyebrow': 'Cảm nhận khách hàng',
+
+    // HOME V2 — LERMAO
+    'home.lermao.eyebrow': 'Thương hiệu riêng',
+    'home.lermao.desc':
+      'LerMao là thương hiệu nguyên liệu pha chế được nghiên cứu và phát triển bởi Diệp Trà, đáp ứng tiêu chuẩn chất lượng cao, phù hợp với khẩu vị người Việt.',
+    'home.lermao.cta': 'Khám phá ngay',
+
+    // HOME V2 — GUIDE
+    'home.guide.eyebrow': 'Cẩm nang pha chế & kinh doanh',
+    'home.guide.title': 'Kiến thức đồng hành cùng người làm F&B',
+    'home.guide.1.title': 'Công Thức Pha Chế',
+    'home.guide.1.li1': 'Trà sữa',
+    'home.guide.1.li2': 'Trà trái cây',
+    'home.guide.1.li3': 'Matcha',
+    'home.guide.1.cta': 'Xem công thức ngay',
+    'home.guide.2.title': 'Kiến Thức Nguyên Liệu',
+    'home.guide.2.li1': 'Phân biệt các loại trà',
+    'home.guide.2.li2': 'Chọn syrup phù hợp',
+    'home.guide.2.li3': 'Bảo quản nguyên liệu',
+    'home.guide.2.cta': 'Xem kiến thức ngay',
+    'home.guide.3.title': 'Kinh Doanh Quán',
+    'home.guide.3.li1': 'Tính cost đồ uống',
+    'home.guide.3.li2': 'Xây dựng menu',
+    'home.guide.3.li3': 'Xu hướng đồ uống',
+    'home.guide.3.cta': 'Xem bài viết',
+
+    // HOME V2 — WHY + FAQ
+    'home.why.eyebrow': 'Tại sao chọn Diệp Trà?',
+    'home.why.title': 'Đối tác đồng hành, không chỉ là nhà cung cấp',
+    'home.why.cta': 'Khám phá nguyên liệu',
+    'home.faq.1.q': 'Chất lượng nguyên liệu của Diệp Trà có gì khác biệt?',
+    'home.faq.1.a':
+      'Toàn bộ nguyên liệu được nhập khẩu trực tiếp từ các đối tác độc quyền tại Đài Loan, Trung Quốc và kiểm soát qua 6 tiêu chuẩn nghiêm ngặt, đảm bảo hương vị đồng nhất giữa các đợt hàng.',
+    'home.faq.2.q': 'Tôi là người mới bắt đầu, Diệp Trà hỗ trợ công thức không?',
+    'home.faq.2.a':
+      'Có. Đội ngũ R&D cung cấp công thức chuẩn, tư vấn xây dựng menu và cập nhật xu hướng đồ uống mới giúp quán vận hành ngay từ ngày đầu.',
+    'home.faq.3.q': 'Sản phẩm của Diệp Trà có giúp tối ưu chi phí vận hành không?',
+    'home.faq.3.a':
+      'Danh mục đa phân khúc giá và khả năng nhập trọn gói tại một nơi giúp giảm chi phí logistics, tồn kho và thời gian quản lý nhà cung cấp.',
+    'home.faq.4.q': 'Diệp Trà có cập nhật xu hướng thị trường thường xuyên không?',
+    'home.faq.4.a':
+      'Chúng tôi liên tục ra mắt sản phẩm theo trend và chia sẻ công thức độc quyền qua cẩm nang pha chế để đối tác luôn dẫn đầu thị trường.',
+    'home.faq.5.q': 'Chính sách hỗ trợ và giao hàng của thương hiệu như thế nào?',
+    'home.faq.5.a':
+      'Hệ thống kho lạnh hai miền và mạng lưới giao nhận phủ 60+ tỉnh thành đảm bảo giao hàng nhanh, đúng hẹn, kèm chính sách hỗ trợ đại lý linh hoạt.',
+    'home.faq.6.q': 'Tại sao nói Diệp Trà là đối tác đồng hành thay vì chỉ là nhà cung cấp?',
+    'home.faq.6.a':
+      '"Thành công của khách hàng là tương lai của chúng tôi" — chúng tôi đồng hành từ nguyên liệu, công thức đến chiến lược menu, gắn bó dài hạn cùng sự phát triển của quán.',
+
     //ABOUT_US
     'about_us.title': 'Giới Thiệu Diệp Trà',
     'about_us.meta': 'Về Chúng Tôi',
@@ -645,6 +766,127 @@ export const translations = {
     'home.statistic.province': 'Province',
     'home.statistic.coop': 'companion partner',
     'home.product.detail': 'More Details',
+
+    // HOME V2 — HERO
+    'home.hero.eyebrow': 'Beverage ingredients',
+    'home.hero.brand': 'Diep Tra',
+    'home.hero.sub': 'Partnering with F&B',
+    'home.hero.desc':
+      "Vietnam's leading beverage ingredient supplier — over 500 products, covering 60+ provinces, partnering with 30,000+ partners.",
+
+    // HOME V2 — USP
+    'home.usp.1.num': '60+',
+    'home.usp.1.label': 'Provinces covered',
+    'home.usp.1.desc': 'Fast nationwide delivery',
+    'home.usp.2.num': '30,000+',
+    'home.usp.2.label': 'Partners',
+    'home.usp.2.desc': 'Shops, F&B chains, agents & distributors',
+    'home.usp.3.num': '500+',
+    'home.usp.3.label': 'Diverse catalog',
+    'home.usp.3.desc': 'Over 500 beverage ingredient products',
+    'home.usp.4.num': '★',
+    'home.usp.4.label': 'Recipe & trend support',
+    'home.usp.4.desc': 'Trends, new menus, exclusive recipes',
+    'home.usp.5.num': '✓',
+    'home.usp.5.label': 'Stable quality',
+    'home.usp.5.desc': 'Quality control, trusted sources',
+
+    // HOME V2 — CATEGORIES
+    'home.cat.eyebrow': 'Product categories',
+    'home.cat.title': 'A complete beverage ingredient ecosystem',
+    'home.cat.desc': 'From base ingredients to toppings and specialty teas — all in one supplier.',
+    'home.cat.more': 'View more',
+    'home.cat.1.name': 'Jams',
+    'home.cat.1.desc': 'Diverse flavors, naturally delicious',
+    'home.cat.2.name': 'Milk Tea Toppings',
+    'home.cat.2.desc': 'Pearls, jelly, pudding, cream...',
+    'home.cat.3.name': 'Syrups',
+    'home.cat.3.desc': 'Fruit syrups, flavored syrups',
+    'home.cat.4.name': 'Powders',
+    'home.cat.4.desc': 'Milk powder, creamer, matcha...',
+    'home.cat.5.name': 'Milk / Creamer',
+    'home.cat.5.desc': 'Condensed milk, creamer, topping base...',
+    'home.cat.6.name': 'Black Tea',
+    'home.cat.6.desc': 'Rich black tea for milk tea',
+    'home.cat.7.name': 'Green Tea',
+    'home.cat.7.desc': 'Fragrant, mellow green tea',
+    'home.cat.8.name': 'Oolong & Floral Tea',
+    'home.cat.8.desc': 'Oolong, jasmine, rose...',
+
+    // HOME V2 — SPLIT 60/40
+    'home.split.trade.pct': '60%',
+    'home.split.trade.title': 'Commercial goods',
+    'home.split.trade.sub': 'Diverse sourcing — Good prices — Flexible for any model',
+    'home.split.trade.li1': 'Rich product catalog',
+    'home.split.trade.li2': 'Multiple price tiers',
+    'home.split.trade.li3': 'Easy ingredient substitution',
+    'home.split.trade.li4': 'Ideal for wholesale / distribution',
+    'home.split.trade.cta': 'View commercial catalog',
+    'home.split.brand.pct': '40%',
+    'home.split.brand.title': 'Brand goods',
+    'home.split.brand.sub': 'Strategic products — Stable quality — Menu support',
+    'home.split.brand.li1': 'Flagship LerMao, Phoenix Tea products',
+    'home.split.brand.li2': 'Consistent quality',
+    'home.split.brand.li3': 'New trends — distinctive products',
+    'home.split.brand.li4': 'Ideal for building a signature menu',
+    'home.split.brand.cta': 'Explore brands',
+
+    // HOME V2 — FEATURED
+    'home.featured.eyebrow': 'Featured products',
+    'home.featured.title': 'Best-sellers trusted by thousands of shops',
+    'home.featured.detail': 'View details',
+    'home.featured.contact': 'Contact',
+
+    // HOME V2 — FEEDBACK
+    'home.feedback.eyebrow': 'Customer reviews',
+
+    // HOME V2 — LERMAO
+    'home.lermao.eyebrow': 'Own brand',
+    'home.lermao.desc':
+      'LerMao is a beverage ingredient brand researched and developed by Diep Tra, meeting high quality standards and suited to Vietnamese taste.',
+    'home.lermao.cta': 'Explore now',
+
+    // HOME V2 — GUIDE
+    'home.guide.eyebrow': 'Mixology & business handbook',
+    'home.guide.title': 'Knowledge that accompanies F&B owners',
+    'home.guide.1.title': 'Mixing Recipes',
+    'home.guide.1.li1': 'Milk tea',
+    'home.guide.1.li2': 'Fruit tea',
+    'home.guide.1.li3': 'Matcha',
+    'home.guide.1.cta': 'View recipes',
+    'home.guide.2.title': 'Ingredient Knowledge',
+    'home.guide.2.li1': 'Distinguish tea types',
+    'home.guide.2.li2': 'Choose the right syrup',
+    'home.guide.2.li3': 'Ingredient storage',
+    'home.guide.2.cta': 'View knowledge',
+    'home.guide.3.title': 'Shop Business',
+    'home.guide.3.li1': 'Drink costing',
+    'home.guide.3.li2': 'Menu building',
+    'home.guide.3.li3': 'Beverage trends',
+    'home.guide.3.cta': 'View articles',
+
+    // HOME V2 — WHY + FAQ
+    'home.why.eyebrow': 'Why choose Diep Tra?',
+    'home.why.title': 'A companion partner, not just a supplier',
+    'home.why.cta': 'Explore ingredients',
+    'home.faq.1.q': 'What makes Diep Tra ingredient quality different?',
+    'home.faq.1.a':
+      'All ingredients are imported directly from exclusive partners in Taiwan and China and controlled through 6 strict standards, ensuring consistent flavor across batches.',
+    'home.faq.2.q': "I'm a beginner, does Diep Tra support recipes?",
+    'home.faq.2.a':
+      'Yes. The R&D team provides standard recipes, menu-building consultation, and updates on new beverage trends to get your shop running from day one.',
+    'home.faq.3.q': 'Do Diep Tra products help optimize operating costs?',
+    'home.faq.3.a':
+      'A multi-tier price catalog and one-stop bulk purchasing reduce logistics, inventory, and supplier-management time.',
+    'home.faq.4.q': 'Does Diep Tra regularly update market trends?',
+    'home.faq.4.a':
+      'We continuously launch trend-driven products and share exclusive recipes through our mixology handbook so partners stay ahead of the market.',
+    'home.faq.5.q': 'What are the brand support and delivery policies?',
+    'home.faq.5.a':
+      'A two-region cold storage system and a delivery network covering 60+ provinces ensure fast, on-time delivery, plus flexible agent support policies.',
+    'home.faq.6.q': 'Why is Diep Tra a companion partner rather than just a supplier?',
+    'home.faq.6.a':
+      '"Our customers\' success is our future" — we accompany you from ingredients and recipes to menu strategy, building a long-term bond with your shop\'s growth.',
 
     //ABOUT_US
     'about_us.title': 'Diep Tra Introduction',
