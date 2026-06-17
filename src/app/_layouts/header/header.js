@@ -55,7 +55,7 @@ const Header = () => {
   const [showDropdown, setShowDropdown] = useState(null);
   // ====== ĐÃ TẠM ẨN GIỎ HÀNG & ĐĂNG NHẬP ======
   // const [cart, setCart] = useRecoilState(cartAtom);
-  const isTransparent = pathname === '/' || pathname === '/lien-he';
+  const isTransparent = pathname === '/' || pathname === '/lien-he' || pathname.startsWith('/tac-gia');
 
   const { categories: productCategories } = useProductCategories();
 
