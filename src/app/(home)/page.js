@@ -1,11 +1,15 @@
-import AboutUs from './_components/about-us';
-import Feedback from './_components/feedback';
-import HomeIntro from './_components/intro/intro';
 import { getMetadata } from '../../utils/helper-server';
 import { serverFetchJSON } from '../../utils/server-fetch';
-import Statistic from '../gioi-thieu-diep-tra/_components/statistic';
-import FeaturedArticle from './_components/feature-article';
+import HomeTheme from './_components/home-theme';
+import Hero from './_components/hero/hero';
+import UspStats from './_components/usp-stats';
+import Categories from './_components/categories';
+import SplitTradeBrand from './_components/split-trade-brand';
 import FeaturedProductsHome from './_components/featured-products-home';
+import Feedback from './_components/feedback';
+import LermaoBanner from './_components/lermao-banner';
+import GuideCards from './_components/guide-cards';
+import WhyFaq from './_components/why-faq';
 
 export const metadata = getMetadata({
   title: 'Diệp Trà | Chuyên Cung Cấp Nguyên Liệu Pha Chế',
@@ -27,13 +31,16 @@ export default async function Home() {
   const featuredProducts = await safeFetch('/api/product/client/featured-by-categories');
 
   return (
-    <div>
-      <HomeIntro />
-      <AboutUs />
-      <Statistic />
+    <HomeTheme>
+      <Hero />
+      <UspStats />
+      <Categories />
+      <SplitTradeBrand />
       <FeaturedProductsHome data={featuredProducts || []} />
       <Feedback />
-      <FeaturedArticle />
-    </div>
+      <LermaoBanner />
+      <GuideCards />
+      <WhyFaq />
+    </HomeTheme>
   );
 }

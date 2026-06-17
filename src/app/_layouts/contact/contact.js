@@ -21,32 +21,35 @@ const Contact = () => {
   }, []);
 
   return (
-    <Box pos="fixed" bottom={{ xs: '90px', md: '100px' }} right={{ xs: '20px', md: '20px' }} zIndex={1000}>
+    <Box pos="fixed" bottom={{ xs: '90px', md: '100px' }} right={{ xs: '14px', md: '20px' }} zIndex={1000}>
       <Flex
         direction="column"
         border="1px solid #E4E4E7"
         borderRadius="full"
-        h="180px"
-        w="64px"
+        h={{ xs: '132px', md: '180px' }}
+        w={{ xs: '48px', md: '64px' }}
         align="center"
         justify="center"
-        gap="15px"
+        gap={{ xs: '11px', md: '15px' }}
         bgColor="#FFF"
         pos="relative"
+        opacity={{ xs: 0.6, md: 1 }}
       >
         {!!showScrollTop && (
           <Button
             title="Lên đầu trang"
             pos="absolute"
-            top="-66px"
-            left="4px"
+            top={{ xs: '-50px', md: '-66px' }}
+            left={{ xs: '3px', md: '4px' }}
             borderRadius="full"
             bgColor="#FFF"
             border="1px solid #E4E4E7"
             alignItems="center"
             justifyContent="center"
-            w="56px"
-            h="56px"
+            minW="unset"
+            w={{ xs: '42px', md: '56px' }}
+            h={{ xs: '42px', md: '56px' }}
+            opacity={{ xs: 0.6, md: 1 }}
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             _hover={{
               bgColor: '#FFF',
@@ -57,7 +60,7 @@ const Contact = () => {
               opacity: 0.8
             }}
           >
-            <Image src="/images/arrow-up-black.webp" alt={IMG_ALT} w="24px" h="24px" />
+            <Image src="/images/arrow-up-black.webp" alt={IMG_ALT} w={{ xs: '18px', md: '24px' }} h={{ xs: '18px', md: '24px' }} />
           </Button>
         )}
 
@@ -65,8 +68,8 @@ const Contact = () => {
           <Image
             src="/images/zalo-contact.webp"
             alt={IMG_ALT}
-            w="40px"
-            h="40px"
+            w={{ xs: '30px', md: '40px' }}
+            h={{ xs: '30px', md: '40px' }}
             transitionDuration="250ms"
             _hover={{ transform: 'scale(1.1)' }}
           />
@@ -75,8 +78,8 @@ const Contact = () => {
           <Image
             src="/images/facebook-contact.webp"
             alt={IMG_ALT}
-            w="40px"
-            h="40px"
+            w={{ xs: '30px', md: '40px' }}
+            h={{ xs: '30px', md: '40px' }}
             transitionDuration="250ms"
             _hover={{ transform: 'scale(1.1)' }}
           />
@@ -85,8 +88,8 @@ const Contact = () => {
           <Image
             src="/images/phone-contact.webp"
             alt={IMG_ALT}
-            w="40px"
-            h="40px"
+            w={{ xs: '30px', md: '40px' }}
+            h={{ xs: '30px', md: '40px' }}
             transitionDuration="250ms"
             _hover={{ transform: 'scale(1.1)' }}
           />

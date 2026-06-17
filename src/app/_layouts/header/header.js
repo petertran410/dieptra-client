@@ -367,12 +367,12 @@ const Header = () => {
         h="70px"
         px="20px"
         justify="space-between"
-        bgColor="#FFF"
+        bgColor={!isTransparent || isScrolled ? '#FFF' : 'transparent'}
         pos="fixed"
         top={0}
         left={0}
         w="full"
-        boxShadow="xs"
+        boxShadow={!isTransparent || isScrolled ? 'xs' : 'none'}
       >
         <Link href="/">
           <Image src={'/images/logo-black.webp'} alt={IMG_ALT} w="120px" h="auto" />
