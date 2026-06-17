@@ -314,12 +314,12 @@ const Header = () => {
               borderRadius={8}
               px={{ lg: '16px', xl: '20px' }}
               h="40px"
-              bgColor="#0F2C3D"
+              bgColor="transparent"
               _hover={{ opacity: 0.8 }}
               transitionDuration="250ms"
             >
-              <Text fontSize={{ lg: '16px', xl: '18px' }} fontWeight={500} color="#FFF" whiteSpace="nowrap">
-                {t('nav.contact')}
+              <Text fontSize="18px" fontWeight={700} color="#0F2C3D" whiteSpace="nowrap">
+                📞 0973 123 230
               </Text>
             </Flex>
           </Link>
