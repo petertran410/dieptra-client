@@ -53,11 +53,13 @@ const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showDropdown, setShowDropdown] = useState(null);
+  // Key item cấp 1 đang hover để hiện submenu cấp 2 (flyout).
+  const [showSubmenu, setShowSubmenu] = useState(null);
   // ====== ĐÃ TẠM ẨN GIỎ HÀNG & ĐĂNG NHẬP ======
   // const [cart, setCart] = useRecoilState(cartAtom);
   const isTransparent = pathname === '/' || pathname === '/lien-he' || pathname.startsWith('/tac-gia');
 
-  const { categories: productCategories } = useProductCategories();
+  const { categories: productCategories, menuConfig } = useProductCategories();
 
   // const { user, isAuthenticated, isChecking, isFullyReady, logout } = useAuth();
 
@@ -71,8 +73,10 @@ const Header = () => {
       href: '/gioi-thieu-diep-tra'
     },
     {
-      title: t('nav.products'),
-      href: '/san-pham',
+      // Khi CMS đã cấu hình: dùng tên + href danh mục cha cố định.
+      // Chưa cấu hình (menuConfig=null): giữ hành vi cũ "Sản Phẩm" -> /san-pham.
+      title: menuConfig?.name || t('nav.products'),
+      href: menuConfig?.href || '/san-pham',
       hasDropdown: true,
       dropdownItems: productCategories
     },
@@ -205,13 +209,13 @@ const Header = () => {
                       justify="center"
                       px={{ lg: '8px', xl: '12px' }}
                       py="10px"
-                      w={{ lg: '92px', xl: '108px', '2xl': '128px' }}
+                      minW={{ lg: '92px', xl: '108px', '2xl': '128px' }}
                       borderBottom="2px solid"
                       borderColor={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : 'transparent'}
                       cursor="pointer"
                     >
                       <Text
-                        fontSize={{ lg: '15px', xl: '16px', '2xl': '18px' }}
+                        fontSize={{ lg: '15px', xl: '16px', '2xl': '20px' }}
                         fontWeight={600}
                         whiteSpace="nowrap"
                         color={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : '#333'}
@@ -239,29 +243,87 @@ const Header = () => {
                       boxShadow="0 10px 25px rgba(0,0,0,0.15)"
                       py={2}
                       minW="280px"
-                      maxH="400px"
-                      overflowY="auto"
                       zIndex={1001}
                     >
-                      {dropdownItems.map((dropdownItem, itemIndex) => (
-                        <Link key={itemIndex} href={dropdownItem.href}>
+                      {dropdownItems.map((dropdownItem, itemIndex) => {
+                        const subItems = dropdownItem.children || [];
+                        const hasSub = subItems.length > 0;
+                        const submenuKey = `${index}-${itemIndex}`;
+
+                        return (
                           <Box
-                            px={4}
-                            py={3}
-                            fontSize={16}
-                            fontWeight={400}
-                            color="gray.700"
-                            cursor="pointer"
-                            _hover={{
-                              bg: 'gray.200',
-                              color: 'black'
-                            }}
-                            transition="all 0.2s ease"
+                            key={itemIndex}
+                            position="relative"
+                            onMouseEnter={() => setShowSubmenu(hasSub ? submenuKey : null)}
+                            onMouseLeave={() => setShowSubmenu(null)}
                           >
-                            {getLocalizedText(dropdownItem.name, dropdownItem.name_en)}
+                            <Link href={dropdownItem.href}>
+                              <Flex
+                                align="center"
+                                justify="space-between"
+                                px={4}
+                                py={3}
+                                fontSize={{ lg: '15px', xl: '16px', '2xl': '20px' }}
+                                fontWeight={400}
+                                color="gray.700"
+                                cursor="pointer"
+                                _hover={{
+                                  bg: 'gray.200',
+                                  color: 'black'
+                                }}
+                                transition="all 0.2s ease"
+                              >
+                                <Text as="span" fontSize={{ lg: '15px', xl: '16px', '2xl': '18px' }}>
+                                  {getLocalizedText(dropdownItem.name, dropdownItem.name_en)}
+                                </Text>
+                                {hasSub && (
+                                  <Text as="span" ml={2} fontSize={14} color="gray.500">
+                                    ›
+                                  </Text>
+                                )}
+                              </Flex>
+                            </Link>
+
+                            {/* Submenu cấp 2 (flyout sang phải) */}
+                            {hasSub && showSubmenu === submenuKey && (
+                              <Box
+                                position="absolute"
+                                top="0"
+                                left="100%"
+                                bg="white"
+                                border="1px solid #e2e8f0"
+                                borderRadius="8px"
+                                boxShadow="0 10px 25px rgba(0,0,0,0.15)"
+                                py={2}
+                                minW="260px"
+                                maxH="400px"
+                                overflowY="auto"
+                                zIndex={1002}
+                              >
+                                {subItems.map((subItem, subIndex) => (
+                                  <Link key={subIndex} href={subItem.href}>
+                                    <Box
+                                      px={4}
+                                      py={3}
+                                      fontSize={16}
+                                      fontWeight={400}
+                                      color="gray.700"
+                                      cursor="pointer"
+                                      _hover={{
+                                        bg: 'gray.200',
+                                        color: 'black'
+                                      }}
+                                      transition="all 0.2s ease"
+                                    >
+                                      {getLocalizedText(subItem.name, subItem.name_en)}
+                                    </Box>
+                                  </Link>
+                                ))}
+                              </Box>
+                            )}
                           </Box>
-                        </Link>
-                      ))}
+                        );
+                      })}
                     </Box>
                   )}
                 </Box>
@@ -281,7 +343,7 @@ const Header = () => {
                   cursor="pointer"
                 >
                   <Text
-                    fontSize={{ lg: '15px', xl: '16px', '2xl': '18px' }}
+                    fontSize={{ lg: '15px', xl: '16px', '2xl': '20px' }}
                     fontWeight={600}
                     whiteSpace="nowrap"
                     color={isActive ? (!isTransparent || isScrolled ? '#333' : '#333') : '#333'}
@@ -524,18 +586,36 @@ const Header = () => {
                     {hasDropdown && dropdownItems && (
                       <VStack spacing={0} align="stretch" bg="#f9f9f9">
                         {dropdownItems.map((item, itemIndex) => (
-                          <Link key={itemIndex} href={item.href} onClick={onClose}>
-                            <Box
-                              px={8}
-                              py={3}
-                              fontSize={15}
-                              color="#666"
-                              _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
-                              borderBottom="1px solid #e2e8f0"
-                            >
-                              {getLocalizedText(item.name, item.name_en)}
-                            </Box>
-                          </Link>
+                          <Box key={itemIndex}>
+                            <Link href={item.href} onClick={onClose}>
+                              <Box
+                                px={8}
+                                py={3}
+                                fontSize={15}
+                                color="#666"
+                                _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
+                                borderBottom="1px solid #e2e8f0"
+                              >
+                                {getLocalizedText(item.name, item.name_en)}
+                              </Box>
+                            </Link>
+
+                            {/* Cấp 2: thụt lề sâu hơn */}
+                            {(item.children || []).map((sub, subIndex) => (
+                              <Link key={subIndex} href={sub.href} onClick={onClose}>
+                                <Box
+                                  px={12}
+                                  py={2.5}
+                                  fontSize={14}
+                                  color="#888"
+                                  _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
+                                  borderBottom="1px solid #e2e8f0"
+                                >
+                                  {getLocalizedText(sub.name, sub.name_en)}
+                                </Box>
+                              </Link>
+                            ))}
+                          </Box>
                         ))}
                       </VStack>
                     )}

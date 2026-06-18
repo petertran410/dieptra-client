@@ -68,7 +68,7 @@ export default function CategorySidebar({ rootCategory, allCategories, activeCat
         <Text fontSize="xl" fontWeight="600" color="#003366">
           Danh mục
         </Text>
-        <Text fontSize="lg" color="gray.600" mt={1}>
+        <Text fontSize={{ lg: '14px', xl: '15px', '2xl': '17px' }} color="gray.600" mt={1}>
           {rootCategory.name}
         </Text>
       </Box>
