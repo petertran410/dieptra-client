@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Box, VStack, HStack, AspectRatio, Image, Flex, Text, IconButton, useDisclosure } from '@chakra-ui/react';
 import { ChevronLeftIcon, ChevronRightIcon, ViewIcon } from '@chakra-ui/icons';
+import NextImage from 'next/image';
 
 const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -44,13 +45,16 @@ const ProductImageGallery = ({ title, imagesUrl, kiotViet }) => {
     <VStack spacing={4}>
       <AspectRatio ratio={1} w="full" maxW="500px">
         <Box borderRadius="lg" overflow="hidden" position="relative" cursor="pointer" onClick={onOpen}>
-          <Image
-            src={currentImage}
+          <NextImage
+            src={(currentImage || '/images/placeholder-product.webp').replace('http://', 'https://')}
             alt={`${title} - Ảnh ${selectedImageIndex + 1}`}
-            w="full"
-            h="full"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 500px"
             style={{ objectFit: 'fill' }}
-            fallbackSrc="/images/placeholder-product.webp"
+            onError={(e) => {
+              e.target.src = '/images/placeholder-product.webp';
+            }}
           />
 
           {allImages.length > 1 && (

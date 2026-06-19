@@ -6,6 +6,7 @@ import { API } from '../../../../utils/API';
 import { IMG_ALT, PX_ALL } from '../../../../utils/const';
 import { convertSlugURL, convertTimestamp } from '../../../../utils/helper-server';
 import { AspectRatio, Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
+import NextImage from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import { useTranslation } from '../../../../hooks/useTranslation';
@@ -157,12 +158,14 @@ export default function ArticleDetailClient({ params, categoryData, newsDetail, 
         )}
 
         {imagesUrl?.[0] && (
-          <AspectRatio ratio={16 / 9} mt="20px">
-            <Image
+          <AspectRatio ratio={16 / 9} mt="20px" borderRadius={12} overflow="hidden">
+            <NextImage
               src={imagesUrl[0].replace('http://', 'https://')}
               alt={localizedTitle}
-              borderRadius={12}
-              objectFit="cover"
+              fill
+              priority
+              sizes="(max-width: 1024px) 100vw, 66vw"
+              style={{ objectFit: 'cover' }}
             />
           </AspectRatio>
         )}
