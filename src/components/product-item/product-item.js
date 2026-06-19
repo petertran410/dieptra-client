@@ -2,7 +2,8 @@
 
 import { formatCurrency } from '../../utils/helper-server';
 import { IMG_ALT } from '../../utils/const';
-import { AspectRatio, Box, Flex, Image, Text, Tag } from '@chakra-ui/react';
+import { AspectRatio, Box, Flex, Text, Tag } from '@chakra-ui/react';
+import NextImage from 'next/image';
 import Link from 'next/link';
 import { useTranslation } from '../../hooks/useTranslation';
 
@@ -80,23 +81,15 @@ const ProductItem = ({ item }) => {
             w="full"
             h="full"
             bgColor="#FFF"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
+            position="relative"
             overflow="hidden"
           >
-            <Image
-              // src={
-              //   Array.isArray(imagesUrl) && imagesUrl.length > 0
-              //     ? imagesUrl.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
-              //     : kiotviet_images[0]?.replace('http://', 'https://') || '/images/tra-phuong-hoang.webp'
-              // }
+            <NextImage
               src={getProductImage()}
               alt={title || IMG_ALT}
-              maxW="full"
-              maxH="full"
-              objectFit="contain"
-              loading="lazy"
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 320px"
+              style={{ objectFit: 'contain' }}
               onError={(e) => {
                 e.target.src = '/images/tra-phuong-hoang.webp';
               }}

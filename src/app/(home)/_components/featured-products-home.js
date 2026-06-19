@@ -47,22 +47,18 @@ const ProductCard = ({ item, t }) => {
         <Box
           sx={{ aspectRatio: '1 / 1' }}
           bg={HC.bgSoft}
-          p="14px"
-          display="grid"
-          placeItems="center"
+          position="relative"
           overflow="hidden"
         >
-          <Box
-            as="img"
+          <Image
             src={getProductImage(item)}
             alt={showName || IMG_ALT}
-            loading="lazy"
+            fill
+            sizes="(max-width: 576px) 80vw, (max-width: 992px) 45vw, 30vw"
+            style={{ objectFit: 'contain', padding: '14px' }}
             onError={(e) => {
               e.target.src = FALLBACK_IMG;
             }}
-            maxW="100%"
-            maxH="100%"
-            objectFit="contain"
           />
         </Box>
         <Flex direction="column" flex={1} p="14px 16px 18px" textAlign="center" borderTop="1px solid" borderColor={HC.border}>

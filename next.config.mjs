@@ -22,6 +22,16 @@ const nextConfig = {
         hostname: '14.224.212.102',
         port: '8084',
         pathname: '/public/**'
+      },
+      {
+        protocol: 'https',
+        hostname: '**.kiotviet.vn',
+        pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'backendpos.hisweetievietnam.com',
+        pathname: '/uploads/**'
       }
     ]
   },

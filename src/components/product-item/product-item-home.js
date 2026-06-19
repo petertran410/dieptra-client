@@ -2,7 +2,8 @@
 
 import { formatCurrency } from '../../utils/helper-server';
 import { IMG_ALT } from '../../utils/const';
-import { AspectRatio, Box, Flex, Image, Text, Tag } from '@chakra-ui/react';
+import { AspectRatio, Box, Flex, Text, Tag } from '@chakra-ui/react';
+import NextImage from 'next/image';
 import Link from 'next/link';
 
 const ProductItemHome = ({ item }) => {
@@ -40,17 +41,19 @@ const ProductItemHome = ({ item }) => {
     >
       <Link href={`/san-pham/diep-tra/${productSlug}`}>
         <Box
-          display="flex"
+          position="relative"
           overflow="hidden"
           bgColor="#FFF"
+          h={{ xs: '170px', md: '170px', lg: '170px', xl: '200px', '2xl': '250px' }}
+          w="100%"
           mb={{ xs: '8px', md: '8px', lg: '8px', xl: '10px', '2xl': '25px' }}
         >
-          <Image
+          <NextImage
             src={getProductImage()}
             alt={title || IMG_ALT}
-            h={{ xs: '170px', md: '170px', lg: '170px', xl: '200px', '2xl': '250px' }}
-            w="100%"
-            loading="lazy"
+            fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 25vw, 320px"
+            style={{ objectFit: 'cover' }}
             onError={(e) => {
               e.target.src = '/images/tra-phuong-hoang.webp';
             }}
