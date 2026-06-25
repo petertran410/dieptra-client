@@ -369,7 +369,7 @@ const Header = () => {
           {/* ====== ĐÃ TẠM ẨN CHUYỂN ĐỔI NGÔN NGỮ ====== */}
           {/* <LanguageSwitcher /> */}
 
-          <Link href="/lien-he">
+          <Link href="https://zalo.me/4415290839928975010" target="_blank" _hover={{ textDecor: 'none' }}>
             <Flex
               align="center"
               justify="center"

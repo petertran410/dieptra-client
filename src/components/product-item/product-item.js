@@ -77,13 +77,7 @@ const ProductItem = ({ item }) => {
         </Box> */}
 
         <AspectRatio ratio={1 / 1} w="full">
-          <Box
-            w="full"
-            h="full"
-            bgColor="#FFF"
-            position="relative"
-            overflow="hidden"
-          >
+          <Box w="full" h="full" bgColor="#FFF" position="relative" overflow="hidden">
             <NextImage
               src={getProductImage()}
               alt={title || IMG_ALT}
@@ -140,7 +134,7 @@ const ProductItem = ({ item }) => {
             <Text fontSize="16px" fontWeight="600" color="white">
               {/* ====== ĐÃ ĐỔI "Mua hàng" THÀNH "Liên hệ" ====== */}
               {/* {t('product.buy.button')} */}
-              {t('product.contact')}
+              Liên hệ
             </Text>
           </Flex>
         </Flex>

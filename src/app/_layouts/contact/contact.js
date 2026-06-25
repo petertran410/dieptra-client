@@ -60,7 +60,12 @@ const Contact = () => {
               opacity: 0.8
             }}
           >
-            <Image src="/images/arrow-up-black.webp" alt={IMG_ALT} w={{ xs: '18px', md: '24px' }} h={{ xs: '18px', md: '24px' }} />
+            <Image
+              src="/images/arrow-up-black.webp"
+              alt={IMG_ALT}
+              w={{ xs: '18px', md: '24px' }}
+              h={{ xs: '18px', md: '24px' }}
+            />
           </Button>
         )}
 

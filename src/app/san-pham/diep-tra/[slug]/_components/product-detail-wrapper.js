@@ -232,17 +232,17 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                   )} */}
 
                   <Box flex="1">
-                    <Link href="/lien-he">
+                    <Link href="https://zalo.me/4415290839928975010" target="_blank" _hover={{ textDecor: 'none' }}>
                       <Button
                         size="lg"
-                        w="full"
+                        w={{ sm: 'full', md: 'full', lg: '35%' }}
                         variant="outline"
                         bgColor="#3970A7"
                         color="white"
                         _hover={{ bg: '#3970A7', color: 'white' }}
                         fontWeight="600"
                       >
-                        {t('product.contact')}
+                        Liên hệ
                       </Button>
                     </Link>
                   </Box>
