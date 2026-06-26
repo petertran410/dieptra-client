@@ -26,7 +26,6 @@ import Link from 'next/link';
 import { authService } from '../../../services/auth.service';
 import { showToast } from '../../../utils/helper';
 import { PX_ALL } from '../../../utils/const';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const API_URL = process.env.NEXT_PUBLIC_API_DOMAIN;
 
@@ -34,7 +33,6 @@ const LoginWrapper = () => {
   const searchParams = useSearchParams();
   const redirectTo = searchParams.get('redirect') || '/';
 
-  const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     emailOrPhone: '',
@@ -50,7 +48,7 @@ const LoginWrapper = () => {
     if (error === 'cancelled') {
       showToast({
         status: 'error',
-        content: t('login.cancel.login')
+        content: 'Bạn đã hủy đăng nhập'
       });
       window.history.replaceState({}, '', '/dang-nhap');
     }
@@ -67,11 +65,11 @@ const LoginWrapper = () => {
     const newErrors = {};
 
     if (!formData.emailOrPhone.trim()) {
-      newErrors.emailOrPhone = t('login.email.phone.no.empty');
+      newErrors.emailOrPhone = 'Email hoặc số điện thoại không được để trống';
     }
 
     if (!formData.pass_word) {
-      newErrors.pass_word = t('login.password.no.empty');
+      newErrors.pass_word = 'Mật khẩu không được để trống';
     }
 
     return newErrors;
@@ -92,14 +90,14 @@ const LoginWrapper = () => {
 
       showToast({
         status: 'success',
-        content: t('login.success')
+        content: 'Đăng nhập thành công!'
       });
 
       window.location.href = redirectTo;
     } catch (error) {
       showToast({
         status: 'error',
-        content: t('login.email.phone.not.correct')
+        content: 'Email hoặc mật khẩu không chính xác'
       });
     } finally {
       setIsLoading(false);
@@ -129,15 +127,15 @@ const LoginWrapper = () => {
       <Box w={{ xs: 'full', md: '400px' }} p="32px" borderRadius="16px" border="1px solid #E4E4E7" bg="white">
         <VStack spacing="24px">
           <Text fontSize="24px" fontWeight={600} textAlign="center">
-            {t('login.account.login')}
+            {'Đăng nhập tài khoản'}
           </Text>
 
           <form onSubmit={handleSubmit} style={{ width: '100%' }}>
             <VStack spacing="16px">
               <FormControl isInvalid={!!errors.emailOrPhone}>
-                <FormLabel>{t('login.email.or.phone')}</FormLabel>
+                <FormLabel>{'Email hoặc số điện thoại'}</FormLabel>
                 <Input
-                  placeholder={t('login.input.email.or.phone')}
+                  placeholder={'Nhập email hoặc số điện thoại'}
                   value={formData.emailOrPhone}
                   onChange={(e) => handleChange('emailOrPhone', e.target.value)}
                 />
@@ -145,17 +143,17 @@ const LoginWrapper = () => {
               </FormControl>
 
               <FormControl isInvalid={!!errors.pass_word}>
-                <FormLabel>{t('login.password')}</FormLabel>
+                <FormLabel>{'Mật khẩu'}</FormLabel>
                 <InputGroup>
                   <Input
                     type={showPassword ? 'text' : 'password'}
                     value={formData.pass_word}
                     onChange={(e) => handleChange('pass_word', e.target.value)}
-                    placeholder={t('login.input.password')}
+                    placeholder={'Nhập mật khẩu'}
                   />
                   <InputRightElement>
                     <IconButton
-                      aria-label={showPassword ? t('login.hide.password') : t('login.open.password')}
+                      aria-label={showPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}
                       icon={showPassword ? <ViewOffIcon /> : <ViewIcon />}
                       onClick={() => setShowPassword(!showPassword)}
                       variant="ghost"
@@ -169,7 +167,7 @@ const LoginWrapper = () => {
               <Flex justify="flex-end" w="full">
                 <Link href="/quen-mat-khau">
                   <ChakraLink color="#065FD4" fontSize="14px" fontWeight={500}>
-                    {t('login.forget.password')}
+                    {'Quên mật khẩu?'}
                   </ChakraLink>
                 </Link>
               </Flex>
@@ -184,7 +182,7 @@ const LoginWrapper = () => {
                 isLoading={isLoading}
                 _hover={{ bg: '#0052B8' }}
               >
-                {t('login.login')}
+                {'Đăng nhập'}
               </Button>
             </VStack>
           </form>
@@ -192,7 +190,7 @@ const LoginWrapper = () => {
           <HStack w="full" spacing="16px">
             <Divider />
             <Text fontSize="14px" color="gray.500" whiteSpace="nowrap">
-              {t('login.or.login.with')}
+              {'hoặc đăng nhập với'}
             </Text>
             <Divider />
           </HStack>
@@ -206,7 +204,7 @@ const LoginWrapper = () => {
               onClick={handleGoogleLogin}
               _hover={{ bg: 'gray.50' }}
             >
-              {t('login.with.google')}
+              {'Đăng nhập với Google'}
             </Button>
 
             <Button
@@ -217,15 +215,15 @@ const LoginWrapper = () => {
               onClick={handleFacebookLogin}
               _hover={{ bg: 'gray.50' }}
             >
-              {t('login.with.facebook')}
+              {'Đăng nhập với Facebook'}
             </Button>
           </VStack>
 
           <Text textAlign="center">
-            {t('login.no.account')}{' '}
+            {'Chưa có tài khoản?'}{' '}
             <Link href="/dang-ky">
               <ChakraLink color="#065FD4" fontWeight={500}>
-                {t('login.now')}
+                {'Đăng ký ngay'}
               </ChakraLink>
             </Link>
           </Text>

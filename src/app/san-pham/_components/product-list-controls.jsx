@@ -4,7 +4,6 @@ import { Button, Flex, HStack, Input, InputGroup, InputLeftElement, Select } fro
 import { SearchIcon } from '@chakra-ui/icons';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 export default function ProductListControls({
   topCategories = [],
@@ -15,7 +14,6 @@ export default function ProductListControls({
 }) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { t, getLocalizedText } = useTranslation();
   const [keyword, setKeyword] = useState(currentKeyword || '');
 
   const updateParam = (key, value) => {
@@ -59,7 +57,7 @@ export default function ProductListControls({
             <SearchIcon color="gray.400" />
           </InputLeftElement>
           <Input
-            placeholder={t('product.searching.placeholder')}
+            placeholder={'Tìm kiếm sản phẩm...'}
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
@@ -68,7 +66,7 @@ export default function ProductListControls({
           />
         </InputGroup>
         <Button onClick={handleSearch} bg="#3366ff" color="white" _hover={{ bg: '#3366ff' }} fontSize="18px">
-          {t('product.searching.name')}
+          {'Tìm'}
         </Button>
       </HStack>
 
@@ -81,10 +79,10 @@ export default function ProductListControls({
           fontSize="xl"
           border="1px solid #E2E8F0"
         >
-          <option value="all">{t('product.all.product')}</option>
+          <option value="all">{'Tất cả danh mục'}</option>
           {topCategories.map((c) => (
             <option key={c.id} value={c.id}>
-              {getLocalizedText(c.name, c.name_en)}
+              {c.name}
             </option>
           ))}
         </Select>
@@ -97,9 +95,9 @@ export default function ProductListControls({
           bg="white"
           border="1px solid #E2E8F0"
         >
-          <option value="name">{t('product.sorting.name')}</option>
-          <option value="price-low">{t('product.sorting.price.low')}</option>
-          <option value="price-high">{t('product.sorting.price.high')}</option>
+          <option value="name">{'Tên A-Z'}</option>
+          <option value="price-low">{'Giá thấp → cao'}</option>
+          <option value="price-high">{'Giá cao → thấp'}</option>
         </Select>
       </HStack>
     </Flex>

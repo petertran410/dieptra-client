@@ -5,12 +5,10 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { useState, useRef } from 'react';
 import { useBreakpointValue } from '@chakra-ui/react';
 import ProductItem from '../../../../../components/product-item/product-item';
-import { useTranslation } from '../../../../../hooks/useTranslation';
 
 const OtherProduct = ({ productList, productId }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const filteredProducts = productId ? productList?.filter((item) => item.id !== Number(productId)) : productList;
-  const { t } = useTranslation();
 
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
@@ -50,7 +48,7 @@ const OtherProduct = ({ productList, productId }) => {
   return (
     <Box>
       <Heading as="h3" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
-        {t('other.product.title')}
+        {'Sản Phẩm Liên Quan'}
       </Heading>
 
       <Box position="relative" px={{ base: '20px', lg: 0 }}>

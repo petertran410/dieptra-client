@@ -9,14 +9,12 @@ import { useRecoilState } from 'recoil';
 import { authService } from '../../../../../services/auth.service';
 import { cartService } from '../../../../../services/cart.service';
 import { useRouter } from 'next/navigation';
-import { useTranslation } from '../../../../../hooks/useTranslation';
 
 const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
   const router = useRouter();
   const [cart, setCart] = useRecoilState(cartAtom);
   const [showContact, setShowContact] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { t, getLocalizedText } = useTranslation();
 
   const onAddCart = async () => {
     setIsLoading(true);
@@ -40,7 +38,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
 
         showToast({
           status: 'warning',
-          content: t('cart.login')
+          content: 'Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng.'
         });
         router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
         return;
@@ -87,7 +85,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
 
                   showToast({
                     status: 'warning',
-                    content: t('cart.expire.session')
+                    content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'
                   });
                   router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
                   return;
@@ -107,7 +105,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
 
                 showToast({
                   status: 'warning',
-                  content: t('cart.expire.session')
+                  content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'
                 });
                 router.push(`/dang-nhap?redirect=/san-pham/diep-tra/${productSlug}`);
                 return;
@@ -137,13 +135,13 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
 
       showToast({
         status: 'success',
-        content: t('cart.added')
+        content: 'Đã thêm vào giỏ hàng'
       });
     } catch (error) {
       console.error('Add to cart error:', error);
       showToast({
         status: 'error',
-        content: t('cart.error')
+        content: 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.'
       });
     } finally {
       setIsLoading(false);
@@ -166,7 +164,7 @@ const AddCart = ({ price, productId, title, productSlug, quantity = 1 }) => {
         loadingText="Đang thêm..."
         onClick={price ? onAddCart : () => setShowContact(true)}
       >
-        {t('cart.add')}
+        {'Thêm vào giỏ hàng'}
       </Button>
 
       <ModalContact open={showContact} onCloseModal={() => setShowContact(false)} defaultNote={title} />

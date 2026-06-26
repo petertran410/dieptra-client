@@ -5,10 +5,8 @@ import { Box, Link as ChakraLink, Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 import { Fragment } from 'react';
 import Script from 'next/script';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const Footer = () => {
-  const { t, getLocalizedText } = useTranslation();
 
   const MENU_LINKS_1 = [
     {
@@ -127,7 +125,7 @@ const Footer = () => {
 
         <Flex flex={{ xs: 'none', lg: 1 / 3 }} direction="column">
           <Text fontSize={18} fontWeight={600}>
-            {t('footer.title')}
+            {'Công ty TNHH XNK Hi Sweetie Việt Nam'}
           </Text>
 
           <Flex direction="column" mt="8px" gap="8px">
@@ -135,7 +133,7 @@ const Footer = () => {
               <Image src="/images/certification.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  {t('footer.license.business')}
+                  {' Giấy phép Đăng kí kinh doanh số 0110211839 do Phòng Đăng ký kinh doanh – Sở Tài Chính cấp lần đầu ngày 20/12/2022, đăng ký thay đổi lần thứ 1, ngày 19/11/2024.'}
                 </Text>
               </Box>
             </Flex>
@@ -143,7 +141,7 @@ const Footer = () => {
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  {t('footer.header.quarters.bac')}
+                  {'Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.'}
                 </Text>
               </Box>
             </Flex>
@@ -151,7 +149,7 @@ const Footer = () => {
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  {t('footer.header.quarters.nam')}
+                  {'Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Sơn Nhì, TP.HCM.'}
                 </Text>
               </Box>
             </Flex>
@@ -159,7 +157,7 @@ const Footer = () => {
               <Image src="/images/location.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  {t('footer.shop')}
+                  {'Cửa hàng tại HCM: Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh'}
                 </Text>
               </Box>
             </Flex>
@@ -195,7 +193,7 @@ const Footer = () => {
               </Flex>
             </Flex>
             <Text fontSize={18} fontWeight={500}>
-              {t('footer.workingtime')}{' '}
+              {'Giờ làm việc:'}{' '}
               <Text as="span" fontSize={18} fontWeight={500}>
                 T2 - T7: 8h30 - 17h30
               </Text>
@@ -235,7 +233,7 @@ const Footer = () => {
                   <Fragment key={title}>
                     <Link href={href}>
                       <Text fontWeight={500} fontSize={18} py="6px" h="32px">
-                        {getLocalizedText(title, title_en)}
+                        {title}
                       </Text>
                     </Link>
 
@@ -244,7 +242,7 @@ const Footer = () => {
                         {children.map((child) => {
                           return (
                             <Link href={child.href} key={child.title}>
-                              <Text py="4px">{getLocalizedText(child.title, child.title_en)}</Text>
+                              <Text py="4px">{child.title}</Text>
                             </Link>
                           );
                         })}
@@ -324,7 +322,7 @@ const Footer = () => {
         </Flex>
       </Flex>
 
-      <Text my="24px">{t('footer.copyright')}</Text>
+      <Text my="24px">{'Copyright © 2024 Công ty TNHH Xuất Nhập Khẩu HI SWEETIE Việt Nam. All rights reserved.'}</Text>
     </Flex>
   );
 };

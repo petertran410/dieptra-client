@@ -9,7 +9,6 @@ import { AspectRatio, Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
-import { useTranslation } from '../../../../hooks/useTranslation';
 
 const VideoEmbed = ({ embedUrl }) => {
   if (!embedUrl) return null;
@@ -28,14 +27,13 @@ const VideoEmbed = ({ embedUrl }) => {
 };
 
 const LatestArticlesSidebar = ({ latestArticles, category }) => {
-  const { t, getLocalizedText } = useTranslation();
 
   if (!latestArticles?.length) return null;
 
   return (
     <Box>
       <Text fontSize={20} fontWeight={500} mb="16px">
-        {t('article.newest')}
+        {'Bài viết mới nhất'}
       </Text>
       <Flex direction="column" gap="16px">
         {latestArticles.map((article) => (
@@ -60,7 +58,7 @@ const LatestArticlesSidebar = ({ latestArticles, category }) => {
                   _hover={{ color: '#065FD4' }}
                   transition="color 0.2s"
                 >
-                  {getLocalizedText(article.title, article.title_en)}
+                  {article.title}
                 </Text>
               </Link>
               <Text fontSize={15} color="#A1A1AA">
@@ -76,7 +74,6 @@ const LatestArticlesSidebar = ({ latestArticles, category }) => {
 
 export default function ArticleDetailClient({ params, categoryData, newsDetail, articleId, latestArticles }) {
   const { category, slug } = params;
-  const { t, getLocalizedText } = useTranslation();
   const incrementedRef = useRef(false);
 
   // increment view 1 lần
@@ -91,25 +88,22 @@ export default function ArticleDetailClient({ params, categoryData, newsDetail, 
 
   const {
     title,
-    title_en,
     htmlContent,
-    html_content_en,
     createdDate,
     imagesUrl,
     description,
-    description_en,
     embedUrl
   } = newsDetail;
 
-  const localizedTitle = getLocalizedText(title, title_en);
-  const localizedDescription = getLocalizedText(description, description_en);
-  const localizedHtml = getLocalizedText(htmlContent, html_content_en);
+  const localizedTitle = title;
+  const localizedDescription = description;
+  const localizedHtml = htmlContent;
 
   const breadcrumbData = [
-    { title: t('article.breadcrumb.title.home'), href: '/' },
-    { title: t('article.breadcrumb.title.article'), href: '/bai-viet' },
+    { title: 'Trang chủ', href: '/' },
+    { title: 'Bài Viết', href: '/bai-viet' },
     {
-      title: getLocalizedText(categoryData.name, categoryData.name_en),
+      title: categoryData.name,
       href: `/bai-viet/${categoryData.slug}`
     },
     { title: localizedTitle, href: '#', isActive: true }
@@ -151,7 +145,7 @@ export default function ArticleDetailClient({ params, categoryData, newsDetail, 
         {localizedHtml && !localizedHtml.startsWith('<toc></toc>') && (
           <Box my="24px" borderRadius={8} border="1px solid #CCC" px="16px" py="12px">
             <Text fontWeight={700} fontSize={20}>
-              {t('article.catalogue')}
+              {'Mục lục'}
             </Text>
             <TableOfContents html={localizedHtml} />
           </Box>

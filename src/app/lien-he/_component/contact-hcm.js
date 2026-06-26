@@ -3,10 +3,8 @@
 import { PX_ALL } from '../../../utils/const';
 import { Flex, Grid, GridItem } from '@chakra-ui/react';
 import SectionBlockH2 from '../../../components/section-block/section-block-h2';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const ContactHCM = () => {
-  const { t } = useTranslation();
 
   return (
     <Flex
@@ -17,7 +15,7 @@ const ContactHCM = () => {
       mt={{ xs: '24px', lg: '10px' }}
       borderTop={{ xs: '2px solid #e6e6e6', lg: 'none' }}
     >
-      <SectionBlockH2 title={t('contact.title.hcm')} />
+      <SectionBlockH2 title={'Chuyên Viên Tư Vấn Diệp Trà'} />
 
       <Grid
         w="full"

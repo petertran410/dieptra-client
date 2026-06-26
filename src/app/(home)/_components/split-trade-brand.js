@@ -4,7 +4,6 @@ import { Box, Flex, Grid, Text } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { HC, FONT_DISPLAY, HOME_PX } from './home-theme';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const MotionBox = motion(Box);
 
@@ -22,10 +21,18 @@ const CheckList = ({ items, ckBg }) => (
 );
 
 const SplitTradeBrand = () => {
-  const { t } = useTranslation();
-
-  const tradeItems = [1, 2, 3, 4].map((i) => t(`home.split.trade.li${i}`));
-  const brandItems = [1, 2, 3, 4].map((i) => t(`home.split.brand.li${i}`));
+  const tradeItems = [
+    'Danh mục sản phẩm phong phú',
+    'Nhiều phân khúc giá',
+    'Dễ thay thế nguyên liệu',
+    'Phù hợp nhập sỉ / phân phối'
+  ];
+  const brandItems = [
+    'Sản phẩm chủ lực LerMao, Trà Phượng Hoàng',
+    'Chất lượng đồng nhất',
+    'Xu hướng mới — sản phẩm khác biệt',
+    'Phù hợp xây dựng menu signature'
+  ];
 
   return (
     <Box as="section" px={HOME_PX} pb={{ base: '56px', lg: '96px' }}>
@@ -42,13 +49,13 @@ const SplitTradeBrand = () => {
           transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
         >
           <Text fontFamily={FONT_DISPLAY} fontSize="64px" fontWeight={900} lineHeight={1} letterSpacing="-.03em" color={HC.accentDeep}>
-            {t('home.split.trade.pct')}
+            {'60%'}
           </Text>
           <Text as="h3" fontFamily={FONT_DISPLAY} fontWeight={800} fontSize="24px" mt="14px" mb="8px" color={HC.greenDeep}>
-            {t('home.split.trade.title')}
+            {'Hàng thương mại'}
           </Text>
           <Text fontSize="15px" mb="24px">
-            {t('home.split.trade.sub')}
+            {'Nguồn hàng đa dạng — Giá tốt — Linh hoạt cho mọi mô hình'}
           </Text>
           <CheckList items={tradeItems} ckBg={HC.greenDeep} />
           <Box
@@ -69,7 +76,7 @@ const SplitTradeBrand = () => {
             transition="all .2s"
             _hover={{ bg: HC.primaryDark, borderColor: HC.primaryDark, color: '#FFF' }}
           >
-            {t('home.split.trade.cta')}
+            {'Xem danh mục thương mại'}
           </Box>
         </MotionBox>
 
@@ -85,13 +92,13 @@ const SplitTradeBrand = () => {
           transition={{ duration: 0.5, delay: 0.08, ease: [0.4, 0, 0.2, 1] }}
         >
           <Text fontFamily={FONT_DISPLAY} fontSize="64px" fontWeight={900} lineHeight={1} letterSpacing="-.03em" color={HC.accentBright}>
-            {t('home.split.brand.pct')}
+            {'40%'}
           </Text>
           <Text as="h3" fontFamily={FONT_DISPLAY} fontWeight={800} fontSize="24px" mt="14px" mb="8px" color="#FFF">
-            {t('home.split.brand.title')}
+            {'Hàng thương hiệu'}
           </Text>
           <Text fontSize="15px" mb="24px" color={HC.cyanSoft}>
-            {t('home.split.brand.sub')}
+            {'Sản phẩm chiến lược — Chất lượng ổn định — Hỗ trợ menu'}
           </Text>
           <CheckList items={brandItems} ckBg={HC.accent} />
           <Box
@@ -112,7 +119,7 @@ const SplitTradeBrand = () => {
             transition="all .2s"
             _hover={{ bg: HC.accentDeep }}
           >
-            {t('home.split.brand.cta')}
+            {'Khám phá thương hiệu'}
           </Box>
         </MotionBox>
       </Grid>

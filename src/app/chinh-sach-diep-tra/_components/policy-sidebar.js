@@ -3,11 +3,9 @@
 import { Box, VStack, Text, Button, Heading } from '@chakra-ui/react';
 import Link from 'next/link';
 import { useState } from 'react';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
-  const { t, getLocalizedText } = useTranslation();
 
   const handleItemClick = (slug, isExternal) => {
     if (isExternal || ['gioi-thieu-diep-tra', 'lien-he', 'san-pham'].includes(slug)) {
@@ -51,7 +49,7 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
         lineHeight="1.3"
         textAlign={{ xs: 'center', lg: 'left' }}
       >
-        {t('policy.sidebar.title')}
+        {'Chính Sách Diệp Trà'}
       </Heading>
 
       <VStack spacing="8px" align="stretch">
@@ -91,7 +89,7 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
 
           const ButtonContent = (
             <Text as="span" flex={1}>
-              {getLocalizedText(item.title, item.title_en)}
+              {item.title}
             </Text>
           );
 
@@ -126,7 +124,7 @@ const PolicySidebar = ({ mainPageData, sidebarItems, currentSlug, onPageChange }
 
       <Box mt="30px" p="16px" bg="gray.50" borderRadius="8px" fontSize="13px" color="gray.600">
         <Text fontWeight="600" mb="8px">
-          {t('policy.support')}
+          {'Cần hỗ trợ?'}
         </Text>
         <Text mb="4px">📧 sales@hisweetievietnam.com.vn</Text>
         <Text>📞 Hotline: 0973 123 230</Text>

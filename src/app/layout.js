@@ -7,7 +7,6 @@ import Footer from './_layouts/footer';
 import Header from './_layouts/header';
 import './globals.css';
 import { Providers } from './providers';
-import { LanguageProvider } from '../contexts/language-context';
 // ====== ĐÃ TẠM ẨN XÁC THỰC NGƯỜI DÙNG ======
 // import { AuthProvider } from '../contexts/auth-context';
 
@@ -208,19 +207,14 @@ export default function RootLayout({ children }) {
         </Script>
         <Script src="https://chatbox.smax.ai/sdk.min.js" strategy="lazyOnload" />
 
-        <LanguageProvider>
-          {/* ====== ĐÃ TẠM ẨN AuthProvider ====== */}
-          {/* <AuthProvider> */}
-          <Providers>
-            <Box pos="relative">
-              <Contact />
-              <Header />
-              <Box minH="100vh">{children}</Box>
-              <Footer />
-            </Box>
-          </Providers>
-          {/* </AuthProvider> */}
-        </LanguageProvider>
+        <Providers>
+          <Box pos="relative">
+            <Contact />
+            <Header />
+            <Box minH="100vh">{children}</Box>
+            <Footer />
+          </Box>
+        </Providers>
       </body>
     </html>
   );

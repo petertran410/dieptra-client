@@ -29,13 +29,11 @@ import { profileService } from '../../../services/profile.service';
 import { showToast } from '../../../utils/helper';
 import { useAuth } from '../../../contexts/auth-context';
 import { PX_ALL } from '../../../utils/const';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const ProfileWrapper = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirectUrl = searchParams.get('redirect');
-  const { t, getLocalizedText } = useTranslation();
 
   const { user: authUser, isAuthenticated, isChecking, isFullyReady } = useAuth();
 
@@ -130,7 +128,7 @@ const ProfileWrapper = () => {
         console.error('Error loading profile:', error);
         showToast({
           status: 'error',
-          content: t('profile.info.error')
+          content: 'Không thể tải thông tin cá nhân. Vui lòng thử lại.'
         });
       } finally {
         setIsLoading(false);
@@ -188,21 +186,21 @@ const ProfileWrapper = () => {
     const { full_name, email, phone } = formRef.current;
 
     if (!full_name.trim()) {
-      showToast({ status: 'error', content: t('profile.name') });
+      showToast({ status: 'error', content: 'Vui lòng nhập họ tên' });
       return false;
     }
     if (!phone.trim()) {
-      showToast({ status: 'error', content: t('profile.phone') });
+      showToast({ status: 'error', content: 'Vui lòng nhập số điện thoại' });
       return false;
     }
     if (!email.trim()) {
-      showToast({ status: 'error', content: t('profile.email') });
+      showToast({ status: 'error', content: 'Vui lòng nhập email' });
       return false;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-      showToast({ status: 'error', content: t('profile.email.invalid') });
+      showToast({ status: 'error', content: 'Email không hợp lệ' });
       return false;
     }
 
@@ -236,7 +234,7 @@ const ProfileWrapper = () => {
 
         showToast({
           status: 'success',
-          content: t('profile.info.update.success')
+          content: 'Cập nhật thông tin thành công!'
         });
 
         if (redirectUrl) {
@@ -248,7 +246,7 @@ const ProfileWrapper = () => {
     } catch (error) {
       showToast({
         status: 'error',
-        content: error.message || t('profile.error.updates.information')
+        content: error.message || 'Có lỗi xảy ra khi cập nhật thông tin'
       });
     } finally {
       setIsUpdating(false);
@@ -260,7 +258,7 @@ const ProfileWrapper = () => {
       <Center minH="50vh">
         <VStack spacing={4}>
           <Spinner size="lg" color="#065FD4" />
-          <ChakraText>{t('profile.loading')}</ChakraText>
+          <ChakraText>{'Đang tải thông tin...'}</ChakraText>
         </VStack>
       </Center>
     );
@@ -274,7 +272,7 @@ const ProfileWrapper = () => {
     return (
       <Alert status="error">
         <AlertIcon />
-        {t('profile.loading.error')}
+        {'Không thể tải thông tin người dùng'}
       </Alert>
     );
   }
@@ -283,13 +281,13 @@ const ProfileWrapper = () => {
     <Box px={PX_ALL} py="40px">
       <VStack spacing={8} align="stretch" maxW="800px" mx="auto">
         <ChakraText fontSize="28px" fontWeight="700" color="#333" textAlign="center">
-          {t('profile.personal.info')}
+          {'Thông tin cá nhân'}
         </ChakraText>
 
         <Tabs isFitted variant="enclosed" colorScheme="blue">
           <TabList mb="1em">
-            <Tab fontSize="20px">{t('profile.account.info')}</Tab>
-            <Tab fontSize="20px">{t('profile.history.order')}</Tab>
+            <Tab fontSize="20px">{'Thông tin tài khoản'}</Tab>
+            <Tab fontSize="20px">{'Lịch sử đơn hàng'}</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
@@ -297,11 +295,11 @@ const ProfileWrapper = () => {
                 <Stack spacing={6}>
                   <FormControl>
                     <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
-                      {t('profile.fullName')}
+                      {'Họ và tên *'}
                     </ChakraFormLabel>
                     <Input
                       defaultValue={user?.full_name || ''}
-                      placeholder={t('profile.input.fullName')}
+                      placeholder={'Nhập họ và tên'}
                       bg="#F7FAFC"
                       border="1px solid #E2E8F0"
                       fontSize="18px"
@@ -316,7 +314,7 @@ const ProfileWrapper = () => {
                     </ChakraFormLabel>
                     <Input
                       defaultValue={user?.email || ''}
-                      placeholder={t('profile.input.email')}
+                      placeholder={'Nhập email'}
                       fontSize="18px"
                       bg="#F7FAFC"
                       border="1px solid #E2E8F0"
@@ -327,11 +325,11 @@ const ProfileWrapper = () => {
 
                   <FormControl>
                     <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
-                      {t('profile.personal.phone')}
+                      {'Số điện thoại *'}
                     </ChakraFormLabel>
                     <Input
                       defaultValue={user?.phone || ''}
-                      placeholder={t('profile.input.phone')}
+                      placeholder={'Nhập số điện thoại'}
                       bg="#F7FAFC"
                       fontSize="18px"
                       border="1px solid #E2E8F0"
@@ -343,12 +341,12 @@ const ProfileWrapper = () => {
                   <Flex gap={4} direction={{ base: 'column', md: 'row' }}>
                     <FormControl flex={1}>
                       <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
-                        {t('profile.province')}
+                        {'Tỉnh/Thành phố'}
                       </ChakraFormLabel>
                       <Select
                         value={selectedProvince}
                         onChange={(e) => handleProvinceChange(e.target.value)}
-                        placeholder={t('profile.input.province')}
+                        placeholder={'Chọn tỉnh/thành phố'}
                         bg="#F7FAFC"
                         fontSize="18px"
                         border="1px solid #E2E8F0"
@@ -364,12 +362,12 @@ const ProfileWrapper = () => {
 
                     <FormControl flex={1}>
                       <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
-                        {t('profile.district')}
+                        {'Quận/Huyện'}
                       </ChakraFormLabel>
                       <Select
                         value={selectedDistrict}
                         onChange={(e) => handleDistrictChange(e.target.value)}
-                        placeholder={t('profile.input.district')}
+                        placeholder={'Chọn quận/huyện'}
                         bg="#F7FAFC"
                         fontSize="18px"
                         border="1px solid #E2E8F0"
@@ -387,13 +385,13 @@ const ProfileWrapper = () => {
 
                   <FormControl>
                     <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
-                      {t('profile.ward')}
+                      {'Phường/Xã'}
                     </ChakraFormLabel>
                     <Select
                       value={selectedWard}
                       onChange={(e) => setSelectedWard(parseInt(e.target.value))}
                       fontSize="18px"
-                      placeholder={t('profile.input.ward')}
+                      placeholder={'Chọn phường/xã'}
                       bg="#F7FAFC"
                       border="1px solid #E2E8F0"
                       _focus={{ borderColor: '#065FD4', bg: 'white' }}
@@ -409,11 +407,11 @@ const ProfileWrapper = () => {
 
                   <FormControl>
                     <ChakraFormLabel color="#333" fontSize="20px" fontWeight="600">
-                      {t('profile.detail.address')}
+                      {'Địa chỉ cụ thể'}
                     </ChakraFormLabel>
                     <Input
                       defaultValue={user?.detailed_address || ''}
-                      placeholder={t('profile.input.detail.address')}
+                      placeholder={'Số nhà, tên đường...'}
                       bg="#F7FAFC"
                       fontSize="18px"
                       border="1px solid #E2E8F0"
@@ -425,14 +423,14 @@ const ProfileWrapper = () => {
                   <Button
                     onClick={handleUpdateProfile}
                     isLoading={isUpdating}
-                    loadingText={t('profile.loading.update')}
+                    loadingText={'Đang cập nhật...'}
                     bg="#065FD4"
                     color="white"
                     size="lg"
                     _hover={{ bg: '#0052CC' }}
                     _active={{ bg: '#003D99' }}
                   >
-                    {t('profile.update')}
+                    {'Cập nhật thông tin'}
                   </Button>
                 </Stack>
               </Box>

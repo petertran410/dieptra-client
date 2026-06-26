@@ -8,7 +8,6 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import { Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { useTranslation } from '../../../hooks/useTranslation';
 import { formatCurrency } from '../../../utils/helper-server';
 import { IMG_ALT } from '../../../utils/const';
 import SecHead from './sec-head';
@@ -79,7 +78,7 @@ const ProductCard = ({ item, t }) => {
             {showName}
           </Text>
           <Text fontFamily={FONT_DISPLAY} fontWeight={900} color={HC.accentDeep} fontSize="16px" mt="auto">
-            {!price || price === 0 ? t('home.featured.contact') : formatCurrency(price)}
+            {!price || price === 0 ? 'Liên hệ' : formatCurrency(price)}
           </Text>
           <Flex
             as="span"
@@ -98,7 +97,7 @@ const ProductCard = ({ item, t }) => {
             transition=".2s"
             _hover={{ bg: HC.primary, color: '#FFF', boxShadow: '0 10px 24px rgba(0,183,204,.28)' }}
           >
-            {t('home.featured.detail')} →
+            {'Xem chi tiết'} →
           </Flex>
         </Flex>
       </Flex>
@@ -107,7 +106,6 @@ const ProductCard = ({ item, t }) => {
 };
 
 const FeaturedProductsHome = ({ data = [] }) => {
-  const { t } = useTranslation();
   const categories = (data || []).filter((c) => c?.products?.length > 0);
   const [active, setActive] = useState(0);
 
@@ -124,7 +122,7 @@ const FeaturedProductsHome = ({ data = [] }) => {
   return (
     <Box as="section" px={HOME_PX} py={{ base: '56px', lg: '96px' }} bg="#f8f9fa">
       <Box maxW="1200px" mx="auto">
-        <SecHead eyebrow={t('home.featured.eyebrow')} title={t('home.featured.title')} />
+        <SecHead eyebrow={'Sản phẩm nổi bật'} title={'Best-seller được hàng nghìn quán tin dùng'} />
 
         <Flex gap="10px" justify="center" flexWrap="wrap" mb="42px">
           {categories.map((cat, idx) => (
@@ -185,7 +183,7 @@ const FeaturedProductsHome = ({ data = [] }) => {
                 transition="all .2s"
                 _hover={{ bg: HC.primaryDark, borderColor: HC.primaryDark, color: '#FFF' }}
               >
-                {t('home.product.detail')} →
+                {'Xem thêm'} →
               </Flex>
             </Link>
           </Flex>

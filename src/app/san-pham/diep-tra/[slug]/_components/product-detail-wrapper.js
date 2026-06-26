@@ -25,7 +25,6 @@ import OtherProduct from './other-product';
 // ====== ĐÃ TẠM ẨN THÊM VÀO GIỎ HÀNG ======
 // import AddCart from './add-cart';
 import ProductImageGallery from './product-image-gallery';
-import { useTranslation } from '../../../../../hooks/useTranslation';
 // import { useRecoilState } from 'recoil';
 // import { cartAtom } from '../../../../../states/common';
 // import { authService } from '../../../../../services/auth.service';
@@ -34,7 +33,6 @@ import { useTranslation } from '../../../../../hooks/useTranslation';
 // import { useEffect } from 'react';
 
 const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
-  const { t, getLocalizedText } = useTranslation();
   // ====== ĐÃ TẠM ẨN SỐ LƯỢNG & GIỎ HÀNG ======
   // const [quantity, setQuantity] = useState(1);
   // const [isAutoAdding, setIsAutoAdding] = useState(false);
@@ -43,11 +41,8 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
 
   const {
     title,
-    title_en,
     description,
     instruction,
-    description_en,
-    instruction_en,
     imagesUrl = [],
     price,
     kiotViet,
@@ -58,8 +53,8 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
 
   const buildBreadcrumbData = () => {
     const baseBreadcrumb = [
-      { title: t('product.breadcrumb.title.home'), href: '/' },
-      { title: t('product.breadcrumb.title.product'), href: '/san-pham' }
+      { title: 'Trang chủ', href: '/' },
+      { title: 'Sản Phẩm', href: '/san-pham' }
     ];
 
     if (categoryHierarchy && categoryHierarchy.length > 0) {
@@ -70,14 +65,14 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
           .join('/');
 
         baseBreadcrumb.push({
-          title: getLocalizedText(cat.name, cat.name_en),
+          title: cat.name,
           href: `/san-pham/${slugPath}`
         });
       });
     }
 
     baseBreadcrumb.push({
-      title: getLocalizedText(title, title_en),
+      title: title,
       href: '#',
       isActive: true
     });
@@ -119,7 +114,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
   //
   //       showToast({
   //         status: 'success',
-  //         content: t('cart.added')
+  //         content: 'Đã thêm vào giỏ hàng'
   //       });
   //     } catch (error) {
   //       console.error('Auto add to cart error:', error);
@@ -127,7 +122,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
   //
   //       showToast({
   //         status: 'error',
-  //         content: t('cart.error')
+  //         content: 'Không thể thêm sản phẩm vào giỏ hàng. Vui lòng thử lại.'
   //       });
   //     } finally {
   //       setIsAutoAdding(false);
@@ -171,13 +166,13 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
             <GridItem>
               <VStack align="start" spacing={6}>
                 <Heading as="h1" fontSize="28px" fontWeight="600" color="#003366">
-                  {getLocalizedText(title, title_en)}
+                  {title}
                 </Heading>
 
                 {description && (
                   <Box>
                     <div
-                      dangerouslySetInnerHTML={{ __html: getLocalizedText(description, description_en) }}
+                      dangerouslySetInnerHTML={{ __html: description }}
                       style={{
                         textAlign: 'justify',
                         lineHeight: '1.6'
@@ -199,7 +194,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
                 )} */}
 
                 <Text fontSize="32px" fontWeight="700" color="#d63384">
-                  {price ? formatCurrency(price) : t('product.contact')}
+                  {price ? formatCurrency(price) : 'Liên hệ'}
                 </Text>
 
                 <Flex direction="row" gap={4} align="stretch" w="full">
@@ -253,13 +248,13 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
 
           <Box>
             <Heading as="p" fontSize="24px" fontWeight="600" mb={6} textAlign="center" color="#003366">
-              {t('product.information.title')}
+              {'Thông Tin Sản Phẩm'}
             </Heading>
 
             {instruction && (
               <Box>
                 <div
-                  dangerouslySetInnerHTML={{ __html: getLocalizedText(instruction, instruction_en) }}
+                  dangerouslySetInnerHTML={{ __html: instruction }}
                   style={{
                     textAlign: 'justify',
                     lineHeight: '1.6'

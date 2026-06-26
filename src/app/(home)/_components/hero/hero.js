@@ -4,12 +4,10 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { HC, FONT_DISPLAY, HOME_PX } from '../home-theme';
-import { useTranslation } from '../../../../hooks/useTranslation';
 
 const MotionBox = motion(Box);
 
 const Hero = () => {
-  const { t } = useTranslation();
 
   return (
     <Box
@@ -75,7 +73,7 @@ const Hero = () => {
               textTransform="uppercase"
               lineHeight={1.1}
             >
-              {t('home.hero.eyebrow')}
+              {'Nguyên liệu pha chế'}
             </Text>
             <Text
               as="h1"
@@ -88,7 +86,7 @@ const Hero = () => {
               lineHeight={1}
               my="0.06em"
             >
-              {t('home.hero.brand')}
+              {'Diệp Trà'}
             </Text>
             <Text
               fontFamily={FONT_DISPLAY}
@@ -98,7 +96,7 @@ const Hero = () => {
               textTransform="uppercase"
               lineHeight={1.05}
             >
-              {t('home.hero.sub')}
+              {'Đồng hành cùng F&B'}
             </Text>
             <Text
               fontFamily="inherit"
@@ -110,7 +108,7 @@ const Hero = () => {
               maxW="30em"
               mx={{ base: 'auto', md: 0 }}
             >
-              {t('home.hero.desc')}
+              {'Nhà cung cấp nguyên liệu pha chế hàng đầu Việt Nam — hơn 500 sản phẩm, phủ sóng 60+ tỉnh thành, đồng hành cùng 30.000+ đối tác.'}
             </Text>
           </MotionBox>
         </Box>

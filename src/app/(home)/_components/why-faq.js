@@ -5,22 +5,37 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HC, FONT_DISPLAY, HOME_PX } from './home-theme';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const MotionBox = motion(Box);
 
 const FAQS = [
-  { q: 'home.faq.1.q', a: 'home.faq.1.a' },
-  { q: 'home.faq.2.q', a: 'home.faq.2.a' },
-  { q: 'home.faq.3.q', a: 'home.faq.3.a' },
-  { q: 'home.faq.4.q', a: 'home.faq.4.a' },
-  { q: 'home.faq.5.q', a: 'home.faq.5.a' },
-  { q: 'home.faq.6.q', a: 'home.faq.6.a' }
+  {
+    q: 'Chất lượng nguyên liệu của Diệp Trà có gì khác biệt?',
+    a: 'Toàn bộ nguyên liệu được nhập khẩu trực tiếp từ các đối tác độc quyền tại Đài Loan, Trung Quốc và kiểm soát qua 6 tiêu chuẩn nghiêm ngặt, đảm bảo hương vị đồng nhất giữa các đợt hàng.'
+  },
+  {
+    q: 'Tôi là người mới bắt đầu, Diệp Trà hỗ trợ công thức không?',
+    a: 'Có. Đội ngũ R&D cung cấp công thức chuẩn, tư vấn xây dựng menu và cập nhật xu hướng đồ uống mới giúp quán vận hành ngay từ ngày đầu.'
+  },
+  {
+    q: 'Sản phẩm của Diệp Trà có giúp tối ưu chi phí vận hành không?',
+    a: 'Danh mục đa phân khúc giá và khả năng nhập trọn gói tại một nơi giúp giảm chi phí logistics, tồn kho và thời gian quản lý nhà cung cấp.'
+  },
+  {
+    q: 'Diệp Trà có cập nhật xu hướng thị trường thường xuyên không?',
+    a: 'Chúng tôi liên tục ra mắt sản phẩm theo trend và chia sẻ công thức độc quyền qua cẩm nang pha chế để đối tác luôn dẫn đầu thị trường.'
+  },
+  {
+    q: 'Chính sách hỗ trợ và giao hàng của thương hiệu như thế nào?',
+    a: 'Hệ thống kho lạnh hai miền và mạng lưới giao nhận phủ 60+ tỉnh thành đảm bảo giao hàng nhanh, đúng hẹn, kèm chính sách hỗ trợ đại lý linh hoạt.'
+  },
+  {
+    q: 'Tại sao nói Diệp Trà là đối tác đồng hành thay vì chỉ là nhà cung cấp?',
+    a: '"Thành công của khách hàng là tương lai của chúng tôi" — chúng tôi đồng hành từ nguyên liệu, công thức đến chiến lược menu, gắn bó dài hạn cùng sự phát triển của quán.'
+  }
 ];
 
 const WhyFaq = () => {
-  const { t } = useTranslation();
-
   return (
     <Box as="section" id="why" bg={HC.bgSoft} px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
       <Grid templateColumns={{ base: '1fr', lg: '1fr 1.05fr' }} gap={{ base: '34px', lg: '52px' }} alignItems="start">
@@ -37,7 +52,7 @@ const WhyFaq = () => {
           <Box sx={{ aspectRatio: '3 / 4' }} borderRadius="16px" overflow="hidden">
             <Image
               src="/images/home-v2/why-bia-tra.png"
-              alt={t('home.why.title')}
+              alt={'Đối tác đồng hành, không chỉ là nhà cung cấp'}
               width={600}
               height={800}
               loading="lazy"
@@ -63,7 +78,7 @@ const WhyFaq = () => {
               transition="all .2s"
               _hover={{ bg: HC.accentDeep }}
             >
-              {t('home.why.cta')}
+              {'Khám phá nguyên liệu'}
             </Box>
           </Flex>
         </MotionBox>
@@ -86,10 +101,10 @@ const WhyFaq = () => {
             mb="14px"
             display="inline-block"
           >
-            {t('home.why.eyebrow')}
+            {'Tại sao chọn Diệp Trà?'}
           </Text>
           <Text as="h2" fontFamily={FONT_DISPLAY} fontSize={{ base: '26px', lg: '36px' }} fontWeight={800} mb="24px" color={HC.textPrimary}>
-            {t('home.why.title')}
+            {'Đối tác đồng hành, không chỉ là nhà cung cấp'}
           </Text>
 
           <Accordion defaultIndex={[0]} allowToggle>
@@ -111,7 +126,7 @@ const WhyFaq = () => {
                         fontSize="16.5px"
                         color={HC.primaryDark}
                       >
-                        {t(f.q)}
+                        {f.q}
                       </Box>
                       <Flex
                         flex="none"
@@ -132,7 +147,7 @@ const WhyFaq = () => {
                     </AccordionButton>
                     <AccordionPanel px="4px" pb="22px" pt="0">
                       <Text color={HC.textSecondary} fontSize="15px" lineHeight="1.7">
-                        {t(f.a)}
+                        {f.a}
                       </Text>
                     </AccordionPanel>
                   </>

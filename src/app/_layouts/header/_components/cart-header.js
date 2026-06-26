@@ -7,13 +7,11 @@ import { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { showToast } from '../../../../utils/helper';
 import { useAuth } from '../../../../contexts/auth-context';
-import { useTranslation } from '../../../../hooks/useTranslation';
 
 const CartHeader = ({ isScrolled, isTransparent }) => {
   const router = useRouter();
   const cart = useRecoilValue(cartAtom);
   const [isClient, setIsClient] = useState(false);
-  const { t } = useTranslation();
 
   const { isAuthenticated, isChecking } = useAuth();
 
@@ -74,7 +72,7 @@ const CartHeader = ({ isScrolled, isTransparent }) => {
           transitionDuration="250ms"
         >
           <Text fontSize={18} fontWeight={500} color="#FFF">
-            {t('product.buy.button')}
+            {'Mua hàng'}
           </Text>
         </Flex>
       </Link>

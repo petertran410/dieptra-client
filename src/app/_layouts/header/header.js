@@ -33,9 +33,6 @@ import { useEffect, useState } from 'react';
 // import { authService } from '../../../services/auth.service';
 // import { showToast } from '../../../utils/helper';
 // import { useAuth } from '../../../contexts/auth-context';
-import { useTranslation } from '../../../hooks/useTranslation';
-// ====== ĐÃ TẠM ẨN CHUYỂN ĐỔI NGÔN NGỮ ======
-// import LanguageSwitcher from '../../../components/language-switcher';
 
 // const UserIcon = (props) => (
 //   <Icon viewBox="0 0 24 24" {...props}>
@@ -47,7 +44,6 @@ import { useTranslation } from '../../../hooks/useTranslation';
 // );
 
 const Header = () => {
-  const { t, getLocalizedText } = useTranslation();
   const pathname = usePathname();
   // const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -65,33 +61,33 @@ const Header = () => {
 
   const MENU_LIST = [
     {
-      title: t('nav.home'),
+      title: 'Trang Chủ',
       href: '/'
     },
     {
-      title: t('nav.about'),
+      title: 'Giới Thiệu',
       href: '/gioi-thieu-diep-tra'
     },
     {
       // Khi CMS đã cấu hình: dùng tên + href danh mục cha cố định.
       // Chưa cấu hình (menuConfig=null): giữ hành vi cũ "Sản Phẩm" -> /san-pham.
-      title: menuConfig?.name || t('nav.products'),
+      title: menuConfig?.name || 'Sản Phẩm',
       href: menuConfig?.href || '/san-pham',
       hasDropdown: true,
       dropdownItems: productCategories
     },
     {
-      title: t('nav.articles'),
+      title: 'Bài Viết',
       href: '/bai-viet',
       hasDropdown: true,
       dropdownItems: ARTICLE_SECTIONS
     },
     {
-      title: t('nav.contact'),
+      title: 'Liên Hệ',
       href: '/lien-he'
     },
     {
-      title: t('nav.recruitment'),
+      title: 'Tuyển Dụng',
       href: '/tuyen-dung'
     }
   ];
@@ -148,13 +144,13 @@ const Header = () => {
   //   if (isOnProtectedPage) {
   //     showToast({
   //       status: 'info',
-  //       content: t('nav.logout.success')
+  //       content: 'Đã đăng xuất thành công.'
   //     });
   //     router.push('/');
   //   } else {
   //     showToast({
   //       status: 'info',
-  //       content: t('nav.logout.success')
+  //       content: 'Đã đăng xuất thành công.'
   //     });
   //     router.refresh();
   //   }
@@ -274,7 +270,7 @@ const Header = () => {
                                 transition="all 0.2s ease"
                               >
                                 <Text as="span" fontSize={{ lg: '15px', xl: '16px', '2xl': '18px' }}>
-                                  {getLocalizedText(dropdownItem.name, dropdownItem.name_en)}
+                                  {dropdownItem.name}
                                 </Text>
                                 {hasSub && (
                                   <Text as="span" ml={2} fontSize={14} color="gray.500">
@@ -315,7 +311,7 @@ const Header = () => {
                                       }}
                                       transition="all 0.2s ease"
                                     >
-                                      {getLocalizedText(subItem.name, subItem.name_en)}
+                                      {subItem.name}
                                     </Box>
                                   </Link>
                                 ))}
@@ -401,10 +397,10 @@ const Header = () => {
               </MenuButton>
               <MenuList>
                 <Link href="/profile">
-                  <MenuItem fontSize="17px">{t('nav.products-information')}</MenuItem>
+                  <MenuItem fontSize="17px">{'Thông tin đơn hàng'}</MenuItem>
                 </Link>
                 <MenuItem fontSize="17px" onClick={handleLogout}>
-                  {t('nav.logout')}
+                  {'Đăng xuất'}
                 </MenuItem>
               </MenuList>
             </Menu>
@@ -413,7 +409,7 @@ const Header = () => {
               <Flex align="center" gap="8px" cursor="pointer" p="8px" borderRadius="8px" _hover={{ bg: 'gray.50' }}>
                 <UserIcon w="20px" h="20px" color="#065FD4" />
                 <Text fontSize="17px" fontWeight={500} color="#333">
-                  {t('nav.login')}
+                  {'Đăng nhập'}
                 </Text>
               </Flex>
             </Link>
@@ -455,10 +451,10 @@ const Header = () => {
               </MenuButton>
               <MenuList>
                 <Link href="/profile">
-                  <MenuItem fontSize="17px">{t('nav.products-information')}</MenuItem>
+                  <MenuItem fontSize="17px">{'Thông tin đơn hàng'}</MenuItem>
                 </Link>
                 <MenuItem fontSize="17px" onClick={handleLogout}>
-                  {t('nav.logout')}
+                  {'Đăng xuất'}
                 </MenuItem>
               </MenuList>
             </Menu>
@@ -509,7 +505,7 @@ const Header = () => {
                       <UserIcon w="24px" h="24px" />
                       <Text>{user.full_name || user.fullName}</Text>
                     </Flex>
-                    <Link href="/profile">{t('nav.products-information')}</Link>
+                    <Link href="/profile">{'Thông tin đơn hàng'}</Link>
                     <Box
                       w="full"
                       mt={2}
@@ -520,7 +516,7 @@ const Header = () => {
                       cursor="pointer"
                       onClick={handleLogout}
                     >
-                      {t('nav.home.mobile.logout')}
+                      {'Đăng xuất'}
                     </Box>
                   </VStack>
                 </Box>
@@ -537,7 +533,7 @@ const Header = () => {
                   >
                     <Flex align="center" gap="12px">
                       <UserIcon w="24px" h="24px" />
-                      <Text>{t('nav.login')}</Text>
+                      <Text>{'Đăng nhập'}</Text>
                     </Flex>
                   </Box>
                 </Link>
@@ -556,7 +552,7 @@ const Header = () => {
                   >
                     <Flex align="center" gap="12px">
                       <UserIcon w="24px" h="24px" />
-                      <Text>{t('nav.login')}</Text>
+                      <Text>{'Đăng nhập'}</Text>
                     </Flex>
                   </Box>
                 </Link>
@@ -596,7 +592,7 @@ const Header = () => {
                                 _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
                                 borderBottom="1px solid #e2e8f0"
                               >
-                                {getLocalizedText(item.name, item.name_en)}
+                                {item.name}
                               </Box>
                             </Link>
 
@@ -611,7 +607,7 @@ const Header = () => {
                                   _hover={{ bg: '#e2e8f0', color: '#065FD4' }}
                                   borderBottom="1px solid #e2e8f0"
                                 >
-                                  {getLocalizedText(sub.name, sub.name_en)}
+                                  {sub.name}
                                 </Box>
                               </Link>
                             ))}

@@ -2,12 +2,10 @@
 
 import { Flex, Text } from '@chakra-ui/react';
 import { Inter } from 'next/font/google';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const fontInter = Inter({ subsets: ['latin', 'vietnamese'] });
 
 const Statistic = ({ mt = { xs: '20px', lg: '20px' } }) => {
-  const { t } = useTranslation();
 
   return (
     <Flex
@@ -33,7 +31,7 @@ const Statistic = ({ mt = { xs: '20px', lg: '20px' } }) => {
           fontWeight={500}
           textTransform="uppercase"
         >
-          {t('home.statistic.province')}
+          {'tỉnh thành'}
         </Text>
       </Flex>
       <Flex direction="column" gap={{ xs: '12px', lg: '16px' }} align="center">
@@ -47,7 +45,7 @@ const Statistic = ({ mt = { xs: '20px', lg: '20px' } }) => {
           fontWeight={500}
           textTransform="uppercase"
         >
-          {t('home.statistic.coop')}
+          {'đối tác đồng hành'}
         </Text>
       </Flex>
     </Flex>

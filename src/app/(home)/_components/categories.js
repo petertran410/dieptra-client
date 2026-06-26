@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HC, FONT_DISPLAY, HOME_PX } from './home-theme';
 import SecHead from './sec-head';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const MotionBox = motion(Box);
 
@@ -21,18 +20,38 @@ const IMAGES = [
   '/images/home-v2/cat-o-long.webp'
 ];
 
-const Categories = () => {
-  const { t } = useTranslation();
+const NAMES = [
+  'Mứt Pha Chế',
+  'Topping Trà Sữa',
+  'Siro Pha Chế',
+  'Bột Pha Chế',
+  'Sữa / Kem Béo Pha Chế',
+  'Hồng Trà',
+  'Trà Xanh',
+  'Ô Long & Trà Hương Hoa'
+];
 
+const DESCS = [
+  'Đa dạng hương vị, ngon tự nhiên',
+  'Trân châu, thạch, pudding, kem...',
+  'Siro trái cây, siro hương vị',
+  'Bột sữa, bột kem, bột matcha...',
+  'Sữa đặc, kem béo, topping base...',
+  'Hồng trà đậm vị, ủ trà sữa',
+  'Trà xanh thơm dịu, chát thanh',
+  'Ô long, ô nhài, hoa hồng...'
+];
+
+const Categories = () => {
   const cards = IMAGES.map((img, i) => ({
     img,
-    name: t(`home.cat.${i + 1}.name`),
-    desc: t(`home.cat.${i + 1}.desc`)
+    name: NAMES[i],
+    desc: DESCS[i]
   }));
 
   return (
     <Box as="section" px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
-      <SecHead eyebrow={t('home.cat.eyebrow')} title={t('home.cat.title')} desc={t('home.cat.desc')} />
+      <SecHead eyebrow={'Danh mục sản phẩm'} title={'Hệ sinh thái nguyên liệu pha chế đầy đủ'} desc={'Từ nguyên liệu nền đến topping và trà chuyên dụng — tất cả trong một nhà cung cấp.'} />
 
       <Grid templateColumns={{ base: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }} gap={{ base: '16px', lg: '22px' }}>
         {cards.map((c, idx) => (
@@ -70,7 +89,7 @@ const Categories = () => {
                 {c.desc}
               </Text>
               <Text mt="12px" fontFamily={FONT_DISPLAY} fontWeight={700} fontSize="13.5px" color={HC.primary}>
-                {t('home.cat.more')} →
+                {'Xem thêm'} →
               </Text>
             </Box>
           </MotionBox>

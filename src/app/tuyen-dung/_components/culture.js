@@ -1,6 +1,5 @@
 'use client';
 
-import { useTranslation } from '../../../hooks/useTranslation';
 import { useQueryBlogCultureList } from '../../../services/culture.service';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { convertSlugURL } from '../../../utils/helper-server';
@@ -10,14 +9,13 @@ import Link from 'next/link';
 const Culture = () => {
   const { data: dataQuery } = useQueryBlogCultureList();
   const { content: blogList = [] } = dataQuery || {};
-  const { t, getLocalizedText } = useTranslation();
 
   return (
     <Flex px={PX_ALL} direction="column" align="center" mt={{ xs: '24px', lg: '48px' }}>
       <Text as="h1" textAlign="center" fontSize={24} fontWeight={500} textTransform="uppercase">
-        {t('recruit.slogan')}{' '}
+        {'VĂN HÓA - HOẠT động nổi bật tại'}{' '}
         <Text as="span" fontSize={24} fontWeight={500} color="#1E96BC">
-          {t('recruit.company.upperkey')}
+          {'DIỆP TRÀ'}
         </Text>
       </Text>
 
@@ -61,7 +59,7 @@ const Culture = () => {
                     </Flex>
                     <Flex align="flex-end" zIndex={3} h="full" w="full" pos="absolute" top={0} bottom={0} p="12px">
                       <Text textDecor="underline" noOfLines={1} fontSize={18} fontWeight={500} color="#065FD4">
-                        {getLocalizedText(title, title_en)}
+                        {title}
                       </Text>
                     </Flex>
                   </Box>

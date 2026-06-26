@@ -3,7 +3,6 @@
 import { IMG_ALT } from '../../../utils/const';
 import { Box, Button, Image, Text } from '@chakra-ui/react';
 import { Be_Vietnam_Pro } from 'next/font/google';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const fontFamily = Be_Vietnam_Pro({
   subsets: ['latin', 'vietnamese'],
@@ -11,7 +10,6 @@ const fontFamily = Be_Vietnam_Pro({
 });
 
 const Banner = () => {
-  const { t } = useTranslation();
 
   return (
     <Box pos="relative">
@@ -37,9 +35,9 @@ const Banner = () => {
         right={0}
         mx="auto"
       >
-        {t('recruit.decan.title.1')}
+        {'“CÙNG CHIA SẺ,'}
         <br />
-        {t('recruit.decan.title.2')}
+        {'CÙNG PHÁT TRIỂN”'}
       </Text>
 
       <Button
@@ -76,7 +74,7 @@ const Banner = () => {
           }
         }}
       >
-        {t('recruit.button')}
+        {'Vị trí tuyển dụng'}
       </Button>
     </Box>
   );

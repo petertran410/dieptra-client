@@ -4,12 +4,10 @@ import { Box, Text } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { HC, FONT_DISPLAY, HOME_PX } from './home-theme';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const MotionBox = motion(Box);
 
 const LermaoBanner = () => {
-  const { t } = useTranslation();
 
   return (
     <Box
@@ -34,7 +32,7 @@ const LermaoBanner = () => {
         transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
       >
         <Text as="span" display="inline-block" fontFamily={FONT_DISPLAY} fontWeight={700} fontSize="13px" letterSpacing=".14em" textTransform="uppercase" color={HC.cyanSoft} mb="14px">
-          {t('home.lermao.eyebrow')}
+          {'Thương hiệu riêng'}
         </Text>
         <Text
           fontFamily={FONT_DISPLAY}
@@ -49,7 +47,7 @@ const LermaoBanner = () => {
           LERMAO
         </Text>
         <Text color={HC.cyanSoft} fontSize="17px" maxW="480px" mb="28px" lineHeight={1.7}>
-          {t('home.lermao.desc')}
+          {'LerMao là thương hiệu nguyên liệu pha chế được nghiên cứu và phát triển bởi Diệp Trà, đáp ứng tiêu chuẩn chất lượng cao, phù hợp với khẩu vị người Việt.'}
         </Text>
         <Box
           as={Link}
@@ -69,7 +67,7 @@ const LermaoBanner = () => {
           transition="all .2s"
           _hover={{ bg: HC.accentDeep }}
         >
-          {t('home.lermao.cta')} →
+          {'Khám phá ngay'} →
         </Box>
       </MotionBox>
     </Box>

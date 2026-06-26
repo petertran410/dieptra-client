@@ -9,12 +9,10 @@ import { cartAtom } from '../../../states/common';
 import { cartService } from '../../../services/cart.service';
 import { useState } from 'react';
 import Counter from './counter';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const CartProduct = ({ cartData = [] }) => {
   const [cart, setCart] = useRecoilState(cartAtom);
   const [loadingItems, setLoadingItems] = useState({});
-  const { t, getLocalizedText } = useTranslation();
 
   const handleRemoveItem = async (item) => {
     const cartItem = cart.find((i) => i.slug === item.slug);
@@ -34,7 +32,7 @@ const CartProduct = ({ cartData = [] }) => {
       } catch (error) {
         showToast({
           status: 'error',
-          content: t('cart.cannot.sync.cart')
+          content: 'Không thể đồng bộ giỏ hàng. Vui lòng thử lại'
         });
         return;
       }
@@ -44,7 +42,7 @@ const CartProduct = ({ cartData = [] }) => {
       } catch (error) {
         showToast({
           status: 'error',
-          content: t('cart.cannot.delete.cart')
+          content: 'Không thể xoá sản phẩm. Vui lòng thử lại'
         });
         return;
       }
@@ -56,7 +54,7 @@ const CartProduct = ({ cartData = [] }) => {
 
     showToast({
       status: 'success',
-      content: t('cart.delete.product.outof.cart'),
+      content: 'Đã xoá sản phẩm khỏi giỏ hàng',
       icon: '/images/trash-green.webp'
     });
 
@@ -90,7 +88,7 @@ const CartProduct = ({ cartData = [] }) => {
       setCart(cart);
       showToast({
         status: 'error',
-        content: t('cart.cannot.update.quantity')
+        content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
       });
     } finally {
       setLoadingItems((prev) => ({ ...prev, [item.slug]: false }));
@@ -129,7 +127,7 @@ const CartProduct = ({ cartData = [] }) => {
         setCart(cart);
         showToast({
           status: 'error',
-          content: t('cart.cannot.update.quantity')
+          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
         });
       }
     } else {
@@ -142,7 +140,7 @@ const CartProduct = ({ cartData = [] }) => {
         setCart(cart);
         showToast({
           status: 'error',
-          content: t('cart.cannot.update.quantity')
+          content: 'Không thể cập nhật số lượng. Vui lòng thử lại'
         });
       }
     }
@@ -195,7 +193,7 @@ const CartProduct = ({ cartData = [] }) => {
               />
               <Flex direction="column" gap={2} flex="1">
                 <Text fontSize={{ base: '16px', lg: '18px' }} fontWeight="500" noOfLines={2}>
-                  {item?.title ? getLocalizedText(item.title, item.title_en) : item.kiotViet?.name}
+                  {item?.title ? item.title : item.kiotViet?.name}
                 </Text>
                 <Text
                   fontSize={{ base: '18px', lg: '20px' }}

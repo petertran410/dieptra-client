@@ -1,16 +1,14 @@
 'use client';
 
 import { Box, Text, Heading } from '@chakra-ui/react';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const PolicyContent = ({ pageData, isLoading }) => {
-  const { t, getLocalizedText } = useTranslation();
 
   if (isLoading) {
     return (
       <Box p="20px" textAlign="center">
         <Text color="gray.500" fontSize="16px">
-          {t('policy.loading')}
+          {'Đang tải nội dung...'}
         </Text>
       </Box>
     );
@@ -20,7 +18,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
     return (
       <Box p="20px" textAlign="center">
         <Text color="gray.500" fontSize="16px">
-          {t('policy.content.not.found')}
+          {'Không tìm thấy nội dung.'}
         </Text>
       </Box>
     );
@@ -46,7 +44,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
         lineHeight="1.3"
         textAlign={{ xs: 'center', lg: 'left' }}
       >
-        {getLocalizedText(title, title_en)}
+        {title}
       </Heading>
 
       <Box
@@ -131,22 +129,22 @@ const PolicyContent = ({ pageData, isLoading }) => {
         }}
       >
         {content ? (
-          <div dangerouslySetInnerHTML={{ __html: getLocalizedText(content, content_en) }} />
+          <div dangerouslySetInnerHTML={{ __html: content }} />
         ) : (
           <Text color="gray.500" fontSize="16px" textAlign="center" py="40px">
-            {t('policy.content.updating')}
+            {'Nội dung đang được cập nhật.'}
           </Text>
         )}
       </Box>
 
       <Box mt="40px" pt="20px" borderTop="1px solid" borderColor="gray.200">
         <Text fontSize="13px" color="gray.500" textAlign="center">
-          {t('policy.question.contact')}
+          {'Nếu bạn có thắc mắc về nội dung này, vui lòng liên hệ với chúng tôi qua email:'}
           <Text as="span" color="#003366" fontWeight="500">
             {' '}
             sales@hisweetievietnam.com.vn {''}
           </Text>
-          {t('policy.hotline')}
+          {'hoặc hotline:'}
           <Text as="span" color="#003366" fontWeight="500">
             {' '}
             0973 123 230

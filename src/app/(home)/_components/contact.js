@@ -1,7 +1,6 @@
 'use client';
 
 import SectionBlockH3 from '../../../components/section-block/section-block-h3';
-import { useTranslation } from '../../../hooks/useTranslation';
 import { useMutateContact } from '../../../services/contact.service';
 import { PX_ALL } from '../../../utils/const';
 import { showToast } from '../../../utils/helper';
@@ -9,7 +8,6 @@ import { Box, Button, Flex, Input, Text, Textarea } from '@chakra-ui/react';
 import { useForm } from 'react-hook-form';
 
 const HomeContact = (props) => {
-  const { t } = useTranslation();
   const { mutateAsync: sendContactMutate, isPending } = useMutateContact();
   const {
     register,
@@ -31,7 +29,7 @@ const HomeContact = (props) => {
         reset();
         showToast({
           status: 'success',
-          content: t('home.contact.success'),
+          content: 'Thông tin của bạn đã được gửi đi',
           icon: '/images/send-contact.webp'
         });
       })
@@ -56,15 +54,15 @@ const HomeContact = (props) => {
       bgRepeat="no-repeat"
       bgColor="transparent"
     >
-      <SectionBlockH3 title={t('home.contact.title')} />
+      <SectionBlockH3 title={'Liên hệ tư vấn'} />
 
       <Box mt="16px" borderRadius={16} py="24px">
         <form style={{ display: 'block' }} onSubmit={handleSubmit(onSubmit)}>
           <Flex flex={1} direction="column" gap="8px">
-            <Text fontSize={18}>{t('home.contact.fullName')}</Text>
+            <Text fontSize={18}>{'Họ và tên'}</Text>
             <Input
               {...register('fullName')}
-              placeholder={t('home.contact.fullName.input')}
+              placeholder={'Vui lòng nhập họ và tên'}
               h="56px"
               borderRadius={8}
               fontWeight={500}
@@ -86,20 +84,20 @@ const HomeContact = (props) => {
           <Flex gap="24px" direction={{ xs: 'column', md: 'row' }} mt="16px">
             <Flex flex={1} direction="column" gap="8px">
               <Text fontSize={18}>
-                {t('home.contact.phone')}{' '}
+                {'Số điện thoại'}{' '}
                 <Text as="span" color="red">
                   *
                 </Text>
               </Text>
               <Input
                 {...register('phoneNumber', {
-                  required: t('home.contact.phone.input'),
+                  required: 'Vui lòng nhập số điện thoại',
                   pattern: {
                     value: /^(03|05|07|08|09)\d{7,10}$/,
-                    message: t('home.contact.phone.wrong')
+                    message: 'Số điện thoại không đúng định dạng'
                   }
                 })}
-                placeholder={t('home.contact.phone.input')}
+                placeholder={'Vui lòng nhập số điện thoại'}
                 h="56px"
                 borderRadius={8}
                 fontWeight={500}
@@ -126,13 +124,13 @@ const HomeContact = (props) => {
               </Text>
               <Input
                 {...register('email', {
-                  required: t('home.contact.email.input'),
+                  required: 'Vui lòng nhập email',
                   pattern: {
                     value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                    message: t('home.contact.email.wrong')
+                    message: 'Email không đúng định dạng'
                   }
                 })}
-                placeholder={t('home.contact.email.input')}
+                placeholder={'Vui lòng nhập email'}
                 h="56px"
                 borderRadius={8}
                 fontWeight={500}
@@ -154,7 +152,7 @@ const HomeContact = (props) => {
 
           <Flex direction="column" gap="8px" mt="16px">
             <Text fontSize={18}>
-              {t('home.contact.problem')}{' '}
+              {'Sản phẩm / Vấn đề mà bạn đang quan tâm'}{' '}
               <Text as="span" color="red">
                 *
               </Text>
@@ -163,7 +161,7 @@ const HomeContact = (props) => {
               {...register('note', { required: 'Vui lòng nhập nội dung' })}
               rows={3}
               p="12px"
-              placeholder={t('home.contact.problem.input')}
+              placeholder={'Vui lòng nhập vấn đề bạn quan tâm'}
               borderRadius={8}
               fontWeight={500}
               fontSize={18}
@@ -180,7 +178,7 @@ const HomeContact = (props) => {
             />
             {!!errors.note && <Text color="red.400">{errors.note.message}</Text>}
             <Text fontSize={18} color="#71717A" textAlign="right">
-              {t('home.contact.maximum.word')}
+              {'Tối đa 200 ký tự'}
             </Text>
           </Flex>
 
@@ -198,7 +196,7 @@ const HomeContact = (props) => {
               _active={{ bgColor: '#5d97e3' }}
               isLoading={isPending}
             >
-              {t('home.contact.submit')}
+              {'Gửi thông tin'}
             </Button>
           </Flex>
         </form>

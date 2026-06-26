@@ -1,7 +1,6 @@
 'use client';
 
 import Carousel from '../../../components/carousel';
-import { useTranslation } from '../../../hooks/useTranslation';
 import { useQueryBlogCultureList } from '../../../services/culture.service';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { convertSlugURL } from '../../../utils/helper-server';
@@ -11,7 +10,6 @@ import Link from 'next/link';
 
 const ActivityItem = ({ isMobile, item }) => {
   const { imagesUrl, id, title, title_en, description, description_en, createdDate } = item;
-  const { t, getLocalizedText } = useTranslation();
 
   return (
     <Link href={`/van-hoa/${convertSlugURL(title)}.${id}`} style={{ display: 'block', width: '100%' }}>
@@ -29,14 +27,14 @@ const ActivityItem = ({ isMobile, item }) => {
 
         <Flex direction="column" gap="4px">
           <Text fontSize={{ xs: 24, lg: 18 }} fontWeight={{ xs: 600, lg: 500 }} lineHeight="30px">
-            {getLocalizedText(title, title_en)}
+            {title}
           </Text>
           {isMobile ? (
             <Box
               fontSize={18}
               lineHeight="19px"
               noOfLines={5}
-              dangerouslySetInnerHTML={{ __html: getLocalizedText(description, description_en) }}
+              dangerouslySetInnerHTML={{ __html: description }}
             ></Box>
           ) : (
             <Flex align="center" gap="4px">

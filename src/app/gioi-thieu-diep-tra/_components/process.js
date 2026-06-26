@@ -2,12 +2,10 @@
 
 import CarouselMobile from '../../../components/carousel/carousel-mobile';
 import SectionBlockH2 from '../../../components/section-block/section-block-h2';
-import { useTranslation } from '../../../hooks/useTranslation';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { AspectRatio, Box, Flex, Grid, Image } from '@chakra-ui/react';
 
 const Process = () => {
-  const { t } = useTranslation();
 
   const PROCESS_ALL = [
     {
@@ -67,7 +65,7 @@ Triển khai các mã hàng lạnh đầu tiên`,
 
   return (
     <Flex direction="column" align="center" mt={{ xs: '16px', lg: '48px' }} gap="24px" px={PX_ALL}>
-      <SectionBlockH2 title={t('process.title')} isNormal isActiveMobile />
+      <SectionBlockH2 title={'Quá trình phát triển'} isNormal isActiveMobile />
 
       {/* Desktop Layout - Top Row */}
       <Grid

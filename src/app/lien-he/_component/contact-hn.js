@@ -5,10 +5,8 @@ import SectionBlock from '../../../components/section-block';
 import { PX_ALL } from '../../../utils/const';
 import { Box, Flex } from '@chakra-ui/react';
 import ContactItem from './contact-item';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const ContactHN = () => {
-  const { t } = useTranslation();
 
   const breakpoints = {
     1: { slidesPerView: 1 },
@@ -75,8 +73,8 @@ const ContactHN = () => {
 
   return (
     <Flex direction="column" align="center" px={PX_ALL} pos="relative" zIndex={5}>
-      <SectionBlock title={t('contact.title')} />
-      <p style={{ fontSize: '24px', marginTop: '15px' }}>{t('contact.desc')}</p>
+      <SectionBlock title={'liên hệ Diệp Trà'} />
+      <p style={{ fontSize: '24px', marginTop: '15px' }}>{'Liên hệ ngay chúng tôi để được tư vấn tốt nhất'}</p>
 
       <Box mt="24px" display={{ xs: 'none', lg: 'block' }} w="105%">
         <Carousel spaceBetween={24} breakpoints={breakpoints} autoplay={false}>

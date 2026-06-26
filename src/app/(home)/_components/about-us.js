@@ -3,10 +3,8 @@
 import { IMG_ALT, PX_ALL, ABOUT_US } from '../../../utils/const';
 import { Flex, Image, Text } from '@chakra-ui/react';
 import Link from 'next/link';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const AboutUs = () => {
-  const { t } = useTranslation();
 
   return (
     <Flex
@@ -19,13 +17,13 @@ const AboutUs = () => {
     >
       <Flex flex={1.1} direction="column" gap="16px">
         <Text as="h1" fontSize={26} fontWeight={600} color="#1E96BC">
-          {t('home.about.title')}
+          {'Diệp Trà | Chuyên Cung Cấp Nguyên Liệu Pha Chế'}
         </Text>
         <Text fontSize={18} textAlign="justify">
-          {t('home.about.desc1')}
+          {' Diệp Trà - Thương hiệu trực thuộc Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam, ra đời năm 2018 với sứ mệnh tiên phong trong ngành đồ uống tại Việt Nam. Chúng tôi chuyên cung cấp nguyên liệu pha chế nhập khẩu từ Đài Loan (Trung Quốc) và Trung Quốc, đáp ứng nhu cầu đa dạng của thị trường.'}
         </Text>
         <Text fontSize={18} textAlign="justify">
-          {t('home.about.desc2')}
+          {'Với chiến lược “Hợp tác chiến lược Toàn diện và Độc quyền” cùng các đối tác uy tín hàng đầu thế giới, Diệp Trà cam kết mang đến những sản phẩm chất lượng cao, đón đầu xu hướng, cùng mức giá hợp lý cho khách hàng tại Việt Nam.'}
         </Text>
 
         <Link href="/gioi-thieu-diep-tra" target="_blank">
@@ -45,7 +43,7 @@ const AboutUs = () => {
             transitionDuration="250ms"
             _hover={{ bgColor: '#0f2c3d', borderColor: '#0f2c3d', color: '#FFF' }}
           >
-            {t('home.about.viewDetail')}
+            {'Xem chi tiết'}
           </Flex>
         </Link>
       </Flex>

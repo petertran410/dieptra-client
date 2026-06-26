@@ -16,7 +16,6 @@ import Image from 'next/image';
 import { authService } from '../../../services/auth.service';
 import { profileService } from '../../../services/profile.service';
 import { cartService } from '../../../services/cart.service';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const CartWrapper = () => {
   const [showContact, setShowContact] = useState(false);
@@ -25,7 +24,6 @@ const CartWrapper = () => {
   const { data: cartData = [], isLoading } = useQueryProductBySlugs(cartSlugs);
   const [isClient, setIsClient] = useState(false);
   const router = useRouter();
-  const { t, getLocalizedText } = useTranslation();
 
   const hasSynced = useRef(false);
 
@@ -86,7 +84,7 @@ const CartWrapper = () => {
         if (!authCheck.isAuthenticated) {
           showToast({
             status: 'warning',
-            content: t('cart.login.see')
+            content: 'Vui lòng đăng nhập để xem giỏ hàng.'
           });
           router.push('/dang-nhap?redirect=/gio-hang');
           return;
@@ -119,13 +117,13 @@ const CartWrapper = () => {
       setCart([]);
       showToast({
         status: 'success',
-        content: t('cart.delete.product'),
+        content: 'Đã xoá tất cả sản phẩm khỏi giỏ hàng.',
         icon: '/images/trash-green.webp'
       });
     } catch (error) {
       showToast({
         status: 'error',
-        content: t('cart.delete.product.error')
+        content: 'Không thể xoá giỏ hàng. Vui lòng thử lại.'
       });
     }
   };
@@ -153,7 +151,7 @@ const CartWrapper = () => {
     if (cart.length === 0) {
       showToast({
         status: 'error',
-        content: t('cart.empty.cart')
+        content: 'Giỏ hàng trống. Vui lòng thêm sản phẩm trước khi thanh toán.'
       });
       return;
     }
@@ -163,7 +161,7 @@ const CartWrapper = () => {
     if (missingProducts.length > 0) {
       showToast({
         status: 'error',
-        content: t('cart.product.inside.empty')
+        content: 'Một số sản phẩm trong giỏ hàng không còn tồn tại.'
       });
       return;
     }
@@ -176,7 +174,7 @@ const CartWrapper = () => {
         if (!authCheck.isAuthenticated) {
           showToast({
             status: 'warning',
-            content: t('cart.login.payment')
+            content: 'Vui lòng đăng nhập để tiếp tục thanh toán.'
           });
           router.push('/dang-nhap?redirect=/gio-hang');
           return;
@@ -184,7 +182,7 @@ const CartWrapper = () => {
       } catch (error) {
         showToast({
           status: 'warning',
-          content: t('cart.login.payment')
+          content: 'Vui lòng đăng nhập để tiếp tục thanh toán.'
         });
         router.push('/dang-nhap?redirect=/gio-hang');
         return;
@@ -198,7 +196,7 @@ const CartWrapper = () => {
       if (!userData.detailed_address || !userData.ward || !userData.province) {
         showToast({
           status: 'warning',
-          content: t('cart.update.all.information')
+          content: 'Vui lòng cập nhật đầy đủ địa chỉ giao hàng trước khi thanh toán.'
         });
         router.push('/profile?redirect=/gio-hang&required=address');
         return;
@@ -208,7 +206,7 @@ const CartWrapper = () => {
     } catch (error) {
       showToast({
         status: 'error',
-        content: t('cart.error.checking.personal.information')
+        content: 'Không thể kiểm tra thông tin cá nhân. Vui lòng thử lại.'
       });
     }
   };
@@ -220,7 +218,7 @@ const CartWrapper = () => {
   if (isLoading) {
     return (
       <Flex justify="center" align="center" minH="400px">
-        <Text>{t('cart.loading')}</Text>
+        <Text>{'Đang tải giỏ hàng...'}</Text>
       </Flex>
     );
   }
@@ -228,10 +226,10 @@ const CartWrapper = () => {
   return (
     <Flex direction="column" px={PX_ALL} pt={{ xs: '70px', lg: '162px' }} pb="50px">
       <Box mb={{ xs: '8px', lg: '16px' }}>
-        <SectionBlock title={t('cart.cart')} />
+        <SectionBlock title={'Giỏ hàng'} />
       </Box>
       {/* <Text textAlign="center">
-        {cart.length || 0} {t('cart.product')}
+        {cart.length || 0} {'sản phẩm'}
       </Text> */}
 
       <Flex align="center" justify="space-between" mt="24px">
@@ -252,14 +250,14 @@ const CartWrapper = () => {
             transitionDuration="250ms"
             _hover={{ bgColor: '#0f2c3d', borderColor: '#0f2c3d', color: '#FFF' }}
           >
-            {t('cart.add.product')}
+            {'Thêm sản phẩm'}
           </Flex>
         </Link>
 
         {!!cart.length && (
           <button type="button" onClick={handleClearCart}>
             <Text fontSize={18} fontWeight={500} color="#EF4444">
-              {t('cart.delete.all.product')}
+              {'Xoá tất cả'}
             </Text>
           </button>
         )}
@@ -280,12 +278,12 @@ const CartWrapper = () => {
         >
           <Box bg="gray.50" p="6" borderRadius="lg" w={{ xs: 'full', lg: '350px' }} border="1px" borderColor="gray.200">
             <Text fontSize="2xl" fontWeight="semibold" mb="4">
-              {t('cart.summary.order')}
+              {'Tóm tắt đơn hàng'}
             </Text>
 
             <Flex direction="column" gap="3">
               <Flex justify="space-between">
-                <Text fontSize="2xl">{t('cart.provisional')}</Text>
+                <Text fontSize="2xl">{'Tạm tính:'}</Text>
                 <Text fontWeight="medium" fontSize="2xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(calculateTotal())}
                 </Text>
@@ -294,7 +292,7 @@ const CartWrapper = () => {
               <Divider />
 
               <Flex justify="space-between" fontSize="lg" fontWeight="bold">
-                <Text fontSize="2xl">{t('cart.total')}</Text>
+                <Text fontSize="2xl">{'Tổng cộng:'}</Text>
                 <Text color="blue.600" fontSize="2xl">
                   {new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(calculateGrandTotal())}
                 </Text>
@@ -318,7 +316,7 @@ const CartWrapper = () => {
                 boxShadow: 'xl'
               }}
             >
-              {t('cart.payment.now')}
+              {'Thanh toán ngay'}
             </Button>
 
             {/* <Button
@@ -338,7 +336,7 @@ const CartWrapper = () => {
               isDisabled={!cart.length}
               onClick={() => setShowContact(true)}
             >
-              {t('home.contact.submit')}
+              {'Gửi thông tin'}
             </Button> */}
           </Stack>
         </Flex>

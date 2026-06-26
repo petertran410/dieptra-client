@@ -5,15 +5,12 @@ import { IMG_ALT } from '../../utils/const';
 import { AspectRatio, Box, Flex, Text, Tag } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import Link from 'next/link';
-import { useTranslation } from '../../hooks/useTranslation';
 
 const ProductItem = ({ item }) => {
-  const { t, getLocalizedText } = useTranslation();
 
   const {
     id,
     title,
-    title_en,
     title_meta,
     kiotviet_name,
     kiotviet_price,
@@ -25,7 +22,7 @@ const ProductItem = ({ item }) => {
 
   const productSlug = slug;
 
-  const showName = title ? getLocalizedText(title, title_en) : kiotviet_name;
+  const showName = title ? title : kiotviet_name;
 
   const getProductImage = () => {
     if (Array.isArray(imagesUrl) && imagesUrl.length > 0) {
@@ -112,7 +109,7 @@ const ProductItem = ({ item }) => {
           <Flex justify="center" align="center" mt="6px">
             {!kiotviet_price || kiotviet_price === 0 ? (
               <Tag colorScheme="blue" size="sm" fontWeight="600">
-                {t('product.contact')}
+                {'Liên hệ'}
               </Tag>
             ) : (
               <Text color="#1E96BC" fontSize="16px" fontWeight={700}>
@@ -133,7 +130,7 @@ const ProductItem = ({ item }) => {
           >
             <Text fontSize="16px" fontWeight="600" color="white">
               {/* ====== ĐÃ ĐỔI "Mua hàng" THÀNH "Liên hệ" ====== */}
-              {/* {t('product.buy.button')} */}
+              {/* {'Mua hàng'} */}
               Liên hệ
             </Text>
           </Flex>

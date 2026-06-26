@@ -3,18 +3,17 @@
 import { Box, Grid, Text } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
 import { HC, FONT_DISPLAY, HOME_PX } from './home-theme';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const MotionGrid = motion(Grid);
 
 const UspStats = () => {
-  const { t } = useTranslation();
-
-  const items = [1, 2, 3, 4, 5].map((i) => ({
-    num: t(`home.usp.${i}.num`),
-    label: t(`home.usp.${i}.label`),
-    desc: t(`home.usp.${i}.desc`)
-  }));
+  const items = [
+    { num: '60+', label: 'Tỉnh thành phủ sóng', desc: 'Giao hàng nhanh chóng trên toàn quốc' },
+    { num: '30.000+', label: 'Đối tác đồng hành', desc: 'Quán, chuỗi F&B, đại lý & nhà phân phối' },
+    { num: '500+', label: 'Danh mục đa dạng', desc: 'Hơn 500 sản phẩm nguyên liệu pha chế' },
+    { num: '★', label: 'Hỗ trợ công thức & xu hướng', desc: 'Cập nhật trend, menu mới, công thức độc quyền' },
+    { num: '✓', label: 'Chất lượng ổn định', desc: 'Kiểm soát chất lượng, nguồn uy tín' }
+  ];
 
   return (
     <Box as="section" px={HOME_PX} mt={{ base: '-22px', lg: '-40px' }} mb="28px" position="relative" zIndex={5}>

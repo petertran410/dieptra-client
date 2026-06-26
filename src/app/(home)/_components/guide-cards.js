@@ -6,7 +6,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { HC, FONT_DISPLAY, HOME_PX } from './home-theme';
 import SecHead from './sec-head';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const MotionBox = motion(Box);
 
@@ -14,32 +13,30 @@ const GUIDES = [
   {
     img: '/images/home-v2/guide-cong-thuc.png',
     href: '/bai-viet/cong-thuc-pha-che',
-    titleKey: 'home.guide.1.title',
-    lis: ['home.guide.1.li1', 'home.guide.1.li2', 'home.guide.1.li3'],
-    ctaKey: 'home.guide.1.cta'
+    title: 'Công Thức Pha Chế',
+    lis: ['Trà sữa', 'Trà trái cây', 'Matcha'],
+    cta: 'Xem công thức ngay'
   },
   {
     img: '/images/home-v2/guide-nguyen-lieu.png',
     href: '/bai-viet/kien-thuc-nguyen-lieu-pha-che',
-    titleKey: 'home.guide.2.title',
-    lis: ['home.guide.2.li1', 'home.guide.2.li2', 'home.guide.2.li3'],
-    ctaKey: 'home.guide.2.cta'
+    title: 'Kiến Thức Nguyên Liệu',
+    lis: ['Phân biệt các loại trà', 'Chọn syrup phù hợp', 'Bảo quản nguyên liệu'],
+    cta: 'Xem kiến thức ngay'
   },
   {
     img: '/images/home-v2/guide-kinh-doanh.png',
     href: '/bai-viet/kien-thuc-ve-tra',
-    titleKey: 'home.guide.3.title',
-    lis: ['home.guide.3.li1', 'home.guide.3.li2', 'home.guide.3.li3'],
-    ctaKey: 'home.guide.3.cta'
+    title: 'Kinh Doanh Quán',
+    lis: ['Tính cost đồ uống', 'Xây dựng menu', 'Xu hướng đồ uống'],
+    cta: 'Xem bài viết'
   }
 ];
 
 const GuideCards = () => {
-  const { t } = useTranslation();
-
   return (
     <Box as="section" id="guide" px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
-      <SecHead eyebrow={t('home.guide.eyebrow')} title={t('home.guide.title')} />
+      <SecHead eyebrow={'Cẩm nang pha chế & kinh doanh'} title={'Kiến thức đồng hành cùng người làm F&B'} />
 
       <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={{ base: '20px', lg: '26px' }}>
         {GUIDES.map((g, i) => (
@@ -63,7 +60,7 @@ const GuideCards = () => {
               <Image
                 className="guide-img"
                 src={g.img}
-                alt={t(g.titleKey)}
+                alt={g.title}
                 width={520}
                 height={325}
                 loading="lazy"
@@ -72,7 +69,7 @@ const GuideCards = () => {
             </Box>
             <Box p="26px">
               <Text as="h3" fontFamily={FONT_DISPLAY} fontSize="20px" fontWeight={800} mb="14px" color={HC.textPrimary}>
-                {t(g.titleKey)}
+                {g.title}
               </Text>
               <Flex direction="column" gap="9px" mb="20px">
                 {g.lis.map((li) => (
@@ -80,7 +77,7 @@ const GuideCards = () => {
                     <Text as="span" color={HC.primary} fontWeight={900}>
                       ›
                     </Text>
-                    {t(li)}
+                    {li}
                   </Flex>
                 ))}
               </Flex>
@@ -99,7 +96,7 @@ const GuideCards = () => {
                 transition="all .2s"
                 _hover={{ bg: HC.primaryDark, borderColor: HC.primaryDark, color: '#FFF' }}
               >
-                {t(g.ctaKey)}
+                {g.cta}
               </Box>
             </Box>
           </MotionBox>

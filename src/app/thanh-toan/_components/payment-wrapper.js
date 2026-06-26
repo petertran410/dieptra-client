@@ -51,7 +51,6 @@ import { authService } from '../../../services/auth.service';
 import { profileService } from '../../../services/profile.service';
 import { FiUser, FiShoppingCart, FiCheckCircle, FiPackage, FiTruck } from 'react-icons/fi';
 import { BsBank } from 'react-icons/bs';
-import { useTranslation } from '../../../hooks/useTranslation';
 
 const PaymentWrapper = () => {
   const router = useRouter();
@@ -60,7 +59,6 @@ const PaymentWrapper = () => {
   const { data: cartData = [], isLoading: loadingProducts } = useQueryProductBySlugs(cartSlugs);
   const { mutateAsync: createCODOrder, isPending: creatingCODOrder } = useMutateCreateCODOrder();
 
-  const { t, getLocalizedText } = useTranslation();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [authLoading, setAuthLoading] = useState(true);
@@ -161,7 +159,7 @@ const PaymentWrapper = () => {
       if (e.key === 'CK_CLIENT_USER' && !e.newValue) {
         showToast({
           status: 'warning',
-          content: t('payment.login.outof.time')
+          content: 'Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.'
         });
         router.replace('/dang-nhap?redirect=/thanh-toan');
       }
@@ -185,7 +183,7 @@ const PaymentWrapper = () => {
       } catch (error) {
         showToast({
           status: 'error',
-          content: t('payment.cannot.load.district')
+          content: 'Không thể tải dữ liệu tỉnh/thành. Vui lòng thử lại.'
         });
       }
     };
@@ -240,7 +238,7 @@ const PaymentWrapper = () => {
 
         showToast({
           status: 'success',
-          content: t('payment.success')
+          content: 'Thanh toán thành công! Cảm ơn bạn đã mua hàng.'
         });
       } else if (paymentStatus.status === 'FAILED' || paymentStatus.status === 'CANCELLED') {
         addDebugLog('❌ PAYMENT FAILED', paymentStatus);
@@ -250,7 +248,7 @@ const PaymentWrapper = () => {
 
         showToast({
           status: 'error',
-          content: t('payment.failed')
+          content: 'Thanh toán thất bại. Vui lòng thử lại.'
         });
       }
     }
@@ -314,7 +312,7 @@ const PaymentWrapper = () => {
       } catch (error) {
         showToast({
           status: 'warning',
-          content: t('payment.cannot.load.information')
+          content: 'Không thể tải thông tin cá nhân. Vui lòng nhập thủ công.'
         });
       } finally {
         setProfileLoading(false);
@@ -451,7 +449,7 @@ const PaymentWrapper = () => {
       if (cartItems.length === 0) {
         showToast({
           status: 'error',
-          content: t('payment.invalid.product')
+          content: 'Không có sản phẩm hợp lệ trong giỏ hàng'
         });
         return;
       }
@@ -460,7 +458,7 @@ const PaymentWrapper = () => {
       if (invalidItems.length > 0) {
         showToast({
           status: 'error',
-          content: t('payment.some.productcode.invalid')
+          content: 'Một số sản phẩm không có mã sản phẩm hợp lệ'
         });
         return;
       }
@@ -470,7 +468,7 @@ const PaymentWrapper = () => {
         if (invalidProducts.length > 0) {
           showToast({
             status: 'error',
-            content: t('payment.contact.to.buy')
+            content: 'Một số sản phẩm cần liên hệ để báo giá. Vui lòng chọn thanh toán COD hoặc liên hệ trực tiếp.'
           });
           return;
         }
@@ -530,7 +528,7 @@ const PaymentWrapper = () => {
 
         showToast({
           status: 'success',
-          content: t('payment.order.created.completed')
+          content: 'Đơn hàng đã được tạo thành công!'
         });
 
         if (paymentMethod === 'sepay_bank' && response.qrCodeUrl) {
@@ -574,7 +572,7 @@ const PaymentWrapper = () => {
       if (cartItems.length === 0) {
         showToast({
           status: 'error',
-          content: t('payment.invalid.product')
+          content: 'Không có sản phẩm hợp lệ trong giỏ hàng'
         });
         return;
       }
@@ -583,7 +581,7 @@ const PaymentWrapper = () => {
       if (invalidItems.length > 0) {
         showToast({
           status: 'error',
-          content: t('payment.some.productcode.invalid')
+          content: 'Một số sản phẩm không có mã sản phẩm hợp lệ'
         });
         return;
       }
@@ -633,7 +631,7 @@ const PaymentWrapper = () => {
 
         showToast({
           status: 'success',
-          content: t('payment.order.COD.created.completed')
+          content: 'Đơn hàng COD đã được tạo thành công!'
         });
 
         setCart([]);
@@ -655,7 +653,7 @@ const PaymentWrapper = () => {
         <VStack spacing={4}>
           <Spinner size="xl" color="blue.500" thickness="4px" />
           <Text fontSize="lg" fontWeight="medium" color="gray.700">
-            {t('payment.loading.order')}
+            {'Đang tải thông tin sản phẩm...'}
           </Text>
         </VStack>
       </Flex>
@@ -668,7 +666,7 @@ const PaymentWrapper = () => {
         <Center h="400px">
           <VStack spacing={4}>
             <Spinner size="xl" />
-            <Text>{t('payment.checking.login')}</Text>
+            <Text>{'Đang kiểm tra đăng nhập...'}</Text>
           </VStack>
         </Center>
       </Container>
@@ -687,13 +685,13 @@ const PaymentWrapper = () => {
         <Box bg="white" p={8} borderRadius="xl" boxShadow="xl" textAlign="center" maxW="400px">
           <Icon as={FiShoppingCart} boxSize={16} color="gray.400" mb={4} />
           <Text fontSize="2xl" fontWeight="bold" mb={2} color="gray.700">
-            {t('payment.empty.cart')}
+            {'Giỏ hàng trống'}
           </Text>
           <Text color="gray.600" mb={6}>
-            {t('payment.no.product.in.cart')}
+            {'Bạn chưa có sản phẩm nào trong giỏ hàng'}
           </Text>
           <Button colorScheme="blue" size="lg" onClick={() => router.push('/san-pham')} leftIcon={<FiPackage />}>
-            {t('payment.explore')}
+            Khám phá sản phẩm
           </Button>
         </Box>
       </Flex>
@@ -711,7 +709,7 @@ const PaymentWrapper = () => {
       >
         <VStack spacing={4}>
           <Spinner size="lg" color="blue.500" thickness="4px" />
-          <Text color="gray.700">{t('payment.checking.login')}</Text>
+          <Text color="gray.700">{'Đang kiểm tra đăng nhập...'}</Text>
         </VStack>
       </Flex>
     );
@@ -732,10 +730,10 @@ const PaymentWrapper = () => {
         <VStack spacing={8} align="stretch">
           <Box textAlign="center">
             <Heading as="h1" size="xl" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" mb={2}>
-              {t('payment.complete.title')}
+              {'Hoàn tất đơn hàng'}
             </Heading>
             <Text color="gray.600" fontSize="lg">
-              {t('payment.check.information')}
+              {'Vui lòng kiểm tra thông tin'}
             </Text>
           </Box>
 
@@ -753,17 +751,17 @@ const PaymentWrapper = () => {
                 <HStack align="center" mb={4}>
                   <Icon as={FiUser} color="blue.500" boxSize={6} />
                   <Heading size="lg" fontWeight="semibold">
-                    {t('payment.customer.information')}
+                    {'Thông tin khách hàng'}
                   </Heading>
                   {profileLoading && <Spinner size="lg" />}
                 </HStack>
 
                 <VStack spacing={4} align="stretch">
                   <FormControl isRequired>
-                    <FormLabel fontSize="2xl">{t('payment.fullName')}</FormLabel>
+                    <FormLabel fontSize="2xl">{'Họ và tên'}</FormLabel>
                     <Input
                       defaultValue={customerInfoRef.current.fullName}
-                      placeholder={t('payment.fullName.place')}
+                      placeholder={'Nhập họ và tên'}
                       fontSize="2xl"
                       onChange={(e) => (customerInfoRef.current.fullName = e.target.value)}
                       isDisabled
@@ -781,7 +779,7 @@ const PaymentWrapper = () => {
                     <Input
                       type="email"
                       defaultValue={customerInfoRef.current.email}
-                      placeholder={t('payment.email.place')}
+                      placeholder={'Nhập địa chỉ email'}
                       fontSize="2xl"
                       onChange={(e) => (customerInfoRef.current.email = e.target.value)}
                       isDisabled
@@ -795,11 +793,11 @@ const PaymentWrapper = () => {
                   </FormControl>
 
                   <FormControl isRequired>
-                    <FormLabel fontSize="2xl">{t('payment.phone')}</FormLabel>
+                    <FormLabel fontSize="2xl">{'Số điện thoại'}</FormLabel>
                     <Input
                       type="tel"
                       defaultValue={customerInfoRef.current.phone}
-                      placeholder={t('payment.phone.place')}
+                      placeholder={'Nhập số điện thoại'}
                       fontSize="2xl"
                       onChange={(e) => (customerInfoRef.current.phone = e.target.value)}
                       isDisabled
@@ -813,12 +811,12 @@ const PaymentWrapper = () => {
                   </FormControl>
 
                   <FormControl>
-                    <FormLabel fontSize="2xl">{t('payment.province')}</FormLabel>
+                    <FormLabel fontSize="2xl">{'Tỉnh/Thành phố'}</FormLabel>
                     <Select
                       value={selectedProvince}
                       onChange={(e) => handleProvinceChange(e.target.value)}
                       fontSize="2xl"
-                      placeholder={t('payment.province.place')}
+                      placeholder={'Chọn tỉnh/thành phố'}
                       isDisabled
                       cursor="not-allowed"
                       isReadOnly
@@ -837,12 +835,12 @@ const PaymentWrapper = () => {
 
                   {districts.length > 0 && (
                     <FormControl>
-                      <FormLabel fontSize="2xl">{t('payment.district')}</FormLabel>
+                      <FormLabel fontSize="2xl">{'Quận/Huyện'}</FormLabel>
                       <Select
                         value={selectedDistrict}
                         onChange={(e) => handleDistrictChange(e.target.value)}
                         fontSize="2xl"
-                        placeholder={t('payment.district.place')}
+                        placeholder={'Chọn quận/huyện'}
                         isDisabled
                         cursor="not-allowed"
                         isReadOnly
@@ -862,12 +860,12 @@ const PaymentWrapper = () => {
 
                   {wards.length > 0 && (
                     <FormControl>
-                      <FormLabel fontSize="2xl">{t('payment.ward')}</FormLabel>
+                      <FormLabel fontSize="2xl">{'Phường/Xã'}</FormLabel>
                       <Select
                         value={selectedWard}
                         onChange={(e) => setSelectedWard(e.target.value)}
                         fontSize="2xl"
-                        placeholder={t('payment.ward.place')}
+                        placeholder={'Chọn phường/xã'}
                         isDisabled
                         cursor="not-allowed"
                         isReadOnly
@@ -886,10 +884,10 @@ const PaymentWrapper = () => {
                   )}
 
                   <FormControl>
-                    <FormLabel fontSize="2xl">{t('payment.address')}</FormLabel>
+                    <FormLabel fontSize="2xl">{'Địa chỉ cụ thể'}</FormLabel>
                     <Input
                       defaultValue={customerInfoRef.current.address}
-                      placeholder={t('payment.address.place')}
+                      placeholder={'Số nhà, tên đường...'}
                       fontSize="2xl"
                       onChange={(e) => (customerInfoRef.current.address = e.target.value)}
                       isDisabled
@@ -903,10 +901,10 @@ const PaymentWrapper = () => {
                   </FormControl>
 
                   <FormControl>
-                    <FormLabel fontSize="2xl">{t('payment.order.note')}</FormLabel>
+                    <FormLabel fontSize="2xl">{'Ghi chú đơn hàng'}</FormLabel>
                     <Textarea
                       defaultValue={customerInfoRef.current.note}
-                      placeholder={t('payment.order.note.place')}
+                      placeholder={'Ghi chú cho đơn hàng (tùy chọn)'}
                       onChange={(e) => (customerInfoRef.current.note = e.target.value)}
                       fontSize="2xl"
                     />
@@ -930,7 +928,7 @@ const PaymentWrapper = () => {
               <HStack mb={6} spacing={3}>
                 <Icon as={FiShoppingCart} boxSize={6} color="purple.500" />
                 <Heading size="lg" color="gray.800">
-                  {t('payemnt.order.information')}
+                  {'Thông tin đơn hàng'}
                 </Heading>
               </HStack>
 
@@ -962,7 +960,7 @@ const PaymentWrapper = () => {
                         />
                         <VStack align="start" flex={1} spacing={1}>
                           <Text fontWeight="semibold" fontSize="lg">
-                            {getLocalizedText(product.title, product.title_en)}
+                            {product.title}
                           </Text>
                           <HStack justify="space-between" w="full">
                             <Badge colorScheme="blue" fontSize="lg">
@@ -984,7 +982,7 @@ const PaymentWrapper = () => {
               <VStack spacing={4} align="stretch">
                 <HStack justify="space-between">
                   <Text color="gray.600" fontSize="2xl">
-                    {t('payment.provisional.calculation')}
+                    {'Tạm tính:'}
                   </Text>
                   <Text fontWeight="bold" fontSize="2xl" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text">
                     {formatCurrency(calculateSubtotal())}
@@ -995,25 +993,25 @@ const PaymentWrapper = () => {
                   <HStack>
                     <Icon as={FiTruck} color="green.500" fontSize="lg" />
                     <Text color="gray.600" fontSize="2xl">
-                      {t('payment.shipping.unit')}
+                      {'Shipping unit:'}
                     </Text>
                   </HStack>
                   <Badge fontSize="lg" px={3} py={1}>
-                    {t('payment.fast.delivery')}
+                    {'Giao hàng nhanh'}
                   </Badge>
                 </HStack>
                 <Text color="gray.600" fontSize="xl">
                   <Text color="gray.600" fontSize="2xl" fontWeight="bold">
-                    {t('payment.note')}
+                    {'Ghi chú:'}
                   </Text>{' '}
-                  {t('payment.sale.information')}
+                  {'Đơn hàng chưa bao gồm phí ship. CSKH sẽ gọi điện xác nhận đơn. Xin chân thành cảm ơn quý khách.'}
                 </Text>
 
                 <Divider />
 
                 <HStack justify="space-between">
                   <Text color="gray.600" fontSize="2xl">
-                    {t('payment.total.payment')}
+                    {'Tổng cộng:'}
                   </Text>
                   <Text fontWeight="bold" bgGradient="linear(to-r, blue.600, purple.600)" bgClip="text" fontSize="2xl">
                     {formatCurrency(calculateTotal())}
@@ -1027,10 +1025,10 @@ const PaymentWrapper = () => {
                         <Icon as={BsBank} boxSize={6} color="blue.600" />
                         <VStack align="start" spacing={0}>
                           <Text fontWeight="semibold" fontSize="lg">
-                            {t('payment.bank')}
+                            {'Chuyển khoản qua ngân hàng'}
                           </Text>
                           <Text fontSize="lg" color="gray.600">
-                            {t('payment.qr.bank')}
+                            {'Quý Khách Vui Lòng Thanh Toán Qua QR Code Hoặc Tạo Đơn COD'}
                           </Text>
                         </VStack>
                       </HStack>
@@ -1058,11 +1056,11 @@ const PaymentWrapper = () => {
                       <HStack>
                         <Icon as={FiTruck} color="green.500" boxSize={5} />
                         <Text fontWeight="semibold" fontSize="lg">
-                          {t('payment.receive.order')}
+                          {'Thanh toán khi nhận hàng'}
                         </Text>
                       </HStack>
                       <Text fontSize="lg" color="gray.600">
-                        {t('payment.cash')}
+                        {'Thanh toán bằng tiền mặt khi nhận hàng'}
                       </Text>
                     </VStack>
                   </HStack>
@@ -1095,10 +1093,10 @@ const PaymentWrapper = () => {
                       onClick={() => setIsPolicyAccepted(!isPolicyAccepted)}
                     >
                       <Text fontWeight="semibold" fontSize="lg" color="gray.800">
-                        {t('payment.privacy')}
+                        {'Tôi đã đọc và đồng ý các điều khoản chính sách Diệp Trà'}
                       </Text>
                       <Text fontSize="lg" color="gray.600">
-                        {t('payment.yes')}
+                        {'Bạn cần đồng ý để có thể tiếp tục thanh toán'}
                       </Text>
                     </VStack>
                   </HStack>
@@ -1121,7 +1119,7 @@ const PaymentWrapper = () => {
                       leftIcon={<Icon as={isCOD ? FiPackage : FiCheckCircle} boxSize={6} />}
                       transition="all 0.3s"
                     >
-                      {isCOD ? t('payment.create.order') : t('payment.now')}
+                      {isCOD ? 'Tạo đơn hàng' : 'Thanh toán ngay'}
                     </Button>
 
                     <Button
@@ -1140,7 +1138,7 @@ const PaymentWrapper = () => {
                       _active={{ bgColor: '#5d97e3' }}
                       transition="all 0.3s"
                     >
-                      {t('payment.back.cart')}
+                      {'Quay lại giỏ hàng'}
                     </Button>
                   </Stack>
                 </Flex>
@@ -1157,7 +1155,7 @@ const PaymentWrapper = () => {
             <ModalHeader color="white" fontSize="2xl" p={0}>
               <HStack spacing={3}>
                 <Icon as={BsBank} boxSize={8} />
-                <Text>{t('payment.payment.order')}</Text>
+                <Text>{'Thanh toán đơn hàng'}</Text>
               </HStack>
             </ModalHeader>
             <ModalCloseButton color="white" size="lg" />
@@ -1168,22 +1166,22 @@ const PaymentWrapper = () => {
               <Alert status="info" borderRadius="lg" bg="blue.50" border="2px" borderColor="blue.200">
                 <AlertIcon color="blue.500" boxSize={6} />
                 <Box>
-                  <AlertTitle fontSize="lg">{t('payemnt.waiting.payment')}</AlertTitle>
-                  <AlertDescription fontSize="lg">{t('payment.please.payment')}</AlertDescription>
+                  <AlertTitle fontSize="lg">{'Đang chờ thanh toán!'}</AlertTitle>
+                  <AlertDescription fontSize="lg">{'Vui lòng thực hiện thanh toán để hoàn tất đơn hàng.'}</AlertDescription>
                 </Box>
               </Alert>
 
               {qrCodeUrl && (
                 <Box textAlign="center" p={6} bg="gray.50" borderRadius="xl" w="full">
                   <Text fontSize="xl" fontWeight="bold" mb={4} color="gray.800">
-                    {t('payment.qr.payment')}
+                    {'Quét mã QR để thanh toán'}
                   </Text>
                   <Box p={4} bg="white" borderRadius="lg" display="inline-block" boxShadow="lg">
                     <Image src={qrCodeUrl} alt="QR Code thanh toán" maxW="280px" mx="auto" />
                   </Box>
                   <HStack justify="center" mt={4} spacing={2} p={3} bg="green.50" borderRadius="lg">
                     <Text fontSize="lg" color="gray.700">
-                      {t('payment.total')}
+                      {'Tổng tiền:'}
                     </Text>
                     <Text fontSize="2xl" fontWeight="bold" color="green.600">
                       {formatCurrency(calculateTotal())}
@@ -1195,7 +1193,7 @@ const PaymentWrapper = () => {
               {paymentUrl && !qrCodeUrl && (
                 <Box textAlign="center" w="full">
                   <Text fontSize="xl" fontWeight="bold" mb={4} color="gray.800">
-                    {t('payment.link.connect')}
+                    {'Nhấn vào liên kết để thanh toán'}
                   </Text>
                   <Button
                     as="a"
@@ -1212,7 +1210,7 @@ const PaymentWrapper = () => {
                       transform: 'translateY(-2px)'
                     }}
                   >
-                    {t('payment.open.link')}
+                    {'Mở trang thanh toán'}
                   </Button>
                 </Box>
               )}
@@ -1220,7 +1218,7 @@ const PaymentWrapper = () => {
               <Alert status="warning" borderRadius="lg" bg="orange.50" border="1px" borderColor="orange.200">
                 <AlertIcon color="orange.500" />
                 <AlertDescription fontSize="sm" color="orange.900">
-                  {t('payment.no.close')}
+                  {'Vui lòng không tắt trang này cho đến khi thanh toán hoàn tất. Hệ thống sẽ tự động cập nhật khi thanh toán thành công.'}
                 </AlertDescription>
               </Alert>
             </VStack>

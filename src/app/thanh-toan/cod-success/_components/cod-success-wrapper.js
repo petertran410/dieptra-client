@@ -25,14 +25,12 @@ import { useEffect, useState, Suspense } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { API } from '../../../../utils/API';
 import { PX_ALL } from '../../../../utils/const';
-import { useTranslation } from '../../../../hooks/useTranslation';
 
 const CODSuccessContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const setCart = useSetRecoilState(cartAtom);
 
-  const { t } = useTranslation();
 
   const orderId = searchParams.get('orderId');
 
@@ -75,7 +73,7 @@ const CODSuccessContent = () => {
     if (isClient && !orderId) {
       showToast({
         status: 'error',
-        content: t('cod.no.order.found')
+        content: 'Không tìm thấy thông tin đơn hàng. Chuyển về trang chủ...'
       });
       setTimeout(() => router.push('/'), 3000);
     }
@@ -91,8 +89,8 @@ const CODSuccessContent = () => {
         <Alert status="error" borderRadius="md" maxW="500px">
           <AlertIcon />
           <Box>
-            <AlertTitle>{t('cod.error.title')}</AlertTitle>
-            <AlertDescription>{t('cod.no.order.information.found')}</AlertDescription>
+            <AlertTitle>{'Lỗi!'}</AlertTitle>
+            <AlertDescription>{'Không tìm thấy thông tin đơn hàng.'}</AlertDescription>
           </Box>
         </Alert>
       </Flex>
@@ -103,7 +101,7 @@ const CODSuccessContent = () => {
     return (
       <Flex justify="center" align="center" minH="60vh" direction="column">
         <Spinner size="lg" color="blue.500" mb="4" />
-        <Text>{t('cod.loading.order.information')}</Text>
+        <Text>{'Đang tải thông tin đơn hàng...'}</Text>
       </Flex>
     );
   }
@@ -135,10 +133,10 @@ const CODSuccessContent = () => {
                 <Text fontSize="4xl">✓</Text>
               </Box>
               <Text fontSize="2xl" fontWeight="bold" color="green.600">
-                {t('cod.created.order.completely')}
+                {'Tạo đơn hàng thành công!'}
               </Text>
               <Text color="gray.600" textAlign="center">
-                {t('cod.thank.you.ordering')}
+                {'Cảm ơn bạn đã đặt hàng. Chúng tôi sẽ liên hệ với bạn để xác nhận đơn hàng.'}
               </Text>
             </VStack>
           </CardHeader>
@@ -149,13 +147,13 @@ const CODSuccessContent = () => {
 
               <Box>
                 <Text fontWeight="semibold" mb="3" fontSize="2xl" align="center">
-                  {t('cod.order.information')}
+                  {'Thông tin đơn hàng'}
                 </Text>
                 <VStack spacing="3" align="stretch">
                   {orderDetails?.fullName && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        {t('cod.customer.name')}
+                        {'Tên khách hàng:'}
                       </Text>
                       <Text fontWeight="medium" fontSize="lg">
                         {orderDetails.fullName}
@@ -166,7 +164,7 @@ const CODSuccessContent = () => {
                   {orderId && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        {t('cod.orderId')}
+                        {'Đơn Hàng:'}
                       </Text>
                       <Badge colorScheme="blue" px="3" py="1" fontSize="lg">
                         {orderId}
@@ -177,7 +175,7 @@ const CODSuccessContent = () => {
                   {orderDetails?.orderKiotCode && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        {t('cod.orderCode')}
+                        {'Mã đơn hàng:'}
                       </Text>
                       <Badge colorScheme="blue" fontSize="lg" px="3" py="1">
                         {orderDetails.orderKiotCode}
@@ -188,7 +186,7 @@ const CODSuccessContent = () => {
                   {orderDetails?.total && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        {t('cod.total.cost')}
+                        {'Số tiền:'}
                       </Text>
                       <Text fontWeight="medium" color="green.600" fontSize="lg">
                         {Number(orderDetails.total).toLocaleString('vi-VN')}đ
@@ -199,7 +197,7 @@ const CODSuccessContent = () => {
                   {orderDetails?.createdDate && (
                     <HStack justify="space-between">
                       <Text color="gray.600" fontSize="lg">
-                        {t('cod.purchaseDate')}
+                        {'Ngày mua hàng:'}
                       </Text>
                       <Text fontWeight="medium" fontSize="lg">
                         {new Date(orderDetails.createdDate).toLocaleString('vi-VN')}
@@ -213,10 +211,10 @@ const CODSuccessContent = () => {
 
               <HStack spacing="4" pt="4">
                 <Button flex="1" colorScheme="blue" onClick={() => router.push('/san-pham')}>
-                  {t('cod.continue.ordering')}
+                  {'Tiếp tục mua hàng'}
                 </Button>
                 <Button flex="1" variant="outline" colorScheme="blue" onClick={() => router.push('/')}>
-                  {t('cod.back.home')}
+                  {'Về trang chủ'}
                 </Button>
               </HStack>
             </VStack>
@@ -228,11 +226,10 @@ const CODSuccessContent = () => {
 };
 
 const CODSuccessLoading = () => {
-  const { t } = useTranslation();
   return (
     <Flex justify="center" align="center" minH="60vh" direction="column">
       <Spinner size="lg" color="blue.500" mb="4" />
-      <Text>{t('cod.back.home')}</Text>
+      <Text>{'Về trang chủ'}</Text>
     </Flex>
   );
 };

@@ -23,14 +23,12 @@ import { redirect } from 'next/navigation';
 // } from '@chakra-ui/react';
 // import { ArrowBackIcon } from '@chakra-ui/icons';
 // import { profileService } from '../../../../services/profile.service';
-// import { useTranslation } from '../../../../hooks/useTranslation';
 //
 // const OrderTrackingPage = () => {
 //   const { orderId } = useParams();
 //   const router = useRouter();
 //   const [order, setOrder] = useState(null);
 //   const [loading, setLoading] = useState(true);
-//   const { t, getLocalizedText } = useTranslation();
 //
 //   useEffect(() => {
 //     const fetchOrder = async () => {
