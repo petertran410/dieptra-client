@@ -26,7 +26,7 @@ const getProductImage = (item) => {
   return FALLBACK_IMG;
 };
 
-const ProductCard = ({ item, t }) => {
+const ProductCard = ({ item }) => {
   const { title, kiotviet_name, price, slug } = item || {};
   const showName = title || kiotviet_name;
 
@@ -159,7 +159,7 @@ const FeaturedProductsHome = ({ data = [] }) => {
           >
             {current.products.map((p) => (
               <SwiperSlide key={p.id} style={{ height: 'auto', paddingBottom: '8px' }}>
-                <ProductCard item={p} t={t} />
+                <ProductCard item={p} />
               </SwiperSlide>
             ))}
           </Swiper>
