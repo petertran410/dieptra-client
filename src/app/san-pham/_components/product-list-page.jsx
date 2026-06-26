@@ -159,6 +159,19 @@ export default async function ProductListPage({ slugPath = [], pageNumber = 1, s
             {heading}
           </Heading>
 
+          {targetCategory?.top_text && (
+            <Box
+              className="html-content"
+              w="full"
+              mt="8px"
+              p="16px"
+              bg="#F8F9FA"
+              borderRadius="8px"
+              lineHeight="1.6"
+              dangerouslySetInnerHTML={{ __html: targetCategory.top_text }}
+            />
+          )}
+
           <ProductListControls
             topCategories={topCategories}
             selectedCategoryId={rootCategory?.id?.toString()}
@@ -217,6 +230,18 @@ export default async function ProductListPage({ slugPath = [], pageNumber = 1, s
                 ...(sort && sort !== 'name' && { sort })
               }}
             />
+
+            {targetCategory?.bottom_content && (
+              <Box
+                className="html-content"
+                mt="40px"
+                p="20px"
+                bg="#F8F9FA"
+                borderRadius="8px"
+                lineHeight="1.6"
+                dangerouslySetInnerHTML={{ __html: targetCategory.bottom_content }}
+              />
+            )}
           </Box>
         </Flex>
       </Container>
