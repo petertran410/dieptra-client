@@ -158,7 +158,7 @@ export default function ContactPage() {
                   P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM
                 </Text>
                 <Text fontSize={18} fontWeight={500} mt="4px">
-                  Cửa hàng: Số 42 Đường số 7, Phường 10, Quận Tân Bình, TP.HCM
+                  Cửa hàng: Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh
                 </Text>
               </Box>
               <Box w="full">
