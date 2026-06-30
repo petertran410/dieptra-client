@@ -102,7 +102,7 @@ export default function ContactPage() {
                   Fanpage:
                 </Text>
                 <Link
-                  href="https://www.facebook.com/dieptra.0973123230"
+                  href="https://www.facebook.com/dieptra.0788339379"
                   target="_blank"
                   rel="nofollow"
                   textDecor="underline"
