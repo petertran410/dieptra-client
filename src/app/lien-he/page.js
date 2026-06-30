@@ -117,7 +117,7 @@ export default function ContactPage() {
                   textDecor="underline"
                   display="block"
                 >
-                  Facebook Lermao Việt Nam
+                  Facebook Trà Phường Hoàng
                 </Link>
               </Box>
             </Flex>
