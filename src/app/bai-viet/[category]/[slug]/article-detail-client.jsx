@@ -10,6 +10,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import FounderAuthorBox from '../../../../components/founder-author-box';
+import NextLink from 'next/link';
 
 const VideoEmbed = ({ embedUrl }) => {
   if (!embedUrl) return null;
@@ -28,7 +29,6 @@ const VideoEmbed = ({ embedUrl }) => {
 };
 
 const LatestArticlesSidebar = ({ latestArticles, category }) => {
-
   if (!latestArticles?.length) return null;
 
   return (
@@ -87,14 +87,7 @@ export default function ArticleDetailClient({ params, categoryData, newsDetail, 
     }).catch(() => {});
   }, [articleId]);
 
-  const {
-    title,
-    htmlContent,
-    createdDate,
-    imagesUrl,
-    description,
-    embedUrl
-  } = newsDetail;
+  const { title, htmlContent, createdDate, imagesUrl, description, embedUrl } = newsDetail;
 
   const localizedTitle = title;
   const localizedDescription = description;
@@ -126,6 +119,17 @@ export default function ArticleDetailClient({ params, categoryData, newsDetail, 
         </Heading>
 
         <Flex align="center" mt="12px" gap="8px">
+          <Link
+            href="/tac-gia/le-thi-hoang-anh"
+            fontSize="24px"
+            fontWeight="700"
+            color="#0D3B42"
+            _hover={{ color: '#00B7CC', textDecoration: 'underline', textUnderlineOffset: '3px' }}
+            transition="0.25s ease"
+            target="_blank"
+          >
+            Lê Thị Hoàng Anh
+          </Link>
           <Image src="/images/clock-outline.webp" w="16px" h="16px" alt={IMG_ALT} />
           <Text color="#A1A1AA" fontSize={14}>
             {convertTimestamp(createdDate)}
