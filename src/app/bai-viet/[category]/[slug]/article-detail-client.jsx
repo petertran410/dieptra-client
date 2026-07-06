@@ -9,6 +9,7 @@ import { AspectRatio, Box, Flex, Heading, Image, Text } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
+import FounderAuthorBox from '../../../../components/founder-author-box';
 
 const VideoEmbed = ({ embedUrl }) => {
   if (!embedUrl) return null;
@@ -174,6 +175,8 @@ export default function ArticleDetailClient({ params, categoryData, newsDetail, 
             dangerouslySetInnerHTML={{ __html: localizedHtml }}
           />
         )}
+
+        <FounderAuthorBox />
       </Flex>
 
       <Flex flex={1 / 3} direction="column">
