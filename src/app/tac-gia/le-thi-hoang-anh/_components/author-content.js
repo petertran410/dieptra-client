@@ -7,6 +7,9 @@ import HomeTheme, { HC, FONT_DISPLAY, HOME_PX } from '../../../(home)/_component
 
 const MotionBox = motion(Box);
 
+// Thẻ ngắt dòng chỉ hiển thị trên màn hình Desktop (lg), ẩn trên Mobile (base) để tối ưu hiển thị văn bản tiếng Việt
+const DesktopBr = () => <Box as="br" display={{ base: 'none', lg: 'block' }} />;
+
 const reveal = {
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
@@ -15,7 +18,7 @@ const reveal = {
 };
 
 const SecHead = ({ eyebrow, title, desc, light }) => (
-  <MotionBox {...reveal} textAlign="center" maxW="720px" mx="auto" mb={{ base: '40px', lg: '56px' }}>
+  <MotionBox {...reveal} textAlign="center" maxW={{ base: '720px', lg: '860px' }} mx="auto" mb={{ base: '40px', lg: '56px' }}>
     <Text
       as="span"
       display="inline-block"
@@ -30,16 +33,17 @@ const SecHead = ({ eyebrow, title, desc, light }) => (
       {eyebrow}
     </Text>
     <Text
+      as="h2"
       fontFamily={FONT_DISPLAY}
       fontWeight={800}
-      fontSize={{ base: '28px', lg: '40px' }}
+      fontSize={{ base: '22px', lg: '32px' }}
       mb="14px"
-      color={light ? '#fff' : HC.textPrimary}
+      color={light ? '#fff !important' : HC.textPrimary}
     >
       {title}
     </Text>
     {desc && (
-      <Text color={light ? HC.cyanSoft : HC.textSecondary} fontSize="18px">
+      <Text color={light ? HC.cyanSoft : HC.textSecondary} fontSize={{ base: '16px', lg: '18px' }} maxW="810px" mx="auto">
         {desc}
       </Text>
     )}
@@ -50,18 +54,18 @@ const Btn = ({ href, children, variant = 'primary' }) => {
   const styles =
     variant === 'primary'
       ? {
-          bg: HC.accent,
-          color: '#fff',
-          borderColor: 'transparent',
-          boxShadow: '0 8px 20px rgba(255,122,26,.32)',
-          _hover: { bg: HC.accentDeep }
-        }
+        bg: HC.accent,
+        color: '#fff',
+        borderColor: 'transparent',
+        boxShadow: '0 8px 20px rgba(255,122,26,.32)',
+        _hover: { bg: HC.accentDeep }
+      }
       : {
-          bg: 'transparent',
-          color: HC.primary,
-          borderColor: HC.primary,
-          _hover: { bg: HC.primaryDark, borderColor: HC.primaryDark, color: '#fff' }
-        };
+        bg: 'transparent',
+        color: HC.primary,
+        borderColor: HC.primary,
+        _hover: { bg: HC.primaryDark, borderColor: HC.primaryDark, color: '#fff' }
+      };
   return (
     <Box
       as={Link}
@@ -210,6 +214,16 @@ const AuthorContent = () => {
         pt={{ base: '120px', lg: '140px' }}
         pb={{ base: '56px', lg: '64px' }}
         bgGradient="linear(170deg, #DCF0F5 0%, #C5E4E8 40%, #E8F5E4 100%)"
+        sx={{
+          maskImage: {
+            base: 'linear-gradient(to bottom, black calc(100% - 40px), transparent)',
+            lg: 'linear-gradient(to bottom, black calc(100% - 80px), transparent)'
+          },
+          WebkitMaskImage: {
+            base: 'linear-gradient(to bottom, black calc(100% - 40px), transparent)',
+            lg: 'linear-gradient(to bottom, black calc(100% - 80px), transparent)'
+          }
+        }}
       >
         <Box
           pos="absolute"
@@ -413,7 +427,12 @@ const AuthorContent = () => {
         <Box maxW="1200px" mx="auto">
           <SecHead
             eyebrow="Kinh nghiệm chuyên môn"
-            title="Kinh nghiệm đến từ vận hành thật, sản phẩm thật và nhu cầu thật của thị trường"
+            title={
+              <>
+                Kinh nghiệm đến từ vận hành thật,
+                <DesktopBr /> sản phẩm thật và nhu cầu thật của thị trường
+              </>
+            }
             desc="Tác giả không chỉ viết nội dung giới thiệu sản phẩm, mà còn trực tiếp quan sát thị trường, làm việc với khách hàng, thử nghiệm công thức và phát triển giải pháp nguyên liệu cho quán."
           />
           <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap="24px">
@@ -475,6 +494,16 @@ const AuthorContent = () => {
         px={HOME_PX}
         py={{ base: '56px', lg: '96px' }}
         bgGradient={`linear(160deg, ${HC.primaryDeep}, ${HC.primaryDark})`}
+        sx={{
+          maskImage: {
+            base: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 10px, rgba(0,0,0,0.3) 20px, rgba(0,0,0,0.7) 30px, black 40px, black calc(100% - 40px), rgba(0,0,0,0.7) calc(100% - 30px), rgba(0,0,0,0.3) calc(100% - 20px), rgba(0,0,0,0.08) calc(100% - 10px), transparent 100%)',
+            lg: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 20px, rgba(0,0,0,0.3) 40px, rgba(0,0,0,0.7) 60px, black 80px, black calc(100% - 80px), rgba(0,0,0,0.7) calc(100% - 60px), rgba(0,0,0,0.3) calc(100% - 40px), rgba(0,0,0,0.08) calc(100% - 20px), transparent 100%)'
+          },
+          WebkitMaskImage: {
+            base: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 10px, rgba(0,0,0,0.3) 20px, rgba(0,0,0,0.7) 30px, black 40px, black calc(100% - 40px), rgba(0,0,0,0.7) calc(100% - 30px), rgba(0,0,0,0.3) calc(100% - 20px), rgba(0,0,0,0.08) calc(100% - 10px), transparent 100%)',
+            lg: 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.08) 20px, rgba(0,0,0,0.3) 40px, rgba(0,0,0,0.7) 60px, black 80px, black calc(100% - 80px), rgba(0,0,0,0.7) calc(100% - 60px), rgba(0,0,0,0.3) calc(100% - 40px), rgba(0,0,0,0.08) calc(100% - 20px), transparent 100%)'
+          }
+        }}
       >
         <Box
           pos="absolute"
@@ -498,7 +527,12 @@ const AuthorContent = () => {
           <SecHead
             light
             eyebrow="Thành tựu nổi bật"
-            title="Dấu ấn chuyên môn trong ngành nguyên liệu đồ uống"
+            title={
+              <>
+                Dấu ấn chuyên môn trong ngành
+                <DesktopBr /> nguyên liệu đồ uống
+              </>
+            }
             desc="Những kết quả thực tế từ quá trình vận hành thương hiệu và đồng hành cùng đối tác F&B."
           />
           <Grid
@@ -525,23 +559,6 @@ const AuthorContent = () => {
                 objectFit="cover"
                 objectPosition="center"
               />
-              <Box
-                pos="absolute"
-                left="18px"
-                right="18px"
-                bottom="18px"
-                p="14px 16px"
-                borderRadius="16px"
-                bg="rgba(255,255,255,.94)"
-                boxShadow="0 14px 32px rgba(0,23,42,.18)"
-              >
-                <Text color={HC.textSecondary} fontSize="13px" fontWeight={600}>
-                  Thành tựu nổi bật
-                </Text>
-                <Text mt="3px" color={HC.primaryDark} fontFamily={FONT_DISPLAY} fontSize="19px" fontWeight={900}>
-                  Founder Diệp Trà
-                </Text>
-              </Box>
             </MotionBox>
             <MotionBox {...reveal} display="flex" flexDirection="column" gap="14px">
               {ACHIEVEMENTS.map((a, i) => (
@@ -586,12 +603,37 @@ const AuthorContent = () => {
       </Box>
 
       {/* JOURNEY */}
-      <Box as="section" px={HOME_PX} py={{ base: '56px', lg: '96px' }} bg={HC.bgSoft}>
+      <Box
+        as="section"
+        px={HOME_PX}
+        py={{ base: '56px', lg: '96px' }}
+        bg={HC.bgSoft}
+        sx={{
+          maskImage: {
+            base: 'linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)',
+            lg: 'linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent)'
+          },
+          WebkitMaskImage: {
+            base: 'linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)',
+            lg: 'linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent)'
+          }
+        }}
+      >
         <Box maxW="1200px" mx="auto">
           <SecHead
             eyebrow="Hành trình chuyên môn"
-            title="Từ sản phẩm nguyên liệu đến giải pháp vận hành cho quán đồ uống"
-            desc="Trang tác giả giúp người đọc hiểu rõ ai là người đứng sau các nội dung tư vấn, từ đó tăng sự tin tưởng khi đọc công thức, bài phân tích sản phẩm và hướng dẫn kinh doanh."
+            title={
+              <>
+                Từ sản phẩm nguyên liệu
+                <DesktopBr /> đến giải pháp vận hành cho quán đồ uống
+              </>
+            }
+            desc={
+              <>
+                Trang tác giả giúp người đọc hiểu rõ ai là người đứng sau các nội dung tư vấn, từ đó
+                <DesktopBr /> tăng sự tin tưởng khi đọc công thức, bài phân tích sản phẩm và hướng dẫn kinh doanh.
+              </>
+            }
           />
           <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }} gap="22px">
             {JOURNEY.map((j, i) => (
@@ -740,12 +782,37 @@ const AuthorContent = () => {
       </Box>
 
       {/* SOCIAL */}
-      <Box as="section" px={HOME_PX} py={{ base: '56px', lg: '96px' }} bg={HC.bgSoft}>
+      <Box
+        as="section"
+        px={HOME_PX}
+        py={{ base: '56px', lg: '96px' }}
+        bg={HC.bgSoft}
+        sx={{
+          maskImage: {
+            base: 'linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)',
+            lg: 'linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent)'
+          },
+          WebkitMaskImage: {
+            base: 'linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)',
+            lg: 'linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent)'
+          }
+        }}
+      >
         <Box maxW="1200px" mx="auto">
           <SecHead
             eyebrow="Kênh nội dung & cộng đồng"
-            title="Theo dõi thêm các nội dung công thức, workshop và cập nhật sản phẩm mới"
-            desc="Kết nối với Diệp Trà và LerMao trên các kênh social để cập nhật công thức, xu hướng và sản phẩm mới."
+            title={
+              <>
+                Theo dõi thêm các nội dung công thức,
+                <DesktopBr /> workshop và cập nhật sản phẩm mới
+              </>
+            }
+            desc={
+              <>
+                Kết nối với Diệp Trà và LerMao trên các kênh social để
+                <DesktopBr /> cập nhật công thức, xu hướng và sản phẩm mới.
+              </>
+            }
           />
           <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' }} gap="20px">
             {SOCIALS.map((s, i) => (
@@ -801,7 +868,22 @@ const AuthorContent = () => {
       </Box>
 
       {/* CTA */}
-      <Box as="section" px={HOME_PX} py={{ base: '56px', lg: '96px' }} bg={HC.bgSoft}>
+      <Box
+        as="section"
+        px={HOME_PX}
+        py={{ base: '56px', lg: '96px' }}
+        bg={HC.bgSoft}
+        sx={{
+          maskImage: {
+            base: 'linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)',
+            lg: 'linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent)'
+          },
+          WebkitMaskImage: {
+            base: 'linear-gradient(to bottom, transparent, black 40px, black calc(100% - 40px), transparent)',
+            lg: 'linear-gradient(to bottom, transparent, black 80px, black calc(100% - 80px), transparent)'
+          }
+        }}
+      >
         <MotionBox
           {...reveal}
           maxW="1200px"
