@@ -2,6 +2,7 @@
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HC, FONT_DISPLAY, HOME_PX } from '../home-theme';
 
@@ -66,28 +67,35 @@ const Hero = () => {
             transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
           >
             <Text
-              fontFamily={FONT_DISPLAY}
-              fontWeight={800}
-              color={HC.textPrimary}
-              fontSize={{ base: '15px', md: '22px', lg: '32px' }}
-              textTransform="uppercase"
-              lineHeight={1.1}
-            >
-              {'Nguyên liệu pha chế'}
-            </Text>
-            <Text
               as="h1"
               fontFamily={FONT_DISPLAY}
-              fontWeight={900}
-              color={HC.accent}
-              sx={{ color: `${HC.accent} !important` }}
-              fontSize={{ base: '30px', md: '52px', lg: '72px', xl: '80px' }}
               textTransform="uppercase"
-              lineHeight={1}
-              my="0.06em"
+              mx={{ base: 'auto', md: 0 }}
             >
-              {'Diệp Trà'}
+              <Text
+                as="span"
+                display="block"
+                fontWeight={800}
+                color={HC.textPrimary}
+                fontSize={{ base: '15px', md: '22px', lg: '32px' }}
+                lineHeight={1.1}
+              >
+                {'Nguyên liệu pha chế'}
+              </Text>
+              <Text
+                as="span"
+                display="block"
+                fontWeight={900}
+                color={HC.accent}
+                sx={{ color: `${HC.accent} !important` }}
+                fontSize={{ base: '30px', md: '52px', lg: '72px', xl: '80px' }}
+                lineHeight={1}
+                my="0.06em"
+              >
+                {'Diệp Trà'}
+              </Text>
             </Text>
+
             <Text
               fontFamily={FONT_DISPLAY}
               fontWeight={800}
@@ -95,21 +103,72 @@ const Hero = () => {
               fontSize={{ base: '15px', md: '22px', lg: '32px' }}
               textTransform="uppercase"
               lineHeight={1.05}
+              mt={{ base: '4px', md: '8px' }}
             >
               {'Đồng hành cùng F&B'}
             </Text>
+
             <Text
               fontFamily="inherit"
               color={HC.textSecondary}
-              fontSize={{ base: '11.5px', md: '14px', lg: '18px' }}
+              fontSize={{ base: '12px', md: '14px', lg: '18px' }}
               lineHeight={1.6}
               fontWeight={500}
-              mt={{ base: '0.6em', lg: '1em' }}
-              maxW="30em"
+              mt={{ base: '20px', md: '28px' }}
+              maxW="32em"
               mx={{ base: 'auto', md: 0 }}
             >
-              {'Nhà cung cấp nguyên liệu pha chế hàng đầu Việt Nam — hơn 500 sản phẩm, phủ sóng 60+ tỉnh thành, đồng hành cùng 30.000+ đối tác.'}
+              {'500+ nguyên liệu pha chế nhập khẩu — giao nhanh toàn quốc, đồng hành từ công thức đến vận hành.'}
             </Text>
+
+            <Flex 
+              gap="12px" 
+              mt={{ base: '24px', md: '32px' }} 
+              pointerEvents="auto"
+              justifyContent={{ base: 'center', md: 'flex-start' }}
+            >
+              <Link href="/san-pham">
+                <Box
+                  as="span"
+                  display="inline-flex"
+                  alignItems="center"
+                  bg={HC.accent}
+                  color="white"
+                  px={{ base: '16px', md: '24px' }}
+                  py={{ base: '10px', md: '14px' }}
+                  borderRadius="8px"
+                  fontWeight={600}
+                  fontSize={{ base: '14px', md: '16px' }}
+                  cursor="pointer"
+                  transition="all 0.2s"
+                  _hover={{ bg: HC.accentDeep, transform: 'translateY(-1px)' }}
+                  _active={{ transform: 'translateY(0) scale(0.98)' }}
+                >
+                  {'Xem nguyên liệu →'}
+                </Box>
+              </Link>
+              <Link href="/gioi-thieu-diep-tra">
+                <Box
+                  as="span"
+                  display="inline-flex"
+                  alignItems="center"
+                  border="1.5px solid"
+                  borderColor={HC.primary}
+                  color={HC.primary}
+                  px={{ base: '16px', md: '24px' }}
+                  py={{ base: '10px', md: '14px' }}
+                  borderRadius="8px"
+                  fontWeight={600}
+                  fontSize={{ base: '14px', md: '16px' }}
+                  cursor="pointer"
+                  transition="all 0.2s"
+                  _hover={{ bg: 'rgba(0, 183, 204, 0.06)', transform: 'translateY(-1px)' }}
+                  _active={{ transform: 'translateY(0) scale(0.98)' }}
+                >
+                  {'Xem chi tiết →'}
+                </Box>
+              </Link>
+            </Flex>
           </MotionBox>
         </Box>
       </Flex>

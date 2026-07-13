@@ -122,7 +122,11 @@ const FeaturedProductsHome = ({ data = [] }) => {
   return (
     <Box as="section" px={HOME_PX} py={{ base: '56px', lg: '96px' }} bg="#f8f9fa">
       <Box maxW="1200px" mx="auto">
-        <SecHead eyebrow={'Sản phẩm nổi bật'} title={'Best-seller được hàng nghìn quán tin dùng'} />
+        <SecHead
+          eyebrow={'SẢN PHẨM BÁN CHẠY'}
+          title={<>{'Best-seller được'}<br />{'30.000+ quán F&B tin dùng'}</>}
+          desc={<>{'Nguyên liệu được ưa chuộng nhờ hương vị dễ dùng,'}<br />{'chất lượng đồng đều và tối ưu vận hành.'}</>}
+        />
 
         <Flex gap="10px" justify="center" flexWrap="wrap" mb="42px">
           {categories.map((cat, idx) => (
@@ -148,14 +152,17 @@ const FeaturedProductsHome = ({ data = [] }) => {
           ))}
         </Flex>
 
-        <Box pos="relative" className="home-featured-swiper">
+        <Box pos="relative" className="home-featured-swiper" px={{ base: 0, lg: '56px' }} mb={{ base: '56px', lg: 0 }}>
           <Swiper
             key={current.categoryId}
             modules={[Navigation, Autoplay]}
             breakpoints={breakpoints}
             spaceBetween={24}
             autoplay={{ delay: 4500, disableOnInteraction: false }}
-            navigation
+            navigation={{
+              prevEl: '.swiper-btn-prev-featured',
+              nextEl: '.swiper-btn-next-featured'
+            }}
           >
             {current.products.map((p) => (
               <SwiperSlide key={p.id} style={{ height: 'auto', paddingBottom: '8px' }}>
@@ -163,6 +170,97 @@ const FeaturedProductsHome = ({ data = [] }) => {
               </SwiperSlide>
             ))}
           </Swiper>
+
+          {/* Custom Left Arrow Button */}
+          <Flex
+            className="swiper-btn-prev-featured"
+            position="absolute"
+            top={{ base: 'auto', lg: '50%' }}
+            bottom={{ base: '-48px', lg: 'auto' }}
+            left={{ base: 'calc(50% - 44px)', lg: '0' }}
+            transform={{ base: 'none', lg: 'translateY(-50%)' }}
+            w={{ base: '38px', lg: '44px' }}
+            h={{ base: '38px', lg: '44px' }}
+            bg="#FFF"
+            borderRadius="50%"
+            border="1px solid"
+            borderColor={HC.border}
+            color={HC.primary}
+            boxShadow="0 4px 14px rgba(0, 183, 204, 0.12)"
+            cursor="pointer"
+            align="center"
+            justify="center"
+            zIndex={10}
+            transition="all .2s"
+            _hover={{
+              bg: HC.primary,
+              color: '#FFF',
+              borderColor: HC.primary,
+              transform: { base: 'scale(1.08)', lg: 'translateY(-50%) scale(1.08)' }
+            }}
+            _active={{
+              transform: { base: 'scale(0.95)', lg: 'translateY(-50%) scale(0.95)' }
+            }}
+            display="flex"
+            userSelect="none"
+            sx={{
+              '&.swiper-button-disabled': {
+                opacity: 0.35,
+                cursor: 'not-allowed',
+                pointerEvents: 'none',
+                boxShadow: 'none',
+                borderColor: HC.border
+              }
+            }}
+          >
+            <Text fontSize={{ base: '18px', lg: '22px' }} fontWeight="bold" transform="translateX(-1px)">‹</Text>
+          </Flex>
+
+          {/* Custom Right Arrow Button */}
+          <Flex
+            className="swiper-btn-next-featured"
+            position="absolute"
+            top={{ base: 'auto', lg: '50%' }}
+            bottom={{ base: '-48px', lg: 'auto' }}
+            left={{ base: 'calc(50% + 6px)', lg: 'auto' }}
+            right={{ base: 'auto', lg: '0' }}
+            transform={{ base: 'none', lg: 'translateY(-50%)' }}
+            w={{ base: '38px', lg: '44px' }}
+            h={{ base: '38px', lg: '44px' }}
+            bg="#FFF"
+            borderRadius="50%"
+            border="1px solid"
+            borderColor={HC.border}
+            color={HC.primary}
+            boxShadow="0 4px 14px rgba(0, 183, 204, 0.12)"
+            cursor="pointer"
+            align="center"
+            justify="center"
+            zIndex={10}
+            transition="all .2s"
+            _hover={{
+              bg: HC.primary,
+              color: '#FFF',
+              borderColor: HC.primary,
+              transform: { base: 'scale(1.08)', lg: 'translateY(-50%) scale(1.08)' }
+            }}
+            _active={{
+              transform: { base: 'scale(0.95)', lg: 'translateY(-50%) scale(0.95)' }
+            }}
+            display="flex"
+            userSelect="none"
+            sx={{
+              '&.swiper-button-disabled': {
+                opacity: 0.35,
+                cursor: 'not-allowed',
+                pointerEvents: 'none',
+                boxShadow: 'none',
+                borderColor: HC.border
+              }
+            }}
+          >
+            <Text fontSize={{ base: '18px', lg: '22px' }} fontWeight="bold" transform="translateX(1px)">›</Text>
+          </Flex>
         </Box>
 
         {current.categorySlugPath && (

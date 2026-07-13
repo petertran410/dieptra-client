@@ -11,8 +11,8 @@ const UspStats = () => {
     { num: '60+', label: 'Tỉnh thành phủ sóng', desc: 'Giao hàng nhanh chóng trên toàn quốc' },
     { num: '30.000+', label: 'Đối tác đồng hành', desc: 'Quán, chuỗi F&B, đại lý & nhà phân phối' },
     { num: '500+', label: 'Danh mục đa dạng', desc: 'Hơn 500 sản phẩm nguyên liệu pha chế' },
-    { num: '★', label: 'Hỗ trợ công thức & xu hướng', desc: 'Cập nhật trend, menu mới, công thức độc quyền' },
-    { num: '✓', label: 'Chất lượng ổn định', desc: 'Kiểm soát chất lượng, nguồn uy tín' }
+    { num: '1000+', label: 'Công thức & xu hướng', desc: 'Cập nhật trend, menu, công thức mới' },
+    { num: '6', label: 'Tiêu chuẩn kiểm định', desc: 'Kiểm soát chất lượng, nguồn uy tín' }
   ];
 
   return (

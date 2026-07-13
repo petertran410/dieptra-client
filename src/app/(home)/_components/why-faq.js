@@ -1,7 +1,8 @@
 'use client';
 
-import { Accordion, AccordionButton, AccordionItem, AccordionPanel, Box, Flex, Grid, Text } from '@chakra-ui/react';
-import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { Box, Flex, Grid, Text } from '@chakra-ui/react';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { HC, FONT_DISPLAY, HOME_PX } from './home-theme';
@@ -36,9 +37,11 @@ const FAQS = [
 ];
 
 const WhyFaq = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   return (
     <Box as="section" id="why" bg={HC.bgSoft} px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
-      <Grid templateColumns={{ base: '1fr', lg: '1fr 1.05fr' }} gap={{ base: '34px', lg: '52px' }} alignItems="start">
+      <Grid templateColumns={{ base: '1fr', lg: '1fr 1.05fr' }} gap={{ base: '34px', lg: '52px' }} alignItems={{ base: 'start', lg: 'stretch' }}>
         {/* visual */}
         <MotionBox
           initial={{ opacity: 0, y: 24 }}
@@ -48,18 +51,33 @@ const WhyFaq = () => {
           bg={HC.cyanBg}
           borderRadius="24px"
           p={{ base: '24px', lg: '36px' }}
+          display="flex"
+          flexDirection="column"
+          h={{ base: 'auto', lg: '100%' }}
+          alignItems="center"
+          _hover={{
+            '& img': { transform: 'scale(1.03)' }
+          }}
         >
-          <Box sx={{ aspectRatio: '3 / 4' }} borderRadius="16px" overflow="hidden">
+          <Box
+            position="relative"
+            w={{ base: '100%', lg: 'auto' }}
+            flex={{ base: 'none', lg: 1 }}
+            sx={{ aspectRatio: '3 / 4' }}
+            borderRadius="16px"
+            overflow="hidden"
+            mx="auto"
+            minH="0"
+          >
             <Image
               src="/images/home-v2/why-bia-tra.png"
               alt={'Đối tác đồng hành, không chỉ là nhà cung cấp'}
-              width={600}
-              height={800}
-              loading="lazy"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              fill
+              sizes="(max-width: 992px) 100vw, 600px"
+              style={{ objectFit: 'cover', transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' }}
             />
           </Box>
-          <Flex justify="center" mt="22px">
+          <Flex justify="center" mt="auto" pt="20px" flex="none" w="100%">
             <Box
               as={Link}
               href="#categories"
@@ -75,8 +93,9 @@ const WhyFaq = () => {
               bg={HC.accent}
               color="#FFF"
               boxShadow="0 8px 20px rgba(255,122,26,.32)"
-              transition="all .2s"
-              _hover={{ bg: HC.accentDeep }}
+              transition="all 0.25s cubic-bezier(0.4, 0, 0.2, 1)"
+              _hover={{ bg: HC.accentDeep, transform: 'translateY(-2px)', boxShadow: '0 10px 24px rgba(255,122,26,.4)' }}
+              _active={{ transform: 'translateY(0) scale(0.97)' }}
             >
               {'Khám phá nguyên liệu'}
             </Box>
@@ -107,54 +126,79 @@ const WhyFaq = () => {
             {'Đối tác đồng hành, không chỉ là nhà cung cấp'}
           </Text>
 
-          <Accordion defaultIndex={[0]} allowToggle>
-            {FAQS.map((f) => (
-              <AccordionItem key={f.q} border="none" borderBottom={`1px solid ${HC.border}`}>
-                {({ isExpanded }) => (
-                  <>
-                    <AccordionButton
-                      px="4px"
-                      py="22px"
-                      _hover={{ bg: 'transparent' }}
-                      sx={{ gap: '16px' }}
+          <Box>
+            {FAQS.map((f, idx) => {
+              const isExpanded = activeIndex === idx;
+              return (
+                <Box key={f.q} borderBottom={`1px solid ${HC.border}`}>
+                  <Flex
+                    as="button"
+                    w="100%"
+                    px="4px"
+                    py="22px"
+                    align="center"
+                    onClick={() => setActiveIndex(isExpanded ? -1 : idx)}
+                    _hover={{
+                      bg: 'transparent',
+                      '& .faq-title': { color: HC.primary },
+                      '& .faq-icon': {
+                        bg: isExpanded ? HC.primary : 'rgba(0, 183, 204, 0.08)',
+                        transform: isExpanded ? 'scale(1.08) rotate(45deg)' : 'scale(1.08)'
+                      }
+                    }}
+                    sx={{ gap: '16px' }}
+                  >
+                    <Box
+                      className="faq-title"
+                      flex="1"
+                      textAlign="left"
+                      fontFamily={FONT_DISPLAY}
+                      fontWeight={700}
+                      fontSize="16.5px"
+                      color={HC.primaryDark}
+                      transition="color 0.25s cubic-bezier(0.4, 0, 0.2, 1)"
                     >
-                      <Box
-                        flex="1"
-                        textAlign="left"
-                        fontFamily={FONT_DISPLAY}
-                        fontWeight={700}
-                        fontSize="16.5px"
-                        color={HC.primaryDark}
+                      {f.q}
+                    </Box>
+                    <Flex
+                      className="faq-icon"
+                      flex="none"
+                      w="26px"
+                      h="26px"
+                      borderRadius="50%"
+                      align="center"
+                      justify="center"
+                      fontSize="18px"
+                      border={`1.5px solid ${HC.primary}`}
+                      color={isExpanded ? '#FFF' : HC.primary}
+                      bg={isExpanded ? HC.primary : 'transparent'}
+                      transform={isExpanded ? 'rotate(45deg)' : 'none'}
+                      transition="all .2s cubic-bezier(0.4, 0, 0.2, 1)"
+                    >
+                      +
+                    </Flex>
+                  </Flex>
+                  <AnimatePresence initial={false}>
+                    {isExpanded && (
+                      <MotionBox
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                        overflow="hidden"
                       >
-                        {f.q}
-                      </Box>
-                      <Flex
-                        flex="none"
-                        w="26px"
-                        h="26px"
-                        borderRadius="50%"
-                        align="center"
-                        justify="center"
-                        fontSize="18px"
-                        border={`1.5px solid ${HC.primary}`}
-                        color={isExpanded ? '#FFF' : HC.primary}
-                        bg={isExpanded ? HC.primary : 'transparent'}
-                        transform={isExpanded ? 'rotate(45deg)' : 'none'}
-                        transition="transform .25s"
-                      >
-                        +
-                      </Flex>
-                    </AccordionButton>
-                    <AccordionPanel px="4px" pb="22px" pt="0">
-                      <Text color={HC.textSecondary} fontSize="15px" lineHeight="1.7">
-                        {f.a}
-                      </Text>
-                    </AccordionPanel>
-                  </>
-                )}
-              </AccordionItem>
-            ))}
-          </Accordion>
+                        <Box px="4px" pb="22px" pt="0">
+                          <Text color={HC.textSecondary} fontSize="15px" lineHeight="1.7">
+                            {f.a}
+                          </Text>
+                        </Box>
+                      </MotionBox>
+                    )}
+                  </AnimatePresence>
+                </Box>
+              );
+            })}
+          </Box>
         </MotionBox>
       </Grid>
     </Box>
