@@ -37,25 +37,25 @@ const NAMES = [
 ];
 
 const DESCS = [
-  ['Đa dạng vị trái cây, dễ phối món', 'Phù hợp trà trái cây, soda'],
-  ['Cập nhật xu hướng, dễ kết hợp', 'Tăng độ ngon cho mỗi ly nước'],
-  ['Hương vị ổn định, dễ định lượng', 'Dùng cho trà, soda, đá xay'],
-  ['Dễ hòa tan, tiện pha chế', 'Phù hợp trà sữa, đá xay'],
-  ['Tạo vị béo mịn, thơm hài hòa', 'Dùng cho trà sữa, cà phê'],
-  ['Vị trà đậm, hậu vị êm dịu', 'Phù hợp trà sữa, trà trái cây'],
-  ['Thanh nhẹ, hương thơm tự nhiên', 'Dễ phối cùng sữa và trái cây'],
-  ['Hương trà thanh, tầng vị rõ', 'Phù hợp menu món signature']
+  ['Đa dạng vị trái cây, dễ phối món.', 'Phù hợp trà trái cây, soda.'],
+  ['Cập nhật xu hướng, dễ kết hợp.', 'Tăng độ ngon cho mỗi ly nước.'],
+  ['Hương vị ổn định, dễ định lượng.', 'Dùng cho trà, soda, đá xay.'],
+  ['Dễ hòa tan, tiện pha chế.', 'Phù hợp trà sữa, đá xay.'],
+  ['Tạo vị béo mịn, thơm hài hòa.', 'Dùng cho trà sữa, cà phê.'],
+  ['Vị trà đậm, hậu vị êm dịu.', 'Phù hợp trà sữa, trà trái cây.'],
+  ['Thanh nhẹ, hương thơm tự nhiên.', 'Dễ phối cùng sữa và trái cây.'],
+  ['Hương trà thanh, tầng vị rõ.', 'Phù hợp menu món signature.']
 ];
 
 const HREFS = [
-  '/san-pham/nguyen-lieu-pha-che-lermao/mut-pha-che-lermao',
-  '/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-topping-tra-sua',
-  '/san-pham/nguyen-lieu-pha-che-lermao/siro-pha-che-lermao',
-  '/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-bot-pha-che',
-  '/san-pham/nguyen-lieu-pha-che-lermao/sua-pha-che',
-  '/san-pham/tra-phuong-hoang/hong-tra-phuong-hoang',
-  '/san-pham/tra-phuong-hoang',
-  '/san-pham/tra-phuong-hoang/tra-o-long-phuong-hoang'
+  '/san-pham/nguyen-lieu-pha-che/mut-trai-cay',
+  '/san-pham/nguyen-lieu-pha-che/topping-tra-sua',
+  '/san-pham/nguyen-lieu-pha-che/siro-pha-che',
+  '/san-pham/nguyen-lieu-pha-che/bot-pha-che',
+  '/san-pham/nguyen-lieu-pha-che/bot-pha-che/bot-kem-bot-foam',
+  '/san-pham/nguyen-lieu-pha-che/tra-pha-che/hong-tra',
+  '/san-pham/nguyen-lieu-pha-che/tra-pha-che/tra-xanh',
+  '/san-pham/nguyen-lieu-pha-che/tra-pha-che/tra-huong-hoa'
 ];
 
 const Categories = () => {
@@ -69,7 +69,11 @@ const Categories = () => {
 
   return (
     <Box as="section" px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
-      <SecHead eyebrow={'DANH MỤC'} title={<>{'8 nhóm nguyên liệu,'}<br />{'đủ cho mọi công thức'}</>} desc={'Từ trà nền, syrup, bột đến topping — một đầu mối duy nhất.'} />
+      <SecHead
+        eyebrow={'DANH MỤC'}
+        title={<>{'8 nhóm nguyên liệu được chọn lọc,'}<br />{'giúp quán dễ dàng xây dựng '} <br /> {'và phát triển menu'}</>}
+        desc={<>{'Từ trà nền, mứt, siro đến bột và topping'}<br />{'đầy đủ lựa chọn cho mọi công thức pha chế.'}</>}
+      />
 
       {/* Desktop Grid Layout */}
       <Grid

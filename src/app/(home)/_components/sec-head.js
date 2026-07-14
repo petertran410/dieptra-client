@@ -10,7 +10,7 @@ const SecHead = ({ eyebrow, title, desc }) => {
   return (
     <MotionBox
       textAlign="center"
-      maxW="680px"
+      maxW="800px"
       mx="auto"
       mb={{ base: '40px', lg: '56px' }}
       initial={{ opacity: 0, y: 24 }}

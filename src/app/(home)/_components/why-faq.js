@@ -41,65 +41,39 @@ const WhyFaq = () => {
 
   return (
     <Box as="section" id="why" bg={HC.bgSoft} px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
-      <Grid templateColumns={{ base: '1fr', lg: '1fr 1.05fr' }} gap={{ base: '34px', lg: '52px' }} alignItems={{ base: 'start', lg: 'stretch' }}>
+      <Grid templateColumns={{ base: '1fr', lg: '0.8fr 1.2fr' }} gap={{ base: '34px', lg: '52px' }} alignItems={{ base: 'start', lg: 'stretch' }}>
         {/* visual */}
         <MotionBox
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.2 }}
           transition={{ duration: 0.5 }}
-          bg={HC.cyanBg}
-          borderRadius="24px"
-          p={{ base: '24px', lg: '36px' }}
+          w="full"
+          maxW={{ base: '500px', lg: '100%' }}
+          mx="auto"
           display="flex"
           flexDirection="column"
           h={{ base: 'auto', lg: '100%' }}
-          alignItems="center"
-          _hover={{
-            '& img': { transform: 'scale(1.03)' }
-          }}
         >
           <Box
             position="relative"
-            w={{ base: '100%', lg: 'auto' }}
+            w="full"
             flex={{ base: 'none', lg: 1 }}
-            sx={{ aspectRatio: '3 / 4' }}
-            borderRadius="16px"
-            overflow="hidden"
-            mx="auto"
             minH="0"
+            sx={{ aspectRatio: { base: '1 / 1', lg: 'auto' } }}
+            borderRadius="24px"
+            border="8px solid #fff"
+            boxShadow="0 15px 35px rgba(0,0,0,0.12)"
+            overflow="hidden"
           >
             <Image
-              src="/images/home-v2/why-bia-tra.png"
-              alt={'Đối tác đồng hành, không chỉ là nhà cung cấp'}
+              src="/images/home-v2/why-partner.webp"
+              alt={'Đồng hành cùng quán trên hành trình phát triển'}
               fill
               sizes="(max-width: 992px) 100vw, 600px"
-              style={{ objectFit: 'cover', transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' }}
+              style={{ objectFit: 'cover' }}
             />
           </Box>
-          <Flex justify="center" mt="auto" pt="20px" flex="none" w="100%">
-            <Box
-              as={Link}
-              href="#categories"
-              display="inline-flex"
-              alignItems="center"
-              gap="9px"
-              fontFamily={FONT_DISPLAY}
-              fontWeight={700}
-              fontSize="15px"
-              borderRadius="12px"
-              px="30px"
-              py="14px"
-              bg={HC.accent}
-              color="#FFF"
-              boxShadow="0 8px 20px rgba(255,122,26,.32)"
-              transition="all 0.25s cubic-bezier(0.4, 0, 0.2, 1)"
-              _hover={{ bg: HC.accentDeep, transform: 'translateY(-2px)', boxShadow: '0 10px 24px rgba(255,122,26,.4)' }}
-              _active={{ transform: 'translateY(0) scale(0.97)' }}
-            >
-              {'Khám phá nguyên liệu'}
-            </Box>
-          </Flex>
         </MotionBox>
 
         {/* faq */}
@@ -122,8 +96,27 @@ const WhyFaq = () => {
           >
             {'Tại sao chọn Diệp Trà?'}
           </Text>
-          <Text as="h2" fontFamily={FONT_DISPLAY} fontSize={{ base: '26px', lg: '36px' }} fontWeight={800} mb="24px" color={HC.textPrimary}>
-            {'Đối tác đồng hành, không chỉ là nhà cung cấp'}
+          <Text 
+            as="h2" 
+            fontFamily={FONT_DISPLAY} 
+            fontSize={{ base: '20px', md: '24px', lg: '26px', xl: '32px' }} 
+            fontWeight={800} 
+            mb="16px" 
+            color={HC.textPrimary}
+            lineHeight={1.3}
+          >
+            {'Cùng quán vững bước trên hành trình phát triển,'}
+            <br />
+            {'không chỉ đơn thuần là nhà cung cấp nguyên liệu'}
+          </Text>
+          <Text
+            color={HC.textSecondary}
+            fontSize={{ base: '13.5px', md: '15px', lg: '16px' }}
+            lineHeight={1.6}
+            fontWeight={500}
+            mb="28px"
+          >
+            {'Hỗ trợ từ lựa chọn sản phẩm, xây dựng công thức đến tối ưu chi phí và vận hành.'}
           </Text>
 
           <Box>

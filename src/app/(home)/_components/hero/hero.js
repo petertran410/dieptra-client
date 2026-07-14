@@ -115,10 +115,12 @@ const Hero = () => {
               lineHeight={1.6}
               fontWeight={500}
               mt={{ base: '20px', md: '28px' }}
-              maxW="32em"
+              maxW="36em"
               mx={{ base: 'auto', md: 0 }}
             >
-              {'500+ nguyên liệu pha chế nhập khẩu — giao nhanh toàn quốc, đồng hành từ công thức đến vận hành.'}
+              <Box as="span" display="block">{'500+ nguyên liệu pha chế đa dạng, chất lượng ổn định, giá cạnh tranh.'}</Box>
+              <Box as="span" display="block" mt="4px">{'Giao hàng nhanh chóng, đáp ứng nhu cầu của quán trên toàn quốc.'}</Box>
+              <Box as="span" display="block" mt="4px">{'Đồng hành từ phát triển công thức đến tối ưu vận hành.'}</Box>
             </Text>
 
             <Flex 
@@ -127,7 +129,7 @@ const Hero = () => {
               pointerEvents="auto"
               justifyContent={{ base: 'center', md: 'flex-start' }}
             >
-              <Link href="/san-pham">
+              <Link href="/san-pham/nguyen-lieu-pha-che">
                 <Box
                   as="span"
                   display="inline-flex"
@@ -144,7 +146,7 @@ const Hero = () => {
                   _hover={{ bg: HC.accentDeep, transform: 'translateY(-1px)' }}
                   _active={{ transform: 'translateY(0) scale(0.98)' }}
                 >
-                  {'Xem nguyên liệu →'}
+                  {'Xem sản phẩm →'}
                 </Box>
               </Link>
               <Link href="/gioi-thieu-diep-tra">
@@ -153,8 +155,8 @@ const Hero = () => {
                   display="inline-flex"
                   alignItems="center"
                   border="1.5px solid"
-                  borderColor={HC.primary}
-                  color={HC.primary}
+                  borderColor={HC.primaryDark}
+                  color={HC.primaryDark}
                   px={{ base: '16px', md: '24px' }}
                   py={{ base: '10px', md: '14px' }}
                   borderRadius="8px"
@@ -162,10 +164,10 @@ const Hero = () => {
                   fontSize={{ base: '14px', md: '16px' }}
                   cursor="pointer"
                   transition="all 0.2s"
-                  _hover={{ bg: 'rgba(0, 183, 204, 0.06)', transform: 'translateY(-1px)' }}
+                  _hover={{ bg: HC.primaryDark, borderColor: HC.primaryDark, color: '#FFF', transform: 'translateY(-1px)' }}
                   _active={{ transform: 'translateY(0) scale(0.98)' }}
                 >
-                  {'Xem chi tiết →'}
+                  {'Về chúng tôi →'}
                 </Box>
               </Link>
             </Flex>

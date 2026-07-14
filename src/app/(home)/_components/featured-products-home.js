@@ -95,9 +95,9 @@ const ProductCard = ({ item }) => {
             fontWeight={700}
             fontSize="13px"
             transition=".2s"
-            _hover={{ bg: HC.primary, color: '#FFF', boxShadow: '0 10px 24px rgba(0,183,204,.28)' }}
+            _hover={{ bg: HC.primaryDark, borderColor: HC.primaryDark, color: '#FFF', boxShadow: '0 10px 24px rgba(0,183,204,.28)' }}
           >
-            {'Xem chi tiết'} →
+            {'Xem sản phẩm'} →
           </Flex>
         </Flex>
       </Flex>
