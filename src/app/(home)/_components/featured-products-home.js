@@ -124,8 +124,20 @@ const FeaturedProductsHome = ({ data = [] }) => {
       <Box maxW="1200px" mx="auto">
         <SecHead
           eyebrow={'SẢN PHẨM BÁN CHẠY'}
-          title={<>{'Best-seller được'}<br />{'30.000+ quán F&B tin dùng'}</>}
-          desc={<>{'Nguyên liệu được ưa chuộng nhờ hương vị dễ dùng,'}<br />{'chất lượng đồng đều và tối ưu vận hành.'}</>}
+          title={
+            <>
+              {'Best-seller được '}
+              <br />
+              {'30.000+ quán F&B tin dùng'}
+            </>
+          }
+          desc={
+            <>
+              {'Nguyên liệu được ưa chuộng nhờ hương vị dễ dùng, '}
+              <Box as="br" display={{ base: 'none', lg: 'inline' }} />
+              {'chất lượng đồng đều và tối ưu vận hành.'}
+            </>
+          }
         />
 
         <Flex gap="10px" justify="center" flexWrap="wrap" mb="42px">

@@ -36,7 +36,23 @@ const GUIDES = [
 const GuideCards = () => {
   return (
     <Box as="section" id="guide" px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
-      <SecHead eyebrow={'CẨM NANG F&B'} title={<>{'Từ công thức'}<br />{'đến vận hành quán'}</>} desc={<>Kiến thức thực tế giúp quán xây menu và tối ưu chi phí.<br />Cập nhật công thức, xu hướng và kinh nghiệm vận hành.</>} />
+      <SecHead
+        eyebrow={'CẨM NANG F&B'}
+        title={
+          <>
+            {'Từ công thức '}
+            <br />
+            {'đến vận hành quán'}
+          </>
+        }
+        desc={
+          <>
+            {'Kiến thức thực tế giúp quán xây menu và tối ưu chi phí. '}
+            <Box as="br" display={{ base: 'none', lg: 'inline' }} />
+            {'Cập nhật công thức, xu hướng và kinh nghiệm vận hành.'}
+          </>
+        }
+      />
 
       <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={{ base: '20px', lg: '26px' }}>
         {GUIDES.map((g, i) => (

@@ -33,11 +33,31 @@ const SecHead = ({ eyebrow, title, desc }) => {
           {eyebrow}
         </Text>
       )}
-      <Text as="h2" fontFamily={FONT_DISPLAY} fontWeight={800} fontSize={{ base: '28px', lg: '40px' }} mb="14px" color={HC.textPrimary}>
+      <Text
+        as="h2"
+        fontFamily={FONT_DISPLAY}
+        fontWeight={800}
+        fontSize={{ base: '20px', sm: '26px', md: '28px', lg: '40px' }}
+        mb="14px"
+        color={HC.textPrimary}
+        sx={{
+          textWrap: 'balance'
+        }}
+      >
         {title}
       </Text>
       {desc && (
-        <Text color={HC.textSecondary} fontSize="18px">
+        <Text
+          color={HC.textSecondary}
+          fontSize={{ base: '12.5px', sm: '13.5px', md: '16px', lg: '18px' }}
+          lineHeight={1.5}
+          maxW="36em"
+          mx="auto"
+          display={{ base: 'none', md: 'block' }}
+          sx={{
+            textWrap: 'balance'
+          }}
+        >
           {desc}
         </Text>
       )}

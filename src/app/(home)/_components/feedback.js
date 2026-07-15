@@ -12,10 +12,10 @@ import 'swiper/css/navigation';
 const Feedback = () => {
 
   const LIST = [
-    { image: '/images/feedback-1.webp', name: 'Chị Kim Dung', role: 'Đại diện Hưng Sao Hà Đông', content: 'Tôi vô cùng ấn tượng với sản phẩm Khoai Môn tươi Nghiền thuộc Dòng Sản phẩm Đông lạnh của Thương hiệu Gấu LerMao. Với vị ngọt, béo, ngậy, mình cảm thấy rất phù hợp với các món trà sữa, và tôi tin sẽ trở thành xu hướng mới trong mùa thu đông năm nay.' },
-    { image: '/images/feedback-3.webp', name: 'Anh Quyết', role: 'Founder Trà sữa Son La', content: 'Sản phẩm có gần như 9 trên 10 mẫu mã mà doanh nghiệp em có thể ứng dụng được để cân nhắc thay thế các loại nguyên liệu đang dùng bây giờ. Sản phẩm thuộc thương hiệu Gấu LerMao của công ty hoàn toàn đáp ứng được mọi nhu cầu và xu hướng hot hiện nay.' },
-    { image: '/images/feedback-2.webp', name: 'Chị Thùy Linh', role: 'Đại diện Đức Linh Hà Đông', content: 'Sản phẩm của thương hiệu Gấu LerMao vô cùng đa dạng, với các khẩu vị vô cùng mới lạ, tươi ngon, đặc biệt hấp dẫn. Hiện nay thị trường Việt Nam có rất nhiều sản phẩm, tuy nhiên để được đa dạng và chất lượng như sản phẩm của công ty HI SWEETIE VIỆT NAM hiếm bên nào có thể làm được.' },
-    { image: '/images/feedback-4.webp', name: 'Anh Đông', role: 'Đại diện BID Cần Thơ', content: 'Khách hàng đều phản hồi rất tích cực về sản phẩm Lermao và trà Phượng Hoàng. Khi khách hàng hài lòng, BID cũng cảm thấy hoàn toàn tin tưởng vào chất lượng sản phẩm. Cảm ơn Diệp Trà đã mang đến những hương vị thơm ngon, chất lượng cho người tiêu dùng Việt Nam.' }
+    { image: '/images/feedback-1.webp', name: 'Chị Kim Dung', role: 'Đại diện Hưng Sao Hà Đông', content: 'Tôi vô cùng ấn tượng với sản phẩm khoai môn tươi nghiền thuộc dòng sản phẩm nấu nhanh của thương hiệu Gấu LerMao. Với hương vị ngọt, béo và bùi đặc trưng, sản phẩm rất phù hợp để sử dụng trong các món trà sữa. Tôi tin rằng đây sẽ là một trong những xu hướng được yêu thích trong mùa thu đông năm nay.' },
+    { image: '/images/feedback-3.webp', name: 'Anh Quyết', role: 'Founder Trà sữa Son La', content: 'Sản phẩm có gần như 9/10 mẫu mã mà doanh nghiệp của em có thể ứng dụng để cân nhắc thay thế các loại nguyên liệu đang sử dụng hiện nay. Các sản phẩm của nhà cung cấp Diệp Trà hoàn toàn đáp ứng tốt nhu cầu sử dụng cũng như các xu hướng đang được ưa chuộng trên thị trường.' },
+    { image: '/images/feedback-2.webp', name: 'Chị Thùy Linh', role: 'Đại diện Đức Linh Hà Đông', content: 'Sản phẩm của thương hiệu Gấu LerMao rất đa dạng, với nhiều hương vị mới lạ, tươi ngon và hấp dẫn. Mặc dù thị trường Việt Nam hiện nay có nhiều đơn vị cung cấp nguyên liệu pha chế, nhưng để có danh mục sản phẩm phong phú cùng chất lượng đồng đều như ở Diệp Trà thì không nhiều nhà cung cấp làm được.' },
+    { image: '/images/feedback-4.webp', name: 'Anh Đông', role: 'Đại diện BID Cần Thơ', content: 'Khách hàng đều phản hồi rất tích cực về các sản phẩm LerMao và trà Phượng Hoàng. Khi khách hàng hài lòng, BID cũng càng tin tưởng hơn vào chất lượng sản phẩm. Cảm ơn Diệp Trà đã mang đến những hương vị thơm ngon, chất lượng và góp phần tạo nên những thức uống hấp dẫn dành cho người tiêu dùng Việt Nam.' }
   ];
 
   return (
@@ -23,8 +23,20 @@ const Feedback = () => {
       <Box maxW="1200px" mx="auto">
         <SecHead
           eyebrow={'KHÁCH HÀNG NÓI GÌ'}
-          title={<>{'Đại lý chia sẻ'}<br />{'sau khi dùng thực tế'}</>}
-          desc={<>{'Chia sẻ chân thực từ các đại lý đã trực tiếp sử dụng sản phẩm.'}<br />{'Góc nhìn thực tế về chất lượng, độ ổn định và khả năng ứng dụng.'}</>}
+          title={
+            <>
+              {'Đại lý chia sẻ '}
+              <br />
+              {'sau khi dùng thực tế'}
+            </>
+          }
+          desc={
+            <>
+              {'Chia sẻ chân thực từ các đại lý đã trực tiếp sử dụng sản phẩm. '}
+              <br />
+              {'Góc nhìn thực tế về chất lượng, độ ổn định và khả năng ứng dụng.'}
+            </>
+          }
         />
 
         {/* Desktop grid layout */}
@@ -51,6 +63,9 @@ const Feedback = () => {
                 boxShadow="0 4px 20px rgba(0, 183, 204, 0.05)"
                 transition="transform .25s"
                 _hover={{ transform: 'translateY(-4px)' }}
+                display="flex"
+                flexDirection="column"
+                justifyContent="space-between"
               >
                 <Box
                   pos="absolute"
@@ -74,15 +89,19 @@ const Feedback = () => {
                     objectFit="cover"
                   />
                 </Box>
-                <Text fontSize="14px" color={HC.textSecondary} lineHeight={1.6} mb="16px" textAlign="justify">
-                  {item.content}
-                </Text>
-                <Text fontFamily={FONT_DISPLAY} fontWeight={800} fontSize="16px" color={HC.primaryDark}>
-                  {item.name}
-                </Text>
-                <Text fontSize="12.5px" color="#71717A" mt="2px" noOfLines={1}>
-                  {item.role}
-                </Text>
+                <Box flex={1}>
+                  <Text fontSize="14px" color={HC.textSecondary} lineHeight={1.6} mb="16px" textAlign="justify">
+                    {item.content}
+                  </Text>
+                </Box>
+                <Box mt="auto" pt="12px" borderTop="1px solid" borderColor={HC.border}>
+                  <Text fontFamily={FONT_DISPLAY} fontWeight={800} fontSize="16px" color={HC.primaryDark}>
+                    {item.name}
+                  </Text>
+                  <Text fontSize="12.5px" color="#71717A" mt="2px" noOfLines={1}>
+                    {item.role}
+                  </Text>
+                </Box>
               </Box>
             </Box>
           ))}

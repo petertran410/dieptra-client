@@ -44,8 +44,6 @@ const Hero = () => {
           />
         </Box>
       </Box>
-
-      {/* Copy overlay */}
       <Flex
         position="absolute"
         top={0}
@@ -53,11 +51,11 @@ const Hero = () => {
         w="full"
         h="full"
         align={{ base: 'flex-start', md: 'center' }}
-        pt={{ base: '100px', md: 0 }}
+        pt={{ base: '120px', md: 0 }}
         zIndex={2}
         pointerEvents="none"
       >
-        <Box w="full" px={HOME_PX}>
+        <Box w="full" px={{ base: '16px', md: '40px', lg: '64px', xl: '80px', '2xl': '120px' }}>
           <MotionBox
             maxW={{ base: '100%', md: '46%', lg: '40%' }}
             textAlign={{ base: 'center', md: 'left' }}
@@ -77,7 +75,7 @@ const Hero = () => {
                 display="block"
                 fontWeight={800}
                 color={HC.textPrimary}
-                fontSize={{ base: '15px', md: '22px', lg: '32px' }}
+                fontSize={{ base: '17px', md: '24px', lg: '36px' }}
                 lineHeight={1.1}
               >
                 {'Nguyên liệu pha chế'}
@@ -90,12 +88,12 @@ const Hero = () => {
                 sx={{ color: `${HC.accent} !important` }}
                 fontSize={{ base: '30px', md: '52px', lg: '72px', xl: '80px' }}
                 lineHeight={1}
-                my="0.06em"
+                my={{ base: '10px', md: '0.06em' }}
               >
                 {'Diệp Trà'}
               </Text>
             </Text>
-
+ 
             <Text
               fontFamily={FONT_DISPLAY}
               fontWeight={800}
@@ -103,29 +101,32 @@ const Hero = () => {
               fontSize={{ base: '15px', md: '22px', lg: '32px' }}
               textTransform="uppercase"
               lineHeight={1.05}
-              mt={{ base: '4px', md: '8px' }}
+              mt={{ base: '10px', md: '8px' }}
             >
-              {'Đồng hành cùng F&B'}
+              {'Đồng hành cùng quán trà & F&B'}
             </Text>
-
+ 
             <Text
               fontFamily="inherit"
               color={HC.textSecondary}
-              fontSize={{ base: '12px', md: '14px', lg: '18px' }}
+              fontSize={{ base: '11px', sm: '12px', md: '14px', lg: '18px' }}
               lineHeight={1.6}
               fontWeight={500}
               mt={{ base: '20px', md: '28px' }}
               maxW="36em"
               mx={{ base: 'auto', md: 0 }}
+              display={{ base: 'none', md: 'block' }}
             >
-              <Box as="span" display="block">{'500+ nguyên liệu pha chế đa dạng, chất lượng ổn định, giá cạnh tranh.'}</Box>
-              <Box as="span" display="block" mt="4px">{'Giao hàng nhanh chóng, đáp ứng nhu cầu của quán trên toàn quốc.'}</Box>
-              <Box as="span" display="block" mt="4px">{'Đồng hành từ phát triển công thức đến tối ưu vận hành.'}</Box>
+              <Box as="span" display="block">{'500+ nguyên liệu đa dạng, chất lượng ổn định, giá tốt.'}</Box>
+              <Box as="span" display="block" mt="4px">{'Giao nhanh toàn quốc, đáp ứng nhu cầu quán.'}</Box>
+              <Box as="span" display="block" mt="4px">{'Đồng hành từ công thức đến tối ưu vận hành.'}</Box>
             </Text>
-
-            <Flex 
-              gap="12px" 
-              mt={{ base: '24px', md: '32px' }} 
+ 
+            <Flex
+              flexDirection="row"
+              alignItems="center"
+              gap={{ base: '10px', md: '12px' }}
+              mt={{ base: '20px', md: '32px' }}
               pointerEvents="auto"
               justifyContent={{ base: 'center', md: 'flex-start' }}
             >
@@ -134,13 +135,15 @@ const Hero = () => {
                   as="span"
                   display="inline-flex"
                   alignItems="center"
+                  justifyContent="center"
                   bg={HC.accent}
                   color="white"
+                  w={{ base: '146px', md: 'auto' }}
                   px={{ base: '16px', md: '24px' }}
                   py={{ base: '10px', md: '14px' }}
-                  borderRadius="8px"
+                  borderRadius="999px"
                   fontWeight={600}
-                  fontSize={{ base: '14px', md: '16px' }}
+                  fontSize={{ base: '13px', md: '16px' }}
                   cursor="pointer"
                   transition="all 0.2s"
                   _hover={{ bg: HC.accentDeep, transform: 'translateY(-1px)' }}
@@ -154,14 +157,17 @@ const Hero = () => {
                   as="span"
                   display="inline-flex"
                   alignItems="center"
+                  justifyContent="center"
                   border="1.5px solid"
                   borderColor={HC.primaryDark}
+                  bg="transparent"
                   color={HC.primaryDark}
+                  w={{ base: '146px', md: 'auto' }}
                   px={{ base: '16px', md: '24px' }}
                   py={{ base: '10px', md: '14px' }}
-                  borderRadius="8px"
+                  borderRadius="999px"
                   fontWeight={600}
-                  fontSize={{ base: '14px', md: '16px' }}
+                  fontSize={{ base: '13px', md: '16px' }}
                   cursor="pointer"
                   transition="all 0.2s"
                   _hover={{ bg: HC.primaryDark, borderColor: HC.primaryDark, color: '#FFF', transform: 'translateY(-1px)' }}

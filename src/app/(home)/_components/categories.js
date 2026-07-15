@@ -71,8 +71,22 @@ const Categories = () => {
     <Box as="section" px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
       <SecHead
         eyebrow={'DANH MỤC'}
-        title={<>{'8 nhóm nguyên liệu được chọn lọc,'}<br />{'giúp quán dễ dàng xây dựng '} <br /> {'và phát triển menu'}</>}
-        desc={<>{'Từ trà nền, mứt, siro đến bột và topping'}<br />{'đầy đủ lựa chọn cho mọi công thức pha chế.'}</>}
+        title={
+          <>
+            {'8 nhóm nguyên liệu được chọn lọc, '}
+            <br />
+            {'giúp quán dễ dàng xây dựng '}
+            <Box as="br" display={{ base: 'none', lg: 'inline' }} />
+            {'và phát triển menu'}
+          </>
+        }
+        desc={
+          <>
+            {'Từ trà nền, mứt, siro đến bột và topping '}
+            <Box as="br" display={{ base: 'none', lg: 'inline' }} />
+            {'đầy đủ lựa chọn cho mọi công thức pha chế.'}
+          </>
+        }
       />
 
       {/* Desktop Grid Layout */}
