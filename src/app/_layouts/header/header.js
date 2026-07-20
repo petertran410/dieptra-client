@@ -69,10 +69,8 @@ const Header = () => {
       href: '/gioi-thieu-diep-tra'
     },
     {
-      // Khi CMS đã cấu hình: dùng tên + href danh mục cha cố định.
-      // Chưa cấu hình (menuConfig=null): giữ hành vi cũ "Sản Phẩm" -> /san-pham.
-      title: menuConfig?.name || 'Sản Phẩm',
-      href: menuConfig?.href || '/san-pham',
+      title: 'Sản Phẩm',
+      href: '/san-pham',
       hasDropdown: true,
       dropdownItems: productCategories
     },
