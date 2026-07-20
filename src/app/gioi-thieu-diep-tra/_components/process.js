@@ -158,7 +158,7 @@ const Process = () => {
                 {/* Title & Description */}
                 <Flex direction="column" flex={1}>
                   <Text
-                    as="h3"
+                    as="p"
                     color="#005a9f"
                     fontSize={{ base: '18px', md: '15px', lg: '14px', xl: '16.5px' }}
                     fontWeight={800}
@@ -243,7 +243,7 @@ const Process = () => {
                       {/* Title & Description */}
                       <Flex direction="column" flex={1}>
                         <Text
-                          as="h3"
+                          as="p"
                           color="#005a9f"
                           fontSize={{ base: '17px', md: '15px' }}
                           fontWeight={800}

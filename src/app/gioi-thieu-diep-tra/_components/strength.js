@@ -230,7 +230,7 @@ const Strength = () => {
                   </Flex>
                   <Box>
                     <Text
-                      as="h3"
+                      as="p"
                       color="#005a9f"
                       fontSize="17.5px"
                       fontWeight={800}

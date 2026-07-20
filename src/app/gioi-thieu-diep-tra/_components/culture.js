@@ -220,7 +220,7 @@ const Culture = () => {
                     >
                       ✓
                     </Flex>
-                    <Text as="h3" color="#005a9f" fontSize="21.5px" fontWeight={800}>
+                    <Text as="p" color="#005a9f" fontSize="21.5px" fontWeight={800}>
                       Tầm nhìn
                     </Text>
                   </Flex>
@@ -277,7 +277,7 @@ const Culture = () => {
                     >
                       ✓
                     </Flex>
-                    <Text as="h3" color="#005a9f" fontSize="21.5px" fontWeight={800}>
+                    <Text as="p" color="#005a9f" fontSize="21.5px" fontWeight={800}>
                       Sứ mệnh
                     </Text>
                   </Flex>
@@ -368,7 +368,7 @@ const Culture = () => {
                 Giá trị cốt lõi
               </Box>
               <Text
-                as="h3"
+                as="p"
                 color="#005a9f"
                 fontSize={{ base: '22px', md: '28px' }}
                 fontWeight={800}
@@ -433,7 +433,7 @@ const Culture = () => {
                     </Flex>
                     <Box>
                       <Text
-                        as="h4"
+                        as="p"
                         color="#005a9f"
                         fontSize="17.5px"
                         fontWeight={800}
