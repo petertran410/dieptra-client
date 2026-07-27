@@ -1,6 +1,6 @@
 import { getMetadata } from '../utils/helper-server';
 import { Box } from '@chakra-ui/react';
-import { Afacad } from 'next/font/google';
+import { Afacad, Bebas_Neue } from 'next/font/google';
 import Script from 'next/script';
 import Contact from './_layouts/contact';
 import Footer from './_layouts/footer';
@@ -16,6 +16,13 @@ const fontFamily = Afacad({
   display: 'swap',
   fallback: ['system-ui', 'arial'],
   adjustFontFallback: false
+});
+
+const bebasNeue = Bebas_Neue({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-bebas',
+  display: 'swap'
 });
 
 export const metadata = {
@@ -151,7 +158,7 @@ const structuredData = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="vi" className={fontFamily.variable}>
+    <html lang="vi" className={`${fontFamily.variable} ${bebasNeue.variable}`}>
       <head>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }} />
       </head>
