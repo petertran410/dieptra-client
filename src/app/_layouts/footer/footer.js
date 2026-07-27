@@ -7,7 +7,6 @@ import { Fragment } from 'react';
 import Script from 'next/script';
 
 const Footer = () => {
-
   const MENU_LINKS_1 = [
     {
       title: 'Chính Sách Diệp Trà',
@@ -133,7 +132,9 @@ const Footer = () => {
               <Image src="/images/certification.webp" alt={IMG_ALT} w="24px" h="24px" />
               <Box>
                 <Text fontWeight={400} lineHeight="21px">
-                  {' Giấy phép Đăng kí kinh doanh số 0110211839 do Phòng Đăng ký kinh doanh – Sở Tài Chính cấp lần đầu ngày 20/12/2022, đăng ký thay đổi lần thứ 1, ngày 19/11/2024.'}
+                  {
+                    ' Giấy phép Đăng kí kinh doanh số 0110211839 do Phòng Đăng ký kinh doanh – Sở Tài Chính cấp lần đầu ngày 20/12/2022, đăng ký thay đổi lần thứ 1, ngày 19/11/2024.'
+                  }
                 </Text>
               </Box>
             </Flex>
@@ -199,7 +200,7 @@ const Footer = () => {
               </Text>
             </Text>
             <Flex align="center" gap="16px" mt="8px">
-              <Link href="http://online.gov.vn/Home/WebDetails/137384" target="_blank">
+              <Link href="http://online.gov.vn/nen-tang/d129e73f-52c3-4b32-8b3d-fa159a709124" target="_blank">
                 <Image src="/images/bo-cong-thuong.webp" w="120px" h="auto" alt="Bộ Công Thương" />
               </Link>
 
