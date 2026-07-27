@@ -7,7 +7,7 @@ import Process from './_components/process';
 import Culture from './_components/culture';
 import Faq from './_components/faq';
 import HomeContact from './_components/contact';
-import StickyCta from './_components/sticky-cta';
+
 import RevealSection from './_components/reveal-section';
 
 export const metadata = getMetadata({
@@ -147,7 +147,7 @@ const IntroPage = () => {
         <HomeContact />
       </RevealSection>
 
-      <StickyCta />
+
     </HomeTheme>
   );
 };

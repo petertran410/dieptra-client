@@ -15,7 +15,7 @@ const AboutUs = () => {
         as="section"
         position="relative"
         pt={{ base: '110px', lg: '160px' }}
-        pb={{ base: '56px', lg: '100px' }}
+        pb={{ base: '32px', lg: '100px' }}
         px={PX_ALL}
         bgGradient="linear(to-b, #f7fafc 0%, #ffffff 100%)"
         overflow="hidden"
@@ -257,7 +257,7 @@ const AboutUs = () => {
       {/* Manifesto Section */}
       <Box
         as="section"
-        py={{ base: '56px', lg: '90px' }}
+        py={{ base: '32px', lg: '90px' }}
         px={PX_ALL}
         bgGradient="linear(to-b, #ffffff 0%, #f7fafc 100%)"
         overflow="hidden"

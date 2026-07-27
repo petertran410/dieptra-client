@@ -27,7 +27,7 @@ const Strength = () => {
   return (
     <Box
       as="section"
-      py={{ base: '56px', lg: '70px' }}
+      py={{ base: '16px', lg: '70px' }}
       px={PX_ALL}
       bgGradient="linear(to-b, #f1fbff 0%, #ffffff 100%)"
       overflow="hidden"
@@ -159,7 +159,6 @@ const Strength = () => {
               color="#4d6878"
               fontSize="14px"
               lineHeight={1.72}
-              fontWeight={500}
               textAlign="justify"
               display={{ base: 'none', md: 'flex' }}
             >

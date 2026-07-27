@@ -21,8 +21,8 @@ const Culture = () => {
     {
       title: (
         <>
-          Đoàn kết và tôn trọng
-          <br />
+          Đoàn kết và tôn trọng{' '}
+          <Box as="br" display={{ base: 'none', md: 'block' }} />
           con người
         </>
       ),
@@ -31,8 +31,8 @@ const Culture = () => {
     {
       title: (
         <>
-          Kỷ luật, trách nhiệm và
-          <br />
+          Kỷ luật, trách nhiệm và{' '}
+          <Box as="br" display={{ base: 'none', md: 'block' }} />
           cam kết
         </>
       ),
@@ -47,7 +47,7 @@ const Culture = () => {
   return (
     <Box
       as="section"
-      py={{ base: '56px', lg: '70px' }}
+      py={{ base: '16px', lg: '70px' }}
       px={PX_ALL}
       bgGradient="linear(to-b, #ffffff 0%, #f7fafc 100%)"
       overflow="hidden"
@@ -319,6 +319,7 @@ const Culture = () => {
             textAlign="center"
           >
             Định hướng văn hóa và tiêu chuẩn đồng hành của Diệp Trà được xây dựng dưới sự dẫn dắt của{' '}
+            <br />
             <Link href="/tac-gia/le-thi-hoang-anh" passHref legacyBehavior>
               <ChakraLink color="#005a9f" fontWeight={900} _hover={{ color: '#0b7eae' }} borderBottom="2px solid rgba(0, 90, 159, 0.4)" pb="1px">
                 Lê Thị Hoàng Anh - Founder Diệp Trà
@@ -443,7 +444,7 @@ const Culture = () => {
                       >
                         {val.title}
                       </Text>
-                      <Text color="#4d6878" fontSize="15px" lineHeight={1.6}>
+                      <Text color="#4d6878" fontSize="15px" lineHeight={1.6} display={{ base: 'none', md: 'block' }}>
                         {val.desc}
                       </Text>
                     </Box>

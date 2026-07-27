@@ -44,13 +44,13 @@ const Contact = () => {
     <Box
       as="section"
       id="contact"
-      py={{ base: '56px', lg: '73px' }}
+      py={{ base: '32px', lg: '73px' }}
       px={PX_ALL}
       bgGradient="linear(to-b, #ffffff 0%, #f7fafc 100%)"
       overflow="hidden"
     >
       <Box
-        maxW="1180px"
+        maxW="1440px"
         w="full"
         mx="auto"
         p="8px"
@@ -69,7 +69,7 @@ const Contact = () => {
           bg="#ffffff"
           boxShadow="inset 0 1px 1px rgba(255, 255, 255, 0.9)"
         >
-          <Grid templateColumns={{ base: '1fr', lg: '0.85fr 1.15fr' }} gap="34px" alignItems="start">
+          <Grid templateColumns={{ base: '1fr', lg: '1fr 1.1fr' }} gap="34px" alignItems="start">
             {/* Info Side */}
             <Flex direction="column" justify="start">
               {/* Eyebrow Tag */}
