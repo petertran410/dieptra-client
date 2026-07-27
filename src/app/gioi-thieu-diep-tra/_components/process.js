@@ -52,7 +52,7 @@ const Process = () => {
   return (
     <Box
       as="section"
-      py={{ base: '56px', lg: '70px' }}
+      py={{ base: '32px', lg: '70px' }}
       px={PX_ALL}
       bg="#FFF"
       overflow="hidden"

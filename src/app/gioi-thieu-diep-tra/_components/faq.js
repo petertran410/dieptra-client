@@ -28,7 +28,7 @@ const Faq = () => {
   return (
     <Box
       as="section"
-      py={{ base: '56px', lg: '70px' }}
+      py={{ base: '32px', lg: '70px' }}
       px={PX_ALL}
       bgGradient="linear(to-b, #ffffff 0%, #f1fbff 100%)"
       overflow="hidden"
