@@ -37,11 +37,9 @@ const AboutUs = () => {
           textTransform="uppercase"
           color="#8ba2b0"
         >
-          <Link href="/" passHref legacyBehavior>
-            <ChakraLink color="#0b7eae" _hover={{ color: '#d79609', textDecoration: 'none' }} transition="color 0.4s ease">
-              Trang chủ
-            </ChakraLink>
-          </Link>
+          <ChakraLink as={Link} href="/" color="#0b7eae" _hover={{ color: '#d79609', textDecoration: 'none' }} transition="color 0.4s ease">
+            Trang chủ
+          </ChakraLink>
           <Text as="span" color="rgba(102, 121, 133, 0.5)">
             ›
           </Text>
@@ -100,48 +98,48 @@ const AboutUs = () => {
             {/* CTA Actions */}
             <Flex direction="column" gap="26px">
               <Flex wrap="wrap" gap="14px">
-                <Link href="/san-pham/nguyen-lieu-pha-che" passHref legacyBehavior>
-                  <ChakraLink
-                    role="group"
-                    aria-label="Xem danh sách sản phẩm nguyên liệu pha chế Diệp Trà"
-                    display="inline-flex"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    minH="54px"
-                    pl="28px"
-                    pr="8px"
+                <ChakraLink
+                  as={Link}
+                  href="/san-pham/nguyen-lieu-pha-che"
+                  role="group"
+                  aria-label="Xem danh sách sản phẩm nguyên liệu pha chế Diệp Trà"
+                  display="inline-flex"
+                  alignItems="center"
+                  justifyContent="space-between"
+                  minH="54px"
+                  pl="28px"
+                  pr="8px"
+                  borderRadius="full"
+                  fontWeight={800}
+                  bgGradient="linear(to-r, #0b7eae, #005a9f)"
+                  color="white"
+                  boxShadow="0 14px 30px rgba(0, 90, 159, 0.18)"
+                  transition="all 0.6s cubic-bezier(0.32, 0.72, 0, 1)"
+                  _hover={{
+                    transform: 'scale(0.98)',
+                    boxShadow: '0 18px 38px rgba(0, 90, 159, 0.26)',
+                    textDecoration: 'none',
+                    color: 'white'
+                  }}
+                >
+                  <Text as="span" mr="20px" fontSize="14px" color="white">Xem danh sách sản phẩm</Text>
+                  <Flex
+                    align="center"
+                    justify="center"
+                    w="38px"
+                    h="38px"
                     borderRadius="full"
-                    fontWeight={800}
-                    bgGradient="linear(to-r, #0b7eae, #005a9f)"
-                    color="white"
-                    boxShadow="0 14px 30px rgba(0, 90, 159, 0.18)"
-                    transition="all 0.6s cubic-bezier(0.32, 0.72, 0, 1)"
-                    _hover={{
-                      transform: 'scale(0.98)',
-                      boxShadow: '0 18px 38px rgba(0, 90, 159, 0.26)',
-                      textDecoration: 'none',
-                      color: 'white'
+                    bg="rgba(255, 255, 255, 0.18)"
+                    fontSize="16px"
+                    transition="transform 0.6s cubic-bezier(0.32, 0.72, 0, 1), background 0.6s cubic-bezier(0.32, 0.72, 0, 1)"
+                    _groupHover={{
+                      transform: 'translate(2px, -2px) scale(1.05)',
+                      bg: 'rgba(255, 255, 255, 0.28)'
                     }}
                   >
-                    <Text as="span" mr="20px" fontSize="14px" color="white">Xem danh sách sản phẩm</Text>
-                    <Flex
-                      align="center"
-                      justify="center"
-                      w="38px"
-                      h="38px"
-                      borderRadius="full"
-                      bg="rgba(255, 255, 255, 0.18)"
-                      fontSize="16px"
-                      transition="transform 0.6s cubic-bezier(0.32, 0.72, 0, 1), background 0.6s cubic-bezier(0.32, 0.72, 0, 1)"
-                      _groupHover={{
-                        transform: 'translate(2px, -2px) scale(1.05)',
-                        bg: 'rgba(255, 255, 255, 0.28)'
-                      }}
-                    >
-                      ↗
-                    </Flex>
-                  </ChakraLink>
-                </Link>
+                    ↗
+                  </Flex>
+                </ChakraLink>
                 <ChakraLink
                   href="https://zalo.me/4415290839928975010"
                   isExternal

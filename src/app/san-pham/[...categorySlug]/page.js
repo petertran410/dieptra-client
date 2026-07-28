@@ -37,7 +37,8 @@ async function findCategoryBySlugPath(slugPath = []) {
 }
 
 export async function generateMetadata({ params }) {
-  const parsed = parseSegments(params.categorySlug || []);
+  const resolvedParams = await params;
+  const parsed = parseSegments(resolvedParams.categorySlug || []);
   if (!parsed) return getMetadata({ title: 'Danh Mục Sản Phẩm' });
 
   const { slugPath } = parsed;
@@ -64,8 +65,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CategoryProductsPage({ params, searchParams }) {
-  const parsed = parseSegments(params.categorySlug || []);
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+  const parsed = parseSegments(resolvedParams.categorySlug || []);
   if (!parsed) notFound();
 
-  return <ProductListPage slugPath={parsed.slugPath} pageNumber={parsed.page} searchParams={searchParams || {}} />;
+  return <ProductListPage slugPath={parsed.slugPath} pageNumber={parsed.page} searchParams={resolvedSearchParams || {}} />;
 }

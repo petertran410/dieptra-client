@@ -13,7 +13,8 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const section = getArticleTypeBySlug(params.category);
+  const { category } = await params;
+  const section = getArticleTypeBySlug(category);
   if (!section) return { title: 'Bài viết' };
   return getMetadata({
     title: section.name,
@@ -35,7 +36,8 @@ async function fetchArticles(type, page) {
 }
 
 export default async function ArticleCategoryPage({ params }) {
-  const section = getArticleTypeBySlug(params.category);
+  const { category } = await params;
+  const section = getArticleTypeBySlug(category);
   if (!section) notFound();
 
   const data = await fetchArticles(section.type, 0);

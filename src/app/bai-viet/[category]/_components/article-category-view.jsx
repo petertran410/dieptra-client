@@ -1,7 +1,7 @@
 import Breadcrumb from '../../../../components/breadcrumb';
 import { IMG_ALT, PX_ALL } from '../../../../utils/const';
 import { convertSlugURL, convertTimestamp } from '../../../../utils/helper-server';
-import { AspectRatio, Box, Button, Flex, Grid, Heading, Image, Text, VStack } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Heading, Image, Text, VStack } from '@chakra-ui/react';
 import Link from 'next/link';
 
 const ArticleItem = ({ item, categorySlug }) => {
@@ -10,15 +10,15 @@ const ArticleItem = ({ item, categorySlug }) => {
   return (
     <Flex direction="column" gap="16px" h="100%">
       <Link href={href}>
-        <AspectRatio ratio={16 / 9} w="full">
+        <Box w="full" overflow="hidden" borderRadius={12} sx={{ aspectRatio: '16 / 9' }}>
           <Image
             src={imagesUrl?.[0]?.replace('http://', 'https://') || '/images/news.webp'}
             w="full"
             h="full"
             alt={IMG_ALT}
-            borderRadius={12}
+            objectFit="cover"
           />
-        </AspectRatio>
+        </Box>
       </Link>
       <Flex direction="column" justify="space-between" gap="12px" flex={1}>
         <Box>

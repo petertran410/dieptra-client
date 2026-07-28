@@ -11,5 +11,6 @@ export const metadata = getMetadata({
 });
 
 export default async function ProductPage({ searchParams }) {
-  return <ProductListPage slugPath={[]} pageNumber={1} searchParams={searchParams || {}} />;
+  const resolvedSearchParams = await searchParams;
+  return <ProductListPage slugPath={[]} pageNumber={1} searchParams={resolvedSearchParams || {}} />;
 }

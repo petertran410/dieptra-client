@@ -8,7 +8,7 @@ import { WORK_MODE, WORK_TYPE } from '../_components/data';
 import FormApply from './_components/form-apply';
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const id = slug.split('.').pop();
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/job/client/${id}`);
   const data = await response.json();
@@ -43,7 +43,7 @@ export async function generateMetadata({ params }) {
 }
 
 const RecruitmentDetail = async ({ params }) => {
-  const { slug } = params;
+  const { slug } = await params;
   const id = slug.split('.').pop();
   const jobDetail = await API.request({ url: `/api/job/client/${id}` });
 

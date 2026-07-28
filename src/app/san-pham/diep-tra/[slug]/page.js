@@ -60,7 +60,7 @@ async function fetchCategoryPath(categoryId) {
 }
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const response = await fetchProduct(slug);
   if (!response) return { title: 'Sản phẩm', description: META_DESCRIPTION };
 
@@ -91,7 +91,7 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function ProductDetail({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const productDetail = await fetchProduct(slug);
   if (!productDetail) notFound();
 

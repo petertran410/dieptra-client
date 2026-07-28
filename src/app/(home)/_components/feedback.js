@@ -10,12 +10,35 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 
 const Feedback = () => {
-
   const LIST = [
-    { image: '/images/feedback-1.webp', name: 'Chị Kim Dung', role: 'Đại diện Hưng Sao Hà Đông', content: 'Tôi vô cùng ấn tượng với sản phẩm khoai môn tươi nghiền thuộc dòng sản phẩm nấu nhanh của thương hiệu Gấu LerMao. Với hương vị ngọt, béo và bùi đặc trưng, sản phẩm rất phù hợp để sử dụng trong các món trà sữa. Tôi tin rằng đây sẽ là một trong những xu hướng được yêu thích trong mùa thu đông năm nay.' },
-    { image: '/images/feedback-3.webp', name: 'Anh Quyết', role: 'Founder Trà sữa Son La', content: 'Sản phẩm có gần như 9/10 mẫu mã mà doanh nghiệp của em có thể ứng dụng để cân nhắc thay thế các loại nguyên liệu đang sử dụng hiện nay. Các sản phẩm của nhà cung cấp Diệp Trà hoàn toàn đáp ứng tốt nhu cầu sử dụng cũng như các xu hướng đang được ưa chuộng trên thị trường.' },
-    { image: '/images/feedback-2.webp', name: 'Chị Thùy Linh', role: 'Đại diện Đức Linh Hà Đông', content: 'Sản phẩm của thương hiệu Gấu LerMao rất đa dạng, với nhiều hương vị mới lạ, tươi ngon và hấp dẫn. Mặc dù thị trường Việt Nam hiện nay có nhiều đơn vị cung cấp nguyên liệu pha chế, nhưng để có danh mục sản phẩm phong phú cùng chất lượng đồng đều như ở Diệp Trà thì không nhiều nhà cung cấp làm được.' },
-    { image: '/images/feedback-4.webp', name: 'Anh Đông', role: 'Đại diện BID Cần Thơ', content: 'Khách hàng đều phản hồi rất tích cực về các sản phẩm LerMao và trà Phượng Hoàng. Khi khách hàng hài lòng, BID cũng càng tin tưởng hơn vào chất lượng sản phẩm. Cảm ơn Diệp Trà đã mang đến những hương vị thơm ngon, chất lượng và góp phần tạo nên những thức uống hấp dẫn dành cho người tiêu dùng Việt Nam.' }
+    {
+      image: '/images/feedback-1.webp',
+      name: 'Chị Kim Dung',
+      role: 'Đại diện Hưng Sao Hà Đông',
+      content:
+        'Tôi vô cùng ấn tượng với sản phẩm khoai môn tươi nghiền thuộc dòng sản phẩm nấu nhanh của thương hiệu Gấu LerMao. Với hương vị ngọt, béo và bùi đặc trưng, sản phẩm rất phù hợp để sử dụng trong các món trà sữa. Tôi tin rằng đây sẽ là một trong những xu hướng được yêu thích trong mùa thu đông năm nay.'
+    },
+    {
+      image: '/images/feedback-3.webp',
+      name: 'Anh Quyết',
+      role: 'Founder Trà sữa Son La',
+      content:
+        'Sản phẩm có gần như 9/10 mẫu mã mà doanh nghiệp của em có thể ứng dụng để cân nhắc thay thế các loại nguyên liệu đang sử dụng hiện nay. Các sản phẩm của nhà cung cấp Diệp Trà hoàn toàn đáp ứng tốt nhu cầu sử dụng cũng như các xu hướng đang được ưa chuộng trên thị trường.'
+    },
+    {
+      image: '/images/feedback-2.webp',
+      name: 'Chị Thùy Linh',
+      role: 'Đại diện Đức Linh Hà Đông',
+      content:
+        'Sản phẩm của thương hiệu Gấu LerMao rất đa dạng, với nhiều hương vị mới lạ, tươi ngon và hấp dẫn. Mặc dù thị trường Việt Nam hiện nay có nhiều đơn vị cung cấp nguyên liệu pha chế, nhưng để có danh mục sản phẩm phong phú cùng chất lượng đồng đều như ở Diệp Trà thì không nhiều nhà cung cấp làm được.'
+    },
+    {
+      image: '/images/feedback-4.webp',
+      name: 'Anh Đông',
+      role: 'Đại diện BID Cần Thơ',
+      content:
+        'Khách hàng đều phản hồi rất tích cực về các sản phẩm LerMao và trà Phượng Hoàng. Khi khách hàng hài lòng, BID cũng càng tin tưởng hơn vào chất lượng sản phẩm. Cảm ơn Diệp Trà đã mang đến những hương vị thơm ngon, chất lượng và góp phần tạo nên những thức uống hấp dẫn dành cho người tiêu dùng Việt Nam.'
+    }
   ];
 
   return (
@@ -40,13 +63,7 @@ const Feedback = () => {
         />
 
         {/* Desktop grid layout */}
-        <Grid
-          display={{ base: 'none', lg: 'grid' }}
-          templateColumns="repeat(4, 1fr)"
-          gap="24px"
-          pt="0"
-          mt="-16px"
-        >
+        <Grid display={{ base: 'none', lg: 'grid' }} templateColumns="repeat(4, 1fr)" gap="24px" pt="0" mt="-16px">
           {LIST.map((item) => (
             <Box key={item.name}>
               <Box
@@ -79,15 +96,7 @@ const Feedback = () => {
                   overflow="hidden"
                   boxShadow="0 10px 25px rgba(0, 183, 204, 0.16)"
                 >
-                  <Box
-                    as="img"
-                    src={item.image}
-                    alt={item.name}
-                    loading="lazy"
-                    w="100%"
-                    h="100%"
-                    objectFit="cover"
-                  />
+                  <Box as="img" src={item.image} alt={item.name} loading="lazy" w="100%" h="100%" objectFit="cover" />
                 </Box>
                 <Box flex={1}>
                   <Text fontSize="14px" color={HC.textSecondary} lineHeight={1.6} mb="16px" textAlign="justify">
@@ -108,12 +117,7 @@ const Feedback = () => {
         </Grid>
 
         {/* Mobile Swiper Layout */}
-        <Box
-          display={{ base: 'block', lg: 'none' }}
-          className="mobile-feedback-swiper"
-          pos="relative"
-          mb="56px"
-        >
+        <Box display={{ base: 'block', lg: 'none' }} className="mobile-feedback-swiper" pos="relative" mb="56px">
           <Swiper
             modules={[Navigation]}
             spaceBetween={24}
@@ -177,14 +181,7 @@ const Feedback = () => {
           </Swiper>
 
           {/* Navigation Buttons for Mobile Swiper */}
-          <Flex
-            position="absolute"
-            bottom="-48px"
-            left="50%"
-            transform="translateX(-50%)"
-            gap="12px"
-            zIndex={10}
-          >
+          <Flex position="absolute" bottom="-48px" left="50%" transform="translateX(-50%)" gap="12px" zIndex={10}>
             <Flex
               className="swiper-btn-prev-feedback"
               w="38px"
@@ -212,7 +209,9 @@ const Feedback = () => {
                 }
               }}
             >
-              <Text fontSize="18px" fontWeight="bold" transform="translateX(-1px)">‹</Text>
+              <Text fontSize="18px" fontWeight="bold" transform="translateX(-1px)">
+                ‹
+              </Text>
             </Flex>
 
             <Flex
@@ -242,7 +241,9 @@ const Feedback = () => {
                 }
               }}
             >
-              <Text fontSize="18px" fontWeight="bold" transform="translateX(1px)">›</Text>
+              <Text fontSize="18px" fontWeight="bold" transform="translateX(1px)">
+                ›
+              </Text>
             </Flex>
           </Flex>
         </Box>

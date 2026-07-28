@@ -9,7 +9,8 @@ export const revalidate = 300;
 const PAGE_SIZE = 10;
 
 export async function generateMetadata({ params }) {
-  const section = getArticleTypeBySlug(params.category);
+  const { category } = await params;
+  const section = getArticleTypeBySlug(category);
   if (!section) return { title: 'Bài viết' };
   return getMetadata({
     title: section.name,
@@ -31,10 +32,11 @@ async function fetchArticles(type, page) {
 }
 
 export default async function ArticleCategoryPagedPage({ params }) {
-  const section = getArticleTypeBySlug(params.category);
+  const { category, page } = await params;
+  const section = getArticleTypeBySlug(category);
   if (!section) notFound();
 
-  const pageNum = parseInt(params.page, 10);
+  const pageNum = parseInt(page, 10);
   if (!pageNum || pageNum < 1) notFound();
 
   // page=1 → redirect về URL canonical /bai-viet/<slug>

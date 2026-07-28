@@ -23,23 +23,23 @@ const StickyCta = () => {
       boxShadow="0 18px 46px rgba(15, 44, 61, 0.18)"
       backdropFilter="blur(14px)"
     >
-      <Link href="/san-pham" passHref legacyBehavior>
-        <ChakraLink
-          display="inline-flex"
-          alignItems="center"
-          justifyContent="center"
-          minH="42px"
-          borderRadius="999px"
-          bg="#005a9f"
-          color="#fff"
-          fontSize="13.5px"
-          fontWeight={900}
-          border="1px solid #005a9f"
-          _hover={{ textDecoration: 'none' }}
-        >
-          Xem sản phẩm
-        </ChakraLink>
-      </Link>
+      <ChakraLink
+        as={Link}
+        href="/san-pham"
+        display="inline-flex"
+        alignItems="center"
+        justifyContent="center"
+        minH="42px"
+        borderRadius="999px"
+        bg="#005a9f"
+        color="#fff"
+        fontSize="13.5px"
+        fontWeight={900}
+        border="1px solid #005a9f"
+        _hover={{ textDecoration: 'none' }}
+      >
+        Xem sản phẩm
+      </ChakraLink>
       <ChakraLink
         href="https://zalo.me/4415290839928975010"
         isExternal

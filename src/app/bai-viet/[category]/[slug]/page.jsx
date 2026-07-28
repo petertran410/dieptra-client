@@ -22,7 +22,7 @@ async function fetchArticle(id) {
 }
 
 export async function generateMetadata({ params }) {
-  const { category, slug } = params;
+  const { category, slug } = await params;
   const categoryData = getArticleTypeBySlug(category);
   if (!categoryData) return { title: 'Không tìm thấy trang', description: META_DESCRIPTION };
 
@@ -76,7 +76,8 @@ async function fetchLatest(type, currentId) {
 }
 
 export default async function ArticleDetailPage({ params }) {
-  const { category, slug } = params;
+  const resolvedParams = await params;
+  const { category, slug } = resolvedParams;
   const categoryData = getArticleTypeBySlug(category);
   if (!categoryData) notFound();
 
@@ -125,7 +126,7 @@ export default async function ArticleDetailPage({ params }) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <ArticleDetailClient
-        params={params}
+        params={resolvedParams}
         categoryData={categoryData}
         newsDetail={newsDetail}
         articleId={articleId}
