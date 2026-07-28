@@ -127,7 +127,10 @@ export default function ArticleCategoryView({ section, articles, currentPage, to
         </Flex>
       ) : (
         <>
-          <Grid templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }} gap="24px">
+          <Grid
+            templateColumns={{ xs: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' }}
+            gap="24px"
+          >
             {articles.map((a) => (
               <ArticleItem key={a.id} item={a} categorySlug={section.slug} />
             ))}
