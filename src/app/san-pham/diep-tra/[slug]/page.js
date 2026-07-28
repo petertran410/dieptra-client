@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import qs from 'qs';
-import { META_DESCRIPTION } from '../../../../utils/helper-server';
+import { META_DESCRIPTION, getBaseUrl } from '../../../../utils/helper-server';
 import { serverFetchJSON } from '../../../../utils/server-fetch';
 import ProductDetailWrapper from './_components/product-detail-wrapper';
 
@@ -75,7 +75,7 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description: general_description || META_DESCRIPTION,
-    alternates: { canonical: `${process.env.NEXT_PUBLIC_DOMAIN}/san-pham/diep-tra/${slug}` },
+    alternates: { canonical: `${getBaseUrl()}/san-pham/diep-tra/${slug}` },
     openGraph: {
       title,
       description: general_description || META_DESCRIPTION,
@@ -100,7 +100,7 @@ export default async function ProductDetail({ params }) {
     fetchCategoryPath(productDetail.categoryId)
   ]);
 
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
+  const baseUrl = getBaseUrl();
   const url = `${baseUrl}/san-pham/diep-tra/${slug}`;
   const rawImage =
     (Array.isArray(productDetail.imagesUrl) ? productDetail.imagesUrl[0] : null) || productDetail.kiotviet_images?.[0];

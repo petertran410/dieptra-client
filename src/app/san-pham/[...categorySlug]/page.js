@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getMetadata } from '../../../utils/helper-server';
+import { getBaseUrl, getMetadata } from '../../../utils/helper-server';
 import { serverFetchJSON } from '../../../utils/server-fetch';
 import ProductListPage from '../_components/product-list-page';
 
@@ -42,7 +42,7 @@ export async function generateMetadata({ params }) {
   if (!parsed) return getMetadata({ title: 'Danh Mục Sản Phẩm' });
 
   const { slugPath } = parsed;
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
+  const baseUrl = getBaseUrl();
   const canonicalUrl = slugPath.length ? `${baseUrl}/san-pham/${slugPath.join('/')}` : `${baseUrl}/san-pham`;
 
   if (!slugPath.length) {

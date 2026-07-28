@@ -1,4 +1,4 @@
-import { getMetadata } from '../../utils/helper-server';
+import { getBaseUrl, getMetadata } from '../../utils/helper-server';
 import HomeTheme from '../(home)/_components/home-theme';
 import AboutUs from './_components/about-us';
 import Ecosystem from './_components/ecosystem';
@@ -14,7 +14,7 @@ export const metadata = getMetadata({
   title: 'Giới Thiệu Diệp Trà | Hành Trình Đồng Hành Cùng Quán FnB',
   description:
     'Diệp Trà chia sẻ hành trình phát triển thương hiệu, định hướng sản phẩm và kinh nghiệm đồng hành cùng quán F&B trong lựa chọn nguyên liệu, xây dựng menu và vận hành đồ uống.',
-  url: `${process.env.NEXT_PUBLIC_DOMAIN}/gioi-thieu-diep-tra`
+  url: `${getBaseUrl()}/gioi-thieu-diep-tra`
 });
 
 const aboutPageSchema = {

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getArticleTypeBySlug } from '../../../../utils/article-types';
-import { META_DESCRIPTION, META_KEYWORDS, convertSlugURL } from '../../../../utils/helper-server';
+import { META_DESCRIPTION, META_KEYWORDS, convertSlugURL, getBaseUrl } from '../../../../utils/helper-server';
 import { serverFetch } from '../../../../utils/server-fetch';
 import ArticleDetailClient from './article-detail-client';
 
@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
     const { title, titleMeta, imagesUrl, description } = data;
     const imageUrl = imagesUrl?.[0]?.replace('http://', 'https://') || '/images/preview.webp';
     const metaTitle = titleMeta || title;
-    const canonical = `${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/${category}/${slug}`;
+    const canonical = `${getBaseUrl()}/bai-viet/${category}/${slug}`;
 
     return {
       title: metaTitle,
@@ -87,7 +87,7 @@ export default async function ArticleDetailPage({ params }) {
   if (!newsDetail || newsDetail.type !== categoryData.type) notFound();
 
   const latest = await fetchLatest(categoryData.type, articleId);
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
+  const baseUrl = getBaseUrl();
   const url = `${baseUrl}/bai-viet/${category}/${slug}`;
   const imageUrl = newsDetail.imagesUrl?.[0]?.replace('http://', 'https://') || `${baseUrl}/images/preview.webp`;
 

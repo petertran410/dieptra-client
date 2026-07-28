@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { ARTICLE_SECTIONS, getArticleTypeBySlug } from '../../../utils/article-types';
-import { getMetadata, convertSlugURL } from '../../../utils/helper-server';
+import { getMetadata, convertSlugURL, getBaseUrl } from '../../../utils/helper-server';
 import { serverFetch } from '../../../utils/server-fetch';
 import ArticleCategoryView from './_components/article-category-view';
 
@@ -19,7 +19,7 @@ export async function generateMetadata({ params }) {
   return getMetadata({
     title: section.name,
     description: `${section.name} - Diệp Trà chia sẻ kiến thức, tin tức, công thức và review nguyên liệu pha chế.`,
-    url: `${process.env.NEXT_PUBLIC_DOMAIN}/bai-viet/${section.slug}`
+    url: `${getBaseUrl()}/bai-viet/${section.slug}`
   });
 }
 
@@ -44,7 +44,7 @@ export default async function ArticleCategoryPage({ params }) {
   const articles = data?.content || [];
   const totalPages = Math.ceil((data?.totalElements || 0) / PAGE_SIZE);
 
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
+  const baseUrl = getBaseUrl();
   const basePath = `/bai-viet/${section.slug}`;
 
   const itemListSchema = {
