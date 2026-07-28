@@ -4,7 +4,6 @@ import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { formatCurrency, META_DESCRIPTION } from '../../../utils/helper-server';
 import { Box, Flex, Image, Text } from '@chakra-ui/react';
 import dayjs from 'dayjs';
-import { isEmpty } from 'lodash';
 import { WORK_MODE, WORK_TYPE } from '../_components/data';
 import FormApply from './_components/form-apply';
 
@@ -114,7 +113,7 @@ const RecruitmentDetail = async ({ params }) => {
               <Image mt="4px" src="/images/clock.webp" w="16px" h="16px" alt={IMG_ALT} />
               <Text fontSize={18}>
                 Thời gian làm việc:{' '}
-                {!isEmpty(workingHours) ? workingHours?.map((i) => `${i.start} - ${i.end}`)?.join(', ') : 'Thoả thuận'}{' '}
+                {workingHours?.length > 0 ? workingHours?.map((i) => `${i.start} - ${i.end}`)?.join(', ') : 'Thoả thuận'}{' '}
                 {workingHours?.length > 1 && (
                   <Text as="span" fontSize={18} color="#828282">
                     (nhiều ca linh hoạt)
