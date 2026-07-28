@@ -8,7 +8,7 @@ export const POLICY_PAGES = {
     meta_description:
       'Tìm hiểu về các chính sách bảo mật, mua hàng, thanh toán, giao hàng và các quy định khác của Diệp Trà.',
     content: `
-      <p>Với định vị là thương hiệu cung cấp nguyên liệu pha chế cao cấp, <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a> cam kết xây dựng hệ thống chính sách minh bạch, chỉn chu và đồng bộ nhằm đảm bảo trải nghiệm mua sắm an tâm tuyệt đối cho khách hàng và đối tác.</p>
+      <p>Với định vị là thương hiệu cung cấp nguyên liệu pha chế cao cấp, Diệp Trà cam kết xây dựng hệ thống chính sách minh bạch, chỉn chu và đồng bộ nhằm đảm bảo trải nghiệm mua sắm an tâm tuyệt đối cho khách hàng và đối tác.</p>
       
       <p>Tất cả sản phẩm do Diệp Trà phân phối đều được lựa chọn kỹ lưỡng từ những nhà sản xuất uy tín, có chứng nhận nguồn gốc, vệ sinh an toàn thực phẩm và phù hợp tiêu chuẩn ngành đồ uống chuyên nghiệp. Chính sách Diệp Trà: mua hàng, thanh toán, giao hàng, đổi trả và bảo hành được thiết kế rõ ràng, dễ tiếp cận và luôn đặt lợi ích người tiêu dùng lên hàng đầu.</p>
       
@@ -17,7 +17,7 @@ export const POLICY_PAGES = {
       <p>Diệp Trà không ngừng hoàn thiện chính sách và quy trình vận hành, để mỗi đơn hàng không chỉ là giao dịch, mà còn là sự khẳng định niềm tin và đẳng cấp dịch vụ từ một thương hiệu dẫn đầu xu hướng nguyên liệu pha chế tại Việt Nam.</p>
     `,
     content_en: `
-      <p>Positioned as a brand providing premium beverage ingredients, <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a> commits to building a transparent, meticulous and synchronized policy system to ensure absolutely secure shopping experience for customers and partners.</p>
+      <p>Positioned as a brand providing premium beverage ingredients, Diep Tra commits to building a transparent, meticulous and synchronized policy system to ensure absolutely secure shopping experience for customers and partners.</p>
       
       <p>All products distributed by Diep Tra are carefully selected from reputable manufacturers with certified origin, food safety hygiene and compliance with professional beverage industry standards. Diep Tra policies: purchasing, payment, delivery, exchange and warranty are designed clearly, accessible and always prioritize consumer interests.</p>
       
@@ -39,7 +39,7 @@ export const POLICY_PAGES = {
     meta_description: 'Tìm hiểu về chính sách bảo mật thông tin cá nhân tại Diệp Trà.',
     content: `
       <p><strong>Chúng tôi là:</strong><br/>
-      Diệp Trà có địa chỉ website: <a href="https://www.dieptra.com/" target="_blank" background-color="#003366">https://www.dieptra.com/</a></p>
+      Diệp Trà có địa chỉ website: https://www.dieptra.com/</p>
       
       <h2>CHÍNH SÁCH BẢO MẬT</h2>
       
@@ -125,7 +125,7 @@ export const POLICY_PAGES = {
     `,
     content_en: `
       <p><strong>We are:</strong><br/>
-      Diep Tra has website address: <a href="https://www.dieptra.com/" target="_blank" background-color="#003366">https://www.dieptra.com/</a></p>
+      Diep Tra has website address: https://www.dieptra.com/</p>
       
       <h2>PRIVACY POLICY</h2>
       
@@ -243,7 +243,7 @@ export const POLICY_PAGES = {
       <h3>2.2 Mua hàng qua website</h3>
       <p>Các bước mua hàng trực tuyến:</p>
       <ol>
-        <li>Truy cập website: <a href="https://www.dieptra.com/" target="_blank">https://www.dieptra.com/</a></li>
+        <li>Truy cập website: https://www.dieptra.com/</li>
         <li>Chọn sản phẩm cần mua, chọn số lượng, nhấn nút <strong>"Thêm vào giỏ hàng"</strong></li>
         <li>Kiểm tra giỏ hàng và nhấn <strong>"Thanh toán"</strong></li>
         <li>Điền đầy đủ thông tin giao hàng, chọn phương thức thanh toán</li>
@@ -287,7 +287,7 @@ export const POLICY_PAGES = {
       <h3>2.2 Online shopping via website</h3>
       <p>Online shopping steps:</p>
       <ol>
-        <li>Visit website: <a href="https://www.dieptra.com/" target="_blank">https://www.dieptra.com/</a></li>
+        <li>Visit website: https://www.dieptra.com/</li>
         <li>Select product to buy, choose quantity, click <strong>"Add to cart"</strong> button</li>
         <li>Check cart and click <strong>"Checkout"</strong></li>
         <li>Fill in complete delivery information, select payment method</li>
@@ -324,7 +324,7 @@ export const POLICY_PAGES = {
     meta_title: 'Chính Sách Thanh Toán - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách thanh toán tại Diệp Trà.',
     content: `
-      <p>Chính sách thanh toán được áp dụng cho tất cả các đơn hàng đặt qua website <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a>, Fanpage, Zalo hoặc mua trực tiếp tại cửa hàng của <em>Diệp Trà</em></p>
+      <p>Chính sách thanh toán được áp dụng cho tất cả các đơn hàng đặt qua website Diệp Trà, Fanpage, Zalo hoặc mua trực tiếp tại cửa hàng của <em>Diệp Trà</em></p>
       
       <h2>1/ Hình thức thanh toán</h2>
       <p>Chúng tôi hỗ trợ các phương thức thanh toán linh hoạt, tiện lợi như sau:</p>
@@ -389,7 +389,7 @@ export const POLICY_PAGES = {
       <p>Chính sách thanh toán có thể được cập nhật tùy theo từng thời điểm và chương trình khuyến mãi. Vui lòng theo dõi website để biết thông tin mới nhất.</p>
     `,
     content_en: `
-      <p>Payment policy applies to all orders placed via <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a> website, Fanpage, Zalo or purchased directly at <em>Diep Tra</em> store</p>
+      <p>Payment policy applies to all orders placed via Diep Tra website, Fanpage, Zalo or purchased directly at <em>Diep Tra</em> store</p>
       
       <h2>1/ Payment methods</h2>
       <p>We support flexible and convenient payment methods as follows:</p>
@@ -467,7 +467,7 @@ export const POLICY_PAGES = {
     meta_title: 'Chính Sách Vận Chuyển Và Giao Nhận - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách giao hàng tại Diệp Trà.',
     content: `
-      <p>Chính sách giao hàng này được áp dụng cho tất cả các đơn hàng đặt tại trang <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a></strong>, qua Fanpage, Zalo hoặc trực tiếp tại cửa hàng. Mục tiêu của chúng tôi là giao hàng nhanh chóng, an toàn và đúng hẹn đến tay khách hàng trên toàn quốc.</p>
+      <p>Chính sách giao hàng này được áp dụng cho tất cả các đơn hàng đặt tại trang <strong>Diệp Trà</strong>, qua Fanpage, Zalo hoặc trực tiếp tại cửa hàng. Mục tiêu của chúng tôi là giao hàng nhanh chóng, an toàn và đúng hẹn đến tay khách hàng trên toàn quốc.</p>
       
       <h2>1/ Phạm vi giao hàng</h2>
       <p>Chúng tôi giao hàng <strong>toàn quốc</strong>, bao gồm:</p>
@@ -593,7 +593,7 @@ export const POLICY_PAGES = {
       </ul>
     `,
     content_en: `
-      <p>This delivery policy applies to all orders placed at <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a></strong> website, via Fanpage, Zalo or directly at store. Our goal is to deliver quickly, safely and on time to customers nationwide.</p>
+      <p>This delivery policy applies to all orders placed at <strong>Diep Tra</strong> website, via Fanpage, Zalo or directly at store. Our goal is to deliver quickly, safely and on time to customers nationwide.</p>
       
       <h2>1/ Delivery coverage</h2>
       <p>We deliver <strong>nationwide</strong>, including:</p>
@@ -732,7 +732,7 @@ export const POLICY_PAGES = {
     meta_title: 'Chính Sách Bảo Hành - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách bảo hành tại Diệp Trà.',
     content: `
-      <p>Chúng tôi cam kết cung cấp sản phẩm chất lượng và dịch vụ bảo hành rõ ràng, minh bạch, nhằm đảm bảo quyền lợi tốt nhất cho khách hàng khi mua sắm tại <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a></p>
+      <p>Chúng tôi cam kết cung cấp sản phẩm chất lượng và dịch vụ bảo hành rõ ràng, minh bạch, nhằm đảm bảo quyền lợi tốt nhất cho khách hàng khi mua sắm tại Diệp Trà</p>
       
       <h2>1/ Phạm vi áp dụng bảo hành</h2>
       <p>Chính sách bảo hành áp dụng cho:</p>
@@ -799,7 +799,7 @@ export const POLICY_PAGES = {
       <p><strong>Ghi chú:</strong> Chính sách bảo hành có thể thay đổi để phù hợp với từng sản phẩm, chương trình khuyến mãi hoặc điều kiện thị trường. Vui lòng liên hệ trực tiếp để được cập nhật thông tin mới nhất.</p>
     `,
     content_en: `
-      <p>We commit to providing quality products and clear, transparent warranty service, aiming to ensure the best benefits for customers when shopping at <a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a></p>
+      <p>We commit to providing quality products and clear, transparent warranty service, aiming to ensure the best benefits for customers when shopping at Diep Tra</p>
       
       <h2>1/ Warranty coverage</h2>
       <p>Warranty policy applies to:</p>
@@ -879,7 +879,7 @@ export const POLICY_PAGES = {
     meta_title: 'Chính Sách Đổi/Trả Hàng - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách đổi/trả hàng tại Diệp Trà.',
     content: `
-      <p>Chúng tôi cam kết mang đến sản phẩm chất lượng và dịch vụ hậu mãi minh bạch, rõ ràng. Vì vậy, chính sách đổi/trả hàng của <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a></strong> được xây dựng nhằm đảm bảo quyền lợi tối đa cho khách hàng.</p>
+      <p>Chúng tôi cam kết mang đến sản phẩm chất lượng và dịch vụ hậu mãi minh bạch, rõ ràng. Vì vậy, chính sách đổi/trả hàng của <strong>Diệp Trà</strong> được xây dựng nhằm đảm bảo quyền lợi tối đa cho khách hàng.</p>
       
       <h2>1/ Điều kiện áp dụng đổi/trả hàng</h2>
       <p>Khách hàng có quyền yêu cầu đổi hoặc trả sản phẩm trong các trường hợp sau:</p>
@@ -960,7 +960,7 @@ export const POLICY_PAGES = {
       </ol>
     `,
     content_en: `
-      <p>We commit to providing quality products and transparent, clear after-sales service. Therefore, <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a></strong> return/exchange policy is built to ensure maximum benefits for customers.</p>
+      <p>We commit to providing quality products and transparent, clear after-sales service. Therefore, <strong>Diep Tra</strong> return/exchange policy is built to ensure maximum benefits for customers.</p>
       
       <h2>1/ Return/exchange conditions</h2>
       <p>Customers have the right to request product exchange or return in following cases:</p>
@@ -1059,7 +1059,7 @@ export const POLICY_PAGES = {
       
       <h2>1/ Giải thích từ ngữ</h2>
       <ul>
-        <li><strong>Website:</strong> Là trang thương mại điện tử tại địa chỉ <a href="https://www.dieptra.com/" target="_blank">https://www.dieptra.com/</a></li>
+        <li><strong>Website:</strong> Là trang thương mại điện tử tại địa chỉ https://www.dieptra.com/</li>
         <li><strong>Người dùng/Quý khách:</strong> Là cá nhân, tổ chức truy cập, tham khảo thông tin hoặc thực hiện giao dịch mua hàng</li>
         <li><strong>Chúng tôi:</strong> Diệp Trà - Chuyên Cung Cấp Nguyên Liệu Pha Chế, đơn vị sở hữu và vận hành website</li>
       </ul>
@@ -1141,7 +1141,7 @@ export const POLICY_PAGES = {
       
       <h2>1/ Terminology</h2>
       <ul>
-        <li><strong>Website:</strong> E-commerce site at address <a href="https://www.dieptra.com/" target="_blank">https://www.dieptra.com/</a></li>
+        <li><strong>Website:</strong> E-commerce site at address https://www.dieptra.com/</li>
         <li><strong>Users/Customers:</strong> Individuals, organizations accessing, referring to information or making purchase transactions</li>
         <li><strong>We:</strong> Diep Tra - Professional Beverage Ingredient Supplier, unit owning and operating website</li>
       </ul>
@@ -1340,7 +1340,7 @@ export const POLICY_PAGES = {
     meta_title: 'Chính Sách Mẫu Thử - Diệp Trà',
     meta_description: 'Tìm hiểu về chính sách mẫu thử sản phẩm dành cho khách hàng mới tại Diệp Trà.',
     content: `
-    <p>Nhằm tạo điều kiện cho khách hàng trải nghiệm chất lượng sản phẩm và đưa ra quyết định mua hàng phù hợp, <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diệp Trà</a></strong> triển khai chính sách mẫu thử với các điều khoản rõ ràng và minh bạch.</p>
+    <p>Nhằm tạo điều kiện cho khách hàng trải nghiệm chất lượng sản phẩm và đưa ra quyết định mua hàng phù hợp, <strong>Diệp Trà</strong> triển khai chính sách mẫu thử với các điều khoản rõ ràng và minh bạch.</p>
     
     <h2>🎯 Mục đích</h2>
     <ul>
@@ -1412,7 +1412,7 @@ export const POLICY_PAGES = {
     </ul>
   `,
     content_en: `
-    <p>To facilitate customers experiencing product quality and making appropriate purchasing decisions, <strong><a href="https://www.dieptra.com/" target="_blank" style="text-decoration:none;">Diep Tra</a></strong> implements sample policy with clear and transparent terms.</p>
+    <p>To facilitate customers experiencing product quality and making appropriate purchasing decisions, <strong>Diep Tra</strong> implements sample policy with clear and transparent terms.</p>
     
     <h2>🎯 Purpose</h2>
     <ul>

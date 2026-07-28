@@ -15,28 +15,44 @@ const GUIDES = [
     href: '/bai-viet/cong-thuc-pha-che',
     title: 'Công Thức Pha Chế',
     lis: ['Trà sữa', 'Trà trái cây', 'Matcha'],
-    cta: 'Xem công thức ngay'
+    cta: 'Xem công thức →'
   },
   {
     img: '/images/home-v2/guide-nguyen-lieu.png',
     href: '/bai-viet/kien-thuc-nguyen-lieu-pha-che',
     title: 'Kiến Thức Nguyên Liệu',
     lis: ['Phân biệt các loại trà', 'Chọn syrup phù hợp', 'Bảo quản nguyên liệu'],
-    cta: 'Xem kiến thức ngay'
+    cta: 'Xem kiến thức →'
   },
   {
     img: '/images/home-v2/guide-kinh-doanh.png',
     href: '/bai-viet/kien-thuc-ve-tra',
     title: 'Kinh Doanh Quán',
     lis: ['Tính cost đồ uống', 'Xây dựng menu', 'Xu hướng đồ uống'],
-    cta: 'Xem bài viết'
+    cta: 'Xem bài viết →'
   }
 ];
 
 const GuideCards = () => {
   return (
     <Box as="section" id="guide" px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
-      <SecHead eyebrow={'Cẩm nang pha chế & kinh doanh'} title={'Kiến thức đồng hành cùng người làm F&B'} />
+      <SecHead
+        eyebrow={'CẨM NANG F&B'}
+        title={
+          <>
+            {'Từ công thức '}
+            <br />
+            {'đến vận hành quán'}
+          </>
+        }
+        desc={
+          <>
+            {'Kiến thức thực tế giúp quán xây menu và tối ưu chi phí. '}
+            <Box as="br" display={{ base: 'none', lg: 'inline' }} />
+            {'Cập nhật công thức, xu hướng và kinh nghiệm vận hành.'}
+          </>
+        }
+      />
 
       <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={{ base: '20px', lg: '26px' }}>
         {GUIDES.map((g, i) => (
