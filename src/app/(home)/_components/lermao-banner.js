@@ -10,19 +10,19 @@ const MotionBox = motion(Box);
 
 const LermaoBanner = () => {
   return (
-    <Box as="section" id="lermao" px={HOME_PX} py={{ base: '32px', lg: '48px' }}>
-      {/* Desktop Banner Container (Fix tỷ lệ 1343 x 659 của ảnh Desktop) */}
+    <Box as="section" id="lermao" px={HOME_PX} pt={{ base: '24px', lg: '36px' }} pb={{ base: '8px', lg: '12px' }}>
+      {/* Desktop Banner Container (Mở rộng tràn khung lưới trang chủ + bo góc 20px) */}
       <Box
         display={{ base: 'none', lg: 'block' }}
         pos="relative"
         w="100%"
-        aspectRatio="1343 / 659"
+        aspectRatio="1920 / 942"
         borderRadius="20px"
         overflow="hidden"
         boxShadow="0 10px 30px rgba(0,0,0,0.06)"
       >
         <Image
-          src="/images/home-v3/lermao-bg-desktop.webp"
+          src="/images/home-v3/lermao-bg-desktop-v4.webp"
           alt="LerMao Banner Desktop"
           fill
           priority
@@ -57,7 +57,7 @@ const LermaoBanner = () => {
               color={HC.cyanSoft}
               mb="12px"
             >
-              {'Thương hiệu riêng'}
+              {'Thương hiệu'}
             </Text>
             <Text
               fontFamily={FONT_DISPLAY}
@@ -96,7 +96,7 @@ const LermaoBanner = () => {
         </Box>
       </Box>
 
-      {/* Mobile Banner Container (Fix tỷ lệ 700 x 700 của ảnh Mobile) */}
+      {/* Mobile Banner Container */}
       <Box
         display={{ base: 'block', lg: 'none' }}
         pos="relative"
@@ -121,7 +121,8 @@ const LermaoBanner = () => {
           display="flex"
           flexDir="column"
           justifyContent="center"
-          p="24px"
+          px="24px"
+          py="24px"
           zIndex={2}
         >
           <MotionBox
@@ -141,7 +142,7 @@ const LermaoBanner = () => {
               color={HC.cyanSoft}
               mb="8px"
             >
-              {'Thương hiệu riêng'}
+              {'Thương hiệu'}
             </Text>
             <Text
               fontFamily={FONT_DISPLAY}
