@@ -24,7 +24,7 @@ const Ecosystem = () => {
       title: 'Trân Châu Nấu 1 Phút',
       desc: 'Nhóm trân châu tiện lợi, hỗ trợ rút ngắn thời gian chuẩn bị tại quầy.',
       image: '/images/about-v2/topping-nau-nhanh-1-phut.webp',
-      url: '/san-pham/nguyen-lieu-pha-che/tran-chau-dong-lanh'
+      url: '/san-pham/nguyen-lieu-pha-che/topping-tra-sua/tran-chau-dong-lanh'
     },
     {
       area: 'tea',
