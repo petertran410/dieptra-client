@@ -32,7 +32,9 @@ export const metadata = {
   }
 };
 
-const structuredData = {
+// ====== SCHEMA TRANG CHỦ CŨ (BACKUP) ======
+/*
+const structuredDataOldBackup = {
   '@context': 'https://schema.org',
   '@graph': [
     {
@@ -152,6 +154,198 @@ const structuredData = {
         '@type': 'ImageObject',
         url: 'https://www.dieptra.com/images/logo-black.webp'
       }
+    }
+  ]
+};
+*/
+
+// ====== SCHEMA TRANG CHỦ MỚI (Cập nhật từ #AKiệt) ======
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': 'https://www.dieptra.com/#organization',
+      name: 'Diệp Trà',
+      legalName: 'Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam',
+      url: 'https://www.dieptra.com/',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.dieptra.com/images/logo-black.webp',
+        width: 512,
+        height: 512
+      },
+      image: {
+        '@type': 'ImageObject',
+        url: 'https://www.dieptra.com/images/logo-black.webp'
+      },
+      description:
+        'Diệp Trà chuyên cung cấp nguyên liệu pha chế nhập khẩu chính hãng tại Việt Nam, phục vụ quán cà phê, trà sữa và chuỗi F&B.',
+      foundingDate: '2018',
+      email: 'sales@hisweetievietnam.com.vn',
+      telephone: '+84 788 339 379',
+      areaServed: {
+        '@type': 'Country',
+        name: 'Vietnam'
+      },
+      sameAs: [
+        'https://www.facebook.com/dieptra.0788339379',
+        'https://www.youtube.com/@Dieptra_Official'
+      ],
+      contactPoint: [
+        {
+          '@type': 'ContactPoint',
+          contactType: 'Sales',
+          telephone: '+84 973 123 230',
+          availableLanguage: 'vi-VN'
+        },
+        {
+          '@type': 'ContactPoint',
+          contactType: 'Sales',
+          telephone: '+84 788 339 379',
+          availableLanguage: 'vi-VN'
+        }
+      ]
+    },
+    {
+      '@type': 'LocalBusiness',
+      '@id': 'https://www.dieptra.com/#hn',
+      name: 'Diệp Trà - Hà Nội',
+      parentOrganization: {
+        '@id': 'https://www.dieptra.com/#organization'
+      },
+      url: 'https://www.dieptra.com/',
+      telephone: '+84 788 339 379',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông',
+        addressLocality: 'Hà Nội',
+        addressCountry: 'VN'
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday'
+          ],
+          opens: '08:30',
+          closes: '17:30'
+        }
+      ],
+      hasMap: 'https://maps.app.goo.gl/KLHjTrcfPfmkwFXP7'
+    },
+    {
+      '@type': 'LocalBusiness',
+      '@id': 'https://www.dieptra.com/#office-hcm',
+      name: 'Diệp Trà - Văn phòng miền Nam',
+      parentOrganization: {
+        '@id': 'https://www.dieptra.com/#organization'
+      },
+      telephone: '+84 788 339 379',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú',
+        addressLocality: 'TP. Hồ Chí Minh',
+        addressCountry: 'VN'
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday'
+          ],
+          opens: '08:30',
+          closes: '17:30'
+        }
+      ],
+      hasMap: 'https://maps.app.goo.gl/2QdJ6f7fRo6hhs7x9'
+    },
+    {
+      '@type': 'Store',
+      '@id': 'https://www.dieptra.com/#store-hcm',
+      name: 'Cửa hàng Diệp Trà - TP. Hồ Chí Minh',
+      parentOrganization: {
+        '@id': 'https://www.dieptra.com/#organization'
+      },
+      telephone: '+84 788 339 379',
+      address: {
+        '@type': 'PostalAddress',
+        streetAddress: 'Số 6/1 Nguyễn Văn Vịnh, Phường Phú Thạnh',
+        addressLocality: 'TP. Hồ Chí Minh',
+        addressCountry: 'VN'
+      },
+      openingHoursSpecification: [
+        {
+          '@type': 'OpeningHoursSpecification',
+          dayOfWeek: [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday'
+          ],
+          opens: '08:30',
+          closes: '17:30'
+        }
+      ]
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://www.dieptra.com/#website',
+      url: 'https://www.dieptra.com/',
+      name: 'Diệp Trà',
+      publisher: {
+        '@id': 'https://www.dieptra.com/#organization'
+      },
+      inLanguage: 'vi-VN'
+    },
+    {
+      '@type': 'WebPage',
+      '@id': 'https://www.dieptra.com/#webpage',
+      url: 'https://www.dieptra.com/',
+      name: 'Diệp Trà | Chuyên Cung Cấp Nguyên Liệu Pha Chế',
+      isPartOf: {
+        '@id': 'https://www.dieptra.com/#website'
+      },
+      about: {
+        '@id': 'https://www.dieptra.com/#organization'
+      },
+      primaryImageOfPage: {
+        '@type': 'ImageObject',
+        url: 'https://www.dieptra.com/images/logo-black.webp'
+      },
+      inLanguage: 'vi-VN'
+    },
+    {
+      '@type': 'SiteNavigationElement',
+      '@id': 'https://www.dieptra.com/#navigation',
+      name: [
+        'Trang chủ',
+        'Giới thiệu',
+        'Nguyên liệu pha chế',
+        'Bài viết',
+        'Liên hệ',
+        'Tuyển dụng'
+      ],
+      url: [
+        'https://www.dieptra.com/',
+        'https://www.dieptra.com/gioi-thieu-diep-tra',
+        'https://www.dieptra.com/san-pham/nguyen-lieu-pha-che',
+        'https://www.dieptra.com/bai-viet',
+        'https://www.dieptra.com/lien-he',
+        'https://www.dieptra.com/tuyen-dung'
+      ]
     }
   ]
 };

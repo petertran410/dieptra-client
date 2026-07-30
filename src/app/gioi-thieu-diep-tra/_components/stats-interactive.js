@@ -191,13 +191,9 @@ const CrashStat = ({ num, label, crashFrom, delay }) => {
 };
 
 // ─── MAIN CONTENT ─────────────────────────────────────────────────────────────
-const StatsInteractiveContent = () => {
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, { once: true, amount: 0.15 });
-
+const StatsInteractiveContent = ({ isInView }) => {
   return (
     <Box
-      ref={containerRef}
       w="full"
       borderRadius="18px"
       bgGradient="linear(to-br, #46c6ea, #2ba5ca)"
@@ -371,17 +367,32 @@ const StatsInteractiveContent = () => {
   );
 };
 
-// ─── LOOP WRAPPER ──────────────────────────────────────────────────────────────
+// ─── VIEWPORT-BOUND LOOP WRAPPER ──────────────────────────────────────────────
 const StatsInteractive = () => {
-  const [key, setKey] = useState(0);
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, { amount: 0.2 });
+  const [animKey, setAnimKey] = useState(0);
 
-  // 6s animation + 5s pause = 11s cycle
   useEffect(() => {
-    const timer = setInterval(() => setKey((k) => k + 1), 11000);
-    return () => clearInterval(timer);
-  }, []);
+    if (!isInView) return;
 
-  return <StatsInteractiveContent key={key} />;
+    // Kích hoạt ngay chuỗi animation mới khi cuộn tới khung xanh
+    setAnimKey((k) => k + 1);
+
+    // Duy trì chu kỳ 11s (6s animation + 5s tạm dừng) KHI VÀ CHỈ KHI đang ở trong viewport
+    const timer = setInterval(() => {
+      setAnimKey((k) => k + 1);
+    }, 11000);
+
+    // Hủy ngay timer khi cuộn ra ngoài khung xanh
+    return () => clearInterval(timer);
+  }, [isInView]);
+
+  return (
+    <Box ref={containerRef} w="full">
+      <StatsInteractiveContent key={animKey} isInView={isInView} />
+    </Box>
+  );
 };
 
 export default StatsInteractive;

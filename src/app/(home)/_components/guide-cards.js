@@ -35,7 +35,7 @@ const GUIDES = [
 
 const GuideCards = () => {
   return (
-    <Box as="section" id="guide" px={HOME_PX} py={{ base: '56px', lg: '96px' }}>
+    <Box as="section" id="guide" px={HOME_PX} pt={{ base: '16px', lg: '24px' }} pb={{ base: '56px', lg: '96px' }}>
       <SecHead
         eyebrow={'CẨM NANG F&B'}
         title={
