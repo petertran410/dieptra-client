@@ -320,17 +320,9 @@ const Culture = () => {
           >
             Định hướng văn hóa và tiêu chuẩn đồng hành của Diệp Trà được xây dựng dưới sự dẫn dắt của{' '}
             <br />
-<<<<<<< HEAD
-            <Link href="/tac-gia/le-thi-hoang-anh" passHref legacyBehavior>
-              <ChakraLink color="#005a9f" fontWeight={900} _hover={{ color: '#0b7eae' }} borderBottom="2px solid rgba(0, 90, 159, 0.4)" pb="1px">
-                Lê Thị Hoàng Anh - Founder Diệp Trà
-              </ChakraLink>
-            </Link>
-=======
             <ChakraLink as={Link} href="/tac-gia/le-thi-hoang-anh" color="#005a9f" fontWeight={900} _hover={{ color: '#0b7eae' }} borderBottom="2px solid rgba(0, 90, 159, 0.4)" pb="1px">
               Lê Thị Hoàng Anh - Founder Diệp Trà
             </ChakraLink>
->>>>>>> main
             .
           </Box>
         </Box>
