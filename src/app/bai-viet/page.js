@@ -1,4 +1,4 @@
-import { getMetadata, convertSlugURL } from '../../utils/helper-server';
+import { getMetadata, convertSlugURL, getBaseUrl } from '../../utils/helper-server';
 import { ARTICLE_SECTIONS } from '../../utils/article-types';
 import { serverFetch } from '../../utils/server-fetch';
 import ArticleMainWrapper from './_components/article-main-wrapper';
@@ -24,7 +24,7 @@ async function fetchSections() {
 
 export default async function ArticleMain() {
   const sectionsData = await fetchSections();
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
+  const baseUrl = getBaseUrl();
 
   // gộp tất cả articles để build ItemList schema
   const allArticles = (sectionsData || [])

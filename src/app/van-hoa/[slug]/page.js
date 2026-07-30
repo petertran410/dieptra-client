@@ -3,10 +3,10 @@ import TableOfContents from '../../../components/toc';
 import { API } from '../../../utils/API';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { META_DESCRIPTION } from '../../../utils/helper-server';
-import { AspectRatio, Box, Flex, Image, Text } from '@chakra-ui/react';
+import { Box, Flex, Image, Text } from '@chakra-ui/react';
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
   const id = slug.split('.').pop();
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/${id}`);
   const data = await response.json();
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }) {
 }
 
 const CultureDetail = async ({ params }) => {
-  const { slug } = params;
+  const { slug } = await params;
   const id = slug.split('.').pop();
   const newsDetail = await API.request({ url: `/api/news/client/${id}` });
 
@@ -81,14 +81,15 @@ const CultureDetail = async ({ params }) => {
             </Box>
           )}
 
-          <AspectRatio ratio={16 / 9} w="full" mt="20px">
+          <Box w="full" mt="20px" overflow="hidden" sx={{ aspectRatio: '16 / 9' }}>
             <Image
               src={imagesUrl?.[0]?.replace('http://', 'https://') || '/images/culture-banner.webp'}
               w="full"
               h="full"
               alt={IMG_ALT}
+              objectFit="cover"
             />
-          </AspectRatio>
+          </Box>
 
           <Box mt={{ xs: '24px', lg: '48px' }}>
             <Box

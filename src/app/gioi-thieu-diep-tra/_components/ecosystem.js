@@ -118,18 +118,19 @@ const Ecosystem = () => {
                 '& img': { transform: 'scale(1.035)' }
               }}
             >
-              <Link href="/san-pham/nguyen-lieu-pha-che" passHref legacyBehavior>
-                <ChakraLink
-                  role="group"
-                  aria-label="Xem toàn bộ hệ sinh thái nguyên liệu pha chế Diệp Trà"
-                  display="block"
-                  w="full"
-                  h="full"
-                  minH={{ base: '250px', md: '280px', lg: '100%' }}
-                  borderRadius="24px"
-                  boxShadow="inset 0 1px 1px rgba(255, 255, 255, 0.9)"
-                  overflow="hidden"
-                >
+              <ChakraLink
+                as={Link}
+                href="/san-pham/nguyen-lieu-pha-che"
+                role="group"
+                aria-label="Xem toàn bộ hệ sinh thái nguyên liệu pha chế Diệp Trà"
+                display="block"
+                w="full"
+                h="full"
+                minH={{ base: '250px', md: '280px', lg: '100%' }}
+                borderRadius="24px"
+                boxShadow="inset 0 1px 1px rgba(255, 255, 255, 0.9)"
+                overflow="hidden"
+              >
                   <Image
                     src="/images/about-v2/he-sinh-thai-nguyen-lieu-pha-che.webp"
                     alt="Hệ Sinh Thái Nguyên Liệu Pha Chế"
@@ -143,8 +144,7 @@ const Ecosystem = () => {
                       transition: 'transform 0.8s cubic-bezier(0.32, 0.72, 0, 1)'
                     }}
                   />
-                </ChakraLink>
-              </Link>
+              </ChakraLink>
             </Box>
           </GridItem>
 
@@ -165,19 +165,20 @@ const Ecosystem = () => {
                   '& img': { transform: 'scale(1.045)' }
                 }}
               >
-                <Link href={cat.url} passHref legacyBehavior>
-                  <ChakraLink
-                    role="group"
-                    aria-label={`Xem danh mục ${cat.title}`}
-                    display="flex"
-                    flexDirection="column"
-                    p="12px"
-                    borderRadius="24px"
-                    bgGradient="linear(to-b, #ffffff 0%, rgba(241, 251, 255, 0.72) 100%)"
-                    boxShadow="inset 0 1px 1px rgba(255, 255, 255, 0.9)"
-                    h="full"
-                    textDecoration="none !important"
-                  >
+                <ChakraLink
+                  as={Link}
+                  href={cat.url}
+                  role="group"
+                  aria-label={`Xem danh mục ${cat.title}`}
+                  display="flex"
+                  flexDirection="column"
+                  p="12px"
+                  borderRadius="24px"
+                  bgGradient="linear(to-b, #ffffff 0%, rgba(241, 251, 255, 0.72) 100%)"
+                  boxShadow="inset 0 1px 1px rgba(255, 255, 255, 0.9)"
+                  h="full"
+                  textDecoration="none !important"
+                >
                     <Box
                       borderRadius="16px"
                       overflow="hidden"
@@ -215,8 +216,7 @@ const Ecosystem = () => {
                     <Text color="#4d6878" fontSize="13px" lineHeight={1.5}>
                       {cat.desc}
                     </Text>
-                  </ChakraLink>
-                </Link>
+                </ChakraLink>
               </Box>
             </GridItem>
           ))}
@@ -234,16 +234,17 @@ const Ecosystem = () => {
             boxShadow="0 18px 45px rgba(22, 45, 60, 0.08)"
             mb="24px"
           >
-            <Link href="/san-pham/nguyen-lieu-pha-che" passHref legacyBehavior>
-              <ChakraLink
-                role="group"
-                aria-label="Xem toàn bộ hệ sinh thái nguyên liệu pha chế Diệp Trà"
-                display="block"
-                w="full"
-                borderRadius="24px"
-                boxShadow="inset 0 1px 1px rgba(255, 255, 255, 0.9)"
-                overflow="hidden"
-              >
+            <ChakraLink
+              as={Link}
+              href="/san-pham/nguyen-lieu-pha-che"
+              role="group"
+              aria-label="Xem toàn bộ hệ sinh thái nguyên liệu pha chế Diệp Trà"
+              display="block"
+              w="full"
+              borderRadius="24px"
+              boxShadow="inset 0 1px 1px rgba(255, 255, 255, 0.9)"
+              overflow="hidden"
+            >
                 <Image
                   src="/images/about-v2/he-sinh-thai-nguyen-lieu-pha-che.webp"
                   alt="Hệ Sinh Thái Nguyên Liệu Pha Chế"
@@ -255,8 +256,7 @@ const Ecosystem = () => {
                     display: 'block'
                   }}
                 />
-              </ChakraLink>
-            </Link>
+            </ChakraLink>
           </Box>
 
           {/* Categories Carousel Slider */}
@@ -283,8 +283,9 @@ const Ecosystem = () => {
                       boxShadow="0 18px 45px rgba(22, 45, 60, 0.08)"
                       h="full"
                     >
-                      <Link href={cat.url} passHref legacyBehavior>
                         <ChakraLink
+                          as={Link}
+                          href={cat.url}
                           role="group"
                           aria-label={`Xem danh mục ${cat.title}`}
                           display="flex"
@@ -333,7 +334,6 @@ const Ecosystem = () => {
                             {cat.desc}
                           </Text>
                         </ChakraLink>
-                      </Link>
                     </Box>
                   </Box>
                 </SwiperSlide>

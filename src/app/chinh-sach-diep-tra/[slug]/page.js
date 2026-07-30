@@ -3,7 +3,7 @@ import { getPolicyPageBySlug } from '../../../utils/policy-data';
 import PolicyPageLayout from '../_components/policy-page-layout';
 
 export async function generateMetadata({ params }) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const pageData = await getPolicyPageBySlug(slug);
 
@@ -20,8 +20,8 @@ export async function generateMetadata({ params }) {
   });
 }
 
-const PolicySubPage = ({ params }) => {
-  const { slug } = params;
+const PolicySubPage = async ({ params }) => {
+  const { slug } = await params;
 
   return <PolicyPageLayout currentSlug={slug} />;
 };

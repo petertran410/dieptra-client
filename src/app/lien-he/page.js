@@ -2,16 +2,16 @@ import { Box, Flex, Grid, GridItem, Image, Link, Text } from '@chakra-ui/react';
 import ContactHCM from './_component/contact-hcm';
 import ContactHN from './_component/contact-hn';
 import { IMG_ALT, PX_ALL } from '../../utils/const';
-import { getMetadata } from '../../utils/helper-server';
+import { getBaseUrl, getMetadata } from '../../utils/helper-server';
 
 export const metadata = getMetadata({
   title: 'Liên Hệ Diệp Trà',
   description:
     'Liên hệ Diệp Trà - Công ty TNHH Xuất Nhập Khẩu Hi Sweetie Việt Nam. Văn phòng Hà Nội, văn phòng và cửa hàng TP.HCM. Hotline 0973 123 230.',
-  url: `${process.env.NEXT_PUBLIC_DOMAIN}/lien-he`
+  url: `${getBaseUrl()}/lien-he`
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
+const baseUrl = getBaseUrl();
 const contactPageSchema = {
   '@context': 'https://schema.org',
   '@type': 'ContactPage',

@@ -1,7 +1,7 @@
 import { Box, Center, Container, Flex, Grid, GridItem, Heading, Text, VStack } from '@chakra-ui/react';
 import qs from 'qs';
 import { PX_ALL } from '../../../utils/const';
-import { convertSlugURL } from '../../../utils/helper-server';
+import { convertSlugURL, getBaseUrl } from '../../../utils/helper-server';
 import { serverFetchJSON } from '../../../utils/server-fetch';
 import Breadcrumb from '../../../components/breadcrumb';
 import ProductItem from '../../../components/product-item/product-item';
@@ -121,7 +121,7 @@ export default async function ProductListPage({ slugPath = [], pageNumber = 1, s
   const breadcrumbData = getBreadcrumb(allCategories, slugPath);
   const heading = targetCategory?.name || 'Sản Phẩm';
 
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
+  const baseUrl = getBaseUrl();
   const basePath = slugPath.length ? `/san-pham/${slugPath.join('/')}` : '/san-pham';
 
   // ItemList JSON-LD

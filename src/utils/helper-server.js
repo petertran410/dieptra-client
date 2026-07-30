@@ -106,12 +106,11 @@ export const META_KEYWORDS = [
 ];
 
 // Get the proper base URL for metadata
-const getBaseUrl = () => {
-  // In production, use the environment variable
-  if (process.env.NEXT_PUBLIC_DOMAIN) {
-    return process.env.NEXT_PUBLIC_DOMAIN;
-  }
-};
+// Fallback về canonical domain để new URL(baseUrl) không throw khi thiếu env,
+// và strip trailing slash để tránh sinh URL dạng '//san-pham'.
+const DEFAULT_SITE_URL = 'https://www.dieptra.com';
+
+export const getBaseUrl = () => (process.env.NEXT_PUBLIC_DOMAIN || DEFAULT_SITE_URL).replace(/\/+$/, '');
 
 const META_URL = getBaseUrl();
 const META_SITENAME = 'Diệp Trà - Chuyên Cung Cấp Nguyên Liệu Pha Chế Hàng Đầu VN';

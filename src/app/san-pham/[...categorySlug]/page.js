@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getMetadata } from '../../../utils/helper-server';
+import { getBaseUrl, getMetadata } from '../../../utils/helper-server';
 import { serverFetchJSON } from '../../../utils/server-fetch';
 import ProductListPage from '../_components/product-list-page';
 
@@ -37,11 +37,12 @@ async function findCategoryBySlugPath(slugPath = []) {
 }
 
 export async function generateMetadata({ params }) {
-  const parsed = parseSegments(params.categorySlug || []);
+  const resolvedParams = await params;
+  const parsed = parseSegments(resolvedParams.categorySlug || []);
   if (!parsed) return getMetadata({ title: 'Danh Mục Sản Phẩm' });
 
   const { slugPath } = parsed;
-  const baseUrl = process.env.NEXT_PUBLIC_DOMAIN;
+  const baseUrl = getBaseUrl();
   const canonicalUrl = slugPath.length ? `${baseUrl}/san-pham/${slugPath.join('/')}` : `${baseUrl}/san-pham`;
 
   if (!slugPath.length) {
@@ -64,8 +65,10 @@ export async function generateMetadata({ params }) {
 }
 
 export default async function CategoryProductsPage({ params, searchParams }) {
-  const parsed = parseSegments(params.categorySlug || []);
+  const resolvedParams = await params;
+  const resolvedSearchParams = await searchParams;
+  const parsed = parseSegments(resolvedParams.categorySlug || []);
   if (!parsed) notFound();
 
-  return <ProductListPage slugPath={parsed.slugPath} pageNumber={parsed.page} searchParams={searchParams || {}} />;
+  return <ProductListPage slugPath={parsed.slugPath} pageNumber={parsed.page} searchParams={resolvedSearchParams || {}} />;
 }

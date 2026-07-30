@@ -10,7 +10,6 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import FounderAuthorBox from '../../../../components/founder-author-box';
-import NextLink from 'next/link';
 
 const VideoEmbed = ({ embedUrl }) => {
   if (!embedUrl) return null;

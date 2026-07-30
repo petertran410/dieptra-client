@@ -69,8 +69,8 @@ const Header = () => {
       href: '/gioi-thieu-diep-tra'
     },
     {
-      title: 'Sản Phẩm',
-      href: '/san-pham',
+      title: menuConfig?.name || 'Sản Phẩm',
+      href: menuConfig?.href || '/san-pham',
       hasDropdown: true,
       dropdownItems: productCategories
     },

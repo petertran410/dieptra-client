@@ -95,12 +95,12 @@
 // }
 
 // src/app/sitemap.js - UPDATED với các URL bài viết mới
-import { headers } from 'next/headers';
+// Dùng env var thay vì headers() vì Next 16 trả về Promise -> headers().get() crash ở production.
+// Sitemap nên trỏ về canonical domain cố định, không đổi theo Host header (tránh host-header injection).
+const SITE_URL = (process.env.NEXT_PUBLIC_DOMAIN || 'https://www.dieptra.com').replace(/\/+$/, '');
 
 export default function sitemap() {
-  const host = headers().get('host');
-  const protocol = host?.startsWith('localhost') ? 'http' : 'https';
-  const domain = `${protocol}://${host}`;
+  const domain = SITE_URL;
 
   return [
     // Trang chính
@@ -141,19 +141,19 @@ export default function sitemap() {
       priority: 0.8
     },
     {
-      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-topping-tra-sua/tran-chau-dong-lanh`,
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-topping-tra-sua/tran-chau-dong-lanh`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8
     },
     {
-      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-topping-tra-sua/tran-chau-kho`,
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-topping-tra-sua/tran-chau-kho`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8
     },
     {
-      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-topping-tra-sua/hat-no-thach-no`,
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-topping-tra-sua/hat-no-thach-no`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.8
@@ -177,13 +177,13 @@ export default function sitemap() {
       priority: 0.7
     },
     {
-      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-bot-pha-che/bot-kem-bot-foam`,
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-bot-pha-che/bot-kem-bot-foam`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.7
     },
     {
-      url: `${domain}/san-pham/nguyen-lieu-pha-che-/cac-loai-bot-pha-che/bot-lam-thach`,
+      url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao/cac-loai-bot-pha-che/bot-lam-thach`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.7
@@ -271,12 +271,6 @@ export default function sitemap() {
       priority: 0.8
     },
     {
-      url: `${domain}/bai-viet/trend-pha-che`,
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.8
-    },
-    {
       url: `${domain}/bai-viet/review-danh-gia-san-pham`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
@@ -295,38 +289,4 @@ export default function sitemap() {
       priority: 0.7
     }
   ];
-}
-
-// THÊM MỚI: Helper function để generate dynamic sitemap cho bài viết
-export async function generateArticleSitemap() {
-  const host = headers().get('host');
-  const protocol = host?.startsWith('localhost') ? 'http' : 'https';
-  const domain = `${protocol}://${host}`;
-
-  try {
-    // Lấy danh sách bài viết từ API
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_DOMAIN}/api/news/client/get-all?pageSize=1000`);
-    const data = await response.json();
-    const { content: articles = [] } = data || {};
-
-    // Generate URLs cho từng bài viết
-    const articleUrls = articles.map((article) => {
-      const slug = `${article.title
-        .toLowerCase()
-        .replace(/[^a-z0-9\s]/g, '')
-        .replace(/\s+/g, '-')}.${article.id}`;
-
-      return {
-        url: `${domain}/bai-viet/${slug}`,
-        lastModified: new Date(article.updatedDate || article.createdDate),
-        changeFrequency: 'monthly',
-        priority: 0.6
-      };
-    });
-
-    return articleUrls;
-  } catch (error) {
-    console.error('Error generating article sitemap:', error);
-    return [];
-  }
 }
