@@ -194,7 +194,7 @@ const Categories = () => {
                   />
                 </Flex>
                 <Box p="20px">
-                  <Text as="h3" fontFamily={FONT_DISPLAY} fontWeight={800} fontSize="17.5px" mb="8px" color={HC.textPrimary}>
+                  <Text as="p" fontFamily={FONT_DISPLAY} fontWeight={800} fontSize="17.5px" mb="8px" color={HC.textPrimary}>
                     {c.name}
                   </Text>
                   <Box mb="12px">
