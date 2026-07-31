@@ -8,6 +8,8 @@ import { RecoilRoot } from 'recoil';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
+import { WebpDownloadProvider } from '../components/webp-download-provider';
+
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -23,9 +25,11 @@ export function Providers({ children }) {
       <RecoilRoot>
         <EmotionRegistry>
           <ChakraProvider theme={chakraTheme}>
-            {children}
-            <Analytics />
-            <SpeedInsights />
+            <WebpDownloadProvider>
+              {children}
+              <Analytics />
+              <SpeedInsights />
+            </WebpDownloadProvider>
           </ChakraProvider>
         </EmotionRegistry>
       </RecoilRoot>
