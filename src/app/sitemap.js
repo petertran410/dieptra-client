@@ -120,8 +120,101 @@ export default function sitemap() {
       url: `${domain}/san-pham`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
+      priority: 0.6
+    },
+
+    // ===========================================
+    // CÁC TRANG DANH MỤC SẢN PHẨM MỚI
+    // ===========================================
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
       priority: 0.9
     },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/mut-trai-cay`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/mut-trai-cay/mut-lermao`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/tra-pha-che`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/tra-pha-che/tra-huong-hoa`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/tra-pha-che/tra-o-long`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/tra-pha-che/hong-tra`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/tra-pha-che/tra-xanh`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/bot-pha-che`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/bot-pha-che/bot-sua`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/bot-pha-che/bot-kem-bot-foam`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/bot-pha-che/bot-lam-thach-pudding`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/sua-pha-che`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.7
+    },
+    {
+      url: `${domain}/san-pham/nguyen-lieu-pha-che/siro-pha-che`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.8
+    },
+
+    /*
+    // ===========================================
+    // SITEMAP CỦ (BACKUP)
+    // ===========================================
     {
       url: `${domain}/san-pham/nguyen-lieu-pha-che-lermao`,
       lastModified: new Date(),
@@ -224,6 +317,7 @@ export default function sitemap() {
       changeFrequency: 'weekly',
       priority: 0.6
     },
+    */
     {
       url: `${domain}/tuyen-dung`,
       lastModified: new Date(),
