@@ -27,7 +27,8 @@ const Hero = () => {
             width={1920}
             height={900}
             priority
-            sizes="100vw"
+            fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, (max-width: 1400px) 85vw, 1400px"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </Box>
@@ -39,7 +40,8 @@ const Hero = () => {
             width={780}
             height={900}
             priority
-            sizes="100vw"
+            fetchPriority="high"
+            sizes="(max-width: 768px) 100vw, 780px"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
         </Box>

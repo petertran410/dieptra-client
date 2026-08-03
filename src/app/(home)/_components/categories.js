@@ -15,14 +15,14 @@ import 'swiper/css/navigation';
 const MotionBox = motion(Box);
 
 const IMAGES = [
-  '/images/home-v2/cat-mut.webp',
-  '/images/home-v2/cat-topping.webp',
-  '/images/home-v2/cat-siro.webp',
-  '/images/home-v2/cat-bot.webp',
-  '/images/home-v2/cat-sua-kem.webp',
-  '/images/home-v2/cat-hong-tra.webp',
-  '/images/home-v2/cat-tra-xanh.webp',
-  '/images/home-v2/cat-o-long.webp'
+  '/images/home-v3/cat-mut.webp',
+  '/images/home-v3/cat-topping.webp',
+  '/images/home-v3/cat-siro.webp',
+  '/images/home-v3/cat-bot.webp',
+  '/images/home-v3/cat-sua-kem.webp',
+  '/images/home-v3/cat-hong-tra.webp',
+  '/images/home-v3/cat-tra-xanh.webp',
+  '/images/home-v3/cat-o-long.webp'
 ];
 
 const NAMES = [
@@ -118,14 +118,14 @@ const Categories = () => {
             _active={{ transform: 'translateY(-2px) scale(0.98)' }}
             sx={{ transition: 'transform .25s cubic-bezier(0.4, 0, 0.2, 1), box-shadow .25s cubic-bezier(0.4, 0, 0.2, 1)' }}
           >
-            <Flex aspectRatio="1 / 1" bg={HC.cyanBg} align="center" justify="center" p="14px" overflow="hidden">
+            <Flex aspectRatio="1 / 1" bg={HC.cyanBg} align="center" justify="center" p="14px" overflow="hidden" borderRadius="14px">
               <Image
                 src={c.img}
                 alt={c.name}
                 width={320}
                 height={320}
                 loading="lazy"
-                style={{ width: '100%', height: '100%', objectFit: 'contain', transition: 'transform .4s ease' }}
+                style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '12px', transition: 'transform .4s ease' }}
               />
             </Flex>
             <Box p="24px">
@@ -183,18 +183,18 @@ const Categories = () => {
                 transition="all 0.25s cubic-bezier(0.4, 0, 0.2, 1)"
                 _active={{ transform: 'scale(0.98)' }}
               >
-                <Flex aspectRatio="1 / 1" bg={HC.cyanBg} align="center" justify="center" p="14px" overflow="hidden">
+                <Flex aspectRatio="1 / 1" bg={HC.cyanBg} align="center" justify="center" p="14px" overflow="hidden" borderRadius="14px">
                   <Image
                     src={c.img}
                     alt={c.name}
                     width={320}
                     height={320}
                     loading="lazy"
-                    style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '12px' }}
                   />
                 </Flex>
                 <Box p="20px">
-                  <Text as="h3" fontFamily={FONT_DISPLAY} fontWeight={800} fontSize="17.5px" mb="8px" color={HC.textPrimary}>
+                  <Text as="p" fontFamily={FONT_DISPLAY} fontWeight={800} fontSize="17.5px" mb="8px" color={HC.textPrimary}>
                     {c.name}
                   </Text>
                   <Box mb="12px">

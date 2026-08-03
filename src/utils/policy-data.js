@@ -1230,7 +1230,7 @@ export const POLICY_PAGES = {
     meta_title: 'Hướng Dẫn Tạo Tài Khoản - Diệp Trà',
     meta_description: 'Tìm hiểu về hướng dẫn tạo tài khoản tại Diệp Trà.',
     content: `
-      <p>Bước 1. Truy cập website <a href="/" target="_blank" style="text-decoration: none">dieptra.com</a></p>
+      <p>Bước 1. Truy cập website <strong>dieptra.com</strong></p>
       <img src="/images/site-login.webp" alt="Site Login">
       
       <p>Tại đây, Khách hàng bấm mục <a href="/dang-ky" target="_blank" style="text-decoration: none">"Đăng ký ngay"</a> để tiến hành đăng ký</p>
@@ -1246,7 +1246,7 @@ export const POLICY_PAGES = {
       <img src="/images/otp-confirm.webp" alt="Đăng Ký">
     `,
     content_en: `
-      <p>Step 1. Access website <a href="/" target="_blank" style="text-decoration: none">dieptra.com</a></p>
+      <p>Step 1. Access website <strong>dieptra.com</strong></p>
       <img src="/images/site-login.webp" alt="Site Login">
       
       <p>Here, Customer clicks <a href="/dang-ky" target="_blank" style="text-decoration: none">"Register now"</a> section to proceed with registration</p>
