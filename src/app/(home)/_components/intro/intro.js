@@ -16,7 +16,8 @@ const HomeIntro = () => {
         width={1920}
         height={1080}
         priority
-        sizes="100vw"
+        fetchPriority="high"
+        sizes="(max-width: 768px) 100vw, (max-width: 1400px) 90vw, 1600px"
         style={{ width: '100%', height: 'auto', objectFit: 'contain', objectPosition: 'bottom' }}
       />
     </Box>
