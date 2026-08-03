@@ -1,4 +1,5 @@
 import Breadcrumb from '../../../components/breadcrumb';
+import HtmlContent from '../../../components/html-content';
 import { API } from '../../../utils/API';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
 import { formatCurrency, META_DESCRIPTION } from '../../../utils/helper-server';
@@ -142,14 +143,12 @@ const RecruitmentDetail = async ({ params }) => {
           </Text>
         </Box>
 
-        <Box
+        <HtmlContent
+          html={jobDescription}
+          className="html-content-16px"
           mt="20px"
           fontSize={18}
           whiteSpace="pre-line"
-          className="html-content html-content-16px"
-          dangerouslySetInnerHTML={{
-            __html: jobDescription
-          }}
         />
       </Box>
 

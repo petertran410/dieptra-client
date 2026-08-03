@@ -1,4 +1,5 @@
 import Breadcrumb from '../../../components/breadcrumb';
+import HtmlContent from '../../../components/html-content';
 import TableOfContents from '../../../components/toc';
 import { API } from '../../../utils/API';
 import { IMG_ALT, PX_ALL } from '../../../utils/const';
@@ -92,14 +93,7 @@ const CultureDetail = async ({ params }) => {
           </Box>
 
           <Box mt={{ xs: '24px', lg: '48px' }}>
-            <Box
-              fontSize={18}
-              lineHeight="20px"
-              className="html-content html-content-16px"
-              dangerouslySetInnerHTML={{
-                __html: htmlContent
-              }}
-            />
+            <HtmlContent html={htmlContent} className="html-content-16px" fontSize={18} lineHeight="20px" />
           </Box>
         </Flex>
       </Flex>
