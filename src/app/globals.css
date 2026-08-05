@@ -420,21 +420,75 @@ a {
 }
 
 @media (max-width: 768px) {
-  .html-content table,
-  .html-content-16px table,
-  .html-content table *,
-  .html-content-16px table * {
-    min-width: 100px !important;
-    width: 100px !important;
-  }
-
-  /* .html-content table,
-  .html-content-16px table {
+  /* Wrapper cuộn ngang do component HtmlContent chèn quanh mỗi <table>.
+     Đây là phần tử duy nhất giữ overflow-x, giới hạn đúng bề rộng khung. */
+  .html-content .html-table-scroll,
+  .html-content-16px .html-table-scroll {
+    position: relative;
     width: 100% !important;
     max-width: 100% !important;
+    margin: 16px auto !important;
     overflow-x: auto !important;
-    display: block !important;
-  } */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-inline: contain;
+  }
+
+  /* Mặc định (bảng <= 2 cột): table full khung, chữ wrap gọn, KHÔNG cuộn. */
+  .html-content .html-table-scroll > table,
+  .html-content-16px .html-table-scroll > table {
+    display: table !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    table-layout: auto !important;
+  }
+
+  .html-content .html-table-scroll td,
+  .html-content-16px .html-table-scroll td,
+  .html-content .html-table-scroll th,
+  .html-content-16px .html-table-scroll th {
+    white-space: normal !important;
+    word-break: break-word !important;
+  }
+
+  /* Bảng >= 3 cột (is-multi-col): mỗi cột có bề rộng cố định để chữ wrap gọn
+     (không kéo dài theo câu). Tổng bề rộng > màn hình => wrapper cuộn ngang. */
+  .html-content .html-table-scroll.is-multi-col > table,
+  .html-content-16px .html-table-scroll.is-multi-col > table {
+    width: calc(var(--html-table-column-count) * 160px) !important;
+    max-width: none !important;
+    min-width: 100% !important;
+    table-layout: fixed !important;
+  }
+
+  .html-content .html-table-scroll.is-multi-col td,
+  .html-content-16px .html-table-scroll.is-multi-col td,
+  .html-content .html-table-scroll.is-multi-col th,
+  .html-content-16px .html-table-scroll.is-multi-col th {
+    white-space: normal !important;
+    word-break: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* Gradient báo hiệu còn nội dung bị ẩn hai bên (chỉ bảng >= 3 cột) */
+  .html-content .html-table-scroll.is-multi-col.has-right-overflow,
+  .html-content-16px .html-table-scroll.is-multi-col.has-right-overflow {
+    -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 28px), transparent 100%);
+  }
+
+  .html-content .html-table-scroll.is-multi-col.has-left-overflow.has-right-overflow,
+  .html-content-16px .html-table-scroll.is-multi-col.has-left-overflow.has-right-overflow {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 calc(100% - 28px), transparent 100%);
+  }
+
+  .html-content .html-table-scroll.is-multi-col.has-left-overflow:not(.has-right-overflow),
+  .html-content-16px .html-table-scroll.is-multi-col.has-left-overflow:not(.has-right-overflow) {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 100%);
+    mask-image: linear-gradient(to right, transparent 0, #000 28px, #000 100%);
+  }
 }
 
 .html-content p > span.image,
@@ -525,13 +579,4 @@ a {
 .html-content-16px a {
   color: #065fd4;
   text-decoration: underline;
-}
-
-@media (max-width: 768px) {
-  .html-content table,
-  .html-content-16px table {
-    max-width: 100% !important;
-    width: 100% !important;
-    margin: 16px auto !important;
-  }
 }

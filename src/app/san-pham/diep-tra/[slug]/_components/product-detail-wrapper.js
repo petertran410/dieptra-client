@@ -1,6 +1,7 @@
 'use client';
 
 import {
+  AspectRatio,
   Container,
   Grid,
   GridItem,
@@ -19,6 +20,7 @@ import {
 // import { useState } from 'react';
 import Link from 'next/link';
 import Breadcrumb from '../../../../../components/breadcrumb/breadcrumb';
+import HtmlContent from '../../../../../components/html-content';
 import { formatCurrency } from '../../../../../utils/helper-server';
 import { PX_ALL } from '../../../../../utils/const';
 import OtherProduct from './other-product';
@@ -32,13 +34,23 @@ import ProductImageGallery from './product-image-gallery';
 // import { showToast } from '../../../../../utils/helper';
 // import { useEffect } from 'react';
 
+const VideoEmbed = ({ embedUrl }) => {
+  if (!embedUrl) return null;
+  return (
+    <AspectRatio ratio={16 / 9} w="full" mb="8px">
+      <iframe
+        src={embedUrl}
+        title="Video nhúng"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        style={{ borderRadius: '8px' }}
+      />
+    </AspectRatio>
+  );
+};
+
 const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
-  // ====== ĐÃ TẠM ẨN SỐ LƯỢNG & GIỎ HÀNG ======
-  // const [quantity, setQuantity] = useState(1);
-  // const [isAutoAdding, setIsAutoAdding] = useState(false);
-
-  // const [cart, setCart] = useRecoilState(cartAtom);
-
   const {
     title,
     description,
@@ -48,8 +60,15 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
     kiotViet,
     categoryHierarchy = [],
     slug,
-    price_on
+    price_on,
+    embedUrl
   } = productDetail;
+
+  // ====== ĐÃ TẠM ẨN SỐ LƯỢNG & GIỎ HÀNG ======
+  // const [quantity, setQuantity] = useState(1);
+  // const [isAutoAdding, setIsAutoAdding] = useState(false);
+
+  // const [cart, setCart] = useRecoilState(cartAtom);
 
   const buildBreadcrumbData = () => {
     const baseBreadcrumb = [
@@ -171,14 +190,7 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
 
                 {description && (
                   <Box>
-                    <div
-                      dangerouslySetInnerHTML={{ __html: description }}
-                      style={{
-                        textAlign: 'justify',
-                        lineHeight: '1.6'
-                      }}
-                      className="html-content"
-                    />
+                    <HtmlContent html={description} textAlign="justify" lineHeight="1.6" />
                   </Box>
                 )}
 
@@ -251,16 +263,11 @@ const ProductDetailWrapper = ({ productDetail, relatedProducts }) => {
               {'Thông Tin Sản Phẩm'}
             </Heading>
 
+            <VideoEmbed embedUrl={embedUrl} />
+
             {instruction && (
               <Box>
-                <div
-                  dangerouslySetInnerHTML={{ __html: instruction }}
-                  style={{
-                    textAlign: 'justify',
-                    lineHeight: '1.6'
-                  }}
-                  className="html-content"
-                />
+                <HtmlContent html={instruction} textAlign="justify" lineHeight="1.6" />
               </Box>
             )}
           </Box>

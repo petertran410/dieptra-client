@@ -1,6 +1,7 @@
 'use client';
 
 import { Box, Text, Heading } from '@chakra-ui/react';
+import HtmlContent from '../../../components/html-content';
 
 const PolicyContent = ({ pageData, isLoading }) => {
 
@@ -129,7 +130,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
         }}
       >
         {content ? (
-          <div dangerouslySetInnerHTML={{ __html: content }} />
+          <HtmlContent html={content} />
         ) : (
           <Text color="gray.500" fontSize="16px" textAlign="center" py="40px">
             {'Nội dung đang được cập nhật.'}

@@ -1,6 +1,7 @@
 'use client';
 
 import Breadcrumb from '../../../../components/breadcrumb';
+import HtmlContent from '../../../../components/html-content';
 import TableOfContents from '../../../../components/toc';
 import { API } from '../../../../utils/API';
 import { IMG_ALT, PX_ALL } from '../../../../utils/const';
@@ -170,14 +171,7 @@ export default function ArticleDetailClient({ params, categoryData, newsDetail, 
 
         <VideoEmbed embedUrl={embedUrl} />
 
-        {localizedHtml && (
-          <Box
-            mt="24px"
-            lineHeight="20px"
-            className="html-content"
-            dangerouslySetInnerHTML={{ __html: localizedHtml }}
-          />
-        )}
+        {localizedHtml && <HtmlContent html={localizedHtml} mt="24px" lineHeight="20px" />}
 
         <FounderAuthorBox />
       </Flex>

@@ -4,6 +4,7 @@ import { PX_ALL } from '../../../utils/const';
 import { convertSlugURL, getBaseUrl } from '../../../utils/helper-server';
 import { serverFetchJSON } from '../../../utils/server-fetch';
 import Breadcrumb from '../../../components/breadcrumb';
+import HtmlContent from '../../../components/html-content';
 import ProductItem from '../../../components/product-item/product-item';
 import CategorySidebar from './category-sidebar';
 import ProductListControls from './product-list-controls';
@@ -160,15 +161,14 @@ export default async function ProductListPage({ slugPath = [], pageNumber = 1, s
           </Heading>
 
           {targetCategory?.top_text && (
-            <Box
-              className="html-content"
+            <HtmlContent
+              html={targetCategory.top_text}
               w="full"
               mt="8px"
               p="16px"
               bg="#F8F9FA"
               borderRadius="8px"
               lineHeight="1.6"
-              dangerouslySetInnerHTML={{ __html: targetCategory.top_text }}
             />
           )}
 
@@ -232,14 +232,13 @@ export default async function ProductListPage({ slugPath = [], pageNumber = 1, s
             />
 
             {targetCategory?.bottom_content && (
-              <Box
-                className="html-content"
+              <HtmlContent
+                html={targetCategory.bottom_content}
                 mt="40px"
                 p="20px"
                 bg="#F8F9FA"
                 borderRadius="8px"
                 lineHeight="1.6"
-                dangerouslySetInnerHTML={{ __html: targetCategory.bottom_content }}
               />
             )}
           </Box>
