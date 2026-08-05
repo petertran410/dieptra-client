@@ -26,7 +26,7 @@ const LermaoBanner = () => {
           alt="LerMao Banner Desktop"
           fill
           priority
-          sizes="(max-width: 768px) 100vw, (max-width: 1400px) 85vw, 1200px"
+          sizes="(max-width: 991px) 0vw, (max-width: 1400px) calc(100vw - 80px), 1320px"
           style={{ objectFit: 'contain', width: '100%', height: '100%' }}
         />
         {/* Content Overlay cho Desktop */}
