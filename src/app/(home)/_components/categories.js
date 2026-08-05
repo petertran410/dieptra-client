@@ -125,6 +125,7 @@ const Categories = () => {
                 width={320}
                 height={320}
                 loading="lazy"
+                sizes="(max-width: 991px) 0px, (max-width: 1200px) 22vw, 280px"
                 style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '12px', transition: 'transform .4s ease' }}
               />
             </Flex>
@@ -190,6 +191,7 @@ const Categories = () => {
                     width={320}
                     height={320}
                     loading="lazy"
+                    sizes="(max-width: 991px) calc(100vw - 40px), 0px"
                     style={{ width: '100%', height: '100%', objectFit: 'contain', borderRadius: '12px' }}
                   />
                 </Flex>
