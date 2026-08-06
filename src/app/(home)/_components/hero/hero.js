@@ -1,7 +1,6 @@
 'use client';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HC, FONT_DISPLAY, HOME_PX } from '../home-theme';
@@ -17,34 +16,28 @@ const Hero = () => {
       overflow="hidden"
       bgGradient="linear(170deg, #DCF0F5 0%, #C5E4E8 40%, #E8F5E4 100%)"
     >
-      {/* Banner image */}
+      {/* Banner image — native <picture> để browser chỉ tải đúng 1 ảnh theo viewport,
+          tránh double-preload khi dùng Chakra display:none với Next.js priority */}
       <Box w="full" lineHeight={0} position="relative">
-        {/* desktop */}
-        <Box display={{ base: 'none', md: 'block' }}>
-          <Image
-            src="/images/home-v2/hero-desktop.webp"
-            alt="Diệp Trà — Nhà cung cấp nguyên liệu pha chế hàng đầu Việt Nam"
-            width={1920}
-            height={900}
-            priority
-            fetchPriority="high"
-            sizes="(max-width: 768px) 100vw, (max-width: 1400px) 85vw, 1400px"
-            style={{ width: '100%', height: 'auto', display: 'block' }}
+        <picture>
+          {/* Desktop: chỉ load khi viewport ≥ 768px */}
+          <source
+            media="(min-width: 768px)"
+            srcSet="/images/home-v2/hero-desktop.webp"
+            type="image/webp"
           />
-        </Box>
-        {/* mobile */}
-        <Box display={{ base: 'block', md: 'none' }}>
-          <Image
+          {/* Mobile: load mặc định khi viewport < 768px */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
             src="/images/home-v2/hero-mobile.webp"
             alt="Diệp Trà — Nhà cung cấp nguyên liệu pha chế hàng đầu Việt Nam"
             width={780}
             height={900}
-            priority
             fetchPriority="high"
-            sizes="(max-width: 768px) 100vw, 780px"
+            decoding="sync"
             style={{ width: '100%', height: 'auto', display: 'block' }}
           />
-        </Box>
+        </picture>
       </Box>
       <Flex
         position="absolute"
