@@ -53,7 +53,7 @@ const ProductCard = ({ item }) => {
             src={getProductImage(item)}
             alt={showName || IMG_ALT}
             fill
-            sizes="(max-width: 576px) 75vw, (max-width: 992px) 42vw, 360px"
+            sizes="(max-width: 575px) 83vw, (max-width: 991px) 42vw, 360px"
             style={{ objectFit: 'contain', padding: '14px' }}
             onError={(e) => {
               e.target.src = FALLBACK_IMG;

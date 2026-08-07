@@ -394,6 +394,8 @@ export default function RootLayout({ children }) {
           `}
         </Script>
 
+        {/* ====== TẠM TẮT CHATBOT SMAX (BỎ COMMENT NẾU MUỐN BẬT LẠI) ====== */}
+        {/*
         <Script id="chatbox-init" strategy="lazyOnload">
           {`
              window.smAsyncInit = function () {
@@ -407,6 +409,7 @@ export default function RootLayout({ children }) {
           `}
         </Script>
         <Script src="https://chatbox.smax.ai/sdk.min.js" strategy="lazyOnload" />
+        */}
 
         <Providers>
           <Box pos="relative">

@@ -21,7 +21,7 @@ const Contact = () => {
   }, []);
 
   return (
-    <Box pos="fixed" bottom={{ xs: '90px', md: '100px' }} right={{ xs: '14px', md: '20px' }} zIndex={1000}>
+    <Box pos="fixed" bottom={{ xs: '14px', md: '20px' }} right={{ xs: '14px', md: '20px' }} zIndex={1000}>
       <Flex
         direction="column"
         border="1px solid #E4E4E7"
