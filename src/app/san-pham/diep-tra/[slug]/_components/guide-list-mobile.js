@@ -71,9 +71,9 @@ const GuideListMobile = () => {
             <Text fontWeight={500} fontSize={18}>
               Địa chỉ:
             </Text>
-            • Hà Nội: BTT10-4 thuộc dự án Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông, Thành phố Hà
-            Nội. <br />
-            • TP HCM: Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh <br />
+            • Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội. <br />
+            • Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Sơn Nhì, TP.HCM. <br />
+            • Cửa hàng tại HCM: Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh. <br />
             <Text fontWeight={500} fontSize={18}>
               Hotline/Zalo: 0788339379
             </Text>

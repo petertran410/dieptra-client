@@ -225,15 +225,15 @@ const Footer = () => {
           </Flex>
         </Flex>
 
-        <Flex flex={{ xs: 'none', lg: 1 / 3 }} w={{ xs: 'full', lg: 'auto' }} justify="space-between">
-          <Flex direction="column" flex={1} align={{ xs: 'flex-start', lg: 'center' }}>
-            <Flex direction="column" gap="6px" px={{ xs: '12px', lg: 'center' }}>
+        <Flex flex={{ xs: 'none', lg: 1 / 3 }} w={{ xs: 'full', lg: 'auto' }} justify={{ xs: 'space-between', lg: 'center' }}>
+          <Flex direction="column" flex={MENU_LINKS_2.length > 0 ? 1 : 'none'} align={{ xs: 'flex-start', lg: 'flex-start' }}>
+            <Flex direction="column" gap="6px" px={{ xs: '12px', lg: '0px' }}>
               {MENU_LINKS_1.map((item) => {
                 const { title, title_en, href, children } = item;
                 return (
                   <Fragment key={title}>
                     <Link href={href}>
-                      <Text fontWeight={500} fontSize={18} py="6px" h="32px">
+                      <Text fontWeight={500} fontSize={18} py="6px" h="32px" whiteSpace="nowrap">
                         {title}
                       </Text>
                     </Link>
@@ -243,7 +243,7 @@ const Footer = () => {
                         {children.map((child) => {
                           return (
                             <Link href={child.href} key={child.title}>
-                              <Text py="4px">{child.title}</Text>
+                              <Text py="4px" whiteSpace="nowrap">{child.title}</Text>
                             </Link>
                           );
                         })}
@@ -255,20 +255,22 @@ const Footer = () => {
             </Flex>
           </Flex>
 
-          <Flex direction="column" flex={1} align={{ xs: 'flex-start', lg: 'center' }}>
-            <Flex direction="column" align={{ xs: 'flex-start', lg: 'center' }} gap="6px">
-              {MENU_LINKS_2.map((item) => {
-                const { title, href } = item;
-                return (
-                  <Link href={href} key={title}>
-                    <Text as="span" fontWeight={500} fontSize={18} py="6px" textAlign="center" h="32px">
-                      {title}
-                    </Text>
-                  </Link>
-                );
-              })}
+          {MENU_LINKS_2.length > 0 && (
+            <Flex direction="column" flex={1} align={{ xs: 'flex-start', lg: 'center' }}>
+              <Flex direction="column" align={{ xs: 'flex-start', lg: 'center' }} gap="6px">
+                {MENU_LINKS_2.map((item) => {
+                  const { title, href } = item;
+                  return (
+                    <Link href={href} key={title}>
+                      <Text as="span" fontWeight={500} fontSize={18} py="6px" textAlign="center" h="32px">
+                        {title}
+                      </Text>
+                    </Link>
+                  );
+                })}
+              </Flex>
             </Flex>
-          </Flex>
+          )}
         </Flex>
 
         <Flex flex={{ xs: 'none', lg: 1 / 3 }} direction="column" gap="24px" w="full">

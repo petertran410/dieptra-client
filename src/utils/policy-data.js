@@ -93,10 +93,10 @@ export const POLICY_PAGES = {
         <li>Trong những trường hợp còn lại, chúng tôi sẽ có thông báo cụ thể cho Quý Khách Hàng khi phải tiết lộ thông tin cho một bên thứ ba và thông tin này chỉ được cung cấp khi được sự phản hồi đồng ý từ phía Quý Khách Hàng (VD: các chương trình khuyến mãi có sự hợp tác, tài trợ với các đối tác của Diệp Trà ; cung cấp các thông tin giao nhận cần thiết cho các đơn vị vận chuyển).</li>
       </ul>
 
-      <p><strong>Địa chỉ của đơn vị thu thập và quản lý thông tin cá nhân</strong> </br> <strong>CÔNG TY TNHH XNK HI SWEETIE VIỆT NAM</strong> </p>
-      <p>Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, phường Hà Đông, thành phố Hà Nội.</p>
-      <p>Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, phường Sơn Kỳ, TP.HCM.</p>
-      <p>Cửa hàng tại HCM: Số 42 Đường số 7, Phường Bảy Hiền, Thành phố Hồ Chí Minh</p>
+      <p><strong>Địa chỉ của đơn vị thu thập và quản lý thông tin cá nhân</strong><br/><strong>CÔNG TY TNHH XNK HI SWEETIE VIỆT NAM</strong></p>
+      <p>Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.</p>
+      <p>Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Sơn Nhì, TP.HCM.</p>
+      <p>Cửa hàng tại HCM: Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh.</p>
       <p>Email: sales@hisweetievietnam.com.vn</p>
       <p>Điện thoại: 078 833 9379</p>
       <p>Người tiêu dùng có thể hỏi về hoạt động thu thập, xử lý thông tin liên quan đến cá nhân mình, quý khách hàng vui lòng truy cập vào website dieptra.com với Tên người dùng/ email đăng nhập và mật khẩu đã đăng ký.</p>
@@ -106,9 +106,9 @@ export const POLICY_PAGES = {
       <p>Thành viên có thể kiểm tra, cập nhật, điều chỉnh hoặc hủy bỏ thông tin cá nhân của mình bằng cách yêu cầu Diệp Trà thực hiện việc này. Thành viên có quyền gửi khiếu nại về việc lộ thông tin các nhân cho bên thứ 3 đến email hello@dieptra.com, Diệp Trà sẽ xác nhận lại thông tin, phải có trách nhiệm trả lời lý do và hướng dẫn thành viên khôi phục và bảo mật lại thông tin.</p>
 
       <p>Thông tin yêu cầu chỉnh sửa dữ liệu cá nhân: <strong>CÔNG TY TNHH XNK HI SWEETIE VIỆT NAM</strong></p>
-      <p>Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, phường Hà Đông, thành phố Hà Nội.</p>
-      <p>Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, phường Sơn Kỳ, TP.HCM.</p>
-      <p>Cửa hàng tại HCM: Số 42 Đường số 7, Phường Bảy Hiền, Thành phố Hồ Chí Minh</p>
+      <p>Trụ sở chính: B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.</p>
+      <p>Văn phòng miền Nam: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Sơn Nhì, TP.HCM.</p>
+      <p>Cửa hàng tại HCM: Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh.</p>
       <p>Email: sales@hisweetievietnam.com.vn</p>
       <p>Điện thoại: 078 833 9379</p>
 
@@ -179,10 +179,10 @@ export const POLICY_PAGES = {
         <li>In other cases, we will specifically notify Customers when we must disclose information to a third party and this information is only provided with consent response from Customers (e.g. promotional programs with cooperation and sponsorship from Diep Tra partners; providing necessary delivery information to shipping units).</li>
       </ul>
 
-      <p><strong>Address of the unit that collects and manages personal information</strong> </br> <strong>HI SWEETIE VIETNAM IMPORT EXPORT CO., LTD</strong> </p>
-      <p>Head office: B-TT10-4 Him Lam Van Phuc, Ha Dong ward, Hanoi city.</p>
-      <p>Southern office: P1.2.24 Diamond Alnata, Block A3, Celadon City, Son Ky ward, Ho Chi Minh City.</p>
-      <p>Store in HCM: No. 42 Street 7, Bay Hien Ward, Ho Chi Minh City</p>
+      <p><strong>Address of the unit that collects and manages personal information</strong><br/><strong>HI SWEETIE VIETNAM IMPORT EXPORT CO., LTD</strong></p>
+      <p>Head office: B-TT10-4 Him Lam Van Phuc, To Huu, Ha Dong, Hanoi.</p>
+      <p>Southern office: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tan Son Nhi, Ho Chi Minh City.</p>
+      <p>Store in HCM: No. 6/1 Nguyen Van Vinh, Phu Thanh, Ho Chi Minh City.</p>
       <p>Email: sales@hisweetievietnam.com.vn</p>
       <p>Phone: 078 833 9379</p>
       <p>Consumers can ask about the collection and processing of information related to themselves, customers please access dieptra.com website with registered Username/email and password.</p>
@@ -192,9 +192,9 @@ export const POLICY_PAGES = {
       <p>Members can check, update, adjust or cancel their personal information by requesting Diep Tra to do this. Members have the right to send complaints about personal information disclosure to third parties to hello@dieptra.com, Diep Tra will confirm the information, must be responsible for answering the reason and guiding members to restore and secure information again.</p>
 
       <p>Information requesting personal data editing: <strong>HI SWEETIE VIETNAM IMPORT EXPORT CO., LTD</strong></p>
-      <p>Head office: B-TT10-4 Him Lam Van Phuc, Ha Dong ward, Hanoi city.</p>
-      <p>Southern office: P1.2.24 Diamond Alnata, Block A3, Celadon City, Son Ky ward, Ho Chi Minh City.</p>
-      <p>Store in HCM: No. 42 Street 7, Bay Hien Ward, Ho Chi Minh City</p>
+      <p>Head office: B-TT10-4 Him Lam Van Phuc, To Huu, Ha Dong, Hanoi.</p>
+      <p>Southern office: P1.2.24 Diamond Alnata, Block A3, Celadon City, Tan Son Nhi, Ho Chi Minh City.</p>
+      <p>Store in HCM: No. 6/1 Nguyen Van Vinh, Phu Thanh, Ho Chi Minh City.</p>
       <p>Email: sales@hisweetievietnam.com.vn</p>
       <p>Phone: 078 833 9379</p>
 
@@ -229,8 +229,8 @@ export const POLICY_PAGES = {
       <p>Chính sách này áp dụng cho tất cả các khách hàng mua sản phẩm/dịch vụ từ:</p>
       <ul>
         <li><strong>Website:</strong> Dieptra.com</li>
-        <li><strong>Cửa hàng chính thức:</strong> Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh</li>
-        <li><strong>Trụ sở chính:</strong> B-TT10-4 Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông, Thành phố Hà Nội</li>
+        <li><strong>Cửa hàng chính thức:</strong> Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh.</li>
+        <li><strong>Trụ sở chính:</strong> B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.</li>
         <li>Kênh bán hàng trực tuyến chính thức: Fanpage: <strong>DIỆP TRÀ - Nguyên Liệu Trà Sữa Royaltea Gongcha</strong></li>
       </ul>
       
@@ -273,8 +273,8 @@ export const POLICY_PAGES = {
       <p>This policy applies to all customers purchasing products/services from:</p>
       <ul>
         <li><strong>Website:</strong> Dieptra.com</li>
-        <li><strong>Official store:</strong> No. 42 Street 7, Ward 10, Tan Binh District, Ho Chi Minh City</li>
-        <li><strong>Head office:</strong> B-TT10-4 Him Lam Van Phuc, To Huu Street, Van Phuc Ward, Ha Dong District, Hanoi City</li>
+        <li><strong>Official store:</strong> No. 6/1 Nguyen Van Vinh, Phu Thanh, Ho Chi Minh City.</li>
+        <li><strong>Head office:</strong> B-TT10-4 Him Lam Van Phuc, To Huu, Ha Dong, Hanoi.</li>
         <li>Official online sales channel: Fanpage: <strong>DIEP TRA - Milk Tea Ingredients Royaltea Gongcha</strong></li>
       </ul>
       
@@ -345,7 +345,7 @@ export const POLICY_PAGES = {
       <strong>Số tài khoản:</strong>3095686868<br/>
       <strong>Ngân hàng:</strong>Ngân hàng Bank<br/>
       <strong>Chi nhánh:</strong>Sở Giao Dịch<br/>
-      <strong>Nội dung chuyển khoản:</strong>[Tên khách hàng] + [Số điện thoại] + [Mã đơn hàng nếu có] </br> Hoặc </br> <strong>Thanh toán qua mã QR</strong></p>
+      <strong>Nội dung chuyển khoản:</strong>[Tên khách hàng] + [Số điện thoại] + [Mã đơn hàng nếu có]<br/>Hoặc<br/><strong>Thanh toán qua mã QR</strong></p>
       <img src="/images/QR-Website.webp" alt="QR Thanh Toán">
 
       <p>Sau khi lựa chọn 1 trong 2 phương thức thanh toán, giao diện sẽ hiển thị đặt hàng thành công</p>
@@ -410,7 +410,7 @@ export const POLICY_PAGES = {
       <strong>Account number:</strong>3095686868<br/>
       <strong>Bank:</strong>Bank<br/>
       <strong>Branch:</strong>Transaction Office<br/>
-      <strong>Transfer content:</strong>[Customer name] + [Phone number] + [Order code if any] </br> Or </br> <strong>Payment via QR code</strong></p>
+      <strong>Transfer content:</strong>[Customer name] + [Phone number] + [Order code if any]<br/>Or<br/><strong>Payment via QR code</strong></p>
       <img src="/images/QR-Website.webp" alt="Payment QR">
 
       <p>After selecting 1 of 2 payment methods, interface will display successful order placement</p>
@@ -780,8 +780,8 @@ export const POLICY_PAGES = {
       </ul>
       
       <h2>6/ Trung tâm và kênh tiếp nhận bảo hành</h2>
-      <p><strong>- Trụ sở chính:</strong> B-TT10-4 Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông, Thành phố Hà Nội</p>
-      <p><strong>- Cửa hàng:</strong> Số 42 Đường số 7, Phường 10, Quận Tân Bình, Thành phố Hồ Chí Minh</p>
+      <p><strong>- Trụ sở chính:</strong> B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.</p>
+      <p><strong>- Cửa hàng:</strong> Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh.</p>
       <ul>
         <li><strong>Hotline bảo hành:</strong>
         Ms. Vân Anh 0973 123 230</li>
@@ -847,8 +847,8 @@ export const POLICY_PAGES = {
       </ul>
       
       <h2>6/ Warranty centers and reception channels</h2>
-      <p><strong>- Head office:</strong> B-TT10-4 Him Lam Van Phuc, To Huu Street, Van Phuc Ward, Ha Dong District, Hanoi City</p>
-      <p><strong>- Store:</strong> No. 42 Street 7, Ward 10, Tan Binh District, Ho Chi Minh City</p>
+      <p><strong>- Head office:</strong> B-TT10-4 Him Lam Van Phuc, To Huu, Ha Dong, Hanoi.</p>
+      <p><strong>- Store:</strong> No. 6/1 Nguyen Van Vinh, Phu Thanh, Ho Chi Minh City.</p>
       <ul>
         <li><strong>Warranty hotline:</strong>
         Ms. Van Anh 0973 123 230</li>
@@ -935,14 +935,13 @@ export const POLICY_PAGES = {
         <li><strong>Bước 4:</strong> Chúng tôi xác nhận, kiểm tra sản phẩm và tiến hành đổi mới / hoàn tiền theo thỏa thuận.</li>
       </ul>
 
-      <h2>7/ Quy trình và chính sách hoàn tiềnợ</h2>
+      <h2>7/ Quy trình và chính sách hoàn tiền</h2>
       <p>Diệp Trà sẽ tiến hành hoàn tiền theo các hình thức sau:</p>
-      <ul><li>Hoàn tiền mặt hoặc chuyển khoản tại cửa hàng</li></ul>
-      <p>Áp dụng cho khách hàng mua trực tiếp tại cửa hàng hoặc yêu cầu hoàn tiền trực tiếp.</p>
-      <ul><li>Hoàn tiền qua chuyển khoản ngân hàng</li></ul>
-      <p>Áp dụng cho khách hàng mua hàng online hoặc thanh toán bằng hình thức COD.</p>
-      <p>Khách hàng cung cấp thông tin tài khoản ngân hàng để Diệp Trà thực hiện hoàn tiền.</p>
-      <strong>Thời hạn hoàn tiền</strong>
+      <ul>
+        <li><strong>Hoàn tiền mặt hoặc chuyển khoản tại cửa hàng:</strong> Áp dụng cho khách hàng mua trực tiếp tại cửa hàng hoặc yêu cầu hoàn tiền trực tiếp.</li>
+        <li><strong>Hoàn tiền qua chuyển khoản ngân hàng:</strong> Áp dụng cho khách hàng mua hàng online hoặc thanh toán bằng hình thức COD (Khách hàng cung cấp thông tin tài khoản ngân hàng để Diệp Trà thực hiện hoàn tiền).</li>
+      </ul>
+      <p><strong>Thời hạn hoàn tiền:</strong></p>
       <p>Thời gian xử lý hoàn tiền từ 05 ngày làm việc kể từ ngày Diệp Trà xác nhận sản phẩm đổi trả hợp lệ.</p>
       <p>Với trường hợp hoàn tiền qua ngân hàng, thời gian nhận tiền có thể phụ thuộc vào hệ thống của ngân hàng.</p>
 
@@ -956,7 +955,7 @@ export const POLICY_PAGES = {
 
         <li>Quy định về thông báo và vận chuyển trả hàng
         <p>Thời gian thông báo đổi/trả hàng: Trong vòng 48 giờ kể từ khi nhận được sản phẩm trong trường hợp sản phẩm bị thiếu, không đúng hoặc bị hỏng.</p>
-        <p>Thời gian vận chuyển trả hàng: Trong vòng 03 ngày kể từ khi yêu cầu xác nhận. Địa điểm đổi/trả hàng: Chúng tôi sẽ sắp xếp nhân viên giao sản phẩm mới và thu hồi sản phẩm để đổi/trả. Mọi phản hồi hoặc khiếu nại liên quan đến chất lượng sản phẩm, vui lòng liên hệ với chúng tôi trong giờ làm việc qua email </br>sales@hisweetievietnam.com.vn hoặc Hotline 0973 123 230.</p></li>
+        <p>Thời gian vận chuyển trả hàng: Trong vòng 03 ngày kể từ khi yêu cầu xác nhận. Địa điểm đổi/trả hàng: Chúng tôi sẽ sắp xếp nhân viên giao sản phẩm mới và thu hồi sản phẩm để đổi/trả. Mọi phản hồi hoặc khiếu nại liên quan đến chất lượng sản phẩm, vui lòng liên hệ với chúng tôi trong giờ làm việc qua email <br/>sales@hisweetievietnam.com.vn hoặc Hotline 0973 123 230.</p></li>
       </ol>
     `,
     content_en: `
@@ -1018,12 +1017,11 @@ export const POLICY_PAGES = {
 
       <h2>7/ Refund process and policy</h2>
       <p>Diep Tra will proceed with refunds in following forms:</p>
-      <ul><li>Cash refund or bank transfer at store</li></ul>
-      <p>Applies to customers buying directly at store or requesting direct refund.</p>
-      <ul><li>Refund via bank transfer</li></ul>
-      <p>Applies to customers buying online or paying by COD method.</p>
-      <p>Customers provide bank account information for Diep Tra to process refund.</p>
-      <strong>Refund timeframe</strong>
+      <ul>
+        <li><strong>Cash refund or bank transfer at store:</strong> Applies to customers buying directly at store or requesting direct refund.</li>
+        <li><strong>Refund via bank transfer:</strong> Applies to customers buying online or paying by COD method (Customers provide bank account information for Diep Tra to process refund).</li>
+      </ul>
+      <p><strong>Refund timeframe:</strong></p>
       <p>Refund processing time from 05 business days from date Diep Tra confirms valid exchange return product.</p>
       <p>For bank refund cases, receipt time may depend on bank system.</p>
 
@@ -1037,7 +1035,7 @@ export const POLICY_PAGES = {
 
         <li>Regulations on notification and return shipping
         <p>Exchange/return notification time: Within 48 hours from receiving product in case product is missing, incorrect or damaged.</p>
-        <p>Return shipping time: Within 03 days from confirmation request. Exchange/return location: We will arrange staff to deliver new product and collect product for exchange/return. Any feedback or complaints related to product quality, please contact us during working hours via email </br>sales@hisweetievietnam.com.vn or Hotline 0973 123 230.</p></li>
+        <p>Return shipping time: Within 03 days from confirmation request. Exchange/return location: We will arrange staff to deliver new product and collect product for exchange/return. Any feedback or complaints related to product quality, please contact us during working hours via email <br/>sales@hisweetievietnam.com.vn or Hotline 0973 123 230.</p></li>
       </ol>
     `,
     parent_id: 'chinh-sach-diep-tra',
@@ -1132,7 +1130,7 @@ export const POLICY_PAGES = {
         <li><strong>Mã số thuế:</strong> 0110211839</li>
         <li><strong>Hotline:</strong> 0931 566 676</li>
         <li><strong>Email:</strong> hisweetievietnam@gmail.com</li>
-        <li><strong>Địa chỉ:</strong> B-TT10-4 Him Lam Vạn Phúc, đường Tố Hữu, Phường Vạn Phúc, Quận Hà Đông, Thành phố Hà Nội</li>
+        <li><strong>Địa chỉ:</strong> B-TT10-4 Him Lam Vạn Phúc, Tố Hữu, Hà Đông, Hà Nội.</li>
       </ul>
     `,
     content_en: `
@@ -1214,7 +1212,7 @@ export const POLICY_PAGES = {
         <li><strong>Tax code:</strong> 0110211839</li>
         <li><strong>Hotline:</strong> 0931 566 676</li>
         <li><strong>Email:</strong> hisweetievietnam@gmail.com</li>
-        <li><strong>Address:</strong> B-TT10-4 Him Lam Van Phuc, To Huu Street, Van Phuc Ward, Ha Dong District, Hanoi City</li>
+        <li><strong>Address:</strong> B-TT10-4 Him Lam Van Phuc, To Huu, Ha Dong, Hanoi.</li>
       </ul>
     `,
     parent_id: 'chinh-sach-diep-tra',
@@ -1233,10 +1231,10 @@ export const POLICY_PAGES = {
       <p>Bước 1. Truy cập website <strong>dieptra.com</strong></p>
       <img src="/images/site-login.webp" alt="Site Login">
       
-      <p>Tại đây, Khách hàng bấm mục <a href="/dang-ky" target="_blank" style="text-decoration: none">"Đăng ký ngay"</a> để tiến hành đăng ký</p>
+      <p>Tại đây, Khách hàng bấm mục <strong>"Đăng ký ngay"</strong> để tiến hành đăng ký</p>
       <img src="/images/dang-nhap.webp" alt="Đăng Nhập">
 
-      <p>Bước 2. Nhập thông tin theo yêu cầu => Bấm <a href="/dang-ky" target="_blank" style="text-decoration: none">"Đăng ký"</a></p>
+      <p>Bước 2. Nhập thông tin theo yêu cầu => Bấm <strong>"Đăng ký"</strong></p>
       <img src="/images/dang-ky.webp" alt="Đăng Ký">
       <img src="/images/input-info-dang-ky-1.webp" alt="Đăng Ký">
       <img src="/images/input-info-dang-ky-2.webp" alt="Đăng Ký">
@@ -1249,10 +1247,10 @@ export const POLICY_PAGES = {
       <p>Step 1. Access website <strong>dieptra.com</strong></p>
       <img src="/images/site-login.webp" alt="Site Login">
       
-      <p>Here, Customer clicks <a href="/dang-ky" target="_blank" style="text-decoration: none">"Register now"</a> section to proceed with registration</p>
+      <p>Here, Customer clicks <strong>"Register now"</strong> section to proceed with registration</p>
       <img src="/images/dang-nhap.webp" alt="Login">
 
-      <p>Step 2. Enter required information => Click <a href="/dang-ky" target="_blank" style="text-decoration: none">"Register"</a></p>
+      <p>Step 2. Enter required information => Click <strong>"Register"</strong></p>
       <img src="/images/dang-ky.webp" alt="Register">
       <img src="/images/input-info-dang-ky-1.webp" alt="Register">
       <img src="/images/input-info-dang-ky-2.webp" alt="Register">

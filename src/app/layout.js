@@ -99,7 +99,7 @@ const structuredDataOldBackup = {
           hasMap: 'https://maps.app.goo.gl/2QdJ6f7fRo6hhs7x9',
           address: {
             '@type': 'PostalAddress',
-            streetAddress: 'P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú',
+            streetAddress: 'P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Sơn Nhì',
             addressLocality: 'TP.HCM',
             addressCountry: 'VN'
           },
@@ -119,7 +119,7 @@ const structuredDataOldBackup = {
           parentOrganization: { '@id': 'https://www.dieptra.com/#org' },
           address: {
             '@type': 'PostalAddress',
-            streetAddress: 'Số 42 Đường số 7, Phường 10, Quận Tân Bình',
+            streetAddress: 'Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh',
             addressLocality: 'TP.HCM',
             addressCountry: 'VN'
           },
@@ -249,7 +249,7 @@ const structuredData = {
       telephone: '+84 788 339 379',
       address: {
         '@type': 'PostalAddress',
-        streetAddress: 'P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú',
+        streetAddress: 'P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Sơn Nhì',
         addressLocality: 'TP. Hồ Chí Minh',
         addressCountry: 'VN'
       },

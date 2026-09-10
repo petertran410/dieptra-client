@@ -155,10 +155,10 @@ export default function ContactPage() {
               </Text>
               <Box w="full">
                 <Text fontSize={18} fontWeight={500}>
-                  P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Phú, TP.HCM
+                  P1.2.24 Diamond Alnata, Block A3, Celadon City, Tân Sơn Nhì, TP.HCM.
                 </Text>
                 <Text fontSize={18} fontWeight={500} mt="4px">
-                  Cửa hàng: Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh
+                  Cửa hàng tại HCM: Số 6/1 Nguyễn Văn Vịnh, Phú Thạnh, Tp. Hồ Chí Minh.
                 </Text>
               </Box>
               <Box w="full">
