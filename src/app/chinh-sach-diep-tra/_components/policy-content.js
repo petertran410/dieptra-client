@@ -130,7 +130,7 @@ const PolicyContent = ({ pageData, isLoading }) => {
         }}
       >
         {content ? (
-          <HtmlContent html={content} />
+          <HtmlContent html={content} className="policy-html-content" />
         ) : (
           <Text color="gray.500" fontSize="16px" textAlign="center" py="40px">
             {'Nội dung đang được cập nhật.'}

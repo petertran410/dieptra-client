@@ -358,6 +358,76 @@ a {
   display: block !important;
 }
 
+/* 🎯 POLICY CONTENT STYLES:
+   Khắc phục lỗi nhảy dòng và khoảng cách quá lớn giữa các đoạn trên trang chính sách */
+.policy-html-content {
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+}
+
+.policy-html-content p {
+  margin-bottom: 14px !important;
+  line-height: 1.7 !important;
+  text-align: justify;
+}
+
+.policy-html-content p:empty {
+  display: none !important;
+  min-height: 0 !important;
+}
+
+.policy-html-content br {
+  display: inline !important;
+  margin: 0 !important;
+  content: normal !important;
+}
+
+.policy-html-content br + br {
+  margin-top: 0 !important;
+}
+
+.policy-html-content div {
+  margin-bottom: 0 !important;
+}
+
+.policy-html-content *:empty:not(img):not(hr) {
+  min-height: 0 !important;
+  display: inline !important;
+}
+
+.policy-html-content ul,
+.policy-html-content ol {
+  margin-bottom: 14px !important;
+  padding-left: 24px !important;
+}
+
+.policy-html-content li {
+  margin-bottom: 6px !important;
+  line-height: 1.6 !important;
+}
+
+.policy-html-content h2 {
+  margin-top: 24px !important;
+  margin-bottom: 12px !important;
+  line-height: 1.4 !important;
+  color: #003366 !important;
+}
+
+.policy-html-content h3 {
+  margin-top: 20px !important;
+  margin-bottom: 10px !important;
+  line-height: 1.4 !important;
+}
+
+.policy-html-content img {
+  max-width: 100% !important;
+  height: auto !important;
+  border-radius: 8px !important;
+  margin: 12px 0 16px 0 !important;
+  display: block !important;
+}
+
 .html-content figure.image-with-caption {
   margin: 1.5em 0;
   text-align: center;
