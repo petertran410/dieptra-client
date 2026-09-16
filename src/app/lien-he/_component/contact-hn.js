@@ -24,15 +24,15 @@ const ContactHN = () => {
       phone: '+84 788 339 379',
       email: 'thanhptp@hisweetievietnam.com.vn'
     },
-    {
-      fullName: 'Mrs. Linh Thu Trang',
-      fullName_en: 'Mrs. Linh Thu Trang',
-      image: '/images/contact-user-2.webp',
-      position: 'Nhân viên Kinh doanh',
-      position_en: 'Salers Officer',
-      phone: '+84 343 393 799',
-      email: 'tranglt@hisweetievietnam.com.vn'
-    },
+    // {
+    //   fullName: 'Mrs. Linh Thu Trang',
+    //   fullName_en: 'Mrs. Linh Thu Trang',
+    //   image: '/images/contact-user-2.webp',
+    //   position: 'Nhân viên Kinh doanh',
+    //   position_en: 'Salers Officer',
+    //   phone: '+84 343 393 799',
+    //   email: 'tranglt@hisweetievietnam.com.vn'
+    // },
     {
       fullName: 'Mrs. Mai Vân Anh',
       fullName_en: 'Mrs. Mai Van Anh',
