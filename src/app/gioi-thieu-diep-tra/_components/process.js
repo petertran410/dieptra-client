@@ -27,7 +27,7 @@ const Process = () => {
       year: '2022',
       title: 'Phát triển thương hiệu Trà Phượng Hoàng',
       description: 'Trà Phượng Hoàng được triển khai nhằm bổ sung các dòng trà pha chế có hương vị đặc trưng, đáp ứng nhu cầu xây dựng menu chuyên nghiệp.',
-      image: '/images/about-v2/tra-phuong-hoang-phat-trien-trong-he-sinh-thai-nguyen-lieu-pha-che-diep.webp'
+      image: '/images/home-4/tra-phuong-hoang-phat-trien-thuong-hieu.webp'
     },
     {
       year: '2023',
