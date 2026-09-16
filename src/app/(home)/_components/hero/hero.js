@@ -93,7 +93,7 @@ const Hero = () => {
               fontFamily={FONT_DISPLAY}
               fontWeight={800}
               color={HC.textPrimary}
-              fontSize={{ base: '15px', md: '22px', lg: '32px' }}
+              fontSize={{ base: '13px', md: '18px', lg: '25px' }}
               textTransform="uppercase"
               lineHeight={1.05}
               mt={{ base: '10px', md: '8px' }}
