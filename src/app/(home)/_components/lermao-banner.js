@@ -22,7 +22,7 @@ const LermaoBanner = () => {
         boxShadow="0 10px 30px rgba(0,0,0,0.06)"
       >
         <Image
-          src="/images/home-v3/lermao-bg-desktop-v4.webp"
+          src="/images/home-4/lermao-banner-desktop-v2.webp"
           alt="LerMao Banner Desktop"
           fill
           priority

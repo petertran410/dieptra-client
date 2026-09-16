@@ -23,16 +23,16 @@ const Hero = () => {
           {/* Desktop: chỉ load khi viewport ≥ 768px */}
           <source
             media="(min-width: 768px)"
-            srcSet="/images/home-v2/hero-desktop.webp"
+            srcSet="/images/home-4/hero-desktop.webp"
             type="image/webp"
           />
           {/* Mobile: load mặc định khi viewport < 768px */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/home-v2/hero-mobile.webp"
+            src="/images/home-4/hero-mobile.webp"
             alt="Diệp Trà — Nhà cung cấp nguyên liệu pha chế hàng đầu Việt Nam"
-            width={780}
-            height={900}
+            width={765}
+            height={1024}
             fetchPriority="high"
             decoding="sync"
             style={{ width: '100%', height: 'auto', display: 'block' }}
