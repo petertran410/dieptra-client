@@ -12,6 +12,9 @@ const ProductItem = ({ item }) => {
     id,
     title,
     title_meta,
+    posName,
+    posImages,
+    price,
     kiotviet_name,
     kiotviet_price,
     ofCategories,
@@ -22,11 +25,15 @@ const ProductItem = ({ item }) => {
 
   const productSlug = slug;
 
-  const showName = title ? title : kiotviet_name;
+  const showName = title || posName || kiotviet_name;
+  const displayPrice = price ?? kiotviet_price;
 
   const getProductImage = () => {
     if (Array.isArray(imagesUrl) && imagesUrl.length > 0) {
       return imagesUrl[0]?.replace('http://', 'https://');
+    }
+    if (Array.isArray(posImages) && posImages.length > 0) {
+      return posImages[0]?.replace('http://', 'https://');
     }
     if (Array.isArray(kiotviet_images) && kiotviet_images.length > 0) {
       return kiotviet_images[0]?.replace('http://', 'https://');
@@ -107,13 +114,13 @@ const ProductItem = ({ item }) => {
           </Text>
 
           <Flex justify="center" align="center" mt="6px">
-            {!kiotviet_price || kiotviet_price === 0 ? (
+            {displayPrice === null || displayPrice === undefined || displayPrice === 0 ? (
               <Tag colorScheme="blue" size="sm" fontWeight="600">
                 {'Liên hệ'}
               </Tag>
             ) : (
               <Text color="#1E96BC" fontSize="16px" fontWeight={700}>
-                {formatCurrency(kiotviet_price)}
+                {formatCurrency(displayPrice)}
               </Text>
             )}
           </Flex>
