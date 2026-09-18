@@ -103,25 +103,28 @@ export default async function ProductDetail({ params }) {
   const baseUrl = getBaseUrl();
   const url = `${baseUrl}/san-pham/diep-tra/${slug}`;
   const rawImage =
-    (Array.isArray(productDetail.imagesUrl) ? productDetail.imagesUrl[0] : null) || productDetail.kiotviet_images?.[0];
+    (Array.isArray(productDetail.imagesUrl) ? productDetail.imagesUrl[0] : null) ||
+    productDetail.posImages?.[0] ||
+    productDetail.kiotviet_images?.[0];
   const imageUrl = rawImage?.replace('http://', 'https://') || `${baseUrl}/images/preview.webp`;
+  const productPrice = productDetail.price ?? productDetail.kiotviet_price;
 
   // Product schema
   const productSchema = {
     '@context': 'https://schema.org',
     '@type': 'Product',
-    name: productDetail.title || productDetail.kiotviet_name,
+    name: productDetail.title || productDetail.posName || productDetail.kiotviet_name,
     description: productDetail.general_description || productDetail.description || '',
     image: [imageUrl],
-    sku: productDetail.kiotviet_code || productDetail.id?.toString(),
+    sku: productDetail.posCode || productDetail.kiotviet_code || productDetail.id?.toString(),
     brand: { '@type': 'Brand', name: 'Diệp Trà' },
     url,
-    ...(productDetail.kiotviet_price > 0 && {
+    ...(productPrice > 0 && {
       offers: {
         '@type': 'Offer',
         url,
         priceCurrency: 'VND',
-        price: productDetail.kiotviet_price,
+        price: productPrice,
         availability: 'https://schema.org/InStock',
         seller: { '@type': 'Organization', name: 'Diệp Trà' }
       }
@@ -140,7 +143,10 @@ export default async function ProductDetail({ params }) {
       breadcrumbItems.push({ name: cat.name, item: `${baseUrl}/san-pham${pathAcc}` });
     });
   }
-  breadcrumbItems.push({ name: productDetail.title || productDetail.kiotviet_name, item: url });
+  breadcrumbItems.push({
+    name: productDetail.title || productDetail.posName || productDetail.kiotviet_name,
+    item: url
+  });
 
   const breadcrumbSchema = {
     '@context': 'https://schema.org',

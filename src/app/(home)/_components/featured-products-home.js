@@ -16,9 +16,12 @@ import { HC, FONT_DISPLAY, HOME_PX } from './home-theme';
 const FALLBACK_IMG = '/images/tra-phuong-hoang.webp';
 
 const getProductImage = (item) => {
-  const { imagesUrl, kiotviet_images } = item || {};
+  const { imagesUrl, posImages, kiotviet_images } = item || {};
   if (Array.isArray(imagesUrl) && imagesUrl.length > 0) {
     return imagesUrl[0]?.replace('http://', 'https://');
+  }
+  if (Array.isArray(posImages) && posImages.length > 0) {
+    return posImages[0]?.replace('http://', 'https://');
   }
   if (Array.isArray(kiotviet_images) && kiotviet_images.length > 0) {
     return kiotviet_images[0]?.replace('http://', 'https://');
@@ -27,8 +30,8 @@ const getProductImage = (item) => {
 };
 
 const ProductCard = ({ item }) => {
-  const { title, kiotviet_name, price, slug } = item || {};
-  const showName = title || kiotviet_name;
+  const { title, posName, kiotviet_name, price, slug } = item || {};
+  const showName = title || posName || kiotviet_name;
 
   return (
     <Link href={`/san-pham/diep-tra/${slug}`}>

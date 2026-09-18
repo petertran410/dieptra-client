@@ -7,15 +7,30 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 
 const ProductItemHome = ({ item }) => {
-  const { id, title, kiotviet_name, kiotviet_price, imagesUrl, slug, kiotviet_images, price, category } = item || {};
+  const {
+    id,
+    title,
+    posName,
+    posImages,
+    kiotviet_name,
+    kiotviet_price,
+    imagesUrl,
+    slug,
+    kiotviet_images,
+    price,
+    category
+  } = item || {};
 
   const productSlug = slug;
 
-  const showName = title ? title : kiotviet_name;
+  const showName = title || posName || kiotviet_name;
 
   const getProductImage = () => {
     if (Array.isArray(imagesUrl) && imagesUrl.length > 0) {
       return imagesUrl[0]?.replace('http://', 'https://');
+    }
+    if (Array.isArray(posImages) && posImages.length > 0) {
+      return posImages[0]?.replace('http://', 'https://');
     }
     if (Array.isArray(kiotviet_images) && kiotviet_images.length > 0) {
       return kiotviet_images[0]?.replace('http://', 'https://');
@@ -83,7 +98,7 @@ const ProductItemHome = ({ item }) => {
             align="center"
             // mt="6px"
           >
-            {!price || price === 0 ? (
+            {price === null || price === undefined || price === 0 ? (
               <Tag colorScheme="blue" size="sm" fontWeight="600">
                 Liên hệ
               </Tag>
