@@ -101,7 +101,7 @@ const Strength = () => {
                 />
                 {/* Main sharp image with contain aspect ratio */}
                 <Image
-                  src="/images/about-v2/nang-luc-van-hanh-va-dong-hanh-cua-diep-tra.webp"
+                  src="/images/gioi-thieu-diep-tra-anh.webp"
                   alt="Năng lực vận hành và đồng hành của Diệp Trà"
                   width={992}
                   height={600}
@@ -163,13 +163,19 @@ const Strength = () => {
               display={{ base: 'none', md: 'flex' }}
             >
               <Text>
-                Diệp Trà không chỉ cung cấp sản phẩm, mà còn xây dựng hệ hỗ trợ giúp chủ quán chọn đúng nguồn nguyên liệu, ứng dụng công thức thực tế, kiểm soát chi phí và phát triển menu phù hợp từng mô hình vận hành.
+                Diệp Trà không chỉ cung cấp sản phẩm, mà còn xây dựng hệ hỗ trợ giúp chủ quán chọn đúng nguồn nguyên
+                liệu, ứng dụng công thức thực tế, kiểm soát chi phí và phát triển menu phù hợp từng mô hình vận hành.
               </Text>
               <Text>
-                Với kinh nghiệm làm việc cùng quán nhỏ, đại lý và chuỗi F&B, chúng tôi hiểu rằng một nguyên liệu tốt cần đi kèm cách dùng rõ ràng, nguồn hàng ổn định và khả năng triển khai nhanh tại quầy.
+                Với kinh nghiệm làm việc cùng quán nhỏ, đại lý và chuỗi F&B, chúng tôi hiểu rằng một nguyên liệu tốt cần
+                đi kèm cách dùng rõ ràng, nguồn hàng ổn định và khả năng triển khai nhanh tại quầy.
               </Text>
               <Text>
-                Vì vậy, mỗi nhóm sản phẩm đều được định hướng theo tính ứng dụng: dễ test món, dễ đào tạo nhân sự, dễ tính cost và dễ điều chỉnh theo khẩu vị thị trường. Diệp Trà cũng liên tục cập nhật xu hướng trà, mứt, topping, bột vị và mô hình đồ uống mới để gợi ý giải pháp phù hợp hơn cho khách hàng. Mục tiêu là giúp chủ quán không chỉ mua đúng sản phẩm, mà còn tự tin xây dựng menu có dấu ấn riêng, vận hành bền vững và cạnh tranh hiệu quả.
+                Vì vậy, mỗi nhóm sản phẩm đều được định hướng theo tính ứng dụng: dễ test món, dễ đào tạo nhân sự, dễ
+                tính cost và dễ điều chỉnh theo khẩu vị thị trường. Diệp Trà cũng liên tục cập nhật xu hướng trà, mứt,
+                topping, bột vị và mô hình đồ uống mới để gợi ý giải pháp phù hợp hơn cho khách hàng. Mục tiêu là giúp
+                chủ quán không chỉ mua đúng sản phẩm, mà còn tự tin xây dựng menu có dấu ấn riêng, vận hành bền vững và
+                cạnh tranh hiệu quả.
               </Text>
             </Flex>
           </Flex>
@@ -177,11 +183,7 @@ const Strength = () => {
 
         {/* List Section - Double-Bezel Item Cards */}
         <GridItem gridArea="list" w="full" mt="12px">
-          <Grid
-            templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }}
-            gap="18px 34px"
-            w="full"
-          >
+          <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap="18px 34px" w="full">
             {STRENGTH_LIST.map((item, idx) => (
               <Box
                 key={idx}
@@ -228,14 +230,7 @@ const Strength = () => {
                     ✓
                   </Flex>
                   <Box>
-                    <Text
-                      as="p"
-                      color="#005a9f"
-                      fontSize="17.5px"
-                      fontWeight={800}
-                      lineHeight={1.28}
-                      mb="6px"
-                    >
+                    <Text as="p" color="#005a9f" fontSize="17.5px" fontWeight={800} lineHeight={1.28} mb="6px">
                       {item.title}
                     </Text>
                     <Text color="#4d6878" fontSize="13.5px" lineHeight={1.58}>
