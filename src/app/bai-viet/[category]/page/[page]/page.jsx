@@ -6,7 +6,7 @@ import ArticleCategoryView from '../../_components/article-category-view';
 
 export const revalidate = 300;
 
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 12;
 
 export async function generateMetadata({ params }) {
   const { category } = await params;
