@@ -7,7 +7,6 @@ import { Box, Flex } from '@chakra-ui/react';
 import ContactItem from './contact-item';
 
 const ContactHN = () => {
-
   const breakpoints = {
     1: { slidesPerView: 1 },
     576: { slidesPerView: 2 },
@@ -33,15 +32,15 @@ const ContactHN = () => {
     //   phone: '+84 343 393 799',
     //   email: 'tranglt@hisweetievietnam.com.vn'
     // },
-    {
-      fullName: 'Mrs. Mai Vân Anh',
-      fullName_en: 'Mrs. Mai Van Anh',
-      image: '/images/contact-user-3.webp',
-      position: 'Nhân viên Kinh doanh',
-      position_en: 'Saler Officer',
-      phone: '+84 973 123 230',
-      email: 'anhmtv@hisweetievietnam.com.vn'
-    },
+    // {
+    //   fullName: 'Mrs. Mai Vân Anh',
+    //   fullName_en: 'Mrs. Mai Van Anh',
+    //   image: '/images/contact-user-3.webp',
+    //   position: 'Nhân viên Kinh doanh',
+    //   position_en: 'Saler Officer',
+    //   phone: '+84 973 123 230',
+    //   email: 'anhmtv@hisweetievietnam.com.vn'
+    // },
     {
       fullName: 'Mrs. Nguyễn Thị Mai Phương',
       fullName_en: 'Mrs. Nguyen Thi Mai Phuong',
