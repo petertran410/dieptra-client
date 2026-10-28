@@ -207,7 +207,7 @@ export default async function ProductListPage({ slugPath = [], pageNumber = 1, s
               >
                 {products.map((p) => (
                   <GridItem key={p.id}>
-                    <ProductItem item={p} />
+                    <ProductItem item={p} titleAs="h3" />
                   </GridItem>
                 ))}
               </Grid>

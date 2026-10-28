@@ -6,7 +6,8 @@ import { AspectRatio, Box, Flex, Text, Tag } from '@chakra-ui/react';
 import NextImage from 'next/image';
 import Link from 'next/link';
 
-const ProductItem = ({ item }) => {
+// titleAs: thẻ HTML cho tên sản phẩm (mặc định p; trang danh mục truyền 'h3').
+const ProductItem = ({ item, titleAs = 'p' }) => {
 
   const {
     id,
@@ -97,6 +98,7 @@ const ProductItem = ({ item }) => {
 
         <Flex direction="column" p="12px" gap="6px">
           <Text
+            as={titleAs}
             fontSize="17px"
             fontWeight={600}
             color="#333"
