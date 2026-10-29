@@ -3,14 +3,19 @@
 import { useEffect, useState } from 'react';
 import { fetchRootCategories, fetchMenuCategory, PRODUCT_SECTIONS_FALLBACK } from '../utils/product-categories';
 
-export const useProductCategories = () => {
-  const [categories, setCategories] = useState(PRODUCT_SECTIONS_FALLBACK);
-  const [loading, setLoading] = useState(true);
+// initialMenu: cấu hình menu đã lấy trên server (layout). Có thì dùng luôn, không fetch lại.
+export const useProductCategories = (initialMenu = null) => {
+  const [categories, setCategories] = useState(
+    initialMenu?.items?.length ? initialMenu.items : PRODUCT_SECTIONS_FALLBACK
+  );
+  const [loading, setLoading] = useState(!initialMenu);
   const [error, setError] = useState(null);
   // Cấu hình menu từ CMS. null = chưa cấu hình -> header giữ hành vi cũ.
-  const [menuConfig, setMenuConfig] = useState(null);
+  const [menuConfig, setMenuConfig] = useState(initialMenu);
 
   useEffect(() => {
+    if (initialMenu) return;
+
     const loadCategories = async () => {
       try {
         setLoading(true);

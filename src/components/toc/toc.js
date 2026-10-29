@@ -224,7 +224,20 @@ const TableOfContents = ({ html }) => {
               transform: 'translateX(4px)'
             }}
             onClick={() => handleClick(item.id)}
+            display="flex"
+            alignItems="flex-start"
+            gap="8px"
           >
+            {/* Dấu chấm phân biệt từng mục; khung cao = 1 dòng chữ (fontSize * lineHeight 1.4) để chấm luôn canh giữa dòng đầu. */}
+            <Box
+              as="span"
+              flexShrink={0}
+              display="flex"
+              alignItems="center"
+              h={`${(item.level <= 2 ? 18 : 16) * 1.4}px`}
+            >
+              <Box w="6px" h="6px" borderRadius="full" bg="currentColor" />
+            </Box>
             <Text
               fontSize={item.level <= 2 ? 18 : 16}
               // color={getLevelColor(item.level, isActive)}

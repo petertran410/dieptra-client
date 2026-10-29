@@ -1,4 +1,6 @@
 import { getMetadata } from '../utils/helper-server';
+import { mapMenuCategory } from '../utils/product-categories';
+import { serverFetchJSON } from '../utils/server-fetch';
 import { Box } from '@chakra-ui/react';
 import { Afacad, Bebas_Neue } from 'next/font/google';
 import Script from 'next/script';
@@ -350,7 +352,20 @@ const structuredData = {
   ]
 };
 
-export default function RootLayout({ children }) {
+// Lấy cấu hình menu sản phẩm trên server để header render đúng tên/link ngay từ HTML
+// (tránh nháy "Sản Phẩm" -> tên CMS). Lỗi -> null, header tự fallback fetch phía client.
+const getInitialMenu = async () => {
+  try {
+    const data = await serverFetchJSON('/api/site-config/client/menu-category', { next: { revalidate: 600 } });
+    return mapMenuCategory(data);
+  } catch {
+    return null;
+  }
+};
+
+export default async function RootLayout({ children }) {
+  const initialMenu = await getInitialMenu();
+
   return (
     <html lang="vi" className={`${fontFamily.variable} ${bebasNeue.variable}`}>
       <head>
@@ -480,7 +495,7 @@ export default function RootLayout({ children }) {
         <Providers>
           <Box pos="relative">
             <Contact />
-            <Header />
+            <Header initialMenu={initialMenu} />
             <Box minH="100vh">{children}</Box>
             <Footer />
           </Box>

@@ -39,6 +39,38 @@ export const PRODUCT_SECTIONS_FALLBACK = [
 ];
 
 /**
+ * Map response /api/site-config/client/menu-category -> cấu hình menu header.
+ * Dùng chung cho server (layout) và client. Trả null khi chưa cấu hình.
+ */
+export const mapMenuCategory = (response) => {
+  if (!response?.configured) return null;
+
+  return {
+    id: response.id,
+    name: response.name,
+    name_en: response.name_en,
+    slug: response.slug,
+    href: response.href || `/san-pham/${response.slug}`,
+    items: (response.children || []).map((c) => ({
+      id: c.id,
+      name: c.name,
+      name_en: c.name_en,
+      slug: c.slug,
+      href: c.href,
+      label: c.name,
+      children: (c.children || []).map((g) => ({
+        id: g.id,
+        name: g.name,
+        name_en: g.name_en,
+        slug: g.slug,
+        href: g.href,
+        label: g.name
+      }))
+    }))
+  };
+};
+
+/**
  * Lấy cấu hình menu sản phẩm (danh mục cha + các con trực tiếp) do CMS cấu hình.
  * Trả null khi chưa cấu hình / lỗi -> caller tự fallback hành vi cũ (root categories).
  */
@@ -49,31 +81,7 @@ export const fetchMenuCategory = async () => {
       method: 'GET'
     });
 
-    if (!response?.configured) return null;
-
-    return {
-      id: response.id,
-      name: response.name,
-      name_en: response.name_en,
-      slug: response.slug,
-      href: response.href || `/san-pham/${response.slug}`,
-      items: (response.children || []).map((c) => ({
-        id: c.id,
-        name: c.name,
-        name_en: c.name_en,
-        slug: c.slug,
-        href: c.href,
-        label: c.name,
-        children: (c.children || []).map((g) => ({
-          id: g.id,
-          name: g.name,
-          name_en: g.name_en,
-          slug: g.slug,
-          href: g.href,
-          label: g.name
-        }))
-      }))
-    };
+    return mapMenuCategory(response);
   } catch (error) {
     console.error('Failed to fetch menu category config:', error);
     return null;

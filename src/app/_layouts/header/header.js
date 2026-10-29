@@ -43,7 +43,7 @@ import { useEffect, useState } from 'react';
 //   </Icon>
 // );
 
-const Header = () => {
+const Header = ({ initialMenu = null }) => {
   const pathname = usePathname();
   // const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -55,7 +55,7 @@ const Header = () => {
   // const [cart, setCart] = useRecoilState(cartAtom);
   const isTransparent = pathname === '/' || pathname === '/lien-he' || pathname.startsWith('/tac-gia');
 
-  const { categories: productCategories, menuConfig } = useProductCategories();
+  const { categories: productCategories, menuConfig } = useProductCategories(initialMenu);
 
   // const { user, isAuthenticated, isChecking, isFullyReady, logout } = useAuth();
 

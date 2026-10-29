@@ -43,7 +43,10 @@ const LatestArticlesSidebar = ({ latestArticles, category }) => {
               <Image
                 src={article.imagesUrl?.[0]?.replace('http://', 'https://') || '/images/news.webp'}
                 w="150px"
-                h="100px"
+                minW="150px"
+                h="auto"
+                // Khung theo tỷ lệ ảnh bài viết (992x600) để không bị cắt 2 bên; ảnh khác tỷ lệ vẫn cover.
+                sx={{ aspectRatio: '992 / 600' }}
                 objectFit="cover"
                 borderRadius="8px"
                 alt={IMG_ALT}
