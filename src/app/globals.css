@@ -347,13 +347,13 @@ a {
   margin-top: 8px !important;
 }
 
-/* 🎯 PREVENT COLLAPSE: Ngăn browser collapse empty elements */
-.html-content *:empty:not(img):not(br):not(hr) {
+/* 🎯 PREVENT COLLAPSE: Giữ khoảng trống, không đổi layout của phần tử bảng. */
+.html-content *:empty:not(img):not(br):not(hr):not(:where(table, caption, colgroup, col, thead, tbody, tfoot, tr, td, th)) {
   min-height: 1em !important;
   display: block !important;
 }
 
-.html-content-16px *:empty:not(img):not(br):not(hr) {
+.html-content-16px *:empty:not(img):not(br):not(hr):not(:where(table, caption, colgroup, col, thead, tbody, tfoot, tr, td, th)) {
   min-height: 1em !important;
   display: block !important;
 }
